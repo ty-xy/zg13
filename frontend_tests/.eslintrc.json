@@ -1,0 +1,17 @@
+{
+    "env": {
+        "shared-node-browser": true
+    },
+    "globals": {
+        "assert": false,
+        "casper": false,
+        "document": false,
+        "set_global": false,
+        "window": false,
+        "zrequire": false
+    },
+    "rules": {
+        "no-sync": 0,
+        "prefer-const": "error"
+    }
+}
