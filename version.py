@@ -1,3 +1,5 @@
+# Test building
+
 ZULIP_VERSION = "1.8.1"
 
 # Bump the minor PROVISION_VERSION to indicate that folks should provision
