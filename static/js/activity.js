@@ -420,6 +420,7 @@ function focus_ping(want_redraw) {
 
             // Update Zephyr mirror activity warning
             if (data.zephyr_mirror_active === false) {
+                console.log(CharacterData)
                 $('#zephyr-mirror-error').addClass("show");
             } else {
                 $('#zephyr-mirror-error').removeClass("show");

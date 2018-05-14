@@ -1,8 +1,9 @@
 #left-sidebar {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-
+    background: #354052;
     font-size: 0.89rem;
+    height: 100%;
 }
 
 #left-sidebar #user-list,
@@ -17,6 +18,7 @@
     font-size: 13px;
     margin-top: 3px;
     margin-left: 10px;
+    color: #fff;
 }
 
 #streams_inline_cog:hover,
@@ -69,6 +71,7 @@
 
 #stream_filters li ul.topic-list li {
     padding: 2px 0px 2px 29px;
+    height: 28px;
 }
 
 #stream-filters-container {
@@ -79,27 +82,34 @@
     width: 100%;
 }
 
-.input-append input[type=text].stream-list-filter {
-    margin-left: 10px;
+.stream-list-filter {
+    margin-left: 1ex;
 }
 
 #global_filters li:hover,
 #stream_filters li:hover,
 #stream_filters li.highlighted_stream {
-    background-color: hsl(93, 19%, 88%);
+    /* background-color: hsl(93, 19%, 88%); */
+    /* background: #253E69; */
+    background: #2E3949;
 }
-
+.topic-name:hover{
+    text-decoration: none!important;
+    color: #14A4FA!important;
+}
 #stream_filters li.active-sub-filter:hover {
-    background-color: hsl(120, 11%, 82%);
+    /* background-color: hsl(120, 11%, 82%); */
 }
 
 ul.filters {
     list-style-type: none;
     margin-left: 0px;
+
 }
 
 ul.filters a {
-    color: inherit;
+    color: #fff;
+    margin: 12px 0;
 }
 
 ul.filters hr {
@@ -110,7 +120,7 @@ ul.filters hr {
 li.active-filter,
 li.active-sub-filter {
     font-weight: 600 !important;
-    background: hsl(202, 56%, 91%);
+    /* background: hsl(202, 56%, 91%); */
     position: relative;
 }
 
@@ -127,7 +137,8 @@ li.active-sub-filter {
     display: inline-block;
     width: 18px;
     text-align: center;
-    margin-right: 3px;
+    padding: 0 15px;
+    color: #fff;
 }
 
 .stream-pin-icon {
@@ -137,14 +148,17 @@ li.active-sub-filter {
 
 #global_filters .global-filter {
     position: relative;
-    padding: 1px 10px;
+    /* padding: 1px 10px; */
+    height: 40px;
+    width: 200px;
+    background: #354052;
 }
 
 .left-sidebar li {
     padding-top: 2px;
     padding-bottom: 2px;
 
-    border-radius: 4px;
+    /* border-radius: 4px; */
 }
 
 #global_filters .global-filter i {
@@ -174,9 +188,11 @@ li.active-sub-filter {
 #global_filters .count,
 #stream_filters .count {
     float: right;
+    margin-top: 3px;
     line-height: 12px;
     background: hsl(105, 2%, 50%);
     padding: 1px 4px;
+    border-radius: 0px;
     color: hsl(0, 0%, 100%);
     font-size: 12px;
     font-weight: normal;
@@ -198,22 +214,23 @@ li.active-sub-filter {
 
 .topic-box {
     padding-left: 5px;
-    margin-right: 30px;
 }
-
-.conversation-partners,
+.topic-box>a{
+    height: 28px;
+    margin: 0!important;
+    line-height: 28px;
+    font-family: PingFangSC-Medium;
+    font-size: 11px;
+    color: #A0ACBF!important;
+    letter-spacing: 0.16px;
+}
 .topic-name {
     display: block;
+    line-height: 1.1;
     width: calc(100% - 5px);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding-right: 2px;
-}
-
-.topic-name {
-    /* TODO: We should figure out how to remove this without changing the spacing */
-    line-height: 1.1;
 }
 
 .left-sidebar li a.topic-name:hover {
@@ -222,7 +239,10 @@ li.active-sub-filter {
 
 .topic-unread-count,
 .private_message_count {
+    display: block;
+    position: absolute;
     line-height: 1em;
+    top: 4px;
     padding: 1px 4px 1px 4px;
     background: hsl(107, 5%, 66%);
     color: hsl(0, 0%, 100%);
@@ -231,6 +251,15 @@ li.active-sub-filter {
     font-weight: normal;
     letter-spacing: 0.6px;
     border-radius: 4px;
+}
+
+.topic-unread-count {
+    right: 30px;
+    top: 3px;
+}
+
+.private_message_count {
+    right: 20px;
 }
 
 ul.filters i {
@@ -296,14 +325,9 @@ ul.filters li.out_of_home_view li.muted_topic {
 
 #stream_filters .subscription_block {
     padding: 0px;
-    margin-right: 25px;
+    margin-right: 18px;
     margin-left: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
+    height: 40px;
 }
 
 #stream_filters .subscription_block::after {
@@ -314,11 +338,18 @@ ul.filters li.out_of_home_view li.muted_topic {
 
 #stream_filters .subscription_block .stream-name {
     display: inline-block;
-    overflow: hidden;
+    width: calc(100% - 76px);
     text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    line-height: 1.1;
     position: relative;
-    width: 100%;
-    padding-right: 2px;
+    top: 3px;
+    margin-left: 16px;
+    font-family: PingFangSC-Medium;
+    font-size: 12px;
+    color: #A0ACBF;
+    letter-spacing: 0.18px;
 }
 
 #stream_filters .subscription_block.stream-with-count {
@@ -327,6 +358,8 @@ ul.filters li.out_of_home_view li.muted_topic {
 
 .stream-privacy {
     font-size: 15px;
+    float: left;
+    margin-top: 14px;
 }
 
 .stream-privacy .icon-vector-lock {
@@ -372,7 +405,7 @@ li.expanded_private_message {
 }
 
 li.expanded_private_message a {
-    margin: 1px 0px;
+    margin: 2px 0px;
 }
 
 .show-all-streams a {
@@ -381,15 +414,14 @@ li.expanded_private_message a {
 
 .pm-box,
 .topic-box {
-    display: flex;
-    justify-content: center;
+    display: block;
+    margin-right: 38px;
     padding-top: 1px;
     cursor: pointer;
 }
 
 .pm-box {
-    margin-right: 20px;
-    align-items: center;
+    line-height: 1;
 }
 
 .zero-subject-unreads .pm-box,
@@ -403,6 +435,7 @@ li.expanded_private_message a {
 
 #global_filters {
     margin-bottom: 20px;
+    margin-top: -11px;
 }
 
 #global_filters i {
@@ -428,8 +461,9 @@ li.expanded_private_message a {
 
 #streams_header {
     margin-right: 0px;
-    padding-left: 10px;
     cursor: pointer;
+    padding: 12px 0 12px 15px;
+    border-bottom: 1px solid #3D495D;
 }
 
 #stream_filters .inactive_stream {
@@ -437,7 +471,7 @@ li.expanded_private_message a {
 }
 
 .zero_count {
-    visibility: hidden;
+    display: none;
 }
 
 li.show-more-topics a {
@@ -491,4 +525,33 @@ li.show-more-private-messages a {
 
 .show-all-streams .icon-vector-chevron-left {
     text-decoration: none;
+}
+/* zyc添加 */
+.bottom_sidebar{
+    margin-top:92px;
+}
+.user_head_box{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background:red;
+    margin: 30px auto 0 auto;
+    overflow: hidden;
+}
+.user_head_name{
+    width: 200px;
+    text-align: center;
+    font-family: PingFangSC-Medium;
+    font-size: 13px;
+    color: #C5CCD9;
+    letter-spacing: 0.19px;
+}
+.column-left{
+    background: #354052;
+}
+.hover-underline{
+    font-family: PingFangSC-Medium;
+    font-size: 12px;
+    color: #FFFFFF;
+    letter-spacing: 0.18px;
 }

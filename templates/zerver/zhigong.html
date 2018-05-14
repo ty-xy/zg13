@@ -1,0 +1,81 @@
+{% extends "zerver/base.html" %}
+
+{% block customhead %}
+{% stylesheet 'portico' %}
+{{ render_bundle('translations') }}
+{% endblock %}
+{% block content %}
+        <div class="portico-container" data-platform="{{ platform }}">
+            <div class="index-wrap">
+                <img src="/static/img/gwbanner.png" class="img-back"/>
+                {% include 'zerver/zhigong-header.html' %}
+                <div class="app portico-page {% block portico_class_name %}{% endblock %}">
+                    <div class="app-main portico-page-container{% block hello_page_container %}{% endblock %}">
+                        <div class="app login-page split-view new-style flexlist full-page">
+                            <p class="keji">科技，让工程变为功成</p>
+                            <div class="title-png">
+                               <img src="/static/img/ct.png" />
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="about-us">
+                    <h1>关于我们</h1>
+                    <p class="border"></p>
+                    <p class="jianjie"> 
+                        &nbsp;&nbsp;
+                        知工网络科技（北京）有限公司成立于2016年，是一家专注于服务建筑行业运营和施工管理
+                        的专业网络科技公司，总部位于北京，为了能更好的服务于客户，“e建联”提出“让科技把工程化
+                        繁为简”，利用“简洁沟通、多团队协作、便捷审批、信息共享、日程安排”功能，把工程管理和团
+                        队管理集中于一体，推动建筑工程管理有序化、标准化、高效化、智能化发展。
+                    </p>
+                </div>
+                <div class="about-us company-kouhao">
+                    <h1>企业口号
+                    </h1>
+                    <p class="border"></p>
+                    <div class="company-jianjie"> 
+                        <div class="company-img">
+                            <img src="/static/img/gloud.png"/>
+                            <p>e时代，云平台</p>
+                        </div>
+                        <div class="company-img">
+                            <img src="/static/img/standard.png"/>
+                            <p>建标准，筑体系</p>
+                        </div>
+                        <div class="company-img">
+                            <img src="/static/img/people.png"/>
+                            <p>联天下，通人脉</p>
+                        </div>  
+                    </div>
+                </div>
+                <div class="amin">
+                        <h1>目标</h1>
+                        <p class="border"></p>
+                        <p class="jianjie"> 
+                            &nbsp;&nbsp;
+                            “知工”是我们公司的名号。知工网面向大建筑行业，专门从事建筑行业工程管理、人力资源
+                            服务、信息咨询等业务，目标是要推动大建筑行业的“互联网化”。
+                        </p>
+            </div>
+            <div class="footer-zhigong">
+            {% include 'zerver/footer.html' %}
+           
+            </div>
+        </div>
+   
+{% endblock %}
+
+<script type="text/javascript">
+// if (window.location.hash.substring(0, 1) === "#") {
+//     /* We append the location.hash to the formaction so that URL can be
+//     preserved after user is logged in. See this:
+//     https://stackoverflow.com/questions/5283395/url-hash-is-persisting-between-redirects */
+//     $("input[name='direct_email']").each(function () {
+//         var new_formaction = $(this).attr('formaction') + '/' + window.location.hash;
+//         $(this).attr('formaction', new_formaction);
+//     });
+// }
+</script>
+

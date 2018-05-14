@@ -1,0 +1,108 @@
+{% extends "zerver/base.html" %}
+
+{# A base template for stuff like login, register, etc.
+
+    Not inside the app itself, but covered by the same structure,
+    hence the name.
+#}
+
+{% block customhead %}
+{% stylesheet 'portico' %}
+{{ render_bundle('translations') }}
+{% endblock %}
+
+{% block porticocustomhead %}
+{{ render_bundle('portico') }}
+{% endblock %}
+
+{% block content %}
+<div class="portico-container" data-platform="{{ platform }}" style="background-image: url(./static/img/banner.png);">
+    <div class="portico-wrap">
+        {% include 'zerver/portico-header.html' %}
+        {% block portico_content %}
+
+    {% if password_auth_enabled %}
+    <script type="text/javascript">
+        {% if email %}
+        common.autofocus('#id_password');
+        {% else %}
+        common.autofocus('#id_username');
+        {% endif %}
+    </script>
+    {% endif %}
+    <div class="app login-page split-view new-style flex full-page">
+        <div class="left-main">
+                <h1 class="one-manage">群聊</h1>
+                <p class="manage-chat">通过强大的实时聊天</p>
+                <p class="manage-chat">您可以获得所需的一切线程</p>
+        </div>
+    </div>
+</div>
+</div>
+    <script type="text/javascript">
+    if (window.location.hash.substring(0, 1) === "#") {
+        /* We append the location.hash to the formaction so that URL can be
+        preserved after user is logged in. See this:
+        https://stackoverflow.com/questions/5283395/url-hash-is-persisting-between-redirects */
+        var email_formaction = $("#login_form").attr('action');
+        $("#login_form").attr('action', email_formaction + '/' + window.location.hash);
+        $("#google_login_form input[name='next']").attr('value', '/' + window.location.hash);
+        $("#social_login_form input[name='next']").attr('value', '/' + window.location.hash);
+
+        var sso_address = $("#sso-login").attr('href');
+        $("#sso-login").attr('href', sso_address + window.location.hash);
+    }
+    </script>
+
+{% endblock %}
+        <div class="product_features_ctn_box">
+           <div class="ctn_1">
+               <div class="ctn1_l">
+                   <img src="../../static/img/jiagou1.png" alt="">
+               </div>
+               <div class="ctn1_r">
+                   <h2>架构</h2>
+                   <i></i>
+                   <p>一目了然团队成员在线、活跃</br>
+                    离线状态</p>
+               </div>
+           </div>
+           <div class="ctn_2">
+                
+                <div class="ctn2_r">
+                    <h2>快捷键</h2>
+                    <i></i>
+                    <p>与使用您最喜爱的文本编辑器一样有效沟通。任何你用鼠标可以做的事情，你可以从键盘上做的更快</p>
+                </div>
+                <div class="ctn2_l">
+                        <img src="../../static/img/kuaijie2.png" alt="">
+                    </div>
+            </div>
+            <div class="ctn_1">
+                    <div class="ctn1_l">
+                        <img src="../../static/img/jicheng.png" alt="">
+                    </div>
+                    <div class="ctn1_r">
+                        <h2>应用程序集成</h2>
+                        <i></i>
+                        <p>移动应用程序、使用我们原生质量的iOS和Android应用程序随时随地保持联系</p>
+                    </div>
+                </div>
+                <div class="ctn_2">
+                        
+                        <div class="ctn2_r">
+                            <h2>统计</h2>
+                            <i></i>
+                            <p>e建联拥有一套强大的分析工具可帮助您的组织如何沟通</p>
+                        </div>
+                        <div class="ctn2_l">
+                                <img src="../../static/img/tongji.png" alt="">
+                            </div>
+                </div>
+           
+        
+        </div>
+    </div>
+    {% include 'zerver/footer.html' %}
+</div>
+{% endblock %}

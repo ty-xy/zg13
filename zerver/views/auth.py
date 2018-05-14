@@ -542,7 +542,8 @@ def add_dev_login_context(realm: Realm, context: Dict[str, Any]) -> None:
 
     context['direct_admins'] = [u for u in users if u.is_realm_admin]
     context['direct_users'] = [u for u in users if not u.is_realm_admin]
-
+def dex_page(request):
+    return render(request, "zerver/zhigong.html")
 def login_page(request: HttpRequest, **kwargs: Any) -> HttpResponse:
     if request.user.is_authenticated:
         return HttpResponseRedirect(request.user.realm.uri)

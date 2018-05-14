@@ -5,7 +5,7 @@
 <div class="app login-page flex full-page">
     <div class="app-main login-page-container dev-login white-box">
         {% if current_realm %}
-        <h4 class="login-page-header">选择用户登录 {{ current_realm.name }}!</h4>
+        <h4 class="login-page-header">选择一个用户登录到 {{ current_realm.name }}!{{LANGUAGE_CODE}}</h4>
         {% else %}
         <h4 class="login-page-header">Click on a user to log in!</h4>
         {% endif %}

@@ -1,0 +1,114 @@
+{% extends "zerver/base.html" %}
+
+{# A base template for stuff like login, register, etc.
+
+    Not inside the app itself, but covered by the same structure,
+    hence the name.
+#}
+
+{% block customhead %}
+{% stylesheet 'portico' %}
+{{ render_bundle('translations') }}
+{% endblock %}
+
+{% block porticocustomhead %}
+{{ render_bundle('portico') }}
+{% endblock %}
+
+{% block content %}
+<div class="portico-container" data-platform="{{ platform }}" style="background-image: url(./static/img/banner.png);">
+    <div class="portico-wrap">
+        {% include 'zerver/portico-header.html' %}
+        {% block portico_content %}
+
+    {% if password_auth_enabled %}
+    <script type="text/javascript">
+        {% if email %}
+        common.autofocus('#id_password');
+        {% else %}
+        common.autofocus('#id_username');
+        {% endif %}
+    </script>
+    {% endif %}
+    <div class="app login-page split-view new-style flex full-page product_vip_box">
+        
+        <h1 class="product_vip_title">感谢您对e建联的支持，我们将持续为您提供更优质的服务</h1>
+        
+        <div class="product_vip_ctn">
+            <div class="product_vip_vsersion">
+               <div>
+                   <p>免费版</p>
+                   <p>15人一下团队</p>
+               </div> 
+               <div>
+                   <p>0元/人/年</p>
+                   <p></p>
+                   <p>聊天</p>
+                   <p>组建团队</p>
+                   <p>项目管理</p>
+                   <p>企业管理</p>
+                   <p> &nbsp;</p>
+                   <p><a href="#">立即注册</a></p>
+               </div>
+            </div>
+           
+
+            <div class="product_vip_vsersion ">
+                <div class="bgColor">
+                    <p>企业版</p>
+                    <p>15人以上团队、企业</p>
+                </div> 
+                <div>
+                    <p>399元/人/年</p>
+                    <p></p>
+                    <p>开放所有免费版功能</p>
+                    <p>文件容量无上限</p>
+                    <p>云盘容量无上限</p>
+                    <p>项目归档储存无上限</p>
+                    <p>优先体验更新内容</p>
+                    <p><a href="#">免费试用15天</a></p>
+                </div>
+             </div>
+
+             <div class="product_vip_vsersion ">
+                <div class="bgColor">
+                    <p>定制版</p>
+                    <p>针对团队需求定制专属功能</p>
+                </div> 
+                <div>
+                    <p>599元/人/年</p>
+                    <p></p>
+                    <p>开放所有免费版功能</p>
+                    <p>开放所有企业版功能</p>
+                    <p>敏捷开发需求功能</p>
+                    <p>自定义e建联功能模块</p>
+                    <p>专属VIP服务通道</p>
+                    <p><a href="#">预约顾问</a></p>
+                </div>
+             </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+    if (window.location.hash.substring(0, 1) === "#") {
+        /* We append the location.hash to the formaction so that URL can be
+        preserved after user is logged in. See this:
+        https://stackoverflow.com/questions/5283395/url-hash-is-persisting-between-redirects */
+        var email_formaction = $("#login_form").attr('action');
+        $("#login_form").attr('action', email_formaction + '/' + window.location.hash);
+        $("#google_login_form input[name='next']").attr('value', '/' + window.location.hash);
+        $("#social_login_form input[name='next']").attr('value', '/' + window.location.hash);
+
+        var sso_address = $("#sso-login").attr('href');
+        $("#sso-login").attr('href', sso_address + window.location.hash);
+    }
+    </script>
+
+{% endblock %}
+        <div class="product_vip_ctn_box">
+          <!-- <h1>感谢您对e建联的支持，我们将持续为您提供更优质的服务</h1> -->
+        
+        </div>
+    </div>
+    {% include 'zerver/footer.html' %}
+</div>
+{% endblock %}

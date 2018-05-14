@@ -439,11 +439,11 @@ MANAGERS = ADMINS
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-hans'
 
 # The ID, as an integer, of the current site in the django_site database table.
 # This is used so that application data can hook into specific site(s) and a
@@ -1556,8 +1556,8 @@ AUTHENTICATION_BACKENDS += ('zproject.backends.ZulipDummyBackend',)
 
 # Redirect to /devlogin by default in dev mode
 if DEVELOPMENT:
-    HOME_NOT_LOGGED_IN = '/devlogin'
-    LOGIN_URL = '/devlogin'
+    HOME_NOT_LOGGED_IN = '/devindex'
+    LOGIN_URL = '/devindex'
 
 POPULATE_PROFILE_VIA_LDAP = bool(AUTH_LDAP_SERVER_URI)
 

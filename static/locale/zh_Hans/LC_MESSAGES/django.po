@@ -1035,7 +1035,7 @@ msgstr "详细的键盘快捷键文档"
 
 #: templates/zerver/left_sidebar.html:5 templates/zerver/left_sidebar.html:10
 msgid "All messages"
-msgstr ""
+msgstr "所有消息"
 
 #: templates/zerver/left_sidebar.html:17 templates/zerver/left_sidebar.html:22
 msgid "Private messages"
@@ -1582,7 +1582,7 @@ msgstr "自定义表情"
 
 #: templates/zerver/settings_overlay.html:65
 msgid "User groups"
-msgstr ""
+msgstr "用户组"
 
 #: templates/zerver/settings_overlay.html:69
 msgid "Authentication methods"
@@ -1606,11 +1606,11 @@ msgstr "过滤器设置"
 
 #: templates/zerver/settings_overlay.html:102
 msgid "Custom profile fields"
-msgstr ""
+msgstr "定制概要文件字段"
 
 #: templates/zerver/settings_overlay.html:108
 msgid "Invitations"
-msgstr ""
+msgstr "邀请"
 
 #: templates/zerver/team.html:171
 msgid "Avatar"
@@ -1688,7 +1688,7 @@ msgstr ""
 
 #: zerver/decorator.py:210
 msgid "Invalid subdomain for push notifications bouncer"
-msgstr ""
+msgstr "用于推送通知bouncer的子域无效"
 
 #: zerver/decorator.py:219
 msgid "This API is not available to incoming webhook bots."
@@ -1700,7 +1700,7 @@ msgstr "帐户未激活"
 
 #: zerver/decorator.py:232
 msgid "This organization has been deactivated"
-msgstr ""
+msgstr "本组织已被停用"
 
 #: zerver/decorator.py:246
 msgid "Account is not associated with this subdomain"

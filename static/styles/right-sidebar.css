@@ -30,6 +30,12 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    height: 26px;
+}
+
+.user_sidebar_entry .count,
+.group-pms-sidebar-entry .count {
+    display: none;
 }
 
 #user_presences li,
@@ -38,7 +44,6 @@
 
     border-radius: 4px;
     margin: 1px 0px;
-    padding-right: 15px;
 }
 
 #user_presences .arrow {
@@ -59,7 +64,7 @@
     border-radius: 50%;
     border: 1px solid;
     float: left;
-    position: absolute;
+    position: relative;
     top: 5px;
 }
 
@@ -85,6 +90,8 @@
 .user-status-indicator {
     background-color: none;
     border-color: hsl(0, 0%, 50%);
+    float: right;
+    margin-right: 1px;
 }
 
 .user_unknown .user-status-indicator {
@@ -94,62 +101,82 @@
 #user_presences a,
 #group-pms a {
     color: inherit;
-    margin-left: 20px;
 }
 
 #invite-user-link i {
     text-decoration: none;
-    margin-right: 5px;
+    margin-right: 20px;
 }
 
 .group-pms-sidebar-entry .selectable_sidebar_block {
-    width: calc(100% - 30px);
+    width: 235px;
+    display: block;
 }
 
-.group-pm-link,
 .user_sidebar_entry .selectable_sidebar_block {
+    width: 208px;
+    display: block;
+}
+
+.user_sidebar_entry .selectable_sidebar_block.user-with-mobile {
+    width: 204px;
+}
+
+.group-pm-link {
+    margin-left: 17px;
+    display: block;
+}
+
+.user_sidebar_entry .selectable_sidebar_block {
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.group-pm-link {
-    display: block;
+.user_sidebar_entry.user-with-count .selectable_sidebar_block {
+    width: 200px;
+}
+
+.user_sidebar_entry.user-with-count .selectable_sidebar_block.user-with-mobile {
+    width: 180px;
+}
+
+.user_sidebar_entry.user-with-count .count {
+    display: inherit;
+}
+
+.group-pms-sidebar-entry.group-with-count .selectable_sidebar_block {
+    width: 185px;
 }
 
 .selectable_sidebar_block {
     cursor: pointer;
 }
 
-.group-pms-sidebar-entry,
-.user_sidebar_entry {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-}
-
 .user_sidebar_entry .count,
 .group-pms-sidebar-entry .count {
-    padding: 1px 4px 1px 4px;
+    position: absolute;
+    right: 29px;
+    top: 4px;
+    padding: 1px 4px 2px 4px;
     background: hsl(105, 2%, 50%);
     border-radius: 0px;
     color: hsl(0, 0%, 100%);
     font-size: 12px;
-    line-height: 12px;
     font-weight: normal;
     letter-spacing: 0.6px;
-    position: relative;
-    top: 3px;
+
     border-radius: 4px;
-    margin-right: 15px;
 }
 
-.user_sidebar_entry .count {
-    margin-left: 2px;
-    display: none;
+.group-pms-sidebar-entry .count {
+    right: 29px;
 }
 
-.user_sidebar_entry.user-with-count .count {
-    display: block;
+.user_sidebar_entry .count,
+.group-pms-sidebar-entry .count {
+    line-height: 13px;
+    top: 2px;
 }
 
 #userlist-toggle {
@@ -192,6 +219,7 @@
 
 #userlist-header {
     cursor: pointer;
+    margin-top: 30px;
 }
 
 #user_filter_icon {
@@ -207,4 +235,9 @@
     padding-bottom: 15px;
     border-bottom: 1px solid hsl(0, 0%, 88%);
     margin-right: 10px;
+}
+
+.user-list-filter,
+.add-user-list-filter {
+    width: 80%;
 }
