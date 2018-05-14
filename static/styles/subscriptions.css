@@ -563,12 +563,17 @@ form#add_new_subscription {
 }
 
 #search_stream_name {
-    width: 190px;
+    width: 170px;
     padding: 3px 5px;
     margin: 2px 0px;
     display: inline-block;
     border-radius: 5px;
     box-shadow: none;
+    background: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    border-radius: 100px;
+    box-sizing: border-box;
+    height:35px;
 }
 
 .stream-title {
