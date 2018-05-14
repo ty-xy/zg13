@@ -652,12 +652,11 @@ input.text-error {
     vertical-align: top;
     margin-top: 8px;
     margin-left: 10px;
-
     color: #fff;
     font-size: 1.2rem;
     font-weight: 600;
     letter-spacing: 0.1em;
-    text-transform: uppercase;
+    text-transform: lowercase;
 }
 
 .header-main .portico-logo {
@@ -1047,12 +1046,6 @@ input#terminal:checked ~ #tab-terminal {
     margin-left: 220px;
 }
 
-/* This is a workaround for line-wrapping issues with markdown code
-   blocks; see CircleCI docs for an example of what it fixes */
-.integration-instructions .help-content ol li p:not(:first-child) {
-    display: block;
-}
-
 .api-page-header,
 .authors-page-header,
 .integrations-page-header,
@@ -1362,7 +1355,7 @@ input.new-organization-button {
 .top-links a {
     display: inline-block;
     color: #fff;
-    padding: 2px 7px 1px 8px;
+    padding: 2px 7px 1px 7px;
     font-weight: 600;
     font-size: 16px;
     -moz-transition: all 0.2s ease-in;
@@ -2157,4 +2150,292 @@ input.new-organization-button {
 
 .portico-page.error .portico-page-container {
     padding: 0;
+}
+
+
+/* zyc添加样式 */
+.product_features_ctn_box{
+    width:100%;
+    height: 2000px;
+    background: #fff;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.ctn1{
+    overflow: hidden;
+    height: 500px;
+}
+.ctn1_l{
+    float: left;
+    width: 50%;
+    height: 500px;
+}
+.ctn1_l>img{
+    width: 219px;
+    height: 203px;
+    padding: 149px 170px 148px 331px;
+}
+.ctn1_r{
+    float: left;
+    width: 50%;
+    height: 500px;
+}
+.ctn1_r>h2{
+    font-family: PingFangSC-Regular;
+font-size: 36px;
+color: #333333;
+letter-spacing: 0.43px;
+margin: 161px 530px 0px 117px;
+width: 220px;
+}
+.ctn1_r>i{
+    display: inline-block;
+    width: 100px;
+    height: 2px;
+    background: #4C9DFD;
+    margin: 10px 503px 20px 117px;
+}
+.ctn1_r>p{
+    font-family: PingFangSC-Regular;
+    width: 327px;
+    height: 72px;
+font-size: 25px;
+color: #999999;
+letter-spacing: 0.14px;
+line-height: 30px;
+margin: 0 276px 160px 117px;
+}
+
+
+.ctn2{
+    overflow: hidden;
+    height: 500px;
+}
+.ctn2_l{
+    float: left;
+    width: 50%;
+    height: 500px;
+}
+.ctn2_l>img{
+    width: 219px;
+    height: 203px;
+    padding: 165px 323px 165px 163px;
+}
+.ctn2_r{
+    float: left;
+    width: 50%;
+    height: 500px;
+}
+.ctn2_r>h2{
+    font-family: PingFangSC-Regular;
+font-size: 36px;
+color: #333333;
+letter-spacing: 0.43px;
+margin: 125px 333px 0px 277px;
+width: 220px;
+}
+.ctn2_r>i{
+    display: inline-block;
+    width: 100px;
+    height: 2px;
+    background: #4C9DFD;
+    margin: 10px 116px 20px 277px;
+}
+.ctn2_r>p{
+    font-family: PingFangSC-Regular;
+    width: 327px;
+    height: 72px;
+font-size: 25px;
+color: #999999;
+letter-spacing: 0.14px;
+line-height: 30px;
+margin: 0 116px 160px 277px;
+}
+.product_download_ctn_box{
+    width: 100%;
+    height: 500px;
+    display: flex;
+    flex-wrap: nowrap;
+    
+}
+.product_download_ctn_box>div{
+    width: 25%;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+.img_box{
+    align-self: center;
+}
+.img_box>p{
+    font-family: PingFangSC-Regular;
+    font-size: 30px;
+    color: #333333;
+    letter-spacing: 1.81px;
+    text-align: center;
+    margin-top: 50px;
+}
+.img_box>img{
+    margin-left: 20px;
+}
+.product_download_line{
+    width: 2px;
+    height: 130px;
+    border: 1px solid #CCCCCC;
+    background: #ccc;
+    position: absolute;
+    right: 2px;
+    top: 160px;
+}
+.product_vip_title{
+    font-family: PingFangSC-Regular;
+    font-size: 24px!important;
+    color: #333333!important;
+    letter-spacing: 0.29px;
+    position: absolute;
+    top: 80px;
+}
+.product_vip_box{
+    background: #fff;
+}
+.product_vip_ctn_box{
+    width: 100%;
+}
+.product_vip_ctn{
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+}
+.product_vip_ctn>div{
+    width: 250px;
+    height: 480px;
+    /* background: blue; */
+    border:1px solid #ccc;
+    border-radius: 4px;
+}
+.product_vip_vsersion{
+    text-align: center;
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #666666;
+    letter-spacing: 0.13px;
+}
+.product_vip_vsersion>div:nth-child(1){
+    width: 250px;
+    height: 82px;
+    background: #EEEEEE;
+}
+.product_vip_vsersion>div:nth-child(1)>p:nth-child(1){
+    font-family: PingFangSC-Medium;
+    font-size: 18px;
+    color: #333333;
+    letter-spacing: 0.18px;
+    padding-top: 17px;
+}
+.product_vip_vsersion>div:nth-child(1)>p:nth-child(2){
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #666666;
+    letter-spacing: 0.14px;
+}
+.product_vip_vsersion>div:nth-child(2)>p:nth-of-type(1){
+    font-family: PingFangSC-Regular;
+    font-size: 20px;
+    color: #333333;
+    letter-spacing: 0.24px;
+    padding-top: 30px;
+}
+.product_vip_vsersion>div:nth-child(2)>p:nth-of-type(2){
+    width: 40px;
+    height: 1px;
+    border: 4px solid #42A5F5;
+    background: #42A5F5;
+    border-radius: 4px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+.product_vip_vsersion>div:nth-child(2)>p:nth-of-type(3){
+    width: 200px;
+    margin: 0 auto;
+    margin-bottom: 6px;
+    border-bottom: 1px solid #ccc;
+}
+.product_vip_vsersion>div:nth-child(2)>p:nth-of-type(4){
+    width: 200px;
+    margin: 0 auto;
+    margin-bottom: 6px;
+    border-bottom: 1px solid #ccc;
+}
+.product_vip_vsersion>div:nth-child(2)>p:nth-of-type(5){
+    width: 200px;
+    margin: 0 auto;
+    margin-bottom: 6px;
+    border-bottom: 1px solid #ccc;
+}
+.product_vip_vsersion>div:nth-child(2)>p:nth-of-type(6){
+    width: 200px;
+    margin: 0 auto;
+    margin-bottom: 6px;
+    border-bottom: 1px solid #ccc;
+}
+.product_vip_vsersion>div:nth-child(2)>p:nth-of-type(7){
+    width: 200px;
+    margin: 0 auto;
+    margin-bottom: 6px;
+    border-bottom: 1px solid #ccc;
+}
+.product_vip_vsersion>div:nth-child(2)>p:nth-of-type(8){
+    width: 115px;
+    /* height: 36px; */
+    margin: 0 auto;
+    background: #4C9DFD;
+    border-radius: 5px;
+    padding:  8px 0;
+    color: #fff;
+    margin-top: 40px;
+}
+.product_vip_vsersion>div:nth-child(2)>p:nth-of-type(8)>a{
+    color: #fff;
+    text-decoration: none;
+}
+.bgColor{
+    background: linear-gradient(90deg, #4C9DFD 6%, #1868F9 100%)!important;
+    
+}
+.bgColor>p{
+    color: #fff!important;
+}
+.product_use_box{
+    background: #fff;
+}
+.product_use_title{
+    position: absolute;
+    top: 120px;
+}
+.product_use_ctn{
+
+    list-style: none;
+    width: 950px;
+    margin: 0 auto;
+    /* margin-top: -300px; */
+}
+.product_use_ctn>li>h2{
+    text-align: left;
+    font-family: PingFangSC-Regular;
+    font-size: 26px;
+    color: #333333;
+    letter-spacing: 0.25px;
+}
+.product_use_ctn>li>p{
+    font-family: PingFangSC-Regular;
+font-size: 20px;
+color: #666666;
+letter-spacing: 0.19px;
+line-height: 32px;
+text-align: left;
 }

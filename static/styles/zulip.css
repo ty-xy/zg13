@@ -4,7 +4,8 @@ html {
     height: 100%;
     overflow-x: hidden;
     overflow-y: hidden;
-
+    padding:0;
+    margin:0;
     touch-action: manipulation;
 }
 
@@ -185,7 +186,7 @@ p.n-margin {
     z-index: 102; /* Needs to be higher than .alert-bar-container */
     width: 100%;
     border-bottom: 1px solid hsla(0, 0%, 0%, 0.2);
-    height: 40px;
+    height: 60px;
 }
 
 #panels {
@@ -249,11 +250,14 @@ p.n-margin {
     padding: 0px;
     position: relative;
     background-color: #fff;
+    height: 60px;
+    border-top: 1px solid #fff;
 }
 
 .app-main {
     height: 100%;
     min-height: 100%;
+    height: 25px;
 }
 
 .fixed-app {
@@ -263,16 +267,18 @@ p.n-margin {
     left: 0px;
 }
 
-.column-left,
+/* .column-left, */
 .column-right {
     width: 250px;
     max-width: 250px;
+    height: 60px;
 }
 
 .column-left {
     position: absolute;
     left: 0px;
     top: 0px;
+    background: #2196F3;
 }
 
 .column-right {
@@ -284,12 +290,12 @@ p.n-margin {
 .app-main .column-left .left-sidebar,
 .app-main .column-right .right-sidebar {
     position: fixed;
-    margin-top: 50px;
+    margin-top: 70px;
     z-index: 100;
 }
 
 .app-main .column-left .left-sidebar {
-    width: 242px;
+    width: 200px;
     padding-left: 0px;
 }
 
@@ -306,6 +312,7 @@ p.n-margin {
     margin-right: 250px;
     margin-left: 250px;
     position: relative;
+    height: 25px;
 }
 
 textarea,
@@ -517,9 +524,13 @@ a:hover code {
 
 .sidebar-title {
     font-size: 1em;
-    color: hsl(0, 0%, 43%);
+    /* color: hsl(0, 0%, 43%); */
     font-weight: normal;
     display: inline;
+    font-family: PingFangSC-Medium;
+    font-size: 12px;
+    color: #A0ACBF;
+    letter-spacing: 0.18px;
 }
 
 .tooltip.in {
@@ -579,7 +590,7 @@ li.actual-dropdown-menu i {
 
 .message_area_padder {
     /* The height of the header and the tabbar plus a small gap */
-    margin-top: 93px;
+    margin-top: 75px;
     /* This is needed for the floating recipient bar
        in Firefox only, for some reason;
        otherwise it gets a scrollbar */
@@ -761,7 +772,7 @@ td.pointer {
     background-color: hsl(0, 0%, 88%);
     border-left-color: hsl(0, 0%, 88%);
     border-width: 0px;
-    position: relative;
+    /* position: relative; */
     text-decoration: none;
 }
 
@@ -806,7 +817,7 @@ td.pointer {
     margin-top: -14px;
     border-style: solid;
     border-width: 14px 0 14px 6px;
-    border-color: hsla(0, 0%, 0%, 0.0) hsla(0, 0%, 0%, 0.0) hsla(0, 0%, 0%, 0.0) transparent;
+    border-color: hsla(0, 0%, 0%, 0.0) hsla(0, 0%, 0%, 0.0) hsla(0, 0%, 0%, 0.0) #ffffff;
     z-index: 1;
     -moz-transform: scale(.9999);
 }
@@ -893,7 +904,6 @@ td.pointer {
     border-radius: 3px 0px 0px 0px;
     /* box-shadow: 0px 2px 3px hsl(0, 0%, 80%); */
     box-shadow: inset 0px 2px 1px -2px hsl(0, 0%, 20%), inset 2px 0px 1px -2px hsl(0, 0%, 20%) !important;
-    width: 10px;
 }
 
 .summary_row_private_message .summary_colorblock {
@@ -1573,7 +1583,8 @@ blockquote p {
 
 #searchbox {
     width: 100%;
-    height: 40px;
+    height: 35px;
+    margin-top: 13px;
 }
 
 #tab_bar {
@@ -1583,7 +1594,10 @@ blockquote p {
     text-overflow: ellipsis;
     float: left;
     letter-spacing: normal;
-    height: 40px;
+    height: 35px;
+    background: #FFEE58;
+    border-radius: 2px;
+    margin: 0 10px;
 }
 
 #tab_list {
@@ -1652,6 +1666,7 @@ blockquote p {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    background: #FFEE58;
 }
 
 #tab_list li.active.root {
@@ -1826,7 +1841,7 @@ blockquote p {
     display: block;
     position: absolute;
     right: 0px;
-    top: 3px;
+    top: 13px;
 }
 
 #navbar-buttons ul.nav .dropdown-toggle,
@@ -1856,6 +1871,12 @@ blockquote p {
 
 nav .column-left {
     text-align: center;
+    line-height: 40px;
+    border-top: 1px solid #354052;
+    margin-top: -1px;
+    width: 200px;
+    height: 151px;
+    border-bottom: 1px solid #3D495D
 }
 
 nav a.no-style:hover {
@@ -1873,16 +1894,20 @@ nav .column-left .nav-logo {
 }
 
 nav .column-left .company-name {
-    display: inline-block;
+    /* display: inline-block;
     vertical-align: top;
     text-transform: uppercase;
     margin-top: 12px;
-    margin-left: 8px;
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: hsl(170, 47%, 54%);
-    letter-spacing: 0.1em;
-    cursor: pointer;
+    margin-left: 8px; */
+    /* font-size: 1.2rem; */
+    /* font-weight: 600; */
+    /* color: hsl(170, 47%, 54%); */
+    /* letter-spacing: 0.1em; */
+    /* cursor: pointer;
+    font-family: PingFangSC-Medium;
+    font-size: 18px;
+    color: #FFFFFF;
+    letter-spacing: 0.26px; */
 }
 
 nav a .no-style {
@@ -2624,7 +2649,9 @@ div.topic_edit_spinner .loading_indicator_spinner {
 }
 
 #home {
-    margin-top: 41px;
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .screen {
@@ -2818,4 +2845,32 @@ div.topic_edit_spinner .loading_indicator_spinner {
 
 .hotkey-hint {
     opacity: 0.75;
+}
+/* zyc 自主添加，报错即删除 */
+.header_index{
+    white-space: nowrap;
+    list-style-type: none;
+    display: inline-block;
+    position: relative;
+    font-weight: 300;
+    margin: 0px;
+    padding: 0px;
+    text-overflow: ellipsis;
+    height: 40px;
+}
+#streams_list{
+    margin-top: 88px;
+}
+#ppp{
+    display: show;
+}
+.user_line{
+    width: 220px;
+    height: 2px;
+    background: #ccc;
+    position: absolute;
+    top: 50px;
+}
+.user_listname{
+    margin-top: 20px;
 }

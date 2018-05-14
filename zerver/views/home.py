@@ -271,3 +271,17 @@ def is_buggy_ua(agent: str) -> bool:
     """
     return ("Zulip Desktop/" in agent or "ZulipDesktop/" in agent) and \
         "Mac" not in agent
+def product_features(request):
+    return render(request, "zerver/product_features.html")
+
+def product_download(request):
+    return render(request, "zerver/product_download.html")
+
+def product_solution(request):
+    return render(request, "zerver/product_solution.html")
+
+def product_vip(request):
+    return render(request, "zerver/product_vip.html")
+
+def product_use(request):
+    return render(request, "zerver/product_use.html")

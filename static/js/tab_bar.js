@@ -35,7 +35,8 @@ function make_tab_data() {
     }
 
     if (in_all()) {
-        tabs.push(make_tab("All Messages", "#narrow/in/all", undefined, "root"));
+        tabs.push(make_tab("所有消息", "#narrow/in/all", undefined, "root"));
+        // All Messages
     } else if (page_params.narrow !== undefined) {
         tabs.push(make_tab("Stream " + page_params.narrow_stream,
                            hashchange.operators_to_hash([page_params.narrow[0]]),
@@ -58,7 +59,7 @@ function make_tab_data() {
         } else if (filter.has_operator("pm-with") ||
                    filter.has_operand("is", "private")) {
 
-            tabs.push(make_tab("Private Messages", '#narrow/is/private',
+            tabs.push(make_tab("私有消息", '#narrow/is/private',
                                 undefined, 'private_message '));
 
             if (filter.has_operator("pm-with")) {
@@ -80,13 +81,15 @@ function make_tab_data() {
 
 
         } else if (filter.has_operand("is", "starred")) {
-            tabs.push(make_tab("Starred", hashed));
+            tabs.push(make_tab("星标消息", hashed));
+            // Starred
         } else if (filter.has_operator("near")) {
             tabs.push(make_tab("Near " + filter.operands("near")[0], hashed));
         } else if (filter.has_operator("id")) {
             tabs.push(make_tab("ID " + filter.operands("id")[0], hashed));
         } else if (filter.has_operand("is", "mentioned")) {
-            tabs.push(make_tab("Mentions", hashed));
+            tabs.push(make_tab("被提及", hashed));
+            // Mentions
         } else if (filter.has_operator("sender")) {
             var sender = filter.operands("sender")[0];
             if (people.get_by_email(sender)) {

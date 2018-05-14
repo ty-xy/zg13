@@ -1,0 +1,92 @@
+{% extends "zerver/base.html" %}
+
+{# A base template for stuff like login, register, etc.
+
+    Not inside the app itself, but covered by the same structure,
+    hence the name.
+#}
+
+{% block customhead %}
+{% stylesheet 'portico' %}
+{{ render_bundle('translations') }}
+{% endblock %}
+
+{% block porticocustomhead %}
+{{ render_bundle('portico') }}
+{% endblock %}
+
+{% block content %}
+<div class="portico-container" data-platform="{{ platform }}" style="background-image: url(./static/img/banner.png);">
+    <div class="portico-wrap">
+        {% include 'zerver/portico-header.html' %}
+        {% block portico_content %}
+
+    {% if password_auth_enabled %}
+    <script type="text/javascript">
+        {% if email %}
+        common.autofocus('#id_password');
+        {% else %}
+        common.autofocus('#id_username');
+        {% endif %}
+    </script>
+    {% endif %}
+    <div class="app login-page split-view new-style flex full-page">
+        <div class="left-main">
+                <h1 class="one-manage">e建联提供多平台下载使用</h1>
+                <p class="manage-chat">数据即时同步</p>
+        </div>
+    </div>
+</div>
+</div>
+    <script type="text/javascript">
+    if (window.location.hash.substring(0, 1) === "#") {
+        /* We append the location.hash to the formaction so that URL can be
+        preserved after user is logged in. See this:
+        https://stackoverflow.com/questions/5283395/url-hash-is-persisting-between-redirects */
+        var email_formaction = $("#login_form").attr('action');
+        $("#login_form").attr('action', email_formaction + '/' + window.location.hash);
+        $("#google_login_form input[name='next']").attr('value', '/' + window.location.hash);
+        $("#social_login_form input[name='next']").attr('value', '/' + window.location.hash);
+
+        var sso_address = $("#sso-login").attr('href');
+        $("#sso-login").attr('href', sso_address + window.location.hash);
+    }
+    </script>
+
+{% endblock %}
+        <div class="product_download_ctn_box">
+                <div class="product_download_img">
+                    <div class="img_box">
+                        <img src="../../static/img/win.png" alt="">
+                        <p>Windows</p>
+                    </div>
+                    <i class="product_download_line"></i>
+                </div>
+                <div class="product_download_img">
+                    <div class="img_box">
+                    <img src="../../static/img/and.png" alt="">
+                    <p>Android</p>
+                    </div>
+                    <i class="product_download_line"></i>
+                </div>
+                
+                <div class="product_download_img">
+                    <div class="img_box">
+                    <img src="../../static/img/osmac.png" alt="">
+                    <p>Mac OS</p>
+                    </div>
+                    <i class="product_download_line"></i>
+                </div>
+                <div class="product_download_img">
+                    <div class="img_box">
+                    <img src="../../static/img/ios.png" alt="">
+                    <p>  &nbsp; iOS</p>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'zerver/footer.html' %}
+</div>
+{% endblock %}

@@ -13,6 +13,7 @@
 
 #compose_controls .drafts-link {
     float: left;
+    padding: 2px 15px;
 }
 
 .new_message_button {
@@ -67,15 +68,11 @@
 
 .compose_table .right_part {
     padding: 0px;
-    display: flex;
-    align-items: center;
-    width: 100%;
 }
 
 .compose_table .right_part .icon-vector-narrow {
     font-size: 0.6em;
     position: relative;
-    margin: 0px 5px;
 }
 
 .compose_table .compose_checkbox_label {
@@ -83,22 +80,34 @@
 }
 
 .compose_table .pm_recipient {
-    margin-left: 5px;
-    margin-right: 20px;
+    margin: 0px 20px 0px 10px;
     display: flex;
-    width: 100%;
 }
 
 .compose_table #private-message .to_text {
-    vertical-align: middle;
+    width: 65px;
+    vertical-align: top;
 
     font-weight: 600;
 }
 
+.compose_table #private-message .to_text span {
+    display: flex;
+    align-items: center;
+
+    position: relative;
+    top: -1px;
+}
+
 .compose_table #compose-lock-icon {
     position: relative;
-    left: 5px;
     width: 0px;
+}
+
+.compose_table #compose-lock-icon i {
+    position: absolute;
+    left: 5px;
+    top: 3px;
 }
 
 .compose_table .message_header {
@@ -173,6 +182,7 @@ table.compose_table {
     display: none;
     position: absolute;
     right: 0px;
+    top: 5px;
 }
 
 #compose_invite_users,
@@ -236,11 +246,6 @@ div[id^="message-edit-send-status"],
     margin-bottom: 8px;
     line-height: 20px;
     display: none;
-}
-
-#compose-send-status .progress {
-    height: 10px;
-    margin-bottom: 10px;
 }
 
 #nonexistent_stream_reply_error {
@@ -386,7 +391,7 @@ input.recipient_box {
 
 #stream-message,
 #private-message {
-    display: flex;
+    display: none;
 }
 
 .compose_table .drafts-link {

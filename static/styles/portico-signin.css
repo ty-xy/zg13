@@ -1,13 +1,13 @@
 html {
     min-height: 500px;
+    min-width: 1024px;
 }
 
 .flex {
     display: flex;
     padding: 80px 0px;
     align-items: center;
-    justify-content: center;
-
+    justify-content: space-around;
     min-height: calc(100vh - 402px);
 }
 
@@ -89,6 +89,10 @@ html {
 
 .new-style .inline-block {
     text-align: left;
+    /* display: flex;
+    align-items: center;
+    justify-content: space-between; */
+    /* width:100%; */
 }
 
 .app-main .login-page-header {
@@ -190,9 +194,11 @@ html {
 
 .header .top-links a,
 .header .header-main .logo span {
-    color: hsl(0, 0%, 27%);
+    color: #fff
 }
-
+.top-links a:hover{
+    color: #ccc;
+}
 .header .header-main .logo .brand-logo circle {
     fill: hsl(0, 0%, 27%) !important;
 }
@@ -413,11 +419,29 @@ html {
     font-weight: 600;
     padding-left: 0px;
 }
-
+.new-style .one-manage{
+    font-family: PingFangSC-Medium;
+    font-size: 50px;
+    color: #FFFFFF;
+    letter-spacing: 4.16px;
+    line-height: 80px;
+}
+.new-style .manage-chat{
+    font-family: PingFangSC-Regular;
+    font-size: 22px;
+    color: #F5F5F5;
+    letter-spacing: 1.41px;
+}
 .new-style .get-started {
-    font-size: 2.5rem;
+    /* /* font-size: 2.5rem; */
     text-align: center;
-    color: hsl(0, 0%, 40%);
+    /* color: hsl(0, 0%, 40%); */ 
+    font-family: PingFangSC-Medium;
+    font-size: 20px;
+    color: #666666;
+    letter-spacing: 0.24px;
+    line-height:28px;
+    margin:0;
 }
 
 .new-style button {
@@ -432,7 +456,8 @@ html {
     box-sizing: border-box;
     outline: none;
     color: #fff;
-    background-color: hsl(213, 23%, 25%);
+    background-image: linear-gradient(90deg, #4C9DFD 0%, #1868F9 100%);
+    border-radius: 3px;
 
     border: none;
 
@@ -637,7 +662,10 @@ button.login-google-button {
 
 .split-view .actions a,
 .back-to-login {
-    color: hsl(164, 100%, 23%);
+    font-family: PingFangHK-Regular;
+    font-size: 15px;
+    color: #1E88E5;
+    letter-spacing: 0.18px;
     text-decoration: none;
     font-weight: 600;
     font-size: 0.8em;
@@ -840,7 +868,7 @@ button.login-google-button {
 
 @media (max-width: 815px) {
     .flex {
-        min-height: calc(100vh - 530px);
+        min-height: calc(100vw - 540px);
     }
 }
 
@@ -957,4 +985,158 @@ button.login-google-button {
     height: 30px;
     margin-top: -10px;
     top: 5px;
+}
+/* 给登录页加背景色 */
+/* .index-wrap{
+    background-image: url(/static/img/gwbanner.png);
+    background-size: cover;
+    /* background-position: 50%,50%; */
+    /* background-repeat: no-repeat; */
+/* } */
+.portico-wrap{
+    background-image: url(/static/img/banner.png);
+    background-size: cover;
+    /* background-position: 50%,50%; */
+    background-repeat: no-repeat;
+}
+.header{
+   background-color:transparent;
+   box-shadow:none
+}
+.brand-word{
+    font-family: PingFangSC-Medium;
+    font-size: 20px;
+    color: #FFFFFF;
+    letter-spacing: 1.04px;
+}
+.header-title{
+    margin-right:30px;
+}
+/* 新增加的官网的css */
+.keji{
+    font-family: PingFangSC-Regular;
+    font-size: 45px;
+    color: #FFFFFF;
+    letter-spacing: 0.54px;
+}
+.flexlist{
+    display: flex;
+    padding-top:80px;
+    /* padding: 80px 0px; */
+    align-items: center;
+    flex-direction:column;
+    justify-content: space-around;
+    min-height: calc(100vw - 710px);
+    box-sizing:border-box;
+    height:670px;
+}
+.title-png{
+    height:682px;
+    width:682px;
+    margin-top:-32px;
+    text-align:center;
+    line-height:682px;
+}
+.img-back{
+   width:100%;
+   position: absolute;
+   left:0;
+   top:0;
+   z-index:-1
+}
+.about-us{
+    display: flex;
+    padding-top:80px;
+    /* padding: 80px 0px; */
+    align-items: center;
+    height:600px;
+    padding:158px;
+    box-sizing:border-box;
+    flex-direction:column;
+    justify-content: space-around;
+    
+}
+.about-us h1{
+    font-family: PingFangSC-Regular;
+    font-size: 36px;
+    color: #333333;
+    letter-spacing: 0.43px;
+}
+.border{
+    margin-top:20px;
+    border: 2px solid #979797;
+    width:100px;
+}
+.jianjie{
+    width:943px;
+    text-indent:14px;
+    font-family: PingFangSC-Regular;
+    font-size: 22px;
+    color: #666666;
+    letter-spacing: 0.12px;
+    line-height: 38px;
+}
+.company-img{
+    width:250px;
+    height:300px;
+    background: #FFFFFF;
+    box-shadow: 1px 5px 5px 0 rgba(204,204,204,0.15);
+    border-radius: 10px;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+.company-jianjie{
+    display:flex;
+    flex-direction: row;
+    justify-content:space-around;
+    width:943px;
+    margin-top:60px;
+}
+.company-kouhao{
+  background: #F7FAFE;
+  height:700px;
+  padding:134px 0;
+  box-sizing:border-box
+}
+.amin{
+  height:400px;
+  display: flex;
+  padding:95px 0;
+  align-items: center;  
+  box-sizing:border-box;
+  flex-direction:column;
+  justify-content: space-around;
+}
+/* 官网底部 */
+.footer-zhigong{
+    background-image: linear-gradient(90deg, #4C9DFD 0%, #1868F9 100%);
+}
+.footer-zhigong .footer{
+    color:#FFF;
+    margin:0;
+    padding:25px 0 10px 0;
+}
+.footer-zhigong .footer ul{
+    color:#fff
+}
+html {
+    -ms-overflow-style:none;
+    overflow:-moz-scrollbars-none;
+    }
+html::-webkit-scrollbar{width:0px}
+/* 更改脚表的样式 */
+.icon {
+    transform: rotate(-345deg);
+    color: #EEEEEE;
+    margin-right:12px;
+    font-size:20px;
+}
+.icon-left{
+    margin-left:-30px;
+}
+.icon-right{
+    /* margin-right:10px; */
+    font-size:14px;
 }

@@ -8,20 +8,25 @@
         </div>
         {% endif %}
         <div id="user-list">
-            <div id="userlist-header">
-                <h4 class='sidebar-title' id='userlist-title' data-toggle="tooltip" title="{{ _('Filter users') }}">{{ _('USERS') }}</h4>
-                <i id="user_filter_icon" class='fa fa-search' aria-label="{{ _('Filter users') }}" data-toggle="tooltip" title="{{ _('Filter users') }} (w)"></i>
-            </div>
-            <div class="input-append notdisplayed">
-                <input class="user-list-filter" type="text" autocomplete="off" placeholder="{{ _('Search people') }}" />
+             <div class="" id="ppp"> <!--notdisplayed加上这各类名隐藏 input-append-->
+                <i class="iconfont icon-sousuo" style="position: absolute;left: 16px;top:5px;color: #CCCCCC;"></i>
+                <input class="user-list-filter" type="text" placeholder="{{ _('Search people') }}" style="text-indent: 20px;"/>
                 <button type="button" class="btn clear_search_button" id="clear_search_people_button">
-                    <i class="icon-vector-remove"></i>
+                    <!-- <i class="icon-vector-remove"></i> -->
+                    
                 </button>
             </div>
-            <ul id="user_presences" class="filters scrolling_list"></ul>
-            {% if show_invites %}
-            <a id="invite-user-link" href="#invite"><i class="icon-vector-plus-sign"></i>{{ _('Invite more users') }}</a>
+            <span class="user_line"></span>
+            <div id="userlist-header">
+                    <h4 class='sidebar-title' id='userlist-title' data-toggle="tooltip" title="{{ _('Filter users') }}">{{ _('成员') }}</h4>
+                    <!-- <i id="user_filter_icon" class='fa fa-search' aria-label="{{ _('Filter users') }}" data-toggle="tooltip" title="{{ _('Filter users') }} (w)"></i> -->
+                    {% if show_invites %}
+            <a id="invite-user-link" href="#invite" style="float: right"><i class="iconfont icon-tianjia2"></i></a>
+            <!-- icon-vector-plus-sign -->
             {% endif %}
+                </div>
+            <ul id="user_presences" class="filters scrolling_list user_listname"></ul>
+            
         </div>
         <div id="group-pm-list">
             <div id="group-pm-header">

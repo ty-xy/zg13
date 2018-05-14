@@ -359,6 +359,12 @@ i18n_urls = [
     url(r'^desktop_home/$', zerver.views.home.desktop_home,
         name='zerver.views.home.desktop_home'),
 
+    url(r'^devindex/$', zerver.views.auth.dex_page, name='zerver.views.auth.dex_page'),
+    url(r'^product_features/$', zerver.views.home.product_features),
+    url(r'^product_download/$', zerver.views.home.product_download),
+    url(r'^product_solution/$', zerver.views.home.product_solution),
+    url(r'^product_vip/$', zerver.views.home.product_vip),
+    url(r'^product_use/$', zerver.views.home.product_use),
     url(r'^accounts/login/sso/$', zerver.views.auth.remote_user_sso, name='login-sso'),
     url(r'^accounts/login/jwt/$', zerver.views.auth.remote_user_jwt, name='login-jwt'),
     url(r'^accounts/login/social/(\w+)$', zerver.views.auth.start_social_login,

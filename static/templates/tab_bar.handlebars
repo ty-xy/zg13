@@ -3,22 +3,27 @@
     <li class="{{active}} {{cls}} {{#if home}}home-link{{/if}}" {{#if data}}data-name="{{data}}"{{/if}}>
         {{#if icon}}
         <i class="icon-vector-narrow icon-vector-small"></i>
+        
         {{/if}}
         {{! Most tabs are links, but some are not since we don't have a narrow for them (e.g. Search) }}
         {{#if hash}}
             {{#if home}}
-            <a href="{{hash}}" title="{{t 'All messages' }} (Esc)"><i class="icon-vector-home"></i></a>
+            <a href="{{hash}}" title="{{t 'All messages' }} (Esc)"><i class="iconfont icon-xiangyou"></i></a>
             {{else}}
             <a href="{{hash}}">{{title}}</a>
             {{/if}}
         {{else}}
             {{#if home}}
-            <i class="icon-vector-home"></i>
+            {{!-- <i class="icon-vector-home"></i> --}}
+            <i class="iconfont icon-xiangyou"></i>
+             <span class="header_index">{{t 'All messages' }}</span>
             {{/if}}
             {{#unless home}}
             {{title}}
             {{/unless}}
         {{/if}}
+        
     </li>
     {{/each}}
+    
 </ul>

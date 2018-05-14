@@ -55,7 +55,7 @@ i18next.use(XHR)
         backend: backendOptions,
         detection: detectionOptions,
         cache: cacheOptions,
-        fallbackLng: 'en',
+        fallbackLng: 'zh-hans',
         returnEmptyString: false,  // Empty string is not a valid translation.
     }, function () {
         var i;
