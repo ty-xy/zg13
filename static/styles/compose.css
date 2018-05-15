@@ -148,6 +148,7 @@ table.compose_table {
 #below-compose-content {
     width: 100%;
     margin-top: 6px;
+    margin-left: 12px;
 }
 
 #compose {
@@ -169,13 +170,16 @@ table.compose_table {
 }
 
 .compose-content {
-    padding: 8px 10px 8px 10px;
-    margin-left: 250px;
-    margin-right: 250px;
+    padding: 15px 10px 15px 10px;
+    margin-left: 200px;
+    margin-right: 260px;
     position: relative;
-
+/* 
     border-left: 1px solid hsl(0, 0%, 93%);
-    border-right: 1px solid hsl(0, 0%, 93%);
+    border-right: 1px solid hsl(0, 0%, 93%); */
+    background: #FFFFFF;
+    box-shadow: 0 -1px 5px 0 rgba(204,204,204,0.30);
+    border-radius: 1px 1px 0 0;
 }
 
 #compose_close {
@@ -290,6 +294,7 @@ div[id^="message-edit-send-status"],
 
 .composition-area {
     position: relative;
+    margin: 0 10px;
 }
 
 #out-of-view-notification .close {
@@ -341,10 +346,18 @@ input.recipient_box {
 }
 
 #stream.recipient_box {
-    width: 20%;
+    width: 16%;
     border-radius: 0px 3px 3px 0px;
     border-left: 0px;
     min-width: 120px;
+    padding: 7px 0;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    font-family: PingFangSC-Medium;
+    font-size: 12px;
+    color: #A0ACBF;
+    letter-spacing: 0.18px;
+    text-indent: 32px;
 }
 
 #subject.recipient_box {
@@ -380,9 +393,12 @@ input.recipient_box {
     padding-bottom: 3px;
     margin-right: 7px;
     font-weight: 600;
-    border: 1px solid hsl(170, 68%, 41%);
-    background-color: hsl(170, 47%, 54%);
+    /* border: 1px solid hsl(170, 68%, 41%); */
+    /* background-color: hsl(170, 47%, 54%); */
     color: hsl(0, 0%, 100%);
+    background: #A0ACBF;
+    border-radius: 100px;
+    padding: 4px 18px;
 }
 
 #compose-send-button:focus {
@@ -479,4 +495,108 @@ a#undo_markdown_preview {
     #compose_buttons .compose_reply_button {
         display: none;
     }
+}
+/* zyc底部样式添加 */
+.draft_box{
+    border-radius: 100px!important;
+    padding: 5px 20px!important;
+    border: 1px solid #A0ACBF!important;
+    font-size: 14px;
+}
+.draft_title{
+    font-family: PingFangSC-Medium;
+    font-size: 13px;
+    color: #A0ACBF;
+    letter-spacing: 0.19px;
+}
+.new_topic_img{
+    width: 12px;
+    height: 12px;
+    margin-top: -4px;
+    /* margin-left: -4px; */
+}
+.new_topic{
+    border: 1px solid #A0ACBF!important;
+    border-radius: 100px!important;
+    padding: 4px 16px!important;
+}
+.new_topic_name{
+    font-family: PingFangSC-Medium;
+    font-size: 13px;
+    color: #A0ACBF;
+    letter-spacing: 0.19px;
+}
+.write_private{
+    border: 1px solid #A0ACBF!important;
+    border-radius: 100px!important;
+    padding: 3px 12px!important;
+}
+.write_private_name{
+    background: #FFFFFF;
+    box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30);
+    border-radius: 1px;
+    color: #A0ACBF;
+}
+.compose_shadowl{
+    width: 10px;
+    height: 60px;
+    background: #eee;
+    display: block;
+    position: absolute;
+    left: 0px;
+    top: -3px;
+}
+.compose_shadowr{
+    width: 10px;
+    height: 60px;
+    background: #eee;
+    display: block;
+    position: absolute;
+    right: -10px;
+    top: -3px;
+}
+.compose_ctn_shodowl{
+    width: 10px;
+    height: 160px;
+    background: #eee;
+    display: block;
+    position: absolute;
+    left: 0px;
+    top: -3px;
+}
+.compose_ctn_shodowr{
+    width: 10px;
+    height: 160px;
+    background: #eee;
+    display: block;
+    position: absolute;
+    right:-10px;
+    top: -3px;
+}
+.left_part{
+    position: absolute;
+    left: 22px;
+    top: 10px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%!important;
+    text-indent: 30px;
+}
+.icon-xiangyou{
+    color: #A0ACBF;
+    font-size: 14px;
+}
+.topic_int{
+    width: 16%;
+    min-width: 120px;
+    padding: 7px 0;
+    font-family: PingFangSC-Medium;
+    font-size: 12px;
+    color: #A0ACBF;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+}
+.icon-guanbiUI{
+    font-size: 14px;
+    color: #999;
 }
