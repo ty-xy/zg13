@@ -752,8 +752,8 @@ td.pointer {
 }
 
 .message_list .recipient_row {
-    border-bottom: 1px solid hsl(0, 0%, 88%);
-    margin-bottom: 10px;
+    /* border-bottom: 1px solid hsl(0, 0%, 88%); */
+    /* margin-bottom: 10px; */
 
 }
 
@@ -1070,12 +1070,12 @@ td.pointer {
 
 .private-message .messagebox,
 .message_header_private_message .message-header-contents {
-    background-color: hsla(192, 19%, 75%, 0.2);
+    /* background-color: hsla(192, 19%, 75%, 0.2); */
     box-shadow: inset 1px 1px 0px hsl(0, 0%, 88%);
 }
 
 .message-header-contents {
-    border-right: 1px solid hsl(0, 0%, 88%);
+    /* border-right: 1px solid hsl(0, 0%, 88%); */
 }
 
 .mention .messagebox {
@@ -1143,11 +1143,13 @@ td.pointer {
 }
 
 .selected_message .messagebox-content {
-    box-shadow: inset 0px 0px 0px 2px hsl(215, 47%, 50%),
+    /* box-shadow: inset 0px 0px 0px 2px hsl(215, 47%, 50%),
                      -1px -1px 0px 0px hsl(215, 47%, 50%),
                       1px 1px 0px 0px hsl(215, 47%, 50%),
                      -1px 1px 0px 0px hsl(215, 47%, 50%),
-                      1px -1px 0px 0px hsl(215, 47%, 50%);
+                      1px -1px 0px 0px hsl(215, 47%, 50%); */
+    /* border: 2px solid #D8E7FF;*/
+    box-shadow: 0px 4px 5px #999;
 }
 
 .message_sender {
@@ -1341,6 +1343,7 @@ div.message_table {
     position: relative;
     border-left: 1px solid hsla(0, 0%, 0%, 0.10);
     border-right: 1px solid hsla(0, 0%, 0%, 0.10);
+    /* border-bottom: 10px solid #eee; */
 }
 
 .message_row.selected_message {
@@ -1517,6 +1520,8 @@ blockquote p {
 
 .last_message .messagebox-content {
     padding-bottom: 1px;
+    border-bottom: 10px solid #eee;
+    background: #fff;
 }
 
 .messagebox p {
@@ -1525,6 +1530,9 @@ blockquote p {
 
 .messagebox p:last-of-type {
     margin-bottom: 3px;
+    background: #F2F2F2;
+    border-radius: 10px;
+    padding: 10px 10px;
 }
 
 .messagebox blockquote {
@@ -2031,7 +2039,8 @@ div.floating_recipient {
 }
 
 .message-header-contents {
-    background: hsl(0, 0%, 88%);
+    /* background: hsl(0, 0%, 88%); */
+    background: #fff;
 }
 
 .recipient_row.sticky {
@@ -2058,7 +2067,7 @@ div.floating_recipient {
 
 #bottom_whitespace {
     display: block;
-    height: 300px;
+    height: 464px!important;
     background: #fff;
 }
 
@@ -2871,11 +2880,11 @@ div.topic_edit_spinner .loading_indicator_spinner {
     display: show;
 }
 .user_line{
-    width: 220px;
+    width: 230px;
     height: 2px;
     background: #ccc;
     position: absolute;
-    top: 50px;
+    top: 96px;
 }
 .user_listname{
     margin-top: 20px;
