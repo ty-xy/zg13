@@ -105,7 +105,8 @@
 
 #invite-user-link i {
     text-decoration: none;
-    margin-right: 20px;
+    color: #A0ACBF;
+    border-radius: 100px;
 }
 
 .group-pms-sidebar-entry .selectable_sidebar_block {
@@ -219,7 +220,7 @@
 
 #userlist-header {
     cursor: pointer;
-    margin-top: 30px;
+    margin-top: 10px;
 }
 
 #user_filter_icon {
@@ -240,4 +241,15 @@
 .user-list-filter,
 .add-user-list-filter {
     width: 80%;
+}
+.user-list-filter{
+    
+}
+.search_user{
+    width: 216px;
+    border: 1px solid #CCCCCC;
+    border-radius: 100px;
+}
+.right-sidebar{
+    margin-top: 80px!important;
 }

@@ -310,7 +310,8 @@
 .new-style input[type=text] {
     border-radius: 5px;
     box-shadow: none;
-    margin: 0px;
+    /* margin: 0px; */
+    width: 170px;
 }
 
 .clear_search_button:hover {

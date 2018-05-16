@@ -381,7 +381,15 @@ $(function () {
         setTimeout(navigate.maybe_scroll_to_selected, 0);
         e.preventDefault();
     });
-
+    // zyc添加 模拟hover效果改变图标颜色
+    $('.left_tab').hover(
+        function(){
+            $(this).children(".left_tab_line").show()
+        },
+        function(){
+            $(this).children(".left_tab_line").hide()
+        }
+    )
     $(".brand").on('click', function (e) {
         if (overlays.is_active()) {
             ui_util.change_tab_to('#home');
@@ -489,7 +497,11 @@ $(function () {
         e.stopPropagation();
         window.location.hash = "streams/all";
     });
-
+    // zyc添加
+    $("#streams_inline_jia").click(function (e) {
+        e.stopPropagation();
+        window.location.hash = "streams/all";
+    });
     $("#streams_filter_icon").click(function (e) {
         e.stopPropagation();
         stream_list.toggle_filter_displayed(e);
