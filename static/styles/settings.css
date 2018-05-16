@@ -257,7 +257,16 @@ td .button {
 .settings-section .settings-section-title .table-title i {
     margin-right: 5px;
 }
-
+.bot-tip{
+    border: 1px solid #A0ACBF;
+    border-radius: 100px !important;
+    height:40px;
+    width:600px;
+    text-align:center;
+    line-height:36px;
+    box-sizing: border-box;
+    margin:10px auto !important
+}
 .settings-section .tip {
     position: relative;
     display: block;
@@ -324,7 +333,24 @@ td .button {
 .input-group {
     margin: 0 0 20px 0;
 }
-
+.input-groups{
+    display:flex
+}
+.lable-form{
+    width:100px;
+    font-family: PingFangSC-Regular;
+    font-size: 15px;
+    color: #333333;
+    letter-spacing: 0.18px;
+    padding-left:12px;
+}
+.choose_avatar{
+    margin-left:118px !important
+}
+.choose_avatar_list{
+    background-color: #A0ACBF !important;
+    border-radius: 100px;
+}
 .input-group.thinner {
     margin: 10px 0px;
 }
