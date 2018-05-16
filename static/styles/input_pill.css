@@ -97,6 +97,10 @@
 
     display: flex;
     align-content: center;
+    border-radius: 5px;
+    line-height: 27px;
+    border-radius: 0 5px 5px 0;
+    border: 1px solid #CCCCCC;
 }
 
 .pm_recipient .pill-container .input {
@@ -133,4 +137,14 @@
     60% {
         transform: translate3d(3px, 0, 0);
     }
+}
+.recipient_person{
+    width: 60px;
+    height: 30px;
+    background: #A0ACBF;
+    text-align: center;
+    line-height: 30px;
+    color: #fff;
+    border-radius: 5px 0 0 5px;
+    margin-left: -11px;
 }

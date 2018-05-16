@@ -665,7 +665,7 @@ td.pointer {
     padding: 1px;
     font-weight: 400;
     position: absolute;
-    right: -105px;
+    left: 400px;
     line-height: 20px;
     text-align: right;
     -webkit-transition: background-color 1.5s ease-in, color 1.5s ease-in;
@@ -706,7 +706,7 @@ td.pointer {
     display: inline-block;
     position: absolute;
     top: 2px;
-    right: -56px;
+    right: 84px;
     z-index: 1;
 }
 
@@ -1515,7 +1515,7 @@ blockquote p {
 }
 
 .messagebox-content {
-    padding: 4px 115px 1px 10px;
+    padding: 4px 10px 1px 10px;
 }
 
 .last_message .messagebox-content {
@@ -1533,6 +1533,8 @@ blockquote p {
     background: #F2F2F2;
     border-radius: 10px;
     padding: 10px 10px;
+    margin-top: 24px;
+    max-width: 700px;
 }
 
 .messagebox blockquote {
@@ -2874,7 +2876,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     height: 40px;
 }
 #streams_list{
-    margin-top: 88px;
+    margin-top: 50px;
 }
 #ppp{
     display: show;
