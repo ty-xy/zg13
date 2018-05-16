@@ -769,8 +769,8 @@ msgid "There is no Zulip organization hosted at this subdomain."
 msgstr "该子域名中没有部署Zulip社区服务"
 
 #: templates/zerver/invite_user.html:6
-msgid "Invite users to Zulip"
-msgstr "邀请用户到Zulip"
+msgid "Invite users to e建联"
+msgstr "邀请用户到e建联"
 
 #: templates/zerver/invite_user.html:13
 msgid "Emails (one on each line or comma-separated)"

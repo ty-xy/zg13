@@ -78,7 +78,9 @@
 }
 
 .new-style .button.rounded {
-    border-radius: 4px;
+    border: 1px solid #999999;
+    border-radius: 100px; 
+    box-sizing:border-box  
 }
 
 .new-style .button.green {
@@ -88,7 +90,10 @@
 .new-style .button.grey {
     background-color: hsl(0, 0%, 66%);
 }
-
+.change-create{
+    min-width:120px !important;
+    font-size:12px
+}
 .new-style .button.standalone {
     margin-top: 10px;
 }

@@ -7,10 +7,10 @@
         </div>
         <div class="subscriber_list_add float-right">
             <form class="form-inline">
-                <input type="text" class="search" placeholder="{{t 'Search subscribers' }}" />
+                <input type="text" class="search search-people" placeholder="{{t 'Search subscribers' }}" />
                 <div class="add_subscribers_container" {{#if invite_only}}{{#unless subscribed}}style="display: none"{{/unless}}{{/if}}>
-                    <input type="text" name="principal" placeholder="{{t 'Email address' }}" value="" class="input-block" autocomplete="off" tabindex="-1" />
-                    <button type="submit" name="add_subscriber" class="button add-subscriber-button small rounded" tabindex="-1">
+                    <input type="text" name="principal" placeholder="{{t 'Email address' }}" value="" class="input-block search-people" autocomplete="off" tabindex="-1" />
+                    <button type="submit" name="add_subscriber" class="button add-subscriber-button small rounded" tabindex="-1" style="background-color:#A0ACBF">
                         {{t 'Add' }}
                     </button>
                 </div>

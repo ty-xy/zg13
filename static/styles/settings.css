@@ -1648,3 +1648,39 @@ thead .actions {
         padding-right: 20px;
     }
 }
+
+.stream-control{
+    /* margin-left:20px; */
+    width:61px !important;
+    text-align:left !important;
+}
+.stream-message{
+    margin-top:10px
+}
+.controls-text{
+    margin-left:20px !important
+}
+.controls-text> textarea{
+    width:380px;
+    margin-left:10px !important
+}
+.controls-select{
+    margin-left:70px !important
+}
+.invite_all_button{
+    border: 1px solid #CCCCCC;
+    border-radius: 100px;
+    height:30px;
+    width:80px !important;
+    font-family: PingFangSC-Regular;
+    font-size: 13px;
+    color: #666666;
+    letter-spacing: 0.19px;
+    display:inline-block;
+    box-sizing:border-box;
+    line-height:28px;
+    text-align:center
+}
+.invite-controls{
+    height:35px;
+}
