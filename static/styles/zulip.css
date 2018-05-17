@@ -1771,8 +1771,10 @@ blockquote p {
 
 .nav .dropdown-menu {
     left: auto;
-    right: 0px;
-    top: 30px;
+    /* right: 0px;
+    top: 30px; */
+    right: 10px;
+    top: 40px;
     min-width: 180px;
     -webkit-box-shadow: 0px 0px 5px hsla(0, 0%, 0%, 0.2);
     -moz-box-shadow: 0px 0px 5px hsla(0, 0%, 0%, 0.2);
@@ -2964,4 +2966,12 @@ div.topic_edit_spinner .loading_indicator_spinner {
 }
 .icon-shezhi2{
     margin-right: 20px!important;
+}
+.img-setting{
+    width:14px;
+    height:14px;
+    margin-bottom:5px;
+}
+.img-settings{
+    vertical-align: middle;
 }

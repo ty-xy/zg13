@@ -151,7 +151,7 @@
   "Do you want to skip to your latest messages?": "是否跳过这些消息？（选择“是”将清除所有未读消息标记）",
   "Domain": "域名",
   "Download .zuliprc": "下载 .zuliprc",
-  "Download config of all active outgoing webhook bots in Zulip Botserver format.": "以Zulip Botserver格式下载所有活动的外发webhook机器人的配置。",
+  "Download config of all active outgoing webhook bots in Zulip Botserver format.": "以e建联 Botserver格式下载所有活动的外发webhook机器人的配置。",
   "Download file": "下载文件",
   "Download flaskbotrc": "下载 flaskbotrc",
   "Download zuliprc": "下载 zuliprc",
