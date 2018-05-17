@@ -156,7 +156,7 @@
   "Download flaskbotrc": "下载 flaskbotrc",
   "Download zuliprc": "下载 zuliprc",
   "Drafts": "草稿",
-  "Drafts older than <strong>__draft_lifetime__</strong> days are automatically removed": "",
+  "Drafts older than <strong>__draft_lifetime__</strong> days are automatically removed": "草稿超过<strong>__draft_lifetime__</strong>会自动删除",
   "EDITED": "有修改",
   "Edit": "编辑",
   "Edit bot": "编辑机器人",

@@ -10,8 +10,8 @@
     padding: 0px;
     width: 60%;
     overflow: hidden;
-    max-width: 1200px;
-    max-height: 1000px;
+    max-width: 580px;
+    max-height: 600px;
 }
 
 .drafts-header {
@@ -53,7 +53,7 @@
 
 .drafts-list .no-drafts {
     display: block;
-    margin-top: calc(45vh - 30px - 1.5em);
+    margin-top: calc(45vh - 180px - 1.5em);
     text-align: center;
     font-size: 1.5em;
     color: hsl(0, 0%, 66%);
@@ -99,13 +99,14 @@
     padding-top: 10px;
     padding-bottom: 10px;
     margin-left: 0px;
+    margin-right: 55px;
 }
 
 .draft-row .draft-info-box .draft_controls {
     display: inline-block;
     position: absolute;
     top: 9px;
-    right: -80px;
+    right: 0px;
     font-size: 0.9em;
 }
 
