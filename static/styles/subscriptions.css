@@ -215,15 +215,22 @@ form#add_new_subscription {
 .create_stream_button {
     margin: 0px 0px 0px 5px;
 
-    border: none;
+    /* border: none; */
     outline: none;
     background-color: transparent;
-
-    font-size: 2.2em;
-    font-weight: 300;
+    
+    /* font-size: 2.2em; */
+    /* font-weight: 300;
     line-height: 1;
-    color: hsl(0, 0%, 66%);
-
+    color: hsl(0, 0%, 66%); */
+    background: #A0ACBF;
+    border-radius: 100px;
+    width:100px !important;
+    height:35px;
+    font-family: PingFangSC-Medium;
+    font-size: 13px;
+    color: #FFFFFF;
+    letter-spacing: 0.16px;
     display: inline-block;
     transition: all 0.2s ease;
     padding-bottom: 0px;
@@ -351,7 +358,13 @@ form#add_new_subscription {
 .subscriber_list_add .search {
     float: left;
 }
-
+.subscriber_list_add .search-people{
+    border: 1px solid #CCCCCC;
+    border-radius: 100px !important;
+    margin-right:10px !important;
+    height:32px;
+    box-sizing:border-box
+}
 .subscriber_list_add .form-inline {
     margin-bottom: 0px;
 }
@@ -410,14 +423,25 @@ form#add_new_subscription {
     overflow: hidden;
     max-width: 1200px;
     max-height: 1000px;
+    display:flex;
+    flex-direction: column;
+    background: #F5F5F5;
 }
-
+.subscriptions-container-body{
+    flex:1;
+    overflow: hidden;
+    margin-top:3px;
+    padding:10px;
+    
+}
 .subscriptions-header {
     padding: 12px;
     text-align: center;
     text-transform: uppercase;
     font-weight: 700;
     border-bottom: 1px solid hsl(0, 0%, 86%);
+    background: #FFFFFF;
+    box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30);
 }
 
 .subscriptions-header .fa-chevron-left {
@@ -475,12 +499,16 @@ form#add_new_subscription {
     display: inline-block;
     vertical-align: top;
     width: 50%;
-    height: calc(100% - 45px);
+    height: calc(100% - 5px);
     margin: 0px -2px;
 }
 
 .subscriptions-container .right {
     width: calc(50% - -1px);
+    background: #FFFFFF;
+    box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30);
+    border-radius: 1px;
+    height: calc(100% - 2px);
 }
 
 .subscriptions-container .right .nothing-selected {
@@ -502,12 +530,16 @@ form#add_new_subscription {
 }
 
 .subscriptions-container .left {
-    border-right: 1px solid hsl(0, 0%, 86%);
+    width: 49%;
+    margin-right:10px;
+    /* border-right: 1px solid hsl(0, 0%, 86%); */
 }
 
 .subscriptions-container .left .search-container {
     padding: 6px 8px;
-    border-bottom: 1px solid hsl(0, 0%, 86%);
+    padding-top:0;
+    padding-bottom:10px;
+    /* border-bottom: 1px solid hsl(0, 0%, 86%); */
 }
 
 .subscriptions-container .right .display-type {
@@ -563,12 +595,17 @@ form#add_new_subscription {
 }
 
 #search_stream_name {
-    width: 190px;
+    width: 170px;
     padding: 3px 5px;
     margin: 2px 0px;
     display: inline-block;
     border-radius: 5px;
     box-shadow: none;
+    background: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    border-radius: 100px;
+    box-sizing: border-box;
+    height:35px;
 }
 
 .stream-title {
@@ -604,6 +641,9 @@ form#add_new_subscription {
     -webkit-overflow-scrolling: touch;
     height: calc(100% - 45px);
     width: 100%;
+    background: #FFFFFF;
+    box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30);
+    border-radius: 1px;
 }
 
 .stream-row {
@@ -614,6 +654,8 @@ form#add_new_subscription {
 
 .stream-row.active {
     background-color: hsl(0, 0%, 93%);
+    background: #F5F5F5;
+    border-radius: 2px 2px 0 0;
 }
 
 .stream-row > div {
@@ -660,7 +702,7 @@ form#add_new_subscription {
     height: 35px;
     margin-right: 8px;
     margin-top: 4px;
-    background-color: hsl(300, 100%, 25%);
+    /* background-color: hsl(300, 100%, 25%); */
     border-radius: 4px;
     color: hsl(0, 0%, 100%);
 }
@@ -801,9 +843,19 @@ form#add_new_subscription {
 
 #subscription_overlay .stream-header .deactivate,
 #subscription_overlay .stream-header .subscribe-button {
+    /* float: right;
+    margin-top: -5px;
+    margin-right: 5px; */
     float: right;
     margin-top: -5px;
+    margin-left: 10px;
     margin-right: 5px;
+    height: 30px;
+    width: 50px;
+    background: #7ED321;
+    border-radius: 100px;
+    box-sizing: border-box;
+    border:1px solid transparent
 }
 
 #subscription_overlay .stream-header .button-group {
@@ -838,6 +890,11 @@ form#add_new_subscription {
     text-decoration: none;
     line-height: 16px;
     vertical-align: middle;
+}
+.show-button{
+    height:30px !important;
+    width:100px !important;
+    box-sizing: border-box
 }
 
 .editable-section {
@@ -911,12 +968,21 @@ form#add_new_subscription {
     font-weight: 600;
 }
 
-#subscription_overlay .stream-header .large-icon.hash::after {
+#subscription_overlay .stream-header .large-icon.hash::before {
     position: relative;
     top: 1px;
-    content: "#";
-    font-weight: 800;
+    /* content: "#"; */
+    /* content: "\f111"; */
+    /* border-radius: 50%; */
+    /* font-weight: 800; */
+    
 }
+
+/* [class^="icon-vector-"]:before, [class*=" icon-vector-"]:before {
+    text-decoration: inherit;
+    display: inline-block;
+    speak: none;
+} */
 
 #subscription_overlay .settings {
     position: relative;
@@ -1087,4 +1153,17 @@ form#add_new_subscription {
 
 #stream-creation #invites-warning-modal .modal-footer {
     position: static;
+}
+
+.icon-vector-circle:before {
+    font-size:20px
+}
+.grey-config{
+     border:1px solid transparent;
+     background:#fff
+}
+.grey-config >li{
+    height:50px;
+    box-sizing:border-box;
+    line-height:40px
 }

@@ -102,7 +102,7 @@
   "Configure regular expression patterns that will be automatically linkified when used in Zulip message bodies or topics.  For example to automatically linkify commit IDs and issue numbers (e.g. #123) to the corresponding items in a GitHub project, you could use the following:": "",
   "Configure the authentication methods for your organization.": "",
   "Configure the default streams new users are subscribed to when joining your organization.": "",
-  "Cookie Bot": "",
+  "Cookie Bot": "请输入用户名",
   "Copied!": "",
   "Copy and close": "",
   "Copy from stream": "",

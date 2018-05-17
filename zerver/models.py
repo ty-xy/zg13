@@ -569,7 +569,7 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     EMBEDDED_BOT = 4
 
     BOT_TYPES = {
-        DEFAULT_BOT: 'Generic bot',
+        DEFAULT_BOT: '通用机器人',
         INCOMING_WEBHOOK_BOT: 'Incoming webhook',
         OUTGOING_WEBHOOK_BOT: 'Outgoing webhook',
         EMBEDDED_BOT: 'Embedded bot',

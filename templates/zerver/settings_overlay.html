@@ -12,15 +12,21 @@
             <div class="center tab-container"></div>
             <ul class="settings-list">
                 <li tabindex="0" class="active" data-section="your-account">
-                    <div class="icon icon-vector-user"></div>
+                    <div class="icon icon-vector-user">
+                        <i class="iconfont icon-yonghu"></i>
+                    </div>
                     <div class="text">{{ _('Your account') }}</div>
                 </li>
                 <li tabindex="0" data-section="display-settings">
-                    <div class="icon icon-vector-time"></div>
+                    <div class="icon icon-vector-time">
+                        <i class="iconfont icon-xianshi"></i>
+                    </div>
                     <div class="text">{{ _('Display settings') }}</div>
                 </li>
                 <li tabindex="0" data-section="notifications">
-                    <div class="icon icon-vector-warning-sign"></div>
+                    <div class="icon icon-vector-warning-sign">
+                        <i class="iconfont icon-tongzhi"></i>
+                    </div>
                     <div class="text">{{ _('Notifications') }}</div>
                 </li>
                 <li tabindex="0" data-section="your-bots">
@@ -28,20 +34,26 @@
                     <div class="text">{{ _('Your bots') }}</div>
                 </li>
                 <li tabindex="0" data-section="alert-words">
-                    <div class="icon icon-vector-book"></div>
+                    <div class="icon icon-vector-book">
+                        <i class="iconfont icon-tongzhi"></i>
+                    </div>
                     <div class="text">{{ _('Alert words') }}</div>
                 </li>
                 <li tabindex="0" data-section="uploaded-files">
-                    <div class="icon icon-vector-paper-clip"></div>
+                    <div class="icon icon-vector-paper-clip">
+                        <i class="iconfont icon-fujian"></i>
+                    </div>
                     <div class="text">{{ _('Uploaded files') }}</div>
                 </li>
                 <li tabindex="0" data-section="muted-topics">
-                    <div class="icon icon-vector-eye-close"></div>
+                    <div class="icon icon-vector-eye-close">
+                        <i class="iconfont icon-guanbiX"></i>
+                    </div>
                     <div class="text">{{ _('Muted topics') }}</div>
                 </li>
                 <li tabindex="0" data-section="zulip-labs">
                     <i class="icon icon-vector-beaker"></i>
-                    <div class="text">{{ _('Zulip labs') }}</div>
+                    <div class="text">{{ _('e建联实验室') }}</div>
                 </li>
 
                 <li class="admin" tabindex="0" data-section="organization-profile">
@@ -69,7 +81,7 @@
                     <div class="text">{{ _('Authentication methods') }}</div>
                 </li>
                 <li class="admin" tabindex="0" data-section="user-list-admin">
-                    <i class="icon icon-vector-user"></i>
+                    <i class="icon icon-vector-users"></i>
                     <div class="text">{{ _('Users') }}</div>
                 </li>
                 {% if is_admin %}
@@ -98,13 +110,13 @@
                 </li>
                 {% if development_environment %}
                 <li class="admin" tabindex="0" data-section="profile-field-settings">
-                    <i class="icon icon-vector-user"></i>
+                    <i class="icon icon-vector-users"></i>
                     <div class="text">{{ _('Custom profile fields') }}</div>
                 </li>
                 {% endif %}
                 {% if is_admin %}
                 <li class="admin" tabindex="0" data-section="invites-list-admin">
-                    <i class="icon icon-vector-user"></i>
+                    <i class="icon icon-vector-users"></i>
                     <div class="text">{{ _('Invitations') }}</div>
                 </li>
                 {% endif %}

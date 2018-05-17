@@ -78,7 +78,9 @@
 }
 
 .new-style .button.rounded {
-    border-radius: 4px;
+    border: 1px solid #999999;
+    border-radius: 100px; 
+    box-sizing:border-box  
 }
 
 .new-style .button.green {
@@ -88,7 +90,10 @@
 .new-style .button.grey {
     background-color: hsl(0, 0%, 66%);
 }
-
+.change-create{
+    min-width:120px !important;
+    font-size:12px
+}
 .new-style .button.standalone {
     margin-top: 10px;
 }
@@ -188,6 +193,8 @@
 .new-style .tab-switcher .ind-tab {
     display: inline-block;
     width: 90px;
+    height:35px;
+    line-height:28px;
     margin: 0px -0.5px;
     text-align: center;
     text-overflow: ellipsis;
@@ -199,6 +206,7 @@
     cursor: pointer;
     justify-content: center;
     align-items: center;
+    box-sizing:border-box
 }
 
 .new-style .tab-switcher .ind-tab:focus {
@@ -225,7 +233,8 @@
 }
 
 .new-style .tab-switcher .ind-tab.first {
-    border-radius: 5px 0px 0px 5px;
+    /* border-radius: 5px 0px 0px 5px; */
+    border-radius: 17.5px 0 0 17.5px;
     border-right: 1px solid transparent;
 }
 
@@ -234,7 +243,8 @@
 }
 
 .new-style .tab-switcher .ind-tab.last {
-    border-radius: 0px 5px 5px 0px;
+    /* border-radius: 0px 5px 5px 0px; */
+    border-radius: 0 100px 100px 0;
 }
 
 .new-style .tab-switcher .ind-tab.selected {
@@ -243,6 +253,7 @@
     color: hsl(0, 0%, 100%);
     border: 1px solid hsl(0, 0%, 46%);
     z-index: 2;
+    background: #A0ACBF;
 }
 
 .new-style .tab-switcher .ind-tab.disabled {

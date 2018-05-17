@@ -1773,8 +1773,10 @@ blockquote p {
 
 .nav .dropdown-menu {
     left: auto;
-    right: 0px;
-    top: 30px;
+    /* right: 0px;
+    top: 30px; */
+    right: 10px;
+    top: 40px;
     min-width: 180px;
     -webkit-box-shadow: 0px 0px 5px hsla(0, 0%, 0%, 0.2);
     -moz-box-shadow: 0px 0px 5px hsla(0, 0%, 0%, 0.2);
@@ -2346,6 +2348,12 @@ div.topic_edit_spinner .loading_indicator_spinner {
 #invite-user .modal-header {
     padding: 7px 15px;
     border-color: hsl(0, 0%, 86%);
+    box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30);
+}
+#invite-user .modal-headerlist{
+    background: #FFFFFF;
+    box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30);
+    border-radius: 1px 1px 0 0;
 }
 
 #invite-user .modal-header .exit {
@@ -2380,11 +2388,31 @@ div.topic_edit_spinner .loading_indicator_spinner {
     bottom: 0px;
     width: calc(100% - 30px);
 }
-
+#invite-user .modal-footer-bg{
+    padding:0 15px;
+    height:40px;
+    line-height:36px;
+    background: #FFFFFF;
+    box-shadow: 0 -1px 5px 2px rgba(204,204,204,0.30);
+    border-radius: 2px;
+}
 #invite_status {
     display: none;
 }
-
+.cancel-list{
+    border: 1px solid #A0ACBF;
+    border-radius: 100px;
+    height:30px !important;
+    width:65px !important;
+    box-sizing:border-box;
+    
+}
+.invite-list{
+    margin-left:10px !important;
+    background: #A0ACBF !important;
+    color:#fff !important;
+    border:1px solid transparent !important
+}
 #invite-user #invite-user-label {
     font-size: 1em;
     font-weight: 700;
@@ -2941,6 +2969,14 @@ div.topic_edit_spinner .loading_indicator_spinner {
 }
 .icon-shezhi2{
     margin-right: 20px!important;
+}
+.img-setting{
+    width:14px;
+    height:14px;
+    margin-bottom:5px;
+}
+.img-settings{
+    vertical-align: middle;
 }
 .column-middle_shodowl{
     width: 10px;
