@@ -1341,8 +1341,8 @@ div.message_table {
 
 .message_row {
     position: relative;
-    border-left: 1px solid hsla(0, 0%, 0%, 0.10);
-    border-right: 1px solid hsla(0, 0%, 0%, 0.10);
+    /* border-left: 1px solid hsla(0, 0%, 0%, 0.10);
+    border-right: 1px solid hsla(0, 0%, 0%, 0.10); */
     /* border-bottom: 10px solid #eee; */
 }
 
@@ -2043,6 +2043,7 @@ div.floating_recipient {
 .message-header-contents {
     /* background: hsl(0, 0%, 88%); */
     background: #fff;
+    margin-left: 0!important;
 }
 
 .recipient_row.sticky {
@@ -2940,4 +2941,20 @@ div.topic_edit_spinner .loading_indicator_spinner {
 }
 .icon-shezhi2{
     margin-right: 20px!important;
+}
+.column-middle_shodowl{
+    width: 10px;
+    background: #f2f2f2;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 1000px;
+}
+.column-middle_shodowr{
+    width: 10px;
+    background: #f2f2f2;
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 1000px;
 }

@@ -115,6 +115,7 @@ ul.filters a {
 ul.filters hr {
     margin-top: 10px;
     margin-bottom: 10px;
+    display: none!important;
 }
 
 li.active-filter,
@@ -570,4 +571,13 @@ li.show-more-private-messages a {
     position: absolute;
     left: 0;
     top: 0;
+}
+.left_sidebar_input{
+    border: 1px solid #A0ACBF;
+    border-radius: 100px;
+    background: #354052;
+    font-size: 12px;
+    color: #A0ACBF;
+    letter-spacing: 0.18px;
+    text-indent: 10px;
 }
