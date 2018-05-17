@@ -584,7 +584,8 @@ msgid ""
 "            Why not <a href=\"#\" class=\"empty_feed_compose_stream\">\n"
 "            start the conversation</a>?\n"
 "            "
-msgstr ""
+msgstr "\n 为什么不<a href=\"#\" class=\"empty_feed_compose_stream\">\n"
+"            开始对话呢</a>?"
 
 #: templates/zerver/home.html:42
 msgid "You have no private messages yet!"
@@ -597,7 +598,8 @@ msgid ""
 "            Why not <a href=\"#\" class=\"empty_feed_compose_private\">\n"
 "            start the conversation</a>?\n"
 "            "
-msgstr ""
+msgstr "\n 为什么不<a href=\"#\" class=\"empty_feed_compose_stream\">\n"
+"            开始对话呢</a>?"
 
 #: templates/zerver/home.html:52
 msgid "You have no private messages with this person yet!"
@@ -642,7 +644,7 @@ msgid ""
 "            Learn more about starring messages <a href=\"/help/star-a-message\">\n"
 "            here</a>.\n"
 "            "
-msgstr ""
+msgstr "\n了解更多关于星标消息 <a href=\"/help/star-a-message\">这里</a>."
 
 #: templates/zerver/home.html:109
 msgid "You have no unread messages!"
@@ -658,7 +660,7 @@ msgid ""
 "            Learn more about mentions <a href=\"/help/at-mention-a-team-member\">\n"
 "            here</a>.\n"
 "            "
-msgstr ""
+msgstr "\n了解更多关于被提及的消息 <a href=\"/help/star-a-message\">这里</a>."
 
 #: templates/zerver/home.html:122
 msgid "Nobody has talked about that yet!"
@@ -1036,6 +1038,10 @@ msgstr "详细的键盘快捷键文档"
 #: templates/zerver/left_sidebar.html:5 templates/zerver/left_sidebar.html:10
 msgid "All messages"
 msgstr "所有消息"
+
+#: templates/zerver/left_sidebar.html:24
+msgid "management"
+msgstr "管理"
 
 #: templates/zerver/left_sidebar.html:17 templates/zerver/left_sidebar.html:22
 msgid "Private messages"
@@ -2973,3 +2979,4 @@ msgstr "无效的Token类型"
 msgid ""
 "You should be an administrator of the organization %s to view this page."
 msgstr ""
+

@@ -45,6 +45,31 @@
                         {{ partial "subscription_creation_form" }}
                     </div>
                 </div>
+<<<<<<< HEAD
+=======
+                <div class="streams-list">
+                    {{#each subscriptions}}
+                    {{partial "subscription"}}
+                    {{/each}}
+                </div>
+            </div>
+            <div class="right">
+                <div class="display-type">
+                    <div id="add_new_stream_title" class="stream-info-title">{{t 'Create stream' }}</div>
+                    <div id="stream_settings_title" class="stream-info-title">{{t 'Stream settings' }}</div>
+                </div>
+                <div class="nothing-selected">
+                    {{#if can_create_streams}}
+                    <button type="button" class="create_stream_button button small rounded">创建流</button>
+                    <span>{{t 'First time? Read our <a href="/help/create-a-stream" target="_blank">guidelines</a> for creating and naming streams.' }}</span>
+                    {{/if}}
+                </div>
+                <div class="settings">
+                    {{!-- edit stream here --}}
+                </div>
+                {{ partial "subscription_creation_form" }}
+            </div>
+>>>>>>> 173b1cf1daed34917be92315e087e5078a89b047
         </div>
     </div>
 </div>

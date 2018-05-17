@@ -109,12 +109,13 @@ ul.filters {
 
 ul.filters a {
     color: #fff;
-    margin: 12px 0;
+    margin: 10px 0;
 }
 
 ul.filters hr {
     margin-top: 10px;
     margin-bottom: 10px;
+    display: none!important;
 }
 
 li.active-filter,
@@ -149,7 +150,7 @@ li.active-sub-filter {
 #global_filters .global-filter {
     position: relative;
     /* padding: 1px 10px; */
-    height: 40px;
+    height: 36px;
     width: 200px;
     background: #354052;
 }
@@ -201,8 +202,8 @@ li.active-sub-filter {
 }
 
 #global_filters .count {
-    margin-right: 20px;
-    margin-top: 3px;
+    margin-right: 30px;
+    margin-top: 15px;
     display: none;
 
     line-height: 12px;
@@ -218,7 +219,7 @@ li.active-sub-filter {
 .topic-box>a{
     height: 28px;
     margin: 0!important;
-    line-height: 28px;
+    line-height: 20px;
     font-family: PingFangSC-Medium;
     font-size: 11px;
     color: #A0ACBF!important;
@@ -271,8 +272,8 @@ ul.filters i {
 
 ul.filters .arrow {
     position: absolute;
-    top: 2px;
-    right: 10px;
+    top: 13px;
+    right: 5px;
     font-size: 0.8em;
     display: none;
 }
@@ -359,7 +360,7 @@ ul.filters li.out_of_home_view li.muted_topic {
 .stream-privacy {
     font-size: 15px;
     float: left;
-    margin-top: 14px;
+    margin-top: 10px;
 }
 
 .stream-privacy .icon-vector-lock {
@@ -565,9 +566,18 @@ li.show-more-private-messages a {
 }
 .left_tab_line{
     width: 1px!important;
-    height: 44px;
+    height: 40px;
     background: #14A4FA;
     position: absolute;
     left: 0;
     top: 0;
+}
+.left_sidebar_input{
+    border: 1px solid #A0ACBF;
+    border-radius: 100px;
+    background: #354052;
+    font-size: 12px;
+    color: #A0ACBF;
+    letter-spacing: 0.18px;
+    text-indent: 10px;
 }

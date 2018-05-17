@@ -665,7 +665,7 @@ td.pointer {
     padding: 1px;
     font-weight: 400;
     position: absolute;
-    right: -105px;
+    left: 400px;
     line-height: 20px;
     text-align: right;
     -webkit-transition: background-color 1.5s ease-in, color 1.5s ease-in;
@@ -706,7 +706,7 @@ td.pointer {
     display: inline-block;
     position: absolute;
     top: 2px;
-    right: -56px;
+    right: 84px;
     z-index: 1;
 }
 
@@ -1341,8 +1341,8 @@ div.message_table {
 
 .message_row {
     position: relative;
-    border-left: 1px solid hsla(0, 0%, 0%, 0.10);
-    border-right: 1px solid hsla(0, 0%, 0%, 0.10);
+    /* border-left: 1px solid hsla(0, 0%, 0%, 0.10);
+    border-right: 1px solid hsla(0, 0%, 0%, 0.10); */
     /* border-bottom: 10px solid #eee; */
 }
 
@@ -1515,7 +1515,7 @@ blockquote p {
 }
 
 .messagebox-content {
-    padding: 4px 115px 1px 10px;
+    padding: 4px 10px 1px 10px;
 }
 
 .last_message .messagebox-content {
@@ -1533,6 +1533,8 @@ blockquote p {
     background: #F2F2F2;
     border-radius: 10px;
     padding: 10px 10px;
+    margin-top: 24px;
+    max-width: 700px;
 }
 
 .messagebox blockquote {
@@ -2043,6 +2045,7 @@ div.floating_recipient {
 .message-header-contents {
     /* background: hsl(0, 0%, 88%); */
     background: #fff;
+    margin-left: 0!important;
 }
 
 .recipient_row.sticky {
@@ -2902,7 +2905,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     height: 40px;
 }
 #streams_list{
-    margin-top: 88px;
+    margin-top: 50px;
 }
 #ppp{
     display: show;
@@ -2974,4 +2977,20 @@ div.topic_edit_spinner .loading_indicator_spinner {
 }
 .img-settings{
     vertical-align: middle;
+}
+.column-middle_shodowl{
+    width: 10px;
+    background: #f2f2f2;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 1000px;
+}
+.column-middle_shodowr{
+    width: 10px;
+    background: #f2f2f2;
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 1000px;
 }

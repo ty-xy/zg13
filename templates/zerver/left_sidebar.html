@@ -16,12 +16,12 @@
                 <i class="left_tab_line" style="display: none;"></i>
             </li>
             <!-- 添加管理栏start -->
-            <li data-name="home" class="global-filter active-filter home-link left_tab" title="{{ _('管理') }} (Esc)">
-                <a href="#">
+            <li data-name="private" class="global-filter active-filter home-link left_tab" title="{{ _('management') }} (Esc)">
+                <a href="#narrow/is/management">
                     <span class="filter-icon">
                         <i class="iconfont icon-caidan left_tab_icon" style="font-size: 12px;"></i>
                     </span>
-                    <span class="hover-underline">{{ _('管理') }}</span>
+                    <span class="hover-underline">{{ _('management') }}</span>
                     <span class="count">
                         <span class="value"></span>
                     </span>
@@ -75,7 +75,13 @@
             </div>
             <div id="stream-filters-container" class="scrolling_list">
                 <div class="input-append notdisplayed">
-                    <input class="stream-list-filter" type="text" placeholder="{{ _('Search streams') }}" />
+                    <input class="stream-list-filter left_sidebar_input" type="text" placeholder="{{ _('Search streams') }}" style="border: 1px solid #A0ACBF;
+                    border-radius: 100px;
+                    background: #354052;
+                    font-size: 12px;
+                    color: #A0ACBF;
+                    letter-spacing: 0.18px;
+                    text-indent: 10px;"/>
                     <button type="button" class="btn clear_search_button" id="clear_search_stream_button">
                         <i class="icon-vector-remove"></i>
                     </button>
