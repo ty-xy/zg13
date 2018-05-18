@@ -1963,7 +1963,7 @@ nav a .no-style {
 #searchbox .search_button,
 #searchbox .search_button[disabled]:hover {
     position: absolute;
-    right: 2px;
+    right: 108px;
     top: 6px;
     background: none;
     border-radius: 0px;

@@ -13,7 +13,7 @@
 
 #compose_controls .drafts-link {
     float: left;
-    padding: 2px 15px;
+    padding: 0px 15px;
 }
 
 .new_message_button {
@@ -36,7 +36,7 @@
 .alert-draft {
     font-size: 14px;
     color: hsl(170, 47%, 54%);
-    padding: 3px 12px;
+    padding: 6px 12px;
     font-weight: 400;
     display: none;
 }
