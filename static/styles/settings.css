@@ -110,7 +110,7 @@ label {
     vertical-align: top;
 
     border-radius: 4px;
-    box-shadow: 0px 0px 10px hsla(0, 0%, 0%, 0.1);
+    /* box-shadow: 0px 0px 10px hsla(0, 0%, 0%, 0.1); */
 }
 .inline-avatar{
     border-radius: 50% !important
@@ -225,6 +225,7 @@ td .button {
 
 .settings-section form {
     margin: 0;
+    margin-left: 10px;
 }
 
 .settings-section .no-padding {
@@ -276,14 +277,18 @@ td .button {
 .settings-section .tip {
     position: relative;
     display: block;
-    background-color: hsl(46, 63%, 95%);
-    border: 1px solid hsl(49, 20%, 84%);
-    border-radius: 4px;
     padding: 10px;
-    margin: 10px 0px;
     font-size: 1rem;
     line-height: 1.5;
-    color: hsl(0, 0%, 40%);
+    width: 600px;
+    border: 1px solid #A0ACBF;
+    border-radius: 100px;
+    margin: 0 auto;
+    text-align: center;
+    font-family: PingFangSC-Medium;
+    font-size: 14px;
+    color: #A0ACBF;
+    letter-spacing: 0.17px;
 }
 .settings-section .tip-labs{
     border: 1px solid #A0ACBF;
@@ -489,7 +494,7 @@ input[type=checkbox] + .inline-block {
 }
 
 .organization-settings-parent div:first-of-type {
-    margin-top: 10px;
+    margin-top: 24px;
 }
 
 .org-settings-form .organization-submission {
@@ -1061,8 +1066,8 @@ input[type=checkbox].inline-block {
 #realm-settings-icon {
     border-radius: 5px;
     box-shadow: 0px 0px 10px hsla(0, 0%, 0%, 0.1);
-    width: 100px;
-    height: 100px;
+    width: 130px;
+    height: 130px;
 }
 
 .invite-user-link i {
@@ -1172,16 +1177,17 @@ input[type=checkbox].inline-block {
 
 /* -- new settings overlay -- */
 #settings_page {
-    height: 95vh;
+    /* height: 95vh; */
     width: 97vw;
-    max-width: 1024px;
+    max-width: 1100px;
+    min-height: 690px;
     margin: 2.5vh auto;
     overflow: hidden;
     border-radius: 4px;
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-
+    margin-top: 100px;
     transition: transform 0.2s ease;
 }
 
@@ -1192,12 +1198,12 @@ input[type=checkbox].inline-block {
     height: 100%;
     overflow-y: auto;
     border-top-left-radius: 4px;
-    border-right: 1px solid hsl(0, 0%, 93%);
+    /* border-right: 1px solid hsl(0, 0%, 93%); */
 }
 
 #settings_page .sidebar .tab-container {
     padding: 6px;
-    border-bottom: 1px solid hsl(0, 0%, 86%);
+    /* border-bottom: 1px solid hsl(0, 0%, 86%); */
 }
 
 #settings_page .sidebar .settings-list {
@@ -1216,7 +1222,7 @@ input[type=checkbox].inline-block {
 #settings_page .content-wrapper .settings-header {
     width: 100%;
     height: 43px;
-    border-bottom: 1px solid hsl(0, 0%, 86%);
+    /* border-bottom: 1px solid hsl(0, 0%, 86%); */
 }
 
 #settings_page .content-wrapper .settings-header h1 .section {
@@ -1229,6 +1235,10 @@ input[type=checkbox].inline-block {
     font-size: 1.5em;
     font-weight: normal;
     line-height: 1.5;
+    font-family: PingFangSC-Medium;
+    font-size: 18px;
+    color: #333333;
+    letter-spacing: 0.22px;
 }
 
 #settings_page .settings-header.mobile {
@@ -1252,7 +1262,7 @@ input[type=checkbox].inline-block {
     overflow-y: auto;
     overflow-x: hidden;
 
-    background-color: hsla(0, 0%, 0%, 0.02);
+    /* background-color: hsla(0, 0%, 0%, 0.02); */
 }
 
 #settings_page .table-striped thead th {
@@ -1285,7 +1295,10 @@ input[type=checkbox].inline-block {
 
 #settings_page input.search {
     font-size: 0.9rem;
-    margin: 0px 0px 20px 0px;
+    margin: 20px 0px 20px 0px;
+    text-indent: 14px;
+    border: 1px solid #CCCCCC;
+    border-radius: 100px;
 }
 
 #settings_page .form-sidebar {
@@ -1489,6 +1502,8 @@ input[type=text]#settings_search {
     list-style: none;
     margin: 0;
     padding: 0;
+    margin-top: -5px;
+
 }
 
 #settings_page .sidebar li {
@@ -1797,4 +1812,126 @@ thead .actions {
 .setting-logout .text{
     flex-grow:1;
     padding: 10px 12px 10px 0px;
+}
+/* zyc添加样式 */
+#realm_icon_upload_button{
+    background: #A0ACBF;
+    border-radius: 100px;
+    width: 120px;
+    height: 35px;
+    font-family: PingFangSC-Medium;
+    font-size: 13px;
+    color: #FFFFFF;
+    letter-spacing: 0.19px;
+}
+
+#org-org-profile>.subsection-header{
+    margin-top: 54px;
+}
+#name_community{
+    width: 80px;
+    float: left;
+    line-height:30px;
+    font-size: 15px;
+    color: #333333;
+    letter-spacing: 0.18px;
+}
+#id_realm_name{
+    width: 210px;
+    height: 20px;
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+    margin-left: 20px;
+}
+#name_description{
+    width: 80px;
+    float: left;
+    line-height:30px;
+    font-family: PingFangSC-Regular;
+    font-size: 15px;
+    color: #333333;
+    letter-spacing: 0.18px;
+}
+#id_realm_description{
+    margin-left: 20px;
+    max-height: 120px;
+}
+#org-msg-editing{
+    margin-top: 20px;
+}
+#id_realm_message_content_edit_limit_minutes{
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+    width: 50px;
+    height: 20px;
+    text-align: center;
+}
+.news_editor{
+    position: relative;
+}
+#id_realm_message_content_edit_limit_minutes_label{
+    position: absolute;
+    left: 197px;
+    top: 25px;
+    width: 235px;
+}
+.admin-realm-message-content-edit-limit-minutes{
+    position: absolute;
+    left: 440px;
+    top: 21px;
+}
+.news_editor_line{
+    position: absolute;
+    position: absolute;
+    border: 1px solid #CCCCCC;
+    width: 720px;
+    left: 0px;
+    top: 63px;
+}
+.information_line{
+    position: absolute;
+    position: absolute;
+    border: 1px solid #CCCCCC;
+    width: 720px;
+    left: 0px;
+    top: 80px;
+}
+#org-org-join{
+    margin-top: 20px;
+}
+.content_wrapper_linet{
+    width: 828px;
+    height: 10px;
+    background: #f5f5f5;
+    display: block;
+    left: 10px;
+    top: 46px;
+    position: absolute;
+}
+.content_wrapper_linel{
+    width: 10px;
+    height: 722px;
+    background: #f5f5f5;
+    display: block;
+    left: 0px;
+    top: 46px;
+    position: absolute;
+}
+.content_wrapper_liner{
+    width: 10px;
+    height: 722px;
+    background: #f5f5f5;
+    display: block;
+    right: 1px;
+    top: 46px;
+    position: absolute;
+}
+.content_wrapper_lineb{
+    width: 840px;
+    height: 10px;
+    background: #f5f5f5;
+    display: block;
+    left: 0px;
+    bottom: 0;
+    position: absolute;
 }
