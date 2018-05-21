@@ -2974,9 +2974,15 @@ div.topic_edit_spinner .loading_indicator_spinner {
     width:14px;
     height:14px;
     margin-bottom:5px;
+    padding:3px;
+    margin-right:3px;
 }
 .img-settings{
     vertical-align: middle;
+    color: #A0ACBF;
+    font-size:14px;
+    padding:3px;
+    margin-bottom:5px;
 }
 .column-middle_shodowl{
     width: 10px;

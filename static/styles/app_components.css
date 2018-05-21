@@ -76,7 +76,9 @@
     outline: none;
     box-shadow: none !important;
 }
-
+.button-block{
+    border-radius:4px !important;
+}
 .new-style .button.rounded {
     border: 1px solid #999999;
     border-radius: 100px; 

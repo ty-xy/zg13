@@ -44,7 +44,7 @@ label {
 }
 
 .new-style #account-settings .grid label {
-    min-width: 120px;
+    min-width: 50px;
 }
 
 .new-style #account-settings .grid .warning {
@@ -79,14 +79,18 @@ label {
 .new-style .input-size {
     width: 214px;
 }
-
+.user-account-section{
+    float:right;
+    margin-right:128px
+}
 .user-avatar-section,
 .realm-icon-section {
     position: relative;
 }
 
 .user-avatar-section {
-    float: right;
+    float: left;
+    margin-left:30px;
 }
 
 .user-avatar-section .avatar-controls {
@@ -108,7 +112,9 @@ label {
     border-radius: 4px;
     /* box-shadow: 0px 0px 10px hsla(0, 0%, 0%, 0.1); */
 }
-
+.inline-avatar{
+    border-radius: 50% !important
+}
 #change_email_modal,
 #change_full_name_modal {
     width: 460px;
@@ -263,7 +269,7 @@ td .button {
     border-radius: 100px !important;
     height:40px;
     width:600px;
-    text-align:center;
+    text-align:center !important;
     line-height:36px;
     box-sizing: border-box;
     margin:10px auto !important
@@ -1034,6 +1040,9 @@ input[type=checkbox].inline-block {
 #user-settings-avatar:hover #user-avatar-block {
     -webkit-filter: brightness(0.4);
 }
+.avatar-img{
+    border-radius:50%;
+}
 
 #user-settings-avatar:hover #user-avatar-source {
     visibility: visible;
@@ -1747,6 +1756,62 @@ thead .actions {
 }
 .invite-controls{
     height:35px;
+}
+.form-button{
+    margin-left:52px;
+}
+.form-button:last-child{
+    margin-top:10px;
+}
+.button-common{
+    width:210px;
+    height:35px; 
+    border-radius: 4px;
+}
+.button-save{
+    background: #A0ACBF;
+    color:#fff;
+}
+.button-change{
+    background: #EF5350;
+    color:#fff
+}
+.block-end{
+    width:210px;
+    height:35px;
+    border-radius: 4px !important
+}
+.input-checkbox{
+    height:52px !important;
+    margin:0 !important;
+    line-height:52px;
+    border-bottom: 1px solid #ddd
+}
+.input-checkbox-list{
+    border-bottom:1px solid transparent !important;
+}
+.setting-logout{
+    display:flex;
+    position:fixed;
+    bottom:0;
+    padding:5px 0;
+    cursor:pointer;
+    border-top:1px solid hsl(0, 0%, 93%);
+    width:250px;
+     /* width: calc(100% - 55px); */
+}
+.icon-list{
+    width: 18px;
+    height: 18px;
+    margin: 10px 10px;
+    font-size: 1.4em;
+    color: hsl(0, 0%, 53%);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.setting-logout .text{
+    flex-grow:1;
+    padding: 10px 12px 10px 0px;
 }
 /* zyc添加样式 */
 #realm_icon_upload_button{
