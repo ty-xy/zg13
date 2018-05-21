@@ -1,13 +1,13 @@
 <div id="account-settings" class="settings-section show" data-name="your-account">
     <div class="alert" id="account-settings-status"></div>
     <div class="account-settings-form">
-        <div class="inline-block">
+        <div class="inline-block user-account-section ">
             <form class="email-change-form grid">
                 <h3>{{t "User settings" }}</h3>
                 <div class="input-group user-name-section">
                     <label class="inline-block title">{{t "Email" }}</label>
                     <a id="change_email" {{#if page_params.is_admin}}href="#change_email"{{else}}{{#unless page_params.realm_email_changes_disabled}}href="#change_email"{{/unless}}{{/if}}>
-                        <button type="button" class="button small rounded inline-block" id='email_value'
+                        <button type="button" class="button small rounded inline-block block-end" id='email_value'
                           {{#unless page_params.is_admin}}{{#if page_params.realm_email_changes_disabled}}disabled="disabled"{{/if}}{{/unless}}>
                             {{page_params.email}}
                             <i class="fa fa-pencil"></i>
@@ -32,17 +32,16 @@
                     <div class="alert change_email_info"></div>
                     <div class="modal-footer">
                         <button class="button white rounded" type="button" data-dismiss="modal">{{t "Cancel" }}</button>
-                        <button id='change_email_button' class="button rounded sea-green" data-dismiss="modal">{{t "Change" }}</button>
+                        <button id='change_email_button' class="button rounded sea-green " data-dismiss="modal">{{t "Change" }}</button>
                     </div>
                 </div>
             </form>
-
             <form class="form-horizontal full-name-change-form">
                 <div class="input-group inline-block grid user-name-parent">
                     <div class="user-name-section inline-block">
                         <label for="full_name" class="inline-block title">{{t "Full name" }}</label>
                         <a id="change_full_name" {{#if page_params.is_admin}}href="#change_email"{{else}}{{#unless page_params.realm_name_changes_disabled}}href="#change_email"{{/unless}}{{/if}}>
-                            <button type="button" class="button small white rounded inline-block" id="full_name"{{#unless page_params.is_admin}}{{#if page_params.realm_name_changes_disabled}}disabled="disabled"{{/if}}{{/unless}}>
+                            <button type="button" class="button small white rounded inline-block button-block block-end" id="full_name"{{#unless page_params.is_admin}}{{#if page_params.realm_name_changes_disabled}}disabled="disabled"{{/if}}{{/unless}}>
                                 <span id="full_name_value">{{page_params.full_name}}</span>
                                 <i class="fa fa-pencil"></i>
                             </button>
@@ -78,7 +77,7 @@
                     <label class="inline-block title">{{t "Password" }}</label>
                     <a id="change_password" {{#if page_params.realm_email_auth_enabled}}href="#change_password"{{/if}}>
                         <div class="input-group inline-block" id="pw_change_link">
-                            <button type="button" class="change_password_button small button rounded inline-block" data-dismiss="modal">********<i class="fa fa-pencil"></i>
+                            <button type="button" class="change_password_button small button rounded inline-block block-end" data-dismiss="modal">********<i class="fa fa-pencil"></i>
                             </button>
                         </div>
                     </a>
@@ -116,19 +115,23 @@
                     </div>
                 </div>
             </form>
-
-            <h3 class="inline-block" {{#unless page_params.custom_profile_fields}}style="display: none"{{/unless}}>{{t "Profile" }}</h3>
+            <div class="form-button">
+                <button class="button-common button-save">保存更改</button>
+            </div>
+            <div class="form-button">
+                <button class="button-common button-change">更改账户</button>
+            </div>
+            {{!-- <h3 class="inline-block" {{#unless page_params.custom_profile_fields}}style="display: none"{{/unless}}>{{t "Profile" }}</h3>
             <div class="alert-notification" id="custom-field-status"></div>
-            <form class="form-horizontal custom-profile-fields-form grid"></form>
+            <form class="form-horizontal custom-profile-fields-form grid"></form> --}}
 
         </div>
 
-        <div class="inline-block user-avatar-section">
+        <div class="inline-block user-avatar-section ">
             <h3>{{t "User avatar" }}</h3>
-
-            <div class="inline-block">
+            <div class="inline-block inline-avatar">
                 <div id="user-settings-avatar">
-                    <img id="user-avatar-block" src="{{ page_params.avatar_url_medium }}" />
+                    <img id="user-avatar-block avatar-img" src="{{ page_params.avatar_url_medium }}" />
                     <div id="user-avatar-source">
                         <a href="https://en.gravatar.com/" target="_blank" class="white-color">{{t "Avatar from Gravatar" }}</a>
                     </div>
@@ -174,12 +177,9 @@
             <div class="input-group">
                 <p class="api-key-note">
                     {{#tr this}}
-                    An API key can be used to programmatically access a Zulip account.
-                    Anyone with access to your API key has the ability to read your messages, send
-                    messages on your behalf, and otherwise impersonate you on Zulip, so you should
-                    guard your API key as carefully as you guard your password. <br />
-                    We recommend creating bots and using the bots' accounts and API keys to access
-                    the Zulip API, unless the task requires access to your account.
+                        可以使用API密钥以编程方式访问e建联帐户。任何有访问您的API密钥的人都有能力读取您的消息，以您的
+                    名义发送消息，并在e建联上模拟您，因此您应该谨慎地保护您的API密钥，就像您保护您的密码一样。
+                    我们建议创建机器人，并使用机器人的帐户和API键来访问e建联 API，除非任务需要访问您的帐户。
                     {{/tr}}
                 </p>
                 <button class="button rounded" id="api_key_button">{{t "Show/change your API key" }}</button>
