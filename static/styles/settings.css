@@ -1548,8 +1548,8 @@ input[type=text]#settings_search {
     margin: 10px 10px;
 
     font-size: 1.4em;
-    color: hsl(0, 0%, 53%);
-
+    /* color: hsl(0, 0%, 53%); */
+    color: #A0ACBF;
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -1758,7 +1758,7 @@ thead .actions {
     height:35px;
 }
 .form-button{
-    margin-left:52px;
+    margin-left:62px;
 }
 .form-button:last-child{
     margin-top:10px;
@@ -1933,5 +1933,22 @@ thead .actions {
     display: block;
     left: 0px;
     bottom: 0;
-    position: absolute;
+    position: fixed;
 }
+.shequ-setting{
+    width:35px;
+    height:35px;
+    margin:3px 5px 2px 0px;
+    line-height:35px;
+    text-align: center
+}
+
+.img-shequ-setting{
+    height:20px;
+    width:20px;
+    color: #A0ACBF;
+}
+.admin-img{
+    display:flex !important;
+}
+   
