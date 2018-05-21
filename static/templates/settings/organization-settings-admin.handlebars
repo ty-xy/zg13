@@ -9,14 +9,14 @@
                 <h3>{{t "Message editing" }}</h3>
                 {{ partial "settings-save-discard-widget" "section_name" "msg-editing" }}
             </div>
-            <div class="inline-block organization-settings-parent">
+            <div class="news_editor inline-block organization-settings-parent">
                 {{partial "settings_checkbox"
                   "setting_name" "realm_allow_message_editing"
                   "prefix" "id_"
                   "is_checked" realm_allow_message_editing
                   "label" admin_settings_label.realm_allow_message_editing}}
 
-                <div class="input-group disableable {{#unless realm_allow_message_editing}}control-label-disabled{{/unless}}">
+                <div class="input-group disableable {{#unless realm_allow_message_editing}}control-label-disabled{{/unless}}" style="margin-top:33px;">
                     <label for="id_realm_message_content_edit_limit_minutes"
                       id="id_realm_message_content_edit_limit_minutes_label">
                         {{t 'Message edit limit in minutes (0 for no limit)' }}
@@ -27,8 +27,8 @@
                       value="{{ realm_message_content_edit_limit_minutes }}"
                       {{#unless realm_allow_message_editing}}disabled="disabled"{{/unless}} />
                 </div>
-
-                <div class="input-group">
+                <i class="news_editor_line"></i>
+                {{!-- <div class="input-group">
                     <label class="checkbox">
                         <input type="checkbox" id="id_realm_allow_message_deleting" name="realm_allow_message_deleting"
                           {{#if realm_allow_message_deleting}}checked="checked"{{/if}} />
@@ -39,7 +39,7 @@
                     </label>
                     <i class="icon-vector-info-sign settings-info-icon realm_allow_message_deleting_tooltip" data-toggle="tooltip"
                       title="{{t 'Administrators can always delete any message.' }}"/>
-                </div>
+                </div> --}}
 
                 {{partial "settings_checkbox"
                   "setting_name" "realm_allow_edit_history"
@@ -49,7 +49,7 @@
             </div>
         </div>
 
-        <div id="org-msg-feed" class="org-subsection-parent">
+        <div id="org-msg-feed" class="org-subsection-parent" style="position:relative">
             <div class="subsection-header">
                 <h3>{{t "Message feed" }}</h3>
                 {{ partial "settings-save-discard-widget" "section_name" "msg-feed" }}
@@ -81,14 +81,15 @@
                   "label" admin_settings_label.realm_inline_image_preview}}
                 {{/if}}
 
-                {{#if server_inline_url_embed_preview}}
+                {{!-- {{#if server_inline_url_embed_preview}}
                 {{partial "settings_checkbox"
                   "setting_name" "realm_inline_url_embed_preview"
                   "prefix" "id_"
                   "is_checked" realm_inline_url_embed_preview
                   "label" admin_settings_label.realm_inline_url_embed_preview}}
-                {{/if}}
+                {{/if}} --}}
             </div>
+            <i class="information_line"></i>
         </div>
 
         <div id="org-user-defaults" class="org-subsection-parent">
