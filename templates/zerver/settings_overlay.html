@@ -10,7 +10,7 @@
     <div class="sidebar left">
         <div class="sidebar-list dark-grey small-text">
             <div class="center tab-container"></div>
-            <ul class="settings-list">
+            <ul class="settings-list" style="height: 600px;overflow: auto;">
                 <li tabindex="0" class="active" data-section="your-account">
                     <div class="icon icon-vector-user">
                         <i class="iconfont icon-yonghu"></i>
@@ -130,7 +130,11 @@
                 </li>
                 {% endif %}
             </ul>
-            <div class="setting-logout">
+            <div  id="out" class="setting-logout" style="position: fixed;
+            bottom: 2px;
+            background: #fff;
+            left: 0px;
+            height: 32px;">
                 <i class="iconfont icon-guanbi icon-list"></i> 
                 <div class="text">{{ _('Log out') }}</div>
             </div>
