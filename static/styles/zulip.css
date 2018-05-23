@@ -1520,7 +1520,7 @@ blockquote p {
 
 .last_message .messagebox-content {
     padding-bottom: 1px;
-    border-bottom: 10px solid #eee;
+    /* border-bottom: 10px solid #eee; */
     background: #fff;
 }
 
@@ -1594,8 +1594,9 @@ blockquote p {
 
 #searchbox {
     width: 100%;
-    height: 35px;
+    height: 47px;
     margin-top: 13px;
+    border-bottom: 14px solid #f2f2f2;
 }
 
 #tab_bar {
@@ -2642,7 +2643,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     display: inline-block;
     margin: 0 0 0 0;
     height: 22px;
-    background: hsl(0, 0%, 88%);
+    /* background: hsl(0, 0%, 88%); */
     padding-left: 20px;
     padding-right: 3px;
     line-height: 22px;
@@ -2695,7 +2696,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
 }
 
 #home {
-    margin-top: 20px;
+    /* margin-top: 20px; */
     margin-left: 10px;
     margin-right: 10px;
 }

@@ -1221,7 +1221,7 @@ input[type=checkbox].inline-block {
 
 #settings_page .content-wrapper .settings-header {
     width: 100%;
-    height: 43px;
+    height: 45px;
     /* border-bottom: 1px solid hsl(0, 0%, 86%); */
 }
 
@@ -1907,6 +1907,7 @@ thead .actions {
     left: 10px;
     top: 46px;
     position: absolute;
+    z-index: 100;
 }
 .content_wrapper_linel{
     width: 10px;
@@ -1933,7 +1934,9 @@ thead .actions {
     display: block;
     left: 0px;
     bottom: 0;
-    position: fixed;
+    position: absolute;
+    z-index: 100;
+
 }
 .shequ-setting{
     width:35px;
