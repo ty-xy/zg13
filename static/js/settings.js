@@ -89,7 +89,7 @@ function _setup_page() {
         map = {
             "your-account": i18n.t("Your account"),
             "display-settings": i18n.t("Display settings"),
-            notifications: i18n.t("Notifications"),
+            "notifications": i18n.t("Notifications"),
             "your-bots": i18n.t("Your bots"),
             "alert-words": i18n.t("Alert words"),
             "uploaded-files": i18n.t("Uploaded files"),
