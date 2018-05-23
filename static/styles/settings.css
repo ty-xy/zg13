@@ -1934,11 +1934,9 @@ thead .actions {
     display: block;
     left: 0px;
     bottom: 0;
-<<<<<<< HEAD
     position: absolute;
     z-index: 100;
-=======
-    position: fixed;
+
 }
 .shequ-setting{
     width:35px;
@@ -1955,6 +1953,5 @@ thead .actions {
 }
 .admin-img{
     display:flex !important;
->>>>>>> e3cc262508ceb21f424a41ab1e859d7c73724bf1
 }
    
