@@ -1520,7 +1520,7 @@ blockquote p {
 
 .last_message .messagebox-content {
     padding-bottom: 1px;
-    border-bottom: 10px solid #eee;
+    /* border-bottom: 10px solid #eee; */
     background: #fff;
 }
 

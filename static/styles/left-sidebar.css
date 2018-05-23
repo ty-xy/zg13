@@ -536,7 +536,7 @@ li.show-more-private-messages a {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background:red;
+    /* background:red; */
     margin: 30px auto 0 auto;
     overflow: hidden;
 }
