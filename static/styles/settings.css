@@ -1036,12 +1036,14 @@ input[type=checkbox].inline-block {
 
     transition: all 0.3s ease;
 }
-
+#user-settings-avatar .avatars{
+    box-shadow: none !important;
+}
 #user-settings-avatar:hover #user-avatar-block {
     -webkit-filter: brightness(0.4);
 }
 .avatar-img{
-    border-radius:50%;
+    border-radius:50% !important;
 }
 
 #user-settings-avatar:hover #user-avatar-source {
@@ -1953,5 +1955,8 @@ thead .actions {
 }
 .admin-img{
     display:flex !important;
+}
+.border-bottom{
+    margin:5px 1px !important;
 }
    
