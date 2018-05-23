@@ -270,7 +270,8 @@ search_and_check('stream:Verona topic:frontend+test', '', expect_stream_subject,
                  'frontend test - Zulip Dev - Zulip');
 
 search_and_check('subject:frontend+test', '', expect_subject,
-                 'home - Zulip Dev - Zulip');
+                 'e建联');
+                //  home - Zulip Dev - Zulip
 
 search_silent_user('sender:emailgateway@zulip.com', '');
 

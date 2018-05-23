@@ -390,6 +390,11 @@ $(function () {
             $(this).children(".left_tab_line").hide()
         }
     )
+    // zyc添加 加载用户头像和用户名显示
+    window.onload = function(){
+        $(".user_profile").attr("src",page_params.avatar_url)
+        $(".user_head_name").html(page_params.full_name)
+    }
     $(".brand").on('click', function (e) {
         if (overlays.is_active()) {
             ui_util.change_tab_to('#home');
