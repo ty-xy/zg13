@@ -285,3 +285,6 @@ def product_vip(request):
 
 def product_use(request):
     return render(request, "zerver/product_use.html")
+
+def user_documentation(request):
+    return render(request, "zerver/user_documentation.html")
