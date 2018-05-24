@@ -365,6 +365,7 @@ i18n_urls = [
     url(r'^product_solution/$', zerver.views.home.product_solution),
     url(r'^product_vip/$', zerver.views.home.product_vip),
     url(r'^product_use/$', zerver.views.home.product_use),
+    url(r'^user_documentation/$',zerver.views.home.user_documentation),
     url(r'^accounts/login/sso/$', zerver.views.auth.remote_user_sso, name='login-sso'),
     url(r'^accounts/login/jwt/$', zerver.views.auth.remote_user_jwt, name='login-jwt'),
     url(r'^accounts/login/social/(\w+)$', zerver.views.auth.start_social_login,
