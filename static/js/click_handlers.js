@@ -404,7 +404,14 @@ $(function () {
         navigate.maybe_scroll_to_selected();
         e.preventDefault();
     });
-
+    //zyc添加 out点击退出功能
+    $("#out").on('click', function (e) {
+        $("#settings_overlay_container").hide();
+        e.preventDefault();
+    });
+    $("#show_setting").on('click', function (e) {
+        $("#settings_overlay_container").show();
+    });
     // MISC
 
     (function () {
