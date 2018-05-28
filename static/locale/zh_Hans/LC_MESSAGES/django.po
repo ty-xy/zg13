@@ -153,8 +153,8 @@ msgid "Enter"
 msgstr "退出"
 
 #: templates/zerver/accounts_home.html:16
-msgid "Sign up for Zulip"
-msgstr "注册Zulip"
+msgid "Sign up for e建联"
+msgstr "注册e建联"
 
 #: templates/zerver/accounts_home.html:35
 msgid "You need an invitation to join this organization."
