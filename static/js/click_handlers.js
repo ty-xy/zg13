@@ -518,8 +518,19 @@ $(function () {
         e.stopPropagation();
         stream_list.toggle_filter_displayed(e);
     });
+    $("#management").click(function(e){
+        e.stopPropagation();
+        $("#zhome").css('display',"none")
+        var management = "<div>你好</div>"
+        $("#home").before(management);
+    })
 
-
+    // $("#save_useravatar").click(function(e){
+    //     e.stopPropagation();
+    //     console.log("进入函数体")
+    //     // location.reload();
+    //     console.log("方法结束")
+    // })
     // FEEDBACK
 
     // Keep these 2 feedback bot triggers separate because they have to

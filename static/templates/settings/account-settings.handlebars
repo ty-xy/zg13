@@ -116,7 +116,7 @@
                 </div>
             </form>
             <div class="form-button">
-                <button class="button-common button-save">保存更改</button>
+                <button class="button-common button-save"  id="save_useravatar">保存更改</button>
             </div>
             <div class="form-button">
                 <button class="button-common button-change">更改账户</button>
@@ -133,7 +133,7 @@
                 <div id="user-settings-avatar" class="avatar-img ">
                     <img id="user-avatar-block"  class ="avatar-img" src="{{ page_params.avatar_url_medium }}" />
                     <div id="user-avatar-source">
-                        <a href="https://en.gravatar.com/" target="_blank" class="white-color">{{t "Avatar from Gravatar" }}</a>
+                        <a href="https://en.gravatar.com/" target="_blank" class="white-color"></a>
                     </div>
                 </div>
                 <input type="file" name="user_avatar_file_input" class="notvisible" id="user_avatar_file_input" value="{{t 'Upload avatar' }}" />
