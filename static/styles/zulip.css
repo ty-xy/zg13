@@ -1854,7 +1854,7 @@ blockquote p {
     -moz-box-shadow: inherit;
     display: block;
     position: absolute;
-    right: 0px;
+    right: 20px;
     top: 13px;
 }
 
@@ -2951,12 +2951,23 @@ div.topic_edit_spinner .loading_indicator_spinner {
     color: #A0ACBF;
     letter-spacing: 0.22px;
 }
+/* .icon-shezhi1{
+    /* position: absolute;
+    right: 15px;
+    font-size: 24px;
+    top: 0px; */
+     /* right: 25px !important;
+    color: #A0ACBF;
+    font-size: 24px;
+   
+} */
 .icon-gonggao{
     position: absolute;
-    right: 50px;
+    right: 65px;
     font-size: 18px;
     top: 20px;
     color: #A0ACBF;
+    /* margin-right:-30px; */
 }
 .prompt_point{
     position: absolute;
@@ -3000,4 +3011,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     right: 0;
     top: 0;
     height: 1000px;
+}
+.tip-top{
+    margin-bottom:10px !important
 }
