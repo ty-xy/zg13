@@ -507,7 +507,7 @@ $(function () {
 
     $("#streams_inline_cog").click(function (e) {
         e.stopPropagation();
-        window.location.hash = "streams/all";
+        window.location.hash = "streams/subscribed";
     });
     // zyc添加
     $("#streams_inline_jia").click(function (e) {
@@ -524,7 +524,13 @@ $(function () {
         var management = "<div>你好</div>"
         $("#home").before(management);
     })
-
+    //zyc添加点击更改名称后刷新页面重新获取数据
+    $("#change_full_name_button").on('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log("进入函数");
+        location.reload();
+    });
     // $("#save_useravatar").click(function(e){
     //     e.stopPropagation();
     //     console.log("进入函数体")

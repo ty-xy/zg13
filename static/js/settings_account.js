@@ -262,6 +262,7 @@ exports.set_up = function () {
             },
         });
     });
+    
 
     $('#change_email_button').on('click', function (e) {
         e.preventDefault();
