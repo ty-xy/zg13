@@ -1029,7 +1029,7 @@ input[type=checkbox].inline-block {
 }
 
 #user-settings-avatar {
-    border-radius: 5px;
+    border-radius: 50%;
     box-shadow: 0px 0px 10px hsla(0, 0%, 0%, 0.1);
     width: 200px;
     height: 200px;
@@ -1045,7 +1045,11 @@ input[type=checkbox].inline-block {
 .avatar-img{
     border-radius:50% !important;
 }
-
+#user-avatar-block{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
 #user-settings-avatar:hover #user-avatar-source {
     visibility: visible;
 }
