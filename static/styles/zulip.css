@@ -3015,3 +3015,86 @@ div.topic_edit_spinner .loading_indicator_spinner {
 .tip-top{
     margin-bottom:10px !important
 }
+
+#management_ctn{
+    background: #fff;
+}
+.management_titleA{
+    overflow: hidden;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.my_management{
+    float: left;
+    font-size: 14px;
+    color: #666666;
+    letter-spacing: 0.17px;
+}
+.edit_management{
+    float: right;
+    font-size: 14px;
+    color: #999999;
+    letter-spacing: 0.17px;
+}
+.management_lineA{
+    border: 1px solid #CCCCCC;
+    width: 878px;
+    height: 1px;
+    display: block;
+    background: #ccc;
+    margin: 0 auto;
+    margin-top: 16px;
+}
+.management_icon{
+    margin-top: 26px;
+    display: block;
+    font-size: 20px;
+    color: #fff;
+}
+.management_text{
+    margin-top: 16px;
+    font-size: 14px;
+    color: #FFFFFF;
+    letter-spacing: 0.21px;
+}
+.all_management{
+    list-style: none;
+    overflow: hidden;
+}
+.all_management>li{
+    width: 140px;
+    height: 100px;
+    float: left;
+    /* border: 1px solid red; */
+    margin: 30px 14px;
+}
+#weekly{
+    background: #FF7072;
+    box-shadow: 2px 2px 25px 0 rgba(204,204,204,0.80);
+    border-radius: 2px;
+}
+.management_titleB{
+    overflow: hidden;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.morn_managementtext{
+    float: left;
+    font-size: 14px;
+    color: #666666;
+    letter-spacing: 0.17px;
+}
+.morn_management{
+    list-style: none;
+    overflow: hidden;
+}
+.morn_management>li{
+    width: 140px;
+    height: 100px;
+    float: left;
+    border: 1px solid #ccc;
+    margin: 30px 14px;
+    background: #53c1ae;
+}
