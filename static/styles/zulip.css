@@ -3036,6 +3036,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     font-size: 14px;
     color: #999999;
     letter-spacing: 0.17px;
+    cursor: pointer;
 }
 .management_lineA{
     border: 1px solid #CCCCCC;

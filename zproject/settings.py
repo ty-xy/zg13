@@ -950,6 +950,7 @@ PIPELINE = {
                 'styles/typing_notifications.css',
                 'styles/hotspots.css',
                 'styles/night_mode.css',
+                'styles/management.css'
             ),
             'output_filename': 'min/app.css'
         },

@@ -404,7 +404,7 @@ $(function () {
         navigate.maybe_scroll_to_selected();
         e.preventDefault();
     });
-    
+    // zyc添加 点击 管理 刷新页面
     $("#management_refresh").on('click',function(e){
         setTimeout(function(){
             location.reload();
