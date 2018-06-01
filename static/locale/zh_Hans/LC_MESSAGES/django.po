@@ -784,15 +784,15 @@ msgstr "一个或多个邮箱地址..."
 
 #: templates/zerver/invite_user.html:18
 msgid "User(s) join as"
-msgstr ""
+msgstr "用户(s)加入"
 
 #: templates/zerver/invite_user.html:21
 msgid "Regular users"
-msgstr ""
+msgstr "普通用户"
 
 #: templates/zerver/invite_user.html:24
 msgid "Organization administrators"
-msgstr ""
+msgstr "组织管理员"
 
 #: templates/zerver/invite_user.html:34
 msgid "Streams they should join"

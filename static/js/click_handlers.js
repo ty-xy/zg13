@@ -404,6 +404,12 @@ $(function () {
         navigate.maybe_scroll_to_selected();
         e.preventDefault();
     });
+    // zyc添加 点击 管理 刷新页面
+    $("#management_refresh").on('click',function(e){
+        setTimeout(function(){
+            location.reload();
+        },10)
+    })
     //zyc添加 out点击退出功能
     $("#out").on('click', function (e) {
         $("#settings_overlay_container").hide();
@@ -412,6 +418,8 @@ $(function () {
     $("#show_setting").on('click', function (e) {
         $("#settings_overlay_container").show();
     });
+
+    
     // MISC
 
     (function () {
@@ -518,12 +526,12 @@ $(function () {
         e.stopPropagation();
         stream_list.toggle_filter_displayed(e);
     });
-    $("#management").click(function(e){
-        e.stopPropagation();
-        $("#zhome").css('display',"none")
-        var management = "<div>你好</div>"
-        $("#home").before(management);
-    })
+    // $("#management").click(function(e){
+    //     e.stopPropagation();
+    //     $("#zhome").css('display',"none")
+    //     var management = "<div>你好</div>"
+    //     $("#home").before(management);
+    // })
     //zyc添加点击更改名称后刷新页面重新获取数据
     $("#change_full_name_button").on('click', function (e) {
         e.preventDefault();

@@ -950,6 +950,7 @@ PIPELINE = {
                 'styles/typing_notifications.css',
                 'styles/hotspots.css',
                 'styles/night_mode.css',
+                'styles/management.css'
             ),
             'output_filename': 'min/app.css'
         },
@@ -1165,7 +1166,8 @@ JS_SPECS = {
             'js/emoji_picker.js',
             'js/compose_ui.js',
             'js/panels.js',
-            'js/settings_ui.js'
+            'js/settings_ui.js',
+            'js/management.js',
         ],
         'output_filename': 'min/app.js'
     },
