@@ -1,42 +1,61 @@
     var management = (function () {
     var exports = {};
     $(function () {
+        $(".generate_log").on("click",function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            $(".create_generate_log").show();
+        })
+        $("#management_ctn").on("click",function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            $(".create_generate_log").hide();
+        })
+        $(".create_daily").on("click",function(e){
+            $(this).addClass("default_border").parent().siblings().children().removeClass("default_border");
+        })
+        $(".create_weekly").on("click",function(e){
+            $(this).addClass("default_border").parent().siblings().children().removeClass("default_border");
+        })
+        $(".create_monthly").on("click",function(e){
+            $(this).addClass("default_border").parent().siblings().children().removeClass("default_border");
+        })
         //点击打开周报
-        $("#weekly").on("click",function(e){
-            var zjson={
-                d1:"这是一个秋天",
-                d2:"风儿那么缠绵"
-            }
-            $(".management_siber").html("<div>"+zjson.d1+zjson.d2+"</div>")
-            $.ajax({
-                type:"",
-                url:"",
-                success:function(data){
+        // $("#weekly").on("click",function(e){
+        //     var zjson={
+        //         d1:"这是一个秋天",
+        //         d2:"风儿那么缠绵"
+        //     }
+        //     $(".management_siber").html("<div>"+zjson.d1+zjson.d2+"</div>")
+        //     $.ajax({
+        //         type:"",
+        //         url:"",
+        //         success:function(data){
 
-                }
-            })
-            $(".management_set").show();
-        })
-        //点击关闭
-        $(".close_management_set").on("click",function(){
-            $(".management_set").fadeOut();
-        })
+        //         }
+        //     })
+        //     $(".management_set").show();
+        // })
+        // //点击关闭
+        // $(".close_management_set").on("click",function(){
+        //     $(".management_set").fadeOut();
+        // })
         //拖拽效果
-        $(".management_set").on("mousedown",function(e){
-            var x =parseInt(e.pageX - $(".management_set").offset().left);
-            var y =parseInt(e.pageY - $(".management_set").offset().top); 
-            $(".management_set").bind("mousemove",function(ev){
-                var ox = ev.pageX - x;
-                var oy = ev.pageY-y;
-                $(".management_set").css({
-                    left:ox+"px",
-                    top:oy+"px"
-                })
-            })
-            $(".management_set").on("mouseup",function(e){
-                $(this).unbind("mousemove");
-            })
-        })
+        // $(".management_set").on("mousedown",function(e){
+        //     var x =parseInt(e.pageX - $(".management_set").offset().left);
+        //     var y =parseInt(e.pageY - $(".management_set").offset().top); 
+        //     $(".management_set").bind("mousemove",function(ev){
+        //         var ox = ev.pageX - x;
+        //         var oy = ev.pageY-y;
+        //         $(".management_set").css({
+        //             left:ox+"px",
+        //             top:oy+"px"
+        //         })
+        //     })
+        //     $(".management_set").on("mouseup",function(e){
+        //         $(this).unbind("mousemove");
+        //     })
+        // })
     });
     return exports;
     }());

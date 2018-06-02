@@ -121,22 +121,70 @@
     <!-- zyc -->
     <div id="management_ctn" class="empty_feed_notice">
         <div class="management_titleA">
-            <div class="my_management">我的管理</div>
-            <div class="edit_management">编辑</div>
+            <div class="my_management">待办事项</div>
+            <!-- <div class="edit_management">排序</div> -->
+            <div class="generate_log">
+                <p>一键生成日志</p>
+                <div class="create_generate_log">
+                    <i class="iconfont "></i>
+                    <ul class="create_generate_box">
+                        <li><p class="default_border create_daily">生成日报</p></li>
+                        <li><p class="create_weekly">生成周报</p></li>
+                        <li><p class="create_monthly">生成月报</p></li>
+                    </ul>
+                    <div class="create_generate_ensure">
+                        <p> 确定</p>
+                    </div>
+                </div>
+            </div>
         </div>
         <i class="management_lineA"></i>
-        <ul class="all_management">
+        <div class="new_task_box">
+            <!-- <div class="add_task"> -->
+                <!-- <p>新增任务</p> -->
+                <form action="" class="new_task">
+                    <input type="text" class="new_task_title" placeholder="请输入任务标题">
+                    <input type="datetime-local" class="new_task_date">
+                    <div class="new_task_save">保存</div>
+                    <div class="new_task_cancel">取消</div>
+                </form>
+            <!-- </div> -->
+        </div>
+        <ul class="todo_box">
+            <li class="todo">
+                <div class="todo_left">
+                        <input type="checkbox" class="add_checkbox">
+                        <p class="add_ctn">落实员工薪资发放问题，并制定详细的考勤制度落实员工薪资发放问题，并制定详细的考勤制度落实员工薪资发放问题，并制定详细的考勤制度</p>
+                </div>
+                <div class="todo_right">
+                        <i class="iconfont icon-beizhu note_icon"></i>
+                        <i class="iconfont icon-fujian1 attachment_icon"></i>
+                        <p class="add_datatime">2018-06-01</p>
+                </div>
+            </li>
+        </ul>
+        
+        <!-- <ul class="all_management">
             <li id="weekly">
                 <i class="iconfont icon-rizhi management_icon"></i>
                 <p class="management_text">周报</p>
             </li>
             <li></li>
-        </ul>
+        </ul> -->
         <div class="management_titleB">
-            <div class="morn_managementtext">更多管理</div>
+            <div class="morn_managementtext">已完成任务</div>
         </div>
         <i class="management_lineA"></i>
-        <ul class="morn_management">
+        <ul class="completed_box">
+                <li class="completed">
+                        <!-- <input type="checkbox" id="checkbox-1" class="completed_checkbox checked"/>
+                        <label for="checkbox-1" class="iconfont icon-yiwancheng"></label> -->
+                        <!-- <label for="completed_css"></label> -->
+                        <input type="checkbox" class="completed_checkbox checked" checked="checked" id="completed_css">
+                        <p class="completed_ctn">落实员工薪资发放问题，并制定详细的考</p>
+                </li>
+        </ul>  
+        <!-- <ul class="morn_management">
             <li>
                 <i class="iconfont icon-rizhi management_icon"></i>
                 <p class="management_text">周报</p>
@@ -161,7 +209,7 @@
                     <i class="iconfont icon-rizhi management_icon"></i>
                     <p class="management_text">周报</p>
             </li>
-        </ul>
+        </ul> -->
     </div>
     <div class="management_set">
         <i class="iconfont icon-guanbiUI close_management_set"></i>

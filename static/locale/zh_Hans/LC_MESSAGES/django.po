@@ -1041,7 +1041,7 @@ msgstr "所有消息"
 
 #: templates/zerver/left_sidebar.html:24
 msgid "management"
-msgstr "管理"
+msgstr "待办事项"
 
 #: templates/zerver/left_sidebar.html:17 templates/zerver/left_sidebar.html:22
 msgid "Private messages"

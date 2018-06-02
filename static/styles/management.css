@@ -17,3 +17,45 @@
 .close_management_set:hover{
     color: #666;
 }
+.generate_log{
+    /* position: relative; */
+}
+.create_generate_log{
+    position: absolute;
+    width: 144px;
+    height: 160px;
+    background: #FFFFFF;
+    box-shadow: 0 1px 10px 0 rgba(204,204,204,0.30);   
+    /* border: 1px solid #ccc; */
+    right: 114px;
+    /* margin-top: 10px; */
+    display: none;
+}
+.create_generate_box{
+    margin-top: 10px;
+}
+.create_generate_box>li{
+    list-style: none;
+    width: 108px;
+    height: 30px;
+    margin-left: -6px;
+    margin-top: 4px;
+}
+.create_generate_box>li>p{
+    background: #FFFFFF;
+    border: 1px solid #fff;
+    border-radius: 100px;
+    padding: 5px 0;
+}
+.create_generate_ensure{
+    width: 80px;
+    height: 30px;
+    background: #14A4FA;
+    border-radius: 100px;
+    color: #fff;
+    line-height: 30px;
+    margin: 0 auto;
+}
+.default_border{
+    border: 1px solid #A0ACBF!important;
+}
