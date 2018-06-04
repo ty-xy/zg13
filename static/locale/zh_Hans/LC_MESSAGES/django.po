@@ -644,7 +644,7 @@ msgid ""
 "            Learn more about starring messages <a href=\"/help/star-a-message\">\n"
 "            here</a>.\n"
 "            "
-msgstr "\n了解更多关于星标消息 <a href=\"/help/star-a-message\">这里</a>."
+msgstr "\n了解更多关于星标消息 <a href=\"javascript:void(0)\">这里</a>."
 
 #: templates/zerver/home.html:109
 msgid "You have no unread messages!"
@@ -660,7 +660,7 @@ msgid ""
 "            Learn more about mentions <a href=\"/help/at-mention-a-team-member\">\n"
 "            here</a>.\n"
 "            "
-msgstr "\n了解更多关于被提及的消息 <a href=\"/help/star-a-message\">这里</a>."
+msgstr "\n了解更多关于被提及的消息 <a href=\"javascript:void(0)\">这里</a>."
 
 #: templates/zerver/home.html:122
 msgid "Nobody has talked about that yet!"

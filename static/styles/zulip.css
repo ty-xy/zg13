@@ -3262,6 +3262,7 @@ input::-webkit-input-placeholder{
 .new_task_date{
     margin-left: 40px;
     margin-top: 5px;
+    border-radius: 100px;
 }
 .new_task_save{
     float: left;
