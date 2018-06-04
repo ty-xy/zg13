@@ -60,13 +60,16 @@
 					// e.preventDefault();
             		// e.stopPropagation();
             		// $(".create_generate_log").show();
-					
+					$(".close_calendar").on("click",function(e){
+						$("#schedule-box").hide();
+					})
 					render();
 				}
 			},false)
 		}
 		var init = function () {
 			var scheduleHd = '<div class="schedule-hd">'+
+								'<i class="iconfont icon-guanbiUI close_calendar"></i>'+
 								'<div>'+
 									'<span class="arrow icon iconfont icon-116leftarrowheads" id="prevYear" ></span>'+
 									'<span class="arrow icon iconfont icon-112leftarrowhead" id="prevMonth"></span>'+

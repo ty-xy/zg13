@@ -7,7 +7,8 @@
             $(".create_generate_log").show();
         })
         $("#management_ctn").on("click",function(e){
-            e.preventDefault();
+            // console.log("修改成功")
+            // e.preventDefault();
             e.stopPropagation();
             $(".create_generate_log").hide();
         })
@@ -19,6 +20,29 @@
         })
         $(".create_monthly").on("click",function(e){
             $(this).addClass("default_border").parent().siblings().children().removeClass("default_border");
+        })
+
+        $(".new_task_save").on("click",function(e){
+            let inttitle = $(".new_task_title").val();
+            let inttime = $(".new_task_date").val();
+            $.ajax({
+                type:"GET",
+                url:"",
+                data:{
+                    "inttitle":inttitle,
+                    "inttime":inttime
+                },
+                success:function(res){
+
+                },
+                error:function(rej){
+
+                }
+            })
+        })
+        $(".new_task_cancel").on("click",function(e){
+            $(".new_task_title").val("");
+            $(".new_task_date").val("")
         })
         //点击打开周报
         // $("#weekly").on("click",function(e){
@@ -78,9 +102,15 @@
 	});
     //初始化日历
     $(".new_task_date").on("click",function(e){
-        $("#schedule-box").show();
-    })
+        // console.log("hello2")
+            // $("#prevYear").before("<i class='iconfont icon-guanbiUI close_calendar'></i>")
+            $("#schedule-box").show();
+        })
     });
+
+    // $(".close_calendar").on("click",function(e){
+    //     $("#schedule-box").hide();
+    // })
     return exports;
     }());
     

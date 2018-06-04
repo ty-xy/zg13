@@ -3261,8 +3261,10 @@ input::-webkit-input-placeholder{
 }
 .new_task_date{
     margin-left: 40px;
-    margin-top: 5px;
-    border-radius: 100px;
+    /* margin-top: 5px!important; */
+    border-radius: 100px!important;
+    height: 30px!important;
+    text-indent: 10px;
 }
 .new_task_save{
     float: left;
