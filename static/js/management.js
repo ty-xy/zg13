@@ -21,7 +21,9 @@
         $(".create_monthly").on("click",function(e){
             $(this).addClass("default_border").parent().siblings().children().removeClass("default_border");
         })
-
+        $(".new_task_title").on("click",function(e){
+            $("#search_query").val("");
+        })
         $(".new_task_save").on("click",function(e){
             let inttitle = $(".new_task_title").val();
             let inttime = $(".new_task_date").val();

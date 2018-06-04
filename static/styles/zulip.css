@@ -3018,6 +3018,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
 
 #management_ctn{
     background: #fff;
+    min-width: 924px;
 }
 .management_titleA{
     overflow: hidden;
