@@ -363,7 +363,7 @@ ul{
     left: -201px;
     top: 0;
     z-index: 111;
-    /* display: none; */
+    display: none;
 }
 .taskdetail_records_box{
     width: 540px;
