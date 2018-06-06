@@ -1949,7 +1949,7 @@ legend + .control-group {
 
 .form-horizontal .control-label {
   float: left;
-  width: 160px;
+  width: 160px!important;
   padding-top: 5px;
   text-align: right;
 }

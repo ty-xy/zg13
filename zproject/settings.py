@@ -1168,6 +1168,7 @@ JS_SPECS = {
             'js/panels.js',
             'js/settings_ui.js',
             'js/management.js',
+            'js/schedule.js',
         ],
         'output_filename': 'min/app.js'
     },

@@ -121,47 +121,153 @@
     <!-- zyc -->
     <div id="management_ctn" class="empty_feed_notice">
         <div class="management_titleA">
-            <div class="my_management">我的管理</div>
-            <div class="edit_management">编辑</div>
+            <div class="my_management">待办事项</div>
+            <!-- <div class="edit_management">排序</div> -->
+            <div class="generate_log">
+                <p>一键生成日志</p>
+                <div class="create_generate_log">
+                    <i class="iconfont "></i>
+                    <ul class="create_generate_box">
+                        <li><p class="default_border create_daily">生成日报</p></li>
+                        <li><p class="create_weekly">生成周报</p></li>
+                        <li><p class="create_monthly">生成月报</p></li>
+                    </ul>
+                    <div class="create_generate_ensure">
+                        <p> 确定</p>
+                    </div>
+                </div>
+            </div>
         </div>
         <i class="management_lineA"></i>
-        <ul class="all_management">
+        <div class="new_task_box">
+            <!-- <div class="add_task"> -->
+                <!-- <p>新增任务</p> -->
+                <form action="" class="new_task">
+                    <input type="text" class="new_task_title" placeholder="请输入任务标题">
+                    <input type="text" class="new_task_date" placeholder="请选择日期">
+                    <div class="new_task_save">保存</div>
+                    <div class="new_task_cancel">取消</div>
+                </form>
+            <!-- </div> -->
+                 <!-- 日历展示 -->
+                <div id="schedule-box" class="boxshaw"><div class="schedule-hd"><div><span class="arrow icon iconfont icon-116leftarrowheads" id="prevYear"></span><span class="arrow icon iconfont icon-112leftarrowhead" id="prevMonth"></span></div><div class="today">2018-06-09</div><div><span class="arrow icon iconfont icon-111arrowheadright" id="nextMonth"></span><span class="arrow icon iconfont icon-115rightarrowheads" id="nextYear"></span></div></div><ul class="week-ul ul-box"><li>日</li><li>一</li><li>二</li><li>三</li><li>四</li><li>五</li><li>六</li></ul><ul class="schedule-bd ul-box"><li class="other-month"><span class="dayStyle">27</span></li><li class="other-month"><span class="dayStyle">28</span></li><li class="other-month"><span class="dayStyle">29</span></li><li class="other-month"><span class="dayStyle">30</span></li><li class="other-month"><span class="dayStyle">31</span></li><li class="current-month"><span title="2018-06-01" class="currentDate dayStyle ">1</span></li><li class="current-month"><span title="2018-06-02" class="currentDate dayStyle today-flag">2</span></li><li class="current-month"><span title="2018-06-03" class="currentDate dayStyle ">3</span></li><li class="current-month"><span title="2018-06-04" class="currentDate dayStyle ">4</span></li><li class="current-month"><span title="2018-06-05" class="currentDate dayStyle ">5</span></li><li class="current-month"><span title="2018-06-06" class="currentDate dayStyle ">6</span></li><li class="current-month"><span title="2018-06-07" class="currentDate dayStyle ">7</span></li><li class="current-month"><span title="2018-06-08" class="currentDate dayStyle ">8</span></li><li class="current-month"><span title="2018-06-09" class="currentDate dayStyle selected-style">9</span></li><li class="current-month"><span title="2018-06-10" class="currentDate dayStyle ">10</span></li><li class="current-month"><span title="2018-06-11" class="currentDate dayStyle ">11</span></li><li class="current-month"><span title="2018-06-12" class="currentDate dayStyle ">12</span></li><li class="current-month"><span title="2018-06-13" class="currentDate dayStyle ">13</span></li><li class="current-month"><span title="2018-06-14" class="currentDate dayStyle ">14</span></li><li class="current-month"><span title="2018-06-15" class="currentDate dayStyle ">15</span></li><li class="current-month"><span title="2018-06-16" class="currentDate dayStyle ">16</span></li><li class="current-month"><span title="2018-06-17" class="currentDate dayStyle ">17</span></li><li class="current-month"><span title="2018-06-18" class="currentDate dayStyle ">18</span></li><li class="current-month"><span title="2018-06-19" class="currentDate dayStyle ">19</span></li><li class="current-month"><span title="2018-06-20" class="currentDate dayStyle ">20</span></li><li class="current-month"><span title="2018-06-21" class="currentDate dayStyle ">21</span></li><li class="current-month"><span title="2018-06-22" class="currentDate dayStyle ">22</span></li><li class="current-month"><span title="2018-06-23" class="currentDate dayStyle ">23</span></li><li class="current-month"><span title="2018-06-24" class="currentDate dayStyle ">24</span></li><li class="current-month"><span title="2018-06-25" class="currentDate dayStyle ">25</span></li><li class="current-month"><span title="2018-06-26" class="currentDate dayStyle ">26</span></li><li class="current-month"><span title="2018-06-27" class="currentDate dayStyle ">27</span></li><li class="current-month"><span title="2018-06-28" class="currentDate dayStyle ">28</span></li><li class="current-month"><span title="2018-06-29" class="currentDate dayStyle ">29</span></li><li class="current-month"><span title="2018-06-30" class="currentDate dayStyle ">30</span></li></ul></div>  
+                <input id="h3Ele" type="hidden"></input>
+        <!-- 日历展示 -->
+        </div>
+        <ul class="todo_box">
+            <li class="todo">
+                <div class="todo_left">
+                        <input type="checkbox" class="add_checkbox">
+                        <p class="add_ctn">落实员工薪资发放问题，并制定详细的考勤制度落实员工薪资发放问题，并制定详细的考勤制度落实员工薪资发放问题，并制定详细的考勤制度</p>
+                </div>
+                <div class="todo_right">
+                        <i class="iconfont icon-beizhu note_icon"></i>
+                        <i class="iconfont icon-fujian1 attachment_icon"></i>
+                        <p class="add_datatime">2018-06-01</p>
+                </div>
+            </li>
+        </ul>
+        <!-- <ul class="all_management">
             <li id="weekly">
                 <i class="iconfont icon-rizhi management_icon"></i>
                 <p class="management_text">周报</p>
             </li>
             <li></li>
-        </ul>
+        </ul> -->
         <div class="management_titleB">
-            <div class="morn_managementtext">更多管理</div>
+            <div class="morn_managementtext">已完成任务</div>
         </div>
         <i class="management_lineA"></i>
-        <ul class="morn_management">
-            <li>
-                <i class="iconfont icon-rizhi management_icon"></i>
-                <p class="management_text">周报</p>
-            </li>
-            <li>
-                    <i class="iconfont icon-rizhi management_icon"></i>
-                    <p class="management_text">周报</p>
-            </li>
-            <li>
-                    <i class="iconfont icon-rizhi management_icon"></i>
-                    <p class="management_text">周报</p>
-            </li>
-            <li>
-                    <i class="iconfont icon-rizhi management_icon"></i>
-                    <p class="management_text">周报</p>
-            </li>
-            <li>
-                    <i class="iconfont icon-rizhi management_icon"></i>
-                    <p class="management_text">周报</p>
-            </li>
-            <li>
-                    <i class="iconfont icon-rizhi management_icon"></i>
-                    <p class="management_text">周报</p>
-            </li>
+        <ul class="completed_box">
+                <li class="completed">
+                        <!-- <input type="checkbox" id="checkbox-1" class="completed_checkbox checked"/>
+                        <label for="checkbox-1" class="iconfont icon-yiwancheng"></label> -->
+                        <!-- <label for="completed_css"></label> -->
+                        <input type="checkbox" class="completed_checkbox checked" checked="checked" id="completed_css">
+                        <p class="completed_ctn">落实员工薪资发放问题，并制定详细的考</p>
+                </li>
         </ul>
+        <!-- 任务详情 -->
+       <div class="taskdetail_md">
+            <div class="taskdetail_box">    
+                <div class="taskdetail_head">
+                    <p class="taskdetail_title">任务详情</p>
+                    <i class="iconfont icon-guanbiUI taskdetail_close"></i>
+                </div>  
+                <div class="taskdetail_ctn">
+                    <!-- <label for="taskdetail_check" class="inonfont unfinished taskdetail_label"></label> -->
+                    <input type="checkbox" class="taskdetail_state" id="taskdetail_check">
+                    <p class="taskdetail_list">落实员工薪资发放问题，并制定详细的考勤制度</p>
+                </div>
+                <textarea name="" id="taskdetail_addnote" cols="30" rows="10" placeholder="添加备注..."></textarea>
+                <i class="taskdetail_lineA"></i>
+                <div class="taskdetail_date_box">
+                    <i class="iconfont"></i>
+                    <p class="taskdetail_set">设定日期</p>
+                </div>
+                <div class="taskdetail_selection">
+                    <div class="taskdetail_selection_left">
+                        <p class="">任务开始时间</p>
+                        <p class="">请选择</p>
+                    </div>
+                    <div class="taskdetail_selection_right">
+                        <p>任务截止时间</p>
+                        <p>6月10日</p>
+                    </div>
+                </div>
+                <i class="taskdetail_lineA"></i>
+                <div class="taskdetail_upfile_box">
+                    <i class="iconfont icon-fujian1 upfile_icon"></i>
+                    <p class="taskdetail_addattachment">添加附件</p>
+                    <p class="taskdetail_upfile">上传文件</p>
+                </div>
+                <ul class="taskdetail_attachment_box">
+                    <li class="taskdetail_attachment">
+                        <div class="taskdetail_attachment_left">
+                            <img src="../../static/img/pnglogo.png" alt="">
+                            <p>工程项目报表.jpg</p>
+                            <p>
+                                <span>3.29MB</span>
+                                <span>09:31</span>
+                            </p>
+                        </div>
+                        <div class="taskdetail_attachment_right">
+                            <span class="taskdetail_download">下载</span>
+                            <span class="taskdetail_delete">删除</span>
+                        </div>
+                    </li>
+                </ul>
+                <div class="taskdetail_records_box">
+                    <div>
+                        操作记录
+                    </div>
+                    <ul class="taskdetail_records">
+                        <li>
+                            <i></i>
+                            <p class="taskdetail_text">
+                                <span>创建了任务</span>
+                                <span>5月11日</span>
+                            </p>
+                        </li>
+                        <li>
+                                <i></i>
+                                <p class="taskdetail_text">
+                                    <span>创建了任务</span>
+                                    <span>5月11日</span>
+                                </p>
+                        </li>
+                        <li>
+                                <i></i>
+                                <p class="taskdetail_text">
+                                    <span>创建了任务</span>
+                                    <span>5月11日</span>
+                                </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+       </div>
+         <!-- 任务详情 -->
     </div>
     <div class="management_set">
         <i class="iconfont icon-guanbiUI close_management_set"></i>

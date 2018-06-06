@@ -408,7 +408,7 @@ $(function () {
     $("#management_refresh").on('click',function(e){
         setTimeout(function(){
             location.reload();
-        },10)
+        },0)
     })
     //zyc添加 out点击退出功能
     $("#out").on('click', function (e) {

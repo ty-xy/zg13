@@ -261,6 +261,9 @@ exports.set_up = function () {
                 ui_report.error(i18n.t("Failed"), xhr, change_full_name_info);
             },
         });
+
+        console.log("helo")
+        location.reload();
     });
     
 
