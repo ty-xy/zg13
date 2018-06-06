@@ -46,6 +46,24 @@
             $(".new_task_title").val("");
             $(".new_task_date").val("")
         })
+
+        $(".add_ctn").on("click",function(e){
+            console.log("任务执行了")
+            $(".taskdetail_md").show();
+        })
+        $(".taskdetail_md").on("click",function(e){
+            e.stopPropagation();
+            e.preventDefault();
+            $(".taskdetail_md").hide();
+        })
+        $(".taskdetail_box").on("click",function(e){
+            e.stopPropagation();
+            // e.preventDefault();
+            console.log(":1231")
+        })
+        $(".taskdetail_close").on("click",function(e){
+            $(".taskdetail_md").hide();
+        })
         //点击打开周报
         // $("#weekly").on("click",function(e){
         //     var zjson={
@@ -113,6 +131,14 @@
     // $(".close_calendar").on("click",function(e){
     //     $("#schedule-box").hide();
     // })
+
+    //label图标切换
+    // $("label").on("click",function(e){
+    //     var taskdetail_s = $("#taskdetail_check");
+    //     console.log("hello")
+    //     console.log(taskdetail_s)
+    // })
+    
     return exports;
     }());
     

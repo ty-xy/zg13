@@ -3166,6 +3166,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     white-space: nowrap; 
     overflow: hidden; 
     width: 600px;
+    cursor: pointer;
 }
 .note_icon{
     float: left;
@@ -3277,6 +3278,7 @@ input::-webkit-input-placeholder{
     line-height: 30px;
     margin-top: 5px;
     margin-left: 20px;
+    cursor: pointer;
 }
 .new_task_cancel{
     float: left;
@@ -3288,4 +3290,5 @@ input::-webkit-input-placeholder{
     line-height: 30px;
     margin-top: 5px;
     margin-left: 20px;
+    cursor: pointer;
 }
