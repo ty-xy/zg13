@@ -22,14 +22,17 @@
 }
 .create_generate_log{
     position: absolute;
-    width: 144px;
-    height: 160px;
+    width: 1300px;
+    height: 800px;
     background: #FFFFFF;
-    box-shadow: 0 1px 10px 0 rgba(204,204,204,0.30);   
+    box-shadow: 0 1px 10px 0 rgba(204,204,204,0.30);
     /* border: 1px solid #ccc; */
-    right: 114px;
+    /* right: 114px; */
     /* margin-top: 10px; */
-    display: none;
+    /* display: none; */
+    z-index: 111;
+    left: -89px;
+    top: 50px;
 }
 .create_generate_box{
     margin-top: 10px;
@@ -387,4 +390,205 @@ ul{
     color: #999999;
     letter-spacing: 0.15px;
     text-align: left;
+}
+
+/* 一键生成日志样式 */
+.generate_log_left{
+    width: 200px;
+    height: 800px;
+    background: #354052;
+    overflow: hidden;
+}
+.generate_log_sliber{
+    list-style: none;
+    margin: 0;
+    overflow: hidden;
+    margin-top: 14px;
+}
+.generate_log_sliber>li{
+    margin: 14px 69px;
+    font-size: 15px;
+    color: #A0ACBF;
+    letter-spacing: 0.18px;
+    cursor: pointer;
+}
+.generate_log_left{
+    float: left;
+}
+.generate_log_right{
+    float: left;
+}
+.generate_log_head{
+    width: 1100px;
+    height: 60px;
+    overflow: hidden;
+    line-height: 60px;
+}
+.generate_log_head>p:nth-of-type(1){
+    font-size: 15px;
+    color: #A0ACBF;
+    letter-spacing: 0.22px;
+    float: left;
+    margin-left: 30px;
+}
+.generate_log_head>i:nth-of-type(1){
+    border: 1px solid #A0ACBF;
+    float: left;
+    display: block;
+    height: 20px;
+    width: -1px;
+    background: #A0ACBF;
+    margin-left: 16px;
+    margin-top: 19px;
+}
+.generate_log_head>p:nth-of-type(2){
+    font-size: 15px;
+    color: #A0ACBF;
+    letter-spacing: 0.22px;
+    float: left;
+    margin-left: 20px;
+}
+.generate_log_close{
+    color: #999;
+    position: absolute;
+    right: 20px;
+    font-size: 16px;
+}
+.generate_log_ctn{
+    width: 1000px;
+    margin: 0 auto;
+}
+.generate_log_finished{
+    font-size: 15px;
+    color: #666666;
+    letter-spacing: 0.18px;
+    text-align: left;
+}
+.generate_log_finished_text{
+    width: 1000px;
+    min-height: 125px;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    resize: none;
+    margin-top: 22px;
+}
+.generate_log_unfinished{
+    font-size: 15px;
+    color: #666666;
+    letter-spacing: 0.18px;
+    text-align: left;
+}
+.generate_log_unfinished_text{
+    width: 1000px;
+    min-height: 62px;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    resize: none;
+    margin-top: 22px;
+}
+.generate_log_pdfinished{
+    font-size: 15px;
+    color: #666666;
+    letter-spacing: 0.18px;
+    text-align: left;
+}
+.generate_log_pdfinished_text{
+    width: 1000px;
+    min-height: 62px;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    resize: none;
+    margin-top: 22px;
+}
+.generate_log_plan{
+    font-size: 15px;
+    color: #666666;
+    letter-spacing: 0.18px;
+    text-align: left;
+    margin-top: 10px;
+}
+.generate_log_plan_box{
+    width: 1000px;
+    margin: 0;
+}
+.generate_log_plan_ctn{
+    width: 1000px;
+    height: 50px;
+    background: #F7F7F7;
+    border-radius: 2px;
+    margin: 0;
+    overflow: hidden;
+    margin-top: 20px;
+}
+.generate_log_plan_ctn>:first-child{
+    float: left;
+    font-size: 16px;
+    margin: 18px 10px;
+}
+.generate_log_plan_ctn>p:nth-of-type(1){
+    float: left;
+    line-height: 50px;
+    font-size: 14px;
+    color: #666666;
+    letter-spacing: 0.17px;
+}
+.generate_log_plan_ctn>p:nth-of-type(2){
+    float: left;
+    line-height: 50px;
+    margin-left: 40px;
+    font-size: 13px;
+    color: #999999;
+    letter-spacing: 0.16px;
+}
+.generate_log_plan_ctn>p:nth-of-type(3){
+    float: right;
+    line-height: 50px;
+}
+.generate_log_plan_editor{
+    font-size: 14px;
+    color: #999999;
+    letter-spacing: 0.17px;
+    margin-right: 20px;
+}
+.generate_log_plan_delete{
+    font-size: 14px;
+    color: #999999;
+    letter-spacing: 0.17px;
+    margin-right: 20px;
+}
+.generate_log_plan_lineA{
+    width: 1000px;
+    height: 2px;
+    background: #ccc;
+    display: block;
+}
+.generate_log_addattachment{
+    font-size: 15px;
+    color: #666666;
+    letter-spacing: 0.18px;
+    text-align: left;
+    margin-top: 20px;
+}
+.generate_log_upfile{
+    font-size: 13px;
+    color: #999999;
+    letter-spacing: 0.19px;
+    border: 1px solid #A0ACBF;
+    padding: 4px 30px;
+    width: 80px;
+    height: 28px;
+    border-radius: 100px;
+    line-height: 28px;
+    margin-top: 20px;
+}
+.generate_log_upfile_box{
+    overflow: hidden;
+}
+.generate_log_upfile{
+    float: left;
+}
+.generate_log_pack{
+    float: left;
+    overflow: hidden;
+    width: 160px;
 }

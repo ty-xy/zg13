@@ -6,12 +6,12 @@
             e.stopPropagation();
             $(".create_generate_log").show();
         })
-        $("#management_ctn").on("click",function(e){
-            // console.log("修改成功")
-            // e.preventDefault();
-            e.stopPropagation();
-            $(".create_generate_log").hide();
-        })
+        // $("#management_ctn").on("click",function(e){
+        //     // console.log("修改成功")
+        //     // e.preventDefault();
+        //     e.stopPropagation();
+        //     $(".create_generate_log").hide();
+        // })
         $(".create_daily").on("click",function(e){
             $(this).addClass("default_border").parent().siblings().children().removeClass("default_border");
         })
