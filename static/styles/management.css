@@ -21,7 +21,7 @@
     /* position: relative; */
 }
 .create_generate_log{
-    position: absolute;
+    position: fixed;
     width: 1300px;
     height: 800px;
     background: #FFFFFF;
@@ -29,9 +29,9 @@
     /* border: 1px solid #ccc; */
     /* right: 114px; */
     /* margin-top: 10px; */
-    /* display: none; */
+    display: none;
     z-index: 111;
-    left: -89px;
+    left: 300px;
     top: 50px;
 }
 .create_generate_box{
@@ -453,9 +453,13 @@ ul{
     position: absolute;
     right: 20px;
     font-size: 16px;
+    height: 16px;
+    cursor: pointer;
 }
 .generate_log_ctn{
-    width: 1000px;
+    width: 1014px;
+    height: 740px;
+    overflow: auto;
     margin: 0 auto;
 }
 .generate_log_finished{
@@ -590,5 +594,97 @@ ul{
 .generate_log_pack{
     float: left;
     overflow: hidden;
-    width: 160px;
+    width: 210px;
+    margin-top: 14px;
+    margin-left: 20px;
+}
+.generate_log_pack_left{
+    width: 50px;
+    height: 50px;
+    float: left;
+}
+.generate_log_pack_left>:first-child{
+    margin: 10px;
+}
+.generate_log_pack_right{
+    width: 150px;
+    height: 50px;
+    float: left;
+    text-align: left;
+}
+.generate_log_pack_right>:first-child{
+    font-size: 14px;
+    color: #333333;
+    letter-spacing: 0.15px;
+    margin-bottom: 1px;
+    margin-top: 5px;
+}
+.generate_log_pack_right>:last-child{
+    font-size: 11px;
+    color: #999999;
+    letter-spacing: 0.12px;
+}
+.generate_log_send{
+    font-size: 15px;
+    color: #666666;
+    letter-spacing: 0.18px;
+    text-align: left;
+    margin-top: 10px;
+}
+.generate_log_member_box{
+    list-style: none;
+    margin: 0;
+    overflow: hidden;
+}
+.generate_log_member_box>li{
+    float: left;
+    padding: 0 10px;
+}
+.generate_log_member{
+    float: left;
+}
+.generate_log_member_avatar{
+    width: 70px;
+    height: 70px;
+    background: #58d321;
+    border-radius: 50%;
+    margin-top: 20px;
+}
+.generate_log_member_name{
+    font-size: 15px;
+    color: #666666;
+    letter-spacing: 0.18px;
+    margin-top: 10px;
+}
+.generate_log_member_addlogo{
+    width: 68px;
+    height: 68px;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 25px 0 rgba(204,204,204,0.80);
+    border-radius: 50%;
+    margin-top: 20px;
+}
+.generate_log_member_addlogo>:first-child{
+    width: 20px;
+    height: 20px;
+    margin: 25px 0;
+}
+.generate_log_member_add{
+    font-size: 15px;
+    color: #666666;
+    letter-spacing: 0.18px;
+    margin-top: 10px;
+}
+.generate_log_submit{
+    width: 330px;
+    height: 55px;
+    margin: 0 auto;
+    background: #14A4FA;
+    border-radius: 3px;
+    font-size: 17px;
+    color: #FFFFFF;
+    letter-spacing: 0.27px;
+    line-height: 55px;
+    margin-top: 20px;
+    margin-bottom: 100px;
 }

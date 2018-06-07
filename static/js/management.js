@@ -64,6 +64,9 @@
         $(".taskdetail_close").on("click",function(e){
             $(".taskdetail_md").hide();
         })
+        $(".generate_log_close").on("click",function(e){
+            $(".create_generate_log").hide();
+        })
         //点击打开周报
         // $("#weekly").on("click",function(e){
         //     var zjson={
