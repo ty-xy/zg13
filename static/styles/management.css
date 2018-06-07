@@ -159,6 +159,7 @@ ul{
     left: 400px;
     top: 200px;
     overflow: auto;
+    border-radius: 3px;
 }
 .taskdetail_head{
     background: #FFFFFF;
@@ -239,6 +240,7 @@ ul{
     color: #999999;
     letter-spacing: 0.22px;
     text-align: left;
+    margin-left: 25px;
 }
 .taskdetail_selection{
     width: 500px;
@@ -314,9 +316,9 @@ ul{
 .taskdetail_attachment{
     width: 500px;
     height: 52px;
-    margin: 6px auto;
+    margin: 12px auto;
     background: #F7F7F7;
-    border: 1px solid #A0ACBF;
+    border: 1px solid #fff;
     border-radius: 3px;
     overflow: hidden;
 }
@@ -326,6 +328,7 @@ ul{
 }
 .taskdetail_attachment_right{
     float: right;
+    display: none;
 }
 .taskdetail_attachment_left>:first-child{
     float: left;
@@ -350,6 +353,7 @@ ul{
     /* margin: 18px 20px; */
     line-height: 56px;
     margin-right: 20px;
+    cursor: pointer;
 }
 .taskdetail_delete{
     font-size: 14px;
@@ -357,10 +361,11 @@ ul{
     letter-spacing: 0.23px;
     line-height: 56px;
     margin-right: 20px;
+    cursor: pointer;
 }
 .taskdetail_md{
-    width: 150%;
-    height: 118%;
+    width: 163%;
+    height: 143%;
     background: rgba(0,0,0,0.30);
     position: absolute;
     left: -201px;
@@ -372,7 +377,7 @@ ul{
     width: 540px;
     background: #F3F3F3;
     overflow: hidden;
-
+    margin-top: 50px;
 }
 .taskdetail_records_box>:first-child{
     margin-left: 20px;
@@ -380,7 +385,7 @@ ul{
     font-size: 15px;
     color: #999999;
     letter-spacing: 0.22px;
-    margin-top: 10px;
+    margin-top: 20px;
 }
 .taskdetail_records{
     
@@ -584,6 +589,7 @@ ul{
     border-radius: 100px;
     line-height: 28px;
     margin-top: 20px;
+    cursor: pointer;
 }
 .generate_log_upfile_box{
     overflow: hidden;
@@ -593,15 +599,25 @@ ul{
 }
 .generate_log_pack{
     float: left;
-    overflow: hidden;
+    /* overflow: hidden; */
     width: 210px;
     margin-top: 14px;
     margin-left: 20px;
+    position: relative;
 }
 .generate_log_pack_left{
     width: 50px;
     height: 50px;
     float: left;
+    border: 1px solid #ccc;
+    margin-right: 5px;
+}
+.generate_log_pack_delete{
+    position: absolute;
+    left: 41px;
+    top: -8px;
+    color: #EF5350;
+    font-size: 20px;
 }
 .generate_log_pack_left>:first-child{
     margin: 10px;
@@ -663,6 +679,7 @@ ul{
     box-shadow: 2px 2px 25px 0 rgba(204,204,204,0.80);
     border-radius: 50%;
     margin-top: 20px;
+    cursor: pointer;
 }
 .generate_log_member_addlogo>:first-child{
     width: 20px;
@@ -687,4 +704,8 @@ ul{
     line-height: 55px;
     margin-top: 20px;
     margin-bottom: 100px;
+}
+.set_date_icon{
+    float: left;
+    color: #999;
 }

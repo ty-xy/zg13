@@ -2075,6 +2075,7 @@ div.floating_recipient {
     display: block;
     height: 464px!important;
     background: #fff;
+    width: 962px;
 }
 
 .loading_indicator_spinner {

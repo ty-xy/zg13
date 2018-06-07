@@ -67,6 +67,15 @@
         $(".generate_log_close").on("click",function(e){
             $(".create_generate_log").hide();
         })
+
+        $(".taskdetail_attachment").on("mousemove",function(e){
+            $(this).css("border","1px solid #A0ACBF")
+            $(this).children().last().show();
+        })
+        $(".taskdetail_attachment").on("mouseleave",function(e){
+            $(this).css("border","1px solid #fff")
+            $(this).children().last().hide();
+        })
         //点击打开周报
         // $("#weekly").on("click",function(e){
         //     var zjson={
