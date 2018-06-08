@@ -61,11 +61,6 @@
             // e.preventDefault();
             console.log(":1231")
         })
-        $(".taskdetail_selectionbtn").on("click",function(e){
-            console.log(2222122313123)
-            $("#schedule-box").css("z-index","1111");
-            $("#schedule-box").show();
-        })
         $(".taskdetail_close").on("click",function(e){
             $(".taskdetail_md").hide();
         })
@@ -81,6 +76,48 @@
             $(this).css("border","1px solid #fff")
             $(this).children().last().hide();
         })
+        $(".taskdetail_selectionbtn").on("click",function(e){
+            // $(".taskdetail_selectionbtn").append()
+        })
+ 
+       
+            $.fn.datetimepicker.dates['zh-CN'] = {  
+                days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],  
+                daysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],  
+                daysMin:  ["日", "一", "二", "三", "四", "五", "六", "日"],  
+                months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],  
+                monthsShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],  
+                today: "今日",  
+                suffix: [],  
+                meridiem: ["上午", "下午"],  
+                weekStart: 1  
+            };  
+  
+            $('#datetimepicker').datetimepicker({  
+                language:"zh-CN",  
+                todayHighlight: true,  
+                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                weekStart:1  
+            });  
+            $('#taskstart_datetimepicker').datetimepicker({  
+                language:"zh-CN",  
+                todayHighlight: true,  
+                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                weekStart:1  
+            });  
+            $('#taskstop_datetimepicker').datetimepicker({  
+                language:"zh-CN",  
+                todayHighlight: true,  
+                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                weekStart:1  
+            });  
+            $('#newplan_datetimepicker').datetimepicker({  
+                language:"zh-CN",  
+                todayHighlight: true,  
+                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                weekStart:1  
+            });  
+  
         //点击打开周报
         // $("#weekly").on("click",function(e){
         //     var zjson={
@@ -118,31 +155,31 @@
         //     })
         // })
     //初始化日历
-	var mySchedule = new Schedule({
-		el: '#schedule-box',
-		//date: '2018-9-20',
-		clickCb: function (y,m,d) {
-			document.querySelector('#h3Ele').innerHTML = '日期：'+y+'-'+m+'-'+d	
-		},
-		nextMonthCb: function (y,m,d) {
-			document.querySelector('#h3Ele').innerHTML = '日期：'+y+'-'+m+'-'+d	
-		},
-		nextYeayCb: function (y,m,d) {
-			document.querySelector('#h3Ele').innerHTML = '日期：'+y+'-'+m+'-'+d	
-		},
-		prevMonthCb: function (y,m,d) {
-			document.querySelector('#h3Ele').innerHTML = '日期：'+y+'-'+m+'-'+d	
-		},
-		prevYearCb: function (y,m,d) {
-			document.querySelector('#h3Ele').innerHTML = '日期：'+y+'-'+m+'-'+d	
-		}
-	});
+	// var mySchedule = new Schedule({
+	// 	el: '#schedule-box',
+	// 	//date: '2018-9-20',
+	// 	clickCb: function (y,m,d) {
+	// 		document.querySelector('#h3Ele').innerHTML = '日期：'+y+'-'+m+'-'+d	
+	// 	},
+	// 	nextMonthCb: function (y,m,d) {
+	// 		document.querySelector('#h3Ele').innerHTML = '日期：'+y+'-'+m+'-'+d	
+	// 	},
+	// 	nextYeayCb: function (y,m,d) {
+	// 		document.querySelector('#h3Ele').innerHTML = '日期：'+y+'-'+m+'-'+d	
+	// 	},
+	// 	prevMonthCb: function (y,m,d) {
+	// 		document.querySelector('#h3Ele').innerHTML = '日期：'+y+'-'+m+'-'+d	
+	// 	},
+	// 	prevYearCb: function (y,m,d) {
+	// 		document.querySelector('#h3Ele').innerHTML = '日期：'+y+'-'+m+'-'+d	
+	// 	}
+	// });
     //初始化日历
-    $(".new_task_date").on("click",function(e){
-        // console.log("hello2")
-            // $("#prevYear").before("<i class='iconfont icon-guanbiUI close_calendar'></i>")
-            $("#schedule-box").show();
-        })
+    // $(".new_task_date").on("click",function(e){
+    //     // console.log("hello2")
+    //         // $("#prevYear").before("<i class='iconfont icon-guanbiUI close_calendar'></i>")
+    //         $("#schedule-box").show();
+    //     })
     });
 
     // $(".close_calendar").on("click",function(e){

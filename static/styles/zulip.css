@@ -3003,7 +3003,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     position: absolute;
     left: 0;
     top: 0;
-    height: 1000px;
+    height: 2000px;
 }
 .column-middle_shodowr{
     width: 10px;
@@ -3011,7 +3011,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     position: absolute;
     right: 0;
     top: 0;
-    height: 1000px;
+    height: 2000px;
 }
 .tip-top{
     margin-bottom:10px !important
@@ -3263,11 +3263,14 @@ input::-webkit-input-placeholder{
     color: #A0ACBF;
 }
 .new_task_date{
-    margin-left: 40px;
+    margin-left: 40px!important;
     /* margin-top: 5px!important; */
     border-radius: 100px!important;
     height: 30px!important;
     text-indent: 10px;
+    border-bottom-right-radius: 0px!important;
+    border-top-right-radius: 0px!important;
+    font-size: 14px;
 }
 .new_task_save{
     float: left;

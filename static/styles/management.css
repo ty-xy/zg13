@@ -21,7 +21,7 @@
     /* position: relative; */
 }
 .create_generate_log{
-    position: fixed;
+    position: absolute;
     width: 1300px;
     height: 800px;
     background: #FFFFFF;
@@ -31,7 +31,7 @@
     /* margin-top: 10px; */
     display: none;
     z-index: 111;
-    left: 300px;
+    left: -15%;
     top: 50px;
 }
 .create_generate_box{
@@ -347,6 +347,7 @@ ul{
     font-size: 11px;
     color: #999999;
     letter-spacing: 0.12px;
+    padding: 0px 36px;
 }
 .taskdetail_download{
     font-size: 14px;
@@ -710,4 +711,59 @@ ul{
 .set_date_icon{
     float: left;
     color: #999;
+    line-height: 20px!important;
+
+}
+#datetimepicker{
+    float: left;
+    font-size: 14px;
+}
+#newplan_datetimepicker{
+    float: left;
+    font-size: 14px;
+}
+.select_date_icon{
+    display: block;
+    float: right;
+    height: 30px!important;
+}
+.icon-riqi{
+    line-height: 30px;
+    color: #999;
+}
+#taskstart_datetimepicker{
+    height: 30px;
+    padding: 0 4px;
+}
+#taskstart_datetimepicker>input:nth-of-type(1){
+    width: 100px;
+    border: none;
+    background: #f7f7f7;
+    margin-left: 0!important;
+    float: left;
+    padding: 0 2px;
+}
+#taskstart_datetimepicker>span:nth-of-type(1){
+    background: #f7f7f7;
+    border: none;
+    padding: 0 2px;
+    margin-right: 2px;
+}
+#taskstop_datetimepicker{
+    height: 30px;
+    padding: 0 4px;
+}
+#taskstop_datetimepicker>input:nth-of-type(1){
+    width: 100px;
+    border: none;
+    background: #f7f7f7;
+    margin-left: 0!important;
+    float: left;
+    padding: 0 2px;
+}
+#taskstop_datetimepicker>span:nth-of-type(1){
+    background: #f7f7f7;
+    border: none;
+    padding: 0 2px;
+    margin-right: 2px;
 }

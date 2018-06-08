@@ -950,7 +950,10 @@ PIPELINE = {
                 'styles/typing_notifications.css',
                 'styles/hotspots.css',
                 'styles/night_mode.css',
-                'styles/management.css'
+                'styles/management.css',
+                'js/bootstrap-timepicker/css/bootstrap-timepicker.min.css',
+                'js/bootstrap-datepicker/css/datepicker.css',
+                'js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css'
             ),
             'output_filename': 'min/app.css'
         },
@@ -1168,7 +1171,9 @@ JS_SPECS = {
             'js/panels.js',
             'js/settings_ui.js',
             'js/management.js',
-            'js/schedule.js',
+            'js/bootstrap-timepicker/js/bootstrap-timepicker.min.js',
+            'js/bootstrap-datepicker/js/bootstrap-datepicker.js',
+            'js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js'
         ],
         'output_filename': 'min/app.js'
     },

@@ -171,7 +171,13 @@
                     </ul>
                     <form action="" class="new_plan">
                             <input type="text" class="new_plan_title" placeholder="请输入任务标题">
-                            <input type="text" class="new_plan_date" placeholder="请选择日期">
+                            <!-- <input type="text" class="new_plan_date" placeholder="请选择日期"> -->
+                            <div class="input-append date" id="newplan_datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
+                                    <input class="new_task_date" size="16" type="text" value="" readonly placeholder="请选择日期...">  
+                                    <span class="add-on select_date_icon">
+                                        <i data-date-icon="icon-calendar" class="icon-calendar iconfont icon-riqi"></i>
+                                    </span>  
+                            </div>
                             <div class="new_plan_save">保存</div>
                             <div class="new_plan_cancel">取消</div>
                     </form>
@@ -223,7 +229,13 @@
                 <!-- <p>新增任务</p> -->
                 <form action="" class="new_task">
                     <input type="text" class="new_task_title" placeholder="请输入任务标题">
-                    <input type="text" class="new_task_date" placeholder="请选择日期">
+                    <!-- <input type="text" class="new_task_date" placeholder="请选择日期"> -->
+                    <div class="input-append date" id="datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
+                            <input class="new_task_date" size="16" type="text" value="" readonly placeholder="请选择日期...">  
+                            <span class="add-on select_date_icon">
+                                <i data-date-icon="icon-calendar" class="icon-calendar iconfont icon-riqi"></i>
+                            </span>  
+                    </div>
                     <div class="new_task_save">保存</div>
                     <div class="new_task_cancel">取消</div>
                 </form>
@@ -255,7 +267,9 @@
         </ul> -->
         <div class="management_titleB">
             <div class="morn_managementtext">已完成任务</div>
-        </div>
+            <!-- <div class="input-group bootstrap-timepicker timepicker"><input id="timepicker" class="form-control"  data-dropdown="dropdown" data-provide="timepicker" data-template="modal" data-minute-step="1" data-modal-backdrop="true" type="text"/></div> -->  
+         </div>
+        
         <i class="management_lineA"></i>
         <ul class="completed_box">
                 <li class="completed">
@@ -287,11 +301,24 @@
                 <div class="taskdetail_selection">
                     <div class="taskdetail_selection_left">
                         <p class="taskdetail_startdate">任务开始时间</p>
-                        <p class="taskdetail_selectionbtn">请选择</p>
+                        <!-- <p class="taskdetail_selectionbtn">请选择</p> -->
+                        <div class="input-append date" id="taskstart_datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
+                                <input class="new_task_date" size="16" type="text" value="" readonly placeholder="请选择日期...">  
+                                <span class="add-on select_date_icon">
+                                    <i data-date-icon="icon-calendar" class="icon-calendar iconfont icon-riqi"></i>
+                                </span>  
+                        </div>
                     </div>
                     <div class="taskdetail_selection_right">
                         <p>任务截止时间</p>
-                        <p>6月10日</p>
+                        <!-- <p>6月10日</p> -->
+                        <!-- <p class="taskdetail_selectionbtn">请选择</p> -->
+                        <div class="input-append date" id="taskstop_datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
+                                <input class="new_task_date" size="16" type="text" value="" readonly placeholder="请选择日期...">  
+                                <span class="add-on select_date_icon">
+                                    <i data-date-icon="icon-calendar" class="icon-calendar iconfont icon-riqi"></i>
+                                </span>  
+                        </div>
                     </div>
                 </div>
                 <i class="taskdetail_lineA"></i>
