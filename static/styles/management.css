@@ -22,14 +22,17 @@
 }
 .create_generate_log{
     position: absolute;
-    width: 144px;
-    height: 160px;
+    width: 1300px;
+    height: 800px;
     background: #FFFFFF;
-    box-shadow: 0 1px 10px 0 rgba(204,204,204,0.30);   
+    box-shadow: 0 1px 10px 0 rgba(204,204,204,0.30);
     /* border: 1px solid #ccc; */
-    right: 114px;
+    /* right: 114px; */
     /* margin-top: 10px; */
     display: none;
+    z-index: 111;
+    left: -15%;
+    top: 50px;
 }
 .create_generate_box{
     margin-top: 10px;
@@ -156,6 +159,7 @@ ul{
     left: 400px;
     top: 200px;
     overflow: auto;
+    border-radius: 3px;
 }
 .taskdetail_head{
     background: #FFFFFF;
@@ -236,6 +240,7 @@ ul{
     color: #999999;
     letter-spacing: 0.22px;
     text-align: left;
+    margin-left: 25px;
 }
 .taskdetail_selection{
     width: 500px;
@@ -262,9 +267,10 @@ ul{
     font-size: 14px;
     color: #333333;
     letter-spacing: 0.15px;
-    padding: 5px 43px;
+    padding: 5px 22px;
     background: #F7F7F7;
     border-radius: 3px;
+    cursor: pointer;
 }
 .taskdetail_selection_right>:first-child{
     float: left;
@@ -281,6 +287,7 @@ ul{
     padding: 5px 43px;
     background: #F7F7F7;
     border-radius: 3px;
+    cursor: pointer;
 }
 .taskdetail_upfile_box{
     width: 500px;
@@ -297,6 +304,7 @@ ul{
     color: #999999;
     letter-spacing: 0.22px;
     margin-left: 6px;
+    cursor: pointer;
 }
 .taskdetail_upfile{
     float: right;
@@ -311,9 +319,9 @@ ul{
 .taskdetail_attachment{
     width: 500px;
     height: 52px;
-    margin: 6px auto;
+    margin: 12px auto;
     background: #F7F7F7;
-    border: 1px solid #A0ACBF;
+    border: 1px solid #fff;
     border-radius: 3px;
     overflow: hidden;
 }
@@ -323,6 +331,7 @@ ul{
 }
 .taskdetail_attachment_right{
     float: right;
+    display: none;
 }
 .taskdetail_attachment_left>:first-child{
     float: left;
@@ -339,6 +348,7 @@ ul{
     font-size: 11px;
     color: #999999;
     letter-spacing: 0.12px;
+    padding: 0px 36px;
 }
 .taskdetail_download{
     font-size: 14px;
@@ -347,6 +357,7 @@ ul{
     /* margin: 18px 20px; */
     line-height: 56px;
     margin-right: 20px;
+    cursor: pointer;
 }
 .taskdetail_delete{
     font-size: 14px;
@@ -354,10 +365,11 @@ ul{
     letter-spacing: 0.23px;
     line-height: 56px;
     margin-right: 20px;
+    cursor: pointer;
 }
 .taskdetail_md{
-    width: 150%;
-    height: 118%;
+    width: 163%;
+    height: 143%;
     background: rgba(0,0,0,0.30);
     position: absolute;
     left: -201px;
@@ -369,7 +381,7 @@ ul{
     width: 540px;
     background: #F3F3F3;
     overflow: hidden;
-
+    margin-top: 50px;
 }
 .taskdetail_records_box>:first-child{
     margin-left: 20px;
@@ -377,7 +389,7 @@ ul{
     font-size: 15px;
     color: #999999;
     letter-spacing: 0.22px;
-    margin-top: 10px;
+    margin-top: 20px;
 }
 .taskdetail_records{
     
@@ -387,4 +399,374 @@ ul{
     color: #999999;
     letter-spacing: 0.15px;
     text-align: left;
+}
+
+/* 一键生成日志样式 */
+.generate_log_left{
+    width: 200px;
+    height: 800px;
+    background: #354052;
+    overflow: hidden;
+}
+.generate_log_sliber{
+    list-style: none;
+    margin: 0;
+    overflow: hidden;
+    margin-top: 14px;
+}
+.generate_log_sliber>li{
+    margin: 14px 69px;
+    font-size: 15px;
+    color: #A0ACBF;
+    letter-spacing: 0.18px;
+    cursor: pointer;
+}
+.generate_log_left{
+    float: left;
+}
+.generate_log_right{
+    float: left;
+}
+.generate_log_head{
+    width: 1100px;
+    height: 60px;
+    overflow: hidden;
+    line-height: 60px;
+}
+.generate_log_head>p:nth-of-type(1){
+    font-size: 15px;
+    color: #A0ACBF;
+    letter-spacing: 0.22px;
+    float: left;
+    margin-left: 30px;
+}
+.generate_log_head>i:nth-of-type(1){
+    border: 1px solid #A0ACBF;
+    float: left;
+    display: block;
+    height: 20px;
+    width: -1px;
+    background: #A0ACBF;
+    margin-left: 16px;
+    margin-top: 19px;
+}
+.generate_log_head>p:nth-of-type(2){
+    font-size: 15px;
+    color: #A0ACBF;
+    letter-spacing: 0.22px;
+    float: left;
+    margin-left: 20px;
+}
+.generate_log_close{
+    color: #999;
+    position: absolute;
+    right: 20px;
+    font-size: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+.generate_log_ctn{
+    width: 1014px;
+    height: 740px;
+    overflow: auto;
+    margin: 0 auto;
+}
+.generate_log_finished{
+    font-size: 15px;
+    color: #666666;
+    letter-spacing: 0.18px;
+    text-align: left;
+}
+.generate_log_finished_text{
+    width: 1000px;
+    min-height: 125px;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    resize: none;
+    margin-top: 22px;
+}
+.generate_log_unfinished{
+    font-size: 15px;
+    color: #666666;
+    letter-spacing: 0.18px;
+    text-align: left;
+}
+.generate_log_unfinished_text{
+    width: 1000px;
+    min-height: 62px;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    resize: none;
+    margin-top: 22px;
+}
+.generate_log_pdfinished{
+    font-size: 15px;
+    color: #666666;
+    letter-spacing: 0.18px;
+    text-align: left;
+}
+.generate_log_pdfinished_text{
+    width: 1000px;
+    min-height: 62px;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    resize: none;
+    margin-top: 22px;
+}
+.generate_log_plan{
+    font-size: 15px;
+    color: #666666;
+    letter-spacing: 0.18px;
+    text-align: left;
+    margin-top: 10px;
+}
+.generate_log_plan_box{
+    width: 1000px;
+    margin: 0;
+}
+.generate_log_plan_ctn{
+    width: 1000px;
+    height: 50px;
+    background: #F7F7F7;
+    border-radius: 2px;
+    margin: 0;
+    overflow: hidden;
+    margin-top: 20px;
+}
+.generate_log_plan_ctn>:first-child{
+    float: left;
+    font-size: 16px;
+    margin: 18px 10px;
+}
+.generate_log_plan_ctn>p:nth-of-type(1){
+    float: left;
+    line-height: 50px;
+    font-size: 14px;
+    color: #666666;
+    letter-spacing: 0.17px;
+}
+.generate_log_plan_ctn>p:nth-of-type(2){
+    float: left;
+    line-height: 50px;
+    margin-left: 40px;
+    font-size: 13px;
+    color: #999999;
+    letter-spacing: 0.16px;
+}
+.generate_log_plan_ctn>p:nth-of-type(3){
+    float: right;
+    line-height: 50px;
+}
+.generate_log_plan_editor{
+    font-size: 14px;
+    color: #999999;
+    letter-spacing: 0.17px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+.generate_log_plan_delete{
+    font-size: 14px;
+    color: #999999;
+    letter-spacing: 0.17px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+.generate_log_plan_lineA{
+    width: 1000px;
+    height: 2px;
+    background: #ccc;
+    display: block;
+}
+.generate_log_addattachment{
+    font-size: 15px;
+    color: #666666;
+    letter-spacing: 0.18px;
+    text-align: left;
+    margin-top: 20px;
+}
+.generate_log_upfile{
+    font-size: 13px;
+    color: #999999;
+    letter-spacing: 0.19px;
+    border: 1px solid #A0ACBF;
+    padding: 4px 30px;
+    width: 80px;
+    height: 28px;
+    border-radius: 100px;
+    line-height: 28px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+.generate_log_upfile_box{
+    overflow: hidden;
+}
+.generate_log_upfile{
+    float: left;
+}
+.generate_log_pack{
+    float: left;
+    /* overflow: hidden; */
+    width: 210px;
+    margin-top: 14px;
+    margin-left: 20px;
+    position: relative;
+}
+.generate_log_pack_left{
+    width: 50px;
+    height: 50px;
+    float: left;
+    border: 1px solid #ccc;
+    margin-right: 5px;
+}
+.generate_log_pack_delete{
+    position: absolute;
+    left: 41px;
+    top: -8px;
+    color: #EF5350;
+    font-size: 20px;
+}
+.generate_log_pack_left>:first-child{
+    margin: 10px;
+}
+.generate_log_pack_right{
+    width: 150px;
+    height: 50px;
+    float: left;
+    text-align: left;
+}
+.generate_log_pack_right>:first-child{
+    font-size: 14px;
+    color: #333333;
+    letter-spacing: 0.15px;
+    margin-bottom: 1px;
+    margin-top: 5px;
+}
+.generate_log_pack_right>:last-child{
+    font-size: 11px;
+    color: #999999;
+    letter-spacing: 0.12px;
+}
+.generate_log_send{
+    font-size: 15px;
+    color: #666666;
+    letter-spacing: 0.18px;
+    text-align: left;
+    margin-top: 10px;
+}
+.generate_log_member_box{
+    list-style: none;
+    margin: 0;
+    overflow: hidden;
+}
+.generate_log_member_box>li{
+    float: left;
+    padding: 0 10px;
+}
+.generate_log_member{
+    float: left;
+}
+.generate_log_member_avatar{
+    width: 70px;
+    height: 70px;
+    background: #58d321;
+    border-radius: 50%;
+    margin-top: 20px;
+}
+.generate_log_member_name{
+    font-size: 15px;
+    color: #666666;
+    letter-spacing: 0.18px;
+    margin-top: 10px;
+}
+.generate_log_member_addlogo{
+    width: 68px;
+    height: 68px;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 25px 0 rgba(204,204,204,0.80);
+    border-radius: 50%;
+    margin-top: 20px;
+    cursor: pointer;
+}
+.generate_log_member_addlogo>:first-child{
+    width: 20px;
+    height: 20px;
+    margin: 25px 0;
+}
+.generate_log_member_add{
+    font-size: 15px;
+    color: #666666;
+    letter-spacing: 0.18px;
+    margin-top: 10px;
+}
+.generate_log_submit{
+    width: 330px;
+    height: 55px;
+    margin: 0 auto;
+    background: #14A4FA;
+    border-radius: 3px;
+    font-size: 17px;
+    color: #FFFFFF;
+    letter-spacing: 0.27px;
+    line-height: 55px;
+    margin-top: 20px;
+    margin-bottom: 100px;
+}
+.set_date_icon{
+    float: left;
+    color: #999;
+    line-height: 20px!important;
+
+}
+#datetimepicker{
+    float: left;
+    font-size: 14px;
+}
+#newplan_datetimepicker{
+    float: left;
+    font-size: 14px;
+}
+.select_date_icon{
+    display: block;
+    float: right;
+    height: 30px!important;
+}
+.icon-riqi{
+    line-height: 30px;
+    color: #999;
+}
+#taskstart_datetimepicker{
+    height: 30px;
+    padding: 0 4px;
+}
+#taskstart_datetimepicker>input:nth-of-type(1){
+    width: 100px;
+    border: none;
+    background: #f7f7f7;
+    margin-left: 0!important;
+    float: left;
+    padding: 0 2px;
+}
+#taskstart_datetimepicker>span:nth-of-type(1){
+    background: #f7f7f7;
+    border: none;
+    padding: 0 2px;
+    margin-right: 2px;
+}
+#taskstop_datetimepicker{
+    height: 30px;
+    padding: 0 4px;
+}
+#taskstop_datetimepicker>input:nth-of-type(1){
+    width: 100px;
+    border: none;
+    background: #f7f7f7;
+    margin-left: 0!important;
+    float: left;
+    padding: 0 2px;
+}
+#taskstop_datetimepicker>span:nth-of-type(1){
+    background: #f7f7f7;
+    border: none;
+    padding: 0 2px;
+    margin-right: 2px;
 }
