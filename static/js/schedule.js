@@ -59,7 +59,8 @@
 					// console.log("heihei")
 					// e.preventDefault();
             		// e.stopPropagation();
-            		// $(".create_generate_log").show();
+					// $(".create_generate_log").show();
+					$(".taskdetail_selectionbtn").html(n);
 					$(".close_calendar").on("click",function(e){
 						$("#schedule-box").hide();
 					})

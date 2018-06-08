@@ -61,6 +61,11 @@
             // e.preventDefault();
             console.log(":1231")
         })
+        $(".taskdetail_selectionbtn").on("click",function(e){
+            console.log(2222122313123)
+            $("#schedule-box").css("z-index","1111");
+            $("#schedule-box").show();
+        })
         $(".taskdetail_close").on("click",function(e){
             $(".taskdetail_md").hide();
         })
