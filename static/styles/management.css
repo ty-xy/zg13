@@ -304,6 +304,7 @@ ul{
     color: #999999;
     letter-spacing: 0.22px;
     margin-left: 6px;
+    cursor: pointer;
 }
 .taskdetail_upfile{
     float: right;
@@ -561,12 +562,14 @@ ul{
     color: #999999;
     letter-spacing: 0.17px;
     margin-right: 20px;
+    cursor: pointer;
 }
 .generate_log_plan_delete{
     font-size: 14px;
     color: #999999;
     letter-spacing: 0.17px;
     margin-right: 20px;
+    cursor: pointer;
 }
 .generate_log_plan_lineA{
     width: 1000px;

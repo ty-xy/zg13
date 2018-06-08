@@ -1,6 +1,7 @@
     var management = (function () {
     var exports = {};
     $(function () {
+        //点击一键生成日志 出现日志弹窗
         $(".generate_log").on("click",function(e){
             e.preventDefault();
             e.stopPropagation();
@@ -42,36 +43,41 @@
                 }
             })
         })
+
         $(".new_task_cancel").on("click",function(e){
             $(".new_task_title").val("");
             $(".new_task_date").val("")
         })
-
+        //点击待办事项文本内容展示详情弹窗
         $(".add_ctn").on("click",function(e){
             console.log("任务执行了")
             $(".taskdetail_md").show();
         })
+        //点击任务详情模版关闭任务详情
         $(".taskdetail_md").on("click",function(e){
             e.stopPropagation();
             e.preventDefault();
             $(".taskdetail_md").hide();
         })
+        //任务详情上的内容点击生效
         $(".taskdetail_box").on("click",function(e){
             e.stopPropagation();
             // e.preventDefault();
-            console.log(":1231")
         })
+        //任务详情点击关闭
         $(".taskdetail_close").on("click",function(e){
             $(".taskdetail_md").hide();
         })
+        //日志弹窗关闭
         $(".generate_log_close").on("click",function(e){
             $(".create_generate_log").hide();
         })
-
+        //任务详情弹窗内的文件展示 划入事件
         $(".taskdetail_attachment").on("mousemove",function(e){
             $(this).css("border","1px solid #A0ACBF")
             $(this).children().last().show();
         })
+        //任务详情弹窗内的文件展示 划出事件
         $(".taskdetail_attachment").on("mouseleave",function(e){
             $(this).css("border","1px solid #fff")
             $(this).children().last().hide();
@@ -79,8 +85,13 @@
         $(".taskdetail_selectionbtn").on("click",function(e){
             // $(".taskdetail_selectionbtn").append()
         })
- 
-       
+        
+        // $(".todo_laber").on("click",function(e){
+        //     console.log("xoxi1231")
+        //     // $(".todo_label").removeClass()
+        //     $(".todo_label").addClass("icon-weiwancheng")
+        // })
+        //日历汉化
             $.fn.datetimepicker.dates['zh-CN'] = {  
                 days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],  
                 daysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],  
@@ -92,25 +103,28 @@
                 meridiem: ["上午", "下午"],  
                 weekStart: 1  
             };  
-  
+        //初始化 待办事项日历
             $('#datetimepicker').datetimepicker({  
                 language:"zh-CN",  
                 todayHighlight: true,  
                 minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
                 weekStart:1  
             });  
+        //初始化 任务详情任务开始日历
             $('#taskstart_datetimepicker').datetimepicker({  
                 language:"zh-CN",  
                 todayHighlight: true,  
                 minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
                 weekStart:1  
             });  
+        //初始化 任务详情截止日历
             $('#taskstop_datetimepicker').datetimepicker({  
                 language:"zh-CN",  
                 todayHighlight: true,  
                 minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
                 weekStart:1  
             });  
+        //初始化 新计划日历
             $('#newplan_datetimepicker').datetimepicker({  
                 language:"zh-CN",  
                 todayHighlight: true,  
@@ -154,44 +168,20 @@
         //         $(this).unbind("mousemove");
         //     })
         // })
-    //初始化日历
-	// var mySchedule = new Schedule({
-	// 	el: '#schedule-box',
-	// 	//date: '2018-9-20',
-	// 	clickCb: function (y,m,d) {
-	// 		document.querySelector('#h3Ele').innerHTML = '日期：'+y+'-'+m+'-'+d	
-	// 	},
-	// 	nextMonthCb: function (y,m,d) {
-	// 		document.querySelector('#h3Ele').innerHTML = '日期：'+y+'-'+m+'-'+d	
-	// 	},
-	// 	nextYeayCb: function (y,m,d) {
-	// 		document.querySelector('#h3Ele').innerHTML = '日期：'+y+'-'+m+'-'+d	
-	// 	},
-	// 	prevMonthCb: function (y,m,d) {
-	// 		document.querySelector('#h3Ele').innerHTML = '日期：'+y+'-'+m+'-'+d	
-	// 	},
-	// 	prevYearCb: function (y,m,d) {
-	// 		document.querySelector('#h3Ele').innerHTML = '日期：'+y+'-'+m+'-'+d	
-	// 	}
-	// });
-    //初始化日历
-    // $(".new_task_date").on("click",function(e){
-    //     // console.log("hello2")
-    //         // $("#prevYear").before("<i class='iconfont icon-guanbiUI close_calendar'></i>")
-    //         $("#schedule-box").show();
-    //     })
-    });
-
-    // $(".close_calendar").on("click",function(e){
+    
+        // $(".close_calendar").on("click",function(e){
     //     $("#schedule-box").hide();
     // })
 
-    //label图标切换
+    // label图标切换
     // $("label").on("click",function(e){
     //     var taskdetail_s = $("#taskdetail_check");
     //     console.log("hello")
     //     console.log(taskdetail_s)
     // })
+    });
+
+    
     
     return exports;
     }());
