@@ -404,6 +404,12 @@ $(function () {
         navigate.maybe_scroll_to_selected();
         e.preventDefault();
     });
+    // zyc添加 点击 管理 刷新页面
+    $("#management_refresh").on('click',function(e){
+        setTimeout(function(){
+            location.reload();
+        },0)
+    })
     //zyc添加 out点击退出功能
     $("#out").on('click', function (e) {
         $("#settings_overlay_container").hide();
@@ -412,6 +418,8 @@ $(function () {
     $("#show_setting").on('click', function (e) {
         $("#settings_overlay_container").show();
     });
+
+    
     // MISC
 
     (function () {
@@ -507,7 +515,7 @@ $(function () {
 
     $("#streams_inline_cog").click(function (e) {
         e.stopPropagation();
-        window.location.hash = "streams/all";
+        window.location.hash = "streams/subscribed";
     });
     // zyc添加
     $("#streams_inline_jia").click(function (e) {
@@ -518,8 +526,25 @@ $(function () {
         e.stopPropagation();
         stream_list.toggle_filter_displayed(e);
     });
-
-
+    // $("#management").click(function(e){
+    //     e.stopPropagation();
+    //     $("#zhome").css('display',"none")
+    //     var management = "<div>你好</div>"
+    //     $("#home").before(management);
+    // })
+    //zyc添加点击更改名称后刷新页面重新获取数据
+    $("#change_full_name_button").on('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log("进入函数");
+        location.reload();
+    });
+    // $("#save_useravatar").click(function(e){
+    //     e.stopPropagation();
+    //     console.log("进入函数体")
+    //     // location.reload();
+    //     console.log("方法结束")
+    // })
     // FEEDBACK
 
     // Keep these 2 feedback bot triggers separate because they have to

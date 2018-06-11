@@ -1029,21 +1029,27 @@ input[type=checkbox].inline-block {
 }
 
 #user-settings-avatar {
-    border-radius: 5px;
+    border-radius: 50%;
     box-shadow: 0px 0px 10px hsla(0, 0%, 0%, 0.1);
     width: 200px;
     height: 200px;
 
     transition: all 0.3s ease;
 }
-
+#user-settings-avatar .avatars{
+    box-shadow: none !important;
+}
 #user-settings-avatar:hover #user-avatar-block {
     -webkit-filter: brightness(0.4);
 }
 .avatar-img{
-    border-radius:50%;
+    border-radius:50% !important;
 }
-
+#user-avatar-block{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
 #user-settings-avatar:hover #user-avatar-source {
     visibility: visible;
 }
@@ -1734,7 +1740,7 @@ thead .actions {
     margin-left:20px !important
 }
 .controls-text> textarea{
-    width:380px;
+    width:220px;
     margin-left:10px !important
 }
 .controls-select{
@@ -1953,5 +1959,8 @@ thead .actions {
 }
 .admin-img{
     display:flex !important;
+}
+.border-bottom{
+    margin:5px 1px !important;
 }
    

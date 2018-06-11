@@ -51,6 +51,7 @@
     margin: 2px 0px 22px 0px;
     padding: 0;
     font-weight: normal;
+    height: 1440px;
 }
 
 .left-sidebar li {
@@ -392,6 +393,7 @@ ul.expanded_private_messages {
     margin-left: 0px;
     padding-bottom: 2px;
     margin-top: 3px;
+    display: none;
 }
 
 li.show-more-topics,

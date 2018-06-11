@@ -118,6 +118,426 @@
             {% endtrans %}
         </p>
     </div>
+    <!-- zyc -->
+    <div id="management_ctn" class="empty_feed_notice">
+        <div class="management_titleA">
+            <div class="my_management">待办事项</div>
+            <!-- <div class="edit_management">排序</div> -->
+            <div class="generate_log">
+                <p>一键生成日志</p>
+            </div>
+        </div>
+        <div class="create_generate_log">
+              <div class="generate_log_left">
+                    <ul class="generate_log_sliber">
+                        <li>生成日报</li>
+                        <li>生成周报</li>
+                        <li>生成月报</li>
+                    </ul>
+                </div>
+              <div class="generate_log_right">
+                <div class="generate_log_head">
+                    <p>e建联</p>
+                    <i></i>
+                    <p>一键生成日志</p>
+                    <i class="iconfont icon-guanbiUI generate_log_close"></i>
+                </div>
+                <div class="generate_log_ctn">
+                    <div class="generate_log_finished">
+                        已完成:
+                    </div>
+                    <textarea class="generate_log_finished_text"></textarea>
+                    <div class="generate_log_unfinished">
+                        未完成:
+                    </div>
+                    <textarea class="generate_log_unfinished_text"></textarea>
+                    <div class="generate_log_pdfinished">
+                        待完成:
+                    </div>
+                    <textarea class="generate_log_pdfinished_text"></textarea>
+                    <div class="generate_log_plan">
+                            计划（添加任务后，自动生成待办事项）:
+                    </div>
+                    <ul class="generate_log_plan_box">
+                        <li class="generate_log_plan_ctn">
+                            <input type="checkbox">
+                            <p>整理上月的员工考勤，汇总整体出勤状态成表格</p>
+                            <p><span>截止日期&nbsp;&nbsp;</span><span>2018-05-30</span></p>
+                            <p>
+                                <span class="generate_log_plan_editor">编辑</span>
+                                <span class="generate_log_plan_delete">删除</span>
+                            </p>
+                        </li>
+                    </ul>
+                    <form action="" class="new_plan">
+                            <input type="text" class="new_plan_title" placeholder="请输入任务标题">
+                            <!-- <input type="text" class="new_plan_date" placeholder="请选择日期"> -->
+                            <div class="input-append date" id="newplan_datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
+                                    <input class="new_task_date" size="16" type="text" value="" readonly placeholder="请选择日期...">  
+                                    <span class="add-on select_date_icon">
+                                        <i data-date-icon="icon-calendar" class="icon-calendar iconfont icon-riqi"></i>
+                                    </span>  
+                            </div>
+                            <div class="new_plan_save">保存</div>
+                            <div class="new_plan_cancel">取消</div>
+                    </form>
+                    <i class="generate_log_plan_lineA"></i>
+                    <div class="generate_log_addattachment">
+                            添加附件:
+                    </div>
+                    <div class="generate_log_upfile_box">
+                        <div class="generate_log_upfile">
+                                    上传附件
+                        </div>
+                        <div class="generate_log_pack">
+                            <div class="generate_log_pack_left">
+                                <img src="../../static/img/pnglogo.png" alt="">
+                                <i class="iconfont icon-shanchu1 generate_log_pack_delete"></i>
+                            </div>
+                            <div class="generate_log_pack_right">
+                                <p>工程项目报表.jpg</p>
+                                <p>3.29MB</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="generate_log_send">
+                        发送至:
+                    </div>
+                    <ul class="generate_log_member_box">
+                        <li class="generate_log_member">
+                            <div class="generate_log_member_avatar">
+                                <img src="" alt="">
+                            </div>
+                            <p class="generate_log_member_name">李俊伟</p>
+                        </li>
+                        <li>
+                            <div class="generate_log_member_addlogo">
+                                <img src="../../static/img/add.png" alt="">
+                            </div>
+                            <p class="generate_log_member_add">添加成员</p>
+                        </li>
+                    </ul>
+                    <div class="generate_log_submit">
+                        提交
+                    </div>
+                </div>
+              </div>      
+        </div>
+        <i class="management_lineA"></i>
+        <div class="new_task_box">
+            <!-- <div class="add_task"> -->
+                <!-- <p>新增任务</p> -->
+                <form action="" class="new_task">
+                    <input type="text" class="new_task_title" placeholder="请输入任务标题">
+                    <!-- <input type="text" class="new_task_date" placeholder="请选择日期"> -->
+                    <div class="input-append date" id="datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
+                            <input class="new_task_date" size="16" type="text" value="" readonly placeholder="请选择日期...">  
+                            <span class="add-on select_date_icon">
+                                <i data-date-icon="icon-calendar" class="icon-calendar iconfont icon-riqi"></i>
+                            </span>  
+                    </div>
+                    <div class="new_task_save">保存</div>
+                    <div class="new_task_cancel">取消</div>
+                </form>
+            <!-- </div> -->
+                 <!-- 日历展示 -->
+                <div id="schedule-box" class="boxshaw"><div class="schedule-hd"><div><span class="arrow icon iconfont icon-116leftarrowheads" id="prevYear"></span><span class="arrow icon iconfont icon-112leftarrowhead" id="prevMonth"></span></div><div class="today">2018-06-09</div><div><span class="arrow icon iconfont icon-111arrowheadright" id="nextMonth"></span><span class="arrow icon iconfont icon-115rightarrowheads" id="nextYear"></span></div></div><ul class="week-ul ul-box"><li>日</li><li>一</li><li>二</li><li>三</li><li>四</li><li>五</li><li>六</li></ul><ul class="schedule-bd ul-box"><li class="other-month"><span class="dayStyle">27</span></li><li class="other-month"><span class="dayStyle">28</span></li><li class="other-month"><span class="dayStyle">29</span></li><li class="other-month"><span class="dayStyle">30</span></li><li class="other-month"><span class="dayStyle">31</span></li><li class="current-month"><span title="2018-06-01" class="currentDate dayStyle ">1</span></li><li class="current-month"><span title="2018-06-02" class="currentDate dayStyle today-flag">2</span></li><li class="current-month"><span title="2018-06-03" class="currentDate dayStyle ">3</span></li><li class="current-month"><span title="2018-06-04" class="currentDate dayStyle ">4</span></li><li class="current-month"><span title="2018-06-05" class="currentDate dayStyle ">5</span></li><li class="current-month"><span title="2018-06-06" class="currentDate dayStyle ">6</span></li><li class="current-month"><span title="2018-06-07" class="currentDate dayStyle ">7</span></li><li class="current-month"><span title="2018-06-08" class="currentDate dayStyle ">8</span></li><li class="current-month"><span title="2018-06-09" class="currentDate dayStyle selected-style">9</span></li><li class="current-month"><span title="2018-06-10" class="currentDate dayStyle ">10</span></li><li class="current-month"><span title="2018-06-11" class="currentDate dayStyle ">11</span></li><li class="current-month"><span title="2018-06-12" class="currentDate dayStyle ">12</span></li><li class="current-month"><span title="2018-06-13" class="currentDate dayStyle ">13</span></li><li class="current-month"><span title="2018-06-14" class="currentDate dayStyle ">14</span></li><li class="current-month"><span title="2018-06-15" class="currentDate dayStyle ">15</span></li><li class="current-month"><span title="2018-06-16" class="currentDate dayStyle ">16</span></li><li class="current-month"><span title="2018-06-17" class="currentDate dayStyle ">17</span></li><li class="current-month"><span title="2018-06-18" class="currentDate dayStyle ">18</span></li><li class="current-month"><span title="2018-06-19" class="currentDate dayStyle ">19</span></li><li class="current-month"><span title="2018-06-20" class="currentDate dayStyle ">20</span></li><li class="current-month"><span title="2018-06-21" class="currentDate dayStyle ">21</span></li><li class="current-month"><span title="2018-06-22" class="currentDate dayStyle ">22</span></li><li class="current-month"><span title="2018-06-23" class="currentDate dayStyle ">23</span></li><li class="current-month"><span title="2018-06-24" class="currentDate dayStyle ">24</span></li><li class="current-month"><span title="2018-06-25" class="currentDate dayStyle ">25</span></li><li class="current-month"><span title="2018-06-26" class="currentDate dayStyle ">26</span></li><li class="current-month"><span title="2018-06-27" class="currentDate dayStyle ">27</span></li><li class="current-month"><span title="2018-06-28" class="currentDate dayStyle ">28</span></li><li class="current-month"><span title="2018-06-29" class="currentDate dayStyle ">29</span></li><li class="current-month"><span title="2018-06-30" class="currentDate dayStyle ">30</span></li></ul></div>  
+                <input id="h3Ele" type="hidden"></input>
+        <!-- 日历展示 -->
+        </div>
+        <ul class="todo_box">
+            <li class="todo">
+                <div class="todo_left">
+                        <!-- <label for="todo_laber" class="iconfont icon-yiwancheng todo_laber">123</label> -->
+                        <input type="checkbox" class="add_checkbox" id="todo_laber">
+                        <p class="add_ctn">落实员工薪资发放问题，并制定详细的考勤制度落实员工薪资发放问题，并制定详细的考勤制度落实员工薪资发放问题，并制定详细的考勤制度</p>
+                </div>
+                <div class="todo_right">
+                        <i class="iconfont icon-beizhu note_icon"></i>
+                        <i class="iconfont icon-fujian1 attachment_icon"></i>
+                        <p class="add_datatime">2018-06-01</p>
+                </div>
+            </li>
+        </ul>
+        <!-- <ul class="all_management">
+            <li id="weekly">
+                <i class="iconfont icon-rizhi management_icon"></i>
+                <p class="management_text">周报</p>
+            </li>
+            <li></li>
+        </ul> -->
+        <div class="management_titleB">
+            <div class="morn_managementtext">已完成任务</div>
+            <!-- <div class="input-group bootstrap-timepicker timepicker"><input id="timepicker" class="form-control"  data-dropdown="dropdown" data-provide="timepicker" data-template="modal" data-minute-step="1" data-modal-backdrop="true" type="text"/></div> -->  
+         </div>
+        
+        <i class="management_lineA"></i>
+        <ul class="completed_box">
+                <li class="completed">
+                        <!-- <input type="checkbox" id="checkbox-1" class="completed_checkbox checked"/>
+                        <label for="checkbox-1" class="iconfont icon-yiwancheng"></label> -->
+                        <!-- <label for="completed_css"></label> -->
+                        <input type="checkbox" class="completed_checkbox checked" checked="checked" id="completed_css">
+                        <p class="completed_ctn">落实员工薪资发放问题，并制定详细的考</p>
+                </li>
+        </ul>
+        <!-- 任务详情 -->
+       <div class="taskdetail_md">
+            <div class="taskdetail_box">    
+                <div class="taskdetail_head">
+                    <p class="taskdetail_title">任务详情</p>
+                    <i class="iconfont icon-guanbiUI taskdetail_close"></i>
+                </div>  
+                <div class="taskdetail_ctn">
+                    <!-- <label for="taskdetail_check" class="inonfont unfinished taskdetail_label"></label> -->
+                    <input type="checkbox" class="taskdetail_state" id="taskdetail_check">
+                    <p class="taskdetail_list">落实员工薪资发放问题，并制定详细的考勤制度</p>
+                </div>
+                <textarea name="" id="taskdetail_addnote" cols="30" rows="10" placeholder="添加备注..."></textarea>
+                <i class="taskdetail_lineA"></i>
+                <div class="taskdetail_date_box">
+                    <i class="iconfont icon-riqi set_date_icon"></i>
+                    <p class="taskdetail_set">设定日期</p>
+                </div>
+                <div class="taskdetail_selection">
+                    <div class="taskdetail_selection_left">
+                        <p class="taskdetail_startdate">任务开始时间</p>
+                        <!-- <p class="taskdetail_selectionbtn">请选择</p> -->
+                        <div class="input-append date" id="taskstart_datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
+                                <input class="new_task_date" size="16" type="text" value="" readonly placeholder="请选择日期...">  
+                                <span class="add-on select_date_icon">
+                                    <i data-date-icon="icon-calendar" class="icon-calendar iconfont icon-riqi"></i>
+                                </span>  
+                        </div>
+                    </div>
+                    <div class="taskdetail_selection_right">
+                        <p>任务截止时间</p>
+                        <!-- <p>6月10日</p> -->
+                        <!-- <p class="taskdetail_selectionbtn">请选择</p> -->
+                        <div class="input-append date" id="taskstop_datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
+                                <input class="new_task_date" size="16" type="text" value="" readonly placeholder="请选择日期...">  
+                                <span class="add-on select_date_icon">
+                                    <i data-date-icon="icon-calendar" class="icon-calendar iconfont icon-riqi"></i>
+                                </span>  
+                        </div>
+                    </div>
+                </div>
+                <i class="taskdetail_lineA"></i>
+                <div class="taskdetail_upfile_box">
+                    <i class="iconfont icon-fujian1 upfile_icon"></i>
+                    <p class="taskdetail_addattachment">添加附件</p>
+                    <p class="taskdetail_upfile">上传文件</p>
+                </div>
+                <ul class="taskdetail_attachment_box">
+                    <li class="taskdetail_attachment">
+                        <div class="taskdetail_attachment_left">
+                            <img src="../../static/img/pnglogo.png" alt="">
+                            <p>工程项目报表.jpg</p>
+                            <p>
+                                <span>3.29MB</span>
+                                <span>09:31</span>
+                            </p>
+                        </div>
+                        <div class="taskdetail_attachment_right">
+                            <span class="taskdetail_download">下载</span>
+                            <span class="taskdetail_delete">删除</span>
+                        </div>
+                    </li>
+                    <li class="taskdetail_attachment">
+                        <div class="taskdetail_attachment_left">
+                            <img src="../../static/img/pnglogo.png" alt="">
+                            <p>工程项目报表.jpg</p>
+                            <p>
+                                <span>3.29MB</span>
+                                <span>09:31</span>
+                            </p>
+                        </div>
+                        <div class="taskdetail_attachment_right">
+                            <span class="taskdetail_download">下载</span>
+                            <span class="taskdetail_delete">删除</span>
+                        </div>
+                    </li>
+                </ul>
+                <div class="taskdetail_records_box">
+                    <div>
+                        操作记录
+                    </div>
+                    <ul class="taskdetail_records">
+                        <li>
+                            <i></i>
+                            <p class="taskdetail_text">
+                                <span>创建了任务</span>
+                                <span>5月11日</span>
+                            </p>
+                        </li>
+                        <li>
+                                <i></i>
+                                <p class="taskdetail_text">
+                                    <span>创建了任务</span>
+                                    <span>5月11日</span>
+                                </p>
+                        </li>
+                        <li>
+                                <i></i>
+                                <p class="taskdetail_text">
+                                    <span>创建了任务</span>
+                                    <span>5月11日</span>
+                                </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+       </div>
+         <!-- 任务详情 -->
+    </div>
+    <div class="management_set">
+        <i class="iconfont icon-guanbiUI close_management_set"></i>
+        <div class="management_siber">
+                哈哈啊哈
+        </div>
+    </div>
+    <!-- 日志助手板块 -->
+    <div class="log_assistant_md">
+    <div class="log_assistant_box">
+            <div class="log_assistant_left">
+                  <ul class="log_assistant_sliber">
+                      <li class="log_assistant_received high_light">我收到的</li>
+                      <li class="log_assistant_send">我发出的</li>
+                  </ul>
+              </div>
+            <div class="log_assistant_right">
+              <div class="log_assistant_head">
+                  <p>e建联</p>
+                  <i></i>
+                  <p>我收到的</p>
+                  <i class="iconfont icon-guanbiUI log_assistant_close"></i>
+              </div>
+              <div class="log_assistant_ctn_box">
+                    <div class="log_assistant_prompt_box">
+                        <div class="log_assistant_screening">
+                                    筛选
+                        </div>
+                        <div class="log_assistant_read">
+                            只看未读
+                        </div>
+                        
+                    </div>
+                    <div class="log_assistant_ctn">
+                        <div class="log_assistant_user_box">
+                            <div class="log_assistant_user_avater">
+                                <img src="" alt="">
+                            </div>
+                            <div class="log_assistant_user_time">
+                                <p class="log_assistant_user_name">孙一梦的周报</p>
+                                <p class="log_assistant_user_date">
+                                    <span>2018-06-06&nbsp;</span>
+                                    <span>18:22</span>
+                                </p>
+                            </div>
+                        </div>
+                        <i class="log_assistant_lineA"></i>
+                        <div class="log_assistant_finished">
+                            已完成:
+                        </div>
+                        <div class="log_assistant_finishedctn">
+                                1.与张哥、小庞讨论十三猜的用户反馈。<br>
+                                2.跟肖老师、文涛沟通十三猜情况，目前主要问题是用户量太少，用户定位不准确。<br>
+                                3.获奖用户调查，并把奖金发给用户。<br>
+                                4.全员产品进度会议，同时对十三猜下阶段走向大家提出自己的意见，同时规定大家把自己的意见发给我，目前收到的有肖老师、张哥、小
+                                     杨、小孔、小庞、左相。希望其他人早点交给我。<br>
+                        </div>
+                        <div class="log_assistant_unfinished">
+                            未完成:
+                        </div>
+                        <div class="log_assistant_unfinishedctn">
+                                1.跟踪十三用户反馈<br>
+                                2.e建联产品迭代方案
+                        </div>
+                        <div class="log_assistant_ongoing">
+                            进行中:
+                        </div>
+                        <div class="log_assistant_ongoingctn">
+                                1.与设计部及技术部定制新一轮工作排期。
+                        </div>
+                        <div class="log_assistant_plan">
+                            计划:
+                        </div>
+                        <div class="log_assistant_planctn">
+                            <i class="log_assistant_plan_line"></i>
+                            <p class="log_assistant_planctn_title">6月27日拜访xxx资本，沟通融资一事。</p>
+                            <p class="log_assistant_planctn_date">
+                                <span>截止</span>
+                                <span>6月10日</span>
+                            </p>
+                        </div>
+                        <div class="log_assistant_pack">
+                                <div class="generate_log_pack">
+                                        <div class="generate_log_pack_left">
+                                            <img src="../../static/img/pnglogo.png" alt="">
+                                            <i class="iconfont icon-shanchu1 generate_log_pack_delete"></i>
+                                        </div>
+                                        <div class="generate_log_pack_right">
+                                            <p>工程项目报表.jpg</p>
+                                            <p>3.29MB</p>
+                                        </div>
+                                </div>
+                        </div>
+                        <!-- <i class="log_assistant_lineB"></i> -->
+
+                        <!-- 已读未读 -->
+                        <div class="log_assistant_unread">
+                            <div class="log_assistant_readperson">
+                                已读3人
+                            </div>
+                            <div class="log_assistant_unreadperson">
+                                未读12人
+                            </div>
+                            <ul class="log_assistant_user_list">
+                                <li>
+                                    <div class="log_assistant_user_touxiang_box">
+                                        <img src="" alt="" class="log_assistant_user_touxiang">
+                                    </div>
+                                    
+                                    <p class="log_assistant_user_xinming">张淑芬</p>
+                                </li>
+                                <li>
+                                    <div class="log_assistant_user_touxiang_box">
+                                            <img src="" alt="" class="log_assistant_user_touxiang">
+                                    </div>
+                                    <p class="log_assistant_user_xinming">张淑芬</p>
+                                </li>
+                                <li>
+                                    <div class="log_assistant_user_touxiang_box">
+                                            <img src="" alt="" class="log_assistant_user_touxiang">
+                                    </div>
+                                    <p class="log_assistant_user_xinming">张淑芬</p>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- 已读未读 -->
+                        <div class="log_assistant_comments">
+                            评论:
+                        </div>
+                        <div class="log_assistant_commentsctn">
+                            <input class="log_assistant_inputcomments" placeholder="输入评论..."></input>
+                            <p>
+                                <span>
+                                    李林:
+                                </span>
+                                <span>
+                                    加油～看好你哦！
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+              </div>
+            </div>
+        </div>      
+      </div>
+    <!-- 日志助手板块 -->
+    
+    <!-- zyc -->
+
     <div id="empty_search_narrow_message" class="empty_feed_notice">
         <h4>{{ _('Nobody has talked about that yet!') }}</h4>
     </div>

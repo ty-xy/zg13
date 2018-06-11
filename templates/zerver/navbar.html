@@ -79,8 +79,8 @@
                 <ul class="nav" role="navigation">
                     <li class="dropdown actual-dropdown-menu" id="gear-menu">
                         <a id="settings-dropdown" href="#" role="button" class="dropdown-toggle" data-target="nada" data-toggle="dropdown" title="{{ _('Menu') }} (g)">
-                            <i class="iconfont icon-shezhi2"></i>
-                            <!-- <i class="icon-vector-cog"></i> -->
+                            <!-- <i class="iconfont icon-shezhi2"></i> -->
+                            <i class="icon-vector-cog"></i>
                             <!-- <i class="icon-vector-caret-down settings-dropdown-caret"></i> -->
                         </a>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="settings-dropdown">
@@ -108,7 +108,7 @@
                             </li>
                             <li class="divider"></li>
                             <li role="presentation">
-                                <a href="javascript:void(0)" target="_blank" role="menuitem">
+                                <a href="/user_documentation" target="_blank" role="menuitem">
                                     <i class="iconfont icon-yonghu img-settings"></i> {{ _('User documentation') }}
                                 </a>
                             </li>
@@ -149,7 +149,7 @@
                                     <span>{{ _('Statistics') }}</span>
                                 </a>
                             </li>
-                            <li class="divider" role="presentation"></li>
+                            <li class="divider border-bottom" role="presentation"></li>
                             {% if enable_feedback %}
                             <li role="presentation">
                                 <a href="#feedback" class="feedback" role="menuitem">
@@ -160,10 +160,10 @@
                             {% if show_invites %}
                             <li role="presentation">
                                 <a href="#invite" role="menuitem">
-                                    <i class="iconfont icon-tianjia1 img-settings"></i> {{ _('Invite users') }}
+                                    <i class="iconfont icon-tianjia img-settings"></i> {{ _('Invite users') }}
                                 </a>
                             </li>
-                            <li class="divider" role="presentation"></li>
+                            <li class="divider border-bottom" role="presentation"></li>
                             {% endif %}
                             {% if show_webathena %}
                             <li title="{% trans %}Grant Zulip the Kerberos tickets needed to run your Zephyr mirror via Webathena{% endtrans %}" id="webathena_login_menu" role="presentation">
@@ -180,7 +180,7 @@
                             {% if show_debug %}
                             <li role="presentation">
                                 <a href="#debug" data-toggle="tab" role="menuitem">
-                                    <i class="iconfont icon-tianjia1 "></i> {{ _('Debug') }}
+                                    <i class="iconfont icon-tianjia "></i> {{ _('Debug') }}
                                 </a>
                             </li>
                             {% endif %}

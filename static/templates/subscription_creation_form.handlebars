@@ -25,7 +25,7 @@
                 </div>
                 <div class="stream-creation-info">
                     {{#tr this}}
-                    For more information on public/private streams, check out our <a target="_blank" href="https://zulip.readthedocs.io/en/latest/production/security-model.html?highlight=private#messages-and-history">docs</a>.
+                    有关公共/私有流的更多信息，请查看我们的 <a target="_blank" href="/user_documentation">文档</a>.
                     {{/tr}}
                 </div>
                 <ul class="grey-box">
@@ -33,7 +33,7 @@
                         <label class="radio">
                             <input type="radio" name="privacy" value="public" checked />
                             {{#tr this}}
-                            <b>Public:</b> anyone can join; anyone can view complete message history without joining
+                            <b>公有的:</b> 任何人都可以加入;任何人都可以在不加入的情况下查看完整的消息历史
                             {{/tr}}
                         </label>
                     </li>
@@ -41,7 +41,7 @@
                         <label class="radio">
                             <input type="radio" name="privacy" value="invite-only" />
                             {{#tr this}}
-                            <b>Private:</b> must be invited by a member; new members can only see messages sent after they join; hidden from non-administrator users
+                            <b>私有的:</b> 必须由一名成员邀请;新成员只能看到他们加入后发送的消息;隐藏在非管理员用户
                             {{/tr}}
                         </label>
                     </li>

@@ -153,8 +153,8 @@ msgid "Enter"
 msgstr "退出"
 
 #: templates/zerver/accounts_home.html:16
-msgid "Sign up for Zulip"
-msgstr "注册Zulip"
+msgid "Sign up for e建联"
+msgstr "注册e建联"
 
 #: templates/zerver/accounts_home.html:35
 msgid "You need an invitation to join this organization."
@@ -644,7 +644,7 @@ msgid ""
 "            Learn more about starring messages <a href=\"/help/star-a-message\">\n"
 "            here</a>.\n"
 "            "
-msgstr "\n了解更多关于星标消息 <a href=\"/help/star-a-message\">这里</a>."
+msgstr "\n了解更多关于星标消息 <a href=\"javascript:void(0)\">这里</a>."
 
 #: templates/zerver/home.html:109
 msgid "You have no unread messages!"
@@ -660,7 +660,7 @@ msgid ""
 "            Learn more about mentions <a href=\"/help/at-mention-a-team-member\">\n"
 "            here</a>.\n"
 "            "
-msgstr "\n了解更多关于被提及的消息 <a href=\"/help/star-a-message\">这里</a>."
+msgstr "\n了解更多关于被提及的消息 <a href=\"javascript:void(0)\">这里</a>."
 
 #: templates/zerver/home.html:122
 msgid "Nobody has talked about that yet!"
@@ -784,15 +784,15 @@ msgstr "一个或多个邮箱地址..."
 
 #: templates/zerver/invite_user.html:18
 msgid "User(s) join as"
-msgstr ""
+msgstr "用户(s)加入"
 
 #: templates/zerver/invite_user.html:21
 msgid "Regular users"
-msgstr ""
+msgstr "普通用户"
 
 #: templates/zerver/invite_user.html:24
 msgid "Organization administrators"
-msgstr ""
+msgstr "组织管理员"
 
 #: templates/zerver/invite_user.html:34
 msgid "Streams they should join"
@@ -1041,7 +1041,7 @@ msgstr "所有消息"
 
 #: templates/zerver/left_sidebar.html:24
 msgid "management"
-msgstr "管理"
+msgstr "待办事项"
 
 #: templates/zerver/left_sidebar.html:17 templates/zerver/left_sidebar.html:22
 msgid "Private messages"

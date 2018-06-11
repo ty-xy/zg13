@@ -569,7 +569,8 @@ exports.get_local_notify_mix_reason = function (message) {
     // offscreen because it is outside narrow
     // we can only look for these on non-search (can_apply_locally) messages
     // see also: exports.notify_messages_outside_current_search
-    return "Sent! Your message is outside your current narrow.";
+    // return "Sent! Your message is outside your current narrow.";
+    return "发送!你的信息不在你当前的范围之内"
 };
 
 exports.notify_local_mixes = function (messages) {

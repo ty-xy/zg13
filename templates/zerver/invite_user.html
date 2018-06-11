@@ -14,13 +14,13 @@
                     <div class="controls">
                         <textarea rows="2" id="invitee_emails" name="invitee_emails" placeholder="{{ _('One or more email addresses...') }}"></textarea>
                     </div> -->
-                    <label class="control-label stream-control" for="invitee_emails">{{ _('频道描述') }}</label>
+                    <label class="control-label stream-control" for="invitee_emails">{{ _('邮箱地址（每行一个或者用逗号分隔）') }}</label>
                     <div class="controls controls-text">
                         <textarea rows="2" id="invitee_emails" name="invitee_emails" placeholder="{{ _('One or more email addresses...') }}"></textarea>
                     </div>
-                    <label class="control-label stream-control " for="invitee_emails">{{ _('自定义邀请信息') }}</label>
+                    <label class="control-label stream-control " for="invitee_email">{{ _('自定义邀请信息') }}</label>
                     <div class="controls stream-message controls-text">
-                        <textarea rows="2" id="invitee_email" name="invitee_emails" placeholder="{{ _('自定义信息...') }}"></textarea>
+                        <textarea rows="2" id="invitee_email" name="invitee_email" placeholder="{{ _('自定义信息...') }}"></textarea>
                     </div>
                     {% if is_admin %}
                     <label class="control-label" id="invite_as_admin" for"invite_as_admin">{{ _('User(s) join as') }}</label>
