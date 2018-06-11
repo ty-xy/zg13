@@ -770,3 +770,357 @@ ul{
     padding: 0 2px;
     margin-right: 2px;
 }
+
+/* 日志助手样式 */
+.log_assistant_box{
+    width: 1300px;
+    height: 800px;
+    /* border: 1px solid #ccc; */
+    position: absolute;
+    left: 50px;
+    top: 50px;
+    z-index: 1000;
+    /* overflow: hidden; */
+    /* display: none; */
+}
+.log_assistant_left{
+    width: 200px;
+    height: 800px;
+    background: #354052;
+    overflow: hidden;
+}
+.log_assistant_sliber{
+    list-style: none;
+    margin: 0;
+    overflow: hidden;
+    margin-top: 14px;
+}
+.log_assistant_sliber>li{
+    margin: 14px 69px;
+    font-size: 15px;
+    color: #A0ACBF;
+    letter-spacing: 0.18px;
+    cursor: pointer;
+}
+.log_assistant_left{
+    float: left;
+}
+.log_assistant_right{
+    float: left;
+}
+.log_assistant_head{
+    width: 1100px;
+    height: 60px;
+    overflow: hidden;
+    line-height: 60px;
+    background: #fff;
+}
+.log_assistant_head>p:nth-of-type(1){
+    font-size: 15px;
+    color: #A0ACBF;
+    letter-spacing: 0.22px;
+    float: left;
+    margin-left: 30px;
+}
+.log_assistant_head>i:nth-of-type(1){
+    border: 1px solid #A0ACBF;
+    float: left;
+    display: block;
+    height: 20px;
+    width: -1px;
+    background: #A0ACBF;
+    margin-left: 16px;
+    margin-top: 19px;
+}
+.log_assistant_head>p:nth-of-type(2){
+    font-size: 15px;
+    color: #A0ACBF;
+    letter-spacing: 0.22px;
+    float: left;
+    margin-left: 20px;
+}
+.log_assistant_close{
+    color: #999;
+    position: absolute;
+    right: 20px;
+    font-size: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+.log_assistant_ctn_box{
+    background: #f5f5f5;
+    width: 1100px;
+    height: 740px;
+    overflow: auto;
+}
+.log_assistant_prompt_box{
+    width: 985px;
+    margin: 0 auto;
+    margin-top: 20px;
+    height: 60px;
+}
+.log_assistant_read{
+    background: #FFFFFF;
+    border: 1px solid #A0ACBF;
+    border-radius: 100px;
+    font-size: 13px;
+    color: #A0ACBF;
+    letter-spacing: 0.16px;
+    width: 80px;
+    height: 30px;
+    float: right;
+    text-align: center;
+    line-height: 30px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.log_assistant_screening{
+    background: #FFFFFF;
+    border: 1px solid #A0ACBF;
+    border-radius: 100px;
+    font-size: 13px;
+    color: #A0ACBF;
+    letter-spacing: 0.16px;
+    width: 80px;
+    height: 30px;
+    float: right;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+}
+.log_assistant_user_box{
+    height: 80px;
+}
+.log_assistant_ctn{
+    width: 985px;
+    margin: 0 auto;
+    overflow: hidden;
+    background: #fff;
+    position: relative;
+    box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30);
+    border-radius: 4px 4px 0 0;
+    margin-bottom: 20px;
+}
+.log_assistant_user_avater{
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    margin-left: 20px;
+    margin-top: 20px;
+    background: red;
+    border-radius: 50%;
+    float: left;
+}
+.log_assistant_user_time{
+    float: left;
+    margin-top: 20px;
+    margin-left: 10px;
+}
+.log_assistant_user_name{
+    font-size: 16px;
+    color: #333333;
+    letter-spacing: 0.19px;
+}
+.log_assistant_user_date{
+    font-size: 14px;
+    color: #999999;
+    letter-spacing: 0.17px;
+}
+.log_assistant_lineA{
+    display: block;
+    width: 945px;
+    height: 2px;
+    background: #ccc;
+    margin: 0 auto;
+    position: absolute;
+    top: 80px;
+    left: 20px;
+}
+.log_assistant_finished{
+    font-size: 15px;
+    color: #333333;
+    letter-spacing: 0.18px;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+.log_assistant_finishedctn{
+    font-size: 15px;
+    color: #666666;
+    letter-spacing: 0.18px;
+    margin: 0 auto;
+    margin-top: 6px;
+    margin-left: 20px;
+}
+.log_assistant_unfinished{
+    font-size: 15px;
+    color: #333333;
+    letter-spacing: 0.18px;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+.log_assistant_unfinishedctn{
+    font-size: 15px;
+    color: #666666;
+    letter-spacing: 0.18px;
+    margin: 0 auto;
+    margin-top: 6px;
+    margin-left: 20px;
+}
+.log_assistant_ongoing{
+    font-size: 15px;
+    color: #333333;
+    letter-spacing: 0.18px;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+.log_assistant_ongoingctn{
+    font-size: 15px;
+    color: #666666;
+    letter-spacing: 0.18px;
+    margin-top: 6px;
+    margin-left: 20px;
+}
+.log_assistant_plan{
+    font-size: 15px;
+    color: #333333;
+    letter-spacing: 0.18px;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+.log_assistant_planctn{
+    font-size: 15px;
+    color: #666666;
+    letter-spacing: 0.18px;
+    margin-top: 6px;
+    margin-left: 36px;
+
+}
+.log_assistant_planctn_title{
+    font-size: 15px;
+    color: #666666;
+    letter-spacing: 0.16px;
+    margin-bottom: 0;
+}
+.log_assistant_planctn_date{
+    font-size: 11px;
+    color: #999999;
+    letter-spacing: 0.12px;
+}
+.log_assistant_plan_line{
+    display: block;
+    width: 4px;
+    height: 33px;
+    background: #d8d8d8;
+    position: absolute;
+    left: 22px;
+}
+.log_assistant_lineB{
+    display: block;
+    width: 945px;
+    height: 2px;
+    background: #ccc;
+    margin: 0 auto;
+    position: absolute;
+    top: 80px;
+    left: 20px;
+}
+.log_assistant_comments{
+    font-size: 15px;
+    color: #333333;
+    letter-spacing: 0.18px;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+.log_assistant_inputcomments{
+    width: 945px;
+    height: 40px;
+    min-height: 40px;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    resize: none;
+    margin: 0 auto;
+    margin-left: 20px;
+    /* margin-top: 22px; */
+}
+.log_assistant_pack{
+    width: 945px;
+    height: 70px;
+}
+.log_assistant_commentsctn>p{
+    margin-left: 20px;
+    margin-top: 4px;
+}
+.log_assistant_commentsctn>p>span:nth-last-of-type(1){
+    font-size: 13px;
+    color: #71829D;
+    letter-spacing: 0.16px;
+}
+.log_assistant_commentsctn>p>span:nth-last-of-type(2){
+    font-size: 13px;
+    color: #666666;
+    letter-spacing: 0.16px;
+}
+.log_assistant_commentsctn{
+    margin-bottom: 20px;
+}
+.log_assistant_unread{
+    overflow: hidden;
+    margin-left: 20px;
+    margin-top: 20px;
+    display: none;
+}
+.log_assistant_readperson{
+    font-size: 15px;
+    color: #333333;
+    letter-spacing: 0.18px;
+    float: left;
+    
+}
+.log_assistant_unreadperson{
+    float: left;
+    font-size: 15px;
+    color: #999999;
+    letter-spacing: 0.18px;
+    margin-left: 10px;
+}
+
+.log_assistant_user_list{
+    list-style: none;
+    overflow: hidden;
+    width: 945px;
+    margin-left: 0;
+    margin-top: 34px;
+}
+.log_assistant_user_list>li{
+    float: left;
+    width:40px;
+    margin-right: 20px;
+}
+.log_assistant_user_xinming{
+    font-size: 13px;
+    color: #666666;
+    letter-spacing: 0.16px;
+    margin-top: 4px;
+}
+.log_assistant_user_touxiang_box{
+    width: 40px;
+    height: 40px;
+    background: #00BDFF;
+    border-radius: 50%;
+}
+.log_assistant_md{
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.30);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 111;
+    display: flex;
+    display: none;
+    /* justify-content:center;
+    align-items:center; */
+}
+.high_light{
+    color: #fff!important;
+}
