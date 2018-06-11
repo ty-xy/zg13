@@ -175,6 +175,30 @@
                 $(".log_assistant_ctn").css("margin-top","20px");
                 $(".log_assistant_unread").show();
             })
+        //日志助手拖拽
+        $(".log_assistant_box").on("mousedown",function(e){
+            var x =parseInt(e.pageX - $(".log_assistant_box").offset().left);
+            var y =parseInt(e.pageY - $(".log_assistant_box").offset().top); 
+            $(".log_assistant_box").bind("mousemove",function(ev){
+                var ox = ev.pageX - x;
+                var oy = ev.pageY-y;
+                $(".log_assistant_box").css({
+                    left:ox+"px",
+                    top:oy+"px"
+                })
+            })
+            $(".log_assistant_box").on("mouseup",function(e){
+                $(this).unbind("mousemove");
+            })
+        })
+        //只看未读
+        $(".log_assistant_read").on("click",function(e){
+            
+        })
+        //筛选
+        $(".log_assistant_screening").on("click",function(e){
+            
+        })
         //点击打开周报
         // $("#weekly").on("click",function(e){
         //     var zjson={

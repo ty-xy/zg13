@@ -872,6 +872,7 @@ ul{
     text-align: center;
     line-height: 30px;
     margin-right: 10px;
+    cursor: pointer;
 }
 .log_assistant_screening{
     background: #FFFFFF;
@@ -885,6 +886,7 @@ ul{
     float: right;
     text-align: center;
     line-height: 30px;
+    cursor: pointer;
 }
 .log_assistant_user_box{
     height: 80px;
@@ -1114,10 +1116,10 @@ ul{
     left: 0;
     top: 0;
     z-index: 111;
-    display: none;
     display: flex;
-    justify-content:center;
-    align-items:center;
+    display: none;
+    /* justify-content:center;
+    align-items:center; */
 }
 .high_light{
     color: #fff!important;
