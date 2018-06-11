@@ -131,7 +131,50 @@
                 minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
                 weekStart:1  
             });  
-  
+            
+
+        //日志助手显示
+            $(".log_assistant_btn").on("click",function(e){
+                e.stopPropagation();
+                e.preventDefault();
+                var window_high = window.screen.height;
+                $(".log_assistant_md").css("height",window_high);
+                $(".log_assistant_md").css("overflow","auto");
+                $(".log_assistant_md").show();
+                $(".app").css("overflow-y","hidden")
+            })
+        //日志助手关闭
+            $(".log_assistant_close").on("click",function(e){
+                $(".log_assistant_md").hide();
+                $(".app").css("overflow-y","scroll")
+            })
+        //日志助手点击md关闭
+            $(".log_assistant_md").on("click",function(e){
+                e.stopPropagation();
+                e.preventDefault();
+                $(".log_assistant_md").hide();
+                $(".app").css("overflow-y","scroll")
+            })
+        //日志助手阻止冒泡
+            $(".log_assistant_box").on("click",function(e){
+                e.stopPropagation();
+                e.preventDefault();
+            })
+        //我收到的 点击内容
+            $(".log_assistant_received").on("click",function(e){
+                $(this).addClass("high_light").siblings().removeClass("high_light");
+                $(".log_assistant_prompt_box").show();
+                $(".log_assistant_ctn").css("margin-top","0px");
+                $(".log_assistant_unread").hide();
+                console.log('dasdknjbcnjbn')
+            })
+        //我发出的 点击内容
+            $(".log_assistant_send").on("click",function(e){
+                $(this).addClass("high_light").siblings().removeClass("high_light");
+                $(".log_assistant_prompt_box").hide();
+                $(".log_assistant_ctn").css("margin-top","20px");
+                $(".log_assistant_unread").show();
+            })
         //点击打开周报
         // $("#weekly").on("click",function(e){
         //     var zjson={
