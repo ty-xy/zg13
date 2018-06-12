@@ -132,7 +132,20 @@
                 weekStart:1  
             });  
             
-
+        //初始化 筛选 开始时间日历
+            $('#screenstart_datetimepicker').datetimepicker({  
+                language:"zh-CN",  
+                todayHighlight: true,  
+                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                weekStart:1  
+            });  
+        //初始化 筛选 结束时间日历
+            $('#screenend_datetimepicker').datetimepicker({  
+                language:"zh-CN",  
+                todayHighlight: true,  
+                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                weekStart:1  
+            }); 
         //日志助手显示
             $(".log_assistant_btn").on("click",function(e){
                 e.stopPropagation();
@@ -198,7 +211,19 @@
         })
         //筛选
         $(".log_assistant_screening").on("click",function(e){
-            
+            $(".log_screening").show();
+        })
+        //关闭筛选
+        $(".log_screening_close").on("click",function(e){
+            $(".log_screening").hide();
+        })
+        //选择发送人
+        $(".log_screening_select").on("click",function(e){
+            $("#people-choose").show();
+        })
+        //关闭选择发送人
+        $(".choose_team_close").on("click",function(e){
+            $("#people-choose").hide();
         })
         //点击打开周报
         // $("#weekly").on("click",function(e){
