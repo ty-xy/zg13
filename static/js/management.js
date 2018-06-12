@@ -166,7 +166,7 @@
                 $(".log_assistant_prompt_box").show();
                 $(".log_assistant_ctn").css("margin-top","0px");
                 $(".log_assistant_unread").hide();
-                console.log('dasdknjbcnjbn')
+                $(".log_assistant_title").html("我收到的")
             })
         //我发出的 点击内容
             $(".log_assistant_send").on("click",function(e){
@@ -174,6 +174,7 @@
                 $(".log_assistant_prompt_box").hide();
                 $(".log_assistant_ctn").css("margin-top","20px");
                 $(".log_assistant_unread").show();
+                $(".log_assistant_title").html("我发出的")
             })
         //日志助手拖拽
         $(".log_assistant_box").on("mousedown",function(e){
