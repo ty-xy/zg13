@@ -50,14 +50,16 @@
         })
         //点击待办事项文本内容展示详情弹窗
         $(".add_ctn").on("click",function(e){
-            console.log("任务执行了")
             $(".taskdetail_md").show();
+            $(".app").css("overflow-y","hidden")
+            console.log("helow")
         })
         //点击任务详情模版关闭任务详情
         $(".taskdetail_md").on("click",function(e){
             e.stopPropagation();
             e.preventDefault();
             $(".taskdetail_md").hide();
+            $(".app").css("overflow-y","scroll");
         })
         //任务详情上的内容点击生效
         $(".taskdetail_box").on("click",function(e){
@@ -67,6 +69,7 @@
         //任务详情点击关闭
         $(".taskdetail_close").on("click",function(e){
             $(".taskdetail_md").hide();
+            $(".app").css("overflow-y","scroll")
         })
         //日志弹窗关闭
         $(".generate_log_close").on("click",function(e){
