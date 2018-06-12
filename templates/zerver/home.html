@@ -30,7 +30,6 @@
     </div>
     <div id="empty_narrow_message" class="empty_feed_notice">
         <h4>{{ _("Nothing's been sent here yet!") }}</h4>
-
         <p>
             {% trans %}
             Why not <a href="#" class="empty_feed_compose_stream">
@@ -38,16 +37,18 @@
             {% endtrans %}
         </p>
     </div>
+    <!-- {% block content %} -->
     <div id="empty_narrow_all_private_message" class="empty_feed_notice">
         <h4>{{ _('You have no private messages yet!') }}</h4>
-
         <p>
             {% trans %}
             Why not <a href="#" class="empty_feed_compose_private">
             start the conversation</a>?
             {% endtrans %}
         </p>
+        {% include "zerver/choose.html" %}
     </div>
+    <!-- {% endblock %} -->
     <div id="empty_narrow_private_message" class="empty_feed_notice">
         <h4>{{ _('You have no private messages with this person yet!') }}</h4>
 
