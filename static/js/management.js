@@ -26,22 +26,22 @@
             $("#search_query").val("");
         })
         $(".new_task_save").on("click",function(e){
-            let inttitle = $(".new_task_title").val();
-            let inttime = $(".new_task_date").val();
-            $.ajax({
-                type:"GET",
-                url:"",
-                data:{
-                    "inttitle":inttitle,
-                    "inttime":inttime
-                },
-                success:function(res){
+            // let inttitle = $(".new_task_title").val();
+            // let inttime = $(".new_task_date").val();
+            // $.ajax({
+            //     type:"GET",
+            //     url:"",
+            //     data:{
+            //         "inttitle":inttitle,
+            //         "inttime":inttime
+            //     },
+            //     success:function(res){
 
-                },
-                error:function(rej){
+            //     },
+            //     error:function(rej){
 
-                }
-            })
+            //     }
+            // })
         })
 
         $(".new_task_cancel").on("click",function(e){
