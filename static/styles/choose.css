@@ -45,10 +45,12 @@
     width:228px;
     text-indent:38.4px;
     border-radius: 100px;
-    box-sizing:border-box
+    box-sizing:border-box;
+    
 }
-.search-icon:focus{
-    border-radius: 100px;
+.search-icon:focus,.button-anniu:focus{
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),
+    0 0 8px rgba(82,168,236,0.6);
 }
 
 .icon-search-choose{
@@ -121,6 +123,10 @@ input[type="checkbox"]{
 }
 :focus{
     outline:none !important;
+    /* -wbkit-outline-radius:50px !important;
+    /* outline-offset: -px; */
+    /* outline-style: hidden;
+    border-radius:100px !important; */ 
 }
 .box-left-list{
     margin:0
