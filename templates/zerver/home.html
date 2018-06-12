@@ -37,7 +37,6 @@
             {% endtrans %}
         </p>
     </div>
-    <!-- {% block content %} -->
     <div id="empty_narrow_all_private_message" class="empty_feed_notice">
         <h4>{{ _('You have no private messages yet!') }}</h4>
         <p>
@@ -46,9 +45,8 @@
             start the conversation</a>?
             {% endtrans %}
         </p>
-        {% include "zerver/choose.html" %}
+        <!-- {% include "zerver/choose.html" %} -->
     </div>
-    <!-- {% endblock %} -->
     <div id="empty_narrow_private_message" class="empty_feed_notice">
         <h4>{{ _('You have no private messages with this person yet!') }}</h4>
 
@@ -405,12 +403,12 @@
                       <li class="log_assistant_received high_light">我收到的</li>
                       <li class="log_assistant_send">我发出的</li>
                   </ul>
-              </div>
+            </div>
             <div class="log_assistant_right">
               <div class="log_assistant_head">
                   <p>e建联</p>
                   <i></i>
-                  <p>我收到的</p>
+                  <p class="log_assistant_title">我收到的</p>
                   <i class="iconfont icon-guanbiUI log_assistant_close"></i>
               </div>
               <div class="log_assistant_ctn_box">
@@ -529,10 +527,149 @@
                                     加油～看好你哦！
                                 </span>
                             </p>
+                            <div class="log_assistant_commentsbtn">
+                                发送
+                            </div>
                         </div>
                     </div>
               </div>
             </div>
+
+            <!-- 筛选弹窗 -->
+            <div class="log_screening">
+                <i class="iconfont icon-xiaosanjiao"></i>
+                <i class="iconfont icon-guanbiUI log_screening_close"></i>
+                <div class="log_screening_tilte">
+                    任务详情
+                </div>
+                <div class="log_screening_person">
+                    <span>选择发送人</span>
+                    <input type="text" placeholder="请选择" class="log_screening_select">
+                </div>
+                <div class="log_screening_startdate">
+                    <p>开始时间</p>
+                    <div class="input-append date" id="screenstart_datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
+                            <input class="new_task_date" size="16" type="text" value="" readonly placeholder="请选择日期...">  
+                            <span class="add-on select_date_icon">
+                                <i data-date-icon="icon-calendar" class="icon-calendar iconfont icon-riqi"></i>
+                            </span>  
+                    </div>
+                </div>
+                <div class="log_screening_enddate">
+                    <p>截止时间</p>
+                    <div class="input-append date" id="screenend_datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
+                            <input class="new_task_date" size="16" type="text" value="" readonly placeholder="请选择日期...">  
+                            <span class="add-on select_date_icon">
+                                <i data-date-icon="icon-calendar" class="icon-calendar iconfont icon-riqi"></i>
+                            </span>  
+                    </div>
+                </div>
+                <div class="log_screening_btn">
+                    <div class="log_screening_reset">
+                        重置
+                    </div>
+                    <div class="log_screening_enter">
+                        确定
+                    </div>
+                </div>
+            </div>
+            <div id="people-choose" class="choose-team">
+                    <i class="iconfont icon-guanbiUI choose_team_close"></i>
+                    <div class="choose-header">
+                        选择发送人
+                    </div>
+                    <div class="choose-nav">
+                        <div class="choose-nav-left">
+                            <div class="icon-sousuo-search">
+                                <i class="iconfont icon-sousuo icon-search-choose"></i>
+                                <input placeholder="搜索" class="search-icon"/>
+                            </div>
+                            <div class="input-box">
+                               <input type="checkbox" class="checkbox-input"/>
+                               <span>全选</span>
+                            </div>
+                            <ul class="box-left-list">
+                                <li class="input-box-list">
+                                    <div class="box-list-left">
+                                        <input type="checkbox"/>
+                                        <span>设计组</span>
+                                    </div>
+                                    <button class="button-right">下级</button>
+                                </li>
+                                <li class="input-box-list">
+                                    <div class="box-list-left">
+                                        <input type="checkbox"/>
+                                        <span>产品组</span>
+                                    </div>
+                                    <button class="button-right">下级</button>
+                                </li>
+                                <li class="input-box-list">
+                                    <div class="box-list-left">
+                                        <input type="checkbox"/>
+                                        <span>运营组</span> 
+                                    </div>
+                                    <button class="button-right">下级</button>
+                                </li>
+                                <li class="input-box-list">
+                                    <div class="box-list-left">
+                                        <input type="checkbox"/>
+                                        <span>测试组</span>
+                                    </div>
+                                    <button class="button-right">下级</button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="choose-right-list">
+                            <div class="icon-sousuo-search choose-right">
+                                <div>已选(5)</div>
+                                <button class="button-right">清空</button>
+                            </div>
+                            <ul class="box-left-list">
+                                <li class="input-box-list box-list-right">
+                                        <div class="box-list-left">
+                                            <input type="checkbox"/>
+                                            <span>李俊伟</span>
+                                        </div>
+                                        <button class="button-right">删除</button>
+                                </li>
+                                <li class="input-box-list box-list-right">
+                                        <div class="box-list-left">
+                                            <input type="checkbox"/>
+                                            <span>刘凯瑞</span>
+                                        </div>
+                                        <button class="button-right">删除</button>
+                                </li>
+                                <li class="input-box-list box-list-right">
+                                        <div class="box-list-left">
+                                            <input type="checkbox"/>
+                                            <span>颜如晶</span>
+                                        </div>
+                                        <button class="button-right">删除</button>
+                                </li>
+                                <li class="input-box-list box-list-right">
+                                        <div class="box-list-left">
+                                            <input type="checkbox"/>
+                                            <span>大王</span>
+                                        </div>
+                                        <button class="button-right">删除</button>
+                                </li>
+                                <li class="input-box-list box-list-right">
+                                        <div class="box-list-left">
+                                            <input type="checkbox"/>
+                                            <span>臧鸿飞</span>
+                                        </div>
+                                        <button class="button-right">删除</button>
+                                </li>
+                            </ul>
+                           <div class="button-bottom">
+                               <button class="button-anniu button-cancel">取消</button>
+                               <button class="button-anniu button-confirm">确定</button>
+                           </div>
+                        </div>
+                    </div>
+                </div>
+
+            <!-- 筛选弹窗 -->
         </div>      
       </div>
     <!-- 日志助手板块 -->

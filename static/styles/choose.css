@@ -5,7 +5,11 @@
     width:540px;
     height:473px;
     display: flex;
-    flex-direction: column
+    flex-direction: column;
+    position: absolute;
+    left: 400px;
+    top: 140px;
+    display: none;
 }
 .choose-header{
    width:100%;
@@ -13,6 +17,7 @@
    border-bottom:1px solid #ddd;
    box-sizing:border-box;
    line-height:50px;
+   text-align: center;
 }
 .choose-nav{
     width:100%;
@@ -101,7 +106,7 @@ input[type="checkbox"]{
 }
 .button-bottom{
     position: absolute;
-    bottom:26px;
+    bottom:-136px;
     left:59px
 }
 .button-anniu{
@@ -130,4 +135,130 @@ input[type="checkbox"]{
 }
 .box-left-list{
     margin:0
+}
+
+.log_screening{
+    width: 342px;
+    height: 391px;
+    position: absolute;
+    right: 57px;
+    top: 137px;
+    background: #fff;
+    /* border: 1px solid red; */
+    box-shadow: 0 1px 10px 0 rgba(204,204,204,0.30);
+    border-radius: 1px;
+    display: none;
+}
+.log_screening_tilte{
+    font-size: 16px;
+    color: #333333;
+    letter-spacing: 0;
+    text-align: center;
+    height: 54px;
+    line-height: 54px;
+    border-bottom: 1px solid #ccc;
+}
+.log_screening_person{
+    margin-top: 20px;
+}
+.log_screening_person>:first-child{
+    font-size: 15px;
+    color: #333333;
+    letter-spacing: 0.22px;
+    margin-left: 30px;
+    margin-top: 20px;
+}
+.log_screening_person>:last-child{
+    width: 200px;
+    height: 30px;
+    border: 1px solid #A0ACBF;
+    border-radius: 100px;
+    text-indent: 10px;
+}
+.log_screening_startdate{
+    width: 280px;
+    margin: 0 auto;
+    height: 60px;
+    margin-top: 10px;
+}
+.log_screening_startdate>:first-child{
+    font-size: 15px;
+    color: #333333;
+    letter-spacing: 0.22px;
+    /* margin-left: 30px; */
+    margin-top: 20px;
+    float: left;
+}
+#screenstart_datetimepicker{
+    width: 241px;
+    float: left;
+    margin-left: -22px;
+    margin-top: 10px;
+}
+#screenstart_datetimepicker>:first-child{
+    width: 160px;
+}
+.log_screening_enddate{
+    width: 280px;
+    margin: 0 auto;
+    height: 60px;
+    margin-top: 10px;
+}
+.log_screening_enddate>:first-child{
+    font-size: 15px;
+    color: #333333;
+    letter-spacing: 0.22px;
+    margin-top: 20px;
+    float: left;
+}
+#screenend_datetimepicker>:first-child{
+    width: 160px;
+}
+#screenend_datetimepicker{
+    width: 241px;
+    float: left;
+    margin-left: -22px;
+    margin-top: 10px;
+}
+.log_screening_btn{
+    width: 165px;
+    height: 60px;
+    margin: 0 auto;
+    margin-top: 55px;
+}
+.log_screening_reset{
+    width: 65px;
+    height: 30px;
+    border: 1px solid #A0ACBF;
+    border-radius: 100px;
+    font-size: 13px;
+    color: #A0ACBF;
+    letter-spacing: 0.19px;
+    text-align: center;
+    line-height: 30px;
+    float: left;
+}
+.log_screening_enter{
+    width: 65px;
+    height: 30px;
+    border: 1px solid #A0ACBF;
+    border-radius: 100px;
+    font-size: 13px;
+    color: #A0ACBF;
+    letter-spacing: 0.19px;
+    text-align: center;
+    line-height: 30px;
+    float: left;
+    margin-left: 30px;
+}
+.log_screening_close{
+    position: absolute;
+    right: 10px;
+    top: 4px;
+}
+.choose_team_close{
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    cursor: pointer;
 }
