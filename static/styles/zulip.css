@@ -3168,6 +3168,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     overflow: hidden; 
     width: 600px;
     cursor: pointer;
+    text-align: left;
 }
 .note_icon{
     float: left;
@@ -3188,6 +3189,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     font-size: 13px;
     color: #999999;
     letter-spacing: 0.16px;
+    width: 67px;
 }
 .completed_box>li{
     width: 876px;
