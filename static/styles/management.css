@@ -1062,6 +1062,7 @@ ul{
 }
 .log_assistant_commentsctn{
     margin-bottom: 20px;
+    position: relative;
 }
 .log_assistant_unread{
     overflow: hidden;
@@ -1123,4 +1124,23 @@ ul{
 }
 .high_light{
     color: #fff!important;
+}
+.log_assistant_commentsbtn{
+    width: 65px;
+    height: 30px;
+    background: #14A4FA;
+    border-radius: 100px;
+    text-align: center;
+    line-height: 30px;
+    color: #fff;
+    position: absolute;
+    right: 20px;
+    top: 7px;
+}
+.icon-xiaosanjiao{
+    position: absolute;
+    right: 18px;
+    top: -17px;
+    font-size: 32px;
+    color: #fff;
 }
