@@ -57,7 +57,7 @@ def backlogs_view(request):
                 backlog_dict[str(bl.id)]['task'] = bl.task
                 backlog_dict[str(bl.id)]['task_details'] = bl.task_details
                 backlog_dict[str(bl.id)]['state'] = bl.state
-                accessory_list = BacklogAccessory.objects.filter(bl.id)
+                accessory_list = BacklogAccessory.objects.filter(backlog_id=bl.id)
 
                 if accessory_list:
                     accessory_dict = {}
@@ -72,7 +72,7 @@ def backlogs_view(request):
         req = request.body
         req = req.decode()
         req = json.loads(req)
-
+        print(user)
         task = req.get('task')
         over_time = req.get('over_time')
         task_details = req.get('task_details')
@@ -101,7 +101,7 @@ def backlogs_view(request):
             time_array = time.localtime(create_time)
             other_styley_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
             update_create_time = "%s创建了事项" % other_styley_time
-            UpdateBacklog.objects.create(backlog_id=backlog.id, update_backlog=update_create_time)
+            UpdateBacklog.objects.create(backlog_id=backlog, update_backlog=update_create_time)
 
         except ImportError:
             return JsonResponse({'errno': 2, 'message': '创建事项失败'})
