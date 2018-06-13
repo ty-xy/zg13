@@ -55,35 +55,35 @@
                 }
             })
 
-            $.ajax({
-                type:"GET",
-                url:"zg/api/v1/backlog",
-                success:function(res){
-                    console.log(res)
-                    console.log(res.backlog_dict)
-                    // console.log(res.backlog_dict[1].task)
-                    // console.log(res.backlog_dict.length)
-                    // console.log(res.backlog_dict.over_time)
-                    for(var key in res.backlog_dict){
-                        console.log(res.backlog_dict[key].task)
-                        console.log(res.backlog_dict[key].over_time)
-                        $(".todo_box").append("<li class='todo'>\
-                        <div class='todo_left'>\
-                                <input type='checkbox' class='add_checkbox' id='todo_laber'>\
-                                <p class='add_ctn'>"+res.backlog_dict[key].task+"</p>\
-                        </div>\
-                        <div class='todo_right'>\
-                                <i class='iconfont icon-beizhu note_icon'></i>\
-                                <i class='iconfont icon-fujian1 attachment_icon'></i>\
-                                <p class='add_datatime'>"+res.backlog_dict[key].over_time+"</p>\
-                        </div>\
-                    </li>")
-                    }
-                },
-                error:function(rej){
-                    console.log(rej)
-                }   
-            })
+            // $.ajax({
+            //     type:"GET",
+            //     url:"zg/api/v1/backlog",
+            //     success:function(res){
+            //         console.log(res)
+            //         console.log(res.backlog_dict)
+            //         // console.log(res.backlog_dict[1].task)
+            //         // console.log(res.backlog_dict.length)
+            //         // console.log(res.backlog_dict.over_time)
+            //         for(var key in res.backlog_dict){
+            //             console.log(res.backlog_dict[key].task)
+            //             console.log(res.backlog_dict[key].over_time)
+            //             $(".todo_box").append("<li class='todo'>\
+            //             <div class='todo_left'>\
+            //                     <input type='checkbox' class='add_checkbox' id='todo_laber'>\
+            //                     <p class='add_ctn'>"+res.backlog_dict[key].task+"</p>\
+            //             </div>\
+            //             <div class='todo_right'>\
+            //                     <i class='iconfont icon-beizhu note_icon'></i>\
+            //                     <i class='iconfont icon-fujian1 attachment_icon'></i>\
+            //                     <p class='add_datatime'>"+res.backlog_dict[key].over_time+"</p>\
+            //             </div>\
+            //         </li>")
+            //         }
+            //     },
+            //     error:function(rej){
+            //         console.log(rej)
+            //     }   
+            // })
         })
 
         $(".new_task_cancel").on("click",function(e){
@@ -92,6 +92,7 @@
         })
         //点击待办事项文本内容展示详情弹窗
         $(".add_ctn").on("click",function(e){
+            console.log("dadasdasd")
             $(".taskdetail_md").show();
             $(".app").css("overflow-y","hidden")
             console.log("helow")

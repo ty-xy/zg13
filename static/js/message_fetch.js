@@ -19,12 +19,20 @@ function process_result(data, opts) {
     var messages = data.messages;
 
     $('#connection-error').removeClass("show");
-
-    if ((messages.length === 0) && (current_msg_list === message_list.narrowed) &&
-        message_list.narrowed.empty()) {
+    if ((messages.length === 0) && (current_msg_list === message_list.narrowed)) {
+        if(message_list.narrowed.empty()){
+            $("#zfilt").show();
+            narrow.show_empty_narrow_message();
+        }else{
+            $("#zfilt").hide();
+            narrow.show_empty_narrow_message();
+        }
+        // &&message_list.narrowed.empty()
         // Even after trying to load more messages, we have no
         // messages to display in this narrow.
-        narrow.show_empty_narrow_message();
+        // console.log("heha")
+        // $("#zfilt").hide();
+        // narrow.show_empty_narrow_message();
     }
 
     _.each(messages, message_store.set_message_booleans);
@@ -104,6 +112,35 @@ exports.load_messages = function (opts) {
         idempotent: true,
         success: function (data) {
             get_messages_success(data, opts);
+            $.ajax({
+                type:"GET",
+                url:"zg/api/v1/backlog",
+                success:function(res){
+                    console.log(res)
+                    console.log(res.backlog_dict)
+                    // console.log(res.backlog_dict[1].task)
+                    // console.log(res.backlog_dict.length)
+                    // console.log(res.backlog_dict.over_time)
+                    for(var key in res.backlog_dict){
+                        // console.log(res.backlog_dict[key].task)
+                        // console.log(res.backlog_dict[key].over_time)
+                        $(".todo_box").append("<li class='todo'>\
+                        <div class='todo_left'>\
+                                <input type='checkbox' class='add_checkbox'>\
+                                <p class='add_ctn'>"+res.backlog_dict[key].task+"</p>\
+                        </div>\
+                        <div class='todo_right'>\
+                                <i class='iconfont icon-beizhu note_icon'></i>\
+                                <i class='iconfont icon-fujian1 attachment_icon'></i>\
+                                <p class='add_datatime'>"+res.backlog_dict[key].over_time+"</p>\
+                        </div>\
+                    </li>")
+                    }
+                },
+                error:function(rej){
+                    console.log(rej)
+                }   
+            })
         },
         error: function (xhr) {
             if (opts.msg_list.narrowed && opts.msg_list !== current_msg_list) {
