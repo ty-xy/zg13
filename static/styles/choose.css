@@ -131,3 +131,33 @@ input[type="checkbox"]{
 .box-left-list{
     margin:0
 }
+#file-choose{
+    float:left;
+    position: relative;
+}
+.test-image-file{
+    width:10px;
+    height:100%;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    opacity: 0;
+   position: absolute;
+    left:-3px;
+    top:5px;
+}
+a.message-control-button {
+    display: block;
+    color: hsl(0,0%,46%);
+    text-decoration: none;
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+    margin-right: 8px;
+    padding-top: 5px;
+    text-align: center;
+    float: left;
+}
+.icon-vector-paper-clip:before {
+    content: "\f0c6";
+}

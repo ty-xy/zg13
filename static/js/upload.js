@@ -5,6 +5,7 @@ var exports = {};
 function make_upload_absolute(uri) {
     if (uri.indexOf(compose.uploads_path) === 0) {
         // Rewrite the URI to a usable link
+        console.log(compose.uploads_path,compose.uploads_domain)
         return compose.uploads_domain + uri;
     }
     return uri;
@@ -17,7 +18,7 @@ exports.feature_check = function (upload_button) {
     }
 };
 
-exports.options = function (config) {
+exports.options = function (config) { 
     var textarea;
     var send_button;
     var send_status;
@@ -26,7 +27,8 @@ exports.options = function (config) {
     var upload_bar;
     var should_hide_upload_status;
     var file_input;
-
+    var file_inputs;
+    console.log(config)
     switch (config.mode) {
     case 'compose':
         textarea = $('#compose-textarea');
@@ -36,6 +38,7 @@ exports.options = function (config) {
         error_msg = $('#compose-error-msg');
         upload_bar = 'compose-upload-bar';
         file_input = 'file_input';
+        file_inputs = 'file_inputs';
         break;
     case 'edit':
         textarea = $('#message_edit_content_' + config.row);
@@ -45,7 +48,17 @@ exports.options = function (config) {
         error_msg = send_status.find('.error-msg');
         upload_bar = 'message-edit-upload-bar-' + config.row;
         file_input = 'message_edit_file_input_' + config.row;
+        file_inputs = 'file_inputs'+ config.row;
         break;
+    case "choose":
+        file_inputs = 'file_inputs';
+        textarea = $('#compose-textarea');
+        send_button = $('#compose-send-button');
+        send_status = $('#compose-send-status');
+        send_status_close = $('.compose-send-status-close');
+        error_msg = $('#compose-error-msg');
+        upload_bar = 'compose-upload-bar';
+        
     default:
         throw Error("Invalid upload mode!");
     }
@@ -125,8 +138,10 @@ exports.options = function (config) {
         if (response.uri === undefined) {
             return;
         }
+        console.log(response,i,file)
         var split_uri = response.uri.split("/");
         var filename = split_uri[split_uri.length - 1];
+        console.log(filename)
         // Urgh, yet another hack to make sure we're "composing"
         // when text gets added into the composebox.
         if (!compose_state.composing()) {
@@ -158,7 +173,6 @@ exports.options = function (config) {
             $('#' + file_input).val('');
         }
     };
-
     return {
         url: "/json/user_uploads",
         fallback_id: file_input,  // Target for standard file dialog
