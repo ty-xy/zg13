@@ -1156,7 +1156,7 @@ msgid ""
 "                          add the language's <b>first</b> <a target=\"_blank\" href=\"http://pygments.org/docs/lexers/\">Pygments short name</a>\n"
 "                          after the first set of back-ticks.\n"
 "                          You can also make a code block by indenting each line with 4 spaces."
-msgstr "在多行代码块中添加语法高亮显示，\n添加语言的<b>首先</b><a target=\"_blank\" href=\"http://pygments.org/docs/lexers/\">参考语言的短名称</a>\n然后再进行输入\n当然你可以使用4个空格来进行代码缩进"
+msgstr "在多行代码块中添加语法高亮显示，\n添加语言的<b>首先社会</b><a target=\"_blank\" href=\"http://pygments.org/docs/lexers/\">参考语言的短名称</a>\n然后再进行输入\n当然你可以使用4个空格来进行代码缩进"
 
 #: templates/zerver/markdown_help.html:138
 msgid ""
@@ -1176,7 +1176,7 @@ msgid ""
 "Zulip needs your permission to\n"
 "            <a class=\"request-desktop-notifications alert-link\">enable desktop notifications.</a>\n"
 "            "
-msgstr "e建联需要您许可\n <a class=\"request-desktop-notifications alert-link\">桌面通知.</a>\n"
+msgstr "e建联需要您许可\n <a class=\"request-desktop-notifications alert-link\">桌面通知.</a>"
 
 #: templates/zerver/navbar.html:10
 msgid ""
