@@ -48,7 +48,7 @@
                 dataType:"json",
                 data:j,
                 success:function(res){
-                    console.log(res)
+                    location.reload();
                 },
                 error:function(rej){
                     console.log(rej)
@@ -132,6 +132,18 @@
             // $(".taskdetail_selectionbtn").append()
         })
         
+        //关闭操作提示
+        $(".taskdetail_tips_close").on("click",function(e){
+            $(".taskdetail_tips_box").hide();
+        })
+        //点击删除字样弹窗
+        $(".taskdetail_deleteone").on("click",function(e){
+            $(".taskdetail_tips_box").show();
+        })
+        //点击取消去除提示框
+        $(".taskdetail_tips_cancel").on("click",function(e){
+            $(".taskdetail_tips_box").hide();
+        })
         // $(".todo_laber").on("click",function(e){
         //     console.log("xoxi1231")
         //     // $(".todo_label").removeClass()

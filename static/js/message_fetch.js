@@ -118,9 +118,6 @@ exports.load_messages = function (opts) {
                 success:function(res){
                     console.log(res)
                     console.log(res.backlog_dict)
-                    // console.log(res.backlog_dict[1].task)
-                    // console.log(res.backlog_dict.length)
-                    // console.log(res.backlog_dict.over_time)
                     for(var key in res.backlog_dict){
                         // console.log(res.backlog_dict[key].task)
                         // console.log(res.backlog_dict[key].over_time)
@@ -135,6 +132,19 @@ exports.load_messages = function (opts) {
                                 <p class='add_datatime'>"+res.backlog_dict[key].over_time+"</p>\
                         </div>\
                     </li>")
+                    }
+                    $(".add_ctn").on("click",function(e){
+                        $(".taskdetail_md").show();
+                        $(".app").css("overflow-y","hidden");
+                        console.log("he")
+                        $(".taskdetail_list").html($(this).html());
+                    })
+
+                    for(var key in res.past_due){
+                        $(".completed_box").append("<li class='completed'>\
+                        <input type='checkbox' class='completed_checkbox checked' checked='checked'>\
+                        <p class='completed_ctn'>"+res.past_due[key].task+"</p>\
+                </li>")
                     }
                 },
                 error:function(rej){
