@@ -196,7 +196,7 @@ input[type="checkbox"]{
     margin-top: 10px;
 }
 #screenstart_datetimepicker>:first-child{
-    width: 160px;
+    width: 157px;
 }
 .log_screening_enddate{
     width: 280px;
@@ -212,7 +212,7 @@ input[type="checkbox"]{
     float: left;
 }
 #screenend_datetimepicker>:first-child{
-    width: 160px;
+    width: 157px;
 }
 #screenend_datetimepicker{
     width: 241px;

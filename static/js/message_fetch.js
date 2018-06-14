@@ -136,10 +136,13 @@ exports.load_messages = function (opts) {
                     $(".add_ctn").on("click",function(e){
                         $(".taskdetail_md").show();
                         $(".app").css("overflow-y","hidden");
-                        console.log("he")
                         $(".taskdetail_list").html($(this).html());
+                        console.log($(this))
+                        // $(".taskdetail_tips_confirm").on("click",function(e){
+                            
+                        //     console.log($(this).res)
+                        // })
                     })
-
                     for(var key in res.past_due){
                         $(".completed_box").append("<li class='completed'>\
                         <input type='checkbox' class='completed_checkbox checked' checked='checked'>\
