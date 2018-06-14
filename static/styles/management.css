@@ -175,6 +175,13 @@ ul{
     letter-spacing: 0;
     margin: 14px auto;
 }
+.taskdetail_deleteone{
+    position: absolute;
+    right: 73px;
+    top: 15px;
+    color: red;
+    cursor: pointer;
+}
 .taskdetail_head>.taskdetail_close{
     position: absolute;
     right: 10px;
@@ -729,6 +736,7 @@ ul{
     display: block;
     float: right;
     height: 30px!important;
+    background: #fff!important;
 }
 .icon-riqi{
     line-height: 30px;
@@ -741,13 +749,13 @@ ul{
 #taskstart_datetimepicker>input:nth-of-type(1){
     width: 100px;
     border: none;
-    background: #f7f7f7;
+    background: #f7f7f7!important;
     margin-left: 0!important;
     float: left;
     padding: 0 2px;
 }
 #taskstart_datetimepicker>span:nth-of-type(1){
-    background: #f7f7f7;
+    background: #f7f7f7!important;
     border: none;
     padding: 0 2px;
     margin-right: 2px;
@@ -759,13 +767,13 @@ ul{
 #taskstop_datetimepicker>input:nth-of-type(1){
     width: 100px;
     border: none;
-    background: #f7f7f7;
+    background: #f7f7f7!important;
     margin-left: 0!important;
     float: left;
     padding: 0 2px;
 }
 #taskstop_datetimepicker>span:nth-of-type(1){
-    background: #f7f7f7;
+    background: #f7f7f7!important;
     border: none;
     padding: 0 2px;
     margin-right: 2px;
@@ -1143,4 +1151,70 @@ ul{
     top: -17px;
     font-size: 32px;
     color: #fff;
+}
+
+.taskdetail_tips_box{
+    width: 342px;
+    height: 300px;
+    position: absolute;
+    left: 100px;
+    top: 100px;
+    border: 1px solid #ccc;
+    background: #fff;
+    display: none;
+}
+.taskdetail_tips_title{
+    height: 52px;
+    font-size: 16px;
+    color: #333333;
+    letter-spacing: 0;
+    border-bottom: 1px solid #ccc;
+    line-height: 52px;
+}
+.taskdetail_tips_ctn{
+    font-size: 15px;
+    color: #666666;
+    letter-spacing: 0;
+    margin-top: 62px;
+}
+.taskdetail_tips_btn{
+    overflow: hidden;
+    margin-top: 66px;
+}
+.taskdetail_tips_cancel{
+    border: 1px solid #A0ACBF;
+    border-radius: 100px;
+    width: 80px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    font-size: 13px;
+    color: #A0ACBF;
+    letter-spacing: 0.16px;
+    background: #fff;
+    float: left;
+    margin-left: 71px;
+    cursor: pointer;
+}
+.taskdetail_tips_confirm{
+    border: 1px solid #14A4FA;
+    border-radius: 100px;
+    width: 80px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    font-size: 13px;
+    color: #fff;
+    letter-spacing: 0.16px;
+    background: #14A4FA;
+    float: left;
+    margin-left: 40px;
+    cursor: pointer;
+}
+.taskdetail_tips_close{
+    position: absolute;
+    right: 20px;
+    top: 0px;
+    font-size: 20px;
+    cursor: pointer;
 }

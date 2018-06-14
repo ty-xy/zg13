@@ -3273,6 +3273,7 @@ input::-webkit-input-placeholder{
     border-bottom-right-radius: 0px!important;
     border-top-right-radius: 0px!important;
     font-size: 14px;
+    background: #fff!important;
 }
 .new_task_save{
     float: left;
@@ -3284,19 +3285,22 @@ input::-webkit-input-placeholder{
     line-height: 30px;
     margin-top: 5px;
     margin-left: 20px;
+    border: 1px solid #14A4FA;
     cursor: pointer;
 }
 .new_task_cancel{
     float: left;
     width: 80px;
     height: 30px;
-    background: #14A4FA;
+    /* background: #14A4FA; */
     border-radius: 100px;
-    color: #fff;
+    /* color: #fff; */
     line-height: 30px;
     margin-top: 5px;
     margin-left: 20px;
     cursor: pointer;
+    border: 1px solid #A0ACBF;
+    color: #A0ACBF;
 }
 
 /* 添加计划 */

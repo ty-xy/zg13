@@ -227,7 +227,7 @@
             <!-- <div class="add_task"> -->
                 <!-- <p>新增任务</p> -->
                 <div action="" class="new_task">
-                    <input type="text" class="new_task_title create_tasttitle" placeholder="请输入任务标题">
+                    <input type="text" class="new_task_title create_tasttitle" placeholder="请输入任务标题" maxlength="25">
                     <!-- <input type="text" class="new_task_date" placeholder="请选择日期"> -->
                     <div class="input-append date" id="datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
                             <input class="new_task_date create_taskdate" size="16" type="text" value="" readonly placeholder="请选择日期...">  
@@ -257,24 +257,12 @@
                 </div>
             </li> -->
         </ul>
-        <!-- <ul class="all_management">
-            <li id="weekly">
-                <i class="iconfont icon-rizhi management_icon"></i>
-                <p class="management_text">周报</p>
-            </li>
-            <li></li>
-        </ul> -->
         <div class="management_titleB">
             <div class="morn_managementtext">已完成任务</div>
-            <!-- <div class="input-group bootstrap-timepicker timepicker"><input id="timepicker" class="form-control"  data-dropdown="dropdown" data-provide="timepicker" data-template="modal" data-minute-step="1" data-modal-backdrop="true" type="text"/></div> -->  
          </div>
-        
         <i class="management_lineA"></i>
         <ul class="completed_box">
                 <li class="completed">
-                        <!-- <input type="checkbox" id="checkbox-1" class="completed_checkbox checked"/>
-                        <label for="checkbox-1" class="iconfont icon-yiwancheng"></label> -->
-                        <!-- <label for="completed_css"></label> -->
                         <input type="checkbox" class="completed_checkbox checked" checked="checked" id="completed_css">
                         <p class="completed_ctn">落实员工薪资发放问题，并制定详细的考</p>
                 </li>
@@ -284,10 +272,10 @@
             <div class="taskdetail_box">    
                 <div class="taskdetail_head">
                     <p class="taskdetail_title">任务详情</p>
+                    <p class="taskdetail_deleteone">删除</p>
                     <i class="iconfont icon-guanbiUI taskdetail_close"></i>
                 </div>  
                 <div class="taskdetail_ctn">
-                    <!-- <label for="taskdetail_check" class="inonfont unfinished taskdetail_label"></label> -->
                     <input type="checkbox" class="taskdetail_state" id="taskdetail_check">
                     <p class="taskdetail_list">落实员工薪资发放问题，并制定详细的考勤制度</p>
                 </div>
@@ -300,7 +288,6 @@
                 <div class="taskdetail_selection">
                     <div class="taskdetail_selection_left">
                         <p class="taskdetail_startdate">任务开始时间</p>
-                        <!-- <p class="taskdetail_selectionbtn">请选择</p> -->
                         <div class="input-append date" id="taskstart_datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
                                 <input class="new_task_date" size="16" type="text" value="" readonly placeholder="请选择日期...">  
                                 <span class="add-on select_date_icon">
@@ -310,8 +297,6 @@
                     </div>
                     <div class="taskdetail_selection_right">
                         <p>任务截止时间</p>
-                        <!-- <p>6月10日</p> -->
-                        <!-- <p class="taskdetail_selectionbtn">请选择</p> -->
                         <div class="input-append date" id="taskstop_datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
                                 <input class="new_task_date" size="16" type="text" value="" readonly placeholder="请选择日期...">  
                                 <span class="add-on select_date_icon">
@@ -384,16 +369,34 @@
                         </li>
                     </ul>
                 </div>
+                <div class="taskdetail_tips_box">
+                        <div class="taskdetail_tips_title">
+                            <p>操作提示</p>
+                            <i class="iconfont icon-guanbiUI taskdetail_tips_close"></i>
+                        </div>
+                        <div class="taskdetail_tips_ctn">
+                            该任务将永久删除
+                        </div>
+                        <div class="taskdetail_tips_btn">
+                            <div class="taskdetail_tips_cancel">
+                                取消
+                            </div>
+                            <div class="taskdetail_tips_confirm">
+                                确认
+                            </div>
+                        </div>
+                    </div>
             </div>
+            
        </div>
          <!-- 任务详情 -->
     </div>
-    <div class="management_set">
+    <!-- <div class="management_set">
         <i class="iconfont icon-guanbiUI close_management_set"></i>
         <div class="management_siber">
                 哈哈啊哈
         </div>
-    </div>
+    </div> -->
     <!-- 日志助手板块 -->
     <div class="log_assistant_md">
     <div class="log_assistant_box">
