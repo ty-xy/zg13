@@ -489,7 +489,7 @@ MIDDLEWARE = (
     'django.middleware.common.CommonMiddleware',
     'zerver.middleware.SessionHostDomainMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    #'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
 
