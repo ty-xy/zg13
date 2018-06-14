@@ -51,6 +51,8 @@ def table_view(request):
         return JsonResponse({'errno': 0, 'message': "成功"})
 
 
+
+
 # 一键生成
 def generate_table(request):
     now = int(time.time())
@@ -76,7 +78,7 @@ def generate_table(request):
             day_begin = time.mktime(time.strptime(day_begin, '%Y-%m-%d %H:%M:%S'))
             day_end = time.mktime(time.strptime(day_end, '%Y-%m-%d %H:%M:%S'))
 
-            month_backlog_list = Backlog.objects.filter(user=user, create_time__range=(day_begin, day_end)).order_by()
+            month_backlog_list = Backlog.objects.filter(user=user, create_time__range=(day_begin, day_end)).order_by('-id')
             month_accomplish_list = []
             month_overdue_list = []
             month_underway_list = []
@@ -147,16 +149,18 @@ def generate_table(request):
                     day_overdue_list, "underway_list": day_underway_list})
 
 
-# 待办事项
+# 待办事项列表
 def backlogs_view(request):
     if request.method == "GET":
         user = str(request.user)
         import re
-        user = re.match(r"<UserProfile: (.*) <.*>>", user).group(1)
+
+        # user = re.match(r"<UserProfile: (.*) <.*>>", user).group(1)
         # 获取当前时间戳
         now = int(time.time())
         try:
-            backlog_list = Backlog.objects.filter(user=user, state=2, is_delete='f').order_by()
+            backlog_list = Backlog.objects.filter(user=user, state=2, is_delete='f').order_by('-create_time')
+
 
         except Exception:
             return JsonResponse({'errno': 1, 'message': '获取数据失败'})
@@ -165,6 +169,7 @@ def backlogs_view(request):
         backlog_dict = {}
 
         for bl in backlog_list:
+            
 
             if bl.over_time < now:
                 past_due[str(bl.id)] = {}
@@ -267,7 +272,7 @@ def backlogs_view(request):
 
         backlog_id = req.get('backlog_id')
         if not backlog_id:
-            return JsonResponse({{'errno': 2, 'message': '缺少参数'}})
+            return JsonResponse({'errno': 2, 'message': '缺少参数'})
 
         try:
             backlog = Backlog.objects.get(id=backlog_id)
@@ -365,14 +370,14 @@ def backlogs_view(request):
         return JsonResponse({'errno': 0, 'message': '成功'})
 
 
-# 事项详情
+# 事项详情详情
 def backlogs_details(request):
     if request.method == "GET":
         backlogs_id = request.GET.get('backlogs_id')
         try:
 
             backlogs = Backlog.objects.get(id=backlogs_id)
-            update_backlog = UpdateBacklog.objects.filter(backlog_id=backlogs_id).order_by()
+            update_backlog = UpdateBacklog.objects.filter(backlog_id=backlogs_id).order_by('-id')
             backlogs_accessory_list = BacklogAccessory.objects.filter(backlog_id=backlogs_id, is_delete='f')
         except Exception:
             return JsonResponse({'errno': 1, 'message': '获取事项详情失败'})
@@ -398,7 +403,7 @@ def backlogs_details(request):
             {'errno': 0, 'message': '成功', 'backlogs_dict': backlogs_dict, "update_backlog_list": update_backlog_list})
 
 
-# 查看已完成
+# 查看已完成事项
 def accomplis_backlogs_view(request):
     if request.method == "GET":
         user = str(request.user)
