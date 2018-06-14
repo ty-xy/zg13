@@ -53,7 +53,7 @@ import sys
 
 # 待办事项
 class Backlog(models.Model):
-    user = models.CharField(max_length=60)
+    user = models.CharField(max_length=80)
     create_time = models.PositiveIntegerField()
     over_time = models.PositiveIntegerField()
     task = models.CharField(max_length=60)
@@ -79,7 +79,8 @@ class UpdateBacklog(models.Model):
 
 # 报表
 class Statement(models.Model):
-    user = models.CharField(max_length=60)
+
+    user = models.CharField(max_length=80)
     generate_time = models.PositiveIntegerField()
     accomplish = models.CharField(max_length=700)
     overdue = models.CharField(max_length=400,null=True)

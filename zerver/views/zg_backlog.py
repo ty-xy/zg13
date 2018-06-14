@@ -169,7 +169,7 @@ def backlogs_view(request):
         backlog_dict = {}
 
         for bl in backlog_list:
-            
+
 
             if bl.over_time < now:
                 past_due[str(bl.id)] = {}
@@ -210,6 +210,7 @@ def backlogs_view(request):
                 backlog_dict[str(bl.id)]['state'] = bl.state
                 accessory_list = BacklogAccessory.objects.filter(backlog_id=bl.id, is_delete='f')
 
+
                 if accessory_list:
                     accessory_dict = {}
                     for accessory in accessory_list:
@@ -226,7 +227,7 @@ def backlogs_view(request):
         req = request.body
         req = req.decode()
         req = json.loads(req)
-
+        print(user)
         task = req.get('task')
         over_time = req.get('over_time')
         task_details = req.get('task_details')
