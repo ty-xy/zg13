@@ -125,17 +125,16 @@ exports.load_messages = function (opts) {
                 url:"zg/api/v1/backlog",
                 success:function(res){
                     console.log(res)
-                    console.log(res.backlog_dict)
-                    for(var key in res.backlog_dict){
+                    for(var key in res.backlog_list){
                         $(".todo_box").append("<li class='todo'>\
                         <div class='todo_left'>\
                                 <input type='checkbox' class='add_checkbox'>\
-                                <p class='add_ctn' taskid="+ res.backlog_dict[key].id +" >"+res.backlog_dict[key].task+"</p>\
+                                <p class='add_ctn' taskid="+ res.backlog_list[key].id +" >"+res.backlog_list[key].task+"</p>\
                         </div>\
                         <div class='todo_right'>\
                                 <i class='iconfont icon-beizhu note_icon'></i>\
                                 <i class='iconfont icon-fujian1 attachment_icon'></i>\
-                                <p class='add_datatime'>"+res.backlog_dict[key].over_time+"</p>\
+                                <p class='add_datatime'>"+res.backlog_list[key].over_time+"</p>\
                         </div>\
                     </li>")
                     }
@@ -165,10 +164,10 @@ exports.load_messages = function (opts) {
                         $(".taskdetail_tips_box").hide();
                         $(".taskdetail_md").hide();
                     })
-                    for(var key in res.past_due){
+                    for(var key in res.past_due_list){
                         $(".completed_box").append("<li class='completed'>\
                         <input type='checkbox' class='completed_checkbox checked' checked='checked'>\
-                        <p class='completed_ctn'>"+res.past_due[key].task+"</p>\
+                        <p class='completed_ctn' taskid="+ res.past_due_list[key].id +">"+res.past_due_list[key].task+"</p>\
                 </li>")
                     }
                 },
