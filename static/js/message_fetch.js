@@ -17,22 +17,30 @@ var consts = {
 
 function process_result(data, opts) {
     var messages = data.messages;
-
+    if(opts.msg_list.filter._operators[0].operand=== "management"){
+        opts.msg_list._items=[]
+        opts.msg_list._hash=[]
+        opts.msg_list._all_items=[]
+        opts.msg_list.view.message_containers={}
+        opts.msg_list.view._message_groups=[]
+        opts.msg_list.view._rows=[]
+        opts.msg_list._selected_id= -1
+    }
     $('#connection-error').removeClass("show");
-    if ((messages.length === 0) && (current_msg_list === message_list.narrowed)) {
-        if(message_list.narrowed.empty()){
-            $("#zfilt").show();
-            narrow.show_empty_narrow_message();
-        }else{
-            $("#zfilt").hide();
-            narrow.show_empty_narrow_message();
-        }
+    if ((messages.length === 0) && (current_msg_list === message_list.narrowed)&&message_list.narrowed.empty()) {
+        // if(message_list.narrowed.empty()){
+        //     $("#zfilt").show();
+        //     narrow.show_empty_narrow_message();
+        // }else{
+        //     $("#zfilt").hide();
+        //     narrow.show_empty_narrow_message();
+        // }
         // &&message_list.narrowed.empty()
         // Even after trying to load more messages, we have no
         // messages to display in this narrow.
         // console.log("heha")
         // $("#zfilt").hide();
-        // narrow.show_empty_narrow_message();
+        narrow.show_empty_narrow_message();
     }
 
     _.each(messages, message_store.set_message_booleans);
@@ -124,7 +132,7 @@ exports.load_messages = function (opts) {
                         $(".todo_box").append("<li class='todo'>\
                         <div class='todo_left'>\
                                 <input type='checkbox' class='add_checkbox'>\
-                                <p class='add_ctn'>"+res.backlog_dict[key].task+"</p>\
+                                <p class='add_ctn' taskid="+ res.backlog_dict[key].id +" >"+res.backlog_dict[key].task+"</p>\
                         </div>\
                         <div class='todo_right'>\
                                 <i class='iconfont icon-beizhu note_icon'></i>\
@@ -133,15 +141,28 @@ exports.load_messages = function (opts) {
                         </div>\
                     </li>")
                     }
+                    var backlog_id;
                     $(".add_ctn").on("click",function(e){
                         $(".taskdetail_md").show();
                         $(".app").css("overflow-y","hidden");
                         $(".taskdetail_list").html($(this).html());
-                        console.log($(this))
-                        // $(".taskdetail_tips_confirm").on("click",function(e){
-                            
-                        //     console.log($(this).res)
-                        // })
+                        var taskid = Number($(this).attr("taskid"))
+                        backlog_id = taskid;
+                    })
+                    $(".taskdetail_tips_confirm").on("click",function(e){
+                        var _obj_backlog_id = {
+                            "backlog_id":backlog_id
+                        }
+                        var obj_backlog_id = JSON.stringify(_obj_backlog_id)
+                        $.ajax({
+                            type:"DELETE",
+                            url:"zg/api/v1/backlog",
+                            contentType:"application/json",
+                            data:obj_backlog_id,
+                            success:function(r){
+                                console.log(r);
+                            }
+                        })
                     })
                     for(var key in res.past_due){
                         $(".completed_box").append("<li class='completed'>\

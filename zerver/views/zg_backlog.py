@@ -9,7 +9,7 @@ import re
 # 报表
 def table_view(request):
     if request.method == 'POST':
-        user = request.user
+        user = str(request.user)
         user = re.match(r"<UserProfile: (.*) <.*>>", user).group(1)
         req = request.body
         req = req.decode()
@@ -55,7 +55,7 @@ def table_view(request):
 def generate_table(request):
     now = int(time.time())
     if request.method == "GET":
-        user = request.user
+        user = str(request.user)
         user = re.match(r"<UserProfile: (.*) <.*>>", user).group(1)
         date_type = request.GET.get('date_type')
 
@@ -150,7 +150,7 @@ def generate_table(request):
 # 待办事项
 def backlogs_view(request):
     if request.method == "GET":
-        user = request.user
+        user = str(request.user)
         import re
         user = str(user)
         user = re.match(r"<UserProfile: (.*) <.*>>", user).group(1)
@@ -216,7 +216,7 @@ def backlogs_view(request):
 
     elif request.method == 'POST':
         import re
-        user = request.user
+        user = str(request.user)
         user = re.match(r"<UserProfile: (.*) <.*>>", user).group(1)
 
         req = request.body
@@ -402,7 +402,7 @@ def backlogs_details(request):
 # 查看已完成
 def accomplis_backlogs_view(request):
     if request.method == "GET":
-        user = request.user
+        user = str(request.user)
         user = re.match(r"<UserProfile: (.*) <.*>>", user).group(1)
 
         page = request.GET.get('page')

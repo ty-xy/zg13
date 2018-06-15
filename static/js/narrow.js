@@ -557,6 +557,8 @@ function pick_empty_narrow_banner() {
             // You have no unread messages.
             return $("#no_unread_narrow_message");
         } else if (first_operand === "management") {
+            // $('#zfilt').hide()
+            $("#zfilt").removeClass("focused_table");
             return $("#management_ctn");
         }
     } else if ((first_operator === "stream") && !stream_data.is_subscribed(first_operand)) {
