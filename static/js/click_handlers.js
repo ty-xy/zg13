@@ -405,11 +405,11 @@ $(function () {
         e.preventDefault();
     });
     // zyc添加 点击 管理 刷新页面
-    $("#management_refresh").on('click',function(e){
-        setTimeout(function(){
-            location.reload();
-        },0)
-    })
+    // $("#management_refresh").on('click',function(e){
+    //     setTimeout(function(){
+    //         location.reload();
+    //     },0)
+    // })
     //zyc添加 out点击退出功能
     $("#out").on('click', function (e) {
         $("#settings_overlay_container").hide();

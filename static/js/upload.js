@@ -86,6 +86,7 @@ exports.options = function (config) {
             maybe_hide_upload_status();
             compose.abort_xhr();
         });
+        console.log(3)
         error_msg.html($("<p>").text(i18n.t("Uploading…")));
         send_status.append('<div class="progress active">' +
                            '<div class="bar" id="' + upload_bar + '" style="width: 0"></div>' +
@@ -152,10 +153,12 @@ exports.options = function (config) {
 
         if (i === -1) {
             // This is a paste, so there's no filename. Show the image directly
+            console.log(1)
             var pasted_image_uri = "[pasted image](" + uri + ")";
             compose_ui.insert_syntax_and_focus(pasted_image_uri, textarea);
         } else {
             // This is a dropped file, so make the filename a link to the image
+            console.log(2)
             var filename_uri = "[" + filename + "](" + uri + ")";
             compose_ui.insert_syntax_and_focus(filename_uri, textarea);
         }

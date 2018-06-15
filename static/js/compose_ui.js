@@ -8,10 +8,12 @@ exports.autosize_textarea = function () {
 
 exports.smart_insert = function (textarea, syntax) {
     function is_space(c) {
+        console.log(c)
         return (c === ' ') || (c === '\t') || (c === '\n');
     }
 
     var pos = textarea.caret();
+        console.log(textarea.caret(),textarea,syntax)
     var before_str = textarea.val().slice(0, pos);
     var after_str = textarea.val().slice(pos);
 
@@ -31,6 +33,7 @@ exports.smart_insert = function (textarea, syntax) {
     // for rich-text editing features like inserting links.  But we fall
     // back to textarea.caret if the browser doesn't support insertText.
     if (!document.execCommand("insertText", false, syntax)) {
+        console.log("syntax",textarea.value)
         textarea.caret(syntax);
     }
 
@@ -46,6 +49,7 @@ exports.insert_syntax_and_focus = function (syntax, textarea) {
     if (textarea === undefined) {
         textarea = $('#compose-textarea');
     }
+    console.log(syntax,textarea,3123123)
     exports.smart_insert(textarea, syntax);
 };
 
