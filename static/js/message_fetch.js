@@ -18,7 +18,6 @@ var consts = {
 function process_result(data, opts) {
     var messages = data.messages;
     $('#connection-error').removeClass("show");
-<<<<<<< HEAD
     //    console.log(message_list.narrowed)
        if(opts.msg_list.filter._operators[0].operand=== "management"){
         opts.msg_list._items=[]
@@ -37,22 +36,6 @@ function process_result(data, opts) {
         // messages to display in this narrow.
         narrow.show_empty_narrow_message();
         // console.log(6)
-=======
-    if ((messages.length === 0) && (current_msg_list === message_list.narrowed)) {
-        if(message_list.narrowed.empty()){
-            $("#zfilt").show();
-            narrow.show_empty_narrow_message();
-        }else{
-            $("#zfilt").hide();
-            narrow.show_empty_narrow_message();
-        }
-        // &&message_list.narrowed.empty()
-        // Even after trying to load more messages, we have no
-        // messages to display in this narrow.
-        // console.log("heha")
-        // $("#zfilt").hide();
-        // narrow.show_empty_narrow_message();
->>>>>>> master
     }
 
     _.each(messages, message_store.set_message_booleans);
