@@ -353,13 +353,14 @@ v1_api_and_json_patterns = [
 # If you're adding a new page to the website (as opposed to a new
 # endpoint for use by code), you should add it here.
 i18n_urls = [
-    # 生成表
-
+    # 表
+    url(r'^zg/api/v1/table$', zerver.views.zg_backlog.table_view),
+    # 生成
     url(r'^zg/api/v1/creator/table', zerver.views.zg_backlog.generate_table),
-    # 查看更新
-    url(r'^zg/api/v1/backlog/update$', zerver.views.zg_backlog.backlogUpdate),
     # 待办事项
     url(r'^zg/api/v1/backlog$', zerver.views.zg_backlog.backlogs_view),
+    # 待办事项详情
+    url(r'^zg/api/v1/backlogs/details', zerver.views.zg_backlog.backlogs_details),
     # 已完成待办事项
     url(r'^zg/api/v1/backlogss/accomplis', zerver.views.zg_backlog.accomplis_backlogs_view),
 

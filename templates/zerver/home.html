@@ -226,18 +226,18 @@
         <div class="new_task_box">
             <!-- <div class="add_task"> -->
                 <!-- <p>新增任务</p> -->
-                <form action="" class="new_task">
-                    <input type="text" class="new_task_title" placeholder="请输入任务标题">
+                <div action="" class="new_task">
+                    <input type="text" class="new_task_title create_tasttitle" placeholder="请输入任务标题" maxlength="25">
                     <!-- <input type="text" class="new_task_date" placeholder="请选择日期"> -->
                     <div class="input-append date" id="datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
-                            <input class="new_task_date" size="16" type="text" value="" readonly placeholder="请选择日期...">  
+                            <input class="new_task_date create_taskdate" size="16" type="text" value="" readonly placeholder="请选择日期...">  
                             <span class="add-on select_date_icon">
                                 <i data-date-icon="icon-calendar" class="icon-calendar iconfont icon-riqi"></i>
                             </span>  
                     </div>
                     <div class="new_task_save">保存</div>
                     <div class="new_task_cancel">取消</div>
-                </form>
+                </div>
             <!-- </div> -->
                  <!-- 日历展示 -->
                 <div id="schedule-box" class="boxshaw"><div class="schedule-hd"><div><span class="arrow icon iconfont icon-116leftarrowheads" id="prevYear"></span><span class="arrow icon iconfont icon-112leftarrowhead" id="prevMonth"></span></div><div class="today">2018-06-09</div><div><span class="arrow icon iconfont icon-111arrowheadright" id="nextMonth"></span><span class="arrow icon iconfont icon-115rightarrowheads" id="nextYear"></span></div></div><ul class="week-ul ul-box"><li>日</li><li>一</li><li>二</li><li>三</li><li>四</li><li>五</li><li>六</li></ul><ul class="schedule-bd ul-box"><li class="other-month"><span class="dayStyle">27</span></li><li class="other-month"><span class="dayStyle">28</span></li><li class="other-month"><span class="dayStyle">29</span></li><li class="other-month"><span class="dayStyle">30</span></li><li class="other-month"><span class="dayStyle">31</span></li><li class="current-month"><span title="2018-06-01" class="currentDate dayStyle ">1</span></li><li class="current-month"><span title="2018-06-02" class="currentDate dayStyle today-flag">2</span></li><li class="current-month"><span title="2018-06-03" class="currentDate dayStyle ">3</span></li><li class="current-month"><span title="2018-06-04" class="currentDate dayStyle ">4</span></li><li class="current-month"><span title="2018-06-05" class="currentDate dayStyle ">5</span></li><li class="current-month"><span title="2018-06-06" class="currentDate dayStyle ">6</span></li><li class="current-month"><span title="2018-06-07" class="currentDate dayStyle ">7</span></li><li class="current-month"><span title="2018-06-08" class="currentDate dayStyle ">8</span></li><li class="current-month"><span title="2018-06-09" class="currentDate dayStyle selected-style">9</span></li><li class="current-month"><span title="2018-06-10" class="currentDate dayStyle ">10</span></li><li class="current-month"><span title="2018-06-11" class="currentDate dayStyle ">11</span></li><li class="current-month"><span title="2018-06-12" class="currentDate dayStyle ">12</span></li><li class="current-month"><span title="2018-06-13" class="currentDate dayStyle ">13</span></li><li class="current-month"><span title="2018-06-14" class="currentDate dayStyle ">14</span></li><li class="current-month"><span title="2018-06-15" class="currentDate dayStyle ">15</span></li><li class="current-month"><span title="2018-06-16" class="currentDate dayStyle ">16</span></li><li class="current-month"><span title="2018-06-17" class="currentDate dayStyle ">17</span></li><li class="current-month"><span title="2018-06-18" class="currentDate dayStyle ">18</span></li><li class="current-month"><span title="2018-06-19" class="currentDate dayStyle ">19</span></li><li class="current-month"><span title="2018-06-20" class="currentDate dayStyle ">20</span></li><li class="current-month"><span title="2018-06-21" class="currentDate dayStyle ">21</span></li><li class="current-month"><span title="2018-06-22" class="currentDate dayStyle ">22</span></li><li class="current-month"><span title="2018-06-23" class="currentDate dayStyle ">23</span></li><li class="current-month"><span title="2018-06-24" class="currentDate dayStyle ">24</span></li><li class="current-month"><span title="2018-06-25" class="currentDate dayStyle ">25</span></li><li class="current-month"><span title="2018-06-26" class="currentDate dayStyle ">26</span></li><li class="current-month"><span title="2018-06-27" class="currentDate dayStyle ">27</span></li><li class="current-month"><span title="2018-06-28" class="currentDate dayStyle ">28</span></li><li class="current-month"><span title="2018-06-29" class="currentDate dayStyle ">29</span></li><li class="current-month"><span title="2018-06-30" class="currentDate dayStyle ">30</span></li></ul></div>  
@@ -245,9 +245,8 @@
         <!-- 日历展示 -->
         </div>
         <ul class="todo_box">
-            <li class="todo">
+            <!-- <li class="todo">
                 <div class="todo_left">
-                        <!-- <label for="todo_laber" class="iconfont icon-yiwancheng todo_laber">123</label> -->
                         <input type="checkbox" class="add_checkbox" id="todo_laber">
                         <p class="add_ctn">落实员工薪资发放问题，并制定详细的考勤制度落实员工薪资发放问题，并制定详细的考勤制度落实员工薪资发放问题，并制定详细的考勤制度</p>
                 </div>
@@ -256,26 +255,14 @@
                         <i class="iconfont icon-fujian1 attachment_icon"></i>
                         <p class="add_datatime">2018-06-01</p>
                 </div>
-            </li>
+            </li> -->
         </ul>
-        <!-- <ul class="all_management">
-            <li id="weekly">
-                <i class="iconfont icon-rizhi management_icon"></i>
-                <p class="management_text">周报</p>
-            </li>
-            <li></li>
-        </ul> -->
         <div class="management_titleB">
             <div class="morn_managementtext">已完成任务</div>
-            <!-- <div class="input-group bootstrap-timepicker timepicker"><input id="timepicker" class="form-control"  data-dropdown="dropdown" data-provide="timepicker" data-template="modal" data-minute-step="1" data-modal-backdrop="true" type="text"/></div> -->  
          </div>
-        
         <i class="management_lineA"></i>
         <ul class="completed_box">
                 <li class="completed">
-                        <!-- <input type="checkbox" id="checkbox-1" class="completed_checkbox checked"/>
-                        <label for="checkbox-1" class="iconfont icon-yiwancheng"></label> -->
-                        <!-- <label for="completed_css"></label> -->
                         <input type="checkbox" class="completed_checkbox checked" checked="checked" id="completed_css">
                         <p class="completed_ctn">落实员工薪资发放问题，并制定详细的考</p>
                 </li>
@@ -285,10 +272,10 @@
             <div class="taskdetail_box">    
                 <div class="taskdetail_head">
                     <p class="taskdetail_title">任务详情</p>
+                    <p class="taskdetail_deleteone">删除</p>
                     <i class="iconfont icon-guanbiUI taskdetail_close"></i>
                 </div>  
                 <div class="taskdetail_ctn">
-                    <!-- <label for="taskdetail_check" class="inonfont unfinished taskdetail_label"></label> -->
                     <input type="checkbox" class="taskdetail_state" id="taskdetail_check">
                     <p class="taskdetail_list">落实员工薪资发放问题，并制定详细的考勤制度</p>
                 </div>
@@ -301,7 +288,6 @@
                 <div class="taskdetail_selection">
                     <div class="taskdetail_selection_left">
                         <p class="taskdetail_startdate">任务开始时间</p>
-                        <!-- <p class="taskdetail_selectionbtn">请选择</p> -->
                         <div class="input-append date" id="taskstart_datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
                                 <input class="new_task_date" size="16" type="text" value="" readonly placeholder="请选择日期...">  
                                 <span class="add-on select_date_icon">
@@ -311,8 +297,6 @@
                     </div>
                     <div class="taskdetail_selection_right">
                         <p>任务截止时间</p>
-                        <!-- <p>6月10日</p> -->
-                        <!-- <p class="taskdetail_selectionbtn">请选择</p> -->
                         <div class="input-append date" id="taskstop_datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
                                 <input class="new_task_date" size="16" type="text" value="" readonly placeholder="请选择日期...">  
                                 <span class="add-on select_date_icon">
@@ -385,16 +369,34 @@
                         </li>
                     </ul>
                 </div>
+                <div class="taskdetail_tips_box">
+                        <div class="taskdetail_tips_title">
+                            <p>操作提示</p>
+                            <i class="iconfont icon-guanbiUI taskdetail_tips_close"></i>
+                        </div>
+                        <div class="taskdetail_tips_ctn">
+                            该任务将永久删除
+                        </div>
+                        <div class="taskdetail_tips_btn">
+                            <div class="taskdetail_tips_cancel">
+                                取消
+                            </div>
+                            <div class="taskdetail_tips_confirm">
+                                确认
+                            </div>
+                        </div>
+                    </div>
             </div>
+            
        </div>
          <!-- 任务详情 -->
     </div>
-    <div class="management_set">
+    <!-- <div class="management_set">
         <i class="iconfont icon-guanbiUI close_management_set"></i>
         <div class="management_siber">
                 哈哈啊哈
         </div>
-    </div>
+    </div> -->
     <!-- 日志助手板块 -->
     <div class="log_assistant_md">
     <div class="log_assistant_box">
