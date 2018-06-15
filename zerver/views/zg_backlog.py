@@ -14,7 +14,6 @@ def table_view(request):
         req = request.body
         req = req.decode()
         req = json.loads(req)
-
         accomplish = req.get('accomplish')
         overdue = req.get("overdue")
         underway = req.get('underway')
@@ -22,7 +21,6 @@ def table_view(request):
         backlogs_list = req.get('backlogs_list')
         statement_accessory_list = req.get('statement_accessory_list')
         send = req.get('send_list')
-
         if not accomplish:
             return JsonResponse({'errno': 1, 'message': "缺少必要参数"})
         try:
@@ -51,8 +49,6 @@ def table_view(request):
         return JsonResponse({'errno': 0, 'message': "成功"})
 
 
-
-
 # 一键生成
 def generate_table(request):
     now = int(time.time())
@@ -78,7 +74,8 @@ def generate_table(request):
             day_begin = time.mktime(time.strptime(day_begin, '%Y-%m-%d %H:%M:%S'))
             day_end = time.mktime(time.strptime(day_end, '%Y-%m-%d %H:%M:%S'))
 
-            month_backlog_list = Backlog.objects.filter(user=user, create_time__range=(day_begin, day_end)).order_by('-id')
+            month_backlog_list = Backlog.objects.filter(user=user, create_time__range=(day_begin, day_end)).order_by(
+                '-id')
             month_accomplish_list = []
             month_overdue_list = []
             month_underway_list = []
@@ -104,7 +101,7 @@ def generate_table(request):
             sunday = today + datetime.timedelta(6 - today.weekday())
             a = time.mktime(monday.timetuple())
             b = time.mktime(sunday.timetuple())
-            week_backlog_list = Backlog.objects.filter(user=user, create_time__range=(a, b)).order_by()
+            week_backlog_list = Backlog.objects.filter(user=user, create_time__range=(a, b)).order_by('-id')
             week_accomplish_list = []
             week_overdue_list = []
             week_underway_list = []
@@ -128,7 +125,7 @@ def generate_table(request):
             b = int(time.mktime(time.strptime(str(datetime.date.today()
                                                   + datetime.timedelta(days=1)), '%Y-%m-%d'))) - 1
 
-            day_backlog_list = Backlog.objects.filter(user=user, create_time__range=(a, b)).order_by()
+            day_backlog_list = Backlog.objects.filter(user=user, create_time__range=(a, b)).order_by('-id')
 
             day_accomplish_list = []
             day_overdue_list = []
@@ -154,69 +151,71 @@ def backlogs_view(request):
     if request.method == "GET":
         user = str(request.user)
         import re
+<<<<<<< HEAD
+=======
         user = str(user)
+>>>>>>> 915440b3041da7e14e2590e7b8d5d4b099f5f438
         user = re.match(r"<UserProfile: (.*) <.*>>", user).group(1)
         # 获取当前时间戳
         now = int(time.time())
         try:
-            backlog_list = Backlog.objects.filter(user=user, state=2, is_delete='f').order_by('-create_time')
-
-
+            backlogs_list = Backlog.objects.filter(user=user, state=2, is_delete='f').order_by('-id')
         except Exception:
             return JsonResponse({'errno': 1, 'message': '获取数据失败'})
         # 过期
-        past_due = {}
-        backlog_dict = {}
+        past_due_list = []
+        backlog_list = []
 
-        for bl in backlog_list:
-
+        for bl in backlogs_list:
 
             if bl.over_time < now:
-                past_due[str(bl.id)] = {}
-                past_due[str(bl.id)]['backlog_id'] = bl.id
+
+                a = {}
+                a['backlog_id'] = bl.id
 
                 time_array = time.localtime(bl.create_time)
                 create_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
-                past_due[str(bl.id)]['create_time'] = create_time
+                a['create_time'] = create_time
 
                 time_array = time.localtime(bl.over_time)
                 over_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
-                past_due[str(bl.id)]['over_time'] = over_time
+                a['over_time'] = over_time
 
-                past_due[str(bl.id)]['task'] = bl.task
-                past_due[str(bl.id)]['task_details'] = bl.task_details
-                past_due[str(bl.id)]['state'] = bl.state
+                a['task'] = bl.task
+                a['task_details'] = bl.task_details
+                a['state'] = bl.state
                 accessory_list = BacklogAccessory.objects.filter(backlog_id=bl.id, is_delete='f')
                 if accessory_list:
                     accessory_dict = {}
                     for accessory in accessory_list:
                         accessory_dict[accessory.id] = accessory.accessory_url
-                    past_due[str(bl.id)]["accessory_dict"] = accessory_dict
-
+                    a["accessory_dict"] = accessory_dict
+                past_due_list.append(a)
             else:
-                backlog_dict[str(bl.id)] = {}
-                backlog_dict[str(bl.id)]['id'] = bl.id
+                b = {}
+                b['id'] = bl.id
 
                 time_array = time.localtime(bl.create_time)
                 create_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
-                backlog_dict[str(bl.id)]['create_time'] = create_time
+                b['create_time'] = create_time
 
                 time_array = time.localtime(bl.over_time)
                 over_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
-                backlog_dict[str(bl.id)]['over_time'] = over_time
+                b['over_time'] = over_time
 
-                backlog_dict[str(bl.id)]['task'] = bl.task
-                backlog_dict[str(bl.id)]['task_details'] = bl.task_details
-                backlog_dict[str(bl.id)]['state'] = bl.state
+                b['task'] = bl.task
+                b['task_details'] = bl.task_details
+                b['state'] = bl.state
                 accessory_list = BacklogAccessory.objects.filter(backlog_id=bl.id, is_delete='f')
 
                 if accessory_list:
                     accessory_dict = {}
                     for accessory in accessory_list:
                         accessory_dict[accessory.id] = accessory.accessory_url
-                    past_due[str(bl.id)]["accessory_dict"] = accessory_dict
+                    b["accessory_dict"] = accessory_dict
+                backlog_list.append(b)
 
-        return JsonResponse({'errno': 0, 'message': '成功', 'past_due': past_due, 'backlog_dict': backlog_dict})
+        return JsonResponse({'errno': 0, 'message': '成功', 'past_due_list': past_due_list, 'backlog_list': backlog_list})
 
     elif request.method == 'POST':
         import re
@@ -226,7 +225,6 @@ def backlogs_view(request):
         req = request.body
         req = req.decode()
         req = json.loads(req)
-        print(user)
         task = req.get('task')
         over_time = req.get('over_time')
         task_details = req.get('task_details')
@@ -278,10 +276,10 @@ def backlogs_view(request):
             backlog = Backlog.objects.get(id=backlog_id)
             backlog.is_delete = True
             backlog.save()
-            a = BacklogAccessory.objects.filter(backlog_id=backlog_id, is_delete=False)
+            a = BacklogAccessory.objects.filter(backlog_id=backlog_id, is_delete='f')
             for i in a:
                 i.is_delete = True
-            a.save()
+                i.save()
         except Exception:
             return JsonResponse({'errno': 1, 'message': '删除失败'})
 
@@ -295,78 +293,74 @@ def backlogs_view(request):
         req = req.decode()
         req = json.loads(req)
         put_id = req.get('backlogs_id')
-        try:
-            backlog = Backlog.objects.get(id=put_id)
-            del req['backlogs_id']
-            for re in req:
-                if re == "create_time":
-                    if not req['create_time']:
-                        return JsonResponse({'errno': 1, 'message': '创建时间不能为空'})
-                    backlog.create_time = int(req['create_time'])
-                    time_array = time.localtime(req['create_time'])
-                    other_style_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
+        # try:
+        backlog = Backlog.objects.get(id=put_id)
+        del req['backlogs_id']
+        for re in req:
+            if re == "create_time":
+                if not req['create_time']:
+                    return JsonResponse({'errno': 1, 'message': '创建时间不能为空'})
+                backlog.create_time = int(req['create_time'])
+                time_array = time.localtime(req['create_time'])
+                other_style_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
 
-                    updatetime = '%s修改了事项的开始时间为:%s' % (uodate_time, other_style_time)
-                    UpdateBacklog.objects.create(update_backlog=updatetime, backlog_id=backlog)
+                updatetime = '%s修改了事项的开始时间为:%s' % (uodate_time, other_style_time)
+                UpdateBacklog.objects.create(update_backlog=updatetime, backlog_id=backlog)
 
-                if re == "over_time":
-                    if not req['over_time']:
-                        return JsonResponse({'errno': 2, 'message': '结束时间不能为空'})
-                    backlog.over_time = int(req['over_time'])
-                    time_array = time.localtime(req['over_time'])
-                    other_style_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
+            if re == "over_time":
+                if not req['over_time']:
+                    return JsonResponse({'errno': 2, 'message': '结束时间不能为空'})
+                backlog.over_time = int(req['over_time'])
+                time_array = time.localtime(req['over_time'])
+                other_style_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
 
-                    updatetime = '%s修改了事项的完成时间为%s' % (uodate_time, other_style_time)
+                updatetime = '%s修改了事项的完成时间为%s' % (uodate_time, other_style_time)
 
-                    UpdateBacklog.objects.create(update_backlog=updatetime, backlog_id=backlog)
+                UpdateBacklog.objects.create(update_backlog=updatetime, backlog_id=backlog)
 
-                if re == "task":
-                    backlog.task = req['task']
-                    update_task = '%s修改事项为%s' % (uodate_time, req['task'])
-                    UpdateBacklog.objects.create(update_backlog=update_task, backlog_id=backlog)
+            if re == "task":
+                backlog.task = req['task']
+                update_task = '%s修改事项为%s' % (uodate_time, req['task'])
+                UpdateBacklog.objects.create(update_backlog=update_task, backlog_id=backlog)
 
-                if re == 'accessory_dict':
-                    UpdateBacklog.objects.create(update_backlog="%s修改了附件" % uodate_time, backlog_id=backlog)
-                    for accessory_id in req['accessory_dict']:
-                        print(int(accessory_id))
-                        print(type(accessory_id))
-                        if accessory_id == "0":
-                            BacklogAccessory.objects.create(backlog_id=backlog,
-                                                            accessory_url=req['accessory_dict'][accessory_id])
+            if re == 'accessory_dict':
+                UpdateBacklog.objects.create(update_backlog="%s修改了附件" % uodate_time, backlog_id=backlog)
+                for accessory_id in req['accessory_dict']:
+                    if accessory_id == "0":
+                        BacklogAccessory.objects.create(backlog_id=backlog,
+                                                        accessory_url=req['accessory_dict']['0'])
 
+                    else:
+                        accessory = BacklogAccessory.objects.get(id=int(accessory_id))
+                        if not req['accessory_dict'][accessory_id]:
+                            accessory.is_delete = True
                         else:
-                            accessory = BacklogAccessory.objects.filter(id=int(accessory_id))
-                            print(int(accessory_id))
-                            print(type(accessory_id))
-                            if not req['accessory_dict'][accessory_id]:
-                                accessory.is_delete = True
-                            else:
-                                accessory.accessory_url = req['accessory_dict'][accessory_id]
-                            accessory.save()
+                            accessory.accessory_url = req['accessory_dict'][accessory_id]
+                        accessory.save()
 
-                if re == 'task_details':
-                    backlog.task_details = req['task_details']
-                    update_task_details = "%s 修改事项详情为: %s" % (uodate_time, req['task_details'])
-                    UpdateBacklog.objects.create(update_backlog=update_task_details, backlog_id=backlog)
+            if re == 'task_details':
+                backlog.task_details = req['task_details']
+                update_task_details = "%s 修改事项详情为: %s" % (uodate_time, req['task_details'])
+                UpdateBacklog.objects.create(update_backlog=update_task_details, backlog_id=backlog)
 
-                if re == 'state':
-                    if req['state'] == 0:
-                        if backlog.over_time < now:
-                            backlog.state = req['state']
-                            update_state = '%s逾期完成了事项' % uodate_time
-                            UpdateBacklog.objects.create(update_backlog=update_state, backlog_id=backlog)
-
-                        else:
-                            backlog.state = req['state']
-                            update_state = '%s完成了事项' % uodate_time
-                            UpdateBacklog.objects.create(update_backlog=update_state, backlog_id=backlog)
-
-                    elif not req['state']:
-                        req['state'] = 2
+            if re == 'state':
+                if req['state'] == 0:
+                    if backlog.over_time < now:
                         backlog.state = req['state']
-            backlog.save()
-        except Exception:
-            return JsonResponse({'errno': 3, 'message': '保存数据失败'})
+                        update_state = '%s逾期完成了事项' % uodate_time
+                        UpdateBacklog.objects.create(update_backlog=update_state, backlog_id=backlog)
+
+                    else:
+                        backlog.state = req['state']
+                        update_state = '%s完成了事项' % uodate_time
+                        UpdateBacklog.objects.create(update_backlog=update_state, backlog_id=backlog)
+
+                elif not req['state']:
+                    req['state'] = 2
+                    backlog.state = req['state']
+        backlog.save()
+        # except Exception:
+        #     return JsonResponse({'errno': 3, 'message': '保存数据失败'})
         return JsonResponse({'errno': 0, 'message': '成功'})
 
 
@@ -413,7 +407,7 @@ def accomplis_backlogs_view(request):
 
         try:
             page = int(page)
-            accomplis_backlogs_list = Backlog.objects.filter(user=user, state=0, is_delete='f').order_by()
+            accomplis_backlogs_list = Backlog.objects.filter(user=user, state=0, is_delete='f').order_by('-id')
         except Exception:
             return JsonResponse({'errno': 1, 'message': '获取数据失败'})
 
@@ -422,27 +416,30 @@ def accomplis_backlogs_view(request):
             sum1 = page * 20
             accomplis_backlogs_list = accomplis_backlogs_list[sum:sum1]
 
-        accomplis_backlogs_dict = {}
+        accomplis_backlogs_listss = []
         for accomplis_backlogs in accomplis_backlogs_list:
-            accomplis_backlogs_dict[str(accomplis_backlogs.id)] = {}
-            accomplis_backlogs_dict[str(accomplis_backlogs.id)]['id'] = accomplis_backlogs.id
+
+            a = {}
+            a['id'] = accomplis_backlogs.id
 
             time_array = time.localtime(accomplis_backlogs.create_time)
             create_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
-            accomplis_backlogs_dict[str(accomplis_backlogs.id)]['create_time'] = create_time
+            a['create_time'] = create_time
 
             time_array = time.localtime(accomplis_backlogs.over_time)
             over_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
-            accomplis_backlogs_dict[str(accomplis_backlogs.id)]['over_time'] = over_time
+            a['over_time'] = over_time
 
-            accomplis_backlogs_dict[str(accomplis_backlogs.id)]['task'] = accomplis_backlogs.task
-            accomplis_backlogs_dict[str(accomplis_backlogs.id)]['task_details'] = accomplis_backlogs.task_details
+            a['task'] = accomplis_backlogs.task
+            a['task_details'] = accomplis_backlogs.task_details
             accessory_list = BacklogAccessory.objects.filter(backlog_id=accomplis_backlogs.id)
             if accessory_list:
                 accessory_dict = {}
                 for accessory in accessory_list:
                     accessory_dict[accessory.id] = accessory.accessory_url
-                    accomplis_backlogs_dict[str(accomplis_backlogs.id)]["accessory_dict"] = accessory_dict
+                    a["accessory_dict"] = accessory_dict
 
-            accomplis_backlogs_dict[str(accomplis_backlogs.id)]['state'] = accomplis_backlogs.state
-        return JsonResponse({'errno': 0, 'message': '成功', 'accomplis_backlogs_dict': accomplis_backlogs_dict})
+            a['state'] = accomplis_backlogs.state
+            accomplis_backlogs_listss.append(a)
+
+        return JsonResponse({'errno': 0, 'message': '成功', 'accomplis_backlogs_list': accomplis_backlogs_listss})
