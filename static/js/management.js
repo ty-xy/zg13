@@ -48,7 +48,47 @@
                 dataType:"json",
                 data:j,
                 success:function(res){
-                    location.reload();
+                    $.ajax({
+                        type:"GET",
+                        url:"zg/api/v1/backlog",
+                        success:function(response){
+                            console.log(response)
+                            console.log(response.backlog_dict)
+                            var n = 0;
+                            for(var key in response.backlog_dict){
+                                if(key > n){
+                                    n = key;
+                                }
+                            }
+                        console.log(n)
+                        console.log(response.backlog_dict[n].task)
+                        $(".todo_box").prepend("<li class='todo'>\
+                        <div class='todo_left'>\
+                                <input type='checkbox' class='add_checkbox'>\
+                                <p class='add_ctn'>"+response.backlog_dict[n].task+"</p>\
+                        </div>\
+                        <div class='todo_right'>\
+                                <i class='iconfont icon-beizhu note_icon'></i>\
+                                <i class='iconfont icon-fujian1 attachment_icon'></i>\
+                                <p class='add_datatime'>"+response.backlog_dict[n].over_time+"</p>\
+                        </div>\
+                    </li>")
+                    $(".add_ctn").on("click",function(e){
+                        $(".taskdetail_md").show();
+                        $(".app").css("overflow-y","hidden");
+                        $(".taskdetail_list").html($(this).html());
+                        // $(".taskdetail_tips_confirm").on("click",function(e){
+                            
+                        //     console.log($(this).res)
+                        // })
+                    })
+                        },
+                        error:function(reject){
+                            console.log(reject)
+                        }   
+                    })
+                    // console.log(res)
+                   
                 },
                 error:function(rej){
                     console.log(rej)

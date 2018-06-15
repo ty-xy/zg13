@@ -151,6 +151,10 @@ def backlogs_view(request):
     if request.method == "GET":
         user = str(request.user)
         import re
+<<<<<<< HEAD
+=======
+        user = str(user)
+>>>>>>> 915440b3041da7e14e2590e7b8d5d4b099f5f438
         user = re.match(r"<UserProfile: (.*) <.*>>", user).group(1)
         # 获取当前时间戳
         now = int(time.time())
