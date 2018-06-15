@@ -154,8 +154,8 @@ def backlogs_view(request):
     if request.method == "GET":
         user = str(request.user)
         import re
-
-        # user = re.match(r"<UserProfile: (.*) <.*>>", user).group(1)
+        user = str(user)
+        user = re.match(r"<UserProfile: (.*) <.*>>", user).group(1)
         # 获取当前时间戳
         now = int(time.time())
         try:
@@ -209,7 +209,6 @@ def backlogs_view(request):
                 backlog_dict[str(bl.id)]['task_details'] = bl.task_details
                 backlog_dict[str(bl.id)]['state'] = bl.state
                 accessory_list = BacklogAccessory.objects.filter(backlog_id=bl.id, is_delete='f')
-
 
                 if accessory_list:
                     accessory_dict = {}
