@@ -18,6 +18,7 @@ var consts = {
 function process_result(data, opts) {
     var messages = data.messages;
     $('#connection-error').removeClass("show");
+<<<<<<< HEAD
     //    console.log(message_list.narrowed)
        if(opts.msg_list.filter._operators[0].operand=== "management"){
         opts.msg_list._items=[]
@@ -36,6 +37,22 @@ function process_result(data, opts) {
         // messages to display in this narrow.
         narrow.show_empty_narrow_message();
         // console.log(6)
+=======
+    if ((messages.length === 0) && (current_msg_list === message_list.narrowed)) {
+        if(message_list.narrowed.empty()){
+            $("#zfilt").show();
+            narrow.show_empty_narrow_message();
+        }else{
+            $("#zfilt").hide();
+            narrow.show_empty_narrow_message();
+        }
+        // &&message_list.narrowed.empty()
+        // Even after trying to load more messages, we have no
+        // messages to display in this narrow.
+        // console.log("heha")
+        // $("#zfilt").hide();
+        // narrow.show_empty_narrow_message();
+>>>>>>> master
     }
 
     _.each(messages, message_store.set_message_booleans);
@@ -128,6 +145,45 @@ exports.load_messages = function (opts) {
         idempotent: true,
         success: function (data) {
             get_messages_success(data, opts);
+            $.ajax({
+                type:"GET",
+                url:"zg/api/v1/backlog",
+                success:function(res){
+                    console.log(res)
+                    console.log(res.backlog_dict)
+                    for(var key in res.backlog_dict){
+                        // console.log(res.backlog_dict[key].task)
+                        // console.log(res.backlog_dict[key].over_time)
+                        $(".todo_box").append("<li class='todo'>\
+                        <div class='todo_left'>\
+                                <input type='checkbox' class='add_checkbox'>\
+                                <p class='add_ctn'>"+res.backlog_dict[key].task+"</p>\
+                        </div>\
+                        <div class='todo_right'>\
+                                <i class='iconfont icon-beizhu note_icon'></i>\
+                                <i class='iconfont icon-fujian1 attachment_icon'></i>\
+                                <p class='add_datatime'>"+res.backlog_dict[key].over_time+"</p>\
+                        </div>\
+                    </li>")
+                    }
+                    $(".add_ctn").on("click",function(e){
+                        $(".taskdetail_md").show();
+                        $(".app").css("overflow-y","hidden");
+                        console.log("he")
+                        $(".taskdetail_list").html($(this).html());
+                    })
+
+                    for(var key in res.past_due){
+                        $(".completed_box").append("<li class='completed'>\
+                        <input type='checkbox' class='completed_checkbox checked' checked='checked'>\
+                        <p class='completed_ctn'>"+res.past_due[key].task+"</p>\
+                </li>")
+                    }
+                },
+                error:function(rej){
+                    console.log(rej)
+                }   
+            })
         },
         error: function (xhr) {
             if (opts.msg_list.narrowed && opts.msg_list !== current_msg_list) {

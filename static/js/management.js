@@ -26,21 +26,63 @@
             $("#search_query").val("");
         })
         $(".new_task_save").on("click",function(e){
-            // let inttitle = $(".new_task_title").val();
-            // let inttime = $(".new_task_date").val();
+            var inttitle = $(".create_tasttitle").val();
+            var inttime = $(".create_taskdate").val();
+            function timestamp(str){
+                str = str.replace(/-/g,'/');
+                var date = new Date(str); 
+                var time = date.getTime();
+                var n = time/1000;
+                return n;
+            }
+            var over_time = timestamp(inttime);
+            var obj = {
+                "task":inttitle,
+                "over_time":over_time,
+            }
+            var j = JSON.stringify(obj)
+            $.ajax({
+                type:"POST",
+                url:"zg/api/v1/backlog",
+                contentType:"application/json",
+                dataType:"json",
+                data:j,
+                success:function(res){
+                    location.reload();
+                },
+                error:function(rej){
+                    console.log(rej)
+                }
+            })
+
             // $.ajax({
             //     type:"GET",
-            //     url:"",
-            //     data:{
-            //         "inttitle":inttitle,
-            //         "inttime":inttime
-            //     },
+            //     url:"zg/api/v1/backlog",
             //     success:function(res){
-
+            //         console.log(res)
+            //         console.log(res.backlog_dict)
+            //         // console.log(res.backlog_dict[1].task)
+            //         // console.log(res.backlog_dict.length)
+            //         // console.log(res.backlog_dict.over_time)
+            //         for(var key in res.backlog_dict){
+            //             console.log(res.backlog_dict[key].task)
+            //             console.log(res.backlog_dict[key].over_time)
+            //             $(".todo_box").append("<li class='todo'>\
+            //             <div class='todo_left'>\
+            //                     <input type='checkbox' class='add_checkbox' id='todo_laber'>\
+            //                     <p class='add_ctn'>"+res.backlog_dict[key].task+"</p>\
+            //             </div>\
+            //             <div class='todo_right'>\
+            //                     <i class='iconfont icon-beizhu note_icon'></i>\
+            //                     <i class='iconfont icon-fujian1 attachment_icon'></i>\
+            //                     <p class='add_datatime'>"+res.backlog_dict[key].over_time+"</p>\
+            //             </div>\
+            //         </li>")
+            //         }
             //     },
             //     error:function(rej){
-
-            //     }
+            //         console.log(rej)
+            //     }   
             // })
         })
 
@@ -50,6 +92,7 @@
         })
         //点击待办事项文本内容展示详情弹窗
         $(".add_ctn").on("click",function(e){
+            console.log("dadasdasd")
             $(".taskdetail_md").show();
             $(".app").css("overflow-y","hidden")
             console.log("helow")
@@ -89,6 +132,18 @@
             // $(".taskdetail_selectionbtn").append()
         })
         
+        //关闭操作提示
+        $(".taskdetail_tips_close").on("click",function(e){
+            $(".taskdetail_tips_box").hide();
+        })
+        //点击删除字样弹窗
+        $(".taskdetail_deleteone").on("click",function(e){
+            $(".taskdetail_tips_box").show();
+        })
+        //点击取消去除提示框
+        $(".taskdetail_tips_cancel").on("click",function(e){
+            $(".taskdetail_tips_box").hide();
+        })
         // $(".todo_laber").on("click",function(e){
         //     console.log("xoxi1231")
         //     // $(".todo_label").removeClass()
