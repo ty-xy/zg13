@@ -127,8 +127,6 @@ exports.load_messages = function (opts) {
                     console.log(res)
                     console.log(res.backlog_dict)
                     for(var key in res.backlog_dict){
-                        // console.log(res.backlog_dict[key].task)
-                        // console.log(res.backlog_dict[key].over_time)
                         $(".todo_box").append("<li class='todo'>\
                         <div class='todo_left'>\
                                 <input type='checkbox' class='add_checkbox'>\
@@ -163,6 +161,9 @@ exports.load_messages = function (opts) {
                                 console.log(r);
                             }
                         })
+                        $("p[taskid='"+backlog_id+"']").parent().parent().remove();
+                        $(".taskdetail_tips_box").hide();
+                        $(".taskdetail_md").hide();
                     })
                     for(var key in res.past_due){
                         $(".completed_box").append("<li class='completed'>\
