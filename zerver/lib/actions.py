@@ -1107,6 +1107,7 @@ def do_send_messages(messages_maybe_none: Sequence[Optional[MutableMapping[str, 
     already_sent_ids = []  # type: List[int]
     new_messages = []  # type: List[MutableMapping[str, Any]]
     for message in messages:
+
         if isinstance(message['message'], int):
             already_sent_ids.append(message['message'])
         else:
@@ -1117,6 +1118,7 @@ def do_send_messages(messages_maybe_none: Sequence[Optional[MutableMapping[str, 
     # For consistency, changes to the default values for these gets should also be applied
     # to the default args in do_send_message
     for message in messages:
+
         message['rendered_content'] = message.get('rendered_content', None)
         message['stream'] = message.get('stream', None)
         message['local_id'] = message.get('local_id', None)
@@ -1127,6 +1129,7 @@ def do_send_messages(messages_maybe_none: Sequence[Optional[MutableMapping[str, 
             realm_id=message['realm'].id,
             content=message['message'].content,
         )
+
         message['mention_data'] = mention_data
 
         if message['message'].is_stream_message():
@@ -1171,6 +1174,7 @@ def do_send_messages(messages_maybe_none: Sequence[Optional[MutableMapping[str, 
         # Add members of the mentioned user groups into `mentions_user_ids`.
         mention_data = message['mention_data']
         for group_id in message['message'].mentions_user_group_ids:
+            print(message['message'].mentions_user_group_ids)
             members = message['mention_data'].get_group_members(group_id)
             message['message'].mentions_user_ids.update(members)
 
@@ -1194,6 +1198,7 @@ def do_send_messages(messages_maybe_none: Sequence[Optional[MutableMapping[str, 
         Message.objects.bulk_create([message['message'] for message in messages])
         ums = []  # type: List[UserMessageLite]
         for message in messages:
+
             # Service bots (outgoing webhook bots and embedded bots) don't store UserMessage rows;
             # they will be processed later.
             mentioned_user_ids = message['message'].mentions_user_ids
@@ -1227,6 +1232,7 @@ def do_send_messages(messages_maybe_none: Sequence[Optional[MutableMapping[str, 
     for message in messages:
         # Deliver events to the real-time push system, as well as
         # enqueuing any additional processing triggered by the message.
+
         wide_message_dict = MessageDict.wide_dict(message['message'])
 
         user_flags = user_message_flags.get(message['message'].id, {})
@@ -1291,6 +1297,7 @@ def do_send_messages(messages_maybe_none: Sequence[Optional[MutableMapping[str, 
             event['local_id'] = message['local_id']
         if message['sender_queue_id'] is not None:
             event['sender_queue_id'] = message['sender_queue_id']
+
         send_event(event, users)
 
         if url_embed_preview_enabled_for_realm(message['message']) and links_for_embed:
