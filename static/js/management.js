@@ -142,9 +142,6 @@
                     }else if(res.errno == 3){
                         console.log(res.message)
                     }
-                    
-                    // console.log(res)
-                   
                 },
                 error:function(rej){
                     console.log(rej)

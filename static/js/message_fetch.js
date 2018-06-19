@@ -126,12 +126,13 @@ exports.load_messages = function (opts) {
                 url:"zg/api/v1/backlog",
                 success:function(res){
                     if(res.errno == 0){
+                        console.log(res)
                         $(".todo_box").children().remove();
                         for(var key in res.backlog_list){
                             $(".todo_box").append("<li class='todo'>\
                             <div class='todo_left'>\
                                     <input type='checkbox' class='add_checkbox' inputid = "+res.backlog_list[key].id+" state = "+res.backlog_list[key].state+">\
-                                    <p class='add_ctn' taskid="+ res.backlog_list[key].id +" >"+res.backlog_list[key].task+"</p>\
+                                    <p class='add_ctn' over_time="+res.backlog_list[key].over_time+" task="+res.backlog_list[key].task+" taskid="+ res.backlog_list[key].id +" taskdetails="+res.backlog_list[key].task_details+">"+res.backlog_list[key].task+"</p>\
                             </div>\
                             <div class='todo_right'>\
                                     <i class='iconfont icon-beizhu note_icon'></i>\
@@ -145,9 +146,52 @@ exports.load_messages = function (opts) {
                             $(".taskdetail_md").show();
                             $(".app").css("overflow-y","hidden");
                             $(".taskdetail_list").html($(this).html());
+                            // var taskdetails = $(this).attr("taskdetails");
+                            // var over_time = $(this).attr("over_time");
+                            // var task = $(this).attr("task");
+                            // console.log(taskdetails)
+                            // $("#taskdetail_addnote").text(taskdetails);
+                            // $("#taskdetail_addnote").attr("placeholder",'nidbaisbdaubsd')
                             var taskid = Number($(this).attr("taskid"))
-                            console.log(taskid)
+                            $("textarea[taskid='"+taskid+"']").text(taskdetails);
+
+                            function timestamp(str){
+                                str = str.replace(/-/g,'/');
+                                var date = new Date(str); 
+                                var time = date.getTime();
+                                var n = time/1000;
+                                return n;
+                            }
+                            var _over_time = timestamp(over_time);
+                            var obj = {
+                                "task":task,
+                                "over_time":_over_time,
+                                "task_details":taskdetails,
+                                "backlogs_id":taskid
+                            }
+                            var j = JSON.stringify(obj)
                             backlog_id = taskid;
+                            $("#taskdetail_addnote").on("focus",function(e){
+                                var addnote = $(this).val()
+                            })
+                            $("#taskdetail_addnote").on("blur",function(e){
+                                var addnote = $(this).val()
+                                obj.task_details = addnote;
+                                console.log(addnote)
+                                console.log(obj)
+                                console.log(obj.task_details)
+                                var k =JSON.stringify(obj)
+                                $.ajax({
+                                    type:"PUT",
+                                    url:"zg/api/v1/backlog",
+                                    contentType:"application/json",
+                                    dataType:"json",
+                                    data:k,
+                                    success:function(e){
+
+                                    }
+                                })
+                            })
                         })
                         $(".taskdetail_tips_confirm").on("click",function(e){
                             var _obj_backlog_id = {
@@ -210,7 +254,6 @@ exports.load_messages = function (opts) {
                                         </div>\
                                 </li>")
                                     }
-
                                     $(".completed_ctn").on("click",function(e){
                                         $(".taskdetail_md").show();
                                         $(".app").css("overflow-y","hidden");
