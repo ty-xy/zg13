@@ -3223,6 +3223,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     text-align: left;
     color: #BBBBBB;
     text-decoration: line-through;
+    cursor: pointer;
 }
 /* .checked{
     color: #ccc;

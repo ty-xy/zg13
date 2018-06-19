@@ -172,6 +172,7 @@ exports.load_messages = function (opts) {
                             var inputid = Number($(this).attr("inputid"))
                             var state = ($(this).attr("state"))
                             if($(this).is(":checked")){
+                                var _this = $(this);
                                 state = ($(this).attr("state"))
                                 state = 0;
                                 var backlog_change = {
@@ -185,27 +186,67 @@ exports.load_messages = function (opts) {
                                     contentType:"application/json",
                                     data:obj_backlog_change,
                                     success:function(res){
-
+                                        _this.parent().parent().remove();
+                                        $(".completed_box").prepend(_this.parent().parent());
                                     }
-
                                 })
                             }else{
-
+                                
                             }
                         })
+                        
                         $.ajax({
                             type:"GET",
                             url:"zg/api/v1/backlogss/accomplis",
                             data:{page:1},
                             success:function(rescompleted){
                                 if(rescompleted.errno == 0){
+                                    $(".completed_box").children().remove();
                                     for(var key in rescompleted.accomplis_backlogs_list){
                                         $(".completed_box").append("<li class='completed'>\
-                                        <input type='checkbox' class='completed_checkbox checked' checked='checked'>\
+                                        <div>\
+                                        <input type='checkbox' class='completed_checkbox checked' checked='checked' inputid="+ rescompleted.accomplis_backlogs_list[key].id +">\
                                         <p class='completed_ctn' taskid="+ rescompleted.accomplis_backlogs_list[key].id +">"+rescompleted.accomplis_backlogs_list[key].task+"</p>\
+                                        </div>\
                                 </li>")
                                     }
+
+                                    $(".completed_ctn").on("click",function(e){
+                                        $(".taskdetail_md").show();
+                                        $(".app").css("overflow-y","hidden");
+                                        $(".taskdetail_list").html($(this).html());
+                                        var taskid = Number($(this).attr("taskid"))
+                                        backlog_id = taskid;
+                                    })
+
+                                    $(".completed_checkbox").on("click",function(e){
+                                        var inputid = Number($(this).attr("inputid"))
+                                        var state = ($(this).attr("state"))
+                                        if(!$(this).is(":checked")){
+                                            var _this = $(this);
+                                            state = ($(this).attr("state"))
+                                            state = 2;
+                                            var backlog_change = {
+                                                state:2,
+                                                backlogs_id:inputid
+                                            }
+                                            var obj_backlog_change = JSON.stringify(backlog_change);
+                                            $.ajax({
+                                                type:"PUT",
+                                                url:"zg/api/v1/backlog",
+                                                contentType:"application/json",
+                                                data:obj_backlog_change,
+                                                success:function(res){
+                                                    _this.parent().parent().remove();
+                                                    $(".todo_box").prepend(_this.parent().parent());
+                                                }
+                                            })
+                                        }else{
+                                            
+                                        }
+                                    })
                                 }
+                                
                             }
                         })
                     }

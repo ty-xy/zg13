@@ -6,6 +6,84 @@ import datetime, time, json, calendar
 import re
 
 
+
+
+
+#
+#
+# # 获取个人
+# #     获取所有人原name和id
+# def person_list(request):
+#
+#     if request.method=="GET":
+#         user_list=UserProfile.objects.all()
+#         person_list=list()
+#         for user in user_list:
+#             a={}
+#             user_name=user.full_name
+#             user_avatar=user.avatar_source
+#             a['user_name']=user_name
+#             a['user_avatar']=user_avatar
+#             a["user_id"]=user.id
+#             person_list.append(a)
+#         return JsonResponse({'errno': 0, 'message': '获取数据成功','person_list':person_list})
+#
+#
+#
+# # 发送
+# #     又一个参数如果参数为空
+# def send_table(request):
+#     if request == "POST":
+#         user=request.user
+#         user = re.match(r"<UserProfile: (.*) <.*>>", user).group(1)
+#         req = request.body
+#         req = req.decode()
+#         req = json.loads(req)
+#         send_list=req.get('send_list')
+#         table
+#         if not send_list:
+#             return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
+#         for i in:
+#             StatementState.objects.creat(staff=)
+# #         则从request内取出id
+# #     将id放入周报对应的比字段
+#
+#
+# # 获取频道
+# #     获取所有频道name返回给前端
+#
+#
+# # 发送-频道
+# #     获取该频道内所有人的id 添加到周报发送人的id内
+#
+#
+#
+# # 发送已读未读
+# #     获取发送人是我的状态为t和f的信息
+#
+#
+#
+# # 日志助手-我发出的
+# #     获取我所有的周报倒叙，返回给前端
+#
+#
+#
+# # 日志助手我收到的
+# #     查询周报发送报表状态内所有的邮箱=我的
+#
+#
+# # 查看我收到的
+# #     传入日志id
+# #     通过日志id获取
+#
+#
+# # 日志助手消息数量
+# #     寻发送状态栏为F的报表iduser=myuser的数量
+#
+#
+
+
+
 # 报表
 def table_view(request):
     if request.method == 'POST':
@@ -41,7 +119,6 @@ def table_view(request):
 
             if send:
                 send = send.strip(',').split(',')
-
                 for staff in send:
                     StatementState.objects.creat(statement_id=a, staff=staff)
         except Exception:
@@ -151,7 +228,6 @@ def backlogs_view(request):
     if request.method == "GET":
         user = str(request.user)
         import re
-        user = str(user)
         user = re.match(r"<UserProfile: (.*) <.*>>", user).group(1)
         # 获取当前时间戳
         now = int(time.time())
@@ -164,20 +240,15 @@ def backlogs_view(request):
         backlog_list = []
 
         for bl in backlogs_list:
-
             if bl.over_time < now:
-
                 a = {}
                 a['backlog_id'] = bl.id
-
                 time_array = time.localtime(bl.create_time)
                 create_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
                 a['create_time'] = create_time
-
                 time_array = time.localtime(bl.over_time)
                 over_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
                 a['over_time'] = over_time
-
                 a['task'] = bl.task
                 a['task_details'] = bl.task_details
                 a['state'] = bl.state
@@ -188,6 +259,7 @@ def backlogs_view(request):
                         accessory_dict[accessory.id] = accessory.accessory_url
                     a["accessory_dict"] = accessory_dict
                 past_due_list.append(a)
+
             else:
                 b = {}
                 b['id'] = bl.id
@@ -290,74 +362,74 @@ def backlogs_view(request):
         req = req.decode()
         req = json.loads(req)
         put_id = req.get('backlogs_id')
-        # try:
-        backlog = Backlog.objects.get(id=put_id)
-        del req['backlogs_id']
-        for re in req:
-            if re == "create_time":
-                if not req['create_time']:
-                    return JsonResponse({'errno': 1, 'message': '创建时间不能为空'})
-                backlog.create_time = int(req['create_time'])
-                time_array = time.localtime(req['create_time'])
-                other_style_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
+        try:
+            backlog = Backlog.objects.get(id=put_id)
+            del req['backlogs_id']
+            for re in req:
+                if re == "create_time":
+                    if not req['create_time']:
+                        return JsonResponse({'errno': 1, 'message': '创建时间不能为空'})
+                    backlog.create_time = int(req['create_time'])
+                    time_array = time.localtime(req['create_time'])
+                    other_style_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
 
-                updatetime = '%s修改了事项的开始时间为:%s' % (uodate_time, other_style_time)
-                UpdateBacklog.objects.create(update_backlog=updatetime, backlog_id=backlog)
+                    updatetime = '%s修改了事项的开始时间为:%s' % (uodate_time, other_style_time)
+                    UpdateBacklog.objects.create(update_backlog=updatetime, backlog_id=backlog)
 
-            if re == "over_time":
-                if not req['over_time']:
-                    return JsonResponse({'errno': 2, 'message': '结束时间不能为空'})
-                backlog.over_time = int(req['over_time'])
-                time_array = time.localtime(req['over_time'])
-                other_style_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
+                if re == "over_time":
+                    if not req['over_time']:
+                        return JsonResponse({'errno': 2, 'message': '结束时间不能为空'})
+                    backlog.over_time = int(req['over_time'])
+                    time_array = time.localtime(req['over_time'])
+                    other_style_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
 
-                updatetime = '%s修改了事项的完成时间为%s' % (uodate_time, other_style_time)
+                    updatetime = '%s修改了事项的完成时间为%s' % (uodate_time, other_style_time)
 
-                UpdateBacklog.objects.create(update_backlog=updatetime, backlog_id=backlog)
+                    UpdateBacklog.objects.create(update_backlog=updatetime, backlog_id=backlog)
 
-            if re == "task":
-                backlog.task = req['task']
-                update_task = '%s修改事项为%s' % (uodate_time, req['task'])
-                UpdateBacklog.objects.create(update_backlog=update_task, backlog_id=backlog)
+                if re == "task":
+                    backlog.task = req['task']
+                    update_task = '%s修改事项为%s' % (uodate_time, req['task'])
+                    UpdateBacklog.objects.create(update_backlog=update_task, backlog_id=backlog)
 
-            if re == 'accessory_dict':
-                UpdateBacklog.objects.create(update_backlog="%s修改了附件" % uodate_time, backlog_id=backlog)
-                for accessory_id in req['accessory_dict']:
-                    if accessory_id == "0":
-                        BacklogAccessory.objects.create(backlog_id=backlog,
-                                                        accessory_url=req['accessory_dict']['0'])
+                if re == 'accessory_dict':
+                    UpdateBacklog.objects.create(update_backlog="%s修改了附件" % uodate_time, backlog_id=backlog)
+                    for accessory_id in req['accessory_dict']:
+                        if accessory_id == "0":
+                            BacklogAccessory.objects.create(backlog_id=backlog,
+                                                            accessory_url=req['accessory_dict']['0'])
 
-                    else:
-                        accessory = BacklogAccessory.objects.get(id=int(accessory_id))
-                        if not req['accessory_dict'][accessory_id]:
-                            accessory.is_delete = True
                         else:
-                            accessory.accessory_url = req['accessory_dict'][accessory_id]
-                        accessory.save()
+                            accessory = BacklogAccessory.objects.get(id=int(accessory_id))
+                            if not req['accessory_dict'][accessory_id]:
+                                accessory.is_delete = True
+                            else:
+                                accessory.accessory_url = req['accessory_dict'][accessory_id]
+                            accessory.save()
 
-            if re == 'task_details':
-                backlog.task_details = req['task_details']
-                update_task_details = "%s 修改事项详情为: %s" % (uodate_time, req['task_details'])
-                UpdateBacklog.objects.create(update_backlog=update_task_details, backlog_id=backlog)
+                if re == 'task_details':
+                    backlog.task_details = req['task_details']
+                    update_task_details = "%s 修改事项详情为: %s" % (uodate_time, req['task_details'])
+                    UpdateBacklog.objects.create(update_backlog=update_task_details, backlog_id=backlog)
 
-            if re == 'state':
-                if req['state'] == 0:
-                    if backlog.over_time < now:
+                if re == 'state':
+                    if req['state'] == 0:
+                        if backlog.over_time < now:
+                            backlog.state = req['state']
+                            update_state = '%s逾期完成了事项' % uodate_time
+                            UpdateBacklog.objects.create(update_backlog=update_state, backlog_id=backlog)
+
+                        else:
+                            backlog.state = req['state']
+                            update_state = '%s完成了事项' % uodate_time
+                            UpdateBacklog.objects.create(update_backlog=update_state, backlog_id=backlog)
+
+                    elif not req['state']:
+                        req['state'] = 2
                         backlog.state = req['state']
-                        update_state = '%s逾期完成了事项' % uodate_time
-                        UpdateBacklog.objects.create(update_backlog=update_state, backlog_id=backlog)
-
-                    else:
-                        backlog.state = req['state']
-                        update_state = '%s完成了事项' % uodate_time
-                        UpdateBacklog.objects.create(update_backlog=update_state, backlog_id=backlog)
-
-                elif not req['state']:
-                    req['state'] = 2
-                    backlog.state = req['state']
-        backlog.save()
-        # except Exception:
-        #     return JsonResponse({'errno': 3, 'message': '保存数据失败'})
+            backlog.save()
+        except Exception:
+            return JsonResponse({'errno': 3, 'message': '保存数据失败'})
         return JsonResponse({'errno': 0, 'message': '成功'})
 
 
