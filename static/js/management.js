@@ -1,38 +1,44 @@
     var management = (function () {
     var exports = {};
-    $(function () {
+    $("body").ready(function () {
         //点击一键生成日志 出现日志弹窗
         // $(".create_generate_log").hide();
+        function logClick (data){
+            var rendered = $(templates.render('log',{
+                logmessage:data.underway_list
+            }));
+            $('.create_generate_log').append(rendered);
+            $("#management_ctn .generate_log_close").on("click",function(e){
+                $("#management_ctn .create_generate_log").hide();
+                $('.create_generate_log').empty()   
+          });
+        }
         $(".generate_log").on("click",function(e){
-            e.preventDefault();
-            e.stopPropagation();
-            console.log(12)
-            $(".create_generate_log").show();
+             $(".create_generate_log").show();
             channel.get({
                 url: "zg/api/v1/creator/table?date_type=day",
                 idempotent: true,
                 success: function (data) {
+                console.log(543)
                 if(data){
                      console.log(data)
-                    var rendered = templates.render('log',{
-                        logmessage:data.underway_list
-                    });
-                    $('.create_generate_log').append(rendered);
-                    // $("#management_ctn .generate_log_close").on("click",function(e){
-                    //     console.log(1213)
-                    //     $("#management_ctn .create_generate_log").hide();
-                    // })
+                     logClick(data)
                     }
                 },
             });
+       
         })
-    
+        
+
+
+       
         // $("#management_ctn").on("click",function(e){
         //     // console.log("修改成功")
         //     // e.preventDefault();
         //     e.stopPropagation();
         //     $(".create_generate_log").hide();
         // })
+        
         $(".create_daily").on("click",function(e){
             $(this).addClass("default_border").parent().siblings().children().removeClass("default_border");
         })
