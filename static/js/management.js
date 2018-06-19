@@ -25,6 +25,8 @@
         $(".new_task_title").on("click",function(e){
             $("#search_query").val("");
         })
+
+        
         $(".new_task_save").on("click",function(e){
             var inttitle = $(".create_tasttitle").val();
             var inttime = $(".create_taskdate").val();
@@ -48,63 +50,73 @@
                 dataType:"json",
                 data:j,
                 success:function(res){
-                    $.ajax({
-                        type:"GET",
-                        url:"zg/api/v1/backlog",
-                        success:function(response){
-                            var new_append_task;
-                            var new_append_over_time;
-                            var new_append_id;
-                            for(var key in response.backlog_list){
-                                new_append_id = response.backlog_list[0].id
-                                new_append_task = response.backlog_list[0].task
-                                new_append_over_time = response.backlog_list[0].over_time
-                            }
-                        $(".todo_box").prepend("<li class='todo'>\
-                        <div class='todo_left'>\
-                                <input type='checkbox' class='add_checkbox'>\
-                                <p class='add_ctn' taskid="+new_append_id+">"+new_append_task+"</p>\
-                        </div>\
-                        <div class='todo_right'>\
-                                <i class='iconfont icon-beizhu note_icon'></i>\
-                                <i class='iconfont icon-fujian1 attachment_icon'></i>\
-                                <p class='add_datatime'>"+new_append_over_time+"</p>\
-                        </div>\
-                    </li>")
-                    $(".new_task_title").val("");
-                    $(".new_task_date").val("");
-                    var backlog_id;
-                    $(".add_ctn").on("click",function(e){
-                        $(".taskdetail_md").show();
-                        $(".app").css("overflow-y","hidden");
-                        $(".taskdetail_list").html($(this).html());
-                        var taskid = Number($(this).attr("taskid"))
-                        backlog_id = taskid;
-                    })
-                    $(".taskdetail_tips_confirm").on("click",function(e){
-                        var _obj_backlog_id = {
-                            "backlog_id":backlog_id
-                        }
-                        var obj_backlog_id = JSON.stringify(_obj_backlog_id)
+                    if(res.errno == 0){
                         $.ajax({
-                            type:"DELETE",
+                            type:"GET",
                             url:"zg/api/v1/backlog",
-                            contentType:"application/json",
-                            data:obj_backlog_id,
-                            success:function(r){
-                                console.log(r);
-                            }
+                            success:function(response){
+                                console.log(response.errno)
+                                if(response.errno == 3){
+                                    console.log(response.message)
+                                }
+                                var new_append_task;
+                                var new_append_over_time;
+                                var new_append_id;
+                                for(var key in response.backlog_list){
+                                    new_append_id = response.backlog_list[0].id
+                                    new_append_task = response.backlog_list[0].task
+                                    new_append_over_time = response.backlog_list[0].over_time
+                                }
+                                $(".todo_box").prepend("<li class='todo'>\
+                                <div class='todo_left'>\
+                                        <input type='checkbox' class='add_checkbox'>\
+                                        <p class='add_ctn' taskid="+new_append_id+">"+new_append_task+"</p>\
+                                </div>\
+                                <div class='todo_right'>\
+                                        <i class='iconfont icon-beizhu note_icon'></i>\
+                                        <i class='iconfont icon-fujian1 attachment_icon'></i>\
+                                        <p class='add_datatime'>"+new_append_over_time+"</p>\
+                                </div>\
+                            </li>")
+                        $(".new_task_title").val("");
+                        $(".new_task_date").val("");
+                        var backlog_id;
+                        $(".add_ctn").on("click",function(e){
+                            $(".taskdetail_md").show();
+                            $(".app").css("overflow-y","hidden");
+                            $(".taskdetail_list").html($(this).html());
+                            var taskid = Number($(this).attr("taskid"))
+                            backlog_id = taskid;
                         })
-                        $("p[taskid='"+backlog_id+"']").parent().parent().remove();
-                        $(".taskdetail_tips_box").hide();
-                        $(".taskdetail_md").hide();
-                        $(".app").css("overflow-y","scroll");
-                    })
-                        },
-                        error:function(reject){
-                            console.log(reject)
-                        }   
-                    })
+                        $(".taskdetail_tips_confirm").on("click",function(e){
+                            var _obj_backlog_id = {
+                                "backlog_id":backlog_id
+                            }
+                            var obj_backlog_id = JSON.stringify(_obj_backlog_id)
+                            $.ajax({
+                                type:"DELETE",
+                                url:"zg/api/v1/backlog",
+                                contentType:"application/json",
+                                data:obj_backlog_id,
+                                success:function(r){
+                                }
+                            })
+                            $("p[taskid='"+backlog_id+"']").parent().parent().remove();
+                            $(".taskdetail_tips_box").hide();
+                            $(".taskdetail_md").hide();
+                            $(".app").css("overflow-y","scroll");
+                        })
+                            },
+                            error:function(reject){
+                                console.log(reject)
+                            }   
+                        })
+                    }else if(res.errno == 1){
+                        console.log(res.message)
+                    }else if(res.errno == 3){
+                        console.log(res.message)
+                    }
+                    
                     // console.log(res)
                    
                 },
