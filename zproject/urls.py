@@ -33,6 +33,7 @@ import zerver.views.muting
 import zerver.views.streams
 import zerver.views.realm
 import zerver.views.zg_backlog
+import  zerver.views.zg_send_table
 
 from zerver.lib.rest import rest_dispatch
 
@@ -353,6 +354,9 @@ v1_api_and_json_patterns = [
 # If you're adding a new page to the website (as opposed to a new
 # endpoint for use by code), you should add it here.
 i18n_urls = [
+    # 获取个人列表
+
+    # url(r'^zg/api/v1/person$', zerver.views.zg_backlog.person_list),
     # 表
     url(r'^zg/api/v1/table$', zerver.views.zg_backlog.table_view),
     # 生成
