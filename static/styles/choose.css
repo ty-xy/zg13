@@ -225,7 +225,7 @@ a.message-control-button {
     margin-top: 10px;
 }
 #screenstart_datetimepicker>:first-child{
-    width: 160px;
+    width: 157px;
 }
 .log_screening_enddate{
     width: 280px;
@@ -241,7 +241,7 @@ a.message-control-button {
     float: left;
 }
 #screenend_datetimepicker>:first-child{
-    width: 160px;
+    width: 157px;
 }
 #screenend_datetimepicker{
     width: 241px;

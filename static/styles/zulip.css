@@ -3125,7 +3125,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     letter-spacing: 0.17px;
 }
 .todo_box{
-    height: 250px;
+    /* height: 250px; */
     overflow: auto;
     margin-left: -10px;
 }
@@ -3223,6 +3223,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     text-align: left;
     color: #BBBBBB;
     text-decoration: line-through;
+    cursor: pointer;
 }
 /* .checked{
     color: #ccc;

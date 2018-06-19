@@ -107,61 +107,6 @@ class StatementState(models.Model):
     statement_id = models.ForeignKey(Statement)
     staff = models.CharField(max_length=300)
     state = models.BooleanField(default=False)
-# 待办事项
-class Backlog(models.Model):
-    user = models.CharField(max_length=60)
-    create_time = models.PositiveIntegerField()
-    over_time = models.PositiveIntegerField()
-    task = models.CharField(max_length=60)
-    task_details = models.CharField(null = True, max_length=300)
-    state = models.IntegerField(default=2)
-    is_delete = models.BooleanField(default=False)
-
-
-#事项附件
-class BacklogAccessory(models.Model):
-    backlog_id = models.ForeignKey(Backlog)
-    accessory_url = models.CharField(max_length=200, default='')
-    is_delete = models.BooleanField(default=False)
-
-
-#修改表
-class UpdateBacklog(models.Model):
-    backlog_id = models.ForeignKey(Backlog)
-    update_backlog = models.CharField(max_length=60)
-
-
-
-
-# 报表
-class Statement(models.Model):
-    user = models.CharField(max_length=60)
-    generate_time = models.PositiveIntegerField()
-    accomplish = models.CharField(max_length=700)
-    overdue = models.CharField(max_length=400,null=True)
-    underway = models.CharField(max_length=400,null=True)
-    types = models.CharField(max_length=6)
-
-
-# 待办事项报表
-class StatementBacklog(models.Model):
-    statement_id = models.ForeignKey(Statement)
-    backlog_id = models.PositiveIntegerField()
-    is_delete = models.BooleanField(default=False)
-
-
-# 报表附件
-class StatementAccessory(models.Model):
-    Statement_id = models.ForeignKey(Statement)
-    statement_accessory_url = models.CharField(max_length=200)
-    is_delete = models.BooleanField(default=False)
-
-
-# 报表状态
-class StatementState(models.Model):
-    statement_id = models.ForeignKey(Statement)
-    staff = models.CharField(max_length=300)
-    state = models.BooleanField(default=False)
 
 
 MAX_SUBJECT_LENGTH = 60
