@@ -2,11 +2,31 @@
     var exports = {};
     $(function () {
         //点击一键生成日志 出现日志弹窗
+        // $(".create_generate_log").hide();
         $(".generate_log").on("click",function(e){
             e.preventDefault();
             e.stopPropagation();
+            console.log(12)
             $(".create_generate_log").show();
+            channel.get({
+                url: "zg/api/v1/creator/table?date_type=day",
+                idempotent: true,
+                success: function (data) {
+                if(data){
+                     console.log(data)
+                    var rendered = templates.render('log',{
+                        logmessage:data.underway_list
+                    });
+                    $('.create_generate_log').append(rendered);
+                    // $("#management_ctn .generate_log_close").on("click",function(e){
+                    //     console.log(1213)
+                    //     $("#management_ctn .create_generate_log").hide();
+                    // })
+                    }
+                },
+            });
         })
+    
         // $("#management_ctn").on("click",function(e){
         //     // console.log("修改成功")
         //     // e.preventDefault();
@@ -48,12 +68,54 @@
                 dataType:"json",
                 data:j,
                 success:function(res){
-                    location.reload();
+                    console.log(res)
+                    $.ajax({
+                        type:"GET",
+                        url:"zg/api/v1/backlog",
+                        success:function(response){
+                            console.log(response)
+                            console.log(response.backlog_dict)
+                            var n = 0;
+                            for(var key in response.backlog_dict){
+                                if(key > n){
+                                    n = key;
+                                }
+                            }
+                        console.log(n)
+                        console.log(response.backlog_dict[n].task)
+                        $(".todo_box").prepend("<li class='todo'>\
+                        <div class='todo_left'>\
+                                <input type='checkbox' class='add_checkbox'>\
+                                <p class='add_ctn'>"+response.backlog_dict[n].task+"</p>\
+                        </div>\
+                        <div class='todo_right'>\
+                                <i class='iconfont icon-beizhu note_icon'></i>\
+                                <i class='iconfont icon-fujian1 attachment_icon'></i>\
+                                <p class='add_datatime'>"+response.backlog_dict[n].over_time+"</p>\
+                        </div>\
+                    </li>")
+                    $(".add_ctn").on("click",function(e){
+                        $(".taskdetail_md").show();
+                        $(".app").css("overflow-y","hidden");
+                        $(".taskdetail_list").html($(this).html());
+                        // $(".taskdetail_tips_confirm").on("click",function(e){
+                            
+                        //     console.log($(this).res)
+                        // })
+                    })
+                        },
+                        error:function(reject){
+                            console.log(reject)
+                        }   
+                    })
+
                 },
                 error:function(rej){
                     console.log(rej)
                 }
             })
+
+
 
             // $.ajax({
             //     type:"GET",
@@ -115,8 +177,9 @@
             $(".app").css("overflow-y","scroll")
         })
         //日志弹窗关闭
-        $(".generate_log_close").on("click",function(e){
-            $(".create_generate_log").hide();
+        $("#management_ctn .generate_log_close").on("click",function(e){
+            console.log(1213)
+            $("#management_ctn .create_generate_log").hide();
         })
         //任务详情弹窗内的文件展示 划入事件
         $(".taskdetail_attachment").on("mousemove",function(e){

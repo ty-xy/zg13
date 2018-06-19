@@ -155,7 +155,7 @@ def backlogs_view(request):
         user = str(request.user)
         import re
 
-        # user = re.match(r"<UserProfile: (.*) <.*>>", user).group(1)
+        user = re.match(r"<UserProfile: (.*) <.*>>", user).group(1)
         # 获取当前时间戳
         now = int(time.time())
         try:

@@ -1,0 +1,101 @@
+
+<div id="create_log_de">
+    <div class="generate_log_left">
+        <ul class="generate_log_sliber">
+            <li>生成日报</li>
+            <li>生成周报</li>
+            <li>生成月报</li>
+        </ul>
+    </div>
+    <div class="generate_log_right">
+    <div class="generate_log_head">
+        <p>e建联</p>
+        <i></i>
+        <p>一键生成日志</p>
+        <i class="iconfont icon-guanbiUI generate_log_close"></i>
+    </div>
+    <div class="generate_log_ctn">
+        <div class="generate_log_finished">
+            已完成:
+        </div>
+        <textarea class="generate_log_finished_text">
+                {{#each logmessage}}
+                {{@key}}:{{this}}
+                {{/each}}
+        </textarea>
+        <div class="generate_log_unfinished">
+            未完成:
+        </div>
+        <textarea class="generate_log_unfinished_text"></textarea>
+        <div class="generate_log_pdfinished">
+            待完成:
+        </div>
+        <textarea class="generate_log_pdfinished_text"></textarea>
+        <div class="generate_log_plan">
+                计划（添加任务后，自动生成待办事项）:
+        </div>
+        <ul class="generate_log_plan_box">
+            <li class="generate_log_plan_ctn">
+                <input type="checkbox">
+                <p>整理上月的员工考勤，汇总整体出勤状态成表格</p>
+                <p><span>截止日期&nbsp;&nbsp;</span><span>2018-05-30</span></p>
+                <p>
+                    <span class="generate_log_plan_editor">编辑</span>
+                    <span class="generate_log_plan_delete">删除</span>
+                </p>
+            </li>
+        </ul>
+        <form action="" class="new_plan">
+                <input type="text" class="new_plan_title" placeholder="请输入任务标题">
+                <!-- <input type="text" class="new_plan_date" placeholder="请选择日期"> -->
+                <div class="input-append date" id="newplan_datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
+                        <input class="new_task_date" size="16" type="text" value="" readonly placeholder="请选择日期...">  
+                        <span class="add-on select_date_icon">
+                            <i data-date-icon="icon-calendar" class="icon-calendar iconfont icon-riqi"></i>
+                        </span>  
+                </div>
+                <div class="new_plan_save">保存</div>
+                <div class="new_plan_cancel">取消</div>
+        </form>
+        <i class="generate_log_plan_lineA"></i>
+        <div class="generate_log_addattachment">
+                添加附件:
+        </div>
+        <div class="generate_log_upfile_box">
+            <div class="generate_log_upfile">
+                        上传附件
+            </div>
+            <div class="generate_log_pack">
+                <div class="generate_log_pack_left">
+                    <img src="../../static/img/pnglogo.png" alt="">
+                    <i class="iconfont icon-shanchu1 generate_log_pack_delete"></i>
+                </div>
+                <div class="generate_log_pack_right">
+                    <p>工程项目报表.jpg</p>
+                    <p>3.29MB</p>
+                </div>
+            </div>
+        </div>
+        <div class="generate_log_send">
+            发送至:
+        </div>
+        <ul class="generate_log_member_box">
+            <li class="generate_log_member">
+                <div class="generate_log_member_avatar">
+                    <img src="" alt="">
+                </div>
+                <p class="generate_log_member_name">李俊伟</p>
+            </li>
+            <li>
+                <div class="generate_log_member_addlogo">
+                    <img src="../../static/img/add.png" alt="">
+                </div>
+                <p class="generate_log_member_add">添加成员</p>
+            </li>
+        </ul>
+        <div class="generate_log_submit">
+            提交
+        </div>
+    </div>
+    </div>      
+</div>

@@ -132,7 +132,7 @@ exports.load_messages = function (opts) {
                 type:"GET",
                 url:"zg/api/v1/backlog",
                 success:function(res){
-                    console.log(res)
+                    // console.log(res)
                     console.log(res.backlog_dict)
                     for(var key in res.backlog_dict){
                         // console.log(res.backlog_dict[key].task)

@@ -34,6 +34,9 @@
     left: -15%;
     top: 50px;
 }
+#create_log_de{
+   height:inherit
+}
 .create_generate_box{
     margin-top: 10px;
 }
@@ -489,8 +492,9 @@ ul{
     min-height: 125px;
     border: 1px solid #CCCCCC;
     border-radius: 5px;
-    resize: none;
+    resize: vertical;
     margin-top: 22px;
+    overflow:auto;
 }
 .generate_log_unfinished{
     font-size: 15px;
