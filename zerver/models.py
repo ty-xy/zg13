@@ -98,7 +98,7 @@ class StatementBacklog(models.Model):
 class StatementAccessory(models.Model):
     Statement_id = models.ForeignKey(Statement)
     statement_accessory_url = models.CharField(max_length=200)
-    accessory_size = models.CharField(max_length=10)
+    accessory_size = models.CharField(max_length=10,default='')
     is_delete = models.BooleanField(default=False)
 
 
