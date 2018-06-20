@@ -123,7 +123,7 @@ exports.load_messages = function (opts) {
             if(data.result == "success"){
             $.ajax({
                 type:"GET",
-                url:"zg/api/v1/backlog",
+                url:"json/zg/backlog",
                 success:function(res){
                     if(res.errno == 0){
                         $(".todo_box").children().remove();
@@ -155,7 +155,7 @@ exports.load_messages = function (opts) {
                             }
                             $.ajax({
                                 type:"GET",
-                                url:"zg/api/v1/backlogs/details",
+                                url:"json/zg/backlogs/details",
                                 contentType:"application/json",
                                 data:obj,
                                 success:function(res){
@@ -318,7 +318,7 @@ exports.load_messages = function (opts) {
                         
                         $.ajax({
                             type:"GET",
-                            url:"zg/api/v1/backlogss/accomplis",
+                            url:"json/zg/backlogss/accomplis",
                             data:{page:1},
                             success:function(rescompleted){
                                 if(rescompleted.errno == 0){

@@ -45,7 +45,7 @@
             var j = JSON.stringify(obj)
             $.ajax({
                 type:"POST",
-                url:"zg/api/v1/backlog",
+                url:"json/zg/backlog/",
                 contentType:"application/json",
                 dataType:"json",
                 data:j,
@@ -53,7 +53,7 @@
                     if(res.errno == 0){
                         $.ajax({
                             type:"GET",
-                            url:"zg/api/v1/backlog",
+                            url:"json/zg/backlog/",
                             success:function(response){
                                 if(response.errno == 3){
                                     console.log(response.message)
@@ -95,7 +95,7 @@
                             var obj_backlog_id = JSON.stringify(_obj_backlog_id)
                             $.ajax({
                                 type:"DELETE",
-                                url:"zg/api/v1/backlog",
+                                url:"json/zg/backlog",
                                 contentType:"application/json",
                                 data:obj_backlog_id,
                                 success:function(r){
@@ -121,7 +121,7 @@
                                 var obj_backlog_change = JSON.stringify(backlog_change);
                                 $.ajax({
                                     type:"PUT",
-                                    url:"zg/api/v1/backlog",
+                                    url:"json/zg/backlog",
                                     contentType:"application/json",
                                     data:obj_backlog_change,
                                     success:function(res){
