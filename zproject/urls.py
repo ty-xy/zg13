@@ -349,13 +349,29 @@ v1_api_and_json_patterns = [
     url(r'^zg/person/$', rest_dispatch,
         {'POST': 'zerver.views.zg_backlog.person_list'}),
 
-
+    # 待办事项
     url(r'^zg/backlog/$', rest_dispatch,
         {'POST': 'zerver.views.zg_backlog.backlogs_view_po',
          'GET': 'zerver.views.zg_backlog.backlogs_view_g',
          'PUT': 'zerver.views.zg_backlog.backlogs_view_pu',
-         'DELETE': 'zerver.views.zg_backlog.backlogs_view_d'}
-        )
+         'DELETE': 'zerver.views.zg_backlog.backlogs_view_d'}),
+
+    # 一键生成
+    url(r'^zg/creator/table$', rest_dispatch,
+        {'GET': 'zerver.views.zg_backlog.generate_table'}),
+
+    # 已完成待办事项
+    url(r'^zg/backlogss/accomplis', rest_dispatch,
+        {'GET': 'zerver.views.zg_backlog.accomplis_backlogs_view'}),
+
+    # 待办事项详情
+    url(r'^zg/backlogs/details$', rest_dispatch,
+        {'GET': 'zerver.views.zg_backlog.backlogs_details'}),
+
+    # 发送表
+    url(r'^zg/v1/table$$', rest_dispatch,
+        {'GET': 'zerver.views.zg_backlog.table_view'}),
+
 
 
 ]
@@ -370,15 +386,10 @@ i18n_urls = [
     # 获取个人列表
     # url(r'^zg/api/v1/person$', zerver.views.zg_backlog.person_list),
     # 表
-    # url(r'^zg/api/v1/table$', zerver.views.zg_backlog.table_view),
-    # 生成
-    # url(r'^zg/api/v1/creator/table', zerver.views.zg_backlog.generate_table),
-    # 待办事项
-    # url(r'^zg/api/v1/backlog$', zerver.views.zg_backlog.backlogs_view),
-    # 待办事项详情
-    # url(r'^zg/api/v1/backlogs/details', zerver.views.zg_backlog.backlogs_details),
-    # 已完成待办事项
-    # url(r'^zg/api/v1/backlogss/accomplis', zerver.views.zg_backlog.accomplis_backlogs_view),
+
+
+
+
 
 
     url(r'^$', zerver.views.home.home, name='zerver.views.home.home'),

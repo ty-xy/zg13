@@ -108,167 +108,104 @@ def table_view(request, user_profile):
 # 一键生成
 def generate_table(request, user_profile):
     now = int(time.time())
-    if request.method == "GET":
-        user = str(user_profile)
-        user = re.match(r"<UserProfile: (.*) <.*>>", user).group(1)
-        date_type = request.GET.get('date_type')
 
-        if not all([user, date_type]):
-            return JsonResponse({'errno': 1, 'message': "缺少参数"})
-
-        if date_type == 'month':
-
-            day_now = time.localtime()
-            day_begin = '%d-%02d-01' % (day_now.tm_year, day_now.tm_mon)
-            wday, monthRange = calendar.monthrange(day_now.tm_year,
-                                                   day_now.tm_mon)
-            day_end = '%d-%02d-%02d' % (day_now.tm_year, day_now.tm_mon, monthRange)
-
-            day_begin = day_begin + " " + '00:00:00'
-            day_end = day_end + " " + "23:59:00"
-
-            day_begin = time.mktime(time.strptime(day_begin, '%Y-%m-%d %H:%M:%S'))
-            day_end = time.mktime(time.strptime(day_end, '%Y-%m-%d %H:%M:%S'))
-
-            month_backlog_list = Backlog.objects.filter(user=user, create_time__range=(day_begin, day_end)).order_by(
-                '-id')
-            month_accomplish_list = []
-            month_overdue_list = []
-            month_underway_list = []
-
-            for month_backlog in month_backlog_list:
-                if month_backlog.state == 0:
-                    month_accomplish_list.append(month_backlog.task)
-
-                if month_backlog.over_time < now and month_backlog.state == 2:
-                    month_overdue_list.append(month_backlog.task)
-
-                if month_backlog.over_time > now and month_backlog.state == 2:
-                    month_underway_list.append(month_backlog.task)
-
-            return JsonResponse(
-                {'errno': 0, 'message': "成功", 'accomplish_list': month_accomplish_list, 'overdue_list':
-                    month_overdue_list, "underway_list": month_underway_list})
-
-        elif date_type == 'week':
-
-            today = datetime.date.today()
-            monday = datetime.date.today() - datetime.timedelta(days=datetime.date.today().weekday())
-            sunday = today + datetime.timedelta(6 - today.weekday())
-            a = time.mktime(monday.timetuple())
-            b = time.mktime(sunday.timetuple())
-            week_backlog_list = Backlog.objects.filter(user=user, create_time__range=(a, b)).order_by('-id')
-            week_accomplish_list = []
-            week_overdue_list = []
-            week_underway_list = []
-
-            for month_backlog in week_backlog_list:
-                if month_backlog.state == 0:
-                    week_accomplish_list.append(month_backlog.task)
-
-                if month_backlog.over_time < now and month_backlog.state == 2:
-                    week_overdue_list.append(month_backlog.task)
-
-                if month_backlog.over_time > now and month_backlog.state == 2:
-                    week_underway_list.append(month_backlog.task)
-
-            return JsonResponse(
-                {'errno': 0, 'message': "成功", 'accomplish_list': week_accomplish_list, 'overdue_list':
-                    week_overdue_list, "underway_list": week_underway_list})
-
-        elif date_type == "day":
-            a = int(time.mktime(time.strptime(str(datetime.date.today()), '%Y-%m-%d')))
-            b = int(time.mktime(time.strptime(str(datetime.date.today()
-                                                  + datetime.timedelta(days=1)), '%Y-%m-%d'))) - 1
-
-            day_backlog_list = Backlog.objects.filter(user=user, create_time__range=(a, b)).order_by('-id')
-
-            day_accomplish_list = []
-            day_overdue_list = []
-            day_underway_list = []
-
-            for month_backlog in day_backlog_list:
-                if month_backlog.state == 0:
-                    day_accomplish_list.append(month_backlog.task)
-
-                if month_backlog.over_time < now and month_backlog.state == 2:
-                    day_overdue_list.append(month_backlog.task)
-
-                if month_backlog.over_time > now and month_backlog.state == 2:
-                    day_underway_list.append(month_backlog.task)
-
-            return JsonResponse(
-                {'errno': 0, 'message': "成功", 'accomplish_list': day_accomplish_list, 'overdue_list':
-                    day_overdue_list, "underway_list": day_underway_list})
-
-
-
-
-# 待办事项列表
-def backlogs_view_g(request, user_profile):
-    print(user_profile)
-    print('----'*30)
     user = str(user_profile)
-    import re
     user = re.match(r"<UserProfile: (.*) <.*>>", user).group(1)
-    # 获取当前时间戳
-    now = int(time.time())
-    try:
-        backlogs_list = Backlog.objects.filter(user=user, state=2, is_delete='f').order_by('-id')
-    except Exception:
-        return JsonResponse({'errno': 1, 'message': '获取数据失败'})
-    # 过期
-    past_due_list = []
-    backlog_list = []
+    date_type = request.GET.get('date_type')
 
-    for bl in backlogs_list:
-        if bl.over_time < now:
-            a = {}
-            a['backlog_id'] = bl.id
-            time_array = time.localtime(bl.create_time)
-            create_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
-            a['create_time'] = create_time
-            time_array = time.localtime(bl.over_time)
-            over_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
-            a['over_time'] = over_time
-            a['task'] = bl.task
-            a['task_details'] = bl.task_details
-            a['state'] = bl.state
-            accessory_list = BacklogAccessory.objects.filter(backlog_id=bl.id, is_delete='f')
-            if accessory_list:
-                accessory_dict = {}
-                for accessory in accessory_list:
-                    accessory_dict[accessory.id] = accessory.accessory_url
-                a["accessory_dict"] = accessory_dict
-            past_due_list.append(a)
+    if not all([user, date_type]):
+        return JsonResponse({'errno': 1, 'message': "缺少参数"})
 
-        else:
-            b = {}
-            b['id'] = bl.id
+    if date_type == 'month':
 
-            time_array = time.localtime(bl.create_time)
-            create_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
-            b['create_time'] = create_time
+        day_now = time.localtime()
+        day_begin = '%d-%02d-01' % (day_now.tm_year, day_now.tm_mon)
+        wday, monthRange = calendar.monthrange(day_now.tm_year,
+                                               day_now.tm_mon)
+        day_end = '%d-%02d-%02d' % (day_now.tm_year, day_now.tm_mon, monthRange)
 
-            time_array = time.localtime(bl.over_time)
-            over_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
-            b['over_time'] = over_time
+        day_begin = day_begin + " " + '00:00:00'
+        day_end = day_end + " " + "23:59:00"
 
-            b['task'] = bl.task
-            b['task_details'] = bl.task_details
-            b['state'] = bl.state
-            accessory_list = BacklogAccessory.objects.filter(backlog_id=bl.id, is_delete='f')
+        day_begin = time.mktime(time.strptime(day_begin, '%Y-%m-%d %H:%M:%S'))
+        day_end = time.mktime(time.strptime(day_end, '%Y-%m-%d %H:%M:%S'))
 
-            if accessory_list:
-                accessory_dict = {}
-                for accessory in accessory_list:
-                    accessory_dict[accessory.id] = accessory.accessory_url
-                b["accessory_dict"] = accessory_dict
-            backlog_list.append(b)
+        month_backlog_list = Backlog.objects.filter(user=user, create_time__range=(day_begin, day_end),is_delete='f').order_by(
+            '-id')
+        month_accomplish_list = []
+        month_overdue_list = []
+        month_underway_list = []
 
-    return JsonResponse({'errno': 0, 'message': '成功', 'past_due_list': past_due_list, 'backlog_list': backlog_list})
+        for month_backlog in month_backlog_list:
+            if month_backlog.state == 0:
+                month_accomplish_list.append(month_backlog.task)
+
+            if month_backlog.over_time < now and month_backlog.state == 2:
+                month_overdue_list.append(month_backlog.task)
+
+            if month_backlog.over_time > now and month_backlog.state == 2:
+                month_underway_list.append(month_backlog.task)
+
+        return JsonResponse(
+            {'errno': 0, 'message': "成功", 'accomplish_list': month_accomplish_list, 'overdue_list':
+                month_overdue_list, "underway_list": month_underway_list})
+
+    elif date_type == 'week':
+
+        today = datetime.date.today()
+        monday = datetime.date.today() - datetime.timedelta(days=datetime.date.today().weekday())
+        sunday = today + datetime.timedelta(6 - today.weekday())
+        a = time.mktime(monday.timetuple())
+        b = time.mktime(sunday.timetuple())
+        week_backlog_list = Backlog.objects.filter(user=user, create_time__range=(a, b),is_delete='f').order_by('-id')
+        week_accomplish_list = []
+        week_overdue_list = []
+        week_underway_list = []
+
+        for month_backlog in week_backlog_list:
+            if month_backlog.state == 0:
+                week_accomplish_list.append(month_backlog.task)
+
+            if month_backlog.over_time < now and month_backlog.state == 2:
+                week_overdue_list.append(month_backlog.task)
+
+            if month_backlog.over_time > now and month_backlog.state == 2:
+                week_underway_list.append(month_backlog.task)
+
+        return JsonResponse(
+            {'errno': 0, 'message': "成功", 'accomplish_list': week_accomplish_list, 'overdue_list':
+                week_overdue_list, "underway_list": week_underway_list})
+
+    elif date_type == "day":
+        a = int(time.mktime(time.strptime(str(datetime.date.today()), '%Y-%m-%d')))
+        b = int(time.mktime(time.strptime(str(datetime.date.today()
+                                              + datetime.timedelta(days=1)), '%Y-%m-%d'))) - 1
+
+        day_backlog_list = Backlog.objects.filter(user=user, create_time__range=(a, b),is_delete='f').order_by('-id')
+
+        day_accomplish_list = []
+        day_overdue_list = []
+        day_underway_list = []
+
+        for month_backlog in day_backlog_list:
+            if month_backlog.state == 0:
+                day_accomplish_list.append(month_backlog.task)
+
+            if month_backlog.over_time < now and month_backlog.state == 2:
+                day_overdue_list.append(month_backlog.task)
+
+            if month_backlog.over_time > now and month_backlog.state == 2:
+                day_underway_list.append(month_backlog.task)
+
+        return JsonResponse(
+            {'errno': 0, 'message': "成功", 'accomplish_list': day_accomplish_list, 'overdue_list':
+                day_overdue_list, "underway_list": day_underway_list})
 
 
+
+
+
+# 待办事项增
 def backlogs_view_po(request, user_profile):
     print(user_profile)
     print("-"*50)
@@ -317,7 +254,7 @@ def backlogs_view_po(request, user_profile):
 
     return JsonResponse({'errno': 0, 'message': '事项创建成功，记得如期完成哦', 'backlog_id': backlog_id})
 
-
+# 删
 def backlogs_view_d(request, user_profile):
 
     req = request.body
@@ -341,7 +278,7 @@ def backlogs_view_d(request, user_profile):
 
     return JsonResponse({'errno': 0, 'message': '删除成功'})
 
-
+# 改
 def backlogs_view_pu(request, user_profile):
     now = int(time.time())
     time_array = time.localtime(now)
@@ -419,6 +356,69 @@ def backlogs_view_pu(request, user_profile):
     except Exception:
         return JsonResponse({'errno': 3, 'message': '保存数据失败'})
     return JsonResponse({'errno': 0, 'message': '成功'})
+
+# 查
+def backlogs_view_g(request, user_profile):
+
+    user = str(user_profile)
+    import re
+    user = re.match(r"<UserProfile: (.*) <.*>>", user).group(1)
+    # 获取当前时间戳
+    now = int(time.time())
+    try:
+        backlogs_list = Backlog.objects.filter(user=user, state=2, is_delete='f').order_by('-id')
+    except Exception:
+        return JsonResponse({'errno': 1, 'message': '获取数据失败'})
+    # 过期
+    past_due_list = []
+    backlog_list = []
+
+    for bl in backlogs_list:
+        if bl.over_time < now:
+            a = {}
+            a['backlog_id'] = bl.id
+            time_array = time.localtime(bl.create_time)
+            create_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
+            a['create_time'] = create_time
+            time_array = time.localtime(bl.over_time)
+            over_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
+            a['over_time'] = over_time
+            a['task'] = bl.task
+            a['task_details'] = bl.task_details
+            a['state'] = bl.state
+            accessory_list = BacklogAccessory.objects.filter(backlog_id=bl.id, is_delete='f')
+            if accessory_list:
+                accessory_dict = {}
+                for accessory in accessory_list:
+                    accessory_dict[accessory.id] = accessory.accessory_url
+                a["accessory_dict"] = accessory_dict
+            past_due_list.append(a)
+
+        else:
+            b = {}
+            b['id'] = bl.id
+
+            time_array = time.localtime(bl.create_time)
+            create_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
+            b['create_time'] = create_time
+
+            time_array = time.localtime(bl.over_time)
+            over_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
+            b['over_time'] = over_time
+
+            b['task'] = bl.task
+            b['task_details'] = bl.task_details
+            b['state'] = bl.state
+            accessory_list = BacklogAccessory.objects.filter(backlog_id=bl.id, is_delete='f')
+
+            if accessory_list:
+                accessory_dict = {}
+                for accessory in accessory_list:
+                    accessory_dict[accessory.id] = accessory.accessory_url
+                b["accessory_dict"] = accessory_dict
+            backlog_list.append(b)
+
+    return JsonResponse({'errno': 0, 'message': '成功', 'past_due_list': past_due_list, 'backlog_list': backlog_list})
 
 
 # 事项详情详情

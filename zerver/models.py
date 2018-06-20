@@ -76,8 +76,6 @@ class UpdateBacklog(models.Model):
     update_backlog = models.CharField(max_length=60)
 
 
-
-
 # 报表
 class Statement(models.Model):
 

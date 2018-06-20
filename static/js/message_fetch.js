@@ -148,7 +148,6 @@ exports.load_messages = function (opts) {
                             $(".taskdetail_md").remove();
                             var taskid = Number($(this).attr("taskid"))
                             backlog_id = taskid;
-                            console.log(backlog_id)
                             var backlogs_id = backlog_id;
                             var obj = {
                                 "backlogs_id":backlog_id
@@ -159,6 +158,7 @@ exports.load_messages = function (opts) {
                                 contentType:"application/json",
                                 data:obj,
                                 success:function(res){
+                                    console.log(res)
                                     function timestampToTime(timestamp) {
                                         var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
                                         Y = date.getFullYear() + '-';
@@ -174,29 +174,37 @@ exports.load_messages = function (opts) {
                                     var create_time = timestampToTime(res.backlogs_dict.create_time).substring(0,10);
                                     var over_time = timestampToTime(res.backlogs_dict.over_time).substring(0,10);
                                     var state = res.backlogs_dict.state;
+                                    var id = res.backlogs_dict.id;
                                     var html = templates.render("taskdetail_md",{
                                         taskdetail_list:taskdetail_list,
                                         taskdetail_addnote:taskdetail_addnote,
                                         create_time:create_time,
                                         over_time:over_time,
-                                        state:state
+                                        state:state,
+                                        id:id
                                     })
                                     $(".app").after(html)
                                     $(".taskdetail_md").show();
-                                    // $.ajax({
-                                    //     type:"PUT",
-                                    //     url:"zg/api/v1/backlog",
-                                    //     contentType:"application/json",
-                                    //     data:obj_backlog_change,
-                                    //     success:function(res){
-                                    //         _this.parent().parent().remove();
-                                    //         $(".completed_box").prepend(_this.parent().parent());
-                                    //         // 临时方案
-                                    //         location.reload();
-                                    //         // 临时方案
-                                    //         //zyc添加
-                                    //     }
-                                    // })
+                                    var obj_backlog_details = {
+                                        backlogs_id:id,
+                                        task_details:"",
+                                    }
+                                    $("textarea[name='"+id+"']").on("blur",function(e){
+                                        console.log($("textarea[name='"+id+"']").val())
+                                        obj_backlog_details.task_details = $("textarea[name='"+id+"']").val();
+                                        var backlog_details = JSON.stringify(obj_backlog_details)
+                                        $.ajax({
+                                            type:"PUT",
+                                            url:"json/zg/backlog/",
+                                            contentType:"application/json",
+                                            data:backlog_details,
+                                            success:function(res){
+
+                                            }
+                                        })
+                                    })
+                                    
+                                    
                             //点击任务详情模版关闭任务详情
                             $(".taskdetail_md").on("click",function(e){
                                 e.stopPropagation();
@@ -235,7 +243,7 @@ exports.load_messages = function (opts) {
                                 var obj_backlog_id = JSON.stringify(_obj_backlog_id)
                                 $.ajax({
                                     type:"DELETE",
-                                    url:"zg/api/v1/backlog",
+                                    url:"json/zg/backlog",
                                     contentType:"application/json",
                                     data:obj_backlog_id,
                                     success:function(r){
@@ -303,7 +311,7 @@ exports.load_messages = function (opts) {
                                 var obj_backlog_change = JSON.stringify(backlog_change);
                                 $.ajax({
                                     type:"PUT",
-                                    url:"zg/api/v1/backlog",
+                                    url:"json/zg/backlog/",
                                     contentType:"application/json",
                                     data:obj_backlog_change,
                                     success:function(res){
@@ -353,7 +361,7 @@ exports.load_messages = function (opts) {
                                             var obj_backlog_change = JSON.stringify(backlog_change);
                                             $.ajax({
                                                 type:"PUT",
-                                                url:"zg/api/v1/backlog",
+                                                url:"json/zg/backlog/",
                                                 contentType:"application/json",
                                                 data:obj_backlog_change,
                                                 success:function(res){
