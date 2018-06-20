@@ -57,6 +57,7 @@ def update_active_status_backend(request: HttpRequest, user_profile: UserProfile
     status_val = UserPresence.status_from_string(status)
     if status_val is None:
         raise JsonableError(_("Invalid status: %s") % (status,))
+
     else:
         update_user_presence(user_profile, request.client, timezone_now(),
                              status_val, new_user_input)
@@ -79,5 +80,4 @@ def update_active_status_backend(request: HttpRequest, user_profile: UserProfile
                 (activity.last_visit > timezone_now() - datetime.timedelta(minutes=5))
         except UserActivity.DoesNotExist:
             ret['zephyr_mirror_active'] = False
-
     return json_success(ret)
