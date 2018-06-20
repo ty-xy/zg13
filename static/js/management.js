@@ -26,13 +26,13 @@
             $("#search_query").val("");
         })
 
-
+        
         $(".new_task_save").on("click",function(e){
             var inttitle = $(".create_tasttitle").val();
             var inttime = $(".create_taskdate").val();
             function timestamp(str){
                 str = str.replace(/-/g,'/');
-                var date = new Date(str);
+                var date = new Date(str); 
                 var time = date.getTime();
                 var n = time/1000;
                 return n;
@@ -45,7 +45,7 @@
             var j = JSON.stringify(obj)
             $.ajax({
                 type:"POST",
-                url:"zg/api/v1/backlog",
+                url:"json/zg/backlog/",
                 contentType:"application/json",
                 dataType:"json",
                 data:j,
@@ -53,7 +53,7 @@
                     if(res.errno == 0){
                         $.ajax({
                             type:"GET",
-                            url:"zg/api/v1/backlog",
+                            url:"json/zg/backlog/",
                             success:function(response){
                                 if(response.errno == 3){
                                     console.log(response.message)
@@ -84,7 +84,7 @@
                             $(".taskdetail_md").show();
                             $(".app").css("overflow-y","hidden");
                             $(".taskdetail_list").html($(this).html());
-
+                            
                             var taskid = Number($(this).attr("taskid"))
                             backlog_id = taskid;
                         })
@@ -95,7 +95,7 @@
                             var obj_backlog_id = JSON.stringify(_obj_backlog_id)
                             $.ajax({
                                 type:"DELETE",
-                                url:"zg/api/v1/backlog",
+                                url:"json/zg/backlog",
                                 contentType:"application/json",
                                 data:obj_backlog_id,
                                 success:function(r){
@@ -121,7 +121,7 @@
                                 var obj_backlog_change = JSON.stringify(backlog_change);
                                 $.ajax({
                                     type:"PUT",
-                                    url:"zg/api/v1/backlog",
+                                    url:"json/zg/backlog",
                                     contentType:"application/json",
                                     data:obj_backlog_change,
                                     success:function(res){
@@ -135,13 +135,13 @@
                                     }
                                 })
                             }else{
-
+                                
                             }
                         })
                             },
                             error:function(reject){
                                 console.log(reject)
-                            }
+                            }   
                         })
                     }else if(res.errno == 1){
                         console.log(res.message)
@@ -200,7 +200,7 @@
         $(".taskdetail_selectionbtn").on("click",function(e){
             // $(".taskdetail_selectionbtn").append()
         })
-
+        
         //关闭操作提示
         $(".taskdetail_tips_close").on("click",function(e){
             $(".taskdetail_tips_box").hide();
@@ -219,60 +219,60 @@
         //     $(".todo_label").addClass("icon-weiwancheng")
         // })
         //日历汉化
-            $.fn.datetimepicker.dates['zh-CN'] = {
-                days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],
-                daysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
-                daysMin:  ["日", "一", "二", "三", "四", "五", "六", "日"],
-                months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
-                monthsShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
-                today: "今日",
-                suffix: [],
-                meridiem: ["上午", "下午"],
-                weekStart: 1
-            };
+            $.fn.datetimepicker.dates['zh-CN'] = {  
+                days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],  
+                daysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],  
+                daysMin:  ["日", "一", "二", "三", "四", "五", "六", "日"],  
+                months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],  
+                monthsShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],  
+                today: "今日",  
+                suffix: [],  
+                meridiem: ["上午", "下午"],  
+                weekStart: 1  
+            };  
         //初始化 待办事项日历
-            $('#datetimepicker').datetimepicker({
-                language:"zh-CN",
-                todayHighlight: true,
-                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月
-                weekStart:1
-            });
+            $('#datetimepicker').datetimepicker({  
+                language:"zh-CN",  
+                todayHighlight: true,  
+                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                weekStart:1  
+            });  
         //初始化 任务详情任务开始日历
-            $('#taskstart_datetimepicker').datetimepicker({
-                language:"zh-CN",
-                todayHighlight: true,
-                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月
-                weekStart:1
-            });
+            $('#taskstart_datetimepicker').datetimepicker({  
+                language:"zh-CN",  
+                todayHighlight: true,  
+                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                weekStart:1  
+            });  
         //初始化 任务详情截止日历
-            $('#taskstop_datetimepicker').datetimepicker({
-                language:"zh-CN",
-                todayHighlight: true,
-                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月
-                weekStart:1
-            });
+            $('#taskstop_datetimepicker').datetimepicker({  
+                language:"zh-CN",  
+                todayHighlight: true,  
+                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                weekStart:1  
+            });  
         //初始化 新计划日历
-            $('#newplan_datetimepicker').datetimepicker({
-                language:"zh-CN",
-                todayHighlight: true,
-                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月
-                weekStart:1
-            });
-
+            $('#newplan_datetimepicker').datetimepicker({  
+                language:"zh-CN",  
+                todayHighlight: true,  
+                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                weekStart:1  
+            });  
+            
         //初始化 筛选 开始时间日历
-            $('#screenstart_datetimepicker').datetimepicker({
-                language:"zh-CN",
-                todayHighlight: true,
-                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月
-                weekStart:1
-            });
+            $('#screenstart_datetimepicker').datetimepicker({  
+                language:"zh-CN",  
+                todayHighlight: true,  
+                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                weekStart:1  
+            });  
         //初始化 筛选 结束时间日历
-            $('#screenend_datetimepicker').datetimepicker({
-                language:"zh-CN",
-                todayHighlight: true,
-                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月
-                weekStart:1
-            });
+            $('#screenend_datetimepicker').datetimepicker({  
+                language:"zh-CN",  
+                todayHighlight: true,  
+                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                weekStart:1  
+            }); 
         //日志助手显示
             $(".log_assistant_btn").on("click",function(e){
                 e.stopPropagation();
@@ -291,7 +291,7 @@
 
                 //     }
                 // })
-
+                
                 var html = templates.render("log_assistant_box")
                 $(".app").after(html)
                 //日志助手点击md关闭
@@ -330,7 +330,7 @@
                 //日志助手拖拽
                 // $(".log_assistant_box").on("mousedown",function(e){
                 //     var x =parseInt(e.pageX - $(".log_assistant_box").offset().left);
-                //     var y =parseInt(e.pageY - $(".log_assistant_box").offset().top);
+                //     var y =parseInt(e.pageY - $(".log_assistant_box").offset().top); 
                 //     $(".log_assistant_box").bind("mousemove",function(ev){
                 //         var ox = ev.pageX - x;
                 //         var oy = ev.pageY-y;
@@ -360,19 +360,19 @@
                     $("#people-choose").hide();
                 })
             })
-
-
-
-
-
-
-
+            
+        
+            
+           
+            
+            
+        
         //只看未读
         $(".log_assistant_read").on("click",function(e){
-
+            
         })
-
-
+        
+        
         //点击打开周报
         // $("#weekly").on("click",function(e){
         //     var zjson={
@@ -396,7 +396,7 @@
         //拖拽效果
         // $(".management_set").on("mousedown",function(e){
         //     var x =parseInt(e.pageX - $(".management_set").offset().left);
-        //     var y =parseInt(e.pageY - $(".management_set").offset().top);
+        //     var y =parseInt(e.pageY - $(".management_set").offset().top); 
         //     $(".management_set").bind("mousemove",function(ev){
         //         var ox = ev.pageX - x;
         //         var oy = ev.pageY-y;
@@ -409,7 +409,7 @@
         //         $(this).unbind("mousemove");
         //     })
         // })
-
+    
         // $(".close_calendar").on("click",function(e){
     //     $("#schedule-box").hide();
     // })
@@ -422,11 +422,11 @@
     // })
     });
 
-
-
+    
+    
     return exports;
     }());
-
+    
     if (typeof module !== 'undefined') {
         module.exports = management ;
     }
