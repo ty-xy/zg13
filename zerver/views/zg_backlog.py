@@ -47,7 +47,7 @@ import re
 
 # # 获取个人
 # #     获取所有人原name和id
-def person_list(request):
+def person_list(request, user_profile):
     if request.method == "GET":
         user_list = UserProfile.objects.all()
         person_list = list()
@@ -62,9 +62,9 @@ def person_list(request):
         return JsonResponse({'errno': 0, 'message': '获取数据成功', 'person_list': person_list})
 
 # 报表
-def table_view(request):
+def table_view(request, user_profile):
     if request.method == 'POST':
-        user = str(request.user)
+        user = str(user_profile)
         user = re.match(r"<UserProfile: (.*) <.*>>", user).group(1)
         req = request.body
         req = req.decode()
@@ -106,10 +106,10 @@ def table_view(request):
 
 
 # 一键生成
-def generate_table(request):
+def generate_table(request, user_profile):
     now = int(time.time())
     if request.method == "GET":
-        user = str(request.user)
+        user = str(user_profile)
         user = re.match(r"<UserProfile: (.*) <.*>>", user).group(1)
         date_type = request.GET.get('date_type')
 
@@ -205,9 +205,10 @@ def generate_table(request):
 
 
 # 待办事项列表
-def backlogs_view_g(request):
-
-    user = str(request.user)
+def backlogs_view_g(request, user_profile):
+    print(user_profile)
+    print('----'*30)
+    user = str(user_profile)
     import re
     user = re.match(r"<UserProfile: (.*) <.*>>", user).group(1)
     # 获取当前时间戳
@@ -268,9 +269,11 @@ def backlogs_view_g(request):
     return JsonResponse({'errno': 0, 'message': '成功', 'past_due_list': past_due_list, 'backlog_list': backlog_list})
 
 
-def backlogs_view_po(request):
+def backlogs_view_po(request, user_profile):
+    print(user_profile)
+    print("-"*50)
     import re
-    user = str(request.user)
+    user = str(user_profile)
     user = re.match(r"<UserProfile: (.*) <.*>>", user).group(1)
     print('aaaaaaaaaaaaaa')
 
@@ -315,7 +318,7 @@ def backlogs_view_po(request):
     return JsonResponse({'errno': 0, 'message': '事项创建成功，记得如期完成哦', 'backlog_id': backlog_id})
 
 
-def backlogs_view_d(request):
+def backlogs_view_d(request, user_profile):
 
     req = request.body
     req = req.decode()
@@ -339,7 +342,7 @@ def backlogs_view_d(request):
     return JsonResponse({'errno': 0, 'message': '删除成功'})
 
 
-def backlogs_view_pu(request):
+def backlogs_view_pu(request, user_profile):
     now = int(time.time())
     time_array = time.localtime(now)
     uodate_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
@@ -409,8 +412,8 @@ def backlogs_view_pu(request):
                         update_state = '%s完成了事项' % uodate_time
                         UpdateBacklog.objects.create(update_backlog=update_state, backlog_id=backlog)
 
-                elif not req['state']:
-                    req['state'] = 2
+                elif req['state']==2:
+
                     backlog.state = req['state']
         backlog.save()
     except Exception:
@@ -418,11 +421,8 @@ def backlogs_view_pu(request):
     return JsonResponse({'errno': 0, 'message': '成功'})
 
 
-
-
-
 # 事项详情详情
-def backlogs_details(request):
+def backlogs_details(request, user_profile):
     if request.method == "GET":
         backlogs_id = request.GET.get('backlogs_id')
         try:
@@ -455,9 +455,9 @@ def backlogs_details(request):
 
 
 # 查看已完成事项
-def accomplis_backlogs_view(request):
+def accomplis_backlogs_view(request, user_profile):
     if request.method == "GET":
-        user = str(request.user)
+        user = str(user_profile)
         user = re.match(r"<UserProfile: (.*) <.*>>", user).group(1)
 
         page = request.GET.get('page')
