@@ -424,8 +424,8 @@ def backlogs_view(request):
                             update_state = '%s完成了事项' % uodate_time
                             UpdateBacklog.objects.create(update_backlog=update_state, backlog_id=backlog)
 
-                    elif not req['state']:
-                        req['state'] = 2
+                    elif req['state']==2:
+                        
                         backlog.state = req['state']
             backlog.save()
         except Exception:
