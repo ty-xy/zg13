@@ -66,6 +66,7 @@ class Backlog(models.Model):
 class BacklogAccessory(models.Model):
     backlog_id = models.ForeignKey(Backlog)
     accessory_url = models.CharField(max_length=200, default='')
+    accessory_size = models.CharField(max_length=10, default='')
     is_delete = models.BooleanField(default=False)
 
 
@@ -73,8 +74,6 @@ class BacklogAccessory(models.Model):
 class UpdateBacklog(models.Model):
     backlog_id = models.ForeignKey(Backlog)
     update_backlog = models.CharField(max_length=60)
-
-
 
 
 # 报表
@@ -99,6 +98,7 @@ class StatementBacklog(models.Model):
 class StatementAccessory(models.Model):
     Statement_id = models.ForeignKey(Statement)
     statement_accessory_url = models.CharField(max_length=200)
+    accessory_size = models.CharField(max_length=10,default='')
     is_delete = models.BooleanField(default=False)
 
 
@@ -700,8 +700,11 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     rate_limits = models.CharField(default=u"", max_length=100)  # type: Text # comma-separated list of range:max pairs
 
     # Default streams
+    # 默认发送流
     default_sending_stream = models.ForeignKey('zerver.Stream', null=True, related_name='+', on_delete=CASCADE)  # type: Optional[Stream]
+
     default_events_register_stream = models.ForeignKey('zerver.Stream', null=True, related_name='+', on_delete=CASCADE)  # type: Optional[Stream]
+    # 公共流
     default_all_public_streams = models.BooleanField(default=False)  # type: bool
 
     # UI vars
