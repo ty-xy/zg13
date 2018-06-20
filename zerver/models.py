@@ -66,7 +66,7 @@ class Backlog(models.Model):
 class BacklogAccessory(models.Model):
     backlog_id = models.ForeignKey(Backlog)
     accessory_url = models.CharField(max_length=200, default='')
-    accessory_size = models.CharField(max_length=10)
+    accessory_size = models.CharField(max_length=10, default='')
     is_delete = models.BooleanField(default=False)
 
 
@@ -74,8 +74,6 @@ class BacklogAccessory(models.Model):
 class UpdateBacklog(models.Model):
     backlog_id = models.ForeignKey(Backlog)
     update_backlog = models.CharField(max_length=60)
-
-
 
 
 # 报表
