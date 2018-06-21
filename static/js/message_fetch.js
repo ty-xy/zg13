@@ -259,13 +259,13 @@ exports.load_messages = function (opts) {
                                 var state = $(".taskdetail_state[name='"+id+"']").val();
                                 var task_details = $("textarea[name='"+id+"']").val();
                                 var obj_backlog_data = {
-                                    create_time,
-                                    over_time,
-                                    backlogs_id,
-                                    state,
-                                    task_details
+                                    create_time:create_time,
+                                    over_time:over_time,
+                                    backlogs_id:id,
+                                    state:state,
+                                    task_details:task_details
                                 }
-                                var backlog_data = JSON.stringify(obj_backlog_data)
+                                var backlog_data = JSON.stringify(obj_backlog_data);
                                 $.ajax({
                                     type:"PUT",
                                     url:"json/zg/backlog/",
@@ -520,13 +520,13 @@ exports.load_messages = function (opts) {
                                             var state = $(".taskdetail_state[name='"+id+"']").val();
                                             var task_details = $("textarea[name='"+id+"']").val();
                                             var obj_backlog_data = {
-                                                create_time,
-                                                over_time,
-                                                backlogs_id,
-                                                state,
-                                                task_details
+                                                create_time:create_time,
+                                                over_time:over_time,
+                                                backlogs_id:backlogs_id,
+                                                state:state,
+                                                task_details:task_details
                                             }
-                                            var backlog_data = JSON.stringify(obj_backlog_data)
+                                            var backlog_data = JSON.stringify(obj_backlog_data);
                                             $.ajax({
                                                 type:"PUT",
                                                 url:"json/zg/backlog/",
