@@ -40,7 +40,7 @@
             var over_time = timestamp(inttime);
             var obj = {
                 "task":inttitle,
-                "over_time":over_time,
+                "over_time":over_time+86399,
             }
             var j = JSON.stringify(obj)
             $.ajax({

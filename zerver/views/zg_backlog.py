@@ -207,12 +207,10 @@ def generate_table(request, user_profile):
 
 # 待办事项增
 def backlogs_view_po(request, user_profile):
-    print(user_profile)
-    print("-"*50)
+
     import re
     user = str(user_profile)
     user = re.match(r"<UserProfile: (.*) <.*>>", user).group(1)
-    print('aaaaaaaaaaaaaa')
 
     req = request.body
     req = req.decode()
