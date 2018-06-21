@@ -3251,6 +3251,14 @@ div.topic_edit_spinner .loading_indicator_spinner {
 }
 .new_task>input{
     float: left;
+    
+}
+.tab-content {
+    overflow: hidden;
+}
+.new_task>input:focus,.new_plan>input:focus{
+    box-shadow: none !important;
+    border-color:rgba(82,168,236,0.8) !important;
 }
 .new_task_title{
     border: 1px solid #A0ACBF!important;
@@ -3349,11 +3357,12 @@ input::-webkit-input-placeholder{
     float: left;
     width: 80px;
     height: 30px;
-    background: #14A4FA;
+    /* background: #14A4FA; */
     border-radius: 100px;
-    color: #fff;
+    color: #A0ACBF;
     line-height: 30px;
     margin-top: 5px;
     margin-left: 20px;
     cursor: pointer;
+    border: 1px solid #A0ACBF;
 }

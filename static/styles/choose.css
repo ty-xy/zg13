@@ -136,8 +136,8 @@ input[type="checkbox"]{
 .box-left-list{
     margin:0
 }
-#file-choose{
-    float:left;
+#file_choose{
+    float:right;
     position: relative;
 }
 .test-image-file{

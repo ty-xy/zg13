@@ -562,6 +562,7 @@ function pick_empty_narrow_banner() {
         } else if (first_operand === "management") {
             // $('#zfilt').hide()
             $("#zfilt").removeClass("focused_table");
+            $("#compose").hide()
             return $("#management_ctn");
         }
     } else if ((first_operator === "stream") && !stream_data.is_subscribed(first_operand)) {

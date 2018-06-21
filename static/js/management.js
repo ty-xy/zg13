@@ -257,13 +257,21 @@
                                 </div>\
                                 <div class='todo_right'>\
                                         <i class='iconfont icon-beizhu note_icon'></i>\
-                                        <i class='iconfont icon-fujian1 attachment_icon' id='file-inputs'></i>\
+                                        <div id='file_choose'>\
+                                            <input type='file' id='file_inputs' class='test-image-file'>\
+                                            <i class='iconfont icon-fujian1 attachment_icon' id='attach_file'></i>\
+                                         </div>\
                                         <p class='add_datatime'>"+new_append_over_time+"</p>\
                                 </div>\
                             </li>")
                         $(".new_task_title").val("");
                         $(".new_task_date").val("");
                         var backlog_id;
+                        $("#file_choose").on("click", "#file_inputs", function (e) {
+                            // e.preventDefault();
+                            // $("#file-choose #file_inputs").trigger("click");
+                            console.log(4444)
+                        });
                         $(".add_ctn").on("click",function(e){
                             $(".taskdetail_md").show();
                             $(".app").css("overflow-y","hidden");
@@ -490,6 +498,7 @@
                 $(".log_assistant_close").on("click",function(e){
                     $(".log_assistant_md").hide();
                     $(".app").css("overflow-y","scroll")
+                    $('.log_assistant_md').empty()   
                 })
                 //日志助手阻止冒泡
                 $(".log_assistant_box").on("click",function(e){
