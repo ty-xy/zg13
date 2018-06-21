@@ -170,7 +170,7 @@
                     var ids= $(this).attr('data_id')
                     list.push(ids)
                 })
-                const arr = list.toString()
+                var arr = list.toString()
                 console.log(list,arr)
                 console.log(accomplish,underway,overdue)
             })
