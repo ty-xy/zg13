@@ -21,6 +21,7 @@ exports.uploads_path = '/user_uploads';
 exports.uploads_re = new RegExp("\\]\\(" + exports.uploads_domain + "(" + exports.uploads_path + "[^\\)]+)\\)", 'g');
 
 function make_uploads_relative(content) {
+    console.log(content)
     // Rewrite uploads in markdown links back to domain-relative form
     return content.replace(exports.uploads_re, "]($1)");
 }

@@ -112,6 +112,11 @@ function set_filter(operators) {
     assert.equal(hide_id,'.empty_feed_notice');
     assert.equal(show_id, '#empty_narrow_all_mentioned');
 
+    set_filter([['is', 'management']]);
+    narrow.show_empty_narrow_message();
+    assert.equal(hide_id,'.empty_feed_notice');
+    assert.equal(show_id, '#management_ctn');
+
     set_filter([['is', 'private']]);
     narrow.show_empty_narrow_message();
     assert.equal(hide_id,'.empty_feed_notice');
