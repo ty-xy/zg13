@@ -202,9 +202,6 @@ def generate_table(request, user_profile):
                 day_overdue_list, "underway_list": day_underway_list})
 
 
-
-
-
 # 待办事项增
 def backlogs_view_po(request, user_profile):
 

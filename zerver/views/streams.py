@@ -442,6 +442,7 @@ def get_topics_backend(request: HttpRequest, user_profile: UserProfile,
         recipient=recipient,
         public_history=not stream.invite_only,
     )
+    print(result)
 
     return json_success(dict(topics=result))
 

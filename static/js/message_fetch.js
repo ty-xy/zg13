@@ -17,7 +17,9 @@ var consts = {
 
 function process_result(data, opts) {
     var messages = data.messages;
-    if(opts.msg_list.filter._operators[0].operand=== "management"){
+    $('#connection-error').removeClass("show");
+    //    console.log(message_list.narrowed)
+       if(opts.msg_list.filter._operators[0].operand=== "management"){
         opts.msg_list._items=[]
         opts.msg_list._hash=[]
         opts.msg_list._all_items=[]
@@ -26,21 +28,14 @@ function process_result(data, opts) {
         opts.msg_list.view._rows=[]
         opts.msg_list._selected_id= -1
     }
-    $('#connection-error').removeClass("show");
-    if ((messages.length === 0) && (current_msg_list === message_list.narrowed)&&message_list.narrowed.empty()) {
-        // if(message_list.narrowed.empty()){
-        //     $("#zfilt").show();
-        //     narrow.show_empty_narrow_message();
-        // }else{
-        //     $("#zfilt").hide();
-        //     narrow.show_empty_narrow_message();
-        // }
-        // &&message_list.narrowed.empty()
+    
+    // console.log(opts,"opts")
+    if ((messages.length === 0) && (current_msg_list === message_list.narrowed) &&
+        message_list.narrowed.empty()) {
         // Even after trying to load more messages, we have no
         // messages to display in this narrow.
-        // console.log("heha")
-        // $("#zfilt").hide();
         narrow.show_empty_narrow_message();
+        // console.log(6)
     }
 
     _.each(messages, message_store.set_message_booleans);
@@ -57,13 +52,15 @@ function process_result(data, opts) {
     // the message_list.all as well, as the home_msg_list is reconstructed
     // from message_list.all.
     if (opts.msg_list === home_msg_list) {
+        // console.log("opts.msg_list",opts.msg_list === home_msg_list,home_msg_list)
         message_util.add_messages(messages, message_list.all, {messages_are_new: false});
     }
 
     if (messages.length !== 0) {
+        // console.log(211,opts.msg_list)
         message_util.add_messages(messages, opts.msg_list, {messages_are_new: false});
     }
-
+    // console.log(messages)
     activity.process_loaded_messages(messages);
     stream_list.update_streams_sidebar();
     pm_list.update_private_messages();
@@ -74,12 +71,15 @@ function process_result(data, opts) {
 }
 
 function get_messages_success(data, opts) {
+    // console.log(current_msg_list)
     if (opts.msg_list.narrowed && opts.msg_list !== current_msg_list) {
         // We unnarrowed before receiving new messages so
+        // console.log(15)
         // don't bother processing the newly arrived messages.
         return;
     }
     if (! data) {
+        // console.log(16)
         // The server occasionally returns no data during a
         // restart.  Ignore those responses and try again
         setTimeout(function () {
@@ -97,22 +97,30 @@ exports.load_messages = function (opts) {
     var data = {anchor: opts.anchor,
                 num_before: opts.num_before,
                 num_after: opts.num_after};
-
+    //  console.log(opts)
     if (opts.msg_list.narrowed && narrow_state.active()) {
         var operators = narrow_state.public_operators();
+        // console.log(312321)
         if (page_params.narrow !== undefined) {
             operators = operators.concat(page_params.narrow);
+            // console.log(1)
         }
         data.narrow = JSON.stringify(operators);
     }
     if (opts.msg_list === home_msg_list && page_params.narrow_stream !== undefined) {
         data.narrow = JSON.stringify(page_params.narrow);
+            // console.log(2)
     }
     if (opts.use_first_unread_anchor) {
         data.use_first_unread_anchor = true;
+        // console.log(3)
     }
 
     data.client_gravatar = true;
+    // if(opts.msg_list.filter._operators[0].operand=== "management"){
+    //     opts.msg_list.filter._operators[0].operand= "private"
+    //     console.log(opts.msg_list.filter._operators[0].operand)
+    // }
 
     channel.get({
         url:      '/json/messages',
@@ -709,9 +717,9 @@ exports.load_messages = function (opts) {
 
 exports.load_messages_for_narrow = function (opts) {
     var msg_list = message_list.narrowed;
-
+    console.log(opts,"312",msg_list,"choose",consts)
     msg_list.fetch_status.start_initial_narrow();
-
+     
     message_fetch.load_messages({
         anchor: opts.then_select_id.toFixed(),
         num_before: consts.narrow_before,

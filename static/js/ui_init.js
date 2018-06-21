@@ -20,7 +20,7 @@ function message_unhover() {
 
 function message_hover(message_row) {
     var message;
-
+    // console.log(message_row)
     var id = parseInt(message_row.attr("zid"), 10);
     if (current_message_hover && message_row && current_message_hover.attr("zid") === message_row.attr("zid")) {
         return;
@@ -33,7 +33,7 @@ function message_hover(message_row) {
     message_unhover();
     message_row.addClass('message_hovered');
     current_message_hover = message_row;
-
+    
     if (!message.sent_by_me && !page_params.realm_allow_community_topic_editing) {
         // The actions and reactions icon hover logic is handled entirely by CSS
         return;
