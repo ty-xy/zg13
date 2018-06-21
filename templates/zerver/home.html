@@ -126,7 +126,9 @@
                 <p>一键生成日志</p>
             </div>
         </div>
-        <div class="create_generate_log">
+        <div class="create_generate_log" id="try-log">
+        </div>
+        <!-- <div class="create_generate_log">
               <div class="generate_log_left">
                     <ul class="generate_log_sliber">
                         <li>生成日报</li>
@@ -170,7 +172,7 @@
                     </ul>
                     <form action="" class="new_plan">
                             <input type="text" class="new_plan_title" placeholder="请输入任务标题">
-                            <!-- <input type="text" class="new_plan_date" placeholder="请选择日期"> -->
+                            <input type="text" class="new_plan_date" placeholder="请选择日期">
                             <div class="input-append date" id="newplan_datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
                                     <input class="new_task_date" size="16" type="text" value="" readonly placeholder="请选择日期...">  
                                     <span class="add-on select_date_icon">
@@ -221,7 +223,7 @@
                     </div>
                 </div>
               </div>      
-        </div>
+        </div> -->
         <i class="management_lineA"></i>
         <div class="new_task_box">
             <!-- <div class="add_task"> -->
@@ -230,7 +232,7 @@
                     <input type="text" class="new_task_title create_tasttitle" placeholder="请输入任务标题" maxlength="25">
                     <!-- <input type="text" class="new_task_date" placeholder="请选择日期"> -->
                     <div class="input-append date" id="datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
-                            <input class="new_task_date create_taskdate" size="16" type="text" value="" readonly placeholder="请选择日期...">  
+                            <input class="new_task_date create_taskdate" size="16" type="text" value="" readonly placeholder="请选择截止日期...">  
                             <span class="add-on select_date_icon">
                                 <i data-date-icon="icon-calendar" class="icon-calendar iconfont icon-riqi"></i>
                             </span>  
@@ -252,7 +254,10 @@
                 </div>
                 <div class="todo_right">
                         <i class="iconfont icon-beizhu note_icon"></i>
-                        <i class="iconfont icon-fujian1 attachment_icon"></i>
+                        <div id="file-choose">
+                            <input type="file" id="file_inputs" class="test-image-file">
+                            <i class="iconfont icon-fujian1 attachment_icon" id="attach_file"></i>
+                         </div>
                         <p class="add_datatime">2018-06-01</p>
                 </div>
             </li> -->
@@ -262,13 +267,13 @@
          </div>
         <i class="management_lineA"></i>
         <ul class="completed_box">
-                <li class="completed">
+                <!-- <li class="completed">
                         <input type="checkbox" class="completed_checkbox checked" checked="checked" id="completed_css">
                         <p class="completed_ctn">落实员工薪资发放问题，并制定详细的考</p>
-                </li>
+                </li> -->
         </ul>
         <!-- 任务详情 -->
-       <div class="taskdetail_md">
+       <!-- <div class="taskdetail_md">
             <div class="taskdetail_box">    
                 <div class="taskdetail_head">
                     <p class="taskdetail_title">任务详情</p>
@@ -388,293 +393,10 @@
                     </div>
             </div>
             
-       </div>
+       </div> -->
          <!-- 任务详情 -->
     </div>
-    <!-- <div class="management_set">
-        <i class="iconfont icon-guanbiUI close_management_set"></i>
-        <div class="management_siber">
-                哈哈啊哈
-        </div>
-    </div> -->
-    <!-- 日志助手板块 -->
-    <div class="log_assistant_md">
-    <div class="log_assistant_box">
-            <div class="log_assistant_left">
-                  <ul class="log_assistant_sliber">
-                      <li class="log_assistant_received high_light">我收到的</li>
-                      <li class="log_assistant_send">我发出的</li>
-                  </ul>
-            </div>
-            <div class="log_assistant_right">
-              <div class="log_assistant_head">
-                  <p>e建联</p>
-                  <i></i>
-                  <p class="log_assistant_title">我收到的</p>
-                  <i class="iconfont icon-guanbiUI log_assistant_close"></i>
-              </div>
-              <div class="log_assistant_ctn_box">
-                    <div class="log_assistant_prompt_box">
-                        <div class="log_assistant_screening">
-                                    筛选
-                        </div>
-                        <div class="log_assistant_read">
-                            只看未读
-                        </div>
-                        
-                    </div>
-                    <div class="log_assistant_ctn">
-                        <div class="log_assistant_user_box">
-                            <div class="log_assistant_user_avater">
-                                <img src="" alt="">
-                            </div>
-                            <div class="log_assistant_user_time">
-                                <p class="log_assistant_user_name">孙一梦的周报</p>
-                                <p class="log_assistant_user_date">
-                                    <span>2018-06-06&nbsp;</span>
-                                    <span>18:22</span>
-                                </p>
-                            </div>
-                        </div>
-                        <i class="log_assistant_lineA"></i>
-                        <div class="log_assistant_finished">
-                            已完成:
-                        </div>
-                        <div class="log_assistant_finishedctn">
-                                1.与张哥、小庞讨论十三猜的用户反馈。<br>
-                                2.跟肖老师、文涛沟通十三猜情况，目前主要问题是用户量太少，用户定位不准确。<br>
-                                3.获奖用户调查，并把奖金发给用户。<br>
-                                4.全员产品进度会议，同时对十三猜下阶段走向大家提出自己的意见，同时规定大家把自己的意见发给我，目前收到的有肖老师、张哥、小
-                                     杨、小孔、小庞、左相。希望其他人早点交给我。<br>
-                        </div>
-                        <div class="log_assistant_unfinished">
-                            未完成:
-                        </div>
-                        <div class="log_assistant_unfinishedctn">
-                                1.跟踪十三用户反馈<br>
-                                2.e建联产品迭代方案
-                        </div>
-                        <div class="log_assistant_ongoing">
-                            进行中:
-                        </div>
-                        <div class="log_assistant_ongoingctn">
-                                1.与设计部及技术部定制新一轮工作排期。
-                        </div>
-                        <div class="log_assistant_plan">
-                            计划:
-                        </div>
-                        <div class="log_assistant_planctn">
-                            <i class="log_assistant_plan_line"></i>
-                            <p class="log_assistant_planctn_title">6月27日拜访xxx资本，沟通融资一事。</p>
-                            <p class="log_assistant_planctn_date">
-                                <span>截止</span>
-                                <span>6月10日</span>
-                            </p>
-                        </div>
-                        <div class="log_assistant_pack">
-                                <div class="generate_log_pack">
-                                        <div class="generate_log_pack_left">
-                                            <img src="../../static/img/pnglogo.png" alt="">
-                                            <i class="iconfont icon-shanchu1 generate_log_pack_delete"></i>
-                                        </div>
-                                        <div class="generate_log_pack_right">
-                                            <p>工程项目报表.jpg</p>
-                                            <p>3.29MB</p>
-                                        </div>
-                                </div>
-                        </div>
-                        <!-- <i class="log_assistant_lineB"></i> -->
-
-                        <!-- 已读未读 -->
-                        <div class="log_assistant_unread">
-                            <div class="log_assistant_readperson">
-                                已读3人
-                            </div>
-                            <div class="log_assistant_unreadperson">
-                                未读12人
-                            </div>
-                            <ul class="log_assistant_user_list">
-                                <li>
-                                    <div class="log_assistant_user_touxiang_box">
-                                        <img src="" alt="" class="log_assistant_user_touxiang">
-                                    </div>
-                                    
-                                    <p class="log_assistant_user_xinming">张淑芬</p>
-                                </li>
-                                <li>
-                                    <div class="log_assistant_user_touxiang_box">
-                                            <img src="" alt="" class="log_assistant_user_touxiang">
-                                    </div>
-                                    <p class="log_assistant_user_xinming">张淑芬</p>
-                                </li>
-                                <li>
-                                    <div class="log_assistant_user_touxiang_box">
-                                            <img src="" alt="" class="log_assistant_user_touxiang">
-                                    </div>
-                                    <p class="log_assistant_user_xinming">张淑芬</p>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- 已读未读 -->
-                        <div class="log_assistant_comments">
-                            评论:
-                        </div>
-                        <div class="log_assistant_commentsctn">
-                            <input class="log_assistant_inputcomments" placeholder="输入评论..."></input>
-                            <p>
-                                <span>
-                                    李林:
-                                </span>
-                                <span>
-                                    加油～看好你哦！
-                                </span>
-                            </p>
-                            <div class="log_assistant_commentsbtn">
-                                发送
-                            </div>
-                        </div>
-                    </div>
-              </div>
-            </div>
-
-            <!-- 筛选弹窗 -->
-            <div class="log_screening">
-                <i class="iconfont icon-xiaosanjiao"></i>
-                <i class="iconfont icon-guanbiUI log_screening_close"></i>
-                <div class="log_screening_tilte">
-                    任务详情
-                </div>
-                <div class="log_screening_person">
-                    <span>选择发送人</span>
-                    <input type="text" placeholder="请选择" class="log_screening_select">
-                </div>
-                <div class="log_screening_startdate">
-                    <p>开始时间</p>
-                    <div class="input-append date" id="screenstart_datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
-                            <input class="new_task_date" size="16" type="text" value="" readonly placeholder="请选择日期...">  
-                            <span class="add-on select_date_icon">
-                                <i data-date-icon="icon-calendar" class="icon-calendar iconfont icon-riqi"></i>
-                            </span>  
-                    </div>
-                </div>
-                <div class="log_screening_enddate">
-                    <p>截止时间</p>
-                    <div class="input-append date" id="screenend_datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
-                            <input class="new_task_date" size="16" type="text" value="" readonly placeholder="请选择日期...">  
-                            <span class="add-on select_date_icon">
-                                <i data-date-icon="icon-calendar" class="icon-calendar iconfont icon-riqi"></i>
-                            </span>  
-                    </div>
-                </div>
-                <div class="log_screening_btn">
-                    <div class="log_screening_reset">
-                        重置
-                    </div>
-                    <div class="log_screening_enter">
-                        确定
-                    </div>
-                </div>
-            </div>
-            <div id="people-choose" class="choose-team">
-                    <i class="iconfont icon-guanbiUI choose_team_close"></i>
-                    <div class="choose-header">
-                        选择发送人
-                    </div>
-                    <div class="choose-nav">
-                        <div class="choose-nav-left">
-                            <div class="icon-sousuo-search">
-                                <i class="iconfont icon-sousuo icon-search-choose"></i>
-                                <input placeholder="搜索" class="search-icon"/>
-                            </div>
-                            <div class="input-box">
-                               <input type="checkbox" class="checkbox-input"/>
-                               <span>全选</span>
-                            </div>
-                            <ul class="box-left-list">
-                                <li class="input-box-list">
-                                    <div class="box-list-left">
-                                        <input type="checkbox"/>
-                                        <span>设计组</span>
-                                    </div>
-                                    <button class="button-right">下级</button>
-                                </li>
-                                <li class="input-box-list">
-                                    <div class="box-list-left">
-                                        <input type="checkbox"/>
-                                        <span>产品组</span>
-                                    </div>
-                                    <button class="button-right">下级</button>
-                                </li>
-                                <li class="input-box-list">
-                                    <div class="box-list-left">
-                                        <input type="checkbox"/>
-                                        <span>运营组</span> 
-                                    </div>
-                                    <button class="button-right">下级</button>
-                                </li>
-                                <li class="input-box-list">
-                                    <div class="box-list-left">
-                                        <input type="checkbox"/>
-                                        <span>测试组</span>
-                                    </div>
-                                    <button class="button-right">下级</button>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="choose-right-list">
-                            <div class="icon-sousuo-search choose-right">
-                                <div>已选(5)</div>
-                                <button class="button-right">清空</button>
-                            </div>
-                            <ul class="box-left-list">
-                                <li class="input-box-list box-list-right">
-                                        <div class="box-list-left">
-                                            <input type="checkbox"/>
-                                            <span>李俊伟</span>
-                                        </div>
-                                        <button class="button-right">删除</button>
-                                </li>
-                                <li class="input-box-list box-list-right">
-                                        <div class="box-list-left">
-                                            <input type="checkbox"/>
-                                            <span>刘凯瑞</span>
-                                        </div>
-                                        <button class="button-right">删除</button>
-                                </li>
-                                <li class="input-box-list box-list-right">
-                                        <div class="box-list-left">
-                                            <input type="checkbox"/>
-                                            <span>颜如晶</span>
-                                        </div>
-                                        <button class="button-right">删除</button>
-                                </li>
-                                <li class="input-box-list box-list-right">
-                                        <div class="box-list-left">
-                                            <input type="checkbox"/>
-                                            <span>大王</span>
-                                        </div>
-                                        <button class="button-right">删除</button>
-                                </li>
-                                <li class="input-box-list box-list-right">
-                                        <div class="box-list-left">
-                                            <input type="checkbox"/>
-                                            <span>臧鸿飞</span>
-                                        </div>
-                                        <button class="button-right">删除</button>
-                                </li>
-                            </ul>
-                           <div class="button-bottom">
-                               <button class="button-anniu button-cancel">取消</button>
-                               <button class="button-anniu button-confirm">确定</button>
-                           </div>
-                        </div>
-                    </div>
-                </div>
-
-            <!-- 筛选弹窗 -->
-        </div>      
-      </div>
-    <!-- 日志助手板块 -->
+    
     
     <!-- zyc -->
 

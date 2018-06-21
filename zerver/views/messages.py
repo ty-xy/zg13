@@ -170,7 +170,8 @@ class NarrowBuilder:
             cond = column("flags").op("&")(UserMessage.flags.has_alert_word.mask) != 0
             return query.where(maybe_negate(cond))
         elif operand == 'management':
-            cond = column("flags").op("&")(UserMessage.flags.has_alert_word.mask) != 0
+            cond = column("flags").op("&")(UserMessage.flags.management.mask) != 0
+            # print (UserMessage.flags.management.mask,"mask")
             return query.where(maybe_negate(cond))
         raise BadNarrowOperator("unknown 'is' operand " + operand)
 

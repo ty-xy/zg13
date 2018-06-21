@@ -3125,7 +3125,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     letter-spacing: 0.17px;
 }
 .todo_box{
-    height: 250px;
+    /* height: 250px; */
     overflow: auto;
     margin-left: -10px;
 }
@@ -3223,6 +3223,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     text-align: left;
     color: #BBBBBB;
     text-decoration: line-through;
+    cursor: pointer;
 }
 /* .checked{
     color: #ccc;
@@ -3332,7 +3333,7 @@ input::-webkit-input-placeholder{
     height: 30px!important;
     text-indent: 10px;
 }
-.new_plan_save{
+.fix_plan_save,.new_plan_save{
     float: left;
     width: 80px;
     height: 30px;
@@ -3344,7 +3345,7 @@ input::-webkit-input-placeholder{
     margin-left: 145px;
     cursor: pointer;
 }
-.new_plan_cancel{
+.fix_plan_cancel,.new_plan_cancel{
     float: left;
     width: 80px;
     height: 30px;

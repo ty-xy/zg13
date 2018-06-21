@@ -16,6 +16,7 @@ function failed_listing_invites(xhr) {
 }
 
 function populate_invites(invites_data) {
+
     if (!meta.loaded) {
         return;
     }
