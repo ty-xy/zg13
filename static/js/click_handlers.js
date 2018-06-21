@@ -437,9 +437,9 @@ $(function () {
         //             console.log(rej)
         //         }   
         //     })
-        setTimeout(function(){
-            location.reload();
-        },1111110)
+        // setTimeout(function(){
+        //     location.reload();
+        // },1111110)
     })
     //zyc添加 out点击退出功能
     $("#out").on('click', function (e) {

@@ -5,7 +5,7 @@ var exports = {};
 function make_upload_absolute(uri) {
     if (uri.indexOf(compose.uploads_path) === 0) {
         // Rewrite the URI to a usable link
-        console.log(compose.uploads_path,compose.uploads_domain)
+
         return compose.uploads_domain + uri;
     }
     return uri;
@@ -28,7 +28,7 @@ exports.options = function (config) {
     var should_hide_upload_status;
     var file_input;
     var file_inputs;
-    console.log(config)
+
     switch (config.mode) {
     case 'compose':
         textarea = $('#compose-textarea');

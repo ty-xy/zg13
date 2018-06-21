@@ -5,7 +5,7 @@ var exports = {};
 exports.narrowed = undefined;
 
 exports.MessageList = function (table_name, filter, opts) {
-    // console.log(opts,"opts1")
+
     _.extend(this, {
         collapse_messages: true,
         muting_enabled: true,
@@ -13,7 +13,7 @@ exports.MessageList = function (table_name, filter, opts) {
     this.view = new MessageListView(this, table_name, this.collapse_messages);
 
     this.fetch_status = FetchStatus();
-    //  console.log(this.muting_enabled)
+
     if (this.muting_enabled) {
         this._all_items = [];
     }
@@ -27,7 +27,7 @@ exports.MessageList = function (table_name, filter, opts) {
     if (this.filter === undefined) {
        
         this.filter = new Filter();
-        // console.log("this",this.filter)
+
     }
 
     this.narrowed = this.table_name === "zfilt";
@@ -44,7 +44,7 @@ exports.MessageList.prototype = {
         var top_messages = [];
         var bottom_messages = [];
         var interior_messages = [];
-        //  console.log("this",this)
+
         // If we're initially populating the list, save the messages in
         // bottom_messages regardless
         if (self.selected_id() === -1 && self.empty()) {
