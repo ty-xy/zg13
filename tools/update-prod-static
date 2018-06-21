@@ -57,9 +57,9 @@ subprocess.check_call(['./tools/setup/build_pygments_data'],
                       stdout=fp, stderr=fp)
 
 # Compile Handlebars templates and minify JavaScript.
-subprocess.check_call(['./tools/minify-js'] +
-                      (['--prev-deploy', prev_deploy] if prev_deploy else []),
-                      stdout=fp, stderr=fp)
+# subprocess.check_call(['./tools/minify-js'] +
+#                       (['--prev-deploy', prev_deploy] if prev_deploy else []),
+#                       stdout=fp, stderr=fp)
 
 # Copy the KaTeX files outside node_modules
 subprocess.check_call(['mkdir', '-p',
