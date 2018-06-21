@@ -39,11 +39,17 @@
                     url: 'json/zg/backlog/',
                     idempotent: true,
                     data:data_id,
-                    success:(data)=>{
-                       if(data.errno===0){
-                        // var li  = "."+(that.parent().parent()).attr("class")
-                        that.parent().parent().remove()
-                       }
+                    // success:(data)=>{
+                    //    if(data.errno===0){
+                    //     // var li  = "."+(that.parent().parent()).attr("class")
+                    //     that.parent().parent().remove()
+                    //    }
+                    // }
+                    success:function(data){
+                        if(data.errno==0){
+                                // var li  = "."+(that.parent().parent()).attr("class")
+                                that.parent().parent().remove()
+                        }
                     }
                 })
             })
@@ -58,9 +64,9 @@
             }
             var j = JSON.stringify(obj)
             return {
-                j,
-                inttitle,
-                inttime
+                j:j,
+                inttitle:inttitle,
+                inttime:inttime
             }
         }
         function logClick (data){
@@ -164,17 +170,17 @@
                     var ids= $(this).attr('data_id')
                     list.push(ids)
                 })
-                const arr = list.toString()
+                var arr = list.toString()
                 console.log(list,arr)
                 console.log(accomplish,underway,overdue)
             })
-            $('.new_plan').on('click',".new_plan_cancel",(e)=>{
+            $('.new_plan').on('click',".new_plan_cancel",function(e){
                 cancel()
             })
             
           
         }
-        $(".generate_log").on("click",(e)=>{
+        $(".generate_log").on("click",function(e){
              $(".create_generate_log").show();
             channel.get({
                 url: "json/zg/creator/table?date_type=day",
