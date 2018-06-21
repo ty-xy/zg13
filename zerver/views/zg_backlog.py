@@ -429,7 +429,7 @@ def backlogs_view(request):
                         backlog.state = req['state']
             backlog.save()
         except Exception:
-            return JsonResponse({'errno': 3, 'message': '保存数据失败'})
+            return JsonResponse({'errno': 3, 'message': '保存数据失败',})
         return JsonResponse({'errno': 0, 'message': '成功'})
 
 

@@ -3,30 +3,188 @@
     $("body").ready(function () {
         //点击一键生成日志 出现日志弹窗
         // $(".create_generate_log").hide();
+        function cancel (){
+            $(".new_plan_title").val("");
+            $(".create_taskdate").val('');
+          }
+        function timestamp(str){
+            str = str.replace(/-/g,'/');
+            var date = new Date(str); 
+            var time = date.getTime();
+            var n = time/1000;
+            return n;
+        }
+        function innhtml(val1,val2,data){
+            var li = "<li class='generate_log_plan_ctn'>\
+            <input type='checkbox'>\
+            <p class='text-inline'>"+val1+"</p>\
+            <p><span>截止日期&nbsp;&nbsp;</span><span class='date-inline'>"+val2+"</span></p>\
+            <p>\
+            <span class='generate_log_plan_editor'>编辑</span>\
+            <span class='generate_log_plan_delete' data_id="+data.backlog_id+">删除</span>\
+            </p>\
+            </li>"
+            return li 
+        }
+        function del(){
+            $('.generate_log_plan_ctn ').on('click',".generate_log_plan_delete",function(e){
+                e.preventDefault()
+                var that =$(this)
+                // console.log($(this).attr("data_id"))
+                var id = {
+                    backlog_id:$(this).attr("data_id")
+                }
+                var data_id = JSON.stringify(id)
+                channel.del({
+                    url: 'zg/api/v1/backlog',
+                    idempotent: true,
+                    data:data_id,
+                    success:(data)=>{
+                       if(data.errno===0){
+                        // var li  = "."+(that.parent().parent()).attr("class")
+                        that.parent().parent().remove()
+                       }
+                    }
+                })
+            })
+        }
+        function plancommon(){
+            var inttitle = $(".new_plan_title").val();
+            var inttime = $(".create_taskdate").val();
+            var over_time = timestamp(inttime);
+            var obj = {
+                "task":inttitle,
+                "over_time":over_time,
+            }
+            var j = JSON.stringify(obj)
+            return {
+                j,
+                inttitle,
+                inttime
+            }
+        }
         function logClick (data){
             var rendered = $(templates.render('log',{
-                logmessage:data.underway_list
+                underway_list:data.underway_list,
+                accomplish_list:data.accomplish_list,
+                overdue_list:data.overdue_list
             }));
             $('.create_generate_log').append(rendered);
             $("#management_ctn .generate_log_close").on("click",function(e){
                 $("#management_ctn .create_generate_log").hide();
                 $('.create_generate_log').empty()   
-          });
+             });
+            $('#newplan_datetimepicker').datetimepicker({  
+                language:"zh-CN",  
+                todayHighlight: true,  
+                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                weekStart:1  
+            }); 
+            $(".new_plan").on("click",".new_plan_save",function(e){
+                var j = plancommon()
+                channel.post({
+                    // idempotent: true,
+                    url:"zg/api/v1/backlog",
+                    data:j.j,
+                    success: function (data) {
+                        console.log(data)
+                        if(data.errno===0){
+                            var li = innhtml(j.inttitle,j.inttime,data)
+                            $('.generate_log_plan_box').append(li)
+                            del()
+                            $('.generate_log_plan_ctn ').on('click',".generate_log_plan_editor",function(e){
+                                e.preventDefault()
+                                var that =$(this)
+                                console.log(that)
+                                var li  = "."+(that.parent().parent()).attr("class")
+                                var textval=  $(li).find(".text-inline").text()
+                                var textdate= $(li).find(".date-inline").text()
+                                $(".new_plan_title").val(textval);
+                                $(".create_taskdate").val(textdate);
+                                var fix_id = that.next().find(".data_id").prevObject.attr("data_id")
+                                $(li).remove()
+                                var plan = $(".new_plan").find(".new_plan_save")
+                                plan.attr("class","fix_plan_save")
+                                plan.attr("revise_id",fix_id)
+                                var cancel = $(".new_plan").find(".new_plan_cancel")
+                                cancel.attr("class","fix_plan_cancel")
+                                cancel.attr("revise_id",fix_id)
+                            })
+                        }
+                    },
+                });
+                cancel()
+            })
+            $(".new_plan ").on("click",'.fix_plan_save',function(e){
+                var j = plancommon()
+                var over_time = timestamp(j.inttime);
+                var obj = {
+                    "task":j.inttitle,
+                    "over_time":over_time,
+                    "backlogs_id":$(this).attr("revise_id")
+                }
+                var data_list ={
+                    "backlog_id":obj.backlogs_id
+                }
+                console.log(obj.backlogs_id)
+                var data = JSON.stringify(obj)
+                channel.put({
+                    url:"zg/api/v1/backlog",
+                    data:data,
+                    success:function(data){
+                        if(data.errno===0){
+                            console.log()
+                            var li = innhtml(j.inttitle,j.inttime,data_list)
+                            $('.generate_log_plan_box').append(li)
+                            del()
+                            var plan = $(".new_plan").find(".fix_plan_save")
+                                plan.attr("class","new_plan_save")
+                            }
+                    }
+                })
+                cancel()
+            })
+            $(".new_plan").on("click",".fix_plan_cancel",function(e){
+                var j = plancommon()
+                var data = {
+                      backlog_id:$(this).attr("revise_id")
+                }
+                var li = innhtml(j.inttitle,j.inttime,data)
+                $('.generate_log_plan_box').append(li)
+                cancel()
+                var plan = $(".new_plan").find(".fix_plan_cancel")
+                    plan.attr("class","new_plan_cancel")
+            })
+            $(".generate_log_submit").on("click",function(e){
+                var accomplish= $(".generate_log_finished_text").val()
+                var underway  =$(".generate_log_unfinished_text").val()
+                var overdue = $(".generate_log_pdfinished_text").val()
+                var list = []
+                $(".generate_log_plan_delete").each(function(){
+                    var ids= $(this).attr('data_id')
+                    list.push(ids)
+                })
+                const arr = list.toString()
+                console.log(list,arr)
+                console.log(accomplish,underway,overdue)
+            })
+            $('.new_plan').on('click',".new_plan_cancel",(e)=>{
+                cancel()
+            })
+            
+          
         }
-        $(".generate_log").on("click",function(e){
+        $(".generate_log").on("click",(e)=>{
              $(".create_generate_log").show();
             channel.get({
                 url: "zg/api/v1/creator/table?date_type=day",
                 idempotent: true,
                 success: function (data) {
-                console.log(543)
                 if(data){
-                     console.log(data)
                      logClick(data)
                     }
                 },
             });
-       
         })
         
 
@@ -99,7 +257,7 @@
                                 </div>\
                                 <div class='todo_right'>\
                                         <i class='iconfont icon-beizhu note_icon'></i>\
-                                        <i class='iconfont icon-fujian1 attachment_icon'></i>\
+                                        <i class='iconfont icon-fujian1 attachment_icon' id='file-inputs'></i>\
                                         <p class='add_datatime'>"+new_append_over_time+"</p>\
                                 </div>\
                             </li>")
@@ -207,10 +365,10 @@
             $(".app").css("overflow-y","scroll")
         })
         //日志弹窗关闭
-        $("#management_ctn .generate_log_close").on("click",function(e){
-            console.log(1213)
-            $("#management_ctn .create_generate_log").hide();
-        })
+        // $("#management_ctn .generate_log_close").on("click",function(e){
+        //     console.log(1213)
+        //     $("#management_ctn .create_generate_log").hide();
+        // })
         //任务详情弹窗内的文件展示 划入事件
         $(".taskdetail_attachment").on("mousemove",function(e){
             $(this).css("border","1px solid #A0ACBF")
@@ -276,12 +434,12 @@
                 weekStart:1  
             });  
         //初始化 新计划日历
-            $('#newplan_datetimepicker').datetimepicker({  
-                language:"zh-CN",  
-                todayHighlight: true,  
-                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
-                weekStart:1  
-            });  
+            // $('#newplan_datetimepicker').datetimepicker({  
+            //     language:"zh-CN",  
+            //     todayHighlight: true,  
+            //     minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+            //     weekStart:1  
+            // });  
             
         //初始化 筛选 开始时间日历
             $('#screenstart_datetimepicker').datetimepicker({  

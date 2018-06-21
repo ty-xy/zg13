@@ -143,7 +143,7 @@ exports.load_messages = function (opts) {
                             </div>\
                             <div class='todo_right'>\
                                     <i class='iconfont icon-beizhu note_icon'></i>\
-                                    <i class='iconfont icon-fujian1 attachment_icon'></i>\
+                                    <i class='iconfont icon-fujian1 attachment_icon' id='file-inputs'></i>\
                                     <p class='add_datatime'>"+res.backlog_list[key].over_time+"</p>\
                             </div>\
                         </li>")

@@ -48,16 +48,7 @@ exports.options = function (config) {
         error_msg = send_status.find('.error-msg');
         upload_bar = 'message-edit-upload-bar-' + config.row;
         file_input = 'message_edit_file_input_' + config.row;
-        file_inputs = 'file_inputs'+ config.row;
         break;
-    case "choose":
-        file_inputs = 'file_inputs';
-        textarea = $('#compose-textarea');
-        send_button = $('#compose-send-button');
-        send_status = $('#compose-send-status');
-        send_status_close = $('.compose-send-status-close');
-        error_msg = $('#compose-error-msg');
-        upload_bar = 'compose-upload-bar';
         
     default:
         throw Error("Invalid upload mode!");
