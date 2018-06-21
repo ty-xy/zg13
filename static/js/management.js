@@ -64,9 +64,9 @@
             }
             var j = JSON.stringify(obj)
             return {
-                j,
-                inttitle,
-                inttime
+                j:j,
+                inttitle:inttitle,
+                inttime:inttime
             }
         }
         function logClick (data){
@@ -174,13 +174,13 @@
                 console.log(list,arr)
                 console.log(accomplish,underway,overdue)
             })
-            $('.new_plan').on('click',".new_plan_cancel",(e)=>{
+            $('.new_plan').on('click',".new_plan_cancel",function(e){
                 cancel()
             })
             
           
         }
-        $(".generate_log").on("click",(e)=>{
+        $(".generate_log").on("click",function(e){
              $(".create_generate_log").show();
             channel.get({
                 url: "json/zg/creator/table?date_type=day",
