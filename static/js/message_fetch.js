@@ -131,7 +131,7 @@ exports.load_messages = function (opts) {
             if(data.result == "success"){
             $.ajax({
                 type:"GET",
-                url:"zg/api/v1/backlog",
+                url:"json/zg/backlog",
                 success:function(res){
                     if(res.errno == 0){
                         $(".todo_box").children().remove();
@@ -139,7 +139,7 @@ exports.load_messages = function (opts) {
                             $(".todo_box").append("<li class='todo'>\
                             <div class='todo_left'>\
                                     <input type='checkbox' class='add_checkbox' inputid = "+res.backlog_list[key].id+" state = "+res.backlog_list[key].state+">\
-                                    <p class='add_ctn' taskid="+ res.backlog_list[key].id +" >"+res.backlog_list[key].task+"</p>\
+                                    <p class='add_ctn' over_time="+res.backlog_list[key].over_time+" task="+res.backlog_list[key].task+" taskid="+ res.backlog_list[key].id +" taskdetails="+res.backlog_list[key].task_details+">"+res.backlog_list[key].task+"</p>\
                             </div>\
                             <div class='todo_right'>\
                                     <i class='iconfont icon-beizhu note_icon'></i>\
@@ -153,29 +153,158 @@ exports.load_messages = function (opts) {
                             $(".taskdetail_md").show();
                             $(".app").css("overflow-y","hidden");
                             $(".taskdetail_list").html($(this).html());
+                            $(".taskdetail_md").remove();
                             var taskid = Number($(this).attr("taskid"))
-                            console.log(taskid)
                             backlog_id = taskid;
-                        })
-                        $(".taskdetail_tips_confirm").on("click",function(e){
-                            var _obj_backlog_id = {
-                                "backlog_id":backlog_id
+                            var backlogs_id = backlog_id;
+                            var obj = {
+                                "backlogs_id":backlog_id
                             }
-                            var obj_backlog_id = JSON.stringify(_obj_backlog_id)
                             $.ajax({
-                                type:"DELETE",
-                                url:"zg/api/v1/backlog",
+                                type:"GET",
+                                url:"json/zg/backlogs/details",
                                 contentType:"application/json",
-                                data:obj_backlog_id,
-                                success:function(r){
-    
+                                data:obj,
+                                success:function(res){
+                                    console.log(res)
+                                    function timestampToTime(timestamp) {
+                                        var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                                        Y = date.getFullYear() + '-';
+                                        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+                                        D = date.getDate() + ' ';
+                                        h = date.getHours() + ':';
+                                        m = date.getMinutes() + ':';
+                                        s = date.getSeconds();
+                                        return Y+M+D+h+m+s;
+                                    }
+                                    var taskdetail_list = res.backlogs_dict.task;
+                                    var taskdetail_addnote = res.backlogs_dict.task_details;
+                                    var create_time = timestampToTime(res.backlogs_dict.create_time).substring(0,10);
+                                    var over_time = timestampToTime(res.backlogs_dict.over_time).substring(0,10);
+                                    var state = res.backlogs_dict.state;
+                                    var id = res.backlogs_dict.id;
+                                    var html = templates.render("taskdetail_md",{
+                                        taskdetail_list:taskdetail_list,
+                                        taskdetail_addnote:taskdetail_addnote,
+                                        create_time:create_time,
+                                        over_time:over_time,
+                                        state:state,
+                                        id:id
+                                    })
+                                    $(".app").after(html)
+                                    $(".taskdetail_md").show();
+                                    var obj_backlog_details = {
+                                        backlogs_id:id,
+                                        task_details:"",
+                                    }
+                                    $("textarea[name='"+id+"']").on("blur",function(e){
+                                        console.log($("textarea[name='"+id+"']").val())
+                                        obj_backlog_details.task_details = $("textarea[name='"+id+"']").val();
+                                        var backlog_details = JSON.stringify(obj_backlog_details)
+                                        $.ajax({
+                                            type:"PUT",
+                                            url:"json/zg/backlog/",
+                                            contentType:"application/json",
+                                            data:backlog_details,
+                                            success:function(res){
+
+                                            }
+                                        })
+                                    })
+                                    
+                                    
+                            //点击任务详情模版关闭任务详情
+                            $(".taskdetail_md").on("click",function(e){
+                                e.stopPropagation();
+                                e.preventDefault();
+                                $(".taskdetail_md").hide();
+                                $(".app").css("overflow-y","scroll");
+                            })
+                            
+                            //任务详情上的内容点击生效
+                            $(".taskdetail_box").on("click",function(e){
+                                e.stopPropagation();
+                                // e.preventDefault();
+                            })
+                            //任务详情点击关闭
+                            $(".taskdetail_close").on("click",function(e){
+                                $(".taskdetail_md").hide();
+                                $(".app").css("overflow-y","scroll")
+                            })
+                            //任务详情弹窗内的文件展示 划入事件
+                            $(".taskdetail_attachment").on("mousemove",function(e){
+                                $(this).css("border","1px solid #A0ACBF")
+                                $(this).children().last().show();
+                            })
+                            //任务详情弹窗内的文件展示 划出事件
+                            $(".taskdetail_attachment").on("mouseleave",function(e){
+                                $(this).css("border","1px solid #fff")
+                                $(this).children().last().hide();
+                            })
+                            $(".taskdetail_selectionbtn").on("click",function(e){
+                                // $(".taskdetail_selectionbtn").append()
+                            })
+                            $(".taskdetail_tips_confirm").on("click",function(e){
+                                var _obj_backlog_id = {
+                                    "backlog_id":backlog_id
+                                }
+                                var obj_backlog_id = JSON.stringify(_obj_backlog_id)
+                                $.ajax({
+                                    type:"DELETE",
+                                    url:"json/zg/backlog",
+                                    contentType:"application/json",
+                                    data:obj_backlog_id,
+                                    success:function(r){
+        
+                                    }
+                                })
+                                $("p[taskid='"+backlog_id+"']").parent().parent().remove();
+                                $(".taskdetail_tips_box").hide();
+                                $(".taskdetail_md").hide();
+                                $(".app").css("overflow-y","scroll");
+                            })
+                            //关闭操作提示
+                            $(".taskdetail_tips_close").on("click",function(e){
+                                $(".taskdetail_tips_box").hide();
+                            })
+                            //点击删除字样弹窗
+                            $(".taskdetail_deleteone").on("click",function(e){
+                                $(".taskdetail_tips_box").show();
+                            })
+                            //点击取消去除提示框
+                            $(".taskdetail_tips_cancel").on("click",function(e){
+                                $(".taskdetail_tips_box").hide();
+                            })
+                            //初始化 任务详情任务开始日历
+                            $('#taskstart_datetimepicker').datetimepicker({  
+                                language:"zh-CN",  
+                                todayHighlight: true,  
+                                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                                weekStart:1  
+                            });  
+                            //初始化 任务详情截止日历
+                            $('#taskstop_datetimepicker').datetimepicker({  
+                                language:"zh-CN",  
+                                todayHighlight: true,  
+                                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                                weekStart:1  
+                            }); 
                                 }
                             })
-                            $("p[taskid='"+backlog_id+"']").parent().parent().remove();
-                            $(".taskdetail_tips_box").hide();
-                            $(".taskdetail_md").hide();
-                            $(".app").css("overflow-y","scroll");
+                            
+                            
+
+                             
+                            // var taskdetails = $(this).attr("taskdetails");
+                            // var over_time = $(this).attr("over_time");
+                            // var task = $(this).attr("task");
+                            // console.log(taskdetails)
+                            // $("#taskdetail_addnote").text(taskdetails);
+                            // $("#taskdetail_addnote").attr("placeholder",'nidbaisbdaubsd')
+                            
+                            
                         })
+                        
                         $(".add_checkbox").on("click",function(e){
                             var inputid = Number($(this).attr("inputid"))
                             var state = ($(this).attr("state"))
@@ -190,7 +319,7 @@ exports.load_messages = function (opts) {
                                 var obj_backlog_change = JSON.stringify(backlog_change);
                                 $.ajax({
                                     type:"PUT",
-                                    url:"zg/api/v1/backlog",
+                                    url:"json/zg/backlog/",
                                     contentType:"application/json",
                                     data:obj_backlog_change,
                                     success:function(res){
@@ -205,7 +334,7 @@ exports.load_messages = function (opts) {
                         
                         $.ajax({
                             type:"GET",
-                            url:"zg/api/v1/backlogss/accomplis",
+                            url:"json/zg/backlogss/accomplis",
                             data:{page:1},
                             success:function(rescompleted){
                                 if(rescompleted.errno == 0){
@@ -218,7 +347,6 @@ exports.load_messages = function (opts) {
                                         </div>\
                                 </li>")
                                     }
-
                                     $(".completed_ctn").on("click",function(e){
                                         $(".taskdetail_md").show();
                                         $(".app").css("overflow-y","hidden");
@@ -241,12 +369,15 @@ exports.load_messages = function (opts) {
                                             var obj_backlog_change = JSON.stringify(backlog_change);
                                             $.ajax({
                                                 type:"PUT",
-                                                url:"zg/api/v1/backlog",
+                                                url:"json/zg/backlog/",
                                                 contentType:"application/json",
                                                 data:obj_backlog_change,
                                                 success:function(res){
                                                     _this.parent().parent().remove();
                                                     $(".todo_box").prepend(_this.parent().parent());
+                                                    // 临时方案
+                                                    location.reload();
+                                                    // 临时方案
                                                 }
                                             })
                                         }else{

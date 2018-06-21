@@ -36,7 +36,7 @@
                 }
                 var data_id = JSON.stringify(id)
                 channel.del({
-                    url: 'zg/api/v1/backlog',
+                    url: 'json/zg/backlog/',
                     idempotent: true,
                     data:data_id,
                     success:(data)=>{
@@ -84,7 +84,7 @@
                 var j = plancommon()
                 channel.post({
                     // idempotent: true,
-                    url:"zg/api/v1/backlog",
+                    url:"json/zg/backlog/",
                     data:j.j,
                     success: function (data) {
                         console.log(data)
@@ -129,7 +129,7 @@
                 console.log(obj.backlogs_id)
                 var data = JSON.stringify(obj)
                 channel.put({
-                    url:"zg/api/v1/backlog",
+                    url:"json/zg/backlog/",
                     data:data,
                     success:function(data){
                         if(data.errno===0){
@@ -177,7 +177,7 @@
         $(".generate_log").on("click",(e)=>{
              $(".create_generate_log").show();
             channel.get({
-                url: "zg/api/v1/creator/table?date_type=day",
+                url: "json/zg/creator/table?date_type=day",
                 idempotent: true,
                 success: function (data) {
                 if(data){
@@ -229,7 +229,7 @@
             var j = JSON.stringify(obj)
             $.ajax({
                 type:"POST",
-                url:"zg/api/v1/backlog",
+                url:"json/zg/backlog/",
                 contentType:"application/json",
                 dataType:"json",
                 data:j,
@@ -237,7 +237,7 @@
                     if(res.errno == 0){
                         $.ajax({
                             type:"GET",
-                            url:"zg/api/v1/backlog",
+                            url:"json/zg/backlog/",
                             success:function(response){
                                 if(response.errno == 3){
                                     console.log(response.message)
@@ -268,6 +268,7 @@
                             $(".taskdetail_md").show();
                             $(".app").css("overflow-y","hidden");
                             $(".taskdetail_list").html($(this).html());
+                            
                             var taskid = Number($(this).attr("taskid"))
                             backlog_id = taskid;
                         })
@@ -278,7 +279,7 @@
                             var obj_backlog_id = JSON.stringify(_obj_backlog_id)
                             $.ajax({
                                 type:"DELETE",
-                                url:"zg/api/v1/backlog",
+                                url:"json/zg/backlog/",
                                 contentType:"application/json",
                                 data:obj_backlog_id,
                                 success:function(r){
@@ -304,12 +305,17 @@
                                 var obj_backlog_change = JSON.stringify(backlog_change);
                                 $.ajax({
                                     type:"PUT",
-                                    url:"zg/api/v1/backlog",
+                                    url:"json/zg/backlog/",
                                     contentType:"application/json",
                                     data:obj_backlog_change,
                                     success:function(res){
                                         _this.parent().parent().remove();
                                         $(".completed_box").prepend(_this.parent().parent());
+                                        // 临时方案
+                                        location.reload();
+                                        // 临时方案
+                                        //zyc添加
+                                        //zyc添加
                                     }
                                 })
                             }else{
@@ -326,9 +332,6 @@
                     }else if(res.errno == 3){
                         console.log(res.message)
                     }
-                    
-                    // console.log(res)
-                   
                 },
                 error:function(rej){
                     console.log(rej)
@@ -463,77 +466,98 @@
                 $(".log_assistant_md").css("height",window_high);
                 $(".log_assistant_md").css("overflow","auto");
                 $(".log_assistant_md").show();
-                $(".app").css("overflow-y","hidden")
-            })
-        //日志助手关闭
-            $(".log_assistant_close").on("click",function(e){
-                $(".log_assistant_md").hide();
-                $(".app").css("overflow-y","scroll")
-            })
-        //日志助手点击md关闭
-            $(".log_assistant_md").on("click",function(e){
-                e.stopPropagation();
-                e.preventDefault();
-                $(".log_assistant_md").hide();
-                $(".app").css("overflow-y","scroll")
-            })
-        //日志助手阻止冒泡
-            $(".log_assistant_box").on("click",function(e){
-                e.stopPropagation();
-                e.preventDefault();
-            })
-        //我收到的 点击内容
-            $(".log_assistant_received").on("click",function(e){
-                $(this).addClass("high_light").siblings().removeClass("high_light");
-                $(".log_assistant_prompt_box").show();
-                $(".log_assistant_ctn").css("margin-top","0px");
-                $(".log_assistant_unread").hide();
-                $(".log_assistant_title").html("我收到的")
-            })
-        //我发出的 点击内容
-            $(".log_assistant_send").on("click",function(e){
-                $(this).addClass("high_light").siblings().removeClass("high_light");
-                $(".log_assistant_prompt_box").hide();
-                $(".log_assistant_ctn").css("margin-top","20px");
-                $(".log_assistant_unread").show();
-                $(".log_assistant_title").html("我发出的")
-            })
-        //日志助手拖拽
-        $(".log_assistant_box").on("mousedown",function(e){
-            var x =parseInt(e.pageX - $(".log_assistant_box").offset().left);
-            var y =parseInt(e.pageY - $(".log_assistant_box").offset().top); 
-            $(".log_assistant_box").bind("mousemove",function(ev){
-                var ox = ev.pageX - x;
-                var oy = ev.pageY-y;
-                $(".log_assistant_box").css({
-                    left:ox+"px",
-                    top:oy+"px"
+                $(".app").css("overflow-y","hidden");
+                // $.ajax({
+                //     type:"GET",
+                //     url:"json/zg/receive/table",
+                //     contentType:"application/json",
+                //     success:function(res){
+                //         console.log(res)
+
+                //     }
+                // })
+                
+                var html = templates.render("log_assistant_box")
+                $(".app").after(html)
+                //日志助手点击md关闭
+                $(".log_assistant_md").on("click",function(e){
+                    e.stopPropagation();
+                    e.preventDefault();
+                    $(".log_assistant_md").hide();
+                    $(".app").css("overflow-y","scroll")
+                })
+                //日志助手关闭
+                $(".log_assistant_close").on("click",function(e){
+                    $(".log_assistant_md").hide();
+                    $(".app").css("overflow-y","scroll")
+                })
+                //日志助手阻止冒泡
+                $(".log_assistant_box").on("click",function(e){
+                    e.stopPropagation();
+                    e.preventDefault();
+                })
+                //我收到的 点击内容
+                $(".log_assistant_received").on("click",function(e){
+                    $(this).addClass("high_light").siblings().removeClass("high_light");
+                    $(".log_assistant_prompt_box").show();
+                    $(".log_assistant_ctn").css("margin-top","0px");
+                    $(".log_assistant_unread").hide();
+                    $(".log_assistant_title").html("我收到的")
+                })
+                //我发出的 点击内容
+                $(".log_assistant_send").on("click",function(e){
+                    $(this).addClass("high_light").siblings().removeClass("high_light");
+                    $(".log_assistant_prompt_box").hide();
+                    $(".log_assistant_ctn").css("margin-top","20px");
+                    $(".log_assistant_unread").show();
+                    $(".log_assistant_title").html("我发出的")
+                })
+                //日志助手拖拽
+                // $(".log_assistant_box").on("mousedown",function(e){
+                //     var x =parseInt(e.pageX - $(".log_assistant_box").offset().left);
+                //     var y =parseInt(e.pageY - $(".log_assistant_box").offset().top); 
+                //     $(".log_assistant_box").bind("mousemove",function(ev){
+                //         var ox = ev.pageX - x;
+                //         var oy = ev.pageY-y;
+                //         $(".log_assistant_box").css({
+                //             left:ox+"px",
+                //             top:oy+"px"
+                //         })
+                //     })
+                //     $(".log_assistant_box").on("mouseup",function(e){
+                //         $(this).unbind("mousemove");
+                //     })
+                // })
+                //筛选
+                $(".log_assistant_screening").on("click",function(e){
+                    $(".log_screening").show();
+                })
+                //关闭筛选
+                $(".log_screening_close").on("click",function(e){
+                    $(".log_screening").hide();
+                })
+                //选择发送人
+                $(".log_screening_select").on("click",function(e){
+                    $("#people-choose").show();
+                })
+                //关闭选择发送人
+                $(".choose_team_close").on("click",function(e){
+                    $("#people-choose").hide();
                 })
             })
-            $(".log_assistant_box").on("mouseup",function(e){
-                $(this).unbind("mousemove");
-            })
-        })
+            
+        
+            
+           
+            
+            
+        
         //只看未读
         $(".log_assistant_read").on("click",function(e){
             
         })
-        //筛选
-        $(".log_assistant_screening").on("click",function(e){
-            $(".log_screening").show();
-        })
-        //关闭筛选
-        $(".log_screening_close").on("click",function(e){
-            $(".log_screening").hide();
-        })
-        //选择发送人
-        $(".log_screening_select").on("click",function(e){
-            $("#people-choose").show();
-        })
-        //关闭选择发送人
-        $(".choose_team_close").on("click",function(e){
-            $("#people-choose").hide();
-        })
+        
+        
         //点击打开周报
         // $("#weekly").on("click",function(e){
         //     var zjson={
