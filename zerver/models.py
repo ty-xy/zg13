@@ -67,6 +67,7 @@ class BacklogAccessory(models.Model):
     backlog_id = models.ForeignKey(Backlog)
     accessory_url = models.CharField(max_length=200, default='')
     accessory_size = models.CharField(max_length=10, default='')
+    accessory_name = models.CharField(max_length =25,default='')
     is_delete = models.BooleanField(default=False)
 
 
@@ -78,7 +79,6 @@ class UpdateBacklog(models.Model):
 
 # 报表
 class Statement(models.Model):
-
     user = models.CharField(max_length=80)
     generate_time = models.PositiveIntegerField()
     accomplish = models.CharField(max_length=700)
@@ -99,13 +99,15 @@ class StatementAccessory(models.Model):
     Statement_id = models.ForeignKey(Statement)
     statement_accessory_url = models.CharField(max_length=200)
     accessory_size = models.CharField(max_length=10,default='')
+    accessory_name = models.CharField(max_length =25,default='')
     is_delete = models.BooleanField(default=False)
 
 
 # 报表状态
 class StatementState(models.Model):
     statement_id = models.ForeignKey(Statement)
-    staff = models.CharField(max_length=300)
+    staff = models.PositiveIntegerField()
+    receive_time = models.PositiveIntegerField(default='')
     state = models.BooleanField(default=False)
 
 
