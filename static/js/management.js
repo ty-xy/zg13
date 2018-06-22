@@ -58,9 +58,9 @@
             }
             var j = JSON.stringify(obj)
             return {
-                j,
-                inttitle,
-                inttime
+                j:j,
+                inttitle:inttitle,
+                inttime:inttime
             }
         }
         function logClick (data){
@@ -164,17 +164,17 @@
                     var ids= $(this).attr('data_id')
                     list.push(ids)
                 })
-                const arr = list.toString()
+                var arr = list.toString()
                 console.log(list,arr)
                 console.log(accomplish,underway,overdue)
             })
-            $('.new_plan').on('click',".new_plan_cancel",(e)=>{
+            $('.new_plan').on('click',".new_plan_cancel",function(e){
                 cancel()
             })
             
           
         }
-        $(".generate_log").on("click",(e)=>{
+        $(".generate_log").on("click",function(e){
              $(".create_generate_log").show();
             channel.get({
                 url: "json/zg/creator/table?date_type=day",
@@ -224,7 +224,7 @@
             var over_time = timestamp(inttime);
             var obj = {
                 "task":inttitle,
-                "over_time":over_time,
+                "over_time":over_time+86399,
             }
             var j = JSON.stringify(obj)
             $.ajax({

@@ -83,7 +83,7 @@ exports.get_sub_by_name = function (name) {
     // old name of a stream (from prior to a rename).
 
     var sub = stream_info.get(name);
-    console.log(sub,name)
+
     if (sub) {
         return sub;
     }

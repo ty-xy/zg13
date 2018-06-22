@@ -7,7 +7,11 @@
                     <i class="iconfont icon-guanbiUI taskdetail_close"></i>
                 </div>  
                 <div class="taskdetail_ctn">
-                    <input type="checkbox" class="taskdetail_state" id="taskdetail_check">
+                    {{#if state}}
+                    <input type="checkbox" class="taskdetail_state" id="taskdetail_check"  name="{{id}}" value="{{state}}">
+                    {{else}}
+                     <input type="checkbox" class="taskdetail_state" id="taskdetail_check"  name="{{id}}" value="{{state}}" checked="checked">
+                   {{/if}}
                     <p class="taskdetail_list">{{taskdetail_list}}</p>
                 </div>
                 <textarea name="{{id}}" id="taskdetail_addnote" cols="30" rows="10" placeholder="添加备注...">{{taskdetail_addnote}}</textarea>
@@ -20,7 +24,7 @@
                     <div class="taskdetail_selection_left">
                         <p class="taskdetail_startdate">任务开始时间</p>
                         <div class="input-append date" id="taskstart_datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
-                                <input class="new_task_date" size="16" type="text" value="{{create_time}}" readonly placeholder="请选择日期...">  
+                                <input title="{{id}}" class="new_task_date" size="16" type="text" value="{{create_time}}" readonly placeholder="请选择日期...">  
                                 <span class="add-on select_date_icon">
                                     <i data-date-icon="icon-calendar" class="icon-calendar iconfont icon-riqi"></i>
                                 </span>  
@@ -29,10 +33,10 @@
                     <div class="taskdetail_selection_right">
                         <p>任务截止时间</p>
                         <div class="input-append date" id="taskstop_datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
-                                <input class="new_task_date" size="16" type="text" value="{{over_time}}" readonly placeholder="请选择日期...">  
+                                <input name="{{id}}" class="new_task_date" size="16" type="text" value="{{over_time}}" readonly placeholder="请选择日期...">  
                                 <span class="add-on select_date_icon">
                                     <i data-date-icon="icon-calendar" class="icon-calendar iconfont icon-riqi"></i>
-                                </span>  
+                                </span> 
                         </div>
                     </div>
                 </div>
