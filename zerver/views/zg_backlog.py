@@ -9,29 +9,6 @@ import re
 from zerver.lib.actions import get_user_ids_for_streams
 
 
-def postceshi(request, user):
-    if request.method == 'GET':
-        try:
-            statement_state_list = StatementState.objects.filter(staff=user.id).order_by('-id')
-        except Exception:
-            return JsonResponse({'errno': 1, 'message': "获取我收到的报表失败"})
-        receive_table_list = []
-
-        for statement_state in statement_state_list:
-            user_dict = {}
-
-            s = Statement.objects.get(id=statement_state.statement_id.id)
-            user = UserProfile.objects.get(email=s.user)
-            user_dict['avatarurl'] = user.avatar_source
-            user_dict['fullname'] = user.full_name
-            user_dict['generate_time'] = statement_state.receive_time
-            user_dict['table_id'] = s.id
-            user_dict['state'] = statement_state.state
-
-            receive_table_list.append(user_dict)
-        return JsonResponse({'errno': 0, 'message': "成功", 'receive_table_list': receive_table_list})
-
-
 # 已读未读
 def state_view(request, user_profile):
     table_id = request.GET.get('table_id')

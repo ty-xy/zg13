@@ -352,7 +352,7 @@ v1_api_and_json_patterns = [
     # 待办事项
     url(r'^zg/backlog/$', rest_dispatch,
         {'POST': 'zerver.views.zg_backlog.backlogs_view_po',
-         'GET': 'zerver.views.zg_backlog.postceshi',
+         'GET': 'zerver.views.zg_backlog.backlogs_view_g',
          'PUT': 'zerver.views.zg_backlog.backlogs_view_pu',
          'DELETE': 'zerver.views.zg_backlog.backlogs_view_d'}),
 
@@ -404,16 +404,7 @@ v1_api_and_json_patterns = [
 # If you're adding a new page to the website (as opposed to a new
 # endpoint for use by code), you should add it here.
 # import zerver.views.streams
-import zerver.views.zg_backlog
 i18n_urls = [
-
-    # 获取个人列表
-    url(r'^zg/api/ceshi/a$', zerver.views.zg_backlog.postceshi),
-    # 表
-
-
-
-
 
 
     url(r'^$', zerver.views.home.home, name='zerver.views.home.home'),
