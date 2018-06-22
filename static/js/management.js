@@ -39,7 +39,7 @@
                     url: 'json/zg/backlog/',
                     idempotent: true,
                     data:data_id,
-                    success:(data)=>{
+                    success:function(data){
                        if(data.errno===0){
                         // var li  = "."+(that.parent().parent()).attr("class")
                         that.parent().parent().remove()
