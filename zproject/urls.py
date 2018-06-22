@@ -361,16 +361,38 @@ v1_api_and_json_patterns = [
         {'GET': 'zerver.views.zg_backlog.generate_table'}),
 
     # 已完成待办事项
-    url(r'^zg/backlogss/accomplis', rest_dispatch,
+    url(r'^zg/backlog/accomplis', rest_dispatch,
         {'GET': 'zerver.views.zg_backlog.accomplis_backlogs_view'}),
 
     # 待办事项详情
-    url(r'^zg/backlogs/details$', rest_dispatch,
+    url(r'^zg/backlog/details$', rest_dispatch,
         {'GET': 'zerver.views.zg_backlog.backlogs_details'}),
 
-    # 发送表
-    url(r'^zg/v1/table$$', rest_dispatch,
-        {'GET': 'zerver.views.zg_backlog.table_view'}),
+    # 修改待办事项附件
+    url(r'^zg/accessory$', rest_dispatch,
+        {'POST': 'zerver.views.zg_backlog.accessory_up'}),
+
+    # 发送周报
+    url(r'^zg/v1/table$', rest_dispatch,
+        {'POST': 'zerver.views.zg_backlog.table_view'}),
+    #频道信息表
+    url(r'^zg/v1/stream/recipient/data$', rest_dispatch,
+        {'GET': 'zerver.views.zg_backlog.stream_recipient_data'}),
+    # 日志助手
+    url(r'^zg/v1/log/assistant$', rest_dispatch,
+        {'GET': 'zerver.views.zg_backlog.log_assistant'}),
+    # 我收到的
+    url(r'^zg/v1/my/receive$', rest_dispatch,
+        {'GET': 'zerver.views.zg_backlog.my_receive'}),
+    # 我发送的
+    url(r'^zg/v1/my/send', rest_dispatch,
+        {'GET': 'zerver.views.zg_backlog.my_send'}),
+    # 查看自己和他人的报表
+    url(r'^zg/v1/look/table', rest_dispatch,
+        {'GET': 'zerver.views.zg_backlog.look_table'}),
+    # 已读未读
+    url(r'^zg/v1/state/view', rest_dispatch,
+        {'GET': 'zerver.views.zg_backlog.state_view'}),
 
 
 
@@ -381,10 +403,11 @@ v1_api_and_json_patterns = [
 #
 # If you're adding a new page to the website (as opposed to a new
 # endpoint for use by code), you should add it here.
+# import zerver.views.streams
 i18n_urls = [
 
     # 获取个人列表
-    # url(r'^zg/api/v1/person$', zerver.views.zg_backlog.person_list),
+    # url(r'^zg/api/v1/person1$', zerver.views.streams.person_list),
     # 表
 
 
