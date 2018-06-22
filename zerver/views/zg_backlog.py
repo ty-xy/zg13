@@ -420,12 +420,7 @@ def backlogs_view_pu(request, user_profile):
                         update_state = '%s完成了事项' % uodate_time
                         UpdateBacklog.objects.create(update_backlog=update_state, backlog_id=backlog)
 
-<<<<<<< HEAD
-                elif req['state']==2:
-                    
-=======
                 elif req['state'] == 2:
->>>>>>> 5f52f41ed7a6a730e6f76691c02430690254b22a
                     backlog.state = req['state']
 
         backlog.save()

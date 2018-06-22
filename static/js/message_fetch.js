@@ -162,13 +162,13 @@ exports.load_messages = function (opts) {
                             $(".taskdetail_md").remove();
                             var taskid = Number($(this).attr("taskid"))
                             backlog_id = taskid;
-                            var backlogs_id = backlog_id;
+                            var backlog_id = backlog_id;
                             var obj = {
-                                "backlogs_id":backlog_id
+                                "backlog_id":backlog_id
                             }
                             $.ajax({
                                 type:"GET",
-                                url:"json/zg/backlogs/details",
+                                url:"json/zg/backlog/details",
                                 contentType:"application/json",
                                 data:obj,
                                 success:function(res){
@@ -183,12 +183,12 @@ exports.load_messages = function (opts) {
                                         s = date.getSeconds();
                                         return Y+M+D+h+m+s;
                                     }
-                                    var taskdetail_list = res.backlogs_dict.task;
-                                    var taskdetail_addnote = res.backlogs_dict.task_details;
-                                    var create_time = timestampToTime(res.backlogs_dict.create_time).substring(0,10);
-                                    var over_time = timestampToTime(res.backlogs_dict.over_time).substring(0,10);
-                                    var state = res.backlogs_dict.state;
-                                    var id = res.backlogs_dict.id;
+                                    var taskdetail_list = res.backlog_dict.task;
+                                    var taskdetail_addnote = res.backlog_dict.task_details;
+                                    var create_time = timestampToTime(res.backlog_dict.create_time).substring(0,10);
+                                    var over_time = timestampToTime(res.backlog_dict.over_time).substring(0,10);
+                                    var state = res.backlog_dict.state;
+                                    var id = res.backlog_dict.id;
                                     var html = templates.render("taskdetail_md",{
                                         taskdetail_list:taskdetail_list,
                                         taskdetail_addnote:taskdetail_addnote,
@@ -200,7 +200,7 @@ exports.load_messages = function (opts) {
                                     $(".app").after(html)
                                     $(".taskdetail_md").show();
                                     var obj_backlog_details = {
-                                        backlogs_id:id,
+                                        backlog_id:id,
                                         task_details:"",
                                     }
                                     $("textarea[name='"+id+"']").on("blur",function(e){
@@ -254,14 +254,14 @@ exports.load_messages = function (opts) {
 
                                 var create_time = timestamp($("input[title='"+id+"']").val());
                                 var over_time = timestamp($(".new_task_date[name='"+id+"']").val());
-                                var backlogs_id = id;
+                                var backlog_id = id;
                                 // var state = $(".taskdetail_state[name='"+id+"']").val();
                                 var state = Number(localStorage.getItem("state"));
                                 var task_details = $("textarea[name='"+id+"']").val();
                                 var obj_backlog_data = {
                                     create_time:create_time,
                                     over_time:over_time,
-                                    backlogs_id:id,
+                                    backlog_id:id,
                                     state:state,
                                     task_details:task_details
                                 }
@@ -286,11 +286,11 @@ exports.load_messages = function (opts) {
                                     })
                                     $.ajax({
                                         type:"GET",
-                                        url:"json/zg/backlogss/accomplis",
+                                        url:"json/zg/backlog/accomplis",
                                         data:{page:1},
                                         success:function(rescompleted){
                                             $(".completed_box").children().remove();
-                                            var completed_data = rescompleted.accomplis_backlogs_list
+                                            var completed_data = rescompleted.accomplis_backlog_list
                                             var html_completed = templates.render("completed_li",{completed_data:completed_data})
                                             $(".completed_box").append(html_completed);
                                         }
@@ -371,7 +371,7 @@ exports.load_messages = function (opts) {
                                 state = 0;
                                 var backlog_change = {
                                     state:0,
-                                    backlogs_id:inputid
+                                    backlog_id:inputid
                                 }
                                 var obj_backlog_change = JSON.stringify(backlog_change);
                                 $.ajax({
@@ -395,11 +395,11 @@ exports.load_messages = function (opts) {
                                         })
                                         $.ajax({
                                             type:"GET",
-                                            url:"json/zg/backlogss/accomplis",
+                                            url:"json/zg/backlog/accomplis",
                                             data:{page:1},
                                             success:function(rescompleted){
                                                 $(".completed_box").children().remove();
-                                                var completed_data = rescompleted.accomplis_backlogs_list
+                                                var completed_data = rescompleted.accomplis_backlog_list
                                                 var html_completed = templates.render("completed_li",{completed_data:completed_data})
                                                 $(".completed_box").append(html_completed);
                                             }
@@ -413,20 +413,20 @@ exports.load_messages = function (opts) {
                         
                         $.ajax({
                             type:"GET",
-                            url:"json/zg/backlogss/accomplis",
+                            url:"json/zg/backlog/accomplis",
                             data:{page:1},
                             success:function(rescompleted){
                                 if(rescompleted.errno == 0){
                                     $(".completed_box").children().remove();
-                                //     for(var key in rescompleted.accomplis_backlogs_list){
+                                //     for(var key in rescompleted.accomplis_backlog_list){
                                 //         $(".completed_box").append("<li class='completed'>\
                                 //         <div>\
-                                //         <input type='checkbox' class='completed_checkbox checked' checked='checked' inputid="+ rescompleted.accomplis_backlogs_list[key].id +">\
-                                //         <p class='completed_ctn' taskid="+ rescompleted.accomplis_backlogs_list[key].id +">"+rescompleted.accomplis_backlogs_list[key].task+"</p>\
+                                //         <input type='checkbox' class='completed_checkbox checked' checked='checked' inputid="+ rescompleted.accomplis_backlog_list[key].id +">\
+                                //         <p class='completed_ctn' taskid="+ rescompleted.accomplis_backlog_list[key].id +">"+rescompleted.accomplis_backlog_list[key].task+"</p>\
                                 //         </div>\
                                 // </li>")
                                 //     }
-                                var completed_data = rescompleted.accomplis_backlogs_list
+                                var completed_data = rescompleted.accomplis_backlog_list
                                 var html_completed = templates.render("completed_li",{completed_data:completed_data})
                                     $(".completed_box").append(html_completed);
 
@@ -437,15 +437,15 @@ exports.load_messages = function (opts) {
                                         $(".taskdetail_md").remove();
                                         var taskid = Number($(this).attr("taskid"))
                                         backlog_id = taskid;
-                                        var backlogs_id = backlog_id;
+                                        var backlog_id = backlog_id;
                                         var obj = {
-                                            "backlogs_id":backlog_id
+                                            "backlog_id":backlog_id
                                         }
                                         
                                         //请求详情
                                         $.ajax({
                                             type:"GET",
-                                            url:"json/zg/backlogs/details",
+                                            url:"json/zg/backlog/details",
                                             contentType:"application/json",
                                             data:obj,
                                             success:function(res){
@@ -460,12 +460,12 @@ exports.load_messages = function (opts) {
                                                     s = date.getSeconds();
                                                     return Y+M+D+h+m+s;
                                                 }
-                                                var taskdetail_list = res.backlogs_dict.task;
-                                                var taskdetail_addnote = res.backlogs_dict.task_details;
-                                                var create_time = timestampToTime(res.backlogs_dict.create_time).substring(0,10);
-                                                var over_time = timestampToTime(res.backlogs_dict.over_time).substring(0,10);
-                                                var state = res.backlogs_dict.state;
-                                                var id = res.backlogs_dict.id;
+                                                var taskdetail_list = res.backlog_dict.task;
+                                                var taskdetail_addnote = res.backlog_dict.task_details;
+                                                var create_time = timestampToTime(res.backlog_dict.create_time).substring(0,10);
+                                                var over_time = timestampToTime(res.backlog_dict.over_time).substring(0,10);
+                                                var state = res.backlog_dict.state;
+                                                var id = res.backlog_dict.id;
                                                 var html = templates.render("taskdetail_md",{
                                                     taskdetail_list:taskdetail_list,
                                                     taskdetail_addnote:taskdetail_addnote,
@@ -477,7 +477,7 @@ exports.load_messages = function (opts) {
                                                 $(".app").after(html)
                                                 $(".taskdetail_md").show();
                                                 var obj_backlog_details = {
-                                                    backlogs_id:id,
+                                                    backlog_id:id,
                                                     task_details:"",
                                                 }
                                                 $("textarea[name='"+id+"']").on("blur",function(e){
@@ -520,13 +520,13 @@ exports.load_messages = function (opts) {
                                             }
                                             var create_time = timestamp($("input[title='"+id+"']").val());
                                             var over_time = timestamp($(".new_task_date[name='"+id+"']").val());
-                                            var backlogs_id = id;
+                                            var backlog_id = id;
                                             var state = $(".taskdetail_state[name='"+id+"']").val();
                                             var task_details = $("textarea[name='"+id+"']").val();
                                             var obj_backlog_data = {
                                                 create_time:create_time,
                                                 over_time:over_time,
-                                                backlogs_id:backlogs_id,
+                                                backlog_id:backlog_id,
                                                 state:state,
                                                 task_details:task_details
                                             }
@@ -551,11 +551,11 @@ exports.load_messages = function (opts) {
                                                 })
                                                 $.ajax({
                                                     type:"GET",
-                                                    url:"json/zg/backlogss/accomplis",
+                                                    url:"json/zg/backlog/accomplis",
                                                     data:{page:1},
                                                     success:function(rescompleted){
                                                         $(".completed_box").children().remove();
-                                                        var completed_data = rescompleted.accomplis_backlogs_list
+                                                        var completed_data = rescompleted.accomplis_backlog_list
                                                         var html_completed = templates.render("completed_li",{completed_data:completed_data})
                                                         $(".completed_box").append(html_completed);
                                                     }
@@ -635,7 +635,7 @@ exports.load_messages = function (opts) {
                                             state = 2;
                                             var backlog_change = {
                                                 state:2,
-                                                backlogs_id:inputid
+                                                backlog_id:inputid
                                             }
                                             var obj_backlog_change = JSON.stringify(backlog_change);
                                             $.ajax({
@@ -662,11 +662,11 @@ exports.load_messages = function (opts) {
                                                     })
                                                     $.ajax({
                                                         type:"GET",
-                                                        url:"json/zg/backlogss/accomplis",
+                                                        url:"json/zg/backlog/accomplis",
                                                         data:{page:1},
                                                         success:function(rescompleted){
                                                             $(".completed_box").children().remove();
-                                                            var completed_data = rescompleted.accomplis_backlogs_list
+                                                            var completed_data = rescompleted.accomplis_backlog_list
                                                             var html_completed = templates.render("completed_li",{completed_data:completed_data})
                                                             $(".completed_box").append(html_completed);
                                                         }

@@ -127,12 +127,12 @@
                 var obj = {
                     "task":j.inttitle,
                     "over_time":over_time,
-                    "backlogs_id":$(this).attr("revise_id")
+                    "backlog_id":$(this).attr("revise_id")
                 }
                 var data_list ={
-                    "backlog_id":obj.backlogs_id
+                    "backlog_id":obj.backlog_id
                 }
-                console.log(obj.backlogs_id)
+                console.log(obj.backlog_id)
                 var data = JSON.stringify(obj)
                 channel.put({
                     url:"json/zg/backlog/",
@@ -306,7 +306,7 @@
                                 state = 0;
                                 var backlog_change = {
                                     state:0,
-                                    backlogs_id:inputid
+                                    backlog_id:inputid
                                 }
                                 var obj_backlog_change = JSON.stringify(backlog_change);
                                 $.ajax({
@@ -330,11 +330,11 @@
                                         })
                                         $.ajax({
                                             type:"GET",
-                                            url:"json/zg/backlogss/accomplis",
+                                            url:"json/zg/backlog/accomplis",
                                             data:{page:1},
                                             success:function(rescompleted){
                                                 $(".completed_box").children().remove();
-                                                var completed_data = rescompleted.accomplis_backlogs_list
+                                                var completed_data = rescompleted.accomplis_backlog_list
                                                 var html_completed = templates.render("completed_li",{completed_data:completed_data})
                                                 $(".completed_box").append(html_completed);
                                             }
