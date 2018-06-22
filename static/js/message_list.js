@@ -5,6 +5,7 @@ var exports = {};
 exports.narrowed = undefined;
 
 exports.MessageList = function (table_name, filter, opts) {
+
     _.extend(this, {
         collapse_messages: true,
         muting_enabled: true,
@@ -24,11 +25,13 @@ exports.MessageList = function (table_name, filter, opts) {
     this._selected_id = -1;
 
     if (this.filter === undefined) {
+       
         this.filter = new Filter();
+
     }
 
     this.narrowed = this.table_name === "zfilt";
-
+     
     this.num_appends = 0;
 
     return this;
@@ -552,6 +555,7 @@ exports.MessageList.prototype = {
 
         if (this === exports.narrowed) {
             if (this.empty()) {
+                // console.log(76)
                 narrow.show_empty_narrow_message();
             } else {
                 narrow.hide_empty_narrow_message();

@@ -126,7 +126,9 @@
                 <p>一键生成日志</p>
             </div>
         </div>
-        <div class="create_generate_log">
+        <div class="create_generate_log" id="try-log">
+        </div>
+        <!-- <div class="create_generate_log">
               <div class="generate_log_left">
                     <ul class="generate_log_sliber">
                         <li>生成日报</li>
@@ -170,7 +172,7 @@
                     </ul>
                     <form action="" class="new_plan">
                             <input type="text" class="new_plan_title" placeholder="请输入任务标题">
-                            <!-- <input type="text" class="new_plan_date" placeholder="请选择日期"> -->
+                            <input type="text" class="new_plan_date" placeholder="请选择日期">
                             <div class="input-append date" id="newplan_datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
                                     <input class="new_task_date" size="16" type="text" value="" readonly placeholder="请选择日期...">  
                                     <span class="add-on select_date_icon">
@@ -221,7 +223,7 @@
                     </div>
                 </div>
               </div>      
-        </div>
+        </div> -->
         <i class="management_lineA"></i>
         <div class="new_task_box">
             <!-- <div class="add_task"> -->
@@ -230,7 +232,7 @@
                     <input type="text" class="new_task_title create_tasttitle" placeholder="请输入任务标题" maxlength="25">
                     <!-- <input type="text" class="new_task_date" placeholder="请选择日期"> -->
                     <div class="input-append date" id="datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
-                            <input class="new_task_date create_taskdate" size="16" type="text" value="" readonly placeholder="请选择日期...">  
+                            <input class="new_task_date create_taskdate" size="16" type="text" value="" readonly placeholder="请选择截止日期...">  
                             <span class="add-on select_date_icon">
                                 <i data-date-icon="icon-calendar" class="icon-calendar iconfont icon-riqi"></i>
                             </span>  
@@ -252,7 +254,10 @@
                 </div>
                 <div class="todo_right">
                         <i class="iconfont icon-beizhu note_icon"></i>
-                        <i class="iconfont icon-fujian1 attachment_icon"></i>
+                        <div id="file-choose">
+                            <input type="file" id="file_inputs" class="test-image-file">
+                            <i class="iconfont icon-fujian1 attachment_icon" id="attach_file"></i>
+                         </div>
                         <p class="add_datatime">2018-06-01</p>
                 </div>
             </li> -->

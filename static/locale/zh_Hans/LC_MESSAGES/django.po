@@ -768,7 +768,7 @@ msgstr "团队不存在"
 
 #: templates/zerver/invalid_realm.html:13
 msgid "There is no Zulip organization hosted at this subdomain."
-msgstr "该子域名中没有部署Zulip团队服务"
+msgstr "该子域名中没有部署e建联团队服务"
 
 #: templates/zerver/invite_user.html:6
 msgid "Invite users to e建联"
@@ -1097,11 +1097,11 @@ msgstr "下载"
 
 #: templates/zerver/login.html:27
 msgid "Log in to Zulip"
-msgstr ""
+msgstr "登录e建联"
 
 #: templates/zerver/login.html:35
 msgid "Log in with SSO"
-msgstr ""
+msgstr "用SSO登录"
 
 #: templates/zerver/login.html:80
 msgid "Email or username"
@@ -1200,11 +1200,11 @@ msgstr "在这台电脑上不要再问我"
 msgid ""
 "Zulip needs to send email to confirm users' addresses and send "
 "notifications."
-msgstr ""
+msgstr "e建联需要发送邮件来确认用户地址及发送通知."
 
 #: templates/zerver/navbar.html:25
 msgid "See how to configure email."
-msgstr ""
+msgstr "如何配置邮件"
 
 #: templates/zerver/navbar.html:52 templates/zerver/navbar.html:53
 msgid "Search"
@@ -1287,7 +1287,7 @@ msgstr ""
 
 #: templates/zerver/portico-header.html:6
 msgid "Zulip"
-msgstr "Zulip"
+msgstr "e建联"
 
 #: templates/zerver/privacy.html:31
 #, python-format
@@ -1568,7 +1568,7 @@ msgstr "已静音主题"
 
 #: templates/zerver/settings_overlay.html:44
 msgid "Zulip labs"
-msgstr "Zulip实验室"
+msgstr "e建联实验室"
 
 #: templates/zerver/settings_overlay.html:49
 msgid "Organization profile"
@@ -1668,11 +1668,11 @@ msgstr "您的邮件订阅设置已更新，您将不会收到%(subscription_typ
 msgid ""
 "To undo this change or review your other subscription settings, please visit"
 " your <a href=\"%(realm_uri)s/#settings\">Zulip Settings page</a>."
-msgstr "要撤消此更改或检查其他订阅设置，请访问<a href=\"%(realm_uri)s/#settings\">Zulip设置页面</a>"
+msgstr "要撤消此更改或检查其他订阅设置，请访问<a href=\"%(realm_uri)s/#settings\">e建联设置页面</a>"
 
 #: templates/zerver/why-zulip.html:23
 msgid "Why Zulip?"
-msgstr "为什么选择Zulip"
+msgstr "为什么选择e建联"
 
 #: templates/zerver/zulipchat_migration_tos.html:1
 msgid "Welcome! We think you'll like it here."
@@ -1820,7 +1820,7 @@ msgstr "用户没有授权本次查询"
 #: zerver/lib/actions.py:1638
 #, python-format
 msgid "'%s' is no longer using Zulip."
-msgstr "'%s'不再使用Zulip了。"
+msgstr "'%s'不再使用e建联了。"
 
 #: zerver/lib/actions.py:1644
 msgid "You can't send private messages outside of your organization."
@@ -1978,7 +1978,7 @@ msgstr "没有邀请任何人"
 msgid ""
 "Some of those addresses are already using Zulip, so we didn't send them an "
 "invitation. We did send invitations to everyone else!"
-msgstr "有部分地址已经在使用Zulip，因此没有向他们发送邀请；其余地址已经发送！"
+msgstr "有部分地址已经在使用e建联，因此没有向他们发送邀请；其余地址已经发送！"
 
 #: zerver/lib/actions.py:4580
 #, python-format
@@ -2967,7 +2967,7 @@ msgstr ""
 #. error
 #: zilencer/views.py:27
 msgid "Must validate with valid Zulip server API key"
-msgstr "必须验证有效的Zulip服务器 API Key"
+msgstr "必须验证有效的e建联服务器 API Key"
 
 #. error
 #: zilencer/views.py:32

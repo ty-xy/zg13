@@ -531,7 +531,6 @@ function pick_empty_narrow_banner() {
     var default_banner = $('#empty_narrow_message');
 
     var current_filter = narrow_state.get_current_filter();
-
     if (current_filter === undefined) {
         return default_banner;
     }
@@ -540,21 +539,25 @@ function pick_empty_narrow_banner() {
     var first_operator = first_term.operator;
     var first_operand = first_term.operand;
     var num_operators = current_filter.operators().length;
-
+    console.log(num_operators,first_term)
     if (num_operators !== 1) {
         // For multi-operator narrows, we just use the default banner
         return default_banner;
     } else if (first_operator === "is") {
         if (first_operand === "starred") {
             // You have no starred messages.
+            $("#zfilt").addClass("focused_table");
             return $("#empty_star_narrow_message");
         } else if (first_operand === "mentioned") {
+            $("#zfilt").addClass("focused_table");
             return $("#empty_narrow_all_mentioned");
         } else if (first_operand === "private") {
-            // You have no private messages.
+            // // You have no private messages.
+            $("#zfilt").addClass("focused_table");
             return $("#empty_narrow_all_private_message");
         } else if (first_operand === "unread") {
             // You have no unread messages.
+            $("#zfilt").addClass("focused_table");
             return $("#no_unread_narrow_message");
         } else if (first_operand === "management") {
             // $('#zfilt').hide()
