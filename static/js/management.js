@@ -252,14 +252,14 @@
                                 var new_append_over_time;
                                 var new_append_id;
                                 for(var key in response.backlog_list){
-                                    new_append_id = response.backlog_list[0].id
+                                    new_append_id = response.backlog_list[0].backlog_id
                                     new_append_task = response.backlog_list[0].task
                                     new_append_over_time = response.backlog_list[0].over_time
                                 }
                                 $(".todo_box").prepend("<li class='todo'>\
                                 <div class='todo_left'>\
                                         <input type='checkbox' class='add_checkbox'>\
-                                        <p class='add_ctn' taskid="+new_append_id+">"+new_append_task+"</p>\
+                                        <p class='add_ctn' inputid="+new_append_id+" taskid="+new_append_id+">"+new_append_task+"</p>\
                                 </div>\
                                 <div class='todo_right'>\
                                         <i class='iconfont icon-beizhu note_icon'></i>\
@@ -296,7 +296,8 @@
                             $(".taskdetail_md").hide();
                             $(".app").css("overflow-y","scroll");
                         })
-                        //统一
+
+                        //
                         $(".todo_box").on("click",".add_checkbox",function(e){
                             var inputid = Number($(this).attr("inputid"))
                             var state = ($(this).attr("state"))
@@ -345,6 +346,57 @@
                                 
                             }
                         })
+                        //统一
+                        // $(".todo_box").on("click",".add_checkbox",function(e){
+                        //     var inputid = Number($(this).attr("taskid"))
+                        //     console.log(inputid)
+                        //     var state = ($(this).attr("state"))
+                        //     console.log(state)
+                        //     if($(this).is(":checked")){
+                        //         var _this = $(this);
+                        //         state = ($(this).attr("state"))
+                        //         state = 0;
+                        //         var backlog_change = {
+                        //             state:0,
+                        //             backlog_id:inputid
+                        //         }
+                        //         var obj_backlog_change = JSON.stringify(backlog_change);
+                        //         $.ajax({
+                        //             type:"PUT",
+                        //             url:"json/zg/backlog/",
+                        //             contentType:"application/json",
+                        //             data:obj_backlog_change,
+                        //             success:function(res){
+                        //                 // _this.parent().parent().remove();
+                        //                 // $(".completed_box").prepend(_this.parent().parent());
+                        //                 $.ajax({
+                        //                     type:"GET",
+                        //                     url:"json/zg/backlog",
+                        //                     success:function(res){
+                        //                         $(".todo_box").children().remove();
+                        //                         var backlog_list = res.backlog_list
+                        //                         var past_due_list = res.past_due_list
+                        //                         var html_li = templates.render("todo_box_li",{backlog_list:backlog_list,past_due_list:past_due_list});
+                        //                         $(".todo_box").append(html_li)
+                        //                     }
+                        //                 })
+                        //                 $.ajax({
+                        //                     type:"GET",
+                        //                     url:"json/zg/backlog/accomplis",
+                        //                     data:{page:1},
+                        //                     success:function(rescompleted){
+                        //                         $(".completed_box").children().remove();
+                        //                         var completed_data = rescompleted.accomplis_backlog_list
+                        //                         var html_completed = templates.render("completed_li",{completed_data:completed_data})
+                        //                         $(".completed_box").append(html_completed);
+                        //                     }
+                        //                 })
+                        //             }
+                        //         })
+                        //     }else{
+                                
+                        //     }
+                        // })
                             },
                             error:function(reject){
                                 console.log(reject)

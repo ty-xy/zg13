@@ -163,6 +163,7 @@ exports.load_messages = function (opts) {
                             var taskid = Number($(this).attr("taskid"))
                             backlog_id = taskid;
                             var backlog_id = backlog_id;
+                            console.log(backlog_id)
                             var obj = {
                                 "backlog_id":backlog_id
                             }
@@ -251,17 +252,16 @@ exports.load_messages = function (opts) {
                                     var n = time/1000;
                                     return n;
                                 }
-
                                 var create_time = timestamp($("input[title='"+id+"']").val());
                                 var over_time = timestamp($(".new_task_date[name='"+id+"']").val());
                                 var backlog_id = id;
-                                // var state = $(".taskdetail_state[name='"+id+"']").val();
-                                var state = Number(localStorage.getItem("state"));
+                                var state = $(".taskdetail_state[name='"+id+"']").val();
+                                // var state = Number(localStorage.getItem("state"));
                                 var task_details = $("textarea[name='"+id+"']").val();
                                 var obj_backlog_data = {
                                     create_time:create_time,
                                     over_time:over_time,
-                                    backlog_id:id,
+                                    backlog_id:backlog_id,
                                     state:state,
                                     task_details:task_details
                                 }
