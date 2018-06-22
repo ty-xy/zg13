@@ -9,6 +9,7 @@ import re
 from zerver.lib.actions import get_user_ids_for_streams
 
 
+
 # 已读未读
 def state_view(request, user_profile):
     table_id=request.GET.get('table_id')
@@ -429,7 +430,9 @@ def backlogs_view_pu(request, user_profile):
     return JsonResponse({'errno': 0, 'message': '成功'})
 
 
-# 附件改
+
+
+# 更新待办事项附件
 def accessory_up(request, user_profile):
     req = request.body
     req = req.decode()
@@ -438,14 +441,21 @@ def accessory_up(request, user_profile):
     time_array = time.localtime(now)
     uodate_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
     accessory_list = req['accessory_list']
+
     try:
         for i in accessory_list:
             backlog = Backlog.objects.get(id=i['backlog_id'])
-            accessory = BacklogAccessory.objects.get(id=i['backlog_id'])
+
             if i['type'] == 'add':
+                if not all([i['url'],i['size'],i['name']]):
+                    return JsonResponse({'errno': 2, 'message': '缺少必要参数'})
                 BacklogAccessory.objects.create(backlog_id=backlog, accessory_url=i['url'], accessory_size=i['size'],
                                                 accessory_name=i['name'])
             elif i['type'] == 'del':
+                if not i['accessory_id']:
+                    return JsonResponse({'errno': 3, 'message': '缺少必要参数'})
+
+                accessory = BacklogAccessory.objects.get(id=i['accessory_id'])
                 accessory.is_delete = True
                 accessory.save()
             UpdateBacklog.objects.create(update_backlog="%s修改了附件" % uodate_time, backlog_id=backlog)

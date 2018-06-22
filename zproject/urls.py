@@ -361,7 +361,7 @@ v1_api_and_json_patterns = [
         {'GET': 'zerver.views.zg_backlog.generate_table'}),
 
     # 已完成待办事项
-    url(r'^zg/backlog/accomplis', rest_dispatch,
+    url(r'^zg/backlogss/accomplis', rest_dispatch,
         {'GET': 'zerver.views.zg_backlog.accomplis_backlogs_view'}),
 
     # 待办事项详情
