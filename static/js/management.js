@@ -296,8 +296,8 @@
                             $(".taskdetail_md").hide();
                             $(".app").css("overflow-y","scroll");
                         })
-
-                        $(".add_checkbox").on("click",function(e){
+                        //统一
+                        $(".todo_box").on("click",".add_checkbox",function(e){
                             var inputid = Number($(this).attr("inputid"))
                             var state = ($(this).attr("state"))
                             if($(this).is(":checked")){
@@ -315,13 +315,29 @@
                                     contentType:"application/json",
                                     data:obj_backlog_change,
                                     success:function(res){
-                                        _this.parent().parent().remove();
-                                        $(".completed_box").prepend(_this.parent().parent());
-                                        // 临时方案
-                                        location.reload();
-                                        // 临时方案
-                                        //zyc添加
-                                        //zyc添加
+                                        // _this.parent().parent().remove();
+                                        // $(".completed_box").prepend(_this.parent().parent());
+                                        $.ajax({
+                                            type:"GET",
+                                            url:"json/zg/backlog",
+                                            success:function(res){
+                                                $(".todo_box").children().remove();
+                                                var backlog_list = res.backlog_list
+                                                var html_li = templates.render("todo_box_li",{backlog_list:backlog_list});
+                                                $(".todo_box").append(html_li)
+                                            }
+                                        })
+                                        $.ajax({
+                                            type:"GET",
+                                            url:"json/zg/backlogss/accomplis",
+                                            data:{page:1},
+                                            success:function(rescompleted){
+                                                $(".completed_box").children().remove();
+                                                var completed_data = rescompleted.accomplis_backlogs_list
+                                                var html_completed = templates.render("completed_li",{completed_data:completed_data})
+                                                $(".completed_box").append(html_completed);
+                                            }
+                                        })
                                     }
                                 })
                             }else{
@@ -485,16 +501,19 @@
                 
                 var html = templates.render("log_assistant_box")
                 $(".app").after(html)
+                // $(".log_assistant_md").remove();
                 //日志助手点击md关闭
                 $(".log_assistant_md").on("click",function(e){
                     e.stopPropagation();
                     e.preventDefault();
                     $(".log_assistant_md").hide();
+                    $(".log_assistant_md").remove();
                     $(".app").css("overflow-y","scroll")
                 })
                 //日志助手关闭
                 $(".log_assistant_close").on("click",function(e){
                     $(".log_assistant_md").hide();
+                    $(".log_assistant_md").remove();
                     $(".app").css("overflow-y","scroll")
                 })
                 //日志助手阻止冒泡
