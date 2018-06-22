@@ -96,11 +96,12 @@ class StatementBacklog(models.Model):
 
 # 报表附件
 class StatementAccessory(models.Model):
-    Statement_id = models.ForeignKey(Statement)
+    statement_id = models.ForeignKey(Statement)
     statement_accessory_url = models.CharField(max_length=200)
-    accessory_size = models.CharField(max_length=10,default='')
-    accessory_name = models.CharField(max_length =25,default='')
+    accessory_size = models.CharField(max_length=30,default='')
+    accessory_name = models.CharField(max_length =50,default='')
     is_delete = models.BooleanField(default=False)
+
 
 
 # 报表状态
