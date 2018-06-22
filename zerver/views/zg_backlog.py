@@ -172,7 +172,7 @@ def table_view(request, user_profile):
     overdue = req.get("overdue")
     underway = req.get('underway')
     date_type = req.get('date_type')
-    backlogs_list = req.get('backlogs_list')
+    backlogs_list = req.get('backlog_list')
     statement_accessory_list = req.get('statement_accessory_list')
     send = req.get('send_list')
     if not accomplish:
@@ -552,7 +552,7 @@ def backlogs_details(request, user_profile):
     backlogs_dict['accessory_list'] = accessory_list
 
     return JsonResponse(
-        {'errno': 0, 'message': '成功', 'backlogs_dict': backlogs_dict, "update_backlog_list": update_backlog_list})
+        {'errno': 0, 'message': '成功', 'backlog_dict': backlogs_dict, "update_backlog_list": update_backlog_list})
 
 
 # 查看已完成事项
@@ -602,4 +602,4 @@ def accomplis_backlogs_view(request, user_profile):
         a['state'] = accomplis_backlogs.state
         accomplis_backlogs_listss.append(a)
 
-    return JsonResponse({'errno': 0, 'message': '成功', 'accomplis_backlogs_list': accomplis_backlogs_listss})
+    return JsonResponse({'errno': 0, 'message': '成功', 'accomplis_backlog_list': accomplis_backlogs_listss})
