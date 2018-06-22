@@ -323,7 +323,8 @@
                                             success:function(res){
                                                 $(".todo_box").children().remove();
                                                 var backlog_list = res.backlog_list
-                                                var html_li = templates.render("todo_box_li",{backlog_list:backlog_list});
+                                                var past_due_list = res.past_due_list
+                                                var html_li = templates.render("todo_box_li",{backlog_list:backlog_list,past_due_list:past_due_list});
                                                 $(".todo_box").append(html_li)
                                             }
                                         })

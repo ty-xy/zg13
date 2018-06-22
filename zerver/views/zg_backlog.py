@@ -345,7 +345,7 @@ def backlogs_view_pu(request, user_profile):
                         UpdateBacklog.objects.create(update_backlog=update_state, backlog_id=backlog)
 
                 elif req['state']==2:
-
+                    
                     backlog.state = req['state']
         backlog.save()
     except Exception:

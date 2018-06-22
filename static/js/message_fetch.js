@@ -151,7 +151,8 @@ exports.load_messages = function (opts) {
                         // </li>")
                         // }
                         var backlog_list = res.backlog_list
-                        var html_li = templates.render("todo_box_li",{backlog_list:backlog_list});
+                        var past_due_list = res.past_due_list
+                        var html_li = templates.render("todo_box_li",{backlog_list:backlog_list,past_due_list:past_due_list});
                         $(".todo_box").append(html_li)
                         var backlog_id;
                         $(".todo_box").on("click",".add_ctn",function(e){
@@ -228,23 +229,21 @@ exports.load_messages = function (opts) {
                                 e.stopPropagation();
                                 // e.preventDefault();
                             })
-                            // //任务详情的勾选框点击功能
-                            //     $(".taskdetail_ctn").on("click",".taskdetail_state",function(e){
-                            //         // $(".taskdetail_state[name='"+id+"']").val();
-                            //         if($(".taskdetail_state[name='"+id+"']").is(":checked")){
-                            //             state = 2;
-                            //             console.log("checked")
-                            //         }else{
-                            //             state = 0;
-                            //             console.log("unchecked")
-                            //         }
-                            //     })
+                            //任务详情的勾选框点击功能
+                                $(".taskdetail_ctn").on("click",".taskdetail_state",function(e){
+                                    if($(".taskdetail_state[name='"+id+"']").is(":checked")){
+                                        state = 0;
+                                        localStorage.setItem("state",state)
+                                    }else{
+                                        state = 2;
+                                        localStorage.setItem("state",state)
+                                    }
+                                })
                                 // console.log(state)
                             //任务详情点击关闭
                             $(".taskdetail_close").on("click",function(e){
                                 $(".taskdetail_md").hide();
                                 $(".app").css("overflow-y","scroll");
-                                // console.log($(".app"))
                                 function timestamp(str){
                                     str = str.replace(/-/g,'/');
                                     var date = new Date(str); 
@@ -256,7 +255,8 @@ exports.load_messages = function (opts) {
                                 var create_time = timestamp($("input[title='"+id+"']").val());
                                 var over_time = timestamp($(".new_task_date[name='"+id+"']").val());
                                 var backlogs_id = id;
-                                var state = $(".taskdetail_state[name='"+id+"']").val();
+                                // var state = $(".taskdetail_state[name='"+id+"']").val();
+                                var state = Number(localStorage.getItem("state"));
                                 var task_details = $("textarea[name='"+id+"']").val();
                                 var obj_backlog_data = {
                                     create_time:create_time,
@@ -279,7 +279,8 @@ exports.load_messages = function (opts) {
                                         success:function(res){
                                             $(".todo_box").children().remove();
                                             var backlog_list = res.backlog_list
-                                            var html_li = templates.render("todo_box_li",{backlog_list:backlog_list});
+                                            var past_due_list = res.past_due_list
+                                            var html_li = templates.render("todo_box_li",{backlog_list:backlog_list,past_due_list:past_due_list});
                                             $(".todo_box").append(html_li)
                                         }
                                     })
@@ -387,7 +388,8 @@ exports.load_messages = function (opts) {
                                             success:function(res){
                                                 $(".todo_box").children().remove();
                                                 var backlog_list = res.backlog_list
-                                                var html_li = templates.render("todo_box_li",{backlog_list:backlog_list});
+                                                var past_due_list = res.past_due_list
+                                                var html_li = templates.render("todo_box_li",{backlog_list:backlog_list,past_due_list:past_due_list});
                                                 $(".todo_box").append(html_li)
                                             }
                                         })
@@ -424,10 +426,11 @@ exports.load_messages = function (opts) {
                                 //         </div>\
                                 // </li>")
                                 //     }
-                                    var completed_data = rescompleted.accomplis_backlogs_list
-                                    var html_completed = templates.render("completed_li",{completed_data:completed_data})
+                                var completed_data = rescompleted.accomplis_backlogs_list
+                                var html_completed = templates.render("completed_li",{completed_data:completed_data})
                                     $(".completed_box").append(html_completed);
-                                    // completed_box
+
+                                        
                                     $(".completed_box").on("click",".completed_ctn",function(e){
                                         $(".app").css("overflow-y","hidden");
                                         $(".taskdetail_list").html($(this).html());
@@ -438,6 +441,7 @@ exports.load_messages = function (opts) {
                                         var obj = {
                                             "backlogs_id":backlog_id
                                         }
+                                        
                                         //请求详情
                                         $.ajax({
                                             type:"GET",
@@ -540,7 +544,8 @@ exports.load_messages = function (opts) {
                                                     success:function(res){
                                                         $(".todo_box").children().remove();
                                                         var backlog_list = res.backlog_list
-                                                        var html_li = templates.render("todo_box_li",{backlog_list:backlog_list});
+                                                        var past_due_list = res.past_due_list
+                                                        var html_li = templates.render("todo_box_li",{backlog_list:backlog_list,past_due_list:past_due_list});
                                                         $(".todo_box").append(html_li)
                                                     }
                                                 })
@@ -622,7 +627,6 @@ exports.load_messages = function (opts) {
                                         //请求详情
                                     })
                                     $(".completed_box").on("click",".completed_checkbox",function(e){
-                                        console.log("adasda")
                                         var inputid = Number($(this).attr("inputid"))
                                         var state = ($(this).attr("state"))
                                         if(!$(this).is(":checked")){
@@ -651,7 +655,8 @@ exports.load_messages = function (opts) {
                                                         success:function(res){
                                                             $(".todo_box").children().remove();
                                                             var backlog_list = res.backlog_list
-                                                            var html_li = templates.render("todo_box_li",{backlog_list:backlog_list});
+                                                            var past_due_list = res.past_due_list
+                                                            var html_li = templates.render("todo_box_li",{backlog_list:backlog_list,past_due_list:past_due_list});
                                                             $(".todo_box").append(html_li)
                                                         }
                                                     })
@@ -717,7 +722,6 @@ exports.load_messages = function (opts) {
 
 exports.load_messages_for_narrow = function (opts) {
     var msg_list = message_list.narrowed;
-    console.log(opts,"312",msg_list,"choose",consts)
     msg_list.fetch_status.start_initial_narrow();
      
     message_fetch.load_messages({
