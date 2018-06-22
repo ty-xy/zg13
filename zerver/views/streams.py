@@ -247,7 +247,7 @@ def remove_subscriptions_backend(
         result["removed"].append(removed_stream.name)
     for (subscriber, not_subscribed_stream) in not_subscribed:
         result["not_subscribed"].append(not_subscribed_stream.name)
-
+    print(result)
     return json_success(result)
 
 def you_were_just_subscribed_message(acting_user: UserProfile,
@@ -302,6 +302,7 @@ def add_subscriptions_backend(
         stream_dict_copy["invite_only"] = invite_only
         stream_dicts.append(stream_dict_copy)
 
+
     # Validation of the streams arguments, including enforcement of
     # can_create_streams policy and check_stream_name policy is inside
     # list_to_streams.
@@ -316,6 +317,7 @@ def add_subscriptions_backend(
 
     if len(principals) > 0:
         if user_profile.realm.is_zephyr_mirror_realm and not all(stream.invite_only for stream in streams):
+
             return json_error(_("You can only invite other Zephyr mirroring users to invite-only streams."))
         subscribers = set(principal_to_user_profile(user_profile, principal) for principal in principals)
     else:
@@ -430,6 +432,7 @@ def get_streams_backend(request: HttpRequest, user_profile: UserProfile,
                              include_subscribed=include_subscribed,
                              include_all_active=include_all_active,
                              include_default=include_default)
+
     return json_success({"streams": streams})
 
 @has_request_variables
@@ -442,7 +445,6 @@ def get_topics_backend(request: HttpRequest, user_profile: UserProfile,
         recipient=recipient,
         public_history=not stream.invite_only,
     )
-    print(result)
 
     return json_success(dict(topics=result))
 

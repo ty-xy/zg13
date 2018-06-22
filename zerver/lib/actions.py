@@ -2297,7 +2297,6 @@ def get_user_ids_for_streams(streams: Iterable[Stream]) -> Dict[int, List[int]]:
     ).order_by(
         'recipient__type_id',
     )
-
     get_stream_id = itemgetter('recipient__type_id')
 
     all_subscribers_by_stream = defaultdict(list)  # type: Dict[int, List[int]]
