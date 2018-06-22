@@ -92,29 +92,33 @@
                             var li = innhtml(j.inttitle,j.inttime,data)
                             $('.generate_log_plan_box').append(li)
                             del()
-                            $('.generate_log_plan_ctn ').on('click',".generate_log_plan_editor",function(e){
-                                e.preventDefault()
-                                var that =$(this)
-                                console.log(that)
-                                var li  = "."+(that.parent().parent()).attr("class")
-                                var textval=  $(li).find(".text-inline").text()
-                                var textdate= $(li).find(".date-inline").text()
-                                $(".new_plan_title").val(textval);
-                                $(".create_taskdate").val(textdate);
-                                var fix_id = that.next().find(".data_id").prevObject.attr("data_id")
-                                $(li).remove()
-                                var plan = $(".new_plan").find(".new_plan_save")
-                                plan.attr("class","fix_plan_save")
-                                plan.attr("revise_id",fix_id)
-                                var cancel = $(".new_plan").find(".new_plan_cancel")
-                                cancel.attr("class","fix_plan_cancel")
-                                cancel.attr("revise_id",fix_id)
-                            })
+                            editor()
                         }
                     },
                 });
                 cancel()
             })
+            function editor(){
+                $('.generate_log_plan_ctn ').on('click',".generate_log_plan_editor",function(e){
+                    e.preventDefault()
+                    var that =$(this)
+                    console.log(that)
+                    var li  = "."+(that.parent().parent()).attr("class")
+                    var textval=  $(li).find(".text-inline").text()
+                    var textdate= $(li).find(".date-inline").text()
+                    $(".new_plan_title").val(textval);
+                    $(".create_taskdate").val(textdate);
+                    var fix_id = that.next().find(".data_id").prevObject.attr("data_id")
+                    $(li).remove()
+                    var plan = $(".new_plan").find(".new_plan_save")
+                    plan.attr("class","fix_plan_save")
+                    plan.attr("revise_id",fix_id)
+                    var cancel = $(".new_plan").find(".new_plan_cancel")
+                    cancel.attr("class","fix_plan_cancel")
+                    cancel.attr("revise_id",fix_id)
+                })
+            }
+       
             $(".new_plan ").on("click",'.fix_plan_save',function(e){
                 var j = plancommon()
                 var over_time = timestamp(j.inttime);
@@ -126,7 +130,6 @@
                 var data_list ={
                     "backlog_id":obj.backlogs_id
                 }
-                console.log(obj.backlogs_id)
                 var data = JSON.stringify(obj)
                 channel.put({
                     url:"json/zg/backlog/",
@@ -136,10 +139,12 @@
                             console.log()
                             var li = innhtml(j.inttitle,j.inttime,data_list)
                             $('.generate_log_plan_box').append(li)
-                            del()
                             var plan = $(".new_plan").find(".fix_plan_save")
                                 plan.attr("class","new_plan_save")
+                                editor()
+                                del()
                             }
+                            
                     }
                 })
                 cancel()
@@ -151,9 +156,11 @@
                 }
                 var li = innhtml(j.inttitle,j.inttime,data)
                 $('.generate_log_plan_box').append(li)
-                cancel()
                 var plan = $(".new_plan").find(".fix_plan_cancel")
                     plan.attr("class","new_plan_cancel")
+                editor()
+                del()
+                cancel()
             })
             $(".generate_log_submit").on("click",function(e){
                 var accomplish= $(".generate_log_finished_text").val()
