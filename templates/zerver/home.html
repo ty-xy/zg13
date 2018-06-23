@@ -128,6 +128,9 @@
         </div>
         <div class="create_generate_log" id="try-log">
         </div>
+        <div class="modal-log">
+            {% include "zerver/choose.html" %}
+        </div>  
         <!-- <div class="create_generate_log">
               <div class="generate_log_left">
                     <ul class="generate_log_sliber">
@@ -273,128 +276,7 @@
                 </li> -->
         </ul>
         <!-- 任务详情 -->
-       <!-- <div class="taskdetail_md">
-            <div class="taskdetail_box">    
-                <div class="taskdetail_head">
-                    <p class="taskdetail_title">任务详情</p>
-                    <p class="taskdetail_deleteone">删除</p>
-                    <i class="iconfont icon-guanbiUI taskdetail_close"></i>
-                </div>  
-                <div class="taskdetail_ctn">
-                    <input type="checkbox" class="taskdetail_state" id="taskdetail_check">
-                    <p class="taskdetail_list">落实员工薪资发放问题，并制定详细的考勤制度</p>
-                </div>
-                <textarea name="" id="taskdetail_addnote" cols="30" rows="10" placeholder="添加备注..."></textarea>
-                <i class="taskdetail_lineA"></i>
-                <div class="taskdetail_date_box">
-                    <i class="iconfont icon-riqi set_date_icon"></i>
-                    <p class="taskdetail_set">设定日期</p>
-                </div>
-                <div class="taskdetail_selection">
-                    <div class="taskdetail_selection_left">
-                        <p class="taskdetail_startdate">任务开始时间</p>
-                        <div class="input-append date" id="taskstart_datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
-                                <input class="new_task_date" size="16" type="text" value="" readonly placeholder="请选择日期...">  
-                                <span class="add-on select_date_icon">
-                                    <i data-date-icon="icon-calendar" class="icon-calendar iconfont icon-riqi"></i>
-                                </span>  
-                        </div>
-                    </div>
-                    <div class="taskdetail_selection_right">
-                        <p>任务截止时间</p>
-                        <div class="input-append date" id="taskstop_datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
-                                <input class="new_task_date" size="16" type="text" value="" readonly placeholder="请选择日期...">  
-                                <span class="add-on select_date_icon">
-                                    <i data-date-icon="icon-calendar" class="icon-calendar iconfont icon-riqi"></i>
-                                </span>  
-                        </div>
-                    </div>
-                </div>
-                <i class="taskdetail_lineA"></i>
-                <div class="taskdetail_upfile_box">
-                    <i class="iconfont icon-fujian1 upfile_icon"></i>
-                    <p class="taskdetail_addattachment">添加附件</p>
-                    <p class="taskdetail_upfile">上传文件</p>
-                </div>
-                <ul class="taskdetail_attachment_box">
-                    <li class="taskdetail_attachment">
-                        <div class="taskdetail_attachment_left">
-                            <img src="../../static/img/pnglogo.png" alt="">
-                            <p>工程项目报表.jpg</p>
-                            <p>
-                                <span>3.29MB</span>
-                                <span>09:31</span>
-                            </p>
-                        </div>
-                        <div class="taskdetail_attachment_right">
-                            <span class="taskdetail_download">下载</span>
-                            <span class="taskdetail_delete">删除</span>
-                        </div>
-                    </li>
-                    <li class="taskdetail_attachment">
-                        <div class="taskdetail_attachment_left">
-                            <img src="../../static/img/pnglogo.png" alt="">
-                            <p>工程项目报表.jpg</p>
-                            <p>
-                                <span>3.29MB</span>
-                                <span>09:31</span>
-                            </p>
-                        </div>
-                        <div class="taskdetail_attachment_right">
-                            <span class="taskdetail_download">下载</span>
-                            <span class="taskdetail_delete">删除</span>
-                        </div>
-                    </li>
-                </ul>
-                <div class="taskdetail_records_box">
-                    <div>
-                        操作记录
-                    </div>
-                    <ul class="taskdetail_records">
-                        <li>
-                            <i></i>
-                            <p class="taskdetail_text">
-                                <span>创建了任务</span>
-                                <span>5月11日</span>
-                            </p>
-                        </li>
-                        <li>
-                                <i></i>
-                                <p class="taskdetail_text">
-                                    <span>创建了任务</span>
-                                    <span>5月11日</span>
-                                </p>
-                        </li>
-                        <li>
-                                <i></i>
-                                <p class="taskdetail_text">
-                                    <span>创建了任务</span>
-                                    <span>5月11日</span>
-                                </p>
-                        </li>
-                    </ul>
-                </div>
-                <div class="taskdetail_tips_box">
-                        <div class="taskdetail_tips_title">
-                            <p>操作提示</p>
-                            <i class="iconfont icon-guanbiUI taskdetail_tips_close"></i>
-                        </div>
-                        <div class="taskdetail_tips_ctn">
-                            该任务将永久删除
-                        </div>
-                        <div class="taskdetail_tips_btn">
-                            <div class="taskdetail_tips_cancel">
-                                取消
-                            </div>
-                            <div class="taskdetail_tips_confirm">
-                                确认
-                            </div>
-                        </div>
-                    </div>
-            </div>
-            
-       </div> -->
-         <!-- 任务详情 -->
+      
     </div>
     
     
@@ -418,3 +300,4 @@
 {% include "zerver/compose.html" %}
 <div id="notifications-area">
 </div>
+

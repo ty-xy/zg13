@@ -9,7 +9,22 @@
     position: absolute;
     left: 400px;
     top: 140px;
-    display: none;
+    display: none; 
+}
+#peple-choose,.choose-teams{
+    background: #FFFFFF;
+    box-shadow: 0 1px 10px 0 rgba(204,204,204,0.30);
+    border-radius: 1px;
+    width:540px;
+    height:473px;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left:0;
+    top:0;
+    bottom:0;
+    right:0;
+    margin:auto;
 }
 .choose-header{
    width:100%;
@@ -106,7 +121,7 @@ input[type="checkbox"]{
 }
 .button-bottom{
     position: absolute;
-    bottom:-136px;
+    bottom:30px;
     left:59px
 }
 .button-anniu{

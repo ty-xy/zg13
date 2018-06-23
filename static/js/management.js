@@ -70,9 +70,22 @@
                 overdue_list:data.overdue_list
             }));
             $('.create_generate_log').append(rendered);
-            $("#management_ctn .generate_log_close").on("click",function(e){
-                $("#management_ctn .create_generate_log").hide();
-                $('.create_generate_log').empty()   
+          
+            //  $("#create_log_de").on("click",function(e){
+        
+            $("#management_ctn").on("click",".create_generate_log",function(e){
+            // console.log("修改成功")
+                 if(e.target.className==="create_generate_log"){
+                     $(".create_generate_log").hide();
+                     $('.create_generate_log').empty() 
+                 }else{
+                    return 
+                 }
+             })
+            $("#management_ctn ").on("click",".generate_log_close",function(e){
+                // $("#management_ctn .create_generate_log").hide();
+                $(".create_generate_log").hide();
+                $('.create_generate_log').empty() 
              });
             $('#newplan_datetimepicker').datetimepicker({  
                 language:"zh-CN",  
@@ -178,8 +191,17 @@
             $('.new_plan').on('click',".new_plan_cancel",function(e){
                 cancel()
             })
-            
-          
+            $('.add_log_people').on("click",".generate_log_member_addlogo",function(e){
+                channel.get({
+                    url:"json/zg/v1/stream/recipient/data",
+                    success:function(data){
+                        if(data.errno===0){
+                            console.log(data)
+                            $(".modal-log").show()
+                        }
+                    }
+                })
+            })
         }
         $(".generate_log").on("click",function(e){
              $(".create_generate_log").show();
@@ -189,21 +211,21 @@
                 success: function (data) {
                 if(data){
                      logClick(data)
+                     
                     }
                 },
             });
         })
-        
-
-
        
-        // $("#management_ctn").on("click",function(e){
+        // $("#create_log_de").on("click",function(e){
         //     // console.log("修改成功")
-        //     // e.preventDefault();
+        //     e.preventDefault();
         //     e.stopPropagation();
-        //     $(".create_generate_log").hide();
+        //     console.log(1231321)
         // })
+       
         
+       
         $(".create_daily").on("click",function(e){
             $(this).addClass("default_border").parent().siblings().children().removeClass("default_border");
         })
@@ -500,6 +522,7 @@
                     e.preventDefault();
                     $(".log_assistant_md").hide();
                     $(".app").css("overflow-y","scroll")
+                    $('.log_assistant_md').empty()   
                 })
                 //日志助手关闭
                 $(".log_assistant_close").on("click",function(e){
