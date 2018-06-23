@@ -539,7 +539,6 @@ function pick_empty_narrow_banner() {
     var first_operator = first_term.operator;
     var first_operand = first_term.operand;
     var num_operators = current_filter.operators().length;
-    console.log(num_operators,first_term)
     if (num_operators !== 1) {
         // For multi-operator narrows, we just use the default banner
         return default_banner;

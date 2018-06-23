@@ -3149,6 +3149,9 @@ div.topic_edit_spinner .loading_indicator_spinner {
     margin-right: 10px;
     line-height: 50px;
 }
+.overdue{
+    color: red!important;
+}
 .add_checkbox{
     float: left;
     background: #FFFFFF;
@@ -3248,6 +3251,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
 } */
 .new_task{
     overflow: hidden;
+    margin-left: 10px;
 }
 .new_task>input{
     float: left;

@@ -406,14 +406,6 @@ v1_api_and_json_patterns = [
 # import zerver.views.streams
 i18n_urls = [
 
-    # 获取个人列表
-    # url(r'^zg/api/v1/person1$', zerver.views.streams.person_list),
-    # 表
-
-
-
-
-
 
     url(r'^$', zerver.views.home.home, name='zerver.views.home.home'),
     # We have a desktop-specific landing page in case we change our /
