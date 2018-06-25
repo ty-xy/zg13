@@ -188,9 +188,24 @@
                     var ids= $(this).attr('data_id')
                     list.push(ids)
                 })
-                var arr = list.toString()
-                console.log(list,arr)
+                // var arr = list.toString()
+                console.log(list)
                 console.log(accomplish,underway,overdue)
+                 var paramas ={
+                    accomplish:accomplish,
+                    underway:underway,
+                    overdue:overdue,
+                    backlog_list:list,
+                    send_list:[27]
+                 }
+                 console.log(paramas)
+                 channel.post({
+                        url:"json/zg/v1/table",
+                        data:JSON.stringify(paramas),
+                        success:function(data){
+                            console.log(data)
+                        }
+                 })
             })
             $('.new_plan').on('click',".new_plan_cancel",function(e){
                 cancel()
@@ -217,17 +232,20 @@
                         })
                         $(".box-list-left").on("click",".choose-check",function(e){
                             var inputid= Number($(this).attr("inputid"))
+                            // $(".modal-log-content").empty()
                             if($(this).is(":checked")){
                                 channel.get({
                                     url:"json/zg/v1/stream/recipient/data",
                                     success:function(data){
                                         if(data.errno===0){
-                                            var li = $(templates.render('choose_people',{
-                                                data:data.streams_dict[id]
+                                             console.log(data)
+                                            var li = $(templates.render('choose_person',{
+                                                datalist:data.streams_dict[inputid],
                                             }));
-                                            $(".modal-log-content").append(li)
+                                            // console.log((".box-right-list").length)
+                                            $(".box-right-list").append(li)
                                             $(".button-cancel").on("click",function(e){
-                                                $(".choose-teams-list").remove()
+                                                $(".box-right-list").remove()
                                             })
                                         }
                                     }

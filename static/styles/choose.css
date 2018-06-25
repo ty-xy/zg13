@@ -16,7 +16,7 @@
     box-shadow: 0 1px 10px 0 rgba(204,204,204,0.30);
     border-radius: 1px;
     width:540px;
-    height:473px;
+    min-height:473px;
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -24,6 +24,8 @@
     /* top:25%; */
     top:25%;
     left:19%;
+    bottom:10%;
+    overflow: auto;
     padding-bottom:10px;
     box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(0, 0, 0, 0.3);

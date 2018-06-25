@@ -199,7 +199,7 @@ def table_view(request, user_profile):
                 StatementAccessory.objects.create(statement_accessory_url=statement_accessory_dict['url'],
                                                   accessory_size=statement_accessory_dict['size'],
                                                   accessory_name=statement_accessory_dict['name'],
-                                                  Statement_id=a)
+                                                  statement_id=a)
         if send:
             b = time.time()
             for staff in send:
