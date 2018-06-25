@@ -180,7 +180,7 @@
                 cancel()
             })
             $(".generate_log_submit").on("click",function(e){
-                var accomplish= $(".generate_log_finished_text").val()
+                var accomplish= $(".generate_log_finished_text").text()
                 var underway  =$(".generate_log_unfinished_text").val()
                 var overdue = $(".generate_log_pdfinished_text").val()
                 var list = []
@@ -192,16 +192,19 @@
                 console.log(list)
                 console.log(accomplish,underway,overdue)
                  var paramas ={
-                    accomplish:accomplish,
-                    underway:underway,
-                    overdue:overdue,
+                    accomplish:$.trim(accomplish),
+                    underway:$.trim(underway),
+                    overdue:$.trim(overdue),
                     backlog_list:list,
-                    send_list:[27]
+                    send_list:[27],
+                    date_type:"day"
                  }
                  console.log(paramas)
                  channel.post({
                         url:"json/zg/v1/table",
                         data:JSON.stringify(paramas),
+                        // idempotent: true,
+                        contentType:"application/json",
                         success:function(data){
                             console.log(data)
                         }
