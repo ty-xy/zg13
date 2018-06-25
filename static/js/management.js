@@ -216,7 +216,30 @@
             $("#search_query").val("");
         })
 
-        
+        function updata(){
+            $.ajax({
+                type:"GET",
+                url:"json/zg/backlog",
+                success:function(res){
+                    $(".todo_box").children().remove();
+                    var backlog_list = res.backlog_list
+                    var past_due_list = res.past_due_list
+                    var html_li = templates.render("todo_box_li",{backlog_list:backlog_list,past_due_list:past_due_list});
+                    $(".todo_box").append(html_li)
+                }
+            })
+            $.ajax({
+                type:"GET",
+                url:"json/zg/backlog/accomplis",
+                data:{page:1},
+                success:function(rescompleted){
+                    $(".completed_box").children().remove();
+                    var completed_data = rescompleted.accomplis_backlog_list
+                    var html_completed = templates.render("completed_li",{completed_data:completed_data})
+                    $(".completed_box").append(html_completed);
+                }
+            })
+        }
         $(".new_task_save").on("click",function(e){
             var inttitle = $(".create_tasttitle").val();
             var inttime = $(".create_taskdate").val();
@@ -248,25 +271,28 @@
                                 if(response.errno == 3){
                                     console.log(response.message)
                                 }
-                                var new_append_task;
-                                var new_append_over_time;
-                                var new_append_id;
-                                for(var key in response.backlog_list){
-                                    new_append_id = response.backlog_list[0].backlog_id
-                                    new_append_task = response.backlog_list[0].task
-                                    new_append_over_time = response.backlog_list[0].over_time
-                                }
-                                $(".todo_box").prepend("<li class='todo'>\
-                                <div class='todo_left'>\
-                                        <input type='checkbox' class='add_checkbox'>\
-                                        <p class='add_ctn' inputid="+new_append_id+" taskid="+new_append_id+">"+new_append_task+"</p>\
-                                </div>\
-                                <div class='todo_right'>\
-                                        <i class='iconfont icon-beizhu note_icon'></i>\
-                                        <i class='iconfont icon-fujian1 attachment_icon' id='file-inputs'></i>\
-                                        <p class='add_datatime'>"+new_append_over_time+"</p>\
-                                </div>\
-                            </li>")
+                            //     var new_append_task;
+                            //     var new_append_over_time;
+                            //     var new_append_id;
+                            //     for(var key in response.backlog_list){
+                            //         new_append_id = response.backlog_list[0].backlog_id
+                            //         new_append_task = response.backlog_list[0].task
+                            //         new_append_over_time = response.backlog_list[0].over_time
+                            //     }
+                            //     $(".todo_box").prepend("<li class='todo'>\
+                            //     <div class='todo_left'>\
+                            //             <input type='checkbox' class='add_checkbox'>\
+                            //             <p class='add_ctn' inputid="+new_append_id+" taskid="+new_append_id+">"+new_append_task+"</p>\
+                            //     </div>\
+                            //     <div class='todo_right'>\
+                            //             <i class='iconfont icon-beizhu note_icon'></i>\
+                            //             <i class='iconfont icon-fujian1 attachment_icon' id='file-inputs'></i>\
+                            //             <p class='add_datatime'>"+new_append_over_time+"</p>\
+                            //     </div>\
+                            // </li>")
+                            //测试方案2
+                            updata()
+                            //测试方案2
                         $(".new_task_title").val("");
                         $(".new_task_date").val("");
                         var backlog_id;
@@ -542,30 +568,37 @@
                 $(".log_assistant_md").css("overflow","auto");
                 $(".log_assistant_md").show();
                 $(".app").css("overflow-y","hidden");
+                var receive_table_list = [];
                 $.ajax({
                     type:"GET",
                     url:"json/zg/v1/my/receive",
                     contentType:"application/json",
                     success:function(res){
+                        receive_table_list = res.receive_table_list;
+                        console.log(receive_table_list)
+                        console.log(res)
+                        console.log(res.message)
                         // console.log(res)
                         // console.log("hellonhdfvjkbojs")
                                     //日志助手 我发出的
-                        $(".log_assistant_send").on("click",function(e){
-                            e.stopPropagation();
-                            e.preventDefault();
-                            $.ajax({
-                                type:"GET",
-                                url:"json/zg/v1/my/send",
-                                contentType:"application/json",
-                                success:function(res){
-                                    console.log(res)
-                                    console.log("hellonhdfvjkbojs")
-                                }
-                            })
-                        })
+                        // $(".log_assistant_send").on("click",function(e){
+                        //     e.stopPropagation();
+                        //     e.preventDefault();
+                        //     $.ajax({
+                        //         type:"GET",
+                        //         url:"json/zg/v1/my/send",
+                        //         contentType:"application/json",
+                        //         success:function(res){
+                        //             receive_table_list = res;
+                        //             console.log(res)
+                        //             console.log("hellonhdfvjkbojs")
+                        //         }
+                        //     })
+                        // })
                     }
                 })
-       
+                console.log(receive_table_list)
+                console.log("hello")
                 var html = templates.render("log_assistant_box")
                 $(".app").after(html)
                 // $(".log_assistant_md").remove();
