@@ -26,6 +26,9 @@
             </li>"
             return li 
         }
+        function fetch_data(){
+            
+        }
         function del(){
             $('.generate_log_plan_ctn ').on('click',".generate_log_plan_delete",function(e){
                 e.preventDefault()
@@ -192,24 +195,69 @@
             $('.new_plan').on('click',".new_plan_cancel",function(e){
                 cancel()
             })
+           
             $('.add_log_people').on("click",".generate_log_member_addlogo",function(e){
+                $(".modal-log").show()
+                var list = []
                 channel.get({
-                    url:"json/zg/v1/stream/recipient/data",
+                    url:"json/streams",
                     success:function(data){
-                        if(data.errno===0){
-                            console.log(data)
-                            $(".modal-log").show()
-                        }
+                        data.streams.forEach(function(el,i){
+                             list[el.stream_id]=el.name
+                        })
+                        var rendered = $(templates.render('choose',{
+                            data:list
+                        }));
+                        $(".modal-log-content").append(rendered)
+                        $(".button-cancel").on("click",function(e){
+                        $(".modal-log").hide()
+                        })
+                        $(".button-confirm").on("click",function(e){
+                            $(".modal-log").hide()
+                        })
+                        $(".box-list-left").on("click",".choose-check",function(e){
+                            var inputid= Number($(this).attr("inputid"))
+                            if($(this).is(":checked")){
+                                channel.get({
+                                    url:"json/zg/v1/stream/recipient/data",
+                                    success:function(data){
+                                        if(data.errno===0){
+                                            var li = $(templates.render('choose_people',{
+                                                data:data.streams_dict[id]
+                                            }));
+                                            $(".modal-log-content").append(li)
+                                            $(".button-cancel").on("click",function(e){
+                                                $(".choose-teams-list").remove()
+                                            })
+                                        }
+                                    }
+                                })
+                            }
+                       })
+                        $(".button-right").on("click",function(e){
+                             var id = $(this).attr('button-key')
+                             channel.get({
+                                url:"json/zg/v1/stream/recipient/data",
+                                success:function(data){
+                                    if(data.errno===0){
+                                        var li = $(templates.render('choose_people',{
+                                            data:data.streams_dict[id]
+                                        }));
+                                        $(".modal-log-content").append(li)
+                                        $(".button-cancel").on("click",function(e){
+                                            $(".choose-teams-list").remove()
+                                        })
+                                    }
+                                }
+                            })
+                        })
                     }
                 })
+                console.log(list)
+                
             })
         }
-        $(".button-cancel").on("click",function(e){
-            $(".modal-log").hide()
-        })
-        $(".button-confirm").on("click",function(e){
-            $(".modal-log").hide()
-        })
+     
         $(".generate_log").on("click",function(e){
              $(".create_generate_log").show();
             channel.get({

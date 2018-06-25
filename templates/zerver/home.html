@@ -45,7 +45,6 @@
             start the conversation</a>?
             {% endtrans %}
         </p>
-        <!-- {% include "zerver/choose.html" %} -->
     </div>
     <div id="empty_narrow_private_message" class="empty_feed_notice">
         <h4>{{ _('You have no private messages with this person yet!') }}</h4>
@@ -128,8 +127,8 @@
         </div>
         <div class="create_generate_log" id="try-log">
         </div>
-        <div class="modal-log">
-            {% include "zerver/choose.html" %}
+        <div class="modal-log" style="display:none">
+             <div class="modal-log-content"></div>
         </div>  
         <!-- <div class="create_generate_log">
               <div class="generate_log_left">

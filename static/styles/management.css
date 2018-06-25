@@ -820,10 +820,6 @@ ul{
     right:0;
     margin:auto;
     z-index: 1000;
-    margin-left: -650px;
-    margin-top: -400px;
-    /* overflow: hidden; */
-    /* display: none; */
 }
 .log_assistant_left{
     width: 200px;
@@ -1262,8 +1258,11 @@ ul{
     left: 0;
     top: 0;
     z-index: 1000;
-    /* display: flex; */
     height: 1080px;
     overflow: auto;
-    display: none;
+}
+.modal-log-conent{
+    width: inherit;
+    height: inherit;
+    display: flex;
 }
