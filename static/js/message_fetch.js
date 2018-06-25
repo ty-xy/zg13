@@ -204,6 +204,65 @@ exports.load_messages = function (opts) {
                                         backlog_id:id,
                                         task_details:"",
                                     }
+                                    upload.feature_check($("#file_choose #attach_files"));
+                                    $("#file_choose").on("click", "#attach_files", function (e) {
+                                       // e.preventDefault();
+                                       $("#file_choose #file_inputs").trigger("click");
+                                   });
+                                   function make_upload_absolute(uri) {
+                                       if (uri.indexOf(compose.uploads_path) === 0) {
+                                           // Rewrite the URI to a usable link
+                                           console.log(compose.uploads_path,compose.uploads_domain)
+                                           return compose.uploads_domain + uri;
+                                       }
+                                       return uri;
+                                   }
+                                   var uploadFinished = function (i, file, response) {
+                                       if (response.uri === undefined) {
+                                           return;
+                                       }
+                                       var split_uri = response.uri.split("/");
+                                       var filename = split_uri[split_uri.length - 1];
+                                       var uri = make_upload_absolute(response.uri);
+                                       var size = (file.size/1024/1024).toFixed(2)
+                                       console.log(uri,filename,file,response)
+                                       if(i != -1){
+                                           var li =  
+                                           "<li class='taskdetail_attachment'>\
+                                           <div class='taskdetail_attachment_left'>\
+                                               <img src='../../static/img/pnglogo.png' alt=''>\
+                                               <p>"+filename+"</p>\
+                                               <p>\
+                                                   <span>"+size+"MB</span>\
+                                                   <span>09:31</span>\
+                                               </p>\
+                                           </div>\
+                                           <div class='taskdetail_attachment_right'>\
+                                               <span class='taskdetail_download'>下载</span>\
+                                               <span class='taskdetail_delete'>删除</span>\
+                                           </div>\
+                                       </li>"
+                                           $(".taskdetail_attachment_box").append(li)
+                                       }
+                                   };
+                                   $("#file_choose").filedrop({
+                                       url: "/json/user_uploads",
+                                       fallback_id: 'file_inputs',  // Target for standard file dialog
+                                       paramname: "file",
+                                       maxfilesize: page_params.maxfilesize,
+                                       data: {
+                                           // the token isn't automatically included in filedrop's post
+                                           csrfmiddlewaretoken: csrf_token,
+                                       },
+                                       // raw_droppable: ['text/uri-list', 'text/plain'],
+                                       // drop: drop,
+                                       // progressUpdated: progressUpdated,
+                                       // error: uploadError,
+                                       uploadFinished: uploadFinished,
+                                    //    afterAll:function(contents){
+                                    //        console.log(contents,321312)
+                                    //    }
+                                   })
                                     $("textarea[name='"+id+"']").on("blur",function(e){
                                         obj_backlog_details.task_details = $("textarea[name='"+id+"']").val();
                                         var backlog_details = JSON.stringify(obj_backlog_details)

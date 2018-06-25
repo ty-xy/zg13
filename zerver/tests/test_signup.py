@@ -2521,7 +2521,7 @@ class TestFindMyTeam(ZulipTestCase):
     def test_find_team_zero_emails(self) -> None:
         data = {'emails': ''}
         result = self.client_post('/accounts/find/', data)
-        self.assertIn('This field is required', result.content.decode('utf8'))
+        self.assertIn('这个区域是必填项', result.content.decode('utf8'))
         self.assertEqual(result.status_code, 200)
         from django.core.mail import outbox
         self.assertEqual(len(outbox), 0)
