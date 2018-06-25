@@ -542,16 +542,30 @@
                 $(".log_assistant_md").css("overflow","auto");
                 $(".log_assistant_md").show();
                 $(".app").css("overflow-y","hidden");
-                // $.ajax({
-                //     type:"GET",
-                //     url:"json/zg/receive/table",
-                //     contentType:"application/json",
-                //     success:function(res){
-                //         console.log(res)
-
-                //     }
-                // })
-                
+                $.ajax({
+                    type:"GET",
+                    url:"json/zg/v1/my/receive",
+                    contentType:"application/json",
+                    success:function(res){
+                        // console.log(res)
+                        // console.log("hellonhdfvjkbojs")
+                                    //日志助手 我发出的
+                        $(".log_assistant_send").on("click",function(e){
+                            e.stopPropagation();
+                            e.preventDefault();
+                            $.ajax({
+                                type:"GET",
+                                url:"json/zg/v1/my/send",
+                                contentType:"application/json",
+                                success:function(res){
+                                    console.log(res)
+                                    console.log("hellonhdfvjkbojs")
+                                }
+                            })
+                        })
+                    }
+                })
+       
                 var html = templates.render("log_assistant_box")
                 $(".app").after(html)
                 // $(".log_assistant_md").remove();
