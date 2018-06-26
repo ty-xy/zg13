@@ -26,6 +26,9 @@
             </li>"
             return li 
         }
+        function fetch_data(){
+            
+        }
         function del(){
             $('.generate_log_plan_ctn ').on('click',".generate_log_plan_delete",function(e){
                 e.preventDefault()
@@ -39,17 +42,11 @@
                     url: 'json/zg/backlog/',
                     idempotent: true,
                     data:data_id,
-                    // success:(data)=>{
-                    //    if(data.errno===0){
-                    //     // var li  = "."+(that.parent().parent()).attr("class")
-                    //     that.parent().parent().remove()
-                    //    }
-                    // }
                     success:function(data){
-                        if(data.errno==0){
-                                // var li  = "."+(that.parent().parent()).attr("class")
-                                that.parent().parent().remove()
-                        }
+                       if(data.errno===0){
+                        // var li  = "."+(that.parent().parent()).attr("class")
+                        that.parent().parent().remove()
+                       }
                     }
                 })
             })
@@ -76,9 +73,22 @@
                 overdue_list:data.overdue_list
             }));
             $('.create_generate_log').append(rendered);
-            $("#management_ctn .generate_log_close").on("click",function(e){
-                $("#management_ctn .create_generate_log").hide();
-                $('.create_generate_log').empty()   
+          
+            //  $("#create_log_de").on("click",function(e){
+        
+            $("#management_ctn").on("click",".create_generate_log",function(e){
+            // console.log("修改成功")
+                 if(e.target.className==="create_generate_log"){
+                     $(".create_generate_log").hide();
+                     $('.create_generate_log').empty() 
+                 }else{
+                    return 
+                 }
+             })
+            $("#management_ctn ").on("click",".generate_log_close",function(e){
+                // $("#management_ctn .create_generate_log").hide();
+                $(".create_generate_log").hide();
+                $('.create_generate_log').empty() 
              });
             $('#newplan_datetimepicker').datetimepicker({  
                 language:"zh-CN",  
@@ -98,29 +108,33 @@
                             var li = innhtml(j.inttitle,j.inttime,data)
                             $('.generate_log_plan_box').append(li)
                             del()
-                            $('.generate_log_plan_ctn ').on('click',".generate_log_plan_editor",function(e){
-                                e.preventDefault()
-                                var that =$(this)
-                                console.log(that)
-                                var li  = "."+(that.parent().parent()).attr("class")
-                                var textval=  $(li).find(".text-inline").text()
-                                var textdate= $(li).find(".date-inline").text()
-                                $(".new_plan_title").val(textval);
-                                $(".create_taskdate").val(textdate);
-                                var fix_id = that.next().find(".data_id").prevObject.attr("data_id")
-                                $(li).remove()
-                                var plan = $(".new_plan").find(".new_plan_save")
-                                plan.attr("class","fix_plan_save")
-                                plan.attr("revise_id",fix_id)
-                                var cancel = $(".new_plan").find(".new_plan_cancel")
-                                cancel.attr("class","fix_plan_cancel")
-                                cancel.attr("revise_id",fix_id)
-                            })
+                            editor()
                         }
                     },
                 });
                 cancel()
             })
+            function editor(){
+                $('.generate_log_plan_ctn ').on('click',".generate_log_plan_editor",function(e){
+                    e.preventDefault()
+                    var that =$(this)
+                    console.log(that)
+                    var li  = "."+(that.parent().parent()).attr("class")
+                    var textval=  $(li).find(".text-inline").text()
+                    var textdate= $(li).find(".date-inline").text()
+                    $(".new_plan_title").val(textval);
+                    $(".create_taskdate").val(textdate);
+                    var fix_id = that.next().find(".data_id").prevObject.attr("data_id")
+                    $(li).remove()
+                    var plan = $(".new_plan").find(".new_plan_save")
+                    plan.attr("class","fix_plan_save")
+                    plan.attr("revise_id",fix_id)
+                    var cancel = $(".new_plan").find(".new_plan_cancel")
+                    cancel.attr("class","fix_plan_cancel")
+                    cancel.attr("revise_id",fix_id)
+                })
+            }
+       
             $(".new_plan ").on("click",'.fix_plan_save',function(e){
                 var j = plancommon()
                 var over_time = timestamp(j.inttime);
@@ -142,10 +156,12 @@
                             console.log()
                             var li = innhtml(j.inttitle,j.inttime,data_list)
                             $('.generate_log_plan_box').append(li)
-                            del()
                             var plan = $(".new_plan").find(".fix_plan_save")
                                 plan.attr("class","new_plan_save")
+                                editor()
+                                del()
                             }
+                            
                     }
                 })
                 cancel()
@@ -157,12 +173,14 @@
                 }
                 var li = innhtml(j.inttitle,j.inttime,data)
                 $('.generate_log_plan_box').append(li)
-                cancel()
                 var plan = $(".new_plan").find(".fix_plan_cancel")
                     plan.attr("class","new_plan_cancel")
+                editor()
+                del()
+                cancel()
             })
             $(".generate_log_submit").on("click",function(e){
-                var accomplish= $(".generate_log_finished_text").val()
+                var accomplish= $(".generate_log_finished_text").text()
                 var underway  =$(".generate_log_unfinished_text").val()
                 var overdue = $(".generate_log_pdfinished_text").val()
                 var list = []
@@ -170,16 +188,97 @@
                     var ids= $(this).attr('data_id')
                     list.push(ids)
                 })
-                var arr = list.toString()
-                console.log(list,arr)
+                // var arr = list.toString()
+                console.log(list)
                 console.log(accomplish,underway,overdue)
+                 var paramas ={
+                    accomplish:$.trim(accomplish),
+                    underway:$.trim(underway),
+                    overdue:$.trim(overdue),
+                    backlog_list:list,
+                    send_list:[27],
+                    date_type:"day"
+                 }
+                 console.log(paramas)
+                 channel.post({
+                        url:"json/zg/v1/table",
+                        data:JSON.stringify(paramas),
+                        // idempotent: true,
+                        contentType:"application/json",
+                        success:function(data){
+                            console.log(data)
+                        }
+                 })
             })
             $('.new_plan').on('click',".new_plan_cancel",function(e){
                 cancel()
             })
-            
-          
+           
+            $('.add_log_people').on("click",".generate_log_member_addlogo",function(e){
+                $(".modal-log").show()
+                var list = []
+                channel.get({
+                    url:"json/streams",
+                    success:function(data){
+                        data.streams.forEach(function(el,i){
+                             list[el.stream_id]=el.name
+                        })
+                        var rendered = $(templates.render('choose',{
+                            data:list
+                        }));
+                        $(".modal-log-content").append(rendered)
+                        $(".button-cancel").on("click",function(e){
+                        $(".modal-log").hide()
+                        })
+                        $(".button-confirm").on("click",function(e){
+                            $(".modal-log").hide()
+                        })
+                        $(".box-list-left").on("click",".choose-check",function(e){
+                            var inputid= Number($(this).attr("inputid"))
+                            // $(".modal-log-content").empty()
+                            if($(this).is(":checked")){
+                                channel.get({
+                                    url:"json/zg/v1/stream/recipient/data",
+                                    success:function(data){
+                                        if(data.errno===0){
+                                             console.log(data)
+                                            var li = $(templates.render('choose_person',{
+                                                datalist:data.streams_dict[inputid],
+                                            }));
+                                            // console.log((".box-right-list").length)
+                                            $(".box-right-list").append(li)
+                                            $(".button-cancel").on("click",function(e){
+                                                $(".box-right-list").remove()
+                                            })
+                                        }
+                                    }
+                                })
+                            }
+                       })
+                        $(".button-right").on("click",function(e){
+                             var id = $(this).attr('button-key')
+                             channel.get({
+                                url:"json/zg/v1/stream/recipient/data",
+                                success:function(data){
+                                    if(data.errno===0){
+                                        var li = $(templates.render('choose_people',{
+                                            data:data.streams_dict[id]
+                                        }));
+                                        $(".modal-log-content").append(li)
+                                        $(".button-cancel").on("click",function(e){
+                                            $(".choose-teams-list").remove()
+                                        })
+                                    }
+                                }
+                            })
+                        })
+                    }
+                })
+                console.log(list)
+                
+            })
         }
+     
         $(".generate_log").on("click",function(e){
              $(".create_generate_log").show();
             channel.get({
@@ -188,21 +287,21 @@
                 success: function (data) {
                 if(data){
                      logClick(data)
+                     
                     }
                 },
             });
         })
-        
-
-
        
-        // $("#management_ctn").on("click",function(e){
+        // $("#create_log_de").on("click",function(e){
         //     // console.log("修改成功")
-        //     // e.preventDefault();
+        //     e.preventDefault();
         //     e.stopPropagation();
-        //     $(".create_generate_log").hide();
+        //     console.log(1231321)
         // })
+       
         
+       
         $(".create_daily").on("click",function(e){
             $(this).addClass("default_border").parent().siblings().children().removeClass("default_border");
         })
@@ -216,7 +315,30 @@
             $("#search_query").val("");
         })
 
-        
+        function updata(){
+            $.ajax({
+                type:"GET",
+                url:"json/zg/backlog",
+                success:function(res){
+                    $(".todo_box").children().remove();
+                    var backlog_list = res.backlog_list
+                    var past_due_list = res.past_due_list
+                    var html_li = templates.render("todo_box_li",{backlog_list:backlog_list,past_due_list:past_due_list});
+                    $(".todo_box").append(html_li)
+                }
+            })
+            $.ajax({
+                type:"GET",
+                url:"json/zg/backlog/accomplis",
+                data:{page:1},
+                success:function(rescompleted){
+                    $(".completed_box").children().remove();
+                    var completed_data = rescompleted.accomplis_backlog_list
+                    var html_completed = templates.render("completed_li",{completed_data:completed_data})
+                    $(".completed_box").append(html_completed);
+                }
+            })
+        }
         $(".new_task_save").on("click",function(e){
             var inttitle = $(".create_tasttitle").val();
             var inttime = $(".create_taskdate").val();
@@ -248,28 +370,36 @@
                                 if(response.errno == 3){
                                     console.log(response.message)
                                 }
-                                var new_append_task;
-                                var new_append_over_time;
-                                var new_append_id;
-                                for(var key in response.backlog_list){
-                                    new_append_id = response.backlog_list[0].backlog_id
-                                    new_append_task = response.backlog_list[0].task
-                                    new_append_over_time = response.backlog_list[0].over_time
-                                }
-                                $(".todo_box").prepend("<li class='todo'>\
-                                <div class='todo_left'>\
-                                        <input type='checkbox' class='add_checkbox'>\
-                                        <p class='add_ctn' inputid="+new_append_id+" taskid="+new_append_id+">"+new_append_task+"</p>\
-                                </div>\
-                                <div class='todo_right'>\
-                                        <i class='iconfont icon-beizhu note_icon'></i>\
-                                        <i class='iconfont icon-fujian1 attachment_icon' id='file-inputs'></i>\
-                                        <p class='add_datatime'>"+new_append_over_time+"</p>\
-                                </div>\
-                            </li>")
+                            //     var new_append_task;
+                            //     var new_append_over_time;
+                            //     var new_append_id;
+                            //     for(var key in response.backlog_list){
+                            //         new_append_id = response.backlog_list[0].backlog_id
+                            //         new_append_task = response.backlog_list[0].task
+                            //         new_append_over_time = response.backlog_list[0].over_time
+                            //     }
+                            //     $(".todo_box").prepend("<li class='todo'>\
+                            //     <div class='todo_left'>\
+                            //             <input type='checkbox' class='add_checkbox'>\
+                            //             <p class='add_ctn' inputid="+new_append_id+" taskid="+new_append_id+">"+new_append_task+"</p>\
+                            //     </div>\
+                            //     <div class='todo_right'>\
+                            //             <i class='iconfont icon-beizhu note_icon'></i>\
+                            //             <i class='iconfont icon-fujian1 attachment_icon' id='file-inputs'></i>\
+                            //             <p class='add_datatime'>"+new_append_over_time+"</p>\
+                            //     </div>\
+                            // </li>")
+                            //测试方案2
+                            updata()
+                            //测试方案2
                         $(".new_task_title").val("");
                         $(".new_task_date").val("");
                         var backlog_id;
+                        $("#file_choose").on("click", "#file_inputs", function (e) {
+                            // e.preventDefault();
+                            // $("#file-choose #file_inputs").trigger("click");
+                            console.log(4444)
+                        });
                         $(".add_ctn").on("click",function(e){
                             $(".taskdetail_md").show();
                             $(".app").css("overflow-y","hidden");
@@ -542,16 +672,37 @@
                 $(".log_assistant_md").css("overflow","auto");
                 $(".log_assistant_md").show();
                 $(".app").css("overflow-y","hidden");
-                // $.ajax({
-                //     type:"GET",
-                //     url:"json/zg/receive/table",
-                //     contentType:"application/json",
-                //     success:function(res){
-                //         console.log(res)
-
-                //     }
-                // })
-                
+                var receive_table_list = [];
+                $.ajax({
+                    type:"GET",
+                    url:"json/zg/v1/my/receive",
+                    contentType:"application/json",
+                    success:function(res){
+                        receive_table_list = res.receive_table_list;
+                        console.log(receive_table_list)
+                        console.log(res)
+                        console.log(res.message)
+                        // console.log(res)
+                        // console.log("hellonhdfvjkbojs")
+                                    //日志助手 我发出的
+                        // $(".log_assistant_send").on("click",function(e){
+                        //     e.stopPropagation();
+                        //     e.preventDefault();
+                        //     $.ajax({
+                        //         type:"GET",
+                        //         url:"json/zg/v1/my/send",
+                        //         contentType:"application/json",
+                        //         success:function(res){
+                        //             receive_table_list = res;
+                        //             console.log(res)
+                        //             console.log("hellonhdfvjkbojs")
+                        //         }
+                        //     })
+                        // })
+                    }
+                })
+                console.log(receive_table_list)
+                console.log("hello")
                 var html = templates.render("log_assistant_box")
                 $(".app").after(html)
                 // $(".log_assistant_md").remove();
@@ -562,12 +713,14 @@
                     $(".log_assistant_md").hide();
                     $(".log_assistant_md").remove();
                     $(".app").css("overflow-y","scroll")
+                    $('.log_assistant_md').empty()   
                 })
                 //日志助手关闭
                 $(".log_assistant_close").on("click",function(e){
                     $(".log_assistant_md").hide();
                     $(".log_assistant_md").remove();
                     $(".app").css("overflow-y","scroll")
+                    $('.log_assistant_md').empty()   
                 })
                 //日志助手阻止冒泡
                 $(".log_assistant_box").on("click",function(e){

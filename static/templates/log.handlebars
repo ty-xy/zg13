@@ -26,20 +26,20 @@
             {{/each}}
         </textarea>
         <div class="generate_log_unfinished">
-             待完成:
+             未完成:
         </div>
         <textarea class="generate_log_unfinished_text">
-            {{#each underway_list}}
+            {{#each overdue_list}}
             {{@key}}:{{this}}
             {{/each}}
         </textarea>
         <div class="generate_log_pdfinished">
-             未完成:
+             进行中:
         </div>
         <textarea class="generate_log_pdfinished_text">
-            {{#each overdue_list}}
-            {{@key}}:{{this}}
-            {{/each}}
+             {{#each underway_list}}
+             {{@key}}:{{this}}
+             {{/each}}
         </textarea>
         <div class="generate_log_plan">
                 计划（添加任务后，自动生成待办事项）:
@@ -96,7 +96,7 @@
                 </div>
                 <p class="generate_log_member_name">李俊伟</p>
             </li>
-            <li>
+            <li class="add_log_people">
                 <div class="generate_log_member_addlogo">
                     <img src="../../static/img/add.png" alt="">
                 </div>
@@ -107,5 +107,8 @@
             提交
         </div>
     </div>
-    </div>      
+    </div>
+    
 </div>
+
+

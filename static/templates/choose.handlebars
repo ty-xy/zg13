@@ -1,4 +1,4 @@
-<div id="people-choose" class="choose-team">
+<div id="people-choose" class="choose-teams">
     <div class="choose-header">
         选择发送人
     </div>
@@ -13,7 +13,16 @@
                <span>全选</span>
             </div>
             <ul class="box-left-list">
-                <li class="input-box-list">
+                {{#each data}}
+                 <li class="input-box-list">
+                    <div class="box-list-left">
+                        <input type="checkbox"  inputid={{@key}} class="choose-check"/>
+                        <span>{{this}}</span>
+                    </div>
+                    <button class="button-right" button-key={{@key}}>下级</button>
+                </li>
+                 {{/each}}
+                {{!-- <li class="input-box-list">
                     <div class="box-list-left">
                         <input type="checkbox"/>
                         <span>设计组</span>
@@ -40,7 +49,7 @@
                         <span>测试组</span>
                     </div>
                     <button class="button-right">下级</button>
-                </li>
+                </li> --}}
             </ul>
         </div>
         <div class="choose-right-list">
@@ -48,42 +57,8 @@
                 <div>已选(5)</div>
                 <button class="button-right">清空</button>
             </div>
-            <ul class="box-left-list">
-                <li class="input-box-list box-list-right">
-                        <div class="box-list-left">
-                            <input type="checkbox"/>
-                            <span>李俊伟</span>
-                        </div>
-                        <button class="button-right">删除</button>
-                </li>
-                <li class="input-box-list box-list-right">
-                        <div class="box-list-left">
-                            <input type="checkbox"/>
-                            <span>刘凯瑞</span>
-                        </div>
-                        <button class="button-right">删除</button>
-                </li>
-                <li class="input-box-list box-list-right">
-                        <div class="box-list-left">
-                            <input type="checkbox"/>
-                            <span>颜如晶</span>
-                        </div>
-                        <button class="button-right">删除</button>
-                </li>
-                <li class="input-box-list box-list-right">
-                        <div class="box-list-left">
-                            <input type="checkbox"/>
-                            <span>大王</span>
-                        </div>
-                        <button class="button-right">删除</button>
-                </li>
-                <li class="input-box-list box-list-right">
-                        <div class="box-list-left">
-                            <input type="checkbox"/>
-                            <span>臧鸿飞</span>
-                        </div>
-                        <button class="button-right">删除</button>
-                </li>
+            <ul class="box-left-list box-right-list">
+              
             </ul>
            <div class="button-bottom">
                <button class="button-anniu button-cancel">取消</button>
