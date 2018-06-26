@@ -84,27 +84,16 @@
                         操作记录
                     </div>
                     <ul class="taskdetail_records">
+                        {{#each update_backlog_list}}
                         <li>
                             <i></i>
-                            <p class="taskdetail_text">
+                            {{!-- <p class="taskdetail_text">
                                 <span>创建了任务</span>
                                 <span>5月11日</span>
-                            </p>
+                            </p> --}}
+                            <p class="taskdetail_text">{{@key}}:{{this}}</p>
                         </li>
-                        <li>
-                                <i></i>
-                                <p class="taskdetail_text">
-                                    <span>创建了任务</span>
-                                    <span>5月11日</span>
-                                </p>
-                        </li>
-                        <li>
-                                <i></i>
-                                <p class="taskdetail_text">
-                                    <span>创建了任务</span>
-                                    <span>5月11日</span>
-                                </p>
-                        </li>
+                        {{/each}}
                     </ul>
                 </div>
                 <div class="taskdetail_tips_box">

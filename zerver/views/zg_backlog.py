@@ -180,33 +180,41 @@ def table_view(request, user_profile):
     backlogs_list = req.get('backlog_list')
     statement_accessory_list = req.get('statement_accessory_list')
     send = req.get('send_list')
+    # accomplish='123123123'
+    # overdue='2222'
+    # underway = '123123123'
+    # date_type='day'
+    # backlogs_list=[1,2,6,4,5]
+    # statement_accessory_list = [{'url':'www.baidu.com','size':11,'name':'头像'},{'url':'www.baidu.com','size':222,'name':'头像'}]
+    # send = [22,23,24]    
+
     if not accomplish:
         return JsonResponse({'errno': 1, 'message': "缺少必要参数"})
-    # try:
-    generate_time = time.time()
-    a = Statement(user=user, generate_time=generate_time, accomplish=accomplish, overdue=overdue,
-                    underway=underway,
-                    types=date_type)
-    a.save()
+    try:
+        generate_time = time.time()
+        a = Statement(user=user, generate_time=generate_time, accomplish=accomplish, overdue=overdue,
+                        underway=underway,
+                        types=date_type)
+        a.save()
 
-    if backlogs_list:
-        for backlog_id in backlogs_list:
-            StatementBacklog.objects.create(statement_id=a, backlog_id=backlog_id)
+        if backlogs_list:
+            for backlog_id in backlogs_list:
+                StatementBacklog.objects.create(statement_id=a, backlog_id=backlog_id)
 
-    if statement_accessory_list:
-        for statement_accessory_dict in statement_accessory_list:
+        if statement_accessory_list:
+            for statement_accessory_dict in statement_accessory_list:
 
-            StatementAccessory.objects.create(statement_accessory_url=statement_accessory_dict['url'],
-                                                accessory_size=statement_accessory_dict['size'],
-                                                accessory_name=statement_accessory_dict['name'],
-                                                statement_id=a)
-    if send:
-        b = time.time()
-        for staff in send:
-            StatementState.objects.create(statement_id=a, staff=staff, receive_time=b)
+                StatementAccessory.objects.create(statement_accessory_url=statement_accessory_dict['url'],
+                                                    accessory_size=statement_accessory_dict['size'],
+                                                    accessory_name=statement_accessory_dict['name'],
+                                                    statement_id=a)
+        if send:
+            b = time.time()
+            for staff in send:
+                StatementState.objects.create(statement_id=a, staff=staff, receive_time=b)
 
-    # except Exception:
-    #     return JsonResponse({'errno': 2, 'message': "储存周报失败"})
+    except Exception:
+        return JsonResponse({'errno': 2, 'message': "储存周报失败"})
 
     return JsonResponse({'errno': 0, 'message': "成功"})
 

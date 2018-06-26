@@ -121,7 +121,31 @@ exports.load_messages = function (opts) {
     //     opts.msg_list.filter._operators[0].operand= "private"
     //     console.log(opts.msg_list.filter._operators[0].operand)
     // }
-
+    var state;
+    function updata(){
+        $.ajax({
+            type:"GET",
+            url:"json/zg/backlog",
+            success:function(res){
+                $(".todo_box").children().remove();
+                var backlog_list = res.backlog_list
+                var past_due_list = res.past_due_list
+                var html_li = templates.render("todo_box_li",{backlog_list:backlog_list,past_due_list:past_due_list});
+                $(".todo_box").append(html_li)
+            }
+        })
+        $.ajax({
+            type:"GET",
+            url:"json/zg/backlog/accomplis",
+            data:{page:1},
+            success:function(rescompleted){
+                $(".completed_box").children().remove();
+                var completed_data = rescompleted.accomplis_backlog_list
+                var html_completed = templates.render("completed_li",{completed_data:completed_data})
+                $(".completed_box").append(html_completed);
+            }
+        })
+    }
     channel.get({
         url:      '/json/messages',
         data:     data,
@@ -135,7 +159,6 @@ exports.load_messages = function (opts) {
                 success:function(res){
                     if(res.errno == 0){
                         $(".todo_box").children().remove();
-                        console.log(res)
                         var state = "";
                         // for(var key in res.backlog_list){
                         //     $(".todo_box").append("<li class='todo'>\
@@ -190,14 +213,17 @@ exports.load_messages = function (opts) {
                                     var over_time = timestampToTime(res.backlog_dict.over_time).substring(0,10);
                                     var state = res.backlog_dict.state;
                                     var id = res.backlog_dict.id;
+                                    var update_backlog_list = res.update_backlog_list;
                                     var html = templates.render("taskdetail_md",{
                                         taskdetail_list:taskdetail_list,
                                         taskdetail_addnote:taskdetail_addnote,
                                         create_time:create_time,
                                         over_time:over_time,
                                         state:state,
-                                        id:id
+                                        id:id,
+                                        update_backlog_list:update_backlog_list
                                     })
+                                    console.log(res)
                                     $(".app").after(html)
                                     $(".taskdetail_md").show();
                                     var obj_backlog_details = {
@@ -299,7 +325,6 @@ exports.load_messages = function (opts) {
                                         localStorage.setItem("state",state)
                                     }
                                 })
-                                // console.log(state)
                             //任务详情点击关闭
                             $(".taskdetail_close").on("click",function(e){
                                 $(".taskdetail_md").hide();
@@ -316,6 +341,7 @@ exports.load_messages = function (opts) {
                                 var backlog_id = id;
                                 var state = $(".taskdetail_state[name='"+id+"']").val();
                                 // var state = Number(localStorage.getItem("state"));
+                                console.log(state)
                                 var task_details = $("textarea[name='"+id+"']").val();
                                 var obj_backlog_data = {
                                     create_time:create_time,
@@ -325,6 +351,7 @@ exports.load_messages = function (opts) {
                                     task_details:task_details
                                 }
                                 var backlog_data = JSON.stringify(obj_backlog_data);
+                                localStorage.clear();
                                 $.ajax({
                                     type:"PUT",
                                     url:"json/zg/backlog/",
@@ -332,28 +359,7 @@ exports.load_messages = function (opts) {
                                     data:backlog_data,
                                     success:function(res){
                                 //关闭更新数据
-                                    $.ajax({
-                                        type:"GET",
-                                        url:"json/zg/backlog",
-                                        success:function(res){
-                                            $(".todo_box").children().remove();
-                                            var backlog_list = res.backlog_list
-                                            var past_due_list = res.past_due_list
-                                            var html_li = templates.render("todo_box_li",{backlog_list:backlog_list,past_due_list:past_due_list});
-                                            $(".todo_box").append(html_li)
-                                        }
-                                    })
-                                    $.ajax({
-                                        type:"GET",
-                                        url:"json/zg/backlog/accomplis",
-                                        data:{page:1},
-                                        success:function(rescompleted){
-                                            $(".completed_box").children().remove();
-                                            var completed_data = rescompleted.accomplis_backlog_list
-                                            var html_completed = templates.render("completed_li",{completed_data:completed_data})
-                                            $(".completed_box").append(html_completed);
-                                        }
-                                    })
+                                        updata();
                                 //
                                     }
                                 })
@@ -439,30 +445,7 @@ exports.load_messages = function (opts) {
                                     contentType:"application/json",
                                     data:obj_backlog_change,
                                     success:function(res){
-                                        // _this.parent().parent().remove();
-                                        // $(".completed_box").prepend(_this.parent().parent());
-                                        $.ajax({
-                                            type:"GET",
-                                            url:"json/zg/backlog",
-                                            success:function(res){
-                                                $(".todo_box").children().remove();
-                                                var backlog_list = res.backlog_list
-                                                var past_due_list = res.past_due_list
-                                                var html_li = templates.render("todo_box_li",{backlog_list:backlog_list,past_due_list:past_due_list});
-                                                $(".todo_box").append(html_li)
-                                            }
-                                        })
-                                        $.ajax({
-                                            type:"GET",
-                                            url:"json/zg/backlog/accomplis",
-                                            data:{page:1},
-                                            success:function(rescompleted){
-                                                $(".completed_box").children().remove();
-                                                var completed_data = rescompleted.accomplis_backlog_list
-                                                var html_completed = templates.render("completed_li",{completed_data:completed_data})
-                                                $(".completed_box").append(html_completed);
-                                            }
-                                        })
+                                        updata();
                                     }
                                 })
                             }else{
@@ -525,13 +508,15 @@ exports.load_messages = function (opts) {
                                                 var over_time = timestampToTime(res.backlog_dict.over_time).substring(0,10);
                                                 var state = res.backlog_dict.state;
                                                 var id = res.backlog_dict.id;
+                                                var update_backlog_list = res.update_backlog_list 
                                                 var html = templates.render("taskdetail_md",{
                                                     taskdetail_list:taskdetail_list,
                                                     taskdetail_addnote:taskdetail_addnote,
                                                     create_time:create_time,
                                                     over_time:over_time,
                                                     state:state,
-                                                    id:id
+                                                    id:id,
+                                                    update_backlog_list:update_backlog_list
                                                 })
                                                 $(".app").after(html)
                                                 $(".taskdetail_md").show();
@@ -597,28 +582,7 @@ exports.load_messages = function (opts) {
                                                 data:backlog_data,
                                                 success:function(res){
                                             //关闭更新数据
-                                                $.ajax({
-                                                    type:"GET",
-                                                    url:"json/zg/backlog",
-                                                    success:function(res){
-                                                        $(".todo_box").children().remove();
-                                                        var backlog_list = res.backlog_list
-                                                        var past_due_list = res.past_due_list
-                                                        var html_li = templates.render("todo_box_li",{backlog_list:backlog_list,past_due_list:past_due_list});
-                                                        $(".todo_box").append(html_li)
-                                                    }
-                                                })
-                                                $.ajax({
-                                                    type:"GET",
-                                                    url:"json/zg/backlog/accomplis",
-                                                    data:{page:1},
-                                                    success:function(rescompleted){
-                                                        $(".completed_box").children().remove();
-                                                        var completed_data = rescompleted.accomplis_backlog_list
-                                                        var html_completed = templates.render("completed_li",{completed_data:completed_data})
-                                                        $(".completed_box").append(html_completed);
-                                                    }
-                                                })
+                                                updata();
                                             //
                                                 }
                                             })
@@ -708,28 +672,7 @@ exports.load_messages = function (opts) {
                                                     // location.reload();
                                                     // // 临时方案
                                                     // // 临时方案
-                                                    $.ajax({
-                                                        type:"GET",
-                                                        url:"json/zg/backlog",
-                                                        success:function(res){
-                                                            $(".todo_box").children().remove();
-                                                            var backlog_list = res.backlog_list
-                                                            var past_due_list = res.past_due_list
-                                                            var html_li = templates.render("todo_box_li",{backlog_list:backlog_list,past_due_list:past_due_list});
-                                                            $(".todo_box").append(html_li)
-                                                        }
-                                                    })
-                                                    $.ajax({
-                                                        type:"GET",
-                                                        url:"json/zg/backlog/accomplis",
-                                                        data:{page:1},
-                                                        success:function(rescompleted){
-                                                            $(".completed_box").children().remove();
-                                                            var completed_data = rescompleted.accomplis_backlog_list
-                                                            var html_completed = templates.render("completed_li",{completed_data:completed_data})
-                                                            $(".completed_box").append(html_completed);
-                                                        }
-                                                    })
+                                                    updata();
                                                 }
                                             })
                                         }else{
