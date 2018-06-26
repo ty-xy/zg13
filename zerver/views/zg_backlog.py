@@ -13,14 +13,15 @@ from zerver.lib.actions import get_user_ids_for_streams
 def state_view(request, user_profile):
     table_id = request.GET.get('table_id')
     states = request.GET.get('state')
-    print(states)
 
+    if not all([table_id,states]):
+        return JsonResponse({{'errno': 2, 'message': "缺少必要参数", }})
     if states == 't':
         try:
-            read_table = StatementState.objects.filter(statement_id=table_id, state='t')
+            read_table = StatementState.objects.filter(statement_id=table_id, state='t').order_by('-id')
         except Exception:
             return JsonResponse({'errno': 1, 'message': "获取已读信息失败", })
-        user_list=[]
+        user_list = []
         for table in read_table:
             user_dict = {}
             user = UserProfile.objects.get(id=table.staff)
@@ -28,13 +29,13 @@ def state_view(request, user_profile):
             user_dict['user_name'] = user.full_name
             user_dict['table_id'] = table_id
             user_list.append(user_dict)
-        return JsonResponse({'errno': 0, 'message': "成功", 'user_list':user_list})
+        return JsonResponse({'errno': 0, 'message': "成功", 'user_list': user_list})
     elif states == 'f':
         try:
-            read_table = StatementState.objects.filter(statement_id=table_id, state='t')
+            read_table = StatementState.objects.filter(statement_id=table_id, state='t').order_by('-id')
         except Exception:
-            return JsonResponse({'errno': 1, 'message': "获取已读信息失败", })
-        user_list=[]
+            return JsonResponse({'errno': 3, 'message': "获取已读信息失败", })
+        user_list = []
         for table in read_table:
             user_dict = {}
             user = UserProfile.objects.get(id=table.staff)
@@ -42,12 +43,15 @@ def state_view(request, user_profile):
             user_dict['user_name'] = user.full_name
             user_dict['table_id'] = table_id
 
-        return JsonResponse({'errno': 0, 'message': "成功", 'user_list':user_list})
+        return JsonResponse({'errno': 0, 'message': "成功", 'user_list': user_list})
 
 
 # 查看自己和他人的报表
 def look_table(request, user_profile):
+
     table_id = request.GET.get('table_id')
+    if not table_id:
+        return JsonResponse({{'errno': 2, 'message': "缺少必要参数", }})
     try:
 
         statement = Statement.objects.get(id=table_id)
@@ -56,7 +60,7 @@ def look_table(request, user_profile):
             a.state = True
             a.save()
 
-        statement_backlogs_list = StatementBacklog.objects.filter(statement_id=statement)
+        statement_backlogs_list = StatementBacklog.objects.filter(statement_id=statement).order_by('-id')
 
         user = UserProfile.objects.get(email=statement.user)
 
@@ -78,7 +82,7 @@ def look_table(request, user_profile):
 
         url_list = []
         table_dict['url_list'] = url_list
-        accessory_list = StatementAccessory.objects.filter(statement_id=table_id, is_delete='f')
+        accessory_list = StatementAccessory.objects.filter(statement_id=table_id, is_delete='f').order_by('-id')
         for accessory in accessory_list:
             accessory_dict = {}
             accessory_dict['url'] = accessory.statement_accessory_url
@@ -92,22 +96,118 @@ def look_table(request, user_profile):
     return JsonResponse({'errno': 0, 'message': "获取数据成功", 'table_dict': table_dict})
 
 
+# web接收到日志
+def web_my_receive(request,user_profile):
+
+    try:
+        statement_state_list = StatementState.objects.filter(staff=user_profile.id).order_by('-id')
+    except Exception:
+        return JsonResponse({'errno': 1, 'message': "获取我收到的报表失败"})
+
+    try:
+        receive_table_list = []
+        for statement_state in statement_state_list:
+            web_my_receive_dict = {}
+            s = Statement.objects.get(id=statement_state.statement_id.id)
+            user = UserProfile.objects.get(email=s.user)
+            web_my_receive_dict['avatarurl'] = user.avatar_source
+            web_my_receive_dict['fullname'] = user.full_name
+            web_my_receive_dict['generate_time'] = statement_state.receive_time
+            web_my_receive_dict['table_id'] = s.id
+            web_my_receive_dict['state'] = statement_state.state
+            web_my_receive_dict ['accomplish']=s.accomplish
+            web_my_receive_dict['overdue'] = s.overdue
+            web_my_receive_dict['underway'] = s.underway
+            backlog_list = []
+            web_my_receive_dict['backlog_list'] = backlog_list
+
+            statement_backlogs_list = StatementBacklog.objects.filter(statement_id=s).order_by('-id')
+            for statement_backlogs in statement_backlogs_list:
+                backlogs_dict = {}
+                backlogs = Backlog.objects.get(id=statement_backlogs.backlog_id)
+                backlogs_dict['task'] = backlogs.task
+                backlogs_dict['over_time'] = backlogs.over_time
+                backlog_list.append(backlogs_dict)
+
+            url_list = []
+            web_my_receive_dict['url_list'] = url_list
+            accessory_list = StatementAccessory.objects.filter(statement_id=s, is_delete='f').order_by('-id')
+            for accessory in accessory_list:
+                accessory_dict = {}
+                accessory_dict['url'] = accessory.statement_accessory_url
+                accessory_dict['size'] = accessory.accessory_size
+                accessory_dict['name'] = accessory.accessory_name
+                url_list.append(accessory_dict)
+            receive_table_list.append(web_my_receive_dict)
+    except Exception:
+        return JsonResponse({'errno': 2, 'message': "获取信息失败"})
+    return JsonResponse({'errno': 0, 'message': "成功", 'receive_table_list': receive_table_list})
+
+
+# web发送的日志
+def web_my_send(request,user_profile):
+    try:
+        statement = Statement.objects.filter(user=user_profile.email).order_by('-id')
+    except Exception:
+        return JsonResponse({'errno': 1, 'message': "获取我收到的报表失败"})
+
+    try:
+        send_table_list = []
+        for statement_state in statement:
+            web_my_receive_dict = {}
+            s = Statement.objects.get(id=statement_state.statement_id.id)
+            user = UserProfile.objects.get(email=s.user)
+            web_my_receive_dict['avatarurl'] = user.avatar_source
+            web_my_receive_dict['fullname'] = user.full_name
+            web_my_receive_dict['generate_time'] = statement_state.receive_time
+            web_my_receive_dict['table_id'] = s.id
+            web_my_receive_dict['state'] = statement_state.state
+            web_my_receive_dict ['accomplish']=s.accomplish
+            web_my_receive_dict['overdue'] = s.overdue
+            web_my_receive_dict['underway'] = s.underway
+            backlog_list = []
+            web_my_receive_dict['backlog_list'] = backlog_list
+
+            statement_backlogs_list = StatementBacklog.objects.filter(statement_id=s)
+            for statement_backlogs in statement_backlogs_list:
+                backlogs_dict = {}
+                backlogs = Backlog.objects.get(id=statement_backlogs.backlog_id)
+                backlogs_dict['task'] = backlogs.task
+                backlogs_dict['over_time'] = backlogs.over_time
+                backlog_list.append(backlogs_dict)
+
+            url_list = []
+            web_my_receive_dict['url_list'] = url_list
+            accessory_list = StatementAccessory.objects.filter(statement_id=s, is_delete='f')
+            for accessory in accessory_list:
+                accessory_dict = {}
+                accessory_dict['url'] = accessory.statement_accessory_url
+                accessory_dict['size'] = accessory.accessory_size
+                accessory_dict['name'] = accessory.accessory_name
+                url_list.append(accessory_dict)
+                send_table_list.append(web_my_receive_dict)
+    except Exception:
+        return JsonResponse({'errno': 2, 'message': "获取信息失败"})
+    return JsonResponse({'errno': 0, 'message': "成功", 'send_table_list': send_table_list})
+
+
 # 我发出的
 def my_send(request, user_profile):
     statement = Statement.objects.filter(user=user_profile.email).order_by('-id')
     try:
-        receive_table_list = []
+        send_table_list = []
         for st in statement:
             user_dict = {}
             user_dict['avatarurl'] = user_profile.avatar_source
             user_dict['fullname'] = user_profile.full_name
             user_dict['generate_time'] = st.generate_time
             user_dict['table_id'] = st.id
-            receive_table_list.append(user_dict)
+            send_table_list.append(user_dict)
+
     except Exception:
         return JsonResponse({'errno': 1, 'message': "获取数据失败", })
 
-    return JsonResponse({'errno': 0, 'message': "成功", 'receive_table_list': receive_table_list})
+    return JsonResponse({'errno': 0, 'message': "成功", 'send_table_list': send_table_list})
 
 
 # 我收到的
@@ -121,7 +221,6 @@ def my_receive(request, user_profile):
         receive_table_list = []
         for statement_state in statement_state_list:
             user_dict = {}
-
             s = Statement.objects.get(id=statement_state.statement_id.id)
             user = UserProfile.objects.get(email=s.user)
             user_dict['avatarurl'] = user.avatar_source
@@ -160,6 +259,7 @@ def stream_recipient_data(request, user_profile):
             user_data_dict['fullname'] = user.full_name
             user_data_dict['email'] = user.email
             streams_user_data_list.append(user_data_dict)
+
         streams_dict[streams_user_id_list] = streams_user_data_list
         streams_dict['no_strems'] = []
 
@@ -177,6 +277,7 @@ def table_view(request, user_profile):
     overdue = req.get("overdue")
     underway = req.get('underway')
     date_type = req.get('date_type')
+
     backlogs_list = req.get('backlog_list')
     statement_accessory_list = req.get('statement_accessory_list')
     send = req.get('send_list')
@@ -195,11 +296,10 @@ def table_view(request, user_profile):
 
         if statement_accessory_list:
             for statement_accessory_dict in statement_accessory_list:
-
                 StatementAccessory.objects.create(statement_accessory_url=statement_accessory_dict['url'],
                                                   accessory_size=statement_accessory_dict['size'],
                                                   accessory_name=statement_accessory_dict['name'],
-                                                  Statement_id=a)
+                                                  statement_id=a)
         if send:
             b = time.time()
             for staff in send:
@@ -453,8 +553,11 @@ def accessory_up(request, user_profile):
             if i['type'] == 'add':
                 if not all([i['url'], i['size'], i['name']]):
                     return JsonResponse({'errno': 2, 'message': '缺少必要参数'})
-                BacklogAccessory.objects.create(backlog_id=backlog, accessory_url=i['url'], accessory_size=i['size'],
-                                                accessory_name=i['name'])
+                a = BacklogAccessory.objects.create(backlog_id=backlog, accessory_url=i['url'],
+                                                    accessory_size=i['size'],
+                                                    accessory_name=i['name'])
+                return JsonResponse({'errno': 0, 'message': '修改完成', 'id': a.id})
+
             elif i['type'] == 'del':
                 if not i['accessory_id']:
                     return JsonResponse({'errno': 3, 'message': '缺少必要参数'})
@@ -468,7 +571,7 @@ def accessory_up(request, user_profile):
     return JsonResponse({'errno': 0, 'message': '修改完成'})
 
 
-# 查
+# 待办事项列表
 def backlogs_view_g(request, user_profile):
     user = str(user_profile)
     import re
@@ -619,3 +722,6 @@ def accomplis_backlogs_view(request, user_profile):
         accomplis_backlogs_listss.append(a)
 
     return JsonResponse({'errno': 0, 'message': '成功', 'accomplis_backlog_list': accomplis_backlogs_listss})
+
+
+
