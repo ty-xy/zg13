@@ -389,7 +389,7 @@ v1_api_and_json_patterns = [
         {'GET': 'zerver.views.zg_backlog.web_my_receive'}),
 
     # 我发送的
-    url(r'^zg/v1/my/send', rest_dispatch,
+    url(r'^zg/v1/my/send$', rest_dispatch,
         {'GET': 'zerver.views.zg_backlog.my_send'}),
     # web发送
     url(r'^zg/v1/my/send/web', rest_dispatch,

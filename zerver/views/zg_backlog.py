@@ -114,7 +114,6 @@ def web_my_receive(request,user_profile):
             web_my_receive_dict['fullname'] = user.full_name
             web_my_receive_dict['generate_time'] = statement_state.receive_time
             web_my_receive_dict['table_id'] = s.id
-            web_my_receive_dict['state'] = statement_state.state
             web_my_receive_dict ['accomplish']=s.accomplish
             web_my_receive_dict['overdue'] = s.overdue
             web_my_receive_dict['underway'] = s.underway
@@ -155,20 +154,19 @@ def web_my_send(request,user_profile):
         send_table_list = []
         for statement_state in statement:
             web_my_receive_dict = {}
-            s = Statement.objects.get(id=statement_state.statement_id.id)
-            user = UserProfile.objects.get(email=s.user)
+            
+            user = UserProfile.objects.get(email=statement_state.user)
             web_my_receive_dict['avatarurl'] = user.avatar_source
             web_my_receive_dict['fullname'] = user.full_name
-            web_my_receive_dict['generate_time'] = statement_state.receive_time
-            web_my_receive_dict['table_id'] = s.id
-            web_my_receive_dict['state'] = statement_state.state
-            web_my_receive_dict ['accomplish']=s.accomplish
-            web_my_receive_dict['overdue'] = s.overdue
-            web_my_receive_dict['underway'] = s.underway
+            web_my_receive_dict['generate_time'] = statement_state.generate_time
+            web_my_receive_dict['table_id'] = statement_state.id
+            web_my_receive_dict ['accomplish']=statement_state.accomplish
+            web_my_receive_dict['overdue'] = statement_state.overdue
+            web_my_receive_dict['underway'] = statement_state.underway
             backlog_list = []
             web_my_receive_dict['backlog_list'] = backlog_list
 
-            statement_backlogs_list = StatementBacklog.objects.filter(statement_id=s)
+            statement_backlogs_list = StatementBacklog.objects.filter(statement_id=statement_state)
             for statement_backlogs in statement_backlogs_list:
                 backlogs_dict = {}
                 backlogs = Backlog.objects.get(id=statement_backlogs.backlog_id)
@@ -178,14 +176,14 @@ def web_my_send(request,user_profile):
 
             url_list = []
             web_my_receive_dict['url_list'] = url_list
-            accessory_list = StatementAccessory.objects.filter(statement_id=s, is_delete='f')
+            accessory_list = StatementAccessory.objects.filter(statement_id=statement_state, is_delete='f')
             for accessory in accessory_list:
                 accessory_dict = {}
                 accessory_dict['url'] = accessory.statement_accessory_url
                 accessory_dict['size'] = accessory.accessory_size
                 accessory_dict['name'] = accessory.accessory_name
                 url_list.append(accessory_dict)
-                send_table_list.append(web_my_receive_dict)
+            send_table_list.append(web_my_receive_dict)
     except Exception:
         return JsonResponse({'errno': 2, 'message': "获取信息失败"})
     return JsonResponse({'errno': 0, 'message': "成功", 'send_table_list': send_table_list})
