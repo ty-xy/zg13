@@ -14,7 +14,7 @@ def state_view(request, user_profile):
     table_id = request.GET.get('table_id')
     states = request.GET.get('state')
 
-    if not all([table_id,states]):
+    if not all([table_id, states]):
         return JsonResponse({{'errno': 2, 'message': "缺少必要参数", }})
     if states == 't':
         try:
@@ -48,7 +48,6 @@ def state_view(request, user_profile):
 
 # 查看自己和他人的报表
 def look_table(request, user_profile):
-
     table_id = request.GET.get('table_id')
     if not table_id:
         return JsonResponse({{'errno': 2, 'message': "缺少必要参数", }})
@@ -97,8 +96,7 @@ def look_table(request, user_profile):
 
 
 # web接收到日志
-def web_my_receive(request,user_profile):
-
+def web_my_receive(request, user_profile):
     try:
         statement_state_list = StatementState.objects.filter(staff=user_profile.id).order_by('-id')
     except Exception:
@@ -115,7 +113,7 @@ def web_my_receive(request,user_profile):
             web_my_receive_dict['generate_time'] = statement_state.receive_time
             web_my_receive_dict['table_id'] = s.id
             web_my_receive_dict['state'] = statement_state.state
-            web_my_receive_dict ['accomplish']=s.accomplish
+            web_my_receive_dict['accomplish'] = s.accomplish
             web_my_receive_dict['overdue'] = s.overdue
             web_my_receive_dict['underway'] = s.underway
             backlog_list = []
@@ -145,7 +143,7 @@ def web_my_receive(request,user_profile):
 
 
 # web发送的日志
-def web_my_send(request,user_profile):
+def web_my_send(request, user_profile):
     try:
         statement = Statement.objects.filter(user=user_profile.email).order_by('-id')
     except Exception:
@@ -162,7 +160,7 @@ def web_my_send(request,user_profile):
             web_my_receive_dict['generate_time'] = statement_state.receive_time
             web_my_receive_dict['table_id'] = s.id
             web_my_receive_dict['state'] = statement_state.state
-            web_my_receive_dict ['accomplish']=s.accomplish
+            web_my_receive_dict['accomplish'] = s.accomplish
             web_my_receive_dict['overdue'] = s.overdue
             web_my_receive_dict['underway'] = s.underway
             backlog_list = []
@@ -294,8 +292,8 @@ def table_view(request, user_profile):
     try:
         generate_time = time.time()
         a = Statement(user=user, generate_time=generate_time, accomplish=accomplish, overdue=overdue,
-                        underway=underway,
-                        types=date_type)
+                      underway=underway,
+                      types=date_type)
         a.save()
 
         if backlogs_list:
@@ -554,10 +552,11 @@ def accessory_up(request, user_profile):
     time_array = time.localtime(now)
     uodate_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
     accessory_list = req['accessory_list']
+    backlog_id = req['backlog_id']
 
     try:
         for i in accessory_list:
-            backlog = Backlog.objects.get(id=i['backlog_id'])
+            backlog = Backlog.objects.get(id=backlog_id)
 
             if i['type'] == 'add':
                 if not all([i['url'], i['size'], i['name']]):
@@ -570,8 +569,7 @@ def accessory_up(request, user_profile):
             elif i['type'] == 'del':
                 if not i['accessory_id']:
                     return JsonResponse({'errno': 3, 'message': '缺少必要参数'})
-
-                accessory = BacklogAccessory.objects.get(id=i['accessory_id'])
+                accessory = BacklogAccessory.objects.get(id=backlog_id)
                 accessory.is_delete = True
                 accessory.save()
             UpdateBacklog.objects.create(update_backlog="%s修改了附件" % uodate_time, backlog_id=backlog)
@@ -649,7 +647,7 @@ def backlogs_view_g(request, user_profile):
     return JsonResponse({'errno': 0, 'message': '成功', 'past_due_list': past_due_list, 'backlog_list': backlog_list})
 
 
-# 事项详情详情
+# 事项详情
 def backlogs_details(request, user_profile):
     backlog_id = request.GET.get('backlog_id')
     try:
@@ -731,6 +729,3 @@ def accomplis_backlogs_view(request, user_profile):
         accomplis_backlogs_listss.append(a)
 
     return JsonResponse({'errno': 0, 'message': '成功', 'accomplis_backlog_list': accomplis_backlogs_listss})
-
-
-
