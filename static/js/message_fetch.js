@@ -243,9 +243,9 @@ exports.load_messages = function (opts) {
                                        }
                                        return uri;
                                    }
-                                   var uploadFinished = function (i, file, response) {
+                                  var uploadFinished = function (i, file, response) {
                                        if (response.uri === undefined) {
-                                           return;
+                                       return;
                                        }
                                        var split_uri = response.uri.split("/");
                                        var filename = split_uri[split_uri.length - 1];

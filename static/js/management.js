@@ -280,13 +280,70 @@
                     }
                 })
             }
-              
+            // 上传文件
+            upload.feature_check($("#up_files #attach_files"));
+            $("#up_files").on("click", "#attach_files", function (e) {
+               // e.preventDefault();
+               $("#up_files #file_inputs").trigger("click");
+           });
+           function make_upload_absolute(uri) {
+            if (uri.indexOf(compose.uploads_path) === 0) {
+                // Rewrite the URI to a usable link
+                console.log(compose.uploads_path,compose.uploads_domain)
+                return compose.uploads_domain + uri;
+            }
+            return uri;
+        }
+       var uploadFinished = function (i, file, response) {
+            if (response.uri === undefined) {
+            return;
+            }
+            var split_uri = response.uri.split("/");
+            var filename = split_uri[split_uri.length - 1];
+            var uri = make_upload_absolute(response.uri);
+            var size = (file.size/1024/1024).toFixed(2)
+            console.log(uri,filename,file,response)
+            if(i != -1){
+                var li =  
+                "<div class='generate_log_pack' data-url="+uri+">\
+                  <div class='generate_log_pack_left'>\
+                    <img src='../../static/img/pnglogo.png' alt=''>\
+                    <i class='iconfont icon-shanchu1 generate_log_pack_delete'></i>\
+                </div>\
+                <div class='generate_log_pack_right'>\
+                    <p>"+filename+"</p>\
+                    <p>"+size+"MB</p>\
+                </div>\
+              </div>"
+                $(".generate_log_upfile").after(li)
+            }
+        };
+        $(".generate_log_upfile_box").on("click",".generate_log_pack_delete",function(e){
+             $(this).parent().parent().remove()
+        })
+        $("#up_files").filedrop({
+            url: "/json/user_uploads",
+            fallback_id: 'file_inputs',  // Target for standard file dialog
+            paramname: "file",
+            maxfilesize: page_params.maxfilesize,
+            data: {
+                // the token isn't automatically included in filedrop's post
+                csrfmiddlewaretoken: csrf_token,
+            },
+            // raw_droppable: ['text/uri-list', 'text/plain'],
+            // drop: drop,
+            // progressUpdated: progressUpdated,
+            // error: uploadError,
+            uploadFinished: uploadFinished,
+         //    afterAll:function(contents){
+         //        console.log(contents,321312)
+         //    }
+        })
            // 1.点击添加人员
            $('.add_log_people').on("click",".generate_log_member_addlogo",function(e){ 
                //显示模态框
                $(".modal-log").show()
               //获取数据
-           
               channel.get({
                   url:"json/zg/v1/stream/recipient/data",
                   success:function(data){
@@ -297,7 +354,7 @@
                     $(".modal-log-content").append(rendered)
                      //点击频道频道
                     var lid = $(".choose-nav-left").children()
-                    $(".choose-nav-left .box-left-button").on('click','.choose-check',function(e){
+                    $(".choose-nav-left").on('click','.choose-check',function(e){
                         var inputid= $(this).attr("inputid")
                         console.log(6)
                         if($(this).is(":checked")){
@@ -328,21 +385,20 @@
                         //     data:data.streams_dict
                         // }));
                         $(".choose-nav-left").children().remove()
-                        console.log(8)
                         $(".choose-nav-left").html(lid)
                     })
                     $('.choose-nav-left').on('click',".next-right",function(e){
                         // $(".modal-log-content").empty()
                            // 渲染频道下级选发送人
-                        $(".choose-nav-left").empty()
+                        // $(".choose-nav-left").children().remove
                         var id = $(this).attr('button-key')
                         var li = $(templates.render('choose_people',{
                             datalists:data.streams_dict[id],
                             channels:id
                         }));
-                        $(".choose-nav-left").append(li)
+                        $(".choose-nav-left").html(li)
                         console.log(5)
-                        $(".choose-nav-left").on("click",".choose-list-box",function(e){
+                        $(".box-choose-lefts").on("click",".choose-list-box",function(e){
                             console.log(423423)
                             var inputid= $(this).attr("data-key")
                             // 获得人的名字
