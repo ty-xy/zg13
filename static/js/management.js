@@ -190,14 +190,33 @@
                     list.push(ids)
                 })
                 // var arr = list.toString()
-                console.log(list)
+                var send_list =[]
+                $(".generate_log_member_box").children().not($(".add_log_people")).each(function(){
+                    var ids= Number($(this).attr('data_id'))
+                    console.log(ids)
+                    send_list.push(ids)
+                })
+                var statement_accessory_list = []
+                $(".generate_log_pack").each(function(){
+                    var isn = $(this).attr('data-url')
+                    var name = $(".generate_log_pack_right").children().eq(0).text()
+                    var size=$(".generate_log_pack_right").children().eq(1).text()
+                    var file ={
+                        url:isn,
+                        size:size,
+                        name:name
+                    }
+                    statement_accessory_list.push(file)
+                })
+                console.log(statement_accessory_list,send_list)
                 console.log(accomplish,underway,overdue)
                  var paramas ={
                     accomplish:$.trim(accomplish),
                     underway:$.trim(underway),
                     overdue:$.trim(overdue),
                     backlog_list:list,
-                    send_list:[27],
+                    send_list:send_list,
+                    statement_accessory_list:statement_accessory_list,
                     date_type:"day"
                  }
                  console.log(paramas)
