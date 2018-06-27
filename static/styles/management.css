@@ -184,6 +184,7 @@ ul{
     margin-top: -295px;
     overflow: auto;
     border-radius: 3px;
+    overflow-x: hidden;
 }
 .taskdetail_head{
     background: #FFFFFF;

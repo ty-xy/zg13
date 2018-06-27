@@ -112,7 +112,7 @@ def web_my_receive(request, user_profile):
             web_my_receive_dict['fullname'] = user.full_name
             web_my_receive_dict['generate_time'] = statement_state.receive_time
             web_my_receive_dict['table_id'] = s.id
-            web_my_receive_dict['state'] = statement_state.state
+
             web_my_receive_dict['accomplish'] = s.accomplish
             web_my_receive_dict['overdue'] = s.overdue
             web_my_receive_dict['underway'] = s.underway
@@ -157,9 +157,8 @@ def web_my_send(request, user_profile):
             user = UserProfile.objects.get(email=statement_state.user)
             web_my_receive_dict['avatarurl'] = user.avatar_source
             web_my_receive_dict['fullname'] = user.full_name
-            web_my_receive_dict['generate_time'] = statement_state.receive_time
+            web_my_receive_dict['generate_time'] = statement_state.generate_time
             web_my_receive_dict['table_id'] = statement_state.id
-            web_my_receive_dict['state'] = statement_state.state
             web_my_receive_dict['accomplish'] = statement_state.accomplish
             web_my_receive_dict['overdue'] = statement_state.overdue
             web_my_receive_dict['underway'] = statement_state.underway
@@ -257,8 +256,8 @@ def stream_recipient_data(request, user_profile):
             user_data_dict['fullname'] = user.full_name
             user_data_dict['email'] = user.email
             streams_user_data_list.append(user_data_dict)
-
-        streams_dict[streams_user_id_list] = streams_user_data_list
+        a=Stream.objects.get(id=streams_user_id_list)
+        streams_dict[a.name] = streams_user_data_list
         streams_dict['no_strems'] = []
 
     return JsonResponse({'errno': 0, 'message': "获取成功", 'streams_dict': streams_dict})
@@ -579,7 +578,7 @@ def accessory_up(request, user_profile):
 
 
 # 待办事项列表
-def backlogs_view_g(request: HttpRequest, user_profile: UserProfile):
+def backlogs_view_g(request, user_profile):
     user = str(user_profile)
     import re
     user = re.match(r"<UserProfile: (.*) <.*>>", user).group(1)
@@ -648,7 +647,7 @@ def backlogs_view_g(request: HttpRequest, user_profile: UserProfile):
 
 
 # 事项详情
-def backlogs_details(request: HttpRequest, user_profile: UserProfile):
+def backlogs_details(request, user_profile):
     backlog_id = request.GET.get('backlog_id')
     try:
 
@@ -730,4 +729,3 @@ def accomplis_backlogs_view(request, user_profile):
         accomplis_backlogs_listss.append(a)
 
     return JsonResponse({'errno': 0, 'message': '成功', 'accomplis_backlog_list': accomplis_backlogs_listss})
-

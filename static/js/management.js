@@ -672,76 +672,136 @@
                 $(".log_assistant_md").css("overflow","auto");
                 $(".log_assistant_md").show();
                 $(".app").css("overflow-y","hidden");
-                var receive_table_list = [];
                 $.ajax({
                     type:"GET",
-                    url:"json/zg/v1/my/receive",
+                    url:"json/zg/v1/my/receive/web",
                     contentType:"application/json",
                     success:function(res){
-                        receive_table_list = res.receive_table_list;
-                        console.log(receive_table_list)
+                        $(".log_assistant_md").remove();
+                        var receive_table_list = res.receive_table_list;
+                        var html = templates.render("log_assistant_box",{receive_table_list:receive_table_list})
+                        $(".app").after(html)
                         console.log(res)
-                        console.log(res.message)
-                        // console.log(res)
-                        // console.log("hellonhdfvjkbojs")
-                                    //日志助手 我发出的
-                        // $(".log_assistant_send").on("click",function(e){
+                        // 日志助手 我收到的
+                        // $(".log_assistant_received").on("click",function(e){
                         //     e.stopPropagation();
                         //     e.preventDefault();
                         //     $.ajax({
                         //         type:"GET",
-                        //         url:"json/zg/v1/my/send",
+                        //         url:"json/zg/v1/my/receive/web",
                         //         contentType:"application/json",
                         //         success:function(res){
-                        //             receive_table_list = res;
+                        //             $(".log_assistant_ctn").remove();
+                        //             var receive_table_list = res;
+                        //             var html = templates.render("log_assistant_box",{receive_table_list:receive_table_list})
+                        //             $(".app").after(html)
                         //             console.log(res)
-                        //             console.log("hellonhdfvjkbojs")
                         //         }
                         //     })
                         // })
-                    }
-                })
-                console.log(receive_table_list)
-                console.log("hello")
-                var html = templates.render("log_assistant_box")
-                $(".app").after(html)
+                        // 日志助手 我发出的
+                        $(".log_assistant_box").on("click",".log_assistant_send",function(e){
+                            $.ajax({
+                                type:"GET",
+                                url:"json/zg/v1/my/send/web",
+                                contentType:"application/json",
+                                success:function(res){
+                                    // $(".log_assistant_md").remove();
+                                    console.log("hehiheihi")
+                                    var receive_table_list = res;
+                                    var html = templates.render("log_assistant_box",{receive_table_list:receive_table_list})
+                                    $(".app").after(html)
+                                    console.log(res)
+                                    console.log("222222")
+                                }
+                            })
+                        })
+                        $(".log_assistant_md").on("click",function(e){
+                            e.stopPropagation();
+                            e.preventDefault();
+                            $(".log_assistant_md").hide();
+                            $(".log_assistant_md").remove();
+                            $(".app").css("overflow-y","scroll")
+                            $('.log_assistant_md').empty()   
+                        })
+                        //日志助手关闭
+                        $(".log_assistant_close").on("click",function(e){
+                            $(".log_assistant_md").hide();
+                            $(".log_assistant_md").remove();
+                            $(".app").css("overflow-y","scroll")
+                            $('.log_assistant_md').empty()   
+                        })
+                        //日志助手阻止冒泡
+                        $(".log_assistant_box").on("click",function(e){
+                            e.stopPropagation();
+                            e.preventDefault();
+                        })
+                                //我收到的 点击内容
+                        $(".log_assistant_box").on("click",".log_assistant_received",function(e){
+                            $(this).addClass("high_light").siblings().removeClass("high_light");
+                            $(".log_assistant_prompt_box").show();
+                            $(".log_assistant_ctn").css("margin-top","0px");
+                            $(".log_assistant_unread").hide();
+                            $(".log_assistant_title").html("我收到的")
+                            // console.log("1------------")
+                            // $.ajax({
+                            //             type:"GET",
+                            //             url:"json/zg/v1/my/receive/web",
+                            //             contentType:"application/json",
+                            //             success:function(res){
+                            //                 $(".log_assistant_ctn").remove();
+                            //                 var receive_table_list = res.receive_table_list;
+                            //                 var html = templates.render("log_assistant_box",{receive_table_list:receive_table_list})
+                            //                 $(".app").after(html)
+                            //                 console.log(res)
+                            //             }
+                            //         })
+
+                        })
+                        //我发出的 点击内容
+                        $(".log_assistant_box").on("click",".log_assistant_send",function(e){
+                            $(this).addClass("high_light").siblings().removeClass("high_light");
+                            $(".log_assistant_prompt_box").hide();
+                            $(".log_assistant_ctn").css("margin-top","20px");
+                            $(".log_assistant_unread").show();
+                            $(".log_assistant_title").html("我发出的")
+                            // console.log("2---------------")
+                            // $.ajax({
+                            //     type:"GET",
+                            //     url:"json/zg/v1/my/send/web",
+                            //     contentType:"application/json",
+                            //     success:function(res){
+                            //         console.log(res)
+                            //             $(".log_assistant_md").remove();
+                            //             var receive_table_list = res.receive_table_list;
+                            //             var html = templates.render("log_assistant_box",{receive_table_list:receive_table_list})
+                            //             $(".app").after(html)
+                            //             }
+                            //     })
+                        })
+
+
+                            }
+                        })
+                        
                 // $(".log_assistant_md").remove();
                 //日志助手点击md关闭
-                $(".log_assistant_md").on("click",function(e){
-                    e.stopPropagation();
-                    e.preventDefault();
-                    $(".log_assistant_md").hide();
-                    $(".log_assistant_md").remove();
-                    $(".app").css("overflow-y","scroll")
-                    $('.log_assistant_md').empty()   
+                
+                //筛选
+                $(".log_assistant_screening").on("click",function(e){
+                    $(".log_screening").show();
                 })
-                //日志助手关闭
-                $(".log_assistant_close").on("click",function(e){
-                    $(".log_assistant_md").hide();
-                    $(".log_assistant_md").remove();
-                    $(".app").css("overflow-y","scroll")
-                    $('.log_assistant_md').empty()   
+                //关闭筛选
+                $(".log_screening_close").on("click",function(e){
+                    $(".log_screening").hide();
                 })
-                //日志助手阻止冒泡
-                $(".log_assistant_box").on("click",function(e){
-                    e.stopPropagation();
-                    e.preventDefault();
+                //选择发送人
+                $(".log_screening_select").on("click",function(e){
+                    $("#people-choose").show();
                 })
-                //我收到的 点击内容
-                $(".log_assistant_received").on("click",function(e){
-                    $(this).addClass("high_light").siblings().removeClass("high_light");
-                    $(".log_assistant_prompt_box").show();
-                    $(".log_assistant_ctn").css("margin-top","0px");
-                    $(".log_assistant_unread").hide();
-                    $(".log_assistant_title").html("我收到的")
-                })
-                //我发出的 点击内容
-                $(".log_assistant_send").on("click",function(e){
-                    $(this).addClass("high_light").siblings().removeClass("high_light");
-                    $(".log_assistant_prompt_box").hide();
-                    $(".log_assistant_ctn").css("margin-top","20px");
-                    $(".log_assistant_unread").show();
-                    $(".log_assistant_title").html("我发出的")
+                //关闭选择发送人
+                $(".choose_team_close").on("click",function(e){
+                    $("#people-choose").hide();
                 })
                 //日志助手拖拽
                 // $(".log_assistant_box").on("mousedown",function(e){
@@ -759,22 +819,7 @@
                 //         $(this).unbind("mousemove");
                 //     })
                 // })
-                //筛选
-                $(".log_assistant_screening").on("click",function(e){
-                    $(".log_screening").show();
-                })
-                //关闭筛选
-                $(".log_screening_close").on("click",function(e){
-                    $(".log_screening").hide();
-                })
-                //选择发送人
-                $(".log_screening_select").on("click",function(e){
-                    $("#people-choose").show();
-                })
-                //关闭选择发送人
-                $(".choose_team_close").on("click",function(e){
-                    $("#people-choose").hide();
-                })
+                
             })
             
         

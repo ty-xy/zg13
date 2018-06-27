@@ -336,8 +336,8 @@ exports.load_messages = function (opts) {
                                     var n = time/1000;
                                     return n;
                                 }
-                                var create_time = timestamp($("input[title='"+id+"']").val());
-                                var over_time = timestamp($(".new_task_date[name='"+id+"']").val());
+                                var create_time = timestamp($("input[title='"+id+"']").val().substring(0,10));
+                                var over_time = timestamp($(".new_task_date[name='"+id+"']").val().substring(0,10));
                                 var backlog_id = id;
                                 var state = $(".taskdetail_state[name='"+id+"']").val();
                                 // var state = Number(localStorage.getItem("state"));
