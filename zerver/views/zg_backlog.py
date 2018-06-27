@@ -544,6 +544,8 @@ def backlogs_view_pu(request, user_profile):
 
 # 更新待办事项附件
 def accessory_up(request, user_profile):
+    
+    
     req = request.body
     req = req.decode()
     req = json.loads(req)
@@ -560,7 +562,8 @@ def accessory_up(request, user_profile):
             if i['type'] == 'add':
                 if not all([i['url'], i['size'], i['name']]):
                     return JsonResponse({'errno': 2, 'message': '缺少必要参数'})
-                a = BacklogAccessory.objects.create(backlog_id=backlog, accessory_url=i['url'],
+                a = BacklogAccessory.objects.create(backlog_id=backlog, 
+                                                    accessory_url=i['url'],
                                                     accessory_size=i['size'],
                                                     accessory_name=i['name'])
                 return JsonResponse({'errno': 0, 'message': '修改完成', 'accessory_id': a.id})
@@ -568,7 +571,7 @@ def accessory_up(request, user_profile):
             elif i['type'] == 'del':
                 if not i['accessory_id']:
                     return JsonResponse({'errno': 3, 'message': '缺少必要参数'})
-                accessory = BacklogAccessory.objects.get(id=backlog_id)
+                accessory = BacklogAccessory.objects.get(id=i['accessory_id'])
                 accessory.is_delete = True
                 accessory.save()
             UpdateBacklog.objects.create(update_backlog="%s修改了附件" % uodate_time, backlog_id=backlog)
@@ -671,10 +674,11 @@ def backlogs_details(request, user_profile):
     accessory_list = []
     for accessory in backlogs_accessory_list:
         accessory_dict = {}
-        accessory_dict['id'] = accessory.backlog_id
+        accessory_dict['id'] = accessory.id
         accessory_dict['url'] = accessory.accessory_url
         accessory_dict["size"] = accessory.accessory_size
-        accessory_dict['"name'] = accessory.accessory_name
+        accessory_dict['name'] = accessory.accessory_name
+        accessory_list.append(accessory_dict)
     backlogs_dict['accessory_list'] = accessory_list
 
     return JsonResponse(

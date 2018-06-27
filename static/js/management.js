@@ -571,7 +571,6 @@
                         $("#file_choose").on("click", "#file_inputs", function (e) {
                             // e.preventDefault();
                             // $("#file-choose #file_inputs").trigger("click");
-                            console.log(4444)
                         });
                         $(".add_ctn").on("click",function(e){
                             $(".taskdetail_md").show();
@@ -649,57 +648,6 @@
                                 
                             }
                         })
-                        //统一
-                        // $(".todo_box").on("click",".add_checkbox",function(e){
-                        //     var inputid = Number($(this).attr("taskid"))
-                        //     console.log(inputid)
-                        //     var state = ($(this).attr("state"))
-                        //     console.log(state)
-                        //     if($(this).is(":checked")){
-                        //         var _this = $(this);
-                        //         state = ($(this).attr("state"))
-                        //         state = 0;
-                        //         var backlog_change = {
-                        //             state:0,
-                        //             backlog_id:inputid
-                        //         }
-                        //         var obj_backlog_change = JSON.stringify(backlog_change);
-                        //         $.ajax({
-                        //             type:"PUT",
-                        //             url:"json/zg/backlog/",
-                        //             contentType:"application/json",
-                        //             data:obj_backlog_change,
-                        //             success:function(res){
-                        //                 // _this.parent().parent().remove();
-                        //                 // $(".completed_box").prepend(_this.parent().parent());
-                        //                 $.ajax({
-                        //                     type:"GET",
-                        //                     url:"json/zg/backlog",
-                        //                     success:function(res){
-                        //                         $(".todo_box").children().remove();
-                        //                         var backlog_list = res.backlog_list
-                        //                         var past_due_list = res.past_due_list
-                        //                         var html_li = templates.render("todo_box_li",{backlog_list:backlog_list,past_due_list:past_due_list});
-                        //                         $(".todo_box").append(html_li)
-                        //                     }
-                        //                 })
-                        //                 $.ajax({
-                        //                     type:"GET",
-                        //                     url:"json/zg/backlog/accomplis",
-                        //                     data:{page:1},
-                        //                     success:function(rescompleted){
-                        //                         $(".completed_box").children().remove();
-                        //                         var completed_data = rescompleted.accomplis_backlog_list
-                        //                         var html_completed = templates.render("completed_li",{completed_data:completed_data})
-                        //                         $(".completed_box").append(html_completed);
-                        //                     }
-                        //                 })
-                        //             }
-                        //         })
-                        //     }else{
-                                
-                        //     }
-                        // })
                             },
                             error:function(reject){
                                 console.log(reject)
@@ -855,40 +803,7 @@
                         var html = templates.render("log_assistant_box",{receive_table_list:receive_table_list})
                         $(".app").after(html)
                         console.log(res)
-                        // 日志助手 我收到的
-                        // $(".log_assistant_received").on("click",function(e){
-                        //     e.stopPropagation();
-                        //     e.preventDefault();
-                        //     $.ajax({
-                        //         type:"GET",
-                        //         url:"json/zg/v1/my/receive/web",
-                        //         contentType:"application/json",
-                        //         success:function(res){
-                        //             $(".log_assistant_ctn").remove();
-                        //             var receive_table_list = res;
-                        //             var html = templates.render("log_assistant_box",{receive_table_list:receive_table_list})
-                        //             $(".app").after(html)
-                        //             console.log(res)
-                        //         }
-                        //     })
-                        // })
-                        // 日志助手 我发出的
-                        $(".log_assistant_box").on("click",".log_assistant_send",function(e){
-                            $.ajax({
-                                type:"GET",
-                                url:"json/zg/v1/my/send/web",
-                                contentType:"application/json",
-                                success:function(res){
-                                    // $(".log_assistant_md").remove();
-                                    console.log("hehiheihi")
-                                    var receive_table_list = res;
-                                    var html = templates.render("log_assistant_box",{receive_table_list:receive_table_list})
-                                    $(".app").after(html)
-                                    console.log(res)
-                                    console.log("222222")
-                                }
-                            })
-                        })
+                        
                         $(".log_assistant_md").on("click",function(e){
                             e.stopPropagation();
                             e.preventDefault();
@@ -916,19 +831,17 @@
                             $(".log_assistant_ctn").css("margin-top","0px");
                             $(".log_assistant_unread").hide();
                             $(".log_assistant_title").html("我收到的")
-                            // console.log("1------------")
-                            // $.ajax({
-                            //             type:"GET",
-                            //             url:"json/zg/v1/my/receive/web",
-                            //             contentType:"application/json",
-                            //             success:function(res){
-                            //                 $(".log_assistant_ctn").remove();
-                            //                 var receive_table_list = res.receive_table_list;
-                            //                 var html = templates.render("log_assistant_box",{receive_table_list:receive_table_list})
-                            //                 $(".app").after(html)
-                            //                 console.log(res)
-                            //             }
-                            //         })
+                            $.ajax({
+                                        type:"GET",
+                                        url:"json/zg/v1/my/receive/web",
+                                        contentType:"application/json",
+                                        success:function(res){
+                                            $(".log_assistant_ctn").remove();
+                                            var receive_table_list = res.receive_table_list;
+                                            var html = templates.render("log_assistant_receive",{receive_table_list:receive_table_list})
+                                            $(".log_assistant_ctn_box").append(html)
+                                        }
+                                    })
 
                         })
                         //我发出的 点击内容
@@ -938,19 +851,20 @@
                             $(".log_assistant_ctn").css("margin-top","20px");
                             $(".log_assistant_unread").show();
                             $(".log_assistant_title").html("我发出的")
-                            // console.log("2---------------")
-                            // $.ajax({
-                            //     type:"GET",
-                            //     url:"json/zg/v1/my/send/web",
-                            //     contentType:"application/json",
-                            //     success:function(res){
-                            //         console.log(res)
-                            //             $(".log_assistant_md").remove();
-                            //             var receive_table_list = res.receive_table_list;
-                            //             var html = templates.render("log_assistant_box",{receive_table_list:receive_table_list})
-                            //             $(".app").after(html)
-                            //             }
-                            //     })
+                            $.ajax({
+                                type:"GET",
+                                url:"json/zg/v1/my/send/web",
+                                contentType:"application/json",
+                                success:function(res){
+                                    console.log(res)
+                                    // $(".log_assistant_md").remove();
+                                    $(".log_assistant_unread").show();
+                                    $(".log_assistant_ctn").remove();
+                                    var send_table_list = res.send_table_list;
+                                    var html = templates.render("log_assistant_send",{send_table_list:send_table_list})
+                                    $(".log_assistant_ctn_box").append(html)
+                                    }
+                                })
                         })
 
 
