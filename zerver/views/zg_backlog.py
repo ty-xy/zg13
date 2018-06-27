@@ -567,7 +567,7 @@ def accessory_up(request, user_profile):
             elif i['type'] == 'del':
                 if not i['accessory_id']:
                     return JsonResponse({'errno': 3, 'message': '缺少必要参数'})
-                accessory = BacklogAccessory.objects.get(id=backlog_id)
+                accessory = BacklogAccessory.objects.get(id=i['accessory_id'])
                 accessory.is_delete = True
                 accessory.save()
             UpdateBacklog.objects.create(update_backlog="%s修改了附件" % uodate_time, backlog_id=backlog)

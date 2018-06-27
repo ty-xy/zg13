@@ -18,7 +18,6 @@ var consts = {
 function process_result(data, opts) {
     var messages = data.messages;
     $('#connection-error').removeClass("show");
-    //    console.log(message_list.narrowed)
        if(opts.msg_list.filter._operators[0].operand=== "management"){
         opts.msg_list._items=[]
         opts.msg_list._hash=[]
@@ -28,14 +27,11 @@ function process_result(data, opts) {
         opts.msg_list.view._rows=[]
         opts.msg_list._selected_id= -1
     }
-    
-    // console.log(opts,"opts")
     if ((messages.length === 0) && (current_msg_list === message_list.narrowed) &&
         message_list.narrowed.empty()) {
         // Even after trying to load more messages, we have no
         // messages to display in this narrow.
         narrow.show_empty_narrow_message();
-        // console.log(6)
     }
 
     _.each(messages, message_store.set_message_booleans);
@@ -52,15 +48,12 @@ function process_result(data, opts) {
     // the message_list.all as well, as the home_msg_list is reconstructed
     // from message_list.all.
     if (opts.msg_list === home_msg_list) {
-        // console.log("opts.msg_list",opts.msg_list === home_msg_list,home_msg_list)
         message_util.add_messages(messages, message_list.all, {messages_are_new: false});
     }
 
     if (messages.length !== 0) {
-        // console.log(211,opts.msg_list)
         message_util.add_messages(messages, opts.msg_list, {messages_are_new: false});
     }
-    // console.log(messages)
     activity.process_loaded_messages(messages);
     stream_list.update_streams_sidebar();
     pm_list.update_private_messages();
@@ -71,15 +64,12 @@ function process_result(data, opts) {
 }
 
 function get_messages_success(data, opts) {
-    // console.log(current_msg_list)
     if (opts.msg_list.narrowed && opts.msg_list !== current_msg_list) {
         // We unnarrowed before receiving new messages so
-        // console.log(15)
         // don't bother processing the newly arrived messages.
         return;
     }
     if (! data) {
-        // console.log(16)
         // The server occasionally returns no data during a
         // restart.  Ignore those responses and try again
         setTimeout(function () {
@@ -97,29 +87,24 @@ exports.load_messages = function (opts) {
     var data = {anchor: opts.anchor,
                 num_before: opts.num_before,
                 num_after: opts.num_after};
-    //  console.log(opts)
     if (opts.msg_list.narrowed && narrow_state.active()) {
         var operators = narrow_state.public_operators();
-        // console.log(312321)
         if (page_params.narrow !== undefined) {
             operators = operators.concat(page_params.narrow);
-            // console.log(1)
         }
         data.narrow = JSON.stringify(operators);
     }
     if (opts.msg_list === home_msg_list && page_params.narrow_stream !== undefined) {
         data.narrow = JSON.stringify(page_params.narrow);
-            // console.log(2)
     }
     if (opts.use_first_unread_anchor) {
         data.use_first_unread_anchor = true;
-        // console.log(3)
     }
 
     data.client_gravatar = true;
     // if(opts.msg_list.filter._operators[0].operand=== "management"){
     //     opts.msg_list.filter._operators[0].operand= "private"
-    //     console.log(opts.msg_list.filter._operators[0].operand)
+
     // }
     var state;
     function updata(){
@@ -186,7 +171,6 @@ exports.load_messages = function (opts) {
                             var taskid = Number($(this).attr("taskid"))
                             backlog_id = taskid;
                             var backlog_id = backlog_id;
-                            console.log(backlog_id)
                             var obj = {
                                 "backlog_id":backlog_id
                             }
@@ -225,8 +209,6 @@ exports.load_messages = function (opts) {
                                         update_backlog_list:update_backlog_list,
                                         accessory_dict:accessory_dict
                                     })
-                                    console.log(accessory_dict)
-                                    console.log(res)
                                     $(".app").after(html)
                                     $(".taskdetail_md").show();
                                     var obj_backlog_details = {
@@ -241,7 +223,6 @@ exports.load_messages = function (opts) {
                                    function make_upload_absolute(uri) {
                                        if (uri.indexOf(compose.uploads_path) === 0) {
                                            // Rewrite the URI to a usable link
-                                           console.log(compose.uploads_path,compose.uploads_domain)
                                            return compose.uploads_domain + uri;
                                        }
                                        return uri;
@@ -254,7 +235,6 @@ exports.load_messages = function (opts) {
                                        var filename = split_uri[split_uri.length - 1];
                                        var uri = make_upload_absolute(response.uri);
                                        var size = (file.size/1024/1024).toFixed(2);
-                                       console.log(uri,filename,file,response)
                                        var _obj_accessory = {accessory_list:[
                                             {url:uri,
                                             name:filename,
@@ -262,8 +242,8 @@ exports.load_messages = function (opts) {
                                             type:"add"
                                             }
                                         ],backlog_id:backlog_id}
-                                        console.log(_obj_accessory)
                                        var obj_accessory = JSON.stringify(_obj_accessory);
+                                       var accessory_id;
                                        $.ajax({
                                             type:"POST",
                                             url:"json/zg/accessory",
@@ -271,28 +251,76 @@ exports.load_messages = function (opts) {
                                             contentType:"application/json",
                                             data:obj_accessory,
                                             success:function(res){
-                                                console.log(res)
+                                                accessory_id = res.accessory_id
                                             }
                                        })
                                        if(i != -1){
-                                           var li =  
-                                           "<li class='taskdetail_attachment'>\
-                                           <div class='taskdetail_attachment_left'>\
-                                               <img src='../../static/img/pnglogo.png' alt=''>\
-                                               <p>"+filename+"</p>\
-                                               <p>\
-                                                   <span>"+size+"MB</span>\
-                                                   <span>09:31</span>\
-                                               </p>\
-                                           </div>\
-                                           <div class='taskdetail_attachment_right'>\
-                                               <span class='taskdetail_download'>下载</span>\
-                                               <span class='taskdetail_delete'>删除</span>\
-                                           </div>\
-                                       </li>"
-                                           $(".taskdetail_attachment_box").append(li)
+                                           $.ajax({
+                                                type:"GET",
+                                                url:"json/zg/backlog/details",
+                                                contentType:"application/json",
+                                                data:obj,
+                                                success:function(res){
+                                                    var accessory_dict = res.backlog_dict.accessory_list; 
+                                                    var accessory_li = templates.render("accessory_li",{accessory_dict:accessory_dict});
+                                                    $(".taskdetail_attachment_box").children().remove();
+                                                    $(".taskdetail_attachment_box").append(accessory_li)
+                                                    //任务详情弹窗内的文件展示 划入事件
+                                                    $(".taskdetail_attachment").on("mousemove",function(e){
+                                                        $(this).css("border","1px solid #A0ACBF")
+                                                        $(this).children().last().show();
+                                                    })
+                                                    //任务详情弹窗内的文件展示 划出事件
+                                                    $(".taskdetail_attachment").on("mouseleave",function(e){
+                                                        $(this).css("border","1px solid #fff")
+                                                        $(this).children().last().hide();
+                                                    })
+                                                    //下载附件
+                                                    $(".taskdetail_download").on("click",function(e){
+                                                        window.open($(this).prev().val())
+                                                    })
+                                                    //删除附件
+                                                    $(".taskdetail_attachment").on("click",".taskdetail_delete",function(e){
+                                                        var _this = $(this)
+                                                        var accessory_id = $(this).parent().parent().val();
+                                                        var _obj_accessory = {accessory_list:[
+                                                            {
+                                                                accessory_id:accessory_id,
+                                                                type:"del"
+                                                            }],backlog_id:backlog_id
+                                                        }
+                                                        var obj_accessory = JSON.stringify(_obj_accessory)
+                                                        $.ajax({
+                                                            type:"POST",
+                                                            url:"json/zg/accessory",
+                                                            contentType:"application/json",
+                                                            data:obj_accessory,
+                                                            success:function(res){
+                                                                if(res.errno==0){
+                                                                    _this.parent().parent().remove();
+                                                                }
+                                                            }
+                                                        })
+                                                    })
+                                                }
+                                           })
+                                    //        var li =  
+                                    //        "<li class='taskdetail_attachment' val="+accessory_id+">\
+                                    //        <div class='taskdetail_attachment_left'>\
+                                    //            <img src='../../static/img/pnglogo.png' alt=''>\
+                                    //            <p>"+filename+"</p>\
+                                    //            <p>\
+                                    //                <span>"+size+"MB</span>\
+                                    //            </p>\
+                                    //        </div>\
+                                    //        <div class='taskdetail_attachment_right'>\
+                                    //            <span class='taskdetail_download'>下载</span>\
+                                    //            <span class='taskdetail_delete'>删除</span>\
+                                    //        </div>\
+                                    //    </li>"
                                        }
                                    };
+                            
                                    $("#file_choose").filedrop({
                                        url: "/json/user_uploads",
                                        fallback_id: 'file_inputs',  // Target for standard file dialog
@@ -308,7 +336,7 @@ exports.load_messages = function (opts) {
                                        // error: uploadError,
                                        uploadFinished: uploadFinished,
                                     //    afterAll:function(contents){
-                                    //        console.log(contents,321312)
+
                                     //    }
                                    })
                                     $("textarea[name='"+id+"']").on("blur",function(e){
@@ -320,10 +348,39 @@ exports.load_messages = function (opts) {
                                             contentType:"application/json",
                                             data:backlog_details,
                                             success:function(res){
-
+                                                
                                             }
                                         })
                                     })
+
+                            //删除附件
+                            $(".taskdetail_attachment").on("click",".taskdetail_delete",function(e){
+                                var _this = $(this)
+                                var accessory_id = $(this).parent().parent().val();
+                                var _obj_accessory = {accessory_list:[
+                                    {
+                                        accessory_id:accessory_id,
+                                        type:"del"
+                                    }],backlog_id:backlog_id
+                                }
+                                var obj_accessory = JSON.stringify(_obj_accessory)
+                                $.ajax({
+                                    type:"POST",
+                                    url:"json/zg/accessory",
+                                    contentType:"application/json",
+                                    data:obj_accessory,
+                                    success:function(res){
+                                        if(res.errno==0){
+                                            _this.parent().parent().remove();
+                                        }
+                                    }
+                                })
+                            })
+                            //下载附件
+                            $(".taskdetail_download").on("click",function(e){
+                                window.open($(this).prev().val())
+                            })
+
                             //点击任务详情模版关闭任务详情
                             $(".taskdetail_md").on("click",function(e){
                                 e.stopPropagation();
@@ -363,7 +420,6 @@ exports.load_messages = function (opts) {
                                 var backlog_id = id;
                                 var state = $(".taskdetail_state[name='"+id+"']").val();
                                 // var state = Number(localStorage.getItem("state"));
-                                console.log(state)
                                 var task_details = $("textarea[name='"+id+"']").val();
                                 var obj_backlog_data = {
                                     create_time:create_time,
@@ -530,7 +586,8 @@ exports.load_messages = function (opts) {
                                                 var over_time = timestampToTime(res.backlog_dict.over_time).substring(0,10);
                                                 var state = res.backlog_dict.state;
                                                 var id = res.backlog_dict.id;
-                                                var update_backlog_list = res.update_backlog_list 
+                                                var update_backlog_list = res.update_backlog_list;
+                                                var accessory_dict = res.backlog_dict.accessory_list; 
                                                 var html = templates.render("taskdetail_md",{
                                                     taskdetail_list:taskdetail_list,
                                                     taskdetail_addnote:taskdetail_addnote,
@@ -538,7 +595,8 @@ exports.load_messages = function (opts) {
                                                     over_time:over_time,
                                                     state:state,
                                                     id:id,
-                                                    update_backlog_list:update_backlog_list
+                                                    update_backlog_list:update_backlog_list,
+                                                    accessory_dict:accessory_dict
                                                 })
                                                 $(".app").after(html)
                                                 $(".taskdetail_md").show();
@@ -547,7 +605,6 @@ exports.load_messages = function (opts) {
                                                     task_details:"",
                                                 }
                                                 $("textarea[name='"+id+"']").on("blur",function(e){
-                                                    console.log($("textarea[name='"+id+"']").val())
                                                     obj_backlog_details.task_details = $("textarea[name='"+id+"']").val();
                                                     var backlog_details = JSON.stringify(obj_backlog_details)
                                                     $.ajax({
@@ -609,7 +666,7 @@ exports.load_messages = function (opts) {
                                                 }
                                             })
                                         })
-                                        //任务详情弹窗内的文件展示 划入事件
+                                        //任务详情弹窗内的文件展示 划入事件taskdetail_attachment_box
                                         $(".taskdetail_attachment").on("mousemove",function(e){
                                             $(this).css("border","1px solid #A0ACBF")
                                             $(this).children().last().show();
@@ -708,7 +765,7 @@ exports.load_messages = function (opts) {
                     }
                 },
                 error:function(rej){
-                    console.log(rej)
+
                 }   
             });
             //同级标记 不分先后

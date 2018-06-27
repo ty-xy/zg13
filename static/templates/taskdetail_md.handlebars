@@ -51,7 +51,7 @@
                 </div>
                 <ul class="taskdetail_attachment_box">
                     {{#each accessory_dict}}
-                    <li class="taskdetail_attachment">
+                    <li class="taskdetail_attachment" value="{{id}}">
                         <div class="taskdetail_attachment_left">
                             <img src="../../static/img/pnglogo.png" alt="">
                             <p>{{name}}</p>
@@ -61,6 +61,7 @@
                             </p>
                         </div>
                         <div class="taskdetail_attachment_right">
+                            <input type="hidden" value="{{url}}">
                             <span class="taskdetail_download">下载</span>
                             <span class="taskdetail_delete">删除</span>
                         </div>
