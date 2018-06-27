@@ -1,6 +1,6 @@
 from zerver.models import Backlog, BacklogAccessory, UpdateBacklog, Statement, StatementBacklog, StatementAccessory, \
     StatementState, UserProfile, Stream
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, HttpRequest
 import datetime, time, json, calendar
 
 import re
@@ -14,7 +14,7 @@ def state_view(request, user_profile):
     table_id = request.GET.get('table_id')
     states = request.GET.get('state')
 
-    if not all([table_id,states]):
+    if not all([table_id, states]):
         return JsonResponse({{'errno': 2, 'message': "缺少必要参数", }})
     if states == 't':
         try:
@@ -48,7 +48,6 @@ def state_view(request, user_profile):
 
 # 查看自己和他人的报表
 def look_table(request, user_profile):
-
     table_id = request.GET.get('table_id')
     if not table_id:
         return JsonResponse({{'errno': 2, 'message': "缺少必要参数", }})
@@ -97,8 +96,7 @@ def look_table(request, user_profile):
 
 
 # web接收到日志
-def web_my_receive(request,user_profile):
-
+def web_my_receive(request, user_profile):
     try:
         statement_state_list = StatementState.objects.filter(staff=user_profile.id).order_by('-id')
     except Exception:
@@ -114,7 +112,8 @@ def web_my_receive(request,user_profile):
             web_my_receive_dict['fullname'] = user.full_name
             web_my_receive_dict['generate_time'] = statement_state.receive_time
             web_my_receive_dict['table_id'] = s.id
-            web_my_receive_dict ['accomplish']=s.accomplish
+
+            web_my_receive_dict['accomplish'] = s.accomplish
             web_my_receive_dict['overdue'] = s.overdue
             web_my_receive_dict['underway'] = s.underway
             backlog_list = []
@@ -144,7 +143,7 @@ def web_my_receive(request,user_profile):
 
 
 # web发送的日志
-def web_my_send(request,user_profile):
+def web_my_send(request, user_profile):
     try:
         statement = Statement.objects.filter(user=user_profile.email).order_by('-id')
     except Exception:
@@ -154,13 +153,13 @@ def web_my_send(request,user_profile):
         send_table_list = []
         for statement_state in statement:
             web_my_receive_dict = {}
-            
+
             user = UserProfile.objects.get(email=statement_state.user)
             web_my_receive_dict['avatarurl'] = user.avatar_source
             web_my_receive_dict['fullname'] = user.full_name
             web_my_receive_dict['generate_time'] = statement_state.generate_time
             web_my_receive_dict['table_id'] = statement_state.id
-            web_my_receive_dict ['accomplish']=statement_state.accomplish
+            web_my_receive_dict['accomplish'] = statement_state.accomplish
             web_my_receive_dict['overdue'] = statement_state.overdue
             web_my_receive_dict['underway'] = statement_state.underway
             backlog_list = []
@@ -257,8 +256,8 @@ def stream_recipient_data(request, user_profile):
             user_data_dict['fullname'] = user.full_name
             user_data_dict['email'] = user.email
             streams_user_data_list.append(user_data_dict)
-
-        streams_dict[streams_user_id_list] = streams_user_data_list
+        a=Stream.objects.get(id=streams_user_id_list)
+        streams_dict[a.name] = streams_user_data_list
         streams_dict['no_strems'] = []
 
     return JsonResponse({'errno': 0, 'message': "获取成功", 'streams_dict': streams_dict})
@@ -292,8 +291,8 @@ def table_view(request, user_profile):
     try:
         generate_time = time.time()
         a = Statement(user=user, generate_time=generate_time, accomplish=accomplish, overdue=overdue,
-                        underway=underway,
-                        types=date_type)
+                      underway=underway,
+                      types=date_type)
         a.save()
 
         if backlogs_list:
@@ -552,10 +551,11 @@ def accessory_up(request, user_profile):
     time_array = time.localtime(now)
     uodate_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
     accessory_list = req['accessory_list']
+    backlog_id = req['backlog_id']
 
     try:
         for i in accessory_list:
-            backlog = Backlog.objects.get(id=i['backlog_id'])
+            backlog = Backlog.objects.get(id=backlog_id)
 
             if i['type'] == 'add':
                 if not all([i['url'], i['size'], i['name']]):
@@ -563,13 +563,12 @@ def accessory_up(request, user_profile):
                 a = BacklogAccessory.objects.create(backlog_id=backlog, accessory_url=i['url'],
                                                     accessory_size=i['size'],
                                                     accessory_name=i['name'])
-                return JsonResponse({'errno': 0, 'message': '修改完成', 'id': a.id})
+                return JsonResponse({'errno': 0, 'message': '修改完成', 'accessory_id': a.id})
 
             elif i['type'] == 'del':
                 if not i['accessory_id']:
                     return JsonResponse({'errno': 3, 'message': '缺少必要参数'})
-
-                accessory = BacklogAccessory.objects.get(id=i['accessory_id'])
+                accessory = BacklogAccessory.objects.get(id=backlog_id)
                 accessory.is_delete = True
                 accessory.save()
             UpdateBacklog.objects.create(update_backlog="%s修改了附件" % uodate_time, backlog_id=backlog)
@@ -647,7 +646,7 @@ def backlogs_view_g(request, user_profile):
     return JsonResponse({'errno': 0, 'message': '成功', 'past_due_list': past_due_list, 'backlog_list': backlog_list})
 
 
-# 事项详情详情
+# 事项详情
 def backlogs_details(request, user_profile):
     backlog_id = request.GET.get('backlog_id')
     try:
@@ -669,13 +668,14 @@ def backlogs_details(request, user_profile):
     backlogs_dict['task'] = backlogs.task
     backlogs_dict['task_details'] = backlogs.task_details
     backlogs_dict['state'] = backlogs.state
-    accessory_dict = {}
+    accessory_list = []
     for accessory in backlogs_accessory_list:
-        accessory_dict[accessory.id] = accessory.accessory_url
+        accessory_dict = {}
+        accessory_dict['id'] = accessory.backlog_id
+        accessory_dict['url'] = accessory.accessory_url
         accessory_dict["size"] = accessory.accessory_size
         accessory_dict['"name'] = accessory.accessory_name
-
-    backlogs_dict['accessory_dict'] = accessory_dict
+    backlogs_dict['accessory_list'] = accessory_list
 
     return JsonResponse(
         {'errno': 0, 'message': '成功', 'backlog_dict': backlogs_dict, "update_backlog_list": update_backlog_list})
@@ -729,6 +729,3 @@ def accomplis_backlogs_view(request, user_profile):
         accomplis_backlogs_listss.append(a)
 
     return JsonResponse({'errno': 0, 'message': '成功', 'accomplis_backlog_list': accomplis_backlogs_listss})
-
-
-

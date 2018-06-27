@@ -370,13 +370,13 @@ v1_api_and_json_patterns = [
 
     # 修改待办事项附件
     url(r'^zg/accessory$', rest_dispatch,
-        {'PUT': 'zerver.views.zg_backlog.accessory_up'}),
+        {'POST': 'zerver.views.zg_backlog.accessory_up'}),
 
     # 发送周报
     url(r'^zg/v1/table$', rest_dispatch,
         {'POST': 'zerver.views.zg_backlog.table_view'}),
     #频道信息表
-    url(r'^zg/stream/recipient/data$', rest_dispatch,
+    url(r'^zg/v1/stream/recipient/data$', rest_dispatch,
         {'GET': 'zerver.views.zg_backlog.stream_recipient_data'}),
     # 日志助手
     url(r'^zg/v1/log/assistant$', rest_dispatch,
