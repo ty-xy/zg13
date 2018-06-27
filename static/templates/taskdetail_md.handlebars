@@ -50,7 +50,23 @@
                     </p>
                 </div>
                 <ul class="taskdetail_attachment_box">
+                    {{#each accessory_dict}}
                     <li class="taskdetail_attachment">
+                        <div class="taskdetail_attachment_left">
+                            <img src="../../static/img/pnglogo.png" alt="">
+                            <p>{{name}}</p>
+                            <p>
+                                <span>{{size}}</span>
+                                {{!-- <span>{{}}</span> --}}
+                            </p>
+                        </div>
+                        <div class="taskdetail_attachment_right">
+                            <span class="taskdetail_download">下载</span>
+                            <span class="taskdetail_delete">删除</span>
+                        </div>
+                    </li>
+                    {{/each}}
+                    {{!-- <li class="taskdetail_attachment">
                         <div class="taskdetail_attachment_left">
                             <img src="../../static/img/pnglogo.png" alt="">
                             <p>工程项目报表.jpg</p>
@@ -63,21 +79,7 @@
                             <span class="taskdetail_download">下载</span>
                             <span class="taskdetail_delete">删除</span>
                         </div>
-                    </li>
-                    <li class="taskdetail_attachment">
-                        <div class="taskdetail_attachment_left">
-                            <img src="../../static/img/pnglogo.png" alt="">
-                            <p>工程项目报表.jpg</p>
-                            <p>
-                                <span>3.29MB</span>
-                                <span>09:31</span>
-                            </p>
-                        </div>
-                        <div class="taskdetail_attachment_right">
-                            <span class="taskdetail_download">下载</span>
-                            <span class="taskdetail_delete">删除</span>
-                        </div>
-                    </li>
+                    </li> --}}
                 </ul>
                 <div class="taskdetail_records_box">
                     <div>
