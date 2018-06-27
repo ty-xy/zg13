@@ -184,6 +184,7 @@ ul{
     margin-top: -295px;
     overflow: auto;
     border-radius: 3px;
+    overflow-x: hidden;
 }
 .taskdetail_head{
     background: #FFFFFF;
@@ -1090,12 +1091,12 @@ ul{
 }
 .log_assistant_commentsctn>p>span:nth-last-of-type(1){
     font-size: 13px;
-    color: #71829D;
+    color: #666666;
     letter-spacing: 0.16px;
 }
 .log_assistant_commentsctn>p>span:nth-last-of-type(2){
     font-size: 13px;
-    color: #666666;
+    color: #71829D;
     letter-spacing: 0.16px;
 }
 .log_assistant_commentsctn{
