@@ -1,3 +1,4 @@
+
 <div id="people-choose" class="choose-teams choose-people-teams">
     <div class="choose-header">
         选择发送人
@@ -12,12 +13,12 @@
                <input type="checkbox" class="checkbox-input"/>
                <span>全选</span>
             </div>
-            <ul class="box-left-list">
+            <ul class="box-left-list box-left-button">
                 {{#each data}}
                  <li class="input-box-list">
                     <div class="box-list-left">
                         <input type="checkbox"  inputid={{@key}} class="choose-check"/>
-                        <span>{{this}}</span>
+                        <span>{{@key}}</span>
                     </div>
                     <button class="button-right next-right" button-key={{@key}}>下级</button>
                 </li>
@@ -27,8 +28,8 @@
         </div>
         <div class="choose-right-list">
             <div class="icon-sousuo-search choose-right">
-                <div>已选(5)</div>
-                <button class="button-right">清空</button>
+                <div class="already-choose">选中(0)</div>
+                <button class="button-right-clear">清空</button>
             </div>
             <ul class="box-left-list box-right-list">
               

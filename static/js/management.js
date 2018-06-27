@@ -214,8 +214,167 @@
             $('.new_plan').on('click',".new_plan_cancel",function(e){
                 cancel()
             })
+            function button(){
+                 //点击清空
+                 $(".button-right-clear").on('click',function(e){
+                    // 清空右边列表
+                      $(".box-right-list").empty()
+                    // 选中的数数值为0
+                    $('.already-choose').text("选中(0)")
+                    //左边的选中状态都是false
+                    $(".choose-check").prop("checked", false);
+                })
+                //点击取消
+                $(".button-cancel").on("click",function(e){
+                    $(".modal-log").hide()
+                    //清除里面所有的元素，模态框消失。
+                    $(".modal-log-content").empty()
+                 })
+            }
+            function confirm(){
+                //点击确定
+                $('.button-confirm').on('click',function(e){
+                    var arrlist =[]
+                    $(".box-right-list").children().each(function () { 
+                        var id = Number($(this).attr("key-data"));
+                        var avatar = $(this).attr("avatarurl")
+                        var name = $(this).children().find('.name-list').text()
+                        var peppleList = {
+                            id:id,
+                            avatar:avatar,
+                            name:name,
+                            namel:name.slice(0,4)+"...."
+                        }
+                        arrlist.push(peppleList)
+                    })
+                    var li = $(templates.render('send_people',{
+                       peoplelist:arrlist
+                   }));
+                   console.log(arrlist)
+                   $(".add_log_people").before(li)
+                   $('.box-right-list').remove()
+                   $(".modal-log").hide()
+                   //清除里面所有的元素，模态框消失。
+                   $(".modal-log-content").empty()
+                })
+            }
+            function deletes(){
+                var childrenlength=$(".box-right-list").children().length
+                // 给选中赋值
+                $('.already-choose').text("选中("+childrenlength+")")
+                  //点击删除,选取的人删除,判断左边频道的状态
+                $(".box_list_right").on('click',".button-right",function(e){
+                    var attr= $(this).parent().attr('data_id')
+                    $(this).parent().remove()
+                    // 点击删除的时候，选中的人数减一
+                    var clength = $('.already-choose').text().slice(3,4)-1
+                    if(clength>0){
+                        $('.already-choose').text("选中("+clength+")")
+                    }else{
+                        $('.already-choose').text("选中(0)")
+                    }
+                    var length= $("[data_id='"+attr+"']").length
+                    //频道里面的人长度为0，左边的选中状态取消
+                    if(length===0){
+                        $("[inputid='"+attr+"']:checkbox").prop("checked", false);
+                    }
+                })
+            }
+              
            // 1.点击添加人员
+           $('.add_log_people').on("click",".generate_log_member_addlogo",function(e){ 
+               //显示模态框
+               $(".modal-log").show()
+              //获取数据
            
+              channel.get({
+                  url:"json/zg/v1/stream/recipient/data",
+                  success:function(data){
+                    var rendered = $(templates.render('choose',{
+                        data:data.streams_dict
+                    }));
+                     // 渲染频道
+                    $(".modal-log-content").append(rendered)
+                     //点击频道频道
+                    var lid = $(".choose-nav-left").children()
+                    $(".choose-nav-left .box-left-button").on('click','.choose-check',function(e){
+                        var inputid= $(this).attr("inputid")
+                        console.log(6)
+                        if($(this).is(":checked")){
+                            data_list= data.streams_dict[inputid]
+                            console.log(data_list)
+                            data_list.forEach(function(val,i){
+                                 val.did=inputid
+                            })
+                            var li = $(templates.render('choose_person',{
+                                datalist:data_list
+                            }));
+                            $(".box-right-list").append(li)
+                            // $('.choose-nav-left').applend(li)
+                            //查看$(".box-right-list").长度
+                            deletes()
+                            //点击清空
+                        }else{
+                            //没有咋勾选状态，就移除元素
+                            $("[data_id='"+inputid+"']").remove()
+                        }
+                    }) 
+                    confirm()
+                    //点击取消，模态框取消，里面所有的元素都没有了
+                    button()
+                    //点击下级
+                    $('.choose-nav-left').on('click',".back-choose",function(e){
+                        // var li = $(templates.render('choose_channel',{
+                        //     data:data.streams_dict
+                        // }));
+                        $(".choose-nav-left").children().remove()
+                        console.log(8)
+                        $(".choose-nav-left").html(lid)
+                    })
+                    $('.choose-nav-left').on('click',".next-right",function(e){
+                        // $(".modal-log-content").empty()
+                           // 渲染频道下级选发送人
+                        $(".choose-nav-left").empty()
+                        var id = $(this).attr('button-key')
+                        var li = $(templates.render('choose_people',{
+                            datalists:data.streams_dict[id],
+                            channels:id
+                        }));
+                        $(".choose-nav-left").append(li)
+                        console.log(5)
+                        $(".choose-nav-left").on("click",".choose-list-box",function(e){
+                            console.log(423423)
+                            var inputid= $(this).attr("data-key")
+                            // 获得人的名字
+                            var silcontent = $.trim($(this).parent().text())
+                            // 获得头像
+                            var avatarurl =$(this).parent().parent().attr("avatar")
+                            if($(this).is(":checked")){
+                                console.log(123)
+                               var li = "<li class='input-box-list box_list_right' key-data="+inputid+" avatarurl="+avatarurl+">\
+                                        <div class='box-list-left'>\
+                                            <span class='name-list'>"+silcontent+"</span>\
+                                        </div>\
+                                        <button class='button-right' data-id="+inputid+">删除</button>\
+                                    </li>"
+                            // $(".modal-log-content").empty()
+                            $('.box-right-list').append(li)
+                            deletes()
+                            $(".box_list_right").on('click','.button-right',function(e){
+                                var keydata = $(this).attr('data-id')
+                                $("[data-key='"+keydata+"']:checkbox").prop("checked", false);
+                            })
+                            }else{
+                                $("[key-data='"+inputid+"']").remove()
+                            }
+                        })
+                        // 点击选取联系人,返回频道选人
+                        button()
+                        confirm()
+                    })
+                  }
+              })
+           })
         }
      
         $(".generate_log").on("click",function(e){
