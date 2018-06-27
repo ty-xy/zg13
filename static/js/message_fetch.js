@@ -617,6 +617,33 @@ exports.load_messages = function (opts) {
                                                         }
                                                     })
                                                 })
+                                                //下载附件
+                                                $(".taskdetail_download").on("click",function(e){
+                                                    window.open($(this).prev().val())
+                                                })
+                                                //删除附件
+                                                $(".taskdetail_attachment").on("click",".taskdetail_delete",function(e){
+                                                    var _this = $(this)
+                                                    var accessory_id = $(this).parent().parent().val();
+                                                    var _obj_accessory = {accessory_list:[
+                                                        {
+                                                            accessory_id:accessory_id,
+                                                            type:"del"
+                                                        }],backlog_id:backlog_id
+                                                    }
+                                                    var obj_accessory = JSON.stringify(_obj_accessory)
+                                                    $.ajax({
+                                                        type:"POST",
+                                                        url:"json/zg/accessory",
+                                                        contentType:"application/json",
+                                                        data:obj_accessory,
+                                                        success:function(res){
+                                                            if(res.errno==0){
+                                                                _this.parent().parent().remove();
+                                                            }
+                                                        }
+                                                    })
+                                                })
                                         //点击任务详情模版关闭任务详情
                                         $(".taskdetail_md").on("click",function(e){
                                             e.stopPropagation();

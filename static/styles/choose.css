@@ -164,6 +164,7 @@ input[type="checkbox"]{
 #file_choose{
     float:right;
     position: relative;
+    cursor: pointer;
 }
 .test-image-file{
     width:10px;
