@@ -214,7 +214,7 @@ exports.load_messages = function (opts) {
                                     var state = res.backlog_dict.state;
                                     var id = res.backlog_dict.id;
                                     var update_backlog_list = res.update_backlog_list;
-                                    var accessory_dict = res.backlog_dict.accessory_dict;                                    ;
+                                    var accessory_dict = res.backlog_dict.accessory_list;                                    ;
                                     var html = templates.render("taskdetail_md",{
                                         taskdetail_list:taskdetail_list,
                                         taskdetail_addnote:taskdetail_addnote,
