@@ -1,4 +1,4 @@
-<div id="people-choose" class="choose-teams">
+<div id="people-choose" class="choose-teams choose-people-teams">
     <div class="choose-header">
         选择发送人
     </div>
@@ -19,37 +19,10 @@
                         <input type="checkbox"  inputid={{@key}} class="choose-check"/>
                         <span>{{this}}</span>
                     </div>
-                    <button class="button-right" button-key={{@key}}>下级</button>
+                    <button class="button-right next-right" button-key={{@key}}>下级</button>
                 </li>
                  {{/each}}
-                {{!-- <li class="input-box-list">
-                    <div class="box-list-left">
-                        <input type="checkbox"/>
-                        <span>设计组</span>
-                    </div>
-                    <button class="button-right">下级</button>
-                </li>
-                <li class="input-box-list">
-                    <div class="box-list-left">
-                        <input type="checkbox"/>
-                        <span>产品组</span>
-                    </div>
-                    <button class="button-right">下级</button>
-                </li>
-                <li class="input-box-list">
-                    <div class="box-list-left">
-                        <input type="checkbox"/>
-                        <span>运营组</span> 
-                    </div>
-                    <button class="button-right">下级</button>
-                </li>
-                <li class="input-box-list">
-                    <div class="box-list-left">
-                        <input type="checkbox"/>
-                        <span>测试组</span>
-                    </div>
-                    <button class="button-right">下级</button>
-                </li> --}}
+              
             </ul>
         </div>
         <div class="choose-right-list">
@@ -62,7 +35,7 @@
             </ul>
            <div class="button-bottom">
                <button class="button-anniu button-cancel">取消</button>
-               <button class="button-anniu button-confirm">确定</button>
+               <button class="button-anniu button-confirm button-sure">确定</button>
            </div>
         </div>
     </div>

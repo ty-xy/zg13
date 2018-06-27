@@ -1258,10 +1258,10 @@ ul{
     left: 0;
     top: 0;
     z-index: 1000;
-    height: 1080px;
+    /* height: 1080px; */
     overflow: auto;
 }
-.modal-log-conent{
+.modal-log-content{
     width: inherit;
     height: inherit;
     display: flex;
