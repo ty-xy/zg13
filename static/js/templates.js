@@ -86,6 +86,14 @@ Handlebars.registerHelper('tt', function (timestamp) {
     return Y+M+D;
     // return options.inverse(this);
 });
+
+// Handlebars.registerHelper("tl",function(str){
+//     var dict = [];
+//     // str = str.replace(/-/g,'/');
+//     // var regx = /:/g,
+
+// })
+
 Handlebars.registerHelper('addKey',function(index){  
     return index + 1;  
 }); 

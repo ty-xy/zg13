@@ -545,36 +545,39 @@ def backlogs_view_pu(request, user_profile):
 
 # 更新待办事项附件
 def accessory_up(request, user_profile):
+    
+    
     req = request.body
+    print (req)
     req = req.decode()
     req = json.loads(req)
     now = int(time.time())
     time_array = time.localtime(now)
     uodate_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
     accessory_list = req['accessory_list']
+    backlog_id=req['backlog_id']
+    # try:
+    for i in accessory_list:
+        backlog = Backlog.objects.get(id=backlog_id)
 
-    try:
-        for i in accessory_list:
-            backlog = Backlog.objects.get(id=i['backlog_id'])
+        if i['type'] == 'add':
+            if not all([i['url'], i['size'], i['name']]):
+                return JsonResponse({'errno': 2, 'message': '缺少必要参数'})
+            a = BacklogAccessory.objects.create(backlog_id=backlog, accessory_url=i['url'],
+                                                accessory_size=i['size'],
+                                                accessory_name=i['name'])
+            return JsonResponse({'errno': 0, 'message': '修改完成', 'id': a.id})
 
-            if i['type'] == 'add':
-                if not all([i['url'], i['size'], i['name']]):
-                    return JsonResponse({'errno': 2, 'message': '缺少必要参数'})
-                a = BacklogAccessory.objects.create(backlog_id=backlog, accessory_url=i['url'],
-                                                    accessory_size=i['size'],
-                                                    accessory_name=i['name'])
-                return JsonResponse({'errno': 0, 'message': '修改完成', 'id': a.id})
+        elif i['type'] == 'del':
+            if not i['accessory_id']:
+                return JsonResponse({'errno': 3, 'message': '缺少必要参数'})
 
-            elif i['type'] == 'del':
-                if not i['accessory_id']:
-                    return JsonResponse({'errno': 3, 'message': '缺少必要参数'})
-
-                accessory = BacklogAccessory.objects.get(id=i['accessory_id'])
-                accessory.is_delete = True
-                accessory.save()
+            accessory = BacklogAccessory.objects.get(id=i['accessory_id'])
+            accessory.is_delete = True
+            accessory.save()
             UpdateBacklog.objects.create(update_backlog="%s修改了附件" % uodate_time, backlog_id=backlog)
-    except Exception:
-        return JsonResponse({'errno': 1, 'message': '事项id错误'})
+    # except Exception:
+        # return JsonResponse({'errno': 1, 'message': '事项id错误'})
     return JsonResponse({'errno': 0, 'message': '修改完成'})
 
 
@@ -673,7 +676,7 @@ def backlogs_details(request, user_profile):
     for accessory in backlogs_accessory_list:
         accessory_dict[accessory.id] = accessory.accessory_url
         accessory_dict["size"] = accessory.accessory_size
-        accessory_dict['"name'] = accessory.accessory_name
+        accessory_dict['name'] = accessory.accessory_name
 
     backlogs_dict['accessory_dict'] = accessory_dict
 

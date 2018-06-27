@@ -214,6 +214,7 @@ exports.load_messages = function (opts) {
                                     var state = res.backlog_dict.state;
                                     var id = res.backlog_dict.id;
                                     var update_backlog_list = res.update_backlog_list;
+                                    var accessory_dict = res.backlog_dict.accessory_dict;                                    ;
                                     var html = templates.render("taskdetail_md",{
                                         taskdetail_list:taskdetail_list,
                                         taskdetail_addnote:taskdetail_addnote,
@@ -221,8 +222,10 @@ exports.load_messages = function (opts) {
                                         over_time:over_time,
                                         state:state,
                                         id:id,
-                                        update_backlog_list:update_backlog_list
+                                        update_backlog_list:update_backlog_list,
+                                        accessory_dict:accessory_dict
                                     })
+                                    console.log(accessory_dict)
                                     console.log(res)
                                     $(".app").after(html)
                                     $(".taskdetail_md").show();
@@ -250,8 +253,27 @@ exports.load_messages = function (opts) {
                                        var split_uri = response.uri.split("/");
                                        var filename = split_uri[split_uri.length - 1];
                                        var uri = make_upload_absolute(response.uri);
-                                       var size = (file.size/1024/1024).toFixed(2)
+                                       var size = (file.size/1024/1024).toFixed(2);
                                        console.log(uri,filename,file,response)
+                                       var _obj_accessory = {accessory_list:[
+                                            {url:uri,
+                                            name:filename,
+                                            size:size,
+                                            type:"add"
+                                            }
+                                        ],backlog_id:backlog_id}
+                                        console.log(_obj_accessory)
+                                       var obj_accessory = JSON.stringify(_obj_accessory);
+                                       $.ajax({
+                                            type:"POST",
+                                            url:"json/zg/accessory",
+                                            traditional:true,
+                                            contentType:"application/json",
+                                            data:obj_accessory,
+                                            success:function(res){
+                                                console.log(res)
+                                            }
+                                       })
                                        if(i != -1){
                                            var li =  
                                            "<li class='taskdetail_attachment'>\
