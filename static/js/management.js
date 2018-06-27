@@ -179,6 +179,7 @@
                 del()
                 cancel()
             })
+            //点击提交功能
             $(".generate_log_submit").on("click",function(e){
                 var accomplish= $(".generate_log_finished_text").text()
                 var underway  =$(".generate_log_unfinished_text").val()
@@ -213,159 +214,8 @@
             $('.new_plan').on('click',".new_plan_cancel",function(e){
                 cancel()
             })
+           // 1.点击添加人员
            
-            $('.add_log_people').on("click",".generate_log_member_addlogo",function(e){
-                $(".modal-log").show()
-                var list = []
-                channel.get({
-                    url:"json/streams",
-                    success:function(data){
-                        console.log(data)
-                        data.streams.forEach(function(el,i){
-                             list[el.stream_id]=el.name
-                        })
-                        var rendered = $(templates.render('choose',{
-                            data:list
-                        }));
-                        $(".modal-log-content").append(rendered)
-                        $(".button-cancel").on("click",function(e){
-                        $(".modal-log").hide()
-                        })
-                        $(".button-confirm").on("click",function(e){
-                            $(".modal-log").hide()
-                            // $(".modal-log-content").empty()
-                        })
-                        $(".box-list-left").on("click",".choose-check",function(e){
-                            var inputid= Number($(this).attr("inputid"))
-                            // $(".modal-log-content").empty()
-                            if($(this).is(":checked")){
-                                channel.get({
-                                    url:"json/zg/v1/stream/recipient/data",
-                                    success:function(data){
-                                        console.log(data)
-                                        if(data.errno===0){
-                                             data_list= data.streams_dict[inputid]
-                                             data_list.forEach(function(val,i){
-                                                  val.did=inputid
-                                             })
-                                            var li = $(templates.render('choose_person',{
-                                                datalist:data.streams_dict[inputid]
-                                            }));
-                                            $(".box-right-list").append(li)
-                                            $(".box_list_right").on('click',".button-right",function(e){
-                                                $(this).parent().remove()
-                                            })
-                                            $(".button-cancel").on("click",function(e){
-                                                $(".box-right-list").remove()
-                                            })
-                                        }
-                                    }
-                                })
-                            }else{
-                               $("[data_id='"+inputid+"']").remove()
-                            }
-                       })
-                        $(".button-sure").on("click",function(e){
-                            var arrlist =[]
-                            console.log($(".box-right-list").children())
-                            $(".box-right-list").children().each(function () { 
-                                var id = Number($(this).attr("key-data"));
-                                var avatar = $(this).attr("avatarurl")
-                                var name = $(this).children().find('.name-list').text()
-                                var peppleList = {
-                                    id:id,
-                                    avatar:avatar,
-                                    name:name,
-                                    namel:name.slice(0,4)+"...."
-                                }
-                                arrlist.push(peppleList)
-                            })
-                            var li = $(templates.render('send_people',{
-                                peoplelist:arrlist
-                            }));
-                             $(".add_log_people").before(li)
-                             $('.box-right-list').remove()
-                             $("#people-choose").remove()
-                        })
-                        $(".button-right").on("click",function(e){
-                             var id = $(this).attr('button-key')
-                             var channels= $.trim($(this).prev().text())
-                              $(".choose-teams").hide()
-                             channel.get({
-                                url:"json/zg/v1/stream/recipient/data",
-                                success:function(data){
-                                    if(data.errno===0){
-                                        var li = $(templates.render('choose_people',{
-                                            data:data.streams_dict[id],
-                                            channels:channels
-                                        }));
-                                        $(".modal-log-content").append(li)
-                                        $(".button-cancel").on("click",function(e){
-                                            $(".choose-teams-list").remove()
-                                            $(".modal-log").hide()
-                                        })
-                                        $('.back-choose').on('click',function(e){
-                                            $(".choose-people-teams").show()
-                                            var lis = $('.box_right').children()
-                                            $(".choose-teams-list").remove()
-                                            // $('.next-right').on('click',function(e){
-
-                                            //     $('.box_right').append(lis)
-                                            // })
-                                        })
-                                        $(".box-list-left").on("click",".choose-list-box",function(e){
-                                            var inputid= Number($(this).attr("data-key"))
-                                            var silcontent = $.trim($(this).parent().text())
-                                            var avatarurl =$(this).parent().parent().attr("avatar")
-                                            if($(this).is(":checked")){
-                                            var li = "<li class='input-box-list box-list-right' data-list="+inputid+" avatarurl="+avatarurl+">\
-                                                        <div class='box-list-left'>\
-                                                            <input type='checkbox' checked/>\
-                                                            <span class='name-list'>"+silcontent+"</span>\
-                                                        </div>\
-                                                        <button class='button-right' data-id="+inputid+">删除</button>\
-                                                    </li>"
-                                            // $(".modal-log-content").empty()
-                                            $('.box_right').append(li)
-                                            }else{
-                                                $("[data-list='"+inputid+"']").remove()
-                                            }
-                                       })
-                                       $('.button-confirm').on('click',function(e){
-                                        var arrlist =[]
-                                        console.log($(".box_right").children())
-                                        $(".box_right").children().each(function () { 
-                                            var id = Number($(this).attr("data-list"));
-                                            var avatar = $(this).attr("avatarurl")
-                                            var name = $(this).children().find('.name-list').text()
-                                            console.log(name)
-                                            var peppleList = {
-                                                id:id,
-                                                avatar:avatar,
-                                                name:name,
-                                                namel:name.slice(0,4)+"...."
-                                            }
-                                            arrlist.push(peppleList)
-                                        })
-                                         console.log(arrlist)
-                                         var li = $(templates.render('send_people',{
-                                            peoplelist:arrlist
-                                        }));
-                                         $(".add_log_people").before(li)
-                                         $('.box_right').empty()
-                                         $(".modal-log").hide()
-                                         $(".modal-log-content").empty()
-                                       })
-                                    }
-                                }
-                            })
-                        })
-                        
-                    }
-                })
-                console.log(list)
-                
-            })
         }
      
         $(".generate_log").on("click",function(e){
