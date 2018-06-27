@@ -671,10 +671,11 @@ def backlogs_details(request, user_profile):
     accessory_list = []
     for accessory in backlogs_accessory_list:
         accessory_dict = {}
-        accessory_dict['id'] = accessory.backlog_id
+        accessory_dict['id'] = accessory.backlog_id.id
         accessory_dict['url'] = accessory.accessory_url
         accessory_dict["size"] = accessory.accessory_size
-        accessory_dict['"name'] = accessory.accessory_name
+        accessory_dict['name'] = accessory.accessory_name
+        accessory_list.append(accessory_dict)
     backlogs_dict['accessory_list'] = accessory_list
 
     return JsonResponse(
