@@ -110,7 +110,7 @@ exports.load_messages = function (opts) {
     function updata(){
         $.ajax({
             type:"GET",
-            url:"json/zg/backlog",
+            url:"json/zg/backlog/gets",
             success:function(res){
                 $(".todo_box").children().remove();
                 var backlog_list = res.backlog_list
@@ -140,7 +140,7 @@ exports.load_messages = function (opts) {
             if(data.result == "success"){
             $.ajax({
                 type:"GET",
-                url:"json/zg/backlog",
+                url:"json/zg/backlog/gets",
                 success:function(res){
                     if(res.errno == 0){
                         $(".todo_box").children().remove();
@@ -227,9 +227,9 @@ exports.load_messages = function (opts) {
                                        }
                                        return uri;
                                    }
-                                   var uploadFinished = function (i, file, response) {
+                                  var uploadFinished = function (i, file, response) {
                                        if (response.uri === undefined) {
-                                           return;
+                                       return;
                                        }
                                        var split_uri = response.uri.split("/");
                                        var filename = split_uri[split_uri.length - 1];
@@ -246,7 +246,7 @@ exports.load_messages = function (opts) {
                                        var accessory_id;
                                        $.ajax({
                                             type:"POST",
-                                            url:"json/zg/accessory",
+                                            url:"json/zg/accessory/",
                                             traditional:true,
                                             contentType:"application/json",
                                             data:obj_accessory,
@@ -292,7 +292,7 @@ exports.load_messages = function (opts) {
                                                         var obj_accessory = JSON.stringify(_obj_accessory)
                                                         $.ajax({
                                                             type:"POST",
-                                                            url:"json/zg/accessory",
+                                                            url:"json/zg/accessory/",
                                                             contentType:"application/json",
                                                             data:obj_accessory,
                                                             success:function(res){
@@ -366,7 +366,7 @@ exports.load_messages = function (opts) {
                                 var obj_accessory = JSON.stringify(_obj_accessory)
                                 $.ajax({
                                     type:"POST",
-                                    url:"json/zg/accessory",
+                                    url:"json/zg/accessory/",
                                     contentType:"application/json",
                                     data:obj_accessory,
                                     success:function(res){
@@ -462,7 +462,7 @@ exports.load_messages = function (opts) {
                                 var obj_backlog_id = JSON.stringify(_obj_backlog_id)
                                 $.ajax({
                                     type:"DELETE",
-                                    url:"json/zg/backlog",
+                                    url:"json/zg/backlog/",
                                     contentType:"application/json",
                                     data:obj_backlog_id,
                                     success:function(r){
@@ -617,6 +617,33 @@ exports.load_messages = function (opts) {
                                                         }
                                                     })
                                                 })
+                                                //下载附件
+                                                $(".taskdetail_download").on("click",function(e){
+                                                    window.open($(this).prev().val())
+                                                })
+                                                //删除附件
+                                                $(".taskdetail_attachment").on("click",".taskdetail_delete",function(e){
+                                                    var _this = $(this)
+                                                    var accessory_id = $(this).parent().parent().val();
+                                                    var _obj_accessory = {accessory_list:[
+                                                        {
+                                                            accessory_id:accessory_id,
+                                                            type:"del"
+                                                        }],backlog_id:backlog_id
+                                                    }
+                                                    var obj_accessory = JSON.stringify(_obj_accessory)
+                                                    $.ajax({
+                                                        type:"POST",
+                                                        url:"json/zg/accessory/",
+                                                        contentType:"application/json",
+                                                        data:obj_accessory,
+                                                        success:function(res){
+                                                            if(res.errno==0){
+                                                                _this.parent().parent().remove();
+                                                            }
+                                                        }
+                                                    })
+                                                })
                                         //点击任务详情模版关闭任务详情
                                         $(".taskdetail_md").on("click",function(e){
                                             e.stopPropagation();
@@ -686,7 +713,7 @@ exports.load_messages = function (opts) {
                                             var obj_backlog_id = JSON.stringify(_obj_backlog_id)
                                             $.ajax({
                                                 type:"DELETE",
-                                                url:"json/zg/backlog",
+                                                url:"json/zg/backlog/",
                                                 contentType:"application/json",
                                                 data:obj_backlog_id,
                                                 success:function(r){

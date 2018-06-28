@@ -1,69 +1,43 @@
-<div id="people-choose" class="choose-teams choose-teams-list">
+
+{{!-- <div id="people-choose" class="choose-teams choose-teams-list">
     <div class="choose-header">
         选择发送人
     </div>
-    <div class="choose-nav">
-        <div class="choose-nav-left">
+    <div class="choose-nav"> --}}
+        {{!-- <div class="choose-nav-left"> --}}
             <div class="icon-sousuo-search">
                 <i class="iconfont icon-sousuo icon-search-choose"></i>
                 <input placeholder="搜索" class="search-icon"/>
+            </div>
+            <div class="select-choose">
+               <button class="back-choose">选择联系人</button>
+               <div>
+                   <i class="iconfont icon-xiangyou"/>
+                   <span>{{channels}}</span>
+               </div>
             </div>
             <div class="input-box">
                <input type="checkbox" class="checkbox-input"/>
                <span>全选</span>
             </div>
-            <ul class="box-left-list">
-                {{#each data}}
-                 <li class="input-box-list">
+            <ul class="box-left-list box-choose-lefts">
+                {{#each datalists}}
+                 <li class="input-box-list" avatar={{avatarurl}}>
                     <div class="box-list-left">
-                        <input type="checkbox" data-key={{@key}}/>
+                        <input type="checkbox" data-key={{id}} class="choose-list-box " />
                         <span>{{fullname}}</span>
-                    </div>
                 </li>
                  {{/each}}
             </ul>
-        </div>
-        <div class="choose-right-list">
+        {{!-- </div> --}}
+        {{!-- <div class="choose-right-list">
             <div class="icon-sousuo-search choose-right">
-                <div>已选(5)</div>
+                <div class="already-choose">已选(0)</div>
                 <button class="button-right">清空</button>
             </div>
-            <ul class="box-left-list">
-                <li class="input-box-list box-list-right">
-                        <div class="box-list-left">
-                            <input type="checkbox"/>
-                            <span>李俊伟</span>
-                        </div>
-                        <button class="button-right">删除</button>
-                </li>
-                <li class="input-box-list box-list-right">
-                        <div class="box-list-left">
-                            <input type="checkbox"/>
-                            <span>刘凯瑞</span>
-                        </div>
-                        <button class="button-right">删除</button>
-                </li>
-                <li class="input-box-list box-list-right">
-                        <div class="box-list-left">
-                            <input type="checkbox"/>
-                            <span>颜如晶</span>
-                        </div>
-                        <button class="button-right">删除</button>
-                </li>
-                <li class="input-box-list box-list-right">
-                        <div class="box-list-left">
-                            <input type="checkbox"/>
-                            <span>大王</span>
-                        </div>
-                        <button class="button-right">删除</button>
-                </li>
-                <li class="input-box-list box-list-right">
-                        <div class="box-list-left">
-                            <input type="checkbox"/>
-                            <span>臧鸿飞</span>
-                        </div>
-                        <button class="button-right">删除</button>
-                </li>
+            <ul class="box-left-list box-right-list">
+               
+              
             </ul>
            <div class="button-bottom">
                <button class="button-anniu button-cancel">取消</button>
@@ -71,4 +45,4 @@
            </div>
         </div>
     </div>
-</div>
+</div> --}}
