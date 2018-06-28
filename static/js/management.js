@@ -179,29 +179,50 @@
                 del()
                 cancel()
             })
+            //点击提交功能
             $(".generate_log_submit").on("click",function(e){
-                var accomplish= $(".generate_log_finished_text").text()
+                var accomplish= $(".generate_log_finished_text").val()
+                
                 var underway  =$(".generate_log_unfinished_text").val()
                 var overdue = $(".generate_log_pdfinished_text").val()
                 var list = []
                 $(".generate_log_plan_delete").each(function(){
-                    var ids= $(this).attr('data_id')
+                    var ids= Number($(this).attr('data_id'))
                     list.push(ids)
                 })
                 // var arr = list.toString()
-                console.log(list)
+                var send_list =[]
+                $(".generate_log_member_box").children().not($(".add_log_people")).each(function(){
+                    var ids= Number($(this).attr('data_id'))
+                    console.log(ids)
+                    send_list.push(ids)
+                })
+                var statement_accessory_list = []
+                $(".generate_log_pack").each(function(){
+                    var isn = $(this).attr('data-url')
+                    var name = $(".generate_log_pack_right").children().eq(0).text()
+                    var size=$(".generate_log_pack_right").children().eq(1).text()
+                    var file ={
+                        url:isn,
+                        size:size,
+                        name:name
+                    }
+                    statement_accessory_list.push(file)
+                })
+                console.log(statement_accessory_list,send_list)
                 console.log(accomplish,underway,overdue)
                  var paramas ={
                     accomplish:$.trim(accomplish),
                     underway:$.trim(underway),
                     overdue:$.trim(overdue),
                     backlog_list:list,
-                    send_list:[27],
+                    send_list:send_list,
+                    statement_accessory_list:statement_accessory_list,
                     date_type:"day"
                  }
                  console.log(paramas)
                  channel.post({
-                        url:"json/zg/v1/table",
+                        url:"json/zg/table/",
                         data:JSON.stringify(paramas),
                         // idempotent: true,
                         contentType:"application/json",
@@ -213,70 +234,244 @@
             $('.new_plan').on('click',".new_plan_cancel",function(e){
                 cancel()
             })
-           
-            $('.add_log_people').on("click",".generate_log_member_addlogo",function(e){
-                $(".modal-log").show()
-                var list = []
-                channel.get({
-                    url:"json/streams",
-                    success:function(data){
-                        data.streams.forEach(function(el,i){
-                             list[el.stream_id]=el.name
-                        })
-                        var rendered = $(templates.render('choose',{
-                            data:list
-                        }));
-                        $(".modal-log-content").append(rendered)
-                        $(".button-cancel").on("click",function(e){
-                        $(".modal-log").hide()
-                        })
-                        $(".button-confirm").on("click",function(e){
-                            $(".modal-log").hide()
-                        })
-                        $(".box-list-left").on("click",".choose-check",function(e){
-                            var inputid= Number($(this).attr("inputid"))
-                            // $(".modal-log-content").empty()
-                            if($(this).is(":checked")){
-                                channel.get({
-                                    url:"json/zg/v1/stream/recipient/data",
-                                    success:function(data){
-                                        if(data.errno===0){
-                                             console.log(data)
-                                            var li = $(templates.render('choose_person',{
-                                                datalist:data.streams_dict[inputid],
-                                            }));
-                                            // console.log((".box-right-list").length)
-                                            $(".box-right-list").append(li)
-                                            $(".button-cancel").on("click",function(e){
-                                                $(".box-right-list").remove()
-                                            })
-                                        }
-                                    }
-                                })
-                            }
-                       })
-                        $(".button-right").on("click",function(e){
-                             var id = $(this).attr('button-key')
-                             channel.get({
-                                url:"json/zg/v1/stream/recipient/data",
-                                success:function(data){
-                                    if(data.errno===0){
-                                        var li = $(templates.render('choose_people',{
-                                            data:data.streams_dict[id]
-                                        }));
-                                        $(".modal-log-content").append(li)
-                                        $(".button-cancel").on("click",function(e){
-                                            $(".choose-teams-list").remove()
-                                        })
-                                    }
-                                }
-                            })
-                        })
+            function button(){
+                 //点击清空
+                 $(".button-right-clear").on('click',function(e){
+                    // 清空右边列表
+                      $(".box-right-list").empty()
+                    // 选中的数数值为0
+                    $('.already-choose').text("选中(0)")
+                    //左边的选中状态都是false
+                    $(".choose-check").prop("checked", false);
+                })
+                //点击取消
+                $(".button-cancel").on("click",function(e){
+                    $(".modal-log").hide()
+                    //清除里面所有的元素，模态框消失。
+                    $(".modal-log-content").empty()
+                 })
+            }
+            function confirm(){
+                //点击确定
+                $('.button-confirm').on('click',function(e){
+                    var arrlist =[]
+                    $(".box-right-list").children().each(function () { 
+                        var id = Number($(this).attr("key-data"));
+                        var avatar = $(this).attr("avatarurl")
+                        var name = $(this).children().find('.name-list').text()
+                        var peppleList = {
+                            id:id,
+                            avatar:avatar,
+                            name:name,
+                            namel:name.slice(0,4)+"...."
+                        }
+                        arrlist.push(peppleList)
+                    })
+                    var li = $(templates.render('send_people',{
+                       peoplelist:arrlist
+                   }));
+                   console.log(arrlist)
+                   $(".add_log_people").before(li)
+                   $('.box-right-list').remove()
+                   $(".modal-log").hide()
+                   //清除里面所有的元素，模态框消失。
+                   $(".modal-log-content").empty()
+                })
+            }
+            function deletes(){
+                var childrenlength=$(".box-right-list").children().length
+                // 给选中赋值
+                $('.already-choose').text("选中("+childrenlength+")")
+                  //点击删除,选取的人删除,判断左边频道的状态
+                $(".box_list_right").on('click',".button-right",function(e){
+                    var attr= $(this).parent().attr('data_id')
+                    $(this).parent().remove()
+                    // 点击删除的时候，选中的人数减一
+                    var clength = $('.already-choose').text().slice(3,4)-1
+                    if(clength>0){
+                        $('.already-choose').text("选中("+clength+")")
+                    }else{
+                        $('.already-choose').text("选中(0)")
+                    }
+                    var length= $("[data_id='"+attr+"']").length
+                    //频道里面的人长度为0，左边的选中状态取消
+                    if(length===0){
+                        $("[inputid='"+attr+"']:checkbox").prop("checked", false);
                     }
                 })
-                console.log(list)
-                
-            })
+            }
+            // 上传文件
+            upload.feature_check($("#up_files #attach_files"));
+            $("#up_files").on("click", "#attach_files", function (e) {
+               // e.preventDefault();
+               $("#up_files #file_inputs").trigger("click");
+           });
+           function make_upload_absolute(uri) {
+            if (uri.indexOf(compose.uploads_path) === 0) {
+                // Rewrite the URI to a usable link
+                console.log(compose.uploads_path,compose.uploads_domain)
+                return compose.uploads_domain + uri;
+            }
+            return uri;
+        }
+       var uploadFinished = function (i, file, response) {
+            if (response.uri === undefined) {
+            return;
+            }
+            var split_uri = response.uri.split("/");
+            var filename = split_uri[split_uri.length - 1];
+            var uri = make_upload_absolute(response.uri);
+            var size = (file.size/1024/1024).toFixed(2)
+            console.log(uri,filename,file,response)
+            if(i != -1){
+                var li =  
+                "<div class='generate_log_pack' data-url="+uri+">\
+                  <div class='generate_log_pack_left'>\
+                    <img src='../../static/img/pnglogo.png' alt=''>\
+                    <i class='iconfont icon-shanchu1 generate_log_pack_delete'></i>\
+                </div>\
+                <div class='generate_log_pack_right'>\
+                    <p>"+filename+"</p>\
+                    <p>"+size+"MB</p>\
+                </div>\
+              </div>"
+                $(".generate_log_upfile").after(li)
+            }
+        };
+        $(".generate_log_upfile_box").on("click",".generate_log_pack_delete",function(e){
+             $(this).parent().parent().remove()
+        })
+        $("#up_files").filedrop({
+            url: "/json/user_uploads",
+            fallback_id: 'file_inputs',  // Target for standard file dialog
+            paramname: "file",
+            maxfilesize: page_params.maxfilesize,
+            data: {
+                // the token isn't automatically included in filedrop's post
+                csrfmiddlewaretoken: csrf_token,
+            },
+            // raw_droppable: ['text/uri-list', 'text/plain'],
+            // drop: drop,
+            // progressUpdated: progressUpdated,
+            // error: uploadError,
+            uploadFinished: uploadFinished,
+         //    afterAll:function(contents){
+         //        console.log(contents,321312)
+         //    }
+        })
+           // 1.点击添加人员
+           $('.add_log_people').on("click",".generate_log_member_addlogo",function(e){ 
+               //显示模态框
+               $(".modal-log").show()
+              //获取数据
+              channel.get({
+                  url:"json/zg/stream/recipient/data",
+                  success:function(data){
+                    var rendered = $(templates.render('choose',{
+                        data:data.streams_dict
+                    }));
+                    
+                     
+                     // 渲染频道
+                    $(".modal-log-content").append(rendered)
+                     // 全选 
+                    $(".choose-nav-left").on('click','.checkbox-input',function(e){
+                        var brother = $(this).parent().next()
+                        if($(this).is(":checked")){
+                            $('.choose-check:checkbox').prop("checked", true)
+                            var datakeylist= data.streams_dict
+                            var arr = [];
+                            for(var i in datakeylist){
+                               arr=arr.concat(obj[i]);
+                            }
+                            console.log(arr)
+                            // var keylist = []
+                            // datakeylist.forEach(function(v,i){
+                            //     keylist.push(v)
+                            // })
+                        }else{
+                            $('.choose-check:checkbox').prop("checked", false)
+                        }
+                    })
+                     //点击频道频道
+                    var lid = $(".choose-nav-left").children()
+                    $(".choose-nav-left").on('click','.choose-check',function(e){
+                        var inputid= $(this).attr("inputid")
+                        console.log(6)
+                        if($(this).is(":checked")){
+                            data_list= data.streams_dict[inputid]
+                            console.log(data_list)
+                            data_list.forEach(function(val,i){
+                                 val.did=inputid
+                            })
+                            var li = $(templates.render('choose_person',{
+                                datalist:data_list
+                            }));
+                            $(".box-right-list").append(li)
+                            // $('.choose-nav-left').applend(li)
+                            //查看$(".box-right-list").长度
+                            deletes()
+                            //点击清空
+                        }else{
+                            //没有咋勾选状态，就移除元素
+                            $("[data_id='"+inputid+"']").remove()
+                        }
+                    }) 
+                    confirm()
+                    //点击取消，模态框取消，里面所有的元素都没有了
+                    button()
+                    //点击下级
+                    $('.choose-nav-left').on('click',".back-choose",function(e){
+                        // var li = $(templates.render('choose_channel',{
+                        //     data:data.streams_dict
+                        // }));
+                        $(".choose-nav-left").children().remove()
+                        $(".choose-nav-left").html(lid)
+                    })
+                    $('.choose-nav-left').on('click',".next-right",function(e){
+                        // $(".modal-log-content").empty()
+                           // 渲染频道下级选发送人
+                        // $(".choose-nav-left").children().remove
+                        var id = $(this).attr('button-key')
+                        var li = $(templates.render('choose_people',{
+                            datalists:data.streams_dict[id],
+                            channels:id
+                        }));
+                        $(".choose-nav-left").html(li)
+                        console.log(5)
+                        $(".box-choose-lefts").on("click",".choose-list-box",function(e){
+                            console.log(423423)
+                            var inputid= $(this).attr("data-key")
+                            // 获得人的名字
+                            var silcontent = $.trim($(this).parent().text())
+                            // 获得头像
+                            var avatarurl =$(this).parent().parent().attr("avatar")
+                            if($(this).is(":checked")){
+                                console.log(123)
+                               var li = "<li class='input-box-list box_list_right' key-data="+inputid+" avatarurl="+avatarurl+">\
+                                        <div class='box-list-left'>\
+                                            <span class='name-list'>"+silcontent+"</span>\
+                                        </div>\
+                                        <button class='button-right' data-id="+inputid+">删除</button>\
+                                    </li>"
+                            // $(".modal-log-content").empty()
+                            $('.box-right-list').append(li)
+                            deletes()
+                            $(".box_list_right").on('click','.button-right',function(e){
+                                var keydata = $(this).attr('data-id')
+                                $("[data-key='"+keydata+"']:checkbox").prop("checked", false);
+                            })
+                            }else{
+                                $("[key-data='"+inputid+"']").remove()
+                            }
+                        })
+                        // 点击选取联系人,返回频道选人
+                        button()
+                        confirm()
+                    })
+                  }
+              })
+           })
         }
      
         $(".generate_log").on("click",function(e){
@@ -365,7 +560,7 @@
                     if(res.errno == 0){
                         $.ajax({
                             type:"GET",
-                            url:"json/zg/backlog/",
+                            url:"json/zg/backlog",
                             success:function(response){
                                 if(response.errno == 3){
                                     console.log(response.message)
@@ -622,7 +817,7 @@
                 $(".app").css("overflow-y","hidden");
                 $.ajax({
                     type:"GET",
-                    url:"json/zg/v1/my/receive/web",
+                    url:"json/zg/my/receive/web",
                     contentType:"application/json",
                     success:function(res){
                         $(".log_assistant_md").remove();
@@ -660,7 +855,7 @@
                             $(".log_assistant_title").html("我收到的")
                             $.ajax({
                                         type:"GET",
-                                        url:"json/zg/v1/my/receive/web",
+                                        url:"json/zg/my/receive/web",
                                         contentType:"application/json",
                                         success:function(res){
                                             $(".log_assistant_ctn").remove();
@@ -680,7 +875,7 @@
                             $(".log_assistant_title").html("我发出的")
                             $.ajax({
                                 type:"GET",
-                                url:"json/zg/v1/my/send/web",
+                                url:"json/zg/my/send/web",
                                 contentType:"application/json",
                                 success:function(res){
                                     console.log(res)

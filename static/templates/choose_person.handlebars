@@ -1,8 +1,13 @@
   {{#each datalist}}
-                <li class="input-box-list box-list-right">
-                        <div class="box-list-left">
-                            <input type="checkbox"/>
-                            <span>{{fullname}}</span>
+                <li 
+                class="input-box-list box-list-right box_list_right " 
+                data_id={{did}}
+                avatarurl={{avatarurl}}
+                key-data={{id}}>
+                        <div class="box-list-left {{did}}">
+                            {{!-- <input type="checkbox" checked/> --}}
+                            <span class="name-list"
+                            >{{fullname}}</span>
                         </div>
                         <button class="button-right">删除</button>
                 </li>
