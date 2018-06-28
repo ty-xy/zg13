@@ -110,7 +110,7 @@ exports.load_messages = function (opts) {
     function updata(){
         $.ajax({
             type:"GET",
-            url:"json/zg/backlog",
+            url:"json/zg/backlog/gets",
             success:function(res){
                 $(".todo_box").children().remove();
                 var backlog_list = res.backlog_list
@@ -140,7 +140,7 @@ exports.load_messages = function (opts) {
             if(data.result == "success"){
             $.ajax({
                 type:"GET",
-                url:"json/zg/backlog",
+                url:"json/zg/backlog/gets",
                 success:function(res){
                     if(res.errno == 0){
                         $(".todo_box").children().remove();
@@ -246,7 +246,7 @@ exports.load_messages = function (opts) {
                                        var accessory_id;
                                        $.ajax({
                                             type:"POST",
-                                            url:"json/zg/accessory",
+                                            url:"json/zg/accessory/",
                                             traditional:true,
                                             contentType:"application/json",
                                             data:obj_accessory,
@@ -292,7 +292,7 @@ exports.load_messages = function (opts) {
                                                         var obj_accessory = JSON.stringify(_obj_accessory)
                                                         $.ajax({
                                                             type:"POST",
-                                                            url:"json/zg/accessory",
+                                                            url:"json/zg/accessory/",
                                                             contentType:"application/json",
                                                             data:obj_accessory,
                                                             success:function(res){
@@ -366,7 +366,7 @@ exports.load_messages = function (opts) {
                                 var obj_accessory = JSON.stringify(_obj_accessory)
                                 $.ajax({
                                     type:"POST",
-                                    url:"json/zg/accessory",
+                                    url:"json/zg/accessory/",
                                     contentType:"application/json",
                                     data:obj_accessory,
                                     success:function(res){
@@ -462,7 +462,7 @@ exports.load_messages = function (opts) {
                                 var obj_backlog_id = JSON.stringify(_obj_backlog_id)
                                 $.ajax({
                                     type:"DELETE",
-                                    url:"json/zg/backlog",
+                                    url:"json/zg/backlog/",
                                     contentType:"application/json",
                                     data:obj_backlog_id,
                                     success:function(r){
@@ -634,7 +634,7 @@ exports.load_messages = function (opts) {
                                                     var obj_accessory = JSON.stringify(_obj_accessory)
                                                     $.ajax({
                                                         type:"POST",
-                                                        url:"json/zg/accessory",
+                                                        url:"json/zg/accessory/",
                                                         contentType:"application/json",
                                                         data:obj_accessory,
                                                         success:function(res){
@@ -713,7 +713,7 @@ exports.load_messages = function (opts) {
                                             var obj_backlog_id = JSON.stringify(_obj_backlog_id)
                                             $.ajax({
                                                 type:"DELETE",
-                                                url:"json/zg/backlog",
+                                                url:"json/zg/backlog/",
                                                 contentType:"application/json",
                                                 data:obj_backlog_id,
                                                 success:function(r){

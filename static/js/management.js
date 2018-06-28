@@ -201,7 +201,7 @@
                  }
                  console.log(paramas)
                  channel.post({
-                        url:"json/zg/v1/table",
+                        url:"json/zg/table/",
                         data:JSON.stringify(paramas),
                         // idempotent: true,
                         contentType:"application/json",
@@ -238,7 +238,7 @@
                             // $(".modal-log-content").empty()
                             if($(this).is(":checked")){
                                 channel.get({
-                                    url:"json/zg/v1/stream/recipient/data",
+                                    url:"json/zg/stream/recipient/data",
                                     success:function(data){
                                         if(data.errno===0){
                                              console.log(data)
@@ -258,7 +258,7 @@
                         $(".button-right").on("click",function(e){
                              var id = $(this).attr('button-key')
                              channel.get({
-                                url:"json/zg/v1/stream/recipient/data",
+                                url:"json/zg/stream/recipient/data",
                                 success:function(data){
                                     if(data.errno===0){
                                         var li = $(templates.render('choose_people',{
@@ -318,7 +318,7 @@
         function updata(){
             $.ajax({
                 type:"GET",
-                url:"json/zg/backlog",
+                url:"json/zg/backlog/gets",
                 success:function(res){
                     $(".todo_box").children().remove();
                     var backlog_list = res.backlog_list
@@ -365,7 +365,7 @@
                     if(res.errno == 0){
                         $.ajax({
                             type:"GET",
-                            url:"json/zg/backlog/",
+                            url:"json/zg/backlog/gets",
                             success:function(response){
                                 if(response.errno == 3){
                                     console.log(response.message)
@@ -449,7 +449,7 @@
                                         // $(".completed_box").prepend(_this.parent().parent());
                                         $.ajax({
                                             type:"GET",
-                                            url:"json/zg/backlog",
+                                            url:"json/zg/backlog/gets",
                                             success:function(res){
                                                 $(".todo_box").children().remove();
                                                 var backlog_list = res.backlog_list
@@ -622,7 +622,7 @@
                 $(".app").css("overflow-y","hidden");
                 $.ajax({
                     type:"GET",
-                    url:"json/zg/v1/my/receive/web",
+                    url:"json/zg/my/receive/web",
                     contentType:"application/json",
                     success:function(res){
                         $(".log_assistant_md").remove();
@@ -660,7 +660,7 @@
                             $(".log_assistant_title").html("我收到的")
                             $.ajax({
                                         type:"GET",
-                                        url:"json/zg/v1/my/receive/web",
+                                        url:"json/zg/my/receive/web",
                                         contentType:"application/json",
                                         success:function(res){
                                             $(".log_assistant_ctn").remove();
@@ -680,7 +680,7 @@
                             $(".log_assistant_title").html("我发出的")
                             $.ajax({
                                 type:"GET",
-                                url:"json/zg/v1/my/send/web",
+                                url:"json/zg/my/send/web",
                                 contentType:"application/json",
                                 success:function(res){
                                     console.log(res)

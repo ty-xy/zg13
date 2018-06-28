@@ -352,16 +352,19 @@ v1_api_and_json_patterns = [
     # 待办事项
     url(r'^zg/backlog/$', rest_dispatch,
         {'POST': 'zerver.views.zg_backlog.backlogs_view_po',
-         'GET': 'zerver.views.zg_backlog.backlogs_view_g',
          'PUT': 'zerver.views.zg_backlog.backlogs_view_pu',
          'DELETE': 'zerver.views.zg_backlog.backlogs_view_d'}),
+    # 待办事项get请求
+    url(r'^zg/backlog/gets$', rest_dispatch,
+        {'GET': 'zerver.views.zg_backlog.backlogs_view_g'}),
+
 
     # 一键生成
     url(r'^zg/creator/table$', rest_dispatch,
         {'GET': 'zerver.views.zg_backlog.generate_table'}),
 
     # 已完成待办事项
-    url(r'^zg/backlog/accomplis', rest_dispatch,
+    url(r'^zg/backlog/accomplis$', rest_dispatch,
         {'GET': 'zerver.views.zg_backlog.accomplis_backlogs_view'}),
 
     # 待办事项详情
@@ -369,36 +372,36 @@ v1_api_and_json_patterns = [
         {'GET': 'zerver.views.zg_backlog.backlogs_details'}),
 
     # 修改待办事项附件
-    url(r'^zg/accessory$', rest_dispatch,
+    url(r'^zg/accessory/$', rest_dispatch,
         {'POST': 'zerver.views.zg_backlog.accessory_up'}),
 
     # 发送周报
-    url(r'^zg/v1/table$', rest_dispatch,
+    url(r'^zg/table/$', rest_dispatch,
         {'POST': 'zerver.views.zg_backlog.table_view'}),
     #频道信息表
-    url(r'^zg/v1/stream/recipient/data$', rest_dispatch,
+    url(r'^zg/stream/recipient/data$', rest_dispatch,
         {'GET': 'zerver.views.zg_backlog.stream_recipient_data'}),
     # 日志助手
-    url(r'^zg/v1/log/assistant$', rest_dispatch,
+    url(r'^zg/log/assistant$', rest_dispatch,
         {'GET': 'zerver.views.zg_backlog.log_assistant'}),
     # 我收到的
-    url(r'^zg/v1/my/receive$', rest_dispatch,
+    url(r'^zg/my/receive$', rest_dispatch,
         {'GET': 'zerver.views.zg_backlog.my_receive'}),
     # web收到
-    url(r'^zg/v1/my/receive/web$', rest_dispatch,
+    url(r'^zg/my/receive/web$', rest_dispatch,
         {'GET': 'zerver.views.zg_backlog.web_my_receive'}),
 
     # 我发送的
-    url(r'^zg/v1/my/send$', rest_dispatch,
+    url(r'^zg/my/send$', rest_dispatch,
         {'GET': 'zerver.views.zg_backlog.my_send'}),
     # web发送
-    url(r'^zg/v1/my/send/web', rest_dispatch,
+    url(r'^zg/my/send/web$', rest_dispatch,
         {'GET': 'zerver.views.zg_backlog.web_my_send'}),
     # 查看自己和他人的报表
-    url(r'^zg/v1/look/table', rest_dispatch,
+    url(r'^zg/look/table$', rest_dispatch,
         {'GET': 'zerver.views.zg_backlog.look_table'}),
     # 已读未读
-    url(r'^zg/v1/state/view', rest_dispatch,
+    url(r'^zg/state/view$', rest_dispatch,
         {'GET': 'zerver.views.zg_backlog.state_view'}),
 
 

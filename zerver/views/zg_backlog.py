@@ -256,7 +256,7 @@ def stream_recipient_data(request, user_profile):
             user_data_dict['fullname'] = user.full_name
             user_data_dict['email'] = user.email
             streams_user_data_list.append(user_data_dict)
-        a=Stream.objects.get(id=streams_user_id_list)
+        a = Stream.objects.get(id=streams_user_id_list)
         streams_dict[a.name] = streams_user_data_list
         streams_dict['no_strems'] = []
 
@@ -273,26 +273,24 @@ def table_view(request, user_profile):
     accomplish = req.get('accomplish')
     overdue = req.get("overdue")
     underway = req.get('underway')
-    date_type = req.get('date_type')
 
+    date_type = req.get('date_type')
     backlogs_list = req.get('backlog_list')
     statement_accessory_list = req.get('statement_accessory_list')
     send = req.get('send_list')
-    # accomplish='123123123'
-    # overdue='2222'
-    # underway = '123123123'
-    # date_type='day'
-    # backlogs_list=[1,2,6,4,5]
-    # statement_accessory_list = [{'url':'www.baidu.com','size':11,'name':'头像'},{'url':'www.baidu.com','size':222,'name':'头像'}]
-    # send = [22,23,24]
 
-    if not accomplish:
+    if not all([date_type,accomplish]) :
         return JsonResponse({'errno': 1, 'message': "缺少必要参数"})
     try:
         generate_time = time.time()
-        a = Statement(user=user, generate_time=generate_time, accomplish=accomplish, overdue=overdue,
-                      underway=underway,
-                      types=date_type)
+        a = Statement(user=user, generate_time=generate_time, types=date_type,accomplish = accomplish)
+
+        if overdue:
+            a.overdue = overdue
+
+        if underway:
+            a.underway = underway
+
         a.save()
 
         if backlogs_list:
@@ -544,8 +542,6 @@ def backlogs_view_pu(request, user_profile):
 
 # 更新待办事项附件
 def accessory_up(request, user_profile):
-    
-    
     req = request.body
     req = req.decode()
     req = json.loads(req)
@@ -562,7 +558,7 @@ def accessory_up(request, user_profile):
             if i['type'] == 'add':
                 if not all([i['url'], i['size'], i['name']]):
                     return JsonResponse({'errno': 2, 'message': '缺少必要参数'})
-                a = BacklogAccessory.objects.create(backlog_id=backlog, 
+                a = BacklogAccessory.objects.create(backlog_id=backlog,
                                                     accessory_url=i['url'],
                                                     accessory_size=i['size'],
                                                     accessory_name=i['name'])

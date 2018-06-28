@@ -896,7 +896,7 @@ ul{
     width: 985px;
     margin: 0 auto;
     margin-top: 20px;
-    height: 60px;
+    height: 40px;
 }
 .log_assistant_read{
     background: #FFFFFF;
@@ -938,7 +938,7 @@ ul{
     position: relative;
     box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30);
     border-radius: 4px 4px 0 0;
-    margin-bottom: 20px;
+    margin-top: 20px;
 }
 .log_assistant_user_avater{
     width: 50px;
