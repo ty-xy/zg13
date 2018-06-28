@@ -111,7 +111,7 @@ input[type="checkbox"]{
     padding-left:8px;
     justify-content: space-between;
 }
-.button-right,.button-right-clear{
+.button-right,.button-right-clear,.button-right-delete{
     border:none;
     color: #14A4FA;
     /* font-size: 16px; */
