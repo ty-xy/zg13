@@ -335,3 +335,24 @@ a.message-control-button {
     margin-top:16px;
     display:flex
 }
+.avatar-over{
+    height:70px;
+    width:70px;
+    background: rgba(0,0,0,0.40);
+    border-radius: 100px;
+    z-index:1000;
+    position:absolute;
+    top:20px;
+    line-height:70px;
+    display:none;
+}
+.dust-delete{
+    /* position:absolute;
+    left:0;
+    top:0;
+    bottom:0;
+    right:0;
+    margin:auto; */
+    font-size: 27px;
+    color: #fff;
+}

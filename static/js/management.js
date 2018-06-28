@@ -66,6 +66,8 @@
                 inttime:inttime
             }
         }
+        //一键生成日志
+
         function logClick (data){
             var rendered = $(templates.render('log',{
                 underway_list:data.underway_list,
@@ -271,7 +273,15 @@
                     var li = $(templates.render('send_people',{
                        peoplelist:arrlist
                    }));
-                   console.log(arrlist)
+                   $('.generate_log_member').mouseenter(function(){
+                      $(this).children().eq(2).show()
+                      $(this).on('click',".dust-delete",function(e){
+                          $(this).parent().parent().remove()
+                      })
+                   })
+                   $('.generate_log_member').mouseleave(function(){
+                     $('.avatar-over').hide()
+                  })
                    $(".add_log_people").before(li)
                    $('.box-right-list').remove()
                    $(".modal-log").hide()
@@ -898,7 +908,7 @@
                             $(".log_assistant_title").html("我收到的")
                             $.ajax({
                                         type:"GET",
-                                        url:"json/zg/my/receive/web",
+                                        url:"json/ƒ/receive/web",
                                         contentType:"application/json",
                                         success:function(res){
                                             $(".log_assistant_ctn").remove();
