@@ -885,6 +885,18 @@
                                     var send_table_list = res.send_table_list;
                                     var html = templates.render("log_assistant_send",{send_table_list:send_table_list})
                                     $(".log_assistant_ctn_box").append(html)
+                                    //显示未读
+                                    $(".log_assistant_unread").on("click",".log_assistant_unreadperson",function(){
+                                        $(".already_read").hide();
+                                        $(".unread").show();
+
+                                    })
+                                    //显示已读
+                                    $(".log_assistant_unread").on("click",".log_assistant_readperson",function(){
+                                        $(".already_read").show();
+                                        $(".unread").hide();
+                                    })
+
                                     }
                                 })
                         })
@@ -941,7 +953,6 @@
         $(".log_assistant_read").on("click",function(e){
             
         })
-        
         
         //点击打开周报
         // $("#weekly").on("click",function(e){

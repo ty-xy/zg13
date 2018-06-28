@@ -1268,3 +1268,6 @@ ul{
     height: inherit;
     display: flex;
 }
+.unread{
+    display: none;
+}

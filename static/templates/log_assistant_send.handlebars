@@ -96,20 +96,30 @@
                         <!-- 已读未读 -->
                         <div class="log_assistant_unread">
                             <div class="log_assistant_readperson">
-                                已读3人
+                                已读{{already_count}}人
                             </div>
                             <div class="log_assistant_unreadperson">
-                                未读12人
+                                未读{{unread_count}}人
                             </div>
                             <ul class="log_assistant_user_list">
-                                <li>
+                                {{#each already_list}}
+                                <li class="already_read">
                                     <div class="log_assistant_user_touxiang_box">
                                         <img src="" alt="" class="log_assistant_user_touxiang">
                                     </div>
-                                    
-                                    <p class="log_assistant_user_xinming">张淑芬</p>
+                                    <p class="log_assistant_user_xinming">{{user_name}}</p>
                                 </li>
-                                <li>
+                                {{/each}}
+                                {{#each unread_list}}
+                                <li class="unread">
+                                    <div class="log_assistant_user_touxiang_box">
+                                        <img src="" alt="" class="log_assistant_user_touxiang">
+                                    </div>
+                                    <p class="log_assistant_user_xinming">{{user_name}}</p>
+                                </li>
+                                {{/each}}
+                                
+                                {{!-- <li>
                                     <div class="log_assistant_user_touxiang_box">
                                             <img src="" alt="" class="log_assistant_user_touxiang">
                                     </div>
@@ -120,7 +130,7 @@
                                             <img src="" alt="" class="log_assistant_user_touxiang">
                                     </div>
                                     <p class="log_assistant_user_xinming">张淑芬</p>
-                                </li>
+                                </li> --}}
                             </ul>
                         </div>
                         <!-- 已读未读 -->
