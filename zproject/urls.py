@@ -378,6 +378,7 @@ v1_api_and_json_patterns = [
     # 发送周报
     url(r'^zg/table/$', rest_dispatch,
         {'POST': 'zerver.views.zg_backlog.table_view'}),
+
     #频道信息表
     url(r'^zg/stream/recipient/data$', rest_dispatch,
         {'GET': 'zerver.views.zg_backlog.stream_recipient_data'}),
