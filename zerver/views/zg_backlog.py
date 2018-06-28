@@ -2,6 +2,7 @@ from zerver.models import Backlog, BacklogAccessory, UpdateBacklog, Statement, S
     StatementState, UserProfile, Stream
 from django.http import JsonResponse, HttpResponse, HttpRequest
 import datetime, time, json, calendar
+from zerver.lib import avatar
 
 import re
 
@@ -11,6 +12,7 @@ from zerver.lib.actions import get_user_ids_for_streams
 
 # 已读未读
 def state_view(request, user_profile):
+
     table_id = request.GET.get('table_id')
     states = request.GET.get('state')
 
@@ -25,7 +27,7 @@ def state_view(request, user_profile):
         for table in read_table:
             user_dict = {}
             user = UserProfile.objects.get(id=table.staff)
-            user_dict['avatar'] = user.avatar_source
+            user_dict['avatar'] = avatar.absolute_avatar_url(user_profile)
             user_dict['user_name'] = user.full_name
             user_dict['table_id'] = table_id
             user_list.append(user_dict)
@@ -39,7 +41,7 @@ def state_view(request, user_profile):
         for table in read_table:
             user_dict = {}
             user = UserProfile.objects.get(id=table.staff)
-            user_dict['avatar'] = user.avatar_source
+            user_dict['avatar'] = avatar.absolute_avatar_url(user_profile)
             user_dict['user_name'] = user.full_name
             user_dict['table_id'] = table_id
 
@@ -67,7 +69,7 @@ def look_table(request, user_profile):
     user = UserProfile.objects.get(email=statement.user)
 
     table_dict = {}
-    table_dict['avatar'] = user.avatar_source
+    table_dict['avatar'] = avatar.absolute_avatar_url(user_profile)
     table_dict['user_name'] = user.full_name
     table_dict['generate_time'] = statement.generate_time
     table_dict['accomplish'] = statement.accomplish
@@ -115,7 +117,7 @@ def web_my_receive(request, user_profile):
             statement_state.save()
 
             user = UserProfile.objects.get(email=s.user)
-            web_my_receive_dict['avatarurl'] = user.avatar_source
+            web_my_receive_dict['avatarurl'] = avatar.absolute_avatar_url(user_profile)
             web_my_receive_dict['fullname'] = user.full_name
             web_my_receive_dict['generate_time'] = statement_state.receive_time
             web_my_receive_dict['table_id'] = s.id
@@ -161,7 +163,7 @@ def web_my_send(request, user_profile):
             web_my_receive_dict = {}
 
             user = UserProfile.objects.get(email=statement_state.user)
-            web_my_receive_dict['avatarurl'] = user.avatar_source
+            web_my_receive_dict['avatarurl'] = avatar.absolute_avatar_url(user_profile)
             web_my_receive_dict['fullname'] = user.full_name
             web_my_receive_dict['generate_time'] = statement_state.generate_time
             web_my_receive_dict['table_id'] = statement_state.id
@@ -197,7 +199,7 @@ def web_my_send(request, user_profile):
             for table in read_table:
                 user_dict = {}
                 user = UserProfile.objects.get(id=table.staff)
-                user_dict['avatar'] = user.avatar_source
+                user_dict['avatar'] = avatar.absolute_avatar_url(user_profile)
                 user_dict['user_name'] = user.full_name
                 user_dict['table_id'] = statement_state.id
                 already_list.append(user_dict)
@@ -211,11 +213,11 @@ def web_my_send(request, user_profile):
             for table in read_table:
                 user_dict = {}
                 user = UserProfile.objects.get(id=table.staff)
-                user_dict['avatar'] = user.avatar_source
+                user_dict['avatar'] = avatar.absolute_avatar_url(user_profile)
                 user_dict['user_name'] = user.full_name
                 user_dict['table_id'] = statement_state.id
                 unread_list.append(user_dict)
-            web_my_receive_dict['already_count']=len(already_list)
+            web_my_receive_dict['already_count'] = len(already_list)
             web_my_receive_dict['unread_count'] = len(unread_list)
             web_my_receive_dict['unread_list'] = unread_list
 
@@ -237,7 +239,7 @@ def my_send(request, user_profile):
         send_table_list = []
         for st in statement:
             user_dict = {}
-            user_dict['avatarurl'] = user_profile.avatar_source
+            user_dict['avatarurl'] = avatar.absolute_avatar_url(user_profile)
             user_dict['fullname'] = user_profile.full_name
             user_dict['generate_time'] = st.generate_time
             user_dict['table_id'] = st.id
@@ -262,7 +264,7 @@ def my_receive(request, user_profile):
             user_dict = {}
             s = Statement.objects.get(id=statement_state.statement_id.id)
             user = UserProfile.objects.get(email=s.user)
-            user_dict['avatarurl'] = user.avatar_source
+            user_dict['avatarurl'] = avatar.absolute_avatar_url(user_profile)
             user_dict['fullname'] = user.full_name
             user_dict['generate_time'] = statement_state.receive_time
             user_dict['table_id'] = s.id
@@ -293,7 +295,7 @@ def stream_recipient_data(request, user_profile):
         for user_id in streams_user_list[streams_user_id_list]:
             user_data_dict = {}
             user = UserProfile.objects.get(id=user_id)
-            user_data_dict['avatarurl'] = user.avatar_source
+            user_data_dict['avatarurl'] = avatar.absolute_avatar_url(user_profile)
             user_data_dict['id'] = user.id
             user_data_dict['fullname'] = user.full_name
             user_data_dict['email'] = user.email
@@ -646,16 +648,14 @@ def backlogs_view_g(request, user_profile):
             a['task'] = bl.task
             a['task_details'] = bl.task_details
             a['state'] = bl.state
-            accessory_list = BacklogAccessory.objects.filter(backlog_id=bl.id, is_delete='f')
-
-            if accessory_list:
-                accessory_dict = {}
-                for accessory in accessory_list:
-                    accessory_dict[accessory.id] = accessory.accessory_url
-                    accessory_dict["size"] = accessory.accessory_size
-                    accessory_dict['"name'] = accessory.accessory_name
-                a["accessory_dict"] = accessory_dict
+            accessory_lists = BacklogAccessory.objects.filter(backlog_id=bl.id, is_delete='f')
+            accessory_list = []
+            if accessory_lists:
+                for accessory in accessory_lists:
+                    accessory_list.append(accessory.accessory_url)
+                a["accessory_list"] = accessory_list
             past_due_list.append(a)
+
 
         else:
             b = {}
@@ -663,24 +663,19 @@ def backlogs_view_g(request, user_profile):
             time_array = time.localtime(bl.create_time)
             create_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
             b['create_time'] = create_time
-
             time_array = time.localtime(bl.over_time)
             over_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
             b['over_time'] = over_time
-
             b['task'] = bl.task
             b['task_details'] = bl.task_details
             b['state'] = bl.state
-            accessory_list = BacklogAccessory.objects.filter(backlog_id=bl.id, is_delete='f')
 
-            if accessory_list:
-                accessory_dict = {}
-                for accessory in accessory_list:
-                    accessory_dict[accessory.id] = accessory.accessory_url
-                    accessory_dict["size"] = accessory.accessory_size
-                    accessory_dict['"name'] = accessory.accessory_name
-
-                b["accessory_dict"] = accessory_dict
+            accessory_lists = BacklogAccessory.objects.filter(backlog_id=bl.id, is_delete='f')
+            accessory_list = []
+            if accessory_lists:
+                for accessory in accessory_lists:
+                    accessory_list.append(accessory.accessory_url)
+                b["accessory_list"] = accessory_list
 
             backlog_list.append(b)
 
