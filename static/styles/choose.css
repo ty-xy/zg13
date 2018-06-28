@@ -16,25 +16,28 @@
     box-shadow: 0 1px 10px 0 rgba(204,204,204,0.30);
     border-radius: 1px;
     width:540px;
-    min-height:473px;
+     height:473px;
     display: flex;
     flex-direction: column;
     position: absolute;
     /* left:0;
     /* top:25%; */
-    top:25%;
-    left:19%;
-    bottom:10%;
-    overflow: auto;
+    /* top:25%; */
+    left:0;
+    top:0;
+    bottom:0;
+    right:0;
+    /* bottom:10%; */
+    /* overflow: auto; */
+     margin:auto;
     padding-bottom:10px;
     box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(0, 0, 0, 0.3);
-    /* right:0;
-    margin:auto; */
+    /* /* right:0 */
 }
 .choose-teams-list{
-    right:0;
-    left:61%;
+    /* right:0;
+    left:51%; */
 }
 .choose-header{
    width:100%;
@@ -108,7 +111,7 @@ input[type="checkbox"]{
     padding-left:8px;
     justify-content: space-between;
 }
-.button-right{
+.button-right,.button-right-clear{
     border:none;
     color: #14A4FA;
     /* font-size: 16px; */
@@ -126,9 +129,9 @@ input[type="checkbox"]{
     margin-bottom:30px;
     
 }
-.box-list-right{
+/* .box-list-right{
     padding-left:0px;
-}
+} */
 .button-bottom{
     position: absolute;
     bottom:30px;
@@ -316,4 +319,19 @@ a.message-control-button {
     right: 20px;
     top: 10px;
     cursor: pointer;
+}
+.box-right-list {
+    height: 270px;
+    overflow: auto;
+}
+.back-choose{
+    border:none;
+    font-family: PingFangSC-Regular;
+    font-size: 16px;
+    color: #14A4FA;
+    letter-spacing: 0.23px;
+}
+.select-choose{
+    margin-top:16px;
+    display:flex
 }
