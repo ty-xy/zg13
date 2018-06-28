@@ -370,8 +370,29 @@
                     var rendered = $(templates.render('choose',{
                         data:data.streams_dict
                     }));
+                    
+                     
                      // 渲染频道
                     $(".modal-log-content").append(rendered)
+                     // 全选 
+                    $(".choose-nav-left").on('click','.checkbox-input',function(e){
+                        var brother = $(this).parent().next()
+                        if($(this).is(":checked")){
+                            $('.choose-check:checkbox').prop("checked", true)
+                            var datakeylist= data.streams_dict
+                            var arr = [];
+                            for(var i in datakeylist){
+                               arr=arr.concat(obj[i]);
+                            }
+                            console.log(arr)
+                            // var keylist = []
+                            // datakeylist.forEach(function(v,i){
+                            //     keylist.push(v)
+                            // })
+                        }else{
+                            $('.choose-check:checkbox').prop("checked", false)
+                        }
+                    })
                      //点击频道频道
                     var lid = $(".choose-nav-left").children()
                     $(".choose-nav-left").on('click','.choose-check',function(e){
