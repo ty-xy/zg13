@@ -382,7 +382,7 @@
                             var datakeylist= data.streams_dict
                             var arr = [];
                             for(var i in datakeylist){
-                               arr=arr.concat(obj[i]);
+                               arr=arr.concat(datakeylist[i]);
                             }
                             console.log(arr)
                             // var keylist = []
