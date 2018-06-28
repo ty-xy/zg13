@@ -644,7 +644,7 @@ ul{
 .generate_log_pack{
     float: left;
     /* overflow: hidden; */
-    width: 170px;
+    /* width: 170px; */
     margin-top: 14px;
     margin-left: 20px;
     position: relative;
@@ -1108,7 +1108,7 @@ ul{
     overflow: hidden;
     margin-left: 20px;
     margin-top: 20px;
-    display: none;
+    /* display: none; */
 }
 .log_assistant_readperson{
     font-size: 15px;
