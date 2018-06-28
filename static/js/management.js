@@ -221,7 +221,7 @@
                  }
                  console.log(paramas)
                  channel.post({
-                        url:"json/zg/v1/table",
+                        url:"json/zg/table",
                         data:JSON.stringify(paramas),
                         // idempotent: true,
                         contentType:"application/json",
@@ -364,7 +364,7 @@
                $(".modal-log").show()
               //获取数据
               channel.get({
-                  url:"json/zg/v1/stream/recipient/data",
+                  url:"json/zg/stream/recipient/data",
                   success:function(data){
                     var rendered = $(templates.render('choose',{
                         data:data.streams_dict
@@ -795,7 +795,7 @@
                 $(".app").css("overflow-y","hidden");
                 $.ajax({
                     type:"GET",
-                    url:"json/zg/v1/my/receive/web",
+                    url:"json/zg/my/receive/web",
                     contentType:"application/json",
                     success:function(res){
                         $(".log_assistant_md").remove();
@@ -833,7 +833,7 @@
                             $(".log_assistant_title").html("我收到的")
                             $.ajax({
                                         type:"GET",
-                                        url:"json/zg/v1/my/receive/web",
+                                        url:"json/zg/my/receive/web",
                                         contentType:"application/json",
                                         success:function(res){
                                             $(".log_assistant_ctn").remove();
@@ -853,7 +853,7 @@
                             $(".log_assistant_title").html("我发出的")
                             $.ajax({
                                 type:"GET",
-                                url:"json/zg/v1/my/send/web",
+                                url:"json/zg/my/send/web",
                                 contentType:"application/json",
                                 success:function(res){
                                     console.log(res)
