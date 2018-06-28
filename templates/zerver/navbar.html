@@ -74,7 +74,8 @@
                     <span id="userlist-toggle-unreadcount">0</span>
                 </a>
             </div>
-            <i class="iconfont icon-gonggao"><i class="prompt_point"></i></i>
+            <!-- <i class="iconfont icon-gonggao"> -->
+                <!-- <i class="prompt_point"></i></i> -->
             <div id="navbar-buttons" {%if embedded %} style="visibility: hidden"{% endif %}>
                 <ul class="nav" role="navigation">
                     <li class="dropdown actual-dropdown-menu" id="gear-menu">
@@ -100,7 +101,7 @@
                                     <i class="iconfont icon-shezhi img-settings"></i> {{ _('Settings') }}
                                 </a>
                             </li>
-                            <li class="admin-menu-item" role="presentation">
+                            <li class="admin-menu-item" role="presentation" style="display: none;">
                                 <a href="#organization" role="menuitem">
                                     <i class="iconfont icon-zhuye img-settings"></i> 
                                     <span>{{ _('Manage organization') }}</span>
@@ -128,16 +129,16 @@
                                 </a>
                             </li>
                             <li class="divider" role="presentation"></li>
-                            <li role="presentation">
+                            <!-- <li role="presentation">
                                 <a href="javascript:void(0)" target="_blank" role="menuitem">
                                     <i class="iconfont icon-xianshi img-settings"></i> {{ _('Desktop & mobile apps') }}
                                 </a>
-                            </li>
-                            <li role="presentation">
+                            </li> -->
+                            <!-- <li role="presentation">
                                 <a href="javascript:void(0)" target="_blank" role="menuitem">
                                     <i class="iconfont icon-caidan img-settings"></i> {{ _('Integrations') }}
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- <li role="presentation">
                                 <a href="javascript:void(0)" target="_blank" role="menuitem">
                                     <img src="/static/img/zuzhi2@2x.png" class="img-setting"/> {{ _('API documentation') }}

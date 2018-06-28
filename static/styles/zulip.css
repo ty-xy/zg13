@@ -1439,7 +1439,7 @@ div.focused_table {
     vertical-align: middle;
     padding: 1px;
     position: absolute;
-    right: -80px;
+    /* right: -80px; */
     line-height: 20px;
     text-align: right;
 }
