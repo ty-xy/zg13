@@ -181,7 +181,8 @@
             })
             //点击提交功能
             $(".generate_log_submit").on("click",function(e){
-                var accomplish= $(".generate_log_finished_text").text()
+                var accomplish= $(".generate_log_finished_text").val()
+                
                 var underway  =$(".generate_log_unfinished_text").val()
                 var overdue = $(".generate_log_pdfinished_text").val()
                 var list = []
@@ -221,7 +222,7 @@
                  }
                  console.log(paramas)
                  channel.post({
-                        url:"json/zg/table",
+                        url:"json/zg/table/",
                         data:JSON.stringify(paramas),
                         // idempotent: true,
                         contentType:"application/json",
@@ -538,7 +539,7 @@
                     if(res.errno == 0){
                         $.ajax({
                             type:"GET",
-                            url:"json/zg/backlog/",
+                            url:"json/zg/backlog",
                             success:function(response){
                                 if(response.errno == 3){
                                     console.log(response.message)
