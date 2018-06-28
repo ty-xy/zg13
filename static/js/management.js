@@ -513,7 +513,7 @@
         function updata(){
             $.ajax({
                 type:"GET",
-                url:"json/zg/backlog",
+                url:"json/zg/backlog/gets",
                 success:function(res){
                     $(".todo_box").children().remove();
                     var backlog_list = res.backlog_list
@@ -560,7 +560,7 @@
                     if(res.errno == 0){
                         $.ajax({
                             type:"GET",
-                            url:"json/zg/backlog",
+                            url:"json/zg/backlog/gets",
                             success:function(response){
                                 if(response.errno == 3){
                                     console.log(response.message)
@@ -644,7 +644,7 @@
                                         // $(".completed_box").prepend(_this.parent().parent());
                                         $.ajax({
                                             type:"GET",
-                                            url:"json/zg/backlog",
+                                            url:"json/zg/backlog/gets",
                                             success:function(res){
                                                 $(".todo_box").children().remove();
                                                 var backlog_list = res.backlog_list
