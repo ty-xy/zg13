@@ -593,6 +593,7 @@
                 }
             })
         }
+    
         $(".new_task_save").on("click",function(e){
             var inttitle = $(".create_tasttitle").val();
             var inttime = $(".create_taskdate").val();
@@ -609,6 +610,24 @@
                 "over_time":over_time+86399,
             }
             var j = JSON.stringify(obj)
+            if(inttitle==""){
+                console.log("11333")
+                $("#taskinput").css("border","1px solid #E5B6B2");
+                return;
+            }
+            if(inttitle!=""){
+                $("#taskinput").css("border","1px solid #ccc");
+            }
+            if(inttime==""){
+                $(".new_task_date").css("border","1px solid #E5B6B2");
+                $(".new_task_date").css("border-right","1px solid #ccc");
+                $("#taskdata").css("border","1px solid #E5B6B2")
+                return;
+            }
+            if(inttime!=""){
+                $(".new_task_date").css("border","1px solid #ccc");
+                $("#taskdata").css("border","1px solid #ccc")
+            }
             $.ajax({
                 type:"POST",
                 url:"json/zg/backlog/",
