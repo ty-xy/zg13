@@ -240,7 +240,7 @@ exports.activate = function (raw_operators, opts) {
     }
 
     // Put the narrow operators in the search bar.
-    
+
     // $('#search_query').val(Filter.unparse(operators));
     // search.update_button_visibility();
 
@@ -561,7 +561,7 @@ function pick_empty_narrow_banner() {
         } else if (first_operand === "management") {
             // $('#zfilt').hide()
             $("#zfilt").removeClass("focused_table");
-            $("#compose").hide()
+            // $("#compose").hide()
             return $("#management_ctn");
         }
     } else if ((first_operator === "stream") && !stream_data.is_subscribed(first_operand)) {

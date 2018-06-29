@@ -27,7 +27,7 @@ def state_view(request, user_profile):
         for table in read_table:
             user_dict = {}
             user = UserProfile.objects.get(id=table.staff)
-            user_dict['avatar'] = avatar.absolute_avatar_url(user_profile)
+            user_dict['avatar'] = avatar.absolute_avatar_url(user)
             user_dict['user_name'] = user.full_name
             user_dict['table_id'] = table_id
             user_list.append(user_dict)
@@ -41,7 +41,7 @@ def state_view(request, user_profile):
         for table in read_table:
             user_dict = {}
             user = UserProfile.objects.get(id=table.staff)
-            user_dict['avatar'] = avatar.absolute_avatar_url(user_profile)
+            user_dict['avatar'] = avatar.absolute_avatar_url(user)
             user_dict['user_name'] = user.full_name
             user_dict['table_id'] = table_id
 
@@ -60,7 +60,7 @@ def look_table(request, user_profile):
     statement = Statement.objects.get(id=table_id)
 
     if statement.user != user_profile.email:
-        a = StatementState.objects.get(statement_id=statement)
+        a = StatementState.objects.get(statement_id=statement.id)
         a.state = True
         a.save()
 
@@ -69,7 +69,7 @@ def look_table(request, user_profile):
     user = UserProfile.objects.get(email=statement.user)
 
     table_dict = {}
-    table_dict['avatar'] = avatar.absolute_avatar_url(user_profile)
+    table_dict['avatar'] = avatar.absolute_avatar_url(user)
     table_dict['user_name'] = user.full_name
     table_dict['generate_time'] = statement.generate_time
     table_dict['accomplish'] = statement.accomplish
@@ -117,7 +117,7 @@ def web_my_receive(request, user_profile):
             statement_state.save()
 
             user = UserProfile.objects.get(email=s.user)
-            web_my_receive_dict['avatarurl'] = avatar.absolute_avatar_url(user_profile)
+            web_my_receive_dict['avatarurl'] = avatar.absolute_avatar_url(user)
             web_my_receive_dict['fullname'] = user.full_name
             web_my_receive_dict['generate_time'] = statement_state.receive_time
             web_my_receive_dict['table_id'] = s.id
@@ -199,7 +199,7 @@ def web_my_send(request, user_profile):
             for table in read_table:
                 user_dict = {}
                 user = UserProfile.objects.get(id=table.staff)
-                user_dict['avatar'] = avatar.absolute_avatar_url(user_profile)
+                user_dict['avatar'] = avatar.absolute_avatar_url(user)
                 user_dict['user_name'] = user.full_name
                 user_dict['table_id'] = statement_state.id
                 already_list.append(user_dict)
@@ -213,7 +213,7 @@ def web_my_send(request, user_profile):
             for table in read_table:
                 user_dict = {}
                 user = UserProfile.objects.get(id=table.staff)
-                user_dict['avatar'] = avatar.absolute_avatar_url(user_profile)
+                user_dict['avatar'] = avatar.absolute_avatar_url(user)
                 user_dict['user_name'] = user.full_name
                 user_dict['table_id'] = statement_state.id
                 unread_list.append(user_dict)
@@ -264,7 +264,7 @@ def my_receive(request, user_profile):
             user_dict = {}
             s = Statement.objects.get(id=statement_state.statement_id.id)
             user = UserProfile.objects.get(email=s.user)
-            user_dict['avatarurl'] = avatar.absolute_avatar_url(user_profile)
+            user_dict['avatarurl'] = avatar.absolute_avatar_url(user)
             user_dict['fullname'] = user.full_name
             user_dict['generate_time'] = statement_state.receive_time
             user_dict['table_id'] = s.id
@@ -295,7 +295,7 @@ def stream_recipient_data(request, user_profile):
         for user_id in streams_user_list[streams_user_id_list]:
             user_data_dict = {}
             user = UserProfile.objects.get(id=user_id)
-            user_data_dict['avatarurl'] = avatar.absolute_avatar_url(user_profile)
+            user_data_dict['avatarurl'] = avatar.absolute_avatar_url(user)
             user_data_dict['id'] = user.id
             user_data_dict['fullname'] = user.full_name
             user_data_dict['email'] = user.email
