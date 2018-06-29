@@ -367,3 +367,17 @@ a.message-control-button {
   box-shadow: 0 2px 4px 0 rgba(226,226,226,0.50);
   display:none
 }
+.toast-alert{
+    height:34px;
+    width:184px;
+    color:#fff;
+    background: rgba(0,107,169,0.30);
+    border-radius: 6px;
+    position: absolute;
+    bottom:70px;
+    left:0;
+    right:0;
+    margin:auto;
+    line-height:34px;
+    display:none;
+}
