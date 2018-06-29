@@ -407,7 +407,30 @@
                     $(".modal-log-content").append(rendered)
                     // 搜索
                     $(".choose-nav-left .search-icon").keyup(function(){
-                        console.log($(this).val())
+                        if($(".search-icon").val().length!==0){
+                            $(".modal-ul-choose").show()
+                            var listarr = simpleArr(data.streams_dict)
+                            var indexlist = []
+                            var value = $(this).val()
+                            listarr.forEach(function(val,i){
+                                   var index = val.fullname.indexOf(value)
+                                   if(index!==-1){
+                                      indexlist.push(listarr[i])
+                                    //   console.log(indexlist,i)
+                                   }
+                                //    console.log(indexlist)
+                            })
+                             console.log(indexlist)
+                        }
+                        // var li = $(templates.render('choose_person',{
+                        //     datalist:indexlist
+                        // }));
+                        // $(".modal-ul-choose").append(li)
+                        
+                    })
+                    $(".search-icon").blur(function(){
+                        $(".modal-ul-choose").hide()
+                        $(".search-icon").val("")
                     })
                      // 频道点击全选 
                     $(".choose-nav-left").on('click','.checkbox-input',function(e){
@@ -541,10 +564,12 @@
                 success: function (data) {
                 if(data){
                      logClick(data)
-                     
                     }
                 },
             });
+            $('.generate_log_left').on("click",".week-report",function(e){
+                $(this).addClass("high_light").siblings().removeClass("high_light");
+            })
         })
        
         // $("#create_log_de").on("click",function(e){
