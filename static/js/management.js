@@ -90,7 +90,7 @@
                 accomplish_list:data.accomplish_list,
                 overdue_list:data.overdue_list
             }));
-            $('.create_generate_log').append(rendered);
+            $('.generate_log_right').append(rendered);
           
             //  $("#create_log_de").on("click",function(e){
         
@@ -568,6 +568,12 @@
                 },
             });
             $('.generate_log_left').on("click",".week-report",function(e){
+                $(this).addClass("high_light").siblings().removeClass("high_light");
+            })
+            $('.generate_log_left').on("click",".day-report",function(e){
+                $(this).addClass("high_light").siblings().removeClass("high_light");
+            })
+            $('.generate_log_left').on("click",".month-report",function(e){
                 $(this).addClass("high_light").siblings().removeClass("high_light");
             })
         })
