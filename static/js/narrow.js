@@ -240,7 +240,7 @@ exports.activate = function (raw_operators, opts) {
     }
 
     // Put the narrow operators in the search bar.
-    
+
     // $('#search_query').val(Filter.unparse(operators));
     // search.update_button_visibility();
 
