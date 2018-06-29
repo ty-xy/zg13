@@ -347,12 +347,9 @@ a.message-control-button {
     display:none;
 }
 .dust-delete{
-    /* position:absolute;
-    left:0;
-    top:0;
-    bottom:0;
-    right:0;
-    margin:auto; */
     font-size: 27px;
     color: #fff;
+}
+.avatar-img{
+    border-radius: 100px;
 }
