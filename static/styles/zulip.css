@@ -1439,7 +1439,7 @@ div.focused_table {
     vertical-align: middle;
     padding: 1px;
     position: absolute;
-    right: -80px;
+    /* right: -80px; */
     line-height: 20px;
     text-align: right;
 }
@@ -3265,7 +3265,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     border-color:rgba(82,168,236,0.8) !important;
 }
 .new_task_title{
-    border: 1px solid #A0ACBF!important;
+    /* border: 1px solid #A0ACBF!important; */
     border-radius: 100px!important;
     width: 400px;
     height: 30px!important;

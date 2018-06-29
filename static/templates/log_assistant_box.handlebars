@@ -16,7 +16,7 @@
                   <i class="iconfont icon-guanbiUI log_assistant_close"></i>
               </div>
               <div class="log_assistant_ctn_box">
-                    <div class="log_assistant_prompt_box">
+                    {{!-- <div class="log_assistant_prompt_box">
                         <div class="log_assistant_screening">
                                     筛选
                         </div>
@@ -24,13 +24,13 @@
                             只看未读
                         </div>
                         
-                    </div>
-            {{#if receive_table_list}}
+                    </div> --}}
+            {{!-- {{#if receive_table_list}} --}}
                 {{#each receive_table_list}}
                     <div class="log_assistant_ctn">
                         <div class="log_assistant_user_box">
                             <div class="log_assistant_user_avater">
-                                <img src="" alt="">
+                                <img src="{{avatarurl}}" alt="">
                             </div>
                             <div class="log_assistant_user_time">
                                 <p class="log_assistant_user_name">{{fullname}}的周报</p>
@@ -50,7 +50,7 @@
                                 3.获奖用户调查，并把奖金发给用户。<br>
                                 4.全员产品进度会议，同时对十三猜下阶段走向大家提出自己的意见，同时规定大家把自己的意见发给我，目前收到的有肖老师、张哥、小
                                      杨、小孔、小庞、左相。希望其他人早点交给我。<br> --}}
-                                     {{addKey @index}}:{{accomplish}}
+                                     {{accomplish}}
                         </div>
                         <div class="log_assistant_unfinished">
                             未完成:
@@ -58,14 +58,14 @@
                         <div class="log_assistant_unfinishedctn">
                                 {{!-- 1.跟踪十三用户反馈<br>
                                 2.e建联产品迭代方案 --}}
-                                {{addKey @index}}:{{overdue}}
+                                {{overdue}}
                         </div>
                         <div class="log_assistant_ongoing">
                             进行中:
                         </div>
                         <div class="log_assistant_ongoingctn">
                                 {{!-- 1.与设计部及技术部定制新一轮工作排期。 --}}
-                                {{addKey @index}}:{{underway}}
+                                {{underway}}
                         </div>
                         <div class="log_assistant_plan">
                             计划:
@@ -80,22 +80,26 @@
                             </p>
                         </div>
                         {{/each}}
+                        
                         <div class="log_assistant_pack">
                                 <div class="generate_log_pack">
+                                        {{#each url_list}}
                                         <div class="generate_log_pack_left">
                                             <img src="../../static/img/pnglogo.png" alt="">
-                                            <i class="iconfont icon-shanchu1 generate_log_pack_delete"></i>
+                                            {{!-- <i class="iconfont icon-shanchu1 generate_log_pack_delete"></i> --}}
                                         </div>
                                         <div class="generate_log_pack_right">
-                                            <p>工程项目报表.jpg</p>
-                                            <p>3.29MB</p>
+                                            <p>{{name}}</p>
+                                            <p>{{size}}</p>
                                         </div>
+                                        {{/each}}
                                 </div>
                         </div>
+                        
                         <!-- <i class="log_assistant_lineB"></i> -->
 
                         <!-- 已读未读 -->
-                        <div class="log_assistant_unread">
+                        {{!-- <div class="log_assistant_unread">
                             <div class="log_assistant_readperson">
                                 已读3人
                             </div>
@@ -123,7 +127,7 @@
                                     <p class="log_assistant_user_xinming">张淑芬</p>
                                 </li>
                             </ul>
-                        </div>
+                        </div> --}}
                         <!-- 已读未读 -->
                         {{!-- <div class="log_assistant_comments">
                             评论:
@@ -142,9 +146,10 @@
                                 发送
                             </div>
                         </div> --}}
+                        <!-- 已读未读 -->
                     </div>
                     {{/each}}
-                {{/if}}
+                {{!-- {{/if}} --}}
               </div>
             </div>
 

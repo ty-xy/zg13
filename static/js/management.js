@@ -593,6 +593,7 @@
                 }
             })
         }
+    
         $(".new_task_save").on("click",function(e){
             var inttitle = $(".create_tasttitle").val();
             var inttime = $(".create_taskdate").val();
@@ -609,6 +610,24 @@
                 "over_time":over_time+86399,
             }
             var j = JSON.stringify(obj)
+            if(inttitle==""){
+                console.log("11333")
+                $("#taskinput").css("border","1px solid #E5B6B2");
+                return;
+            }
+            if(inttitle!=""){
+                $("#taskinput").css("border","1px solid #ccc");
+            }
+            if(inttime==""){
+                $(".new_task_date").css("border","1px solid #E5B6B2");
+                $(".new_task_date").css("border-right","1px solid #ccc");
+                $("#taskdata").css("border","1px solid #E5B6B2")
+                return;
+            }
+            if(inttime!=""){
+                $(".new_task_date").css("border","1px solid #ccc");
+                $("#taskdata").css("border","1px solid #ccc")
+            }
             $.ajax({
                 type:"POST",
                 url:"json/zg/backlog/",
@@ -944,6 +963,18 @@
                                     var send_table_list = res.send_table_list;
                                     var html = templates.render("log_assistant_send",{send_table_list:send_table_list})
                                     $(".log_assistant_ctn_box").append(html)
+                                    //显示未读
+                                    $(".log_assistant_unread").on("click",".log_assistant_unreadperson",function(){
+                                        $(".already_read").hide();
+                                        $(".unread").show();
+
+                                    })
+                                    //显示已读
+                                    $(".log_assistant_unread").on("click",".log_assistant_readperson",function(){
+                                        $(".already_read").show();
+                                        $(".unread").hide();
+                                    })
+
                                     }
                                 })
                         })
@@ -1000,7 +1031,6 @@
         $(".log_assistant_read").on("click",function(e){
             
         })
-        
         
         //点击打开周报
         // $("#weekly").on("click",function(e){
