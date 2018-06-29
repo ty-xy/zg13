@@ -612,16 +612,16 @@
             var j = JSON.stringify(obj)
             if(inttitle==""){
                 console.log("11333")
-                $("#taskinput").css("border","1px solid #E5B6B2");
+                $("#taskinput").css("border","1px solid #EF5350");
                 return;
             }
             if(inttitle!=""){
                 $("#taskinput").css("border","1px solid #ccc");
             }
             if(inttime==""){
-                $(".new_task_date").css("border","1px solid #E5B6B2");
+                $(".new_task_date").css("border","1px solid #EF5350");
                 $(".new_task_date").css("border-right","1px solid #ccc");
-                $("#taskdata").css("border","1px solid #E5B6B2")
+                $("#taskdata").css("border","1px solid #EF5350")
                 return;
             }
             if(inttime!=""){
@@ -933,7 +933,7 @@
                             $(".log_assistant_title").html("我收到的")
                             $.ajax({
                                         type:"GET",
-                                        url:"json/ƒ/receive/web",
+                                        url:"json/receive/web",
                                         contentType:"application/json",
                                         success:function(res){
                                             $(".log_assistant_ctn").remove();
