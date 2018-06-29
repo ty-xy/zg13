@@ -496,12 +496,12 @@ exports.show_history = function (message) {
                     display_date: moment(timestamp).format("MMMM D, YYYY"),
                 };
                 if (index === 0) {
-                    item.posted_or_edited = "Posted by";
+                    item.posted_or_edited = "发布的人";
                     item.body_to_render = msg.rendered_content;
                     prev_timestamp = timestamp;
                     item.show_date_row = true;
                 } else {
-                    item.posted_or_edited = "Edited by";
+                    item.posted_or_edited = "编辑的人";
                     item.body_to_render = msg.content_html_diff;
                     item.show_date_row = !moment(timestamp).isSame(prev_timestamp, 'day');
                 }
