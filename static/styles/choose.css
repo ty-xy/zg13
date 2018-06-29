@@ -111,7 +111,7 @@ input[type="checkbox"]{
     padding-left:8px;
     justify-content: space-between;
 }
-.button-right,.button-right-clear{
+.button-right,.button-right-clear,.button-right-delete{
     border:none;
     color: #14A4FA;
     /* font-size: 16px; */
@@ -334,4 +334,22 @@ a.message-control-button {
 .select-choose{
     margin-top:16px;
     display:flex
+}
+.avatar-over{
+    height:70px;
+    width:70px;
+    background: rgba(0,0,0,0.40);
+    border-radius: 100px;
+    z-index:1000;
+    position:absolute;
+    top:20px;
+    line-height:70px;
+    display:none;
+}
+.dust-delete{
+    font-size: 27px;
+    color: #fff;
+}
+.avatar-img{
+    border-radius: 100px;
 }

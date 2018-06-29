@@ -66,6 +66,24 @@
                 inttime:inttime
             }
         }
+       function simpleArr(datakeylist){
+            var arr = [];
+            for(var i in datakeylist){
+            arr=arr.concat(datakeylist[i]);
+            }
+            var hash = {};
+            var result = [];
+            for(var i = 0, len = arr.length; i < len; i++){
+                if (!hash[arr[i].id]) //如果hash表中没有当前项
+                    {
+                        hash[arr[i].id] = true; //存入hash表
+                        result.push(arr[i]); //把当前数组的当前项push到临时数组里面
+                    }
+            }
+            return result 
+       }
+        //一键生成日志
+
         function logClick (data){
             var rendered = $(templates.render('log',{
                 underway_list:data.underway_list,
@@ -243,6 +261,7 @@
                     $('.already-choose').text("选中(0)")
                     //左边的选中状态都是false
                     $(".choose-check").prop("checked", false);
+                    $(".checkbox-input").prop("checked",false)
                 })
                 //点击取消
                 $(".button-cancel").on("click",function(e){
@@ -270,7 +289,15 @@
                     var li = $(templates.render('send_people',{
                        peoplelist:arrlist
                    }));
-                   console.log(arrlist)
+                   $('.generate_log_member').mouseenter(function(){
+                      $(this).children().eq(2).show()
+                      $(this).on('click',".dust-delete",function(e){
+                          $(this).parent().parent().remove()
+                      })
+                   })
+                   $('.generate_log_member').mouseleave(function(){
+                     $('.avatar-over').hide()
+                  })
                    $(".add_log_people").before(li)
                    $('.box-right-list').remove()
                    $(".modal-log").hide()
@@ -280,18 +307,24 @@
             }
             function deletes(){
                 var childrenlength=$(".box-right-list").children().length
-                // 给选中赋值
+                // console.log(childrenlength)
                 $('.already-choose').text("选中("+childrenlength+")")
                   //点击删除,选取的人删除,判断左边频道的状态
-                $(".box_list_right").on('click',".button-right",function(e){
+                $(".button-right-delete").on('click',function(e){
+                    // console.log($(this))
                     var attr= $(this).parent().attr('data_id')
                     $(this).parent().remove()
                     // 点击删除的时候，选中的人数减一
                     var clength = $('.already-choose').text().slice(3,4)-1
+                    console.log(1)
                     if(clength>0){
                         $('.already-choose').text("选中("+clength+")")
                     }else{
                         $('.already-choose').text("选中(0)")
+                        $(".choose-check").prop("checked", false);
+                        $(".checkbox-input").prop("checked",false);
+                        $(".checkbox-inputs").prop("checked",false);
+                        $('.choose-list-box:checkbox').prop("checked", false)
                     }
                     var length= $("[data_id='"+attr+"']").length
                     //频道里面的人长度为0，左边的选中状态取消
@@ -370,29 +403,29 @@
                     var rendered = $(templates.render('choose',{
                         data:data.streams_dict
                     }));
-                    
-                     
                      // 渲染频道
                     $(".modal-log-content").append(rendered)
-                     // 全选 
+                    // 搜索
+                    $(".choose-nav-left .search-icon").keyup(function(){
+                        console.log($(this).val())
+                    })
+                     // 频道点击全选 
                     $(".choose-nav-left").on('click','.checkbox-input',function(e){
-                        var brother = $(this).parent().next()
                         if($(this).is(":checked")){
                             $('.choose-check:checkbox').prop("checked", true)
                             var datakeylist= data.streams_dict
-                            var arr = [];
-                            for(var i in datakeylist){
-                               arr=arr.concat(obj[i]);
-                            }
-                            console.log(arr)
-                            // var keylist = []
-                            // datakeylist.forEach(function(v,i){
-                            //     keylist.push(v)
-                            // })
+                            var result = simpleArr(datakeylist)
+                            var li = $(templates.render('choose_person',{
+                                datalist:result
+                            }));
+                            $(".box-right-list").append(li)
+                            deletes()
                         }else{
                             $('.choose-check:checkbox').prop("checked", false)
+                            $(".box-right-list").empty()
                         }
                     })
+                    
                      //点击频道频道
                     var lid = $(".choose-nav-left").children()
                     $(".choose-nav-left").on('click','.choose-check',function(e){
@@ -420,14 +453,24 @@
                     confirm()
                     //点击取消，模态框取消，里面所有的元素都没有了
                     button()
-                    //点击下级
+                    //点击选择联系人
                     $('.choose-nav-left').on('click',".back-choose",function(e){
                         // var li = $(templates.render('choose_channel',{
                         //     data:data.streams_dict
                         // }));
                         $(".choose-nav-left").children().remove()
                         $(".choose-nav-left").html(lid)
+                        var childrenlength=$(".box-right-list").children().length
+                        // 给选中赋值
+                        if(childrenlength===0){
+                            $(".choose-check").prop("checked", false);
+                            $(".checkbox-input").prop("checked",false);
+                            $(".checkbox-inputs").prop("checked",false);
+                            $('.choose-list-box:checkbox').prop("checked", false)
+                        }
                     })
+                    
+                    //点击下级
                     $('.choose-nav-left').on('click',".next-right",function(e){
                         // $(".modal-log-content").empty()
                            // 渲染频道下级选发送人
@@ -438,7 +481,19 @@
                             channels:id
                         }));
                         $(".choose-nav-left").html(li)
-                        console.log(5)
+                        $(".checkbox-inputs").on("click",function(e){
+                            if($(this).is(":checked")){
+                                $('.choose-list-box:checkbox').prop("checked", true)
+                                var li = $(templates.render('choose_person',{
+                                    datalist:data.streams_dict[id]
+                                }));
+                                $(".box-right-list").append(li)
+                                deletes()
+                            }else{
+                                $('.choose-list-box:checkbox').prop("checked", false)
+                                $(".box-right-list").empty()
+                            }
+                          })
                         $(".box-choose-lefts").on("click",".choose-list-box",function(e){
                             console.log(423423)
                             var inputid= $(this).attr("data-key")
@@ -456,15 +511,19 @@
                                     </li>"
                             // $(".modal-log-content").empty()
                             $('.box-right-list').append(li)
-                            deletes()
-                            $(".box_list_right").on('click','.button-right',function(e){
+                              deletes()
+                            $('.button-right').on('click',function(e){
                                 var keydata = $(this).attr('data-id')
+                                $(this).parent().remove()
                                 $("[data-key='"+keydata+"']:checkbox").prop("checked", false);
                             })
+                           
                             }else{
                                 $("[key-data='"+inputid+"']").remove()
                             }
                         })
+                           // 点击下级全选
+                     
                         // 点击选取联系人,返回频道选人
                         button()
                         confirm()
@@ -855,7 +914,7 @@
                             $(".log_assistant_title").html("我收到的")
                             $.ajax({
                                         type:"GET",
-                                        url:"json/zg/my/receive/web",
+                                        url:"json/ƒ/receive/web",
                                         contentType:"application/json",
                                         success:function(res){
                                             $(".log_assistant_ctn").remove();
