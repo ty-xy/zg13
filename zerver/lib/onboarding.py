@@ -52,8 +52,8 @@ def send_initial_pms(user: UserProfile) -> None:
 
 def setup_initial_streams(realm: Realm) -> None:
     stream_dicts = [
-        {'name': "general"},
-        {'name': "new members",
+        {'name': "一般"},
+        {'name': "新成员",
          'description': "For welcoming and onboarding new members. If you haven't yet, "
          "introduce yourself in a new thread using your name as the topic!"},
         {'name': "zulip",

@@ -101,7 +101,7 @@
   "Configure default settings for new users joining this organization.": "为加入本团队的新用户配置默认设置",
   "Configure regular expression patterns that will be automatically linkified when used in Zulip message bodies or topics.  For example to automatically linkify commit IDs and issue numbers (e.g. #123) to the corresponding items in a GitHub project, you could use the following:": "配置在Zulip消息体或主题中使用时将自动链接至正则表达式模式。 例如，要将提交ID和issue号码(例如＃123)自动链接到GitHub项目中的相应项目，可以使用以下内容：",
   "Configure the authentication methods for your organization.": "为你的团队配置身份验证方式。",
-  "Configure the default streams new users are subscribed to when joining your organization.": "设置新用户在加入是默认订阅的频道",
+  "Configure the default streams new users are subscribed to when joining your organization.": "设置新用户在加入时默认订阅的频道",
   "Cookie Bot": "输入名称...",
   "Copied!": "复制",
   "Copy and close": "复制并关闭",
