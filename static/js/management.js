@@ -66,6 +66,22 @@
                 inttime:inttime
             }
         }
+       function simpleArr(datakeylist){
+            var arr = [];
+            for(var i in datakeylist){
+            arr=arr.concat(datakeylist[i]);
+            }
+            var hash = {};
+            var result = [];
+            for(var i = 0, len = arr.length; i < len; i++){
+                if (!hash[arr[i].id]) //如果hash表中没有当前项
+                    {
+                        hash[arr[i].id] = true; //存入hash表
+                        result.push(arr[i]); //把当前数组的当前项push到临时数组里面
+                    }
+            }
+            return result 
+       }
         //一键生成日志
 
         function logClick (data){
@@ -387,28 +403,18 @@
                     var rendered = $(templates.render('choose',{
                         data:data.streams_dict
                     }));
-                    
-                     
                      // 渲染频道
                     $(".modal-log-content").append(rendered)
+                    // 搜索
+                    $(".choose-nav-left .search-icon").keyup(function(){
+                        console.log($(this).val())
+                    })
                      // 频道点击全选 
                     $(".choose-nav-left").on('click','.checkbox-input',function(e){
                         if($(this).is(":checked")){
                             $('.choose-check:checkbox').prop("checked", true)
                             var datakeylist= data.streams_dict
-                            var arr = [];
-                            for(var i in datakeylist){
-                               arr=arr.concat(datakeylist[i]);
-                            }
-                            var hash = {};
-                            var result = [];
-                            for(var i = 0, len = arr.length; i < len; i++){
-                                if (!hash[arr[i].id]) //如果hash表中没有当前项
-                                    {
-                                        hash[arr[i].id] = true; //存入hash表
-                                        result.push(arr[i]); //把当前数组的当前项push到临时数组里面
-                                    }
-                            }
+                            var result = simpleArr(datakeylist)
                             var li = $(templates.render('choose_person',{
                                 datalist:result
                             }));
