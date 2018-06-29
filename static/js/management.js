@@ -85,6 +85,7 @@
         //一键生成日志
 
         function logClick (data){
+            $('.generate_log_right').empty()
             var rendered = $(templates.render('log',{
                 underway_list:data.underway_list,
                 accomplish_list:data.accomplish_list,
@@ -98,7 +99,7 @@
             // console.log("修改成功")
                  if(e.target.className==="create_generate_log"){
                      $(".create_generate_log").hide();
-                     $('.create_generate_log').empty() 
+                    //  $('.create_generate_log').empty() 
                  }else{
                     return 
                  }
@@ -106,7 +107,7 @@
             $("#management_ctn ").on("click",".generate_log_close",function(e){
                 // $("#management_ctn .create_generate_log").hide();
                 $(".create_generate_log").hide();
-                $('.create_generate_log').empty() 
+                // $('.create_generate_log').empty() 
              });
             $('#newplan_datetimepicker').datetimepicker({  
                 language:"zh-CN",  
@@ -569,12 +570,39 @@
             });
             $('.generate_log_left').on("click",".week-report",function(e){
                 $(this).addClass("high_light").siblings().removeClass("high_light");
+                channel.get({
+                    url: "json/zg/creator/table?date_type=week",
+                    idempotent: true,
+                    success: function (data) {
+                    if(data){
+                         logClick(data)
+                        }
+                    },
+                });
             })
             $('.generate_log_left').on("click",".day-report",function(e){
                 $(this).addClass("high_light").siblings().removeClass("high_light");
+                channel.get({
+                    url: "json/zg/creator/table?date_type=day",
+                    idempotent: true,
+                    success: function (data) {
+                    if(data){
+                         logClick(data)
+                        }
+                    },
+                });
             })
             $('.generate_log_left').on("click",".month-report",function(e){
                 $(this).addClass("high_light").siblings().removeClass("high_light");
+                channel.get({
+                    url: "json/zg/creator/table?date_type=month",
+                    idempotent: true,
+                    success: function (data) {
+                    if(data){
+                         logClick(data)
+                        }
+                    },
+                });
             })
         })
        
