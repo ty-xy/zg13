@@ -94,7 +94,6 @@
             $('.generate_log_right').append(rendered);
           
             //  $("#create_log_de").on("click",function(e){
-        
             $("#management_ctn").on("click",".create_generate_log",function(e){
             // console.log("修改成功")
                  if(e.target.className==="create_generate_log"){
@@ -287,6 +286,7 @@
                         }
                         arrlist.push(peppleList)
                     })
+                    console.log(avatar)
                     var li = $(templates.render('send_people',{
                        peoplelist:arrlist
                    }));
@@ -439,6 +439,10 @@
                             $('.choose-check:checkbox').prop("checked", true)
                             var datakeylist= data.streams_dict
                             var result = simpleArr(datakeylist)
+                            console.log(result)
+                            result.forEach(function(val,i){
+                                val.did=1
+                           })
                             var li = $(templates.render('choose_person',{
                                 datalist:result
                             }));
@@ -461,6 +465,7 @@
                             data_list.forEach(function(val,i){
                                  val.did=inputid
                             })
+                            console.log(data_list)
                             var li = $(templates.render('choose_person',{
                                 datalist:data_list
                             }));
@@ -508,9 +513,14 @@
                         $(".checkbox-inputs").on("click",function(e){
                             if($(this).is(":checked")){
                                 $('.choose-list-box:checkbox').prop("checked", true)
+                                var data_list=data.streams_dict[id]
+                                data_list.forEach(function(val,i){
+                                    val.did=id
+                               })
                                 var li = $(templates.render('choose_person',{
                                     datalist:data.streams_dict[id]
                                 }));
+                                console.log(data.streams_dict[id])
                                 $(".box-right-list").append(li)
                                 deletes()
                             }else{
