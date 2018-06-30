@@ -5,26 +5,50 @@ from typing import List, Text, Dict
 
 ALL_HOTSPOTS = {
     # TODO: Tag these for translation once we've finalized the content.
+    # 'intro_reply': {
+    #     'title': 'Reply to a message',
+    #    'description': 'Click anywhere on a message to reply.',
+    # },
     'intro_reply': {
-        'title': 'Reply to a message',
-        'description': 'Click anywhere on a message to reply.',
+        'title': '回复消息',
+        'description': '点击消息的任何地方就可以回复信息了.',
     },
-    'intro_streams': {
-        'title': 'Catch up on a stream',
-        'description': 'Messages sent to a stream are seen by everyone subscribed '
-        'to that stream. Try clicking on one of the stream links below.',
+
+    # 'intro_streams': {
+    #    'title': 'Catch up on a stream',
+    #    'description': 'Messages sent to a stream are seen by everyone subscribed '
+    #    'to that stream. Try clicking on one of the stream links below.',
+    # },
+
+   'intro_streams': {
+        'title': '掌握频道',
+        'description': '信息会发送到频道中，如果你订阅了该频道，你就能看见'
+        '. 点击下面的频道试试.',
     },
+
+    # 'intro_topics': {
+    #    'title': 'Topics',
+    #    'description': 'Every message has a topic. Topics keep conversations '
+    #    'easy to follow, and make it easy to reply to conversations that start '
+    #    'while you are offline.',
+    # },
     'intro_topics': {
-        'title': 'Topics',
-        'description': 'Every message has a topic. Topics keep conversations '
-        'easy to follow, and make it easy to reply to conversations that start '
-        'while you are offline.',
+        'title': '话题',
+        'description': '每条聊天消息有话题. 话题使得聊天分门别类'
+        ', 易于回复, 尤其是在你离线时.',
     },
+
+    # 'intro_compose': {
+    #    'title': 'Compose',
+    #    'description': 'Click here to start a new conversation. Pick a topic '
+    #    '(2-3 words is best), and give it a go!',
+    # },
     'intro_compose': {
-        'title': 'Compose',
-        'description': 'Click here to start a new conversation. Pick a topic '
-        '(2-3 words is best), and give it a go!',
+        'title': '撰写',
+        'description': '点击这里撰写您的聊天消息. 点击话题编写您聊天的话题（五个字以内最好）或选择'
+        '已有话题, 然后点击发送就好了!',
     },
+
 }  # type: Dict[str, Dict[str, Text]]
 
 def get_next_hotspots(user: UserProfile) -> List[Dict[str, object]]:
