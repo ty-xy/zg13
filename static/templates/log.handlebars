@@ -15,7 +15,7 @@
         </div>
         <textarea class="generate_log_finished_text">
             {{#each accomplish_list}}
-            {{@key}}:{{this}}
+            {{addKey @index}}:{{this}}
             {{/each}}
         </textarea>
         <div class="generate_log_unfinished">
@@ -23,7 +23,7 @@
         </div>
         <textarea class="generate_log_unfinished_text">
             {{#each overdue_list}}
-            {{@key}}:{{this}}
+            {{addKey @index}}:{{this}}
             {{/each}}
         </textarea>
         <div class="generate_log_pdfinished">
@@ -31,7 +31,7 @@
         </div>
         <textarea class="generate_log_pdfinished_text">
              {{#each underway_list}}
-             {{@key}}:{{this}}
+             {{addKey @index}}:{{this}}
              {{/each}}
         </textarea>
         <div class="generate_log_plan">
