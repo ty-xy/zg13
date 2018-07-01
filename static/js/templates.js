@@ -88,10 +88,11 @@ Handlebars.registerHelper('tt', function (timestamp) {
 });
 
 // Handlebars.registerHelper("tl",function(str){
-//     var dict = [];
-//     // str = str.replace(/-/g,'/');
-//     // var regx = /:/g,
-
+//     var accomplish = [];
+//     accomplish = str.split(":")
+//     for(i=0;i<accomplish.length;i++){
+//         return accomplish[i];
+//     }
 // })
 
 Handlebars.registerHelper('addKey',function(index){  
