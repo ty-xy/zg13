@@ -809,7 +809,7 @@ $(function () {
         }
         var sub = stream_data.get_sub(stream_name);
         exports.sub_or_unsub(sub);
-
+       
         $('.empty_feed_notice').hide();
         $('#empty_narrow_message').show();
     });
