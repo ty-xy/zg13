@@ -60,12 +60,11 @@ def look_table(request, user_profile):
         statement = Statement.objects.get(id=table_id)
 
         if statement.user != user_profile.email:
-            a = StatementState.objects.get(statement_id=statement.id)
+            a = StatementState.objects.get(statement_id=statement.id, staff=user_profile.id)
             a.state = True
             a.save()
 
         statement_backlogs_list = StatementBacklog.objects.filter(statement_id=statement).order_by('-id')
-
         user = UserProfile.objects.get(email=statement.user)
 
         table_dict = {}
