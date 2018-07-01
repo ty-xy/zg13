@@ -12,7 +12,8 @@
                     {{else}}
                      <input type="checkbox" class="taskdetail_state" id="taskdetail_check"  name="{{id}}" value="{{state}}" checked="checked">
                    {{/if}}
-                    <p class="taskdetail_list">{{taskdetail_list}}</p>
+                    {{!-- <p class="taskdetail_list">{{taskdetail_list}}</p> --}}
+                    <input type="text" class="taskdetail_list" value="{{taskdetail_list}}">
                 </div>
                 <textarea name="{{id}}" id="taskdetail_addnote" cols="30" rows="10" placeholder="添加备注...">{{taskdetail_addnote}}</textarea>
                 <i class="taskdetail_lineA"></i>

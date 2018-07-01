@@ -166,7 +166,8 @@ exports.load_messages = function (opts) {
                         $(".todo_box").on("click",".add_ctn",function(e){
                             $(".taskdetail_md").show();
                             $(".app").css("overflow-y","hidden");
-                            $(".taskdetail_list").html($(this).html());
+                            // $(".taskdetail_list").html($(this).html());
+                            // $(".taskdetail_list").html($(this).val());
                             $(".taskdetail_md").remove();
                             var taskid = Number($(this).attr("taskid"))
                             backlog_id = taskid;
@@ -218,7 +219,7 @@ exports.load_messages = function (opts) {
                                     upload.feature_check($("#file_choose #attach_files"));
                                     $("#file_choose").on("click", "#attach_files", function (e) {
                                        // e.preventDefault();
-
+                                       
                                        $("#file_choose #file_inputs").trigger("click");
                                    });
                                    function make_upload_absolute(uri) {
@@ -423,15 +424,17 @@ exports.load_messages = function (opts) {
                                 var state = $(".taskdetail_state[name='"+id+"']").val();
                                 // var state = Number(localStorage.getItem("state"));
                                 var task_details = $("textarea[name='"+id+"']").val();
+                                var task = $(".taskdetail_list").val();
                                 var obj_backlog_data = {
                                     create_time:create_time,
                                     over_time:over_time,
                                     backlog_id:backlog_id,
                                     state:state,
-                                    task_details:task_details
+                                    task_details:task_details,
+                                    task:task
                                 }
                                 var backlog_data = JSON.stringify(obj_backlog_data);
-                                localStorage.clear();
+                                // localStorage.clear();
                                 $.ajax({
                                     type:"PUT",
                                     url:"json/zg/backlog/",
@@ -555,7 +558,7 @@ exports.load_messages = function (opts) {
                                         
                                     $(".completed_box").on("click",".completed_ctn",function(e){
                                         $(".app").css("overflow-y","hidden");
-                                        $(".taskdetail_list").html($(this).html());
+                                        // $(".taskdetail_list").html($(this).html());
                                         $(".taskdetail_md").remove();
                                         var taskid = Number($(this).attr("taskid"))
                                         backlog_id = taskid;
@@ -675,12 +678,14 @@ exports.load_messages = function (opts) {
                                             var backlog_id = id;
                                             var state = $(".taskdetail_state[name='"+id+"']").val();
                                             var task_details = $("textarea[name='"+id+"']").val();
+                                            var task = $(".taskdetail_list").val();
                                             var obj_backlog_data = {
                                                 create_time:create_time,
                                                 over_time:over_time,
                                                 backlog_id:backlog_id,
                                                 state:state,
-                                                task_details:task_details
+                                                task_details:task_details,
+                                                task:task
                                             }
                                             var backlog_data = JSON.stringify(obj_backlog_data);
                                             $.ajax({

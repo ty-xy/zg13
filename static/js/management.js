@@ -751,8 +751,8 @@
                         $(".add_ctn").on("click",function(e){
                             $(".taskdetail_md").show();
                             $(".app").css("overflow-y","hidden");
-                            $(".taskdetail_list").html($(this).html());
-                            
+                            // $(".taskdetail_list").html($(this).html());
+                            // $(".taskdetail_list").val($(this).val());
                             var taskid = Number($(this).attr("taskid"))
                             backlog_id = taskid;
                         })
