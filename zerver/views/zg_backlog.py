@@ -616,7 +616,7 @@ def accessory_up(request, user_profile):
                 accessory.save()
             UpdateBacklog.objects.create(update_backlog="%s修改了附件" % uodate_time, backlog_id=backlog)
     except Exception:
-        return JsonResponse({'errno': 1, 'message': '事项id错误'})
+        return JsonResponse({'errno': 1, 'message': '错误'})
     return JsonResponse({'errno': 0, 'message': '修改完成'})
 
 

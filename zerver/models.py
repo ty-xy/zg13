@@ -56,7 +56,7 @@ class Backlog(models.Model):
     user = models.CharField(max_length=80)
     create_time = models.PositiveIntegerField()
     over_time = models.PositiveIntegerField()
-    task = models.CharField(max_length=60)
+    task = models.CharField(max_length=70)
     task_details = models.CharField(null = True, max_length=300)
     state = models.IntegerField(default=2)
     is_delete = models.BooleanField(default=False)
@@ -66,8 +66,8 @@ class Backlog(models.Model):
 class BacklogAccessory(models.Model):
     backlog_id = models.ForeignKey(Backlog)
     accessory_url = models.CharField(max_length=200, default='')
-    accessory_size = models.CharField(max_length=10, default='')
-    accessory_name = models.CharField(max_length =25,default='')
+    accessory_size = models.CharField(max_length=40, default='')
+    accessory_name = models.CharField(max_length =60,default='')
     is_delete = models.BooleanField(default=False)
 
 
@@ -98,8 +98,8 @@ class StatementBacklog(models.Model):
 class StatementAccessory(models.Model):
     statement_id = models.ForeignKey(Statement)
     statement_accessory_url = models.CharField(max_length=200)
-    accessory_size = models.CharField(max_length=30,default='')
-    accessory_name = models.CharField(max_length =50,default='')
+    accessory_size = models.CharField(max_length=40,default='')
+    accessory_name = models.CharField(max_length =60,default='')
     is_delete = models.BooleanField(default=False)
 
 
