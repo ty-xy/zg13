@@ -686,6 +686,9 @@ ul{
     letter-spacing: 0.15px;
     margin-bottom: 1px;
     margin-top: 5px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 .generate_log_pack_right>:last-child{
     font-size: 11px;

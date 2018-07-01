@@ -87,17 +87,16 @@ Handlebars.registerHelper('tt', function (timestamp) {
     // return options.inverse(this);
 });
 
-// Handlebars.registerHelper("tl",function(str){
-//     var accomplish = [];
-//     accomplish = str.split(":")
-//     for(i=0;i<accomplish.length;i++){
-//         return accomplish[i];
-//     }
-// })
+Handlebars.registerHelper("tl", function(text) {
+    text = Handlebars.Utils.escapeExpression(text);
+    text = text.replace(/(\r\n|\n|\r)/gm, '<br>');
+    return new Handlebars.SafeString(text);
+});
 
 Handlebars.registerHelper('addKey',function(index){  
     return index + 1;  
 }); 
+
 Handlebars.registerHelper('if_or', function () {
     // Execute the conditional code if any of the conditions are true.
     // Example usage:
