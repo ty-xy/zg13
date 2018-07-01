@@ -14,7 +14,7 @@ function make_tab(title, hash, data, extra_class, home) {
 function make_tab_data() {
     var tabs = [];
     var filter = narrow_state.filter();
-
+   
     function filtered_to_non_home_view_stream() {
         if (!filter.has_operator('stream')) {
             return false;
@@ -29,12 +29,14 @@ function make_tab_data() {
     }
 
     function in_all() {
+ 
         return (filter !== undefined &&
                (filtered_to_non_home_view_stream() ||
                 filter.has_operand("in", "all")));
     }
 
     if (in_all()) {
+     
         tabs.push(make_tab("所有消息", "#narrow/in/all", undefined, "root"));
         // All Messages
     } else if (page_params.narrow !== undefined) {
@@ -51,14 +53,17 @@ function make_tab_data() {
     if (narrow_state.active() && narrow_state.operators().length > 0) {
         var stream;
         var ops = narrow_state.operators();
+        
         // Second breadcrumb item
         var hashed = hashchange.operators_to_hash(ops.slice(0, 1));
+        
         if (filter.has_operator("stream")) {
+           
             stream = filter.operands("stream")[0];
             tabs.push(make_tab(stream, hashed, stream, 'stream'));
         } else if (filter.has_operator("pm-with") ||
                    filter.has_operand("is", "private")) {
-
+         
             tabs.push(make_tab("私有消息", '#narrow/is/private',
                                 undefined, 'private_message '));
 
@@ -100,7 +105,8 @@ function make_tab_data() {
             // Search is not a clickable link, since we don't have
             // a search narrow
             tabs.push(make_tab("Search results", false));
-        } else if(filter.has_operator("near")) {
+        } else if(filter.has_operator("near")||filter.has_operand("is", "management")) {
+         
             tabs.push(make_tab("管理", '#narrow/is/management',
                                 undefined, 'management '));
         }
@@ -164,9 +170,11 @@ function build_tab_bar() {
     tab_bar.empty();
 
     tabs[tabs.length - 1].active = "active";
+ 
     var rendered =  templates.render('tab_bar', {tabs: tabs});
 
     tab_bar.append(rendered);
+    
     exports.colorize_tab_bar();
     tab_bar.removeClass('notdisplayed');
 }
@@ -174,9 +182,11 @@ function build_tab_bar() {
 $(function () {
     $(document).on('narrow_activated.zulip', function () {
         build_tab_bar();
+        
     });
     $(document).on('narrow_deactivated.zulip', function () {
         build_tab_bar();
+       
     });
 
     build_tab_bar();
