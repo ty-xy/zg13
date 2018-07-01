@@ -462,6 +462,7 @@ ul{
 .generate_log_right{
     float: left;
     background: #FFF;
+    position: relative;
 }
 .generate_log_head{
     width: 1100px;
