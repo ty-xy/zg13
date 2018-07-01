@@ -55,47 +55,47 @@ def look_table(request, user_profile):
     if not table_id:
         return JsonResponse({'errno': 2, 'message': "缺少必要参数", })
 
-    # try:
+    try:
 
-    statement = Statement.objects.get(id=table_id)
+        statement = Statement.objects.get(id=table_id)
 
-    if statement.user != user_profile.email:
-        a = StatementState.objects.get(statement_id=statement.id)
-        a.state = True
-        a.save()
+        if statement.user != user_profile.email:
+            a = StatementState.objects.get(statement_id=statement.id)
+            a.state = True
+            a.save()
 
-    statement_backlogs_list = StatementBacklog.objects.filter(statement_id=statement).order_by('-id')
+        statement_backlogs_list = StatementBacklog.objects.filter(statement_id=statement).order_by('-id')
 
-    user = UserProfile.objects.get(email=statement.user)
+        user = UserProfile.objects.get(email=statement.user)
 
-    table_dict = {}
-    table_dict['avatar'] = avatar.absolute_avatar_url(user)
-    table_dict['user_name'] = user.full_name
-    table_dict['generate_time'] = statement.generate_time
-    table_dict['accomplish'] = statement.accomplish
-    table_dict['overdue'] = statement.overdue
-    table_dict['underway'] = statement.underway
-    backlog_list = []
-    table_dict['backlog_list'] = backlog_list
-    for statement_backlogs in statement_backlogs_list:
-        backlogs_dict = {}
-        backlogs = Backlog.objects.get(id=statement_backlogs.backlog_id)
-        backlogs_dict['task'] = backlogs.task
-        backlogs_dict['over_time'] = backlogs.over_time
-        backlog_list.append(backlogs_dict)
+        table_dict = {}
+        table_dict['avatar'] = avatar.absolute_avatar_url(user)
+        table_dict['user_name'] = user.full_name
+        table_dict['generate_time'] = statement.generate_time
+        table_dict['accomplish'] = statement.accomplish
+        table_dict['overdue'] = statement.overdue
+        table_dict['underway'] = statement.underway
+        backlog_list = []
+        table_dict['backlog_list'] = backlog_list
+        for statement_backlogs in statement_backlogs_list:
+            backlogs_dict = {}
+            backlogs = Backlog.objects.get(id=statement_backlogs.backlog_id)
+            backlogs_dict['task'] = backlogs.task
+            backlogs_dict['over_time'] = backlogs.over_time
+            backlog_list.append(backlogs_dict)
 
-    url_list = []
-    table_dict['url_list'] = url_list
-    accessory_list = StatementAccessory.objects.filter(statement_id=table_id, is_delete='f').order_by('-id')
-    for accessory in accessory_list:
-        accessory_dict = {}
-        accessory_dict['url'] = accessory.statement_accessory_url
-        accessory_dict['size'] = accessory.accessory_size
-        accessory_dict['name'] = accessory.accessory_name
-        url_list.append(accessory_dict)
+        url_list = []
+        table_dict['url_list'] = url_list
+        accessory_list = StatementAccessory.objects.filter(statement_id=table_id, is_delete='f').order_by('-id')
+        for accessory in accessory_list:
+            accessory_dict = {}
+            accessory_dict['url'] = accessory.statement_accessory_url
+            accessory_dict['size'] = accessory.accessory_size
+            accessory_dict['name'] = accessory.accessory_name
+            url_list.append(accessory_dict)
 
-    # except Exception:
-    #     return JsonResponse({'errno': 1, 'message': "获取数据失败", })
+    except Exception:
+        return JsonResponse({'errno': 1, 'message': "获取数据失败", })
     #
     return JsonResponse({'errno': 0, 'message': "获取数据成功", 'table_dict': table_dict})
 
@@ -616,7 +616,7 @@ def accessory_up(request, user_profile):
                 accessory.save()
             UpdateBacklog.objects.create(update_backlog="%s修改了附件" % uodate_time, backlog_id=backlog)
     except Exception:
-        return JsonResponse({'errno': 1, 'message': '事项id错误'})
+        return JsonResponse({'errno': 1, 'message': '错误'})
     return JsonResponse({'errno': 0, 'message': '修改完成'})
 
 
