@@ -26,8 +26,12 @@
             </li>"
             return li 
         }
-        function fetch_data(){
-            
+        function alert(text,color){
+            $('.toast-alert').fadeIn({
+                duration: 1000
+            }).delay (1000).fadeOut ({duration: 1000});
+            $('.toast-alert').html(text)
+            $('.toast-alert').css('background-color',color)
         }
         function del(){
             $('.generate_log_plan_ctn ').on('click',".generate_log_plan_delete",function(e){
@@ -245,7 +249,13 @@
                         // idempotent: true,
                         contentType:"application/json",
                         success:function(data){
-                            console.log(data)
+                            if(data.errno===0){
+                               alert('提交成功','rgba(0,107,169,0.30)')
+                            } else if(data.errno===1){
+                                alert('请完善必填内容','rgba(169,12,0,0.30)')
+                            } else{
+                                alert('网络不稳定,请重新提交','rgba(169,12,0,0.30)')
+                            }
                         }
                  })
             })
@@ -423,10 +433,6 @@
                             })
                              console.log(indexlist)
                         }
-                        // var li = $(templates.render('choose_person',{
-                        //     datalist:indexlist
-                        // }));
-                        // $(".modal-ul-choose").append(li)
                         
                     })
                     $(".search-icon").blur(function(){
