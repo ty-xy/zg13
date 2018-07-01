@@ -1144,12 +1144,16 @@ ul{
     letter-spacing: 0.16px;
     margin-top: 4px;
     text-align: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 .log_assistant_user_touxiang_box{
     width: 40px;
     height: 40px;
     background: #00BDFF;
     border-radius: 50%;
+    overflow: hidden;
 }
 .log_assistant_md{
     width: 100%;

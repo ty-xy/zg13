@@ -85,20 +85,20 @@
         //一键生成日志
 
         function logClick (data){
+            $('.generate_log_right').empty()
             var rendered = $(templates.render('log',{
                 underway_list:data.underway_list,
                 accomplish_list:data.accomplish_list,
                 overdue_list:data.overdue_list
             }));
-            $('.create_generate_log').append(rendered);
+            $('.generate_log_right').append(rendered);
           
             //  $("#create_log_de").on("click",function(e){
-        
             $("#management_ctn").on("click",".create_generate_log",function(e){
             // console.log("修改成功")
                  if(e.target.className==="create_generate_log"){
                      $(".create_generate_log").hide();
-                     $('.create_generate_log').empty() 
+                    //  $('.create_generate_log').empty() 
                  }else{
                     return 
                  }
@@ -106,7 +106,7 @@
             $("#management_ctn ").on("click",".generate_log_close",function(e){
                 // $("#management_ctn .create_generate_log").hide();
                 $(".create_generate_log").hide();
-                $('.create_generate_log').empty() 
+                // $('.create_generate_log').empty() 
              });
             $('#newplan_datetimepicker').datetimepicker({  
                 language:"zh-CN",  
@@ -286,6 +286,7 @@
                         }
                         arrlist.push(peppleList)
                     })
+                    console.log(avatar)
                     var li = $(templates.render('send_people',{
                        peoplelist:arrlist
                    }));
@@ -407,7 +408,30 @@
                     $(".modal-log-content").append(rendered)
                     // 搜索
                     $(".choose-nav-left .search-icon").keyup(function(){
-                        console.log($(this).val())
+                        if($(".search-icon").val().length!==0){
+                            $(".modal-ul-choose").show()
+                            var listarr = simpleArr(data.streams_dict)
+                            var indexlist = []
+                            var value = $(this).val()
+                            listarr.forEach(function(val,i){
+                                   var index = val.fullname.indexOf(value)
+                                   if(index!==-1){
+                                      indexlist.push(listarr[i])
+                                    //   console.log(indexlist,i)
+                                   }
+                                //    console.log(indexlist)
+                            })
+                             console.log(indexlist)
+                        }
+                        // var li = $(templates.render('choose_person',{
+                        //     datalist:indexlist
+                        // }));
+                        // $(".modal-ul-choose").append(li)
+                        
+                    })
+                    $(".search-icon").blur(function(){
+                        $(".modal-ul-choose").hide()
+                        $(".search-icon").val("")
                     })
                      // 频道点击全选 
                     $(".choose-nav-left").on('click','.checkbox-input',function(e){
@@ -415,6 +439,10 @@
                             $('.choose-check:checkbox').prop("checked", true)
                             var datakeylist= data.streams_dict
                             var result = simpleArr(datakeylist)
+                            console.log(result)
+                            result.forEach(function(val,i){
+                                val.did=1
+                           })
                             var li = $(templates.render('choose_person',{
                                 datalist:result
                             }));
@@ -437,6 +465,7 @@
                             data_list.forEach(function(val,i){
                                  val.did=inputid
                             })
+                            console.log(data_list)
                             var li = $(templates.render('choose_person',{
                                 datalist:data_list
                             }));
@@ -484,9 +513,14 @@
                         $(".checkbox-inputs").on("click",function(e){
                             if($(this).is(":checked")){
                                 $('.choose-list-box:checkbox').prop("checked", true)
+                                var data_list=data.streams_dict[id]
+                                data_list.forEach(function(val,i){
+                                    val.did=id
+                               })
                                 var li = $(templates.render('choose_person',{
                                     datalist:data.streams_dict[id]
                                 }));
+                                console.log(data.streams_dict[id])
                                 $(".box-right-list").append(li)
                                 deletes()
                             }else{
@@ -541,10 +575,45 @@
                 success: function (data) {
                 if(data){
                      logClick(data)
-                     
                     }
                 },
             });
+            $('.generate_log_left').on("click",".week-report",function(e){
+                $(this).addClass("high_light").siblings().removeClass("high_light");
+                channel.get({
+                    url: "json/zg/creator/table?date_type=week",
+                    idempotent: true,
+                    success: function (data) {
+                    if(data){
+                         logClick(data)
+                        }
+                    },
+                });
+            })
+            $('.generate_log_left').on("click",".day-report",function(e){
+                $(this).addClass("high_light").siblings().removeClass("high_light");
+                channel.get({
+                    url: "json/zg/creator/table?date_type=day",
+                    idempotent: true,
+                    success: function (data) {
+                    if(data){
+                         logClick(data)
+                        }
+                    },
+                });
+            })
+            $('.generate_log_left').on("click",".month-report",function(e){
+                $(this).addClass("high_light").siblings().removeClass("high_light");
+                channel.get({
+                    url: "json/zg/creator/table?date_type=month",
+                    idempotent: true,
+                    success: function (data) {
+                    if(data){
+                         logClick(data)
+                        }
+                    },
+                });
+            })
         })
        
         // $("#create_log_de").on("click",function(e){

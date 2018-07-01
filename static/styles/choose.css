@@ -59,6 +59,7 @@
     padding-left:20px;
     padding-top:20px;
     box-sizing:border-box;
+    position: relative;
 }
 .icon-sousuo-search{
     background: #FFFFFF;
@@ -162,7 +163,9 @@ input[type="checkbox"]{
     border-radius:100px !important; */ 
 }
 .box-left-list{
-    margin:0
+    margin:0;
+    height: 270px;
+    overflow: auto;
 }
 #file_choose{
     float:right;
@@ -352,4 +355,15 @@ a.message-control-button {
 }
 .avatar-img{
     border-radius: 100px;
+}
+.modal-ul-choose{
+   z-index:2000;
+   position: absolute;
+   top: 52px;
+    height: 170px;
+    width: 195px;
+   background: #FFFFFF;
+   margin-left:20px;
+  box-shadow: 0 2px 4px 0 rgba(226,226,226,0.50);
+  display:none
 }
