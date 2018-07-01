@@ -454,6 +454,7 @@
                             }));
                             $(".box-right-list").append(li)
                             deletes()
+                            confirm()
                         }else{
                             $('.choose-check:checkbox').prop("checked", false)
                             $(".box-right-list").empty()
