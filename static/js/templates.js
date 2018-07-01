@@ -93,6 +93,10 @@ Handlebars.registerHelper('tt', function (timestamp) {
 //     // var regx = /:/g,
 
 // })
+// Handlebars.registerHelper('addKey',function(){
+//     return index + 1;
+// });
+
 
 Handlebars.registerHelper('addKey',function(index){  
     return index + 1;  

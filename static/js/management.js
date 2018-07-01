@@ -102,6 +102,7 @@
             // console.log("修改成功")
                  if(e.target.className==="create_generate_log"){
                      $(".create_generate_log").hide();
+            
                     //  $('.create_generate_log').empty() 
                  }else{
                     return 
@@ -110,6 +111,7 @@
             $("#management_ctn ").on("click",".generate_log_close",function(e){
                 // $("#management_ctn .create_generate_log").hide();
                 $(".create_generate_log").hide();
+              
                 // $('.create_generate_log').empty() 
              });
             $('#newplan_datetimepicker').datetimepicker({  
@@ -234,9 +236,9 @@
                 console.log(statement_accessory_list,send_list)
                 console.log(accomplish,underway,overdue)
                  var paramas ={
-                    accomplish:$.trim(accomplish),
+                    accomplish:accomplish,
                     underway:$.trim(underway),
-                    overdue:$.trim(overdue),
+                    overdue:overdue,
                     backlog_list:list,
                     send_list:send_list,
                     statement_accessory_list:statement_accessory_list,
@@ -314,6 +316,7 @@
                    $(".modal-log").hide()
                    //清除里面所有的元素，模态框消失。
                    $(".modal-log-content").empty()
+            
                 })
             }
             function deletes(){
@@ -576,6 +579,7 @@
      
         $(".generate_log").on("click",function(e){
              $(".create_generate_log").show();
+             $("#try-log .day-report").addClass("high_light").siblings().removeClass("high_light");
             channel.get({
                 url: "json/zg/creator/table?date_type=day",
                 idempotent: true,

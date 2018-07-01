@@ -90,7 +90,12 @@ exports.MessageList.prototype = {
             // If adding some new messages to the message tables caused
             // our current narrow to no longer be empty, hide the empty
             // feed placeholder text.
-            narrow.hide_empty_narrow_message();
+            if(self.filter._operators[0].operand=== "management"){
+                narrow.show_empty_narrow_message();
+            }else{
+                narrow.hide_empty_narrow_message();
+            }
+           
         }
 
         if ((self === exports.narrowed) && !self.empty() &&
@@ -554,11 +559,20 @@ exports.MessageList.prototype = {
         this.view.update_render_window(this.selected_idx(), false);
 
         if (this === exports.narrowed) {
+   
             if (this.empty()) {
-                // console.log(76)
+              
                 narrow.show_empty_narrow_message();
+         
             } else {
-                narrow.hide_empty_narrow_message();
+                if(this.filter._operators[0].operand=== "management"){
+                    narrow.show_empty_narrow_message();
+                  
+                }else{
+                    narrow.hide_empty_narrow_message();
+                    
+                }
+               
             }
         }
 
