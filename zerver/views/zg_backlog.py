@@ -12,7 +12,6 @@ from zerver.lib.actions import get_user_ids_for_streams
 
 # 已读未读
 def state_view(request, user_profile):
-
     table_id = request.GET.get('table_id')
     states = request.GET.get('state')
 
@@ -74,6 +73,7 @@ def look_table(request, user_profile):
         table_dict['accomplish'] = statement.accomplish
         table_dict['overdue'] = statement.overdue
         table_dict['underway'] = statement.underway
+        table_dict['type'] = statement.types
         backlog_list = []
         table_dict['backlog_list'] = backlog_list
         for statement_backlogs in statement_backlogs_list:
@@ -120,10 +120,10 @@ def web_my_receive(request, user_profile):
             web_my_receive_dict['fullname'] = user.full_name
             web_my_receive_dict['generate_time'] = statement_state.receive_time
             web_my_receive_dict['table_id'] = s.id
-
             web_my_receive_dict['accomplish'] = s.accomplish
             web_my_receive_dict['overdue'] = s.overdue
             web_my_receive_dict['underway'] = s.underway
+            web_my_receive_dict['type'] = s.types
             backlog_list = []
             web_my_receive_dict['backlog_list'] = backlog_list
             statement_backlogs_list = StatementBacklog.objects.filter(statement_id=s).order_by('-id')
@@ -169,6 +169,7 @@ def web_my_send(request, user_profile):
             web_my_receive_dict['accomplish'] = statement_state.accomplish
             web_my_receive_dict['overdue'] = statement_state.overdue
             web_my_receive_dict['underway'] = statement_state.underway
+            web_my_receive_dict['type'] = statement.types
             backlog_list = []
             web_my_receive_dict['backlog_list'] = backlog_list
 
@@ -242,6 +243,8 @@ def my_send(request, user_profile):
             user_dict['fullname'] = user_profile.full_name
             user_dict['generate_time'] = st.generate_time
             user_dict['table_id'] = st.id
+            user_dict['type'] = st.types
+
             send_table_list.append(user_dict)
 
     except Exception:
@@ -268,6 +271,7 @@ def my_receive(request, user_profile):
             user_dict['generate_time'] = statement_state.receive_time
             user_dict['table_id'] = s.id
             user_dict['state'] = statement_state.state
+            user_dict['type'] = s.types
 
             receive_table_list.append(user_dict)
     except Exception:
@@ -595,17 +599,26 @@ def accessory_up(request, user_profile):
     backlog_id = req['backlog_id']
 
     try:
+        accessory_lists = []
         for i in accessory_list:
             backlog = Backlog.objects.get(id=backlog_id)
 
             if i['type'] == 'add':
+                accessory_dict = {}
                 if not all([i['url'], i['size'], i['name']]):
                     return JsonResponse({'errno': 2, 'message': '缺少必要参数'})
                 a = BacklogAccessory.objects.create(backlog_id=backlog,
                                                     accessory_url=i['url'],
                                                     accessory_size=i['size'],
                                                     accessory_name=i['name'])
-                return JsonResponse({'errno': 0, 'message': '修改完成', 'accessory_id': a.id})
+
+                accessory_dict['name'] = a.accessory_name
+                accessory_dict['url'] = a.accessory_url
+                accessory_dict['size'] = a.accessory_size
+                accessory_dict['id'] = a.id
+                accessory_lists.append(accessory_dict)
+
+                return JsonResponse({'errno': 0, 'message': '修改完成', 'accessory_list': accessory_lists})
 
             elif i['type'] == 'del':
                 if not i['accessory_id']:
