@@ -158,6 +158,7 @@ function get_events(options) {
 
     get_events_params.client_gravatar = true;
 
+    // console.log(12)
     get_events_timeout = undefined;
     get_events_xhr = channel.get({
         url:      '/json/events',
@@ -170,6 +171,7 @@ function get_events(options) {
                 get_events_xhr = undefined;
                 get_events_failures = 0;
                 ui_report.hide_error($("#connection-error"));
+                // console.log(data.events)
                 get_events_success(data.events);
             } catch (ex) {
                 blueslip.error('Failed to handle get_events success\n' +
@@ -276,6 +278,7 @@ exports.cleanup_event_queue = function cleanup_event_queue() {
     blueslip.log("Cleaning up our event queue");
     // Set expired because in a reload we may be called twice.
     page_params.event_queue_expired = true;
+    // console.log(12)
     channel.del({
         url:      '/json/events',
         data:     {queue_id: page_params.queue_id},
