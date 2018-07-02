@@ -680,7 +680,7 @@ msgstr "如果消息没有发送，请等待几秒钟后再<a href=\"javascript:
 msgid ""
 "<strong class=\"message\">Unable to connect to\n"
 "            Zulip.</strong>  Updates may be delayed."
-msgstr ""
+msgstr "<strong class=\"message\">不能连接到\n e建联. </strong> 更新也许延迟."
 
 #: templates/zerver/index.html:76
 msgid "Retrying soon..."

@@ -100,7 +100,16 @@ Handlebars.registerHelper("tj",function(str){
 Handlebars.registerHelper('addKey',function(index){  
     return index + 1;  
 }); 
-
+Handlebars.registerHelper("tp",function(str){
+    if(str == "day"){
+        str = "日报"
+    }else if(str == "month"){
+        str = "月报"
+    }else if(str == "week"){
+        str = "周报"
+    }
+    return str;
+})
 Handlebars.registerHelper('if_or', function () {
     // Execute the conditional code if any of the conditions are true.
     // Example usage:
