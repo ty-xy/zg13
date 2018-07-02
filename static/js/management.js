@@ -674,7 +674,7 @@
     
         $(".new_task_save").on("click",function(e){
             var inttitle = $(".create_tasttitle").val();
-            var inttime = $(".create_taskdate").val();
+            var inttime = $("#daibandata").val();
             function timestamp(str){
                 str = str.replace(/-/g,'/');
                 var date = new Date(str); 
@@ -688,6 +688,7 @@
                 "over_time":over_time+86399,
             }
             var j = JSON.stringify(obj)
+            console.log("hellow")
             console.log(inttitle)
             console.log(inttime)
             if(inttitle==""){
