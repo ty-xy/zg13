@@ -27,14 +27,12 @@ function process_result(data, opts) {
         // opts.msg_list.view._rows=[]
         // opts.msg_list._selected_id= -1;
         narrow.show_empty_narrow_message();
-
     }
     if ((messages.length === 0) && (current_msg_list === message_list.narrowed) &&
         message_list.narrowed.empty()) {
         // Even after trying to load more messages, we have no
         // messages to display in this narrow.
         narrow.show_empty_narrow_message();
-
     }
 
     _.each(messages, message_store.set_message_booleans);
@@ -55,7 +53,6 @@ function process_result(data, opts) {
     }
 
     if (messages.length !== 0) {
-
         message_util.add_messages(messages, opts.msg_list, {messages_are_new: false});
     }
     activity.process_loaded_messages(messages);
@@ -196,17 +193,17 @@ exports.load_messages = function (opts) {
                                         s = date.getSeconds();
                                         return Y+M+D+h+m+s;
                                     }
-                                    // console.log(res)
-                                    // console.log(res.backlog_dict.accessory_list)
-                                    // var img = [];
-                                    // for(var key in res.backlog_dict.accessory_list){
+                                    console.log(res)
+                                    console.log(res.backlog_dict.accessory_list)
+                                    var img = [];
+                                    for(var key in res.backlog_dict.accessory_list){
                                         
-                                    //     var s = res.backlog_dict.accessory_list[key].url.indexOf(".");
-                                    //     var b = res.backlog_dict.accessory_list[key].url.substring(s);
-                                    //     console.log(b)
-                                    //     img.push(b);
-                                    //     console.log(img)
-                                    // }
+                                        var s = res.backlog_dict.accessory_list[key].url.indexOf(".");
+                                        var b = res.backlog_dict.accessory_list[key].url.substring(s);
+                                        console.log(b)
+                                        img.push(b);
+                                        console.log(img)
+                                    }
                                     var taskdetail_list = res.backlog_dict.task;
                                     var taskdetail_addnote = res.backlog_dict.task_details;
                                     var create_time = timestampToTime(res.backlog_dict.create_time).substring(0,10);
@@ -224,7 +221,7 @@ exports.load_messages = function (opts) {
                                         id:id,
                                         update_backlog_list:update_backlog_list,
                                         accessory_dict:accessory_dict,
-                                        // img
+                                        img:img
                                     })
                                     $(".app").after(html)
                                     $(".taskdetail_md").show();

@@ -593,13 +593,11 @@ function pick_empty_narrow_banner() {
 }
 
 exports.show_empty_narrow_message = function () {
-
     $(".empty_feed_notice").hide();
     pick_empty_narrow_banner().show();
 };
 
 exports.hide_empty_narrow_message = function () {
-
     $(".empty_feed_notice").hide();
 };
 

@@ -28,7 +28,7 @@
         }
         function alert(text,color){
             $('.toast-alert').fadeIn({
-                duration: 1000
+                duration: 50
             }).delay (1000).fadeOut ({duration: 1000});
             $('.toast-alert').html(text)
             $('.toast-alert').css('background-color',color)
@@ -90,13 +90,14 @@
 
         function logClick (data){
             $('.generate_log_right').empty()
+           
             var rendered = $(templates.render('log',{
                 underway_list:data.underway_list,
                 accomplish_list:data.accomplish_list,
                 overdue_list:data.overdue_list
             }));
-            $('.generate_log_right').append(rendered);
-          
+            $('.generate_log_right').html(rendered);
+           
             //  $("#create_log_de").on("click",function(e){
             $("#management_ctn").on("click",".create_generate_log",function(e){
             // console.log("修改成功")
@@ -219,8 +220,8 @@
                 var statement_accessory_list = []
                 $(".generate_log_pack").each(function(){
                     var isn = $(this).attr('data-url')
-                    var name = $(".generate_log_pack_right").children().eq(0).text()
-                    var size=$(".generate_log_pack_right").children().eq(1).text()
+                    var name = $(this).children().eq(1).children().eq(0).text()
+                    var size=$(this).children().eq(1).children().eq(1).text()
                     var file ={
                         url:isn,
                         size:size,
@@ -235,8 +236,12 @@
                     backlog_list:list,
                     send_list:send_list,
                     statement_accessory_list:statement_accessory_list,
-                    date_type:"day"
+                    date_type:data.date_type
                  }
+<<<<<<< HEAD
+=======
+                //  console.log(paramas)
+>>>>>>> 0a5f3573e04db8b2147bd8eb4d9ff88232493ceb
                  channel.post({
                         url:"json/zg/table/",
                         data:JSON.stringify(paramas),
@@ -576,6 +581,8 @@
                 idempotent: true,
                 success: function (data) {
                 if(data){
+                     data.date_type="day"
+                     console.log(data)
                      logClick(data)
                     }
                 },
@@ -587,6 +594,7 @@
                     idempotent: true,
                     success: function (data) {
                     if(data){
+                        data.date_type="week"
                          logClick(data)
                         }
                     },
@@ -599,6 +607,7 @@
                     idempotent: true,
                     success: function (data) {
                     if(data){
+                        data.date_type="day"
                          logClick(data)
                         }
                     },
@@ -611,6 +620,7 @@
                     idempotent: true,
                     success: function (data) {
                     if(data){
+                        data.date_type="month"
                          logClick(data)
                         }
                     },

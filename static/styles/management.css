@@ -347,7 +347,6 @@ ul{
     color: #999999;
     letter-spacing: 0.22px;
     margin-left: 6px;
-    cursor: pointer;
 }
 .taskdetail_upfile{
     float: right;
@@ -471,6 +470,8 @@ ul{
     float: left;
     background: #FFF;
     position: relative;
+    height:800px;
+    width:1100px;
 }
 .generate_log_head{
     width: 1100px;
@@ -1288,4 +1289,15 @@ ul{
 }
 .unread{
     display: none;
+}
+.loading-img{
+    height:800px;
+    width:1100px;
+    line-height:800px
+    /* position: absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    top:0;
+    margin:auto; */
 }
