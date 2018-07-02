@@ -238,7 +238,7 @@
                     statement_accessory_list:statement_accessory_list,
                     date_type:data.date_type
                  }
-                //  console.log(paramas)
+
                  channel.post({
                         url:"json/zg/table/",
                         data:JSON.stringify(paramas),
