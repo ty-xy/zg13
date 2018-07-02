@@ -169,7 +169,7 @@ def web_my_send(request, user_profile):
             web_my_receive_dict['accomplish'] = statement_state.accomplish
             web_my_receive_dict['overdue'] = statement_state.overdue
             web_my_receive_dict['underway'] = statement_state.underway
-            web_my_receive_dict['type'] = statement.types
+            web_my_receive_dict['type'] = statement_state.types
             backlog_list = []
             web_my_receive_dict['backlog_list'] = backlog_list
 
@@ -618,8 +618,6 @@ def accessory_up(request, user_profile):
                 accessory_dict['id'] = a.id
                 accessory_lists.append(accessory_dict)
 
-                return JsonResponse({'errno': 0, 'message': '修改完成', 'accessory_list': accessory_lists})
-
             elif i['type'] == 'del':
                 if not i['accessory_id']:
                     return JsonResponse({'errno': 3, 'message': '缺少必要参数'})
@@ -629,6 +627,9 @@ def accessory_up(request, user_profile):
             UpdateBacklog.objects.create(update_backlog="%s修改了附件" % uodate_time, backlog_id=backlog)
     except Exception:
         return JsonResponse({'errno': 1, 'message': '错误'})
+    
+    if accessory_list:
+        return JsonResponse({'errno': 0, 'message': '修改完成', 'accessory_list': accessory_lists})
     return JsonResponse({'errno': 0, 'message': '修改完成'})
 
 
