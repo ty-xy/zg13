@@ -266,8 +266,8 @@ class OurAuthenticationForm(AuthenticationForm):
                 # user never having had an account, so we let them fall through to the
                 # normal invalid_login case below.
                 error_msg = (
-                    u"Your account is no longer active. "
-                    u"Please contact your organization administrator to reactivate it.")
+                    u"您的账户不再是激活状态. "
+                    u"请与您的组织管理员联系以重新激活它.")
                 raise ValidationError(mark_safe(error_msg))
 
             if return_data.get("invalid_subdomain"):

@@ -83,6 +83,7 @@ exports.initialize = function () {
         },
         error: function (xhr) {
             $('#submit-invitation').button('reset');
+            // console.log(xhr)
             var arr = JSON.parse(xhr.responseText);
             if (arr.errors === undefined) {
                 // There was a fatal error, no partial processing occurred.

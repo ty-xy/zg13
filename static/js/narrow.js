@@ -269,7 +269,7 @@ exports.stream_topic = function () {
 
     if (msg) {
         return {
-            stream: msg.stream || undefined,
+             stream: msg.stream || undefined,
             topic: msg.subject || undefined,
         };
     }
