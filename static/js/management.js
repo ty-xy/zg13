@@ -90,14 +90,14 @@
 
         function logClick (data){
             $('.generate_log_right').empty()
-           console.log($('.generate_log_right').children().length)
+           
             var rendered = $(templates.render('log',{
                 underway_list:data.underway_list,
                 accomplish_list:data.accomplish_list,
                 overdue_list:data.overdue_list
             }));
-            $('.generate_log_right').append(rendered);
-            console.log($('.generate_log_right').children().length)
+            $('.generate_log_right').html(rendered);
+           
             //  $("#create_log_de").on("click",function(e){
             $("#management_ctn").on("click",".create_generate_log",function(e){
             // console.log("修改成功")
