@@ -54,12 +54,13 @@
                     {{#each accessory_dict}}
                     <li class="taskdetail_attachment" value="{{id}}">
                         <div class="taskdetail_attachment_left" value="{{url}}">
-                            {{!-- {{#if value}} --}}
+                            {{!-- {{#each img}} --}}
                             <img src="../../static/img/pnglogo.png" alt="">
-                            {{!-- {{/if}} --}}
+                            {{!-- <p>{{this}}</p>
+                            {{/each}} --}}
                             <p>{{name}}</p>
                             <p>
-                                <span>{{size}}KB</span>
+                                <span>{{size}}MB</span>
                                 {{!-- <span>{{}}</span> --}}
                             </p>
                         </div>

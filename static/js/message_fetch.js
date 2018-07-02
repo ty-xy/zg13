@@ -196,7 +196,17 @@ exports.load_messages = function (opts) {
                                         s = date.getSeconds();
                                         return Y+M+D+h+m+s;
                                     }
-
+                                    // console.log(res)
+                                    // console.log(res.backlog_dict.accessory_list)
+                                    // var img = [];
+                                    // for(var key in res.backlog_dict.accessory_list){
+                                        
+                                    //     var s = res.backlog_dict.accessory_list[key].url.indexOf(".");
+                                    //     var b = res.backlog_dict.accessory_list[key].url.substring(s);
+                                    //     console.log(b)
+                                    //     img.push(b);
+                                    //     console.log(img)
+                                    // }
                                     var taskdetail_list = res.backlog_dict.task;
                                     var taskdetail_addnote = res.backlog_dict.task_details;
                                     var create_time = timestampToTime(res.backlog_dict.create_time).substring(0,10);
@@ -213,7 +223,8 @@ exports.load_messages = function (opts) {
                                         state:state,
                                         id:id,
                                         update_backlog_list:update_backlog_list,
-                                        accessory_dict:accessory_dict
+                                        accessory_dict:accessory_dict,
+                                        // img
                                     })
                                     $(".app").after(html)
                                     $(".taskdetail_md").show();

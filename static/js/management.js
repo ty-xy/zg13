@@ -681,6 +681,8 @@
                 "over_time":over_time+86399,
             }
             var j = JSON.stringify(obj)
+            console.log(inttitle)
+            console.log(inttime)
             if(inttitle==""){
                 console.log("11333")
                 $("#taskinput").css("border","1px solid #EF5350");
