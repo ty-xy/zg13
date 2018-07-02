@@ -5,7 +5,7 @@ var choose_file = (function () {
     $("#file-choose").on("click", "#attach_files", function (e) {
         // e.preventDefault();
         $("#file-choose #file_inputs").trigger("click");
-        console.log(4444)
+
     });
     // 2  // Click event binding for "Attach files" button
     // // Triggers a click on a hidden file input field

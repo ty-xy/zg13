@@ -262,7 +262,6 @@ exports.set_up = function () {
             },
         });
 
-        console.log("helo")
         location.reload();
     });
     

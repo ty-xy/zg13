@@ -169,7 +169,7 @@ def web_my_send(request, user_profile):
             web_my_receive_dict['accomplish'] = statement_state.accomplish
             web_my_receive_dict['overdue'] = statement_state.overdue
             web_my_receive_dict['underway'] = statement_state.underway
-            web_my_receive_dict['type'] = statement.types
+            web_my_receive_dict['type'] = statement_state.types
             backlog_list = []
             web_my_receive_dict['backlog_list'] = backlog_list
 
