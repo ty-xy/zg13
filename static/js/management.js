@@ -28,7 +28,7 @@
         }
         function alert(text,color){
             $('.toast-alert').fadeIn({
-                duration: 1000
+                duration: 50
             }).delay (1000).fadeOut ({duration: 1000});
             $('.toast-alert').html(text)
             $('.toast-alert').css('background-color',color)
@@ -225,8 +225,8 @@
                 var statement_accessory_list = []
                 $(".generate_log_pack").each(function(){
                     var isn = $(this).attr('data-url')
-                    var name = $(".generate_log_pack_right").children().eq(0).text()
-                    var size=$(".generate_log_pack_right").children().eq(1).text()
+                    var name = $(this).children().eq(1).children().eq(0).text()
+                    var size=$(this).children().eq(1).children().eq(1).text()
                     var file ={
                         url:isn,
                         size:size,
