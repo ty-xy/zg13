@@ -1,6 +1,10 @@
 $(function () {
     // NB: this file is included on multiple pages.  In each context,
     // some of the jQuery selectors below will return empty lists.
+    $.extend($.validator.messages,{
+        email: "请输入正确格式的电子邮件",
+        required: "必选字段",
+    })
     var password_field = $('#id_password, #id_new_password1');
 
     $.validator.addMethod('password_strength', function (value) {
@@ -29,9 +33,11 @@ $(function () {
             // is created.
             element.next('.help-inline.alert.alert-error').remove();
             if (element.next().is('label[for="' + element.attr('id') + '"]')) {
+                // console.log(element.next())
                 error.insertAfter(element.next()).addClass('help-inline alert alert-error');
             } else {
                 error.insertAfter(element).addClass('help-inline alert alert-error');
+                // console.log(element)
             }
         },
         highlight:   highlight('error'),
@@ -47,6 +53,7 @@ $(function () {
     $("#send_confirm").validate({
         errorElement: "div",
         errorPlacement: function (error) {
+            console.log(error,1)
             $('.email-frontend-error').empty();
             $("#send_confirm .alert.email-backend-error").remove();
             error.appendTo(".email-frontend-error").addClass("text-error");
@@ -79,7 +86,6 @@ $(function () {
         submitHandler: function (form) {
             $("#login_form").find('.loader').css('display', 'inline-block');
             $("#login_form").find("button .text").hide();
-
             form.submit();
         },
         invalidHandler: function () {
