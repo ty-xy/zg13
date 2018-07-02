@@ -128,7 +128,6 @@
                     url:"json/zg/backlog/",
                     data:j.j,
                     success: function (data) {
-                        console.log(data)
                         if(data.errno===0){
                             var li = innhtml(j.inttitle,j.inttime,data)
                             $('.generate_log_plan_box').append(li)
@@ -143,7 +142,6 @@
                 $('.generate_log_plan_ctn ').on('click',".generate_log_plan_editor",function(e){
                     e.preventDefault()
                     var that =$(this)
-                    console.log(that)
                     var li  = "."+(that.parent().parent()).attr("class")
                     var textval=  $(li).find(".text-inline").text()
                     var textdate= $(li).find(".date-inline").text()
@@ -171,14 +169,12 @@
                 var data_list ={
                     "backlog_id":obj.backlog_id
                 }
-                console.log(obj.backlog_id)
                 var data = JSON.stringify(obj)
                 channel.put({
                     url:"json/zg/backlog/",
                     data:data,
                     success:function(data){
                         if(data.errno===0){
-                            console.log()
                             var li = innhtml(j.inttitle,j.inttime,data_list)
                             $('.generate_log_plan_box').append(li)
                             var plan = $(".new_plan").find(".fix_plan_save")
@@ -219,7 +215,6 @@
                 var send_list =[]
                 $(".generate_log_member_box").children().not($(".add_log_people")).each(function(){
                     var ids= Number($(this).attr('data_id'))
-                    console.log(ids)
                     send_list.push(ids)
                 })
                 var statement_accessory_list = []
@@ -234,8 +229,6 @@
                     }
                     statement_accessory_list.push(file)
                 })
-                console.log(statement_accessory_list,send_list)
-                console.log(accomplish,underway,overdue)
                  var paramas ={
                     accomplish:accomplish,
                     underway:$.trim(underway),
@@ -245,7 +238,7 @@
                     statement_accessory_list:statement_accessory_list,
                     date_type:data.date_type
                  }
-                //  console.log(paramas)
+
                  channel.post({
                         url:"json/zg/table/",
                         data:JSON.stringify(paramas),
@@ -435,7 +428,6 @@
                                    }
                                 //    console.log(indexlist)
                             })
-                             console.log(indexlist)
                         }
                         
                     })
@@ -696,6 +688,8 @@
                 "over_time":over_time+86399,
             }
             var j = JSON.stringify(obj)
+            console.log(inttitle)
+            console.log(inttime)
             if(inttitle==""){
                 console.log("11333")
                 $("#taskinput").css("border","1px solid #EF5350");
@@ -761,8 +755,8 @@
                         $(".add_ctn").on("click",function(e){
                             $(".taskdetail_md").show();
                             $(".app").css("overflow-y","hidden");
-                            $(".taskdetail_list").html($(this).html());
-                            
+                            // $(".taskdetail_list").html($(this).html());
+                            // $(".taskdetail_list").val($(this).val());
                             var taskid = Number($(this).attr("taskid"))
                             backlog_id = taskid;
                         })
@@ -860,7 +854,6 @@
             console.log("dadasdasd")
             $(".taskdetail_md").show();
             $(".app").css("overflow-y","hidden")
-            console.log("helow")
         })
         //点击任务详情模版关闭任务详情
         $(".taskdetail_md").on("click",function(e){
@@ -989,7 +982,14 @@
                         var html = templates.render("log_assistant_box",{receive_table_list:receive_table_list})
                         $(".app").after(html)
                         console.log(res)
-                        
+                        // console.log(res.receive_table_list)
+                        // for(var i = 0;i<res.receive_table_list.length;i++){
+                        //     console.log(res.receive_table_list[i])
+                        //     var str = res.receive_table_list[i].overdue;
+                        //     strs =  str.replace(/[\r\n]+/, '\n')
+                        //     console.log(res.receive_table_list[i].overdue)
+                        //     console.log(strs)
+                        // }
                         $(".log_assistant_md").on("click",function(e){
                             e.stopPropagation();
                             e.preventDefault();
@@ -1019,7 +1019,7 @@
                             $(".log_assistant_title").html("我收到的")
                             $.ajax({
                                         type:"GET",
-                                        url:"json/receive/web",
+                                        url:"json/zg/my/receive/web",
                                         contentType:"application/json",
                                         success:function(res){
                                             $(".log_assistant_ctn").remove();

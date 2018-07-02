@@ -221,6 +221,7 @@ ul{
 .taskdetail_state{
     float: left;
     font-size: 16px;
+    display: none;
     /* display: none; */
     /* margin-bottom: -2px; */
 }
@@ -241,7 +242,14 @@ ul{
     font-size: 18px;
     color: #333333;
     letter-spacing: 0.22px;
-    margin-left: 20px;
+    background:none!important;  
+	outline:none!important;  
+	border:0px!important;
+    /* margin-left: 20px; */
+    width: 495px;
+}
+.taskdetail_list:focus{
+    outline: none;
 }
 #taskdetail_addnote{
     width: 500px;
@@ -339,7 +347,6 @@ ul{
     color: #999999;
     letter-spacing: 0.22px;
     margin-left: 6px;
-    cursor: pointer;
 }
 .taskdetail_upfile{
     float: right;
@@ -681,6 +688,9 @@ ul{
     letter-spacing: 0.15px;
     margin-bottom: 1px;
     margin-top: 5px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 .generate_log_pack_right>:last-child{
     font-size: 11px;
