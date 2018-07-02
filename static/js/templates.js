@@ -92,7 +92,11 @@ Handlebars.registerHelper("tl", function(text) {
     text = text.replace(/(\r\n|\n|\r)/gm, '<br>');
     return new Handlebars.SafeString(text);
 });
-
+Handlebars.registerHelper("tj",function(str){
+    var p = str.indexOf(".");
+    var strs = str.substring(p);
+    return strs;
+})
 Handlebars.registerHelper('addKey',function(index){  
     return index + 1;  
 }); 

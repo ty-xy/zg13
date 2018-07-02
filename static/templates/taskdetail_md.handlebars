@@ -53,11 +53,13 @@
                 <ul class="taskdetail_attachment_box" length="{{accessory_length}}">
                     {{#each accessory_dict}}
                     <li class="taskdetail_attachment" value="{{id}}">
-                        <div class="taskdetail_attachment_left">
+                        <div class="taskdetail_attachment_left" value="{{url}}">
+                            {{!-- {{#if value}} --}}
                             <img src="../../static/img/pnglogo.png" alt="">
+                            {{!-- {{/if}} --}}
                             <p>{{name}}</p>
                             <p>
-                                <span>{{size}}</span>
+                                <span>{{size}}KB</span>
                                 {{!-- <span>{{}}</span> --}}
                             </p>
                         </div>

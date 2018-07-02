@@ -196,6 +196,7 @@ exports.load_messages = function (opts) {
                                         s = date.getSeconds();
                                         return Y+M+D+h+m+s;
                                     }
+
                                     var taskdetail_list = res.backlog_dict.task;
                                     var taskdetail_addnote = res.backlog_dict.task_details;
                                     var create_time = timestampToTime(res.backlog_dict.create_time).substring(0,10);

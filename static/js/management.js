@@ -845,7 +845,6 @@
             console.log("dadasdasd")
             $(".taskdetail_md").show();
             $(".app").css("overflow-y","hidden")
-            console.log("helow")
         })
         //点击任务详情模版关闭任务详情
         $(".taskdetail_md").on("click",function(e){

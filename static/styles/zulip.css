@@ -3012,6 +3012,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     right: 0;
     top: 0;
     height: 2000px;
+    z-index: 11;
 }
 .tip-top{
     margin-bottom:10px !important
