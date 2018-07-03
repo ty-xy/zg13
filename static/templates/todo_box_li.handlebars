@@ -5,8 +5,12 @@
             <p class='add_ctn' over_time="{{over_time}}" task="{{task}}" taskid="{{backlog_id}}" taskdetails="{{task_details}}">{{task}}</p>
         </div>
         <div class='todo_right'>
+            {{#if task_details}}
             <i class='iconfont icon-beizhu note_icon'></i>
+            {{/if}}
+                {{#if accessory_list}}
                 <i class='iconfont icon-fujian1 attachment_icon'></i>
+                {{/if}}
                 <p class='add_datatime'>{{over_time}}</p>
         </div>
 </li>
@@ -18,8 +22,12 @@
             <p class='add_ctn overdue' over_time="{{over_time}}" task="{{task}}" taskid="{{backlog_id}}" taskdetails="{{task_details}}">{{task}}</p>
         </div>
         <div class='todo_right'>
+            {{#if task_details}}
             <i class='iconfont icon-beizhu note_icon'></i>
+            {{/if}}
+                {{#if accessory_list}}
                 <i class='iconfont icon-fujian1 attachment_icon'></i>
+                {{/if}}
                 <p class='add_datatime overdue'>{{over_time}}</p>
         </div>
 </li>

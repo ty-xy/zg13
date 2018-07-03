@@ -417,15 +417,15 @@ exports.load_messages = function (opts) {
                                 // e.preventDefault();
                             })
                             //任务详情的勾选框点击功能
-                                $(".taskdetail_ctn").on("click",".taskdetail_state",function(e){
-                                    if($(".taskdetail_state[name='"+id+"']").is(":checked")){
-                                        state = 0;
-                                        localStorage.setItem("state",state)
-                                    }else{
-                                        state = 2;
-                                        localStorage.setItem("state",state)
-                                    }
-                                })
+                                // $(".taskdetail_ctn").on("click",".taskdetail_state",function(e){
+                                //     if($(".taskdetail_state[name='"+id+"']").is(":checked")){
+                                //         state = 0;
+                                //         localStorage.setItem("state",state)
+                                //     }else{
+                                //         state = 2;
+                                //         localStorage.setItem("state",state)
+                                //     }
+                                // })
                             //任务详情点击关闭
                             $(".taskdetail_close").on("click",function(e){
                                 $(".taskdetail_md").hide();
@@ -438,7 +438,7 @@ exports.load_messages = function (opts) {
                                     return n;
                                 }
                                 var create_time = timestamp($("input[title='"+id+"']").val().substring(0,10));
-                                var over_time = timestamp($(".new_task_date[name='"+id+"']").val().substring(0,10));
+                                var over_time = timestamp($(".new_task_date[name='"+id+"']").val().substring(0,10)+86399);
                                 var backlog_id = id;
                                 var state = $(".taskdetail_state[name='"+id+"']").val();
                                 // var state = Number(localStorage.getItem("state"));
