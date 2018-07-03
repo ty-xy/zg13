@@ -27,6 +27,7 @@ function process_result(data, opts) {
         // opts.msg_list.view._rows=[]
         // opts.msg_list._selected_id= -1;
         narrow.show_empty_narrow_message();
+
         // console.log(11111)
     }
     if ((messages.length === 0) && (current_msg_list === message_list.narrowed) &&
@@ -34,6 +35,7 @@ function process_result(data, opts) {
         // Even after trying to load more messages, we have no
         // messages to display in this narrow.
         narrow.show_empty_narrow_message();
+
         // console.log(11112)
     }
 
@@ -55,6 +57,7 @@ function process_result(data, opts) {
     }
 
     if (messages.length !== 0) {
+
         // console.log(11111111111)
         message_util.add_messages(messages, opts.msg_list, {messages_are_new: false});
     }
@@ -170,7 +173,8 @@ exports.load_messages = function (opts) {
                         $(".todo_box").on("click",".add_ctn",function(e){
                             $(".taskdetail_md").show();
                             $(".app").css("overflow-y","hidden");
-                            $(".taskdetail_list").html($(this).html());
+                            // $(".taskdetail_list").html($(this).html());
+                            // $(".taskdetail_list").html($(this).val());
                             $(".taskdetail_md").remove();
                             var taskid = Number($(this).attr("taskid"))
                             backlog_id = taskid;
@@ -195,6 +199,17 @@ exports.load_messages = function (opts) {
                                         s = date.getSeconds();
                                         return Y+M+D+h+m+s;
                                     }
+                                    console.log(res)
+                                    console.log(res.backlog_dict.accessory_list)
+                                    var img = [];
+                                    for(var key in res.backlog_dict.accessory_list){
+                                        
+                                        var s = res.backlog_dict.accessory_list[key].url.indexOf(".");
+                                        var b = res.backlog_dict.accessory_list[key].url.substring(s);
+                                        console.log(b)
+                                        img.push(b);
+                                        console.log(img)
+                                    }
                                     var taskdetail_list = res.backlog_dict.task;
                                     var taskdetail_addnote = res.backlog_dict.task_details;
                                     var create_time = timestampToTime(res.backlog_dict.create_time).substring(0,10);
@@ -211,7 +226,8 @@ exports.load_messages = function (opts) {
                                         state:state,
                                         id:id,
                                         update_backlog_list:update_backlog_list,
-                                        accessory_dict:accessory_dict
+                                        accessory_dict:accessory_dict,
+                                        img:img
                                     })
                                     $(".app").after(html)
                                     $(".taskdetail_md").show();
@@ -222,7 +238,7 @@ exports.load_messages = function (opts) {
                                     upload.feature_check($("#file_choose #attach_files"));
                                     $("#file_choose").on("click", "#attach_files", function (e) {
                                        // e.preventDefault();
-
+                                       
                                        $("#file_choose #file_inputs").trigger("click");
                                    });
                                    function make_upload_absolute(uri) {
@@ -401,15 +417,15 @@ exports.load_messages = function (opts) {
                                 // e.preventDefault();
                             })
                             //任务详情的勾选框点击功能
-                                $(".taskdetail_ctn").on("click",".taskdetail_state",function(e){
-                                    if($(".taskdetail_state[name='"+id+"']").is(":checked")){
-                                        state = 0;
-                                        localStorage.setItem("state",state)
-                                    }else{
-                                        state = 2;
-                                        localStorage.setItem("state",state)
-                                    }
-                                })
+                                // $(".taskdetail_ctn").on("click",".taskdetail_state",function(e){
+                                //     if($(".taskdetail_state[name='"+id+"']").is(":checked")){
+                                //         state = 0;
+                                //         localStorage.setItem("state",state)
+                                //     }else{
+                                //         state = 2;
+                                //         localStorage.setItem("state",state)
+                                //     }
+                                // })
                             //任务详情点击关闭
                             $(".taskdetail_close").on("click",function(e){
                                 $(".taskdetail_md").hide();
@@ -422,20 +438,22 @@ exports.load_messages = function (opts) {
                                     return n;
                                 }
                                 var create_time = timestamp($("input[title='"+id+"']").val().substring(0,10));
-                                var over_time = timestamp($(".new_task_date[name='"+id+"']").val().substring(0,10));
+                                var over_time = timestamp($(".new_task_date[name='"+id+"']").val().substring(0,10)+86399);
                                 var backlog_id = id;
                                 var state = $(".taskdetail_state[name='"+id+"']").val();
                                 // var state = Number(localStorage.getItem("state"));
                                 var task_details = $("textarea[name='"+id+"']").val();
+                                var task = $(".taskdetail_list").val();
                                 var obj_backlog_data = {
                                     create_time:create_time,
                                     over_time:over_time,
                                     backlog_id:backlog_id,
                                     state:state,
-                                    task_details:task_details
+                                    task_details:task_details,
+                                    task:task
                                 }
                                 var backlog_data = JSON.stringify(obj_backlog_data);
-                                localStorage.clear();
+                                // localStorage.clear();
                                 $.ajax({
                                     type:"PUT",
                                     url:"json/zg/backlog/",
@@ -559,7 +577,7 @@ exports.load_messages = function (opts) {
                                         
                                     $(".completed_box").on("click",".completed_ctn",function(e){
                                         $(".app").css("overflow-y","hidden");
-                                        $(".taskdetail_list").html($(this).html());
+                                        // $(".taskdetail_list").html($(this).html());
                                         $(".taskdetail_md").remove();
                                         var taskid = Number($(this).attr("taskid"))
                                         backlog_id = taskid;
@@ -679,12 +697,14 @@ exports.load_messages = function (opts) {
                                             var backlog_id = id;
                                             var state = $(".taskdetail_state[name='"+id+"']").val();
                                             var task_details = $("textarea[name='"+id+"']").val();
+                                            var task = $(".taskdetail_list").val();
                                             var obj_backlog_data = {
                                                 create_time:create_time,
                                                 over_time:over_time,
                                                 backlog_id:backlog_id,
                                                 state:state,
-                                                task_details:task_details
+                                                task_details:task_details,
+                                                task:task
                                             }
                                             var backlog_data = JSON.stringify(obj_backlog_data);
                                             $.ajax({
