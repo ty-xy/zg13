@@ -180,7 +180,7 @@ exports.next_topic = function (streams, get_topics, has_unread_messages, curr_st
         function make_object(topic) {
             return {
                 stream: which_stream,
-                topic: topic,
+                 topic: topic,
             };
         }
 
