@@ -106,8 +106,8 @@
 
 .compose_table #compose-lock-icon i {
     position: absolute;
-    left: 5px;
-    top: 3px;
+    left: 32px;
+    top: 4px;
 }
 
 .compose_table .message_header {

@@ -278,8 +278,15 @@
             }
             function confirm(){
                 //点击确定
-                $('.button-confirm').on('click',function(e){
+                $(".choose-right-list").on('click','.button-confirm',function(e){
                     var arrlist =[]
+                    var peopleList = []
+                    $('#create_log_de .generate_log_member_box').children().not($(".add_log_people")).each(function(){
+                        
+                        var index = Number($(this).attr('data_id'))
+                        peopleList.push(index)
+                    })
+                    console.log(peopleList)
                     $(".box-right-list").children().each(function () { 
                         var id = Number($(this).attr("key-data"));
                         var avatar = $(this).attr("avatarurl")
@@ -290,12 +297,16 @@
                             name:name,
                             namel:name.slice(0,4)+"...."
                         }
-                        arrlist.push(peppleList)
+                        if(peopleList.indexOf(peppleList.id)===-1){
+                            arrlist.push(peppleList)
+                        }
                     })
-                    console.log(avatar)
+                   
+                    // console.log($(".add_log_people").siblings().length)
                     var li = $(templates.render('send_people',{
                        peoplelist:arrlist
                    }));
+                   $(".add_log_people").before(li)
                    $('.generate_log_member').mouseenter(function(){
                       $(this).children().eq(2).show()
                       $(this).on('click',".dust-delete",function(e){
@@ -305,7 +316,7 @@
                    $('.generate_log_member').mouseleave(function(){
                      $('.avatar-over').hide()
                   })
-                   $(".add_log_people").before(li)
+                   
                    $('.box-right-list').remove()
                    $(".modal-log").hide()
                    //清除里面所有的元素，模态框消失。
@@ -450,10 +461,11 @@
                             }));
                             $(".box-right-list").append(li)
                             deletes()
-                            confirm()
+                            // confirm()
                         }else{
                             $('.choose-check:checkbox').prop("checked", false)
                             $(".box-right-list").empty()
+                            deletes()
                         }
                     })
                     
@@ -507,6 +519,7 @@
                         // $(".modal-log-content").empty()
                            // 渲染频道下级选发送人
                         // $(".choose-nav-left").children().remove
+                        console.log(12121)
                         var id = $(this).attr('button-key')
                         var li = $(templates.render('choose_people',{
                             datalists:data.streams_dict[id],
@@ -528,7 +541,10 @@
                                 deletes()
                             }else{
                                 $('.choose-list-box:checkbox').prop("checked", false)
-                                $(".box-right-list").empty()
+                                var dataId =$.trim($(this).parent().prev().children().eq(1).text())
+                                $("[data_id='"+dataId+"']").remove()
+                                deletes()
+                                // $(".box-right-list").empty()
                             }
                           })
                         $(".box-choose-lefts").on("click",".choose-list-box",function(e){
@@ -563,7 +579,7 @@
                      
                         // 点击选取联系人,返回频道选人
                         button()
-                        confirm()
+                        // confirm()
                     })
                   }
               })
