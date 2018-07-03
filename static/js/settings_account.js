@@ -220,7 +220,7 @@ exports.set_up = function () {
                 return true;
             },
             success: function () {
-                settings_change_success(i18n.t("Updated settings!"));
+                settings_change_success(i18n.t("更新成功!"));
                 overlays.close_modal('change_password_modal');
             },
             complete: function () {

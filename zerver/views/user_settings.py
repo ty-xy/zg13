@@ -75,12 +75,12 @@ def json_change_settings(request: HttpRequest, user_profile: UserProfile,
                          old_password: Text=REQ(default=""),
                          new_password: Text=REQ(default="")) -> HttpResponse:
     if not (full_name or new_password or email):
-        return json_error(_("Please fill out all fields."))
+        return json_error(_("请填写所有字段"))
 
     if new_password != "":
         if not authenticate(username=user_profile.email, password=old_password,
                             realm=user_profile.realm):
-            return json_error(_("Wrong password!"))
+            return json_error(_("旧密码输入错误!"))
         do_change_password(user_profile, new_password)
         # In Django 1.10, password changes invalidates sessions, see
         # https://docs.djangoproject.com/en/1.10/topics/auth/default/#session-invalidation-on-password-change
