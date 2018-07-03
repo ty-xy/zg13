@@ -1023,6 +1023,8 @@
                                         url:"json/zg/my/receive/web",
                                         contentType:"application/json",
                                         success:function(res){
+                                            console.log("-----------------")
+                                            console.log(res)
                                             $(".log_assistant_ctn").remove();
                                             var receive_table_list = res.receive_table_list;
                                             var html = templates.render("log_assistant_receive",{receive_table_list:receive_table_list})

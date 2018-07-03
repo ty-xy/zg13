@@ -3189,7 +3189,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     cursor: pointer;
 }
 .add_datatime{
-    float: left;
+    float: right;
     font-size: 13px;
     color: #999999;
     letter-spacing: 0.16px;
