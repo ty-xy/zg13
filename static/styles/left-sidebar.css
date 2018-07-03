@@ -533,7 +533,7 @@ li.show-more-private-messages a {
 }
 /* zyc添加 */
 .bottom_sidebar{
-    margin-top:92px;
+    /* margin-top:92px; */
 }
 .user_head_box{
     width: 60px;

@@ -1890,7 +1890,8 @@ nav .column-left {
     border-top: 1px solid #354052;
     margin-top: -1px;
     width: 200px;
-    height: 151px;
+    /* height: 151px; */
+    height: 60px;
     border-bottom: 1px solid #3D495D
 }
 
@@ -3003,7 +3004,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     position: absolute;
     left: 0;
     top: 0;
-    height: 2000px;
+    height: 6000px;
 }
 .column-middle_shodowr{
     width: 10px;
@@ -3011,7 +3012,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     position: absolute;
     right: 0;
     top: 0;
-    height: 2000px;
+    height: 6000px;
     z-index: 11;
 }
 .tip-top{
@@ -3189,7 +3190,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     cursor: pointer;
 }
 .add_datatime{
-    float: left;
+    float: right;
     font-size: 13px;
     color: #999999;
     letter-spacing: 0.16px;
