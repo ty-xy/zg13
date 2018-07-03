@@ -1890,7 +1890,8 @@ nav .column-left {
     border-top: 1px solid #354052;
     margin-top: -1px;
     width: 200px;
-    height: 151px;
+    /* height: 151px; */
+    height: 60px;
     border-bottom: 1px solid #3D495D
 }
 
