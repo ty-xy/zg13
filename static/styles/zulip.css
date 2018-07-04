@@ -3021,7 +3021,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
 
 #management_ctn{
     background: #fff;
-    min-width: 924px;
+    min-width: 624px;
 }
 .management_titleA{
     overflow: hidden;
@@ -3043,13 +3043,16 @@ div.topic_edit_spinner .loading_indicator_spinner {
     cursor: pointer;
 }
 .management_lineA{
-    border: 1px solid #CCCCCC;
     width: 878px;
-    height: 0px;
+    height: 20px;
     display: block;
-    background: #ccc;
     margin: 0 auto;
     margin-top: 16px;
+    margin: 10px auto;
+    list-style: none;
+    overflow: hidden;
+    border: none;
+    border-bottom: 1px solid #CCCCCC;
 }
 .management_icon{
     margin-top: 26px;
@@ -3147,7 +3150,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
 .todo_right{
     float: right;
     overflow: hidden;
-    width: 150px;
+    width: 220px;
     margin-right: 10px;
     line-height: 50px;
 }
@@ -3254,6 +3257,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
 .new_task{
     overflow: hidden;
     margin-left: 10px;
+    min-width: 900px;
 }
 .new_task>input{
     float: left;

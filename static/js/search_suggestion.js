@@ -374,45 +374,45 @@ function get_operator_subset_suggestions(operators) {
 
 function get_special_filter_suggestions(last, operators) {
     var suggestions = [
-        {
-            search_string: 'is:private',
-            description: 'private messages',
-            invalid: [
-                {operator: 'is', operand: 'private'},
-                {operator: 'stream'},
-                {operator: 'pm-with'},
-                {operator: 'in'},
-            ],
+        // {
+        //     search_string: 'is:private',
+        //     description: 'private messages',
+        //     invalid: [
+        //         {operator: 'is', operand: 'private'},
+        //         {operator: 'stream'},
+        //         {operator: 'pm-with'},
+        //         {operator: 'in'},
+        //     ],
 
-        },
-        {
-            search_string: 'is:starred',
-            description: 'starred messages',
-            invalid: [
-                {operator: 'is', operand: 'starred'},
-            ],
-        },
-        {
-            search_string: 'is:mentioned',
-            description: '@-mentions',
-            invalid: [
-                {operator: 'is', operand: 'mentioned'},
-            ],
-        },
-        {
-            search_string: 'is:alerted',
-            description: 'alerted messages',
-            invalid: [
-                {operator: 'is', operand: 'alerted'},
-            ],
-        },
-        {
-            search_string: 'is:unread',
-            description: 'unread messages',
-            invalid: [
-                {operator: 'is', operand: 'unread'},
-            ],
-        },
+        // },
+        // {
+        //     search_string: 'is:starred',
+        //     description: 'starred messages',
+        //     invalid: [
+        //         {operator: 'is', operand: 'starred'},
+        //     ],
+        // },
+        // {
+        //     search_string: 'is:mentioned',
+        //     description: '@-mentions',
+        //     invalid: [
+        //         {operator: 'is', operand: 'mentioned'},
+        //     ],
+        // },
+        // {
+        //     search_string: 'is:alerted',
+        //     description: 'alerted messages',
+        //     invalid: [
+        //         {operator: 'is', operand: 'alerted'},
+        //     ],
+        // },
+        // {
+        //     search_string: 'is:unread',
+        //     description: 'unread messages',
+        //     invalid: [
+        //         {operator: 'is', operand: 'unread'},
+        //     ],
+        // },
     ];
 
     var last_string = Filter.unparse([last]).toLowerCase();

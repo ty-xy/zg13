@@ -11,7 +11,8 @@
                 {{#if accessory_list}}
                 <i class='iconfont icon-fujian1 attachment_icon'></i>
                 {{/if}}
-                <p class='add_datatime'>{{over_time}}</p>
+                <p class='add_datatime'>{{substr over_time}}</p>
+                <p class="add_datatime">{{substr create_time}}</p>
         </div>
 </li>
 {{/each}}
@@ -28,7 +29,8 @@
                 {{#if accessory_list}}
                 <i class='iconfont icon-fujian1 attachment_icon'></i>
                 {{/if}}
-                <p class='add_datatime overdue'>{{over_time}}</p>
+                <p class='add_datatime overdue'>{{substr over_time}}</p>
+                <p class='add_datatime overdue'>{{substr create_time}}</p>
         </div>
 </li>
 {{/each}}

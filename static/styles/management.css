@@ -1303,3 +1303,7 @@ ul{
     top:0;
     margin:auto; */
 }
+.error_tip{
+    letter-spacing: 2px;
+    color: red;
+}
