@@ -369,7 +369,7 @@ def table_view(request, user_profile):
     except Exception:
         return JsonResponse({'errno': 2, 'message': "储存周报失败"})
 
-    return JsonResponse({'errno': 0, 'message': "成功",'table_id'})
+    return JsonResponse({'errno': 0, 'message': "成功",'table_id':a.id})
 
 
 # 一键生成
