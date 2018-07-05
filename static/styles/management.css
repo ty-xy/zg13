@@ -584,6 +584,7 @@ ul{
     float: left;
     font-size: 16px;
     margin: 18px 10px;
+    display: none;
 }
 .generate_log_plan_ctn>p:nth-of-type(1){
     float: left;
@@ -591,6 +592,7 @@ ul{
     font-size: 14px;
     color: #666666;
     letter-spacing: 0.17px;
+    margin-left: 20px;
 }
 .generate_log_plan_ctn>p:nth-of-type(2){
     float: left;

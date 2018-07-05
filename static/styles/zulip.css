@@ -3028,6 +3028,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     margin-top: 20px;
     margin-left: 20px;
     margin-right: 20px;
+    min-width: 300px;
 }
 .my_management{
     float: left;
@@ -3115,7 +3116,8 @@ div.topic_edit_spinner .loading_indicator_spinner {
     cursor: pointer;
 }
 .new_task_box{
-    margin: 24px 10px;
+    margin: 24px 0px;
+    height: 50px;
 }
 .add_task{
     border: 1px solid #A0ACBF;
@@ -3135,7 +3137,8 @@ div.topic_edit_spinner .loading_indicator_spinner {
     margin-left: -10px;
 }
 .todo_box>li{
-    width: 876px;
+    /* width: 876px; */
+    min-width: 300px;
     height: 50px;
     margin: 10px auto;
     background: #FFFFFF;
@@ -3143,6 +3146,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     border-radius: 2px;
     list-style: none;
     overflow: hidden;
+    margin: 10px 20px;
 }
 .todo_left{
     float: left;
@@ -3174,7 +3178,8 @@ div.topic_edit_spinner .loading_indicator_spinner {
     text-overflow: ellipsis; 
     white-space: nowrap; 
     overflow: hidden; 
-    width: 600px;
+    /* width: 600px; */
+    min-width: 300px;
     cursor: pointer;
     text-align: left;
 }
@@ -3199,17 +3204,25 @@ div.topic_edit_spinner .loading_indicator_spinner {
     letter-spacing: 0.16px;
     width: 67px;
 }
+.completed_box{
+    overflow: auto;
+    margin-left: -10px;
+}
 .completed_box>li{
-    width: 876px;
+    /* width: 876px; */
     height: 50px;
     margin: 10px auto;
     margin-left: -10px;
     margin-top: 20px;
+    min-width: 300px;
+    height: 50px;
+    margin: 10px auto;
     background: #FFFFFF;
     border: 1px solid #CCCCCC;
     border-radius: 2px;
     list-style: none;
     overflow: hidden;
+    margin: 10px 20px;
 }
 .completed{
     overflow: hidden;
@@ -3227,7 +3240,8 @@ div.topic_edit_spinner .loading_indicator_spinner {
     text-overflow: ellipsis; 
     white-space: nowrap; 
     overflow: hidden; 
-    width: 600px;
+    /* width: 600px; */
+    min-width: 300px;
     text-align: left;
     color: #BBBBBB;
     text-decoration: line-through;
@@ -3257,7 +3271,20 @@ div.topic_edit_spinner .loading_indicator_spinner {
 .new_task{
     overflow: hidden;
     margin-left: 10px;
-    min-width: 900px;
+    min-width: 300px;
+    display: none;
+}
+.new_add_task{
+    width: 100px;
+    height: 38px;
+    border: 1px solid #A0ACBF;
+    border-radius: 100px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 14px;
+    color: #A0ACBF;
+    letter-spacing: 0.17px;
+    cursor: pointer;
 }
 .new_task>input{
     float: left;
@@ -3273,7 +3300,8 @@ div.topic_edit_spinner .loading_indicator_spinner {
 .new_task_title{
     /* border: 1px solid #A0ACBF!important; */
     border-radius: 100px!important;
-    width: 400px;
+    /* width: 400px; */
+    min-width: 200px;
     height: 30px!important;
     text-indent: 20px;
     font-size: 14px;
@@ -3293,6 +3321,7 @@ input::-webkit-input-placeholder{
     border-top-right-radius: 0px!important;
     font-size: 14px;
     background: #fff!important;
+    float: left;
 }
 .new_task_save{
     float: left;

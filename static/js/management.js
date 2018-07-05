@@ -133,6 +133,7 @@
                             $('.generate_log_plan_box').append(li)
                             del()
                             editor()
+                            updata()
                         }
                     },
                 });
@@ -661,6 +662,11 @@
         $(".new_task_title").on("click",function(e){
             $("#search_query").val("");
         })
+        //新增任务
+        $(".new_add_task").on("click",function(){
+            $(".new_add_task").hide();
+            $(".new_task").show();
+        })
 
         function updata(){
             $.ajax({
@@ -847,6 +853,8 @@
             $(".new_task_date").css("border","1px solid #ccc");
             $("#taskdata").css("border","1px solid #ccc")
             $(".error_tip").text("");
+            $(".new_add_task").show();
+            $(".new_task").hide();
         })
         //点击待办事项文本内容展示详情弹窗
         $(".add_ctn").on("click",function(e){

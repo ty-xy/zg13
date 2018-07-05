@@ -193,7 +193,9 @@ exports.set_up = function () {
             new_password: $('#new_password').val(),
             confirm_password: $('#confirm_password').val(),
         };
-
+        if(data.new_password.length<6&&data.new_password.length>20){
+            return;
+        }
         channel.patch({
             url: "/json/settings",
             data: data,
