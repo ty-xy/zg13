@@ -10,9 +10,9 @@
             </div>
             <div class="log_assistant_right">
               <div class="log_assistant_head">
-                  <p>e建联</p>
-                  <i></i>
-                  <p class="log_assistant_title">我收到的</p>
+                  <p class="log_assistant_received high_light">我收到的</p>
+                  {{!-- <i></i> --}}
+                  <p class="log_assistant_send">我发出的</p>
                   <i class="iconfont icon-guanbiUI log_assistant_close"></i>
               </div>
               <div class="log_assistant_ctn_box">
@@ -41,34 +41,50 @@
                             </div>
                         </div>
                         <i class="log_assistant_lineA"></i>
-                        {{#if accomplish}}
+                       
                             <div class="log_assistant_finished">
                                 已完成:
                             </div>
+                        {{#if accomplish}}
                             <div class="log_assistant_finishedctn">
                                         {{tl accomplish}}
                             </div>
+                            {{else}}
+                            <div class="log_assistant_finishedctn">
+                                        无
+                            </div>
                         {{/if}}
-                        {{#if overdue}}
+                        
                             <div class="log_assistant_unfinished">
                                 未完成:
                             </div>
+                        {{#if overdue}}
                             <div class="log_assistant_unfinishedctn">
                                     {{tl overdue}}
                             </div>
+                            {{else}}
+                            <div class="log_assistant_unfinishedctn">
+                                    无
+                            </div>
                         {{/if}}
-                        {{#if underway}}
+                        
                             <div class="log_assistant_ongoing">
                                 进行中:
                             </div>
+                        {{#if underway}}
                             <div class="log_assistant_ongoingctn">
                                     {{tl underway}}
                             </div>
+                            {{else}}
+                            <div class="log_assistant_ongoingctn">
+                                    无
+                            </div>
                         {{/if}}
-                        {{#if backlog_list}}
+                        
                             <div class="log_assistant_plan">
                                 计划:
                             </div>
+                        {{#if backlog_list}}
                         {{#each backlog_list}}
                             <div class="log_assistant_planctn">
                                 <i class="log_assistant_plan_line"></i>
@@ -79,17 +95,23 @@
                                 </p>
                             </div>
                         {{/each}}
+                        {{else}}
+                            <div class="log_assistant_planctn log_assistant_planctn2">
+                               无
+                            </div>
                         {{/if}}
                         <div class="log_assistant_pack">
                                 <div class="generate_log_pack">
                                         {{#each url_list}}
                                         <div class="generate_log_pack_left">
-                                            <img src="../../static/img/pnglogo.png" alt="">
+                                            {{!-- <a href="{{url}}" download="{{url}}"> --}}
+                                                <img src="../../static/img/pnglogo.png" alt="">
+                                            {{!-- </a> --}}
                                             {{!-- <i class="iconfont icon-shanchu1 generate_log_pack_delete"></i> --}}
                                         </div>
                                         <div class="generate_log_pack_right">
                                             <p>{{name}}</p>
-                                            <p>{{size}}MB</p>
+                                            <p>{{size}}</p>
                                         </div>
                                         {{/each}}
                                 </div>
