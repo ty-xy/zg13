@@ -31,7 +31,7 @@ def state_view(request, user_profile):
             user_dict['table_id'] = table_id
             user_list.append(user_dict)
         return JsonResponse({'errno': 0, 'message': "成功", 'user_list': user_list})
-    
+
     elif states == 'f':
         try:
             read_table = StatementState.objects.filter(statement_id=table_id, state='f').order_by('-id')
@@ -369,7 +369,7 @@ def table_view(request, user_profile):
     except Exception:
         return JsonResponse({'errno': 2, 'message': "储存周报失败"})
 
-    return JsonResponse({'errno': 0, 'message': "成功"})
+    return JsonResponse({'errno': 0, 'message': "成功",'table_id'})
 
 
 # 一键生成

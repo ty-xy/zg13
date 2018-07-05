@@ -17,7 +17,7 @@ exports.message = function (response, status_box, cls, type, remove_after) {
     if (type === undefined) {
         type = ' ';
     }
-
+    //  console.log(response)
     // Note we use html() below, since we can rely on our callers escaping HTML
     // via i18n.t when interpolating data.
     status_box.removeClass(common.status_classes).addClass(cls)
@@ -44,6 +44,7 @@ exports.error = function (response, xhr, status_box, type) {
         // Only display the error response for 4XX, where we've crafted
         // a nice response.
         response += ": " + escape(JSON.parse(xhr.responseText).msg);
+        // console.log(response,1)
     }
 
     exports.message(response, status_box, 'alert-error', type);
