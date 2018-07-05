@@ -3328,7 +3328,7 @@ input::-webkit-input-placeholder{
     float: left;
 }
 .new_plan_title{
-    border: 1px solid #A0ACBF!important;
+    border: 1px solid #A0ACBF;
     border-radius: 100px!important;
     width: 400px;
     height: 30px!important;

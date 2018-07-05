@@ -382,3 +382,16 @@ a.message-control-button {
     line-height:34px;
     display:none;
 }
+#process-bar{
+    position:absolute;
+    bottom:0;
+    height:5px;
+}
+.process-bar-parent{
+    position:absolute;
+    height: 5px; 
+    margin-bottom: 0px;
+    width:50px;
+    left:163px;
+    top:60px;
+}

@@ -1,8 +1,35 @@
     var management = (function () {
     var exports = {};
+  
     $("body").ready(function () {
         //点击一键生成日志 出现日志弹窗
         // $(".create_generate_log").hide();
+        // autoTextarea.js query封装函数
+        (function($){
+            $.fn.autoTextarea = function(options) {
+              var defaults={
+                maxHeight:null,
+                minHeight:$(this).height()
+              };
+              var opts = $.extend({},defaults,options);
+              return $(this).each(function() {
+                $(this).bind("paste cut keydown keyup focus blur",function(){
+                  var height,style=this.style;
+                  this.style.height = opts.minHeight + 'px';
+                  if (this.scrollHeight > opts.minHeight) {
+                    if (opts.maxHeight && this.scrollHeight > opts.maxHeight) {
+                      height = opts.maxHeight
+                      style.overflowY = 'scroll';
+                    } else {
+                      height = this.scrollHeight
+                      style.overflowY = 'hidden';
+                    }
+                    style.height = height+ 'px';
+                  }
+                });
+              });
+            };
+          })(jQuery);
         function cancel (){
             $(".new_plan_title").val("");
             $(".create_taskdate").val('');
@@ -28,10 +55,17 @@
         }
         function alert(text,color){
             $('.toast-alert').fadeIn({
-                duration: 50
+                duration: 1
             }).delay (1000).fadeOut ({duration: 1000});
             $('.toast-alert').html(text)
             $('.toast-alert').css('background-color',color)
+        }
+        function textheight(option){
+            $(option).height($(option)[0].scrollHeight-25);
+            $(option).autoTextarea({
+                minHeight: 72,
+                maxHeight:200
+            })
         }
         function del(){
             $('.generate_log_plan_ctn ').on('click',".generate_log_plan_delete",function(e){
@@ -98,6 +132,17 @@
             }));
             $('.generate_log_right').html(rendered);
            
+            //高度随着变化而变化，
+              // 1.已经完成
+            $(".generate_log_finished_text").height($(".generate_log_finished_text")[0].scrollHeight-25);
+            $('.generate_log_finished_text').autoTextarea({
+                minHeight: 125,
+                maxHeight:200
+            })
+               //2.未完成
+            textheight(".generate_log_unfinished_text")
+               // 3.进行中
+            textheight(".generate_log_pdfinished_text")
             //  $("#create_log_de").on("click",function(e){
             $("#management_ctn").on("click",".create_generate_log",function(e){
             // console.log("修改成功")
@@ -123,19 +168,38 @@
             }); 
             $(".new_plan").on("click",".new_plan_save",function(e){
                 var j = plancommon()
-                channel.post({
-                    // idempotent: true,
-                    url:"json/zg/backlog/",
-                    data:j.j,
-                    success: function (data) {
-                        if(data.errno===0){
-                            var li = innhtml(j.inttitle,j.inttime,data)
-                            $('.generate_log_plan_box').append(li)
-                            del()
-                            editor()
-                        }
+                if(j.inttitle==""){
+                    $(".new_plan_title").css("border","1px solid #EF5350");
+                    setTimeout(function(){$(".new_plan_title").css("border","1px solid #ccc")},3000)
+                    return;
+                }
+                if(j.inttime==""){
+                    $(".new_task_date").css("border","1px solid #EF5350");
+                    $(".new_task_date").css("border-right","1px solid #ccc");
+                    $(".add-on").css("border","1px solid #EF5350")
+                    setTimeout(function(){
+                        $(".new_task_date").css("border","1px solid #ccc");
+                        $(".add-on").css("border","1px solid #ccc")
                     },
-                });
+                    3000)
+                    return;
+                }
+                if(j.inttitle!==""&&j.inttime!==""){
+                    channel.post({
+                        // idempotent: true,
+                        url:"json/zg/backlog/",
+                        data:j.j,
+                        success: function (data) {
+                            if(data.errno===0){
+                                var li = innhtml(j.inttitle,j.inttime,data)
+                                $('.generate_log_plan_box').append(li)
+                                del()
+                                editor()
+                            }
+                        },
+                    });
+                }
+             
                 cancel()
             })
             function editor(){
@@ -238,8 +302,8 @@
                     statement_accessory_list:statement_accessory_list,
                     date_type:data.date_type
                  }
-
-                 channel.post({
+                if(accomplish.length>0&&send_list.length>0){
+                    channel.post({
                         url:"json/zg/table/",
                         data:JSON.stringify(paramas),
                         // idempotent: true,
@@ -247,13 +311,24 @@
                         success:function(data){
                             if(data.errno===0){
                                alert('提交成功','rgba(0,107,169,0.30)')
+                              $(".create_generate_log").delay(3000).hide(0)
+                            //    $(".create_generate_log").hide();
                             } else if(data.errno===1){
                                 alert('请完善必填内容','rgba(169,12,0,0.30)')
                             } else{
                                 alert('网络不稳定,请重新提交','rgba(169,12,0,0.30)')
                             }
                         }
-                 })
+                    })
+                }else{
+                    if(accomplish.length===0){
+                        alert('请添加已完成任务','rgba(169,12,0,0.30)')
+                    }else if(send_list.length===0){
+                        alert('请选择人员','rgba(169,12,0,0.30)')
+                    }else{
+                        alert('请添加已完成任务以及发送人员','rgba(169,12,0,0.30)')
+                    }
+                }
             })
             $('.new_plan').on('click',".new_plan_cancel",function(e){
                 cancel()
@@ -358,6 +433,20 @@
                // e.preventDefault();
                $("#up_files #file_inputs").trigger("click");
            });
+        //    var drop =function(){
+        //     $('.process-bar-parent').show()
+        //    }
+           var progressUpdated = function (i, file, progress) {
+            $('.process-bar-parent').show()
+            $("#" + "process-bar").width(progress + "%");
+            if (progress === 100) {
+                // maybe_hide_upload_status();
+                setTimeout(function () {
+                    $('.process-bar-parent').hide()
+                }, 1000);
+               
+            }
+           };
            function make_upload_absolute(uri) {
             if (uri.indexOf(compose.uploads_path) === 0) {
                 // Rewrite the URI to a usable link
@@ -392,6 +481,7 @@
         };
         $(".generate_log_upfile_box").on("click",".generate_log_pack_delete",function(e){
              $(this).parent().parent().remove()
+             alert('删除成功','rgba(0,107,169,0.30)')
         })
         $("#up_files").filedrop({
             url: "/json/user_uploads",
@@ -404,7 +494,7 @@
             },
             // raw_droppable: ['text/uri-list', 'text/plain'],
             // drop: drop,
-            // progressUpdated: progressUpdated,
+            progressUpdated: progressUpdated,
             // error: uploadError,
             uploadFinished: uploadFinished,
          //    afterAll:function(contents){
