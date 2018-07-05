@@ -164,7 +164,8 @@ def home_real(request: HttpRequest) -> HttpResponse:
             latest_read = None
 
     # Set default language and make it persist
-    default_language = register_ret['default_language']
+    # 如若改成多语言将："zh-hans"替换成：register_ret['default_language']
+    default_language = "zh-hans"
     url_lang = '/{}'.format(request.LANGUAGE_CODE)
     if not request.path.startswith(url_lang):
         translation.activate(default_language)

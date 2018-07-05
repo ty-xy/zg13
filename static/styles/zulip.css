@@ -1515,7 +1515,7 @@ blockquote p {
 }
 
 .messagebox-content {
-    padding: 4px 10px 1px 10px;
+    padding: 4px 10px 1px 10px;overflow: hidden;
 }
 
 .last_message .messagebox-content {
@@ -2076,7 +2076,7 @@ div.floating_recipient {
     display: block;
     height: 464px!important;
     background: #fff;
-    width: 962px;
+    width: 899px;
 }
 
 .loading_indicator_spinner {
@@ -3004,7 +3004,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     position: absolute;
     left: 0;
     top: 0;
-    height: 6000px;
+    /* height: 6000px; */
 }
 .column-middle_shodowr{
     width: 10px;
@@ -3012,7 +3012,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     position: absolute;
     right: 0;
     top: 0;
-    height: 6000px;
+    /* height: 6000px; */
     z-index: 11;
 }
 .tip-top{
