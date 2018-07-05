@@ -194,6 +194,7 @@ exports.set_up = function () {
             confirm_password: $('#confirm_password').val(),
         };
         if(data.new_password.length<6&&data.new_password.length>20){
+            $(".error_pw").show();
             return;
         }
         channel.patch({

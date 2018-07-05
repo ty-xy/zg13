@@ -3116,7 +3116,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     cursor: pointer;
 }
 .new_task_box{
-    margin: 24px 0px;
+    margin: 24px 8px;
     height: 50px;
 }
 .add_task{
