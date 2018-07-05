@@ -856,6 +856,11 @@
             $(".new_add_task").show();
             $(".new_task").hide();
         })
+        //点击收拉已完成任务
+        $(".right_san").on("click",function(){
+                $(".completed_box").toggle();
+        })
+
         //点击待办事项文本内容展示详情弹窗
         $(".add_ctn").on("click",function(e){
             console.log("dadasdasd")

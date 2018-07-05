@@ -997,7 +997,7 @@ ul{
     left: 20px;
 }
 .log_assistant_finished{
-    font-size: 15px;
+    font-size: 16px;
     color: #333333;
     letter-spacing: 0.18px;
     margin-left: 20px;
@@ -1005,7 +1005,7 @@ ul{
     font-weight: 500;
 }
 .log_assistant_finishedctn{
-    font-size: 15px;
+    font-size: 14px;
     color: #888888;
     letter-spacing: 0.18px;
     margin: 0 auto;
@@ -1013,7 +1013,7 @@ ul{
     margin-left: 20px;
 }
 .log_assistant_unfinished{
-    font-size: 15px;
+    font-size: 16px;
     color: #333333;
     letter-spacing: 0.18px;
     margin-left: 20px;
@@ -1021,7 +1021,7 @@ ul{
     font-weight: 500;
 }
 .log_assistant_unfinishedctn{
-    font-size: 15px;
+    font-size: 14px;
     color: #888888;
     letter-spacing: 0.18px;
     margin: 0 auto;
@@ -1029,7 +1029,7 @@ ul{
     margin-left: 20px;
 }
 .log_assistant_ongoing{
-    font-size: 15px;
+    font-size: 16px;
     color: #333333;
     letter-spacing: 0.18px;
     margin-left: 20px;
@@ -1037,14 +1037,14 @@ ul{
     font-weight: 500;
 }
 .log_assistant_ongoingctn{
-    font-size: 15px;
+    font-size: 14px;
     color: #888888;
     letter-spacing: 0.18px;
     margin-top: 6px;
     margin-left: 20px;
 }
 .log_assistant_plan{
-    font-size: 15px;
+    font-size: 16px;
     color: #333333;
     letter-spacing: 0.18px;
     margin-left: 20px;
@@ -1052,7 +1052,7 @@ ul{
     font-weight: 500;
 }
 .log_assistant_planctn{
-    font-size: 15px;
+    font-size: 14px;
     color: #888888;
     letter-spacing: 0.18px;
     margin-top: 6px;
@@ -1060,7 +1060,7 @@ ul{
 
 }
 .log_assistant_planctn2{
-    font-size: 15px;
+    font-size: 14px;
     color: #888888;
     letter-spacing: 0.18px;
     margin-top: 6px;
@@ -1334,6 +1334,14 @@ ul{
 }
 .file_inputs{
     width: 69px;
+}
+.right_san{
+    float: left;
+    margin-left: 20px;
+    cursor: pointer;
+}
+.right_san:hover{
+    transform: rotate(90deg);
 }
 /* 聊天气泡右侧 */
 .my_img{

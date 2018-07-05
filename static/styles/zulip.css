@@ -2076,7 +2076,7 @@ div.floating_recipient {
     display: block;
     height: 464px!important;
     background: #fff;
-    width: 899px;
+    /* width: 899px; */
 }
 
 .loading_indicator_spinner {
@@ -3141,8 +3141,8 @@ div.topic_edit_spinner .loading_indicator_spinner {
     min-width: 300px;
     height: 50px;
     margin: 10px auto;
-    background: #FFFFFF;
-    border: 1px solid #CCCCCC;
+    background: #F7F7F7;
+    /* border: 1px solid #CCCCCC; */
     border-radius: 2px;
     list-style: none;
     overflow: hidden;
@@ -3207,6 +3207,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
 .completed_box{
     overflow: auto;
     margin-left: -10px;
+    display: none;
 }
 .completed_box>li{
     /* width: 876px; */
@@ -3217,12 +3218,18 @@ div.topic_edit_spinner .loading_indicator_spinner {
     min-width: 300px;
     height: 50px;
     margin: 10px auto;
-    background: #FFFFFF;
-    border: 1px solid #CCCCCC;
+    background: #F7F7F7;
+    /* border: 1px solid #CCCCCC; */
     border-radius: 2px;
     list-style: none;
     overflow: hidden;
     margin: 10px 20px;
+}
+.completed_box>li:hover{
+    background: #E7EBF0;
+}
+.todo_box>li:hover{
+    background: #E7EBF0;
 }
 .completed{
     overflow: hidden;
