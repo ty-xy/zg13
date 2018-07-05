@@ -31,9 +31,11 @@ def state_view(request, user_profile):
             user_dict['table_id'] = table_id
             user_list.append(user_dict)
         return JsonResponse({'errno': 0, 'message': "成功", 'user_list': user_list})
+
     elif states == 'f':
         try:
             read_table = StatementState.objects.filter(statement_id=table_id, state='f').order_by('-id')
+            print(read_table)
         except Exception:
             return JsonResponse({'errno': 3, 'message': "获取已读信息失败", })
         user_list = []
@@ -43,6 +45,7 @@ def state_view(request, user_profile):
             user_dict['avatar'] = avatar.absolute_avatar_url(user)
             user_dict['user_name'] = user.full_name
             user_dict['table_id'] = table_id
+            user_list.append(user_dict)
 
         return JsonResponse({'errno': 0, 'message': "成功", 'user_list': user_list})
 
@@ -141,7 +144,10 @@ def web_my_receive(request, user_profile):
                 accessory_dict = {}
                 accessory_dict['url'] = accessory.statement_accessory_url
                 accessory_dict['size'] = accessory.accessory_size
-                accessory_dict['name'] = accessory.accessory_name
+                accessory_name = accessory.accessory_name
+                accessory_dict['name'] = accessory_name
+                types = accessory_name.split('.')
+                accessory_dict['type'] = types[-1]
                 url_list.append(accessory_dict)
             receive_table_list.append(web_my_receive_dict)
     except Exception:
@@ -188,7 +194,11 @@ def web_my_send(request, user_profile):
                 accessory_dict = {}
                 accessory_dict['url'] = accessory.statement_accessory_url
                 accessory_dict['size'] = accessory.accessory_size
-                accessory_dict['name'] = accessory.accessory_name
+                accessory_name = accessory.accessory_name
+                accessory_dict['name'] = accessory_name
+                types = accessory_name.split('.')
+                accessory_dict['type'] = types[-1]
+
                 url_list.append(accessory_dict)
 
             try:
@@ -359,7 +369,7 @@ def table_view(request, user_profile):
     except Exception:
         return JsonResponse({'errno': 2, 'message': "储存周报失败"})
 
-    return JsonResponse({'errno': 0, 'message': "成功"})
+    return JsonResponse({'errno': 0, 'message': "成功",'table_id'})
 
 
 # 一键生成
@@ -618,8 +628,6 @@ def accessory_up(request, user_profile):
                 accessory_dict['id'] = a.id
                 accessory_lists.append(accessory_dict)
 
-                return JsonResponse({'errno': 0, 'message': '修改完成', 'accessory_list': accessory_lists})
-
             elif i['type'] == 'del':
                 if not i['accessory_id']:
                     return JsonResponse({'errno': 3, 'message': '缺少必要参数'})
@@ -629,6 +637,9 @@ def accessory_up(request, user_profile):
             UpdateBacklog.objects.create(update_backlog="%s修改了附件" % uodate_time, backlog_id=backlog)
     except Exception:
         return JsonResponse({'errno': 1, 'message': '错误'})
+
+    if accessory_list:
+        return JsonResponse({'errno': 0, 'message': '修改完成', 'accessory_list': accessory_lists})
     return JsonResponse({'errno': 0, 'message': '修改完成'})
 
 
@@ -722,7 +733,11 @@ def backlogs_details(request, user_profile):
         accessory_dict['id'] = accessory.id
         accessory_dict['url'] = accessory.accessory_url
         accessory_dict["size"] = accessory.accessory_size
-        accessory_dict['name'] = accessory.accessory_name
+        accessory_name = accessory.accessory_name
+        accessory_dict['name'] = accessory_name
+        types = accessory_name.split('.')
+        accessory_dict['type'] = types[-1]
+
         accessory_list.append(accessory_dict)
     backlogs_dict['accessory_list'] = accessory_list
 
@@ -770,7 +785,10 @@ def accomplis_backlogs_view(request, user_profile):
             for accessory in accessory_list:
                 accessory_dict[accessory.id] = accessory.accessory_url
                 accessory_dict["size"] = accessory.accessory_size
-                accessory_dict['"name'] = accessory.accessory_name
+                accessory_name = accessory.accessory_name
+                accessory_dict['name'] = accessory_name
+                types = accessory_name.split('.')
+                accessory_dict['type'] = types[-1]
 
             a["accessory_dict"] = accessory_dict
 
