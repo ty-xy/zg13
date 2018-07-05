@@ -246,14 +246,18 @@
         <div class="new_task_box">
             <!-- <div class="add_task"> -->
                 <!-- <p>新增任务</p> -->
-                <div action="" class="new_task">
+                <div class="new_add_task">
+                        新增任务
+                </div>
+                <div class="new_task">
                     <input type="text"  id="taskinput" class="new_task_title create_tasttitle" placeholder="请输入任务标题" maxlength="25">
                     <!-- <input type="text" class="new_task_date" placeholder="请选择日期"> -->
                     <div class="input-append date" id="datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
-                            <input class="new_task_date create_taskdate" id="daibandata" size="16" type="text" value="" readonly placeholder="请选择截止日期...">  
+                            <input class="new_task_date create_taskdate" id="daibandata" size="16" type="text" value="" readonly placeholder="请选择截止日期...">
                             <span class="add-on select_date_icon" id="taskdata">
                                 <i data-date-icon="icon-calendar" class="icon-calendar iconfont icon-riqi"></i>
                             </span>  
+                            <p class="error_tip"></p>  
                     </div>
                     <div class="new_task_save">保存</div>
                     <div class="new_task_cancel">取消</div>
@@ -282,8 +286,9 @@
         </ul>
         <div class="management_titleB">
             <div class="morn_managementtext">已完成任务</div>
+            <i class="iconfont icon-xiangyou right_san"></i>
          </div>
-        <i class="management_lineA"></i>
+        <!-- <i class="management_lineA"></i> -->
         <ul class="completed_box">
                 <!-- <li class="completed">
                         <input type="checkbox" class="completed_checkbox checked" checked="checked" id="completed_css">

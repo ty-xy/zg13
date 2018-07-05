@@ -133,6 +133,7 @@
                             $('.generate_log_plan_box').append(li)
                             del()
                             editor()
+                            updata()
                         }
                     },
                 });
@@ -202,10 +203,9 @@
             })
             //点击提交功能
             $(".generate_log_submit").on("click",function(e){
-                var accomplish= $(".generate_log_finished_text").val()
-                
-                var underway  =$(".generate_log_unfinished_text").val()
-                var overdue = $(".generate_log_pdfinished_text").val()
+                var accomplish= $(".generate_log_finished_text").val().trim();
+                var underway  =$(".generate_log_unfinished_text").val().trim();
+                var overdue = $(".generate_log_pdfinished_text").val().trim();
                 var list = []
                 $(".generate_log_plan_delete").each(function(){
                     var ids= Number($(this).attr('data_id'))
@@ -662,6 +662,11 @@
         $(".new_task_title").on("click",function(e){
             $("#search_query").val("");
         })
+        //新增任务
+        $(".new_add_task").on("click",function(){
+            $(".new_add_task").hide();
+            $(".new_task").show();
+        })
 
         function updata(){
             $.ajax({
@@ -704,11 +709,8 @@
                 "over_time":over_time+86399,
             }
             var j = JSON.stringify(obj)
-            console.log("hellow")
-            console.log(inttitle)
-            console.log(inttime)
+            
             if(inttitle==""){
-                console.log("11333")
                 $("#taskinput").css("border","1px solid #EF5350");
                 return;
             }
@@ -733,6 +735,7 @@
                 data:j,
                 success:function(res){
                     if(res.errno == 0){
+                        $(".error_tip").text("")
                         $.ajax({
                             type:"GET",
                             url:"json/zg/backlog/gets",
@@ -740,26 +743,6 @@
                                 if(response.errno == 3){
                                     console.log(response.message)
                                 }
-                            //     var new_append_task;
-                            //     var new_append_over_time;
-                            //     var new_append_id;
-                            //     for(var key in response.backlog_list){
-                            //         new_append_id = response.backlog_list[0].backlog_id
-                            //         new_append_task = response.backlog_list[0].task
-                            //         new_append_over_time = response.backlog_list[0].over_time
-                            //     }
-                            //     $(".todo_box").prepend("<li class='todo'>\
-                            //     <div class='todo_left'>\
-                            //             <input type='checkbox' class='add_checkbox'>\
-                            //             <p class='add_ctn' inputid="+new_append_id+" taskid="+new_append_id+">"+new_append_task+"</p>\
-                            //     </div>\
-                            //     <div class='todo_right'>\
-                            //             <i class='iconfont icon-beizhu note_icon'></i>\
-                            //             <i class='iconfont icon-fujian1 attachment_icon' id='file-inputs'></i>\
-                            //             <p class='add_datatime'>"+new_append_over_time+"</p>\
-                            //     </div>\
-                            // </li>")
-                            //测试方案2
                             updata()
                             //测试方案2
                         $(".new_task_title").val("");
@@ -854,6 +837,7 @@
                         console.log(res.message)
                     }else if(res.errno == 3){
                         console.log(res.message)
+                        $(".error_tip").text(res.message)
                     }
                 },
                 error:function(rej){
@@ -865,7 +849,18 @@
         $(".new_task_cancel").on("click",function(e){
             $(".new_task_title").val("");
             $(".new_task_date").val("")
+            $("#taskinput").css("border","1px solid #ccc");
+            $(".new_task_date").css("border","1px solid #ccc");
+            $("#taskdata").css("border","1px solid #ccc")
+            $(".error_tip").text("");
+            $(".new_add_task").show();
+            $(".new_task").hide();
         })
+        //点击收拉已完成任务
+        $(".right_san").on("click",function(){
+                $(".completed_box").toggle();
+        })
+
         //点击待办事项文本内容展示详情弹窗
         $(".add_ctn").on("click",function(e){
             console.log("dadasdasd")

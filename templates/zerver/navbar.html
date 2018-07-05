@@ -51,11 +51,11 @@
                 <div id="searchbox" class="searchbox-rightmargin">
                     <!-- <div id="tab_bar" class="notdisplayed">
                     </div> -->
-                    <div class="mid_tittle">
+                    <!-- <div class="mid_tittle">
                         <span>e建联</span>
                         <i></i>
                         <span>知工科技有限公司</span>
-                    </div>
+                    </div> -->
                     <form id="searchbox_form" class="form-search navbar-search">
                         <div id="search_arrows" class="input-append">
                             <input class="search-query input-block-level" id="search_query" type="text" placeholder="{{ _('Search') }}"
@@ -91,7 +91,7 @@
                             anymore
                             #}
                             <li class="invisible" style="display:none;" role="presentation"><a href="#home" data-toggle="tab"></a></li>
-                            <li role="presentation" >
+                            <li role="presentation" style="display: none">
                                 <a href="#streams" role="menuitem">
                                     <img src="/static/img/tv@2x.png" class="img-setting img-settings"/> {{ _('Manage streams') }}
                                 </a>
@@ -107,28 +107,28 @@
                                     <span>{{ _('Manage organization') }}</span>
                                 </a>
                             </li>
-                            <li class="divider"></li>
+                            <!-- <li class="divider"></li> -->
                             <!-- <li role="presentation">
                                 <a href="/user_documentation" target="_blank" role="menuitem">
                                     <i class="iconfont icon-yonghu img-settings"></i> {{ _('User documentation') }}
                                 </a>
                             </li> -->
-                            <li role="presentation">
+                            <li role="presentation" style="display: none">
                                 <a tabindex="0" role="menuitem" data-overlay-trigger="keyboard-shortcuts">
                                     <img src="/static/img/jianpan@2x.png" class="img-setting"/>{{ _('Keyboard shortcuts') }} <span class="hotkey-hint">(?)</span>
                                 </a>
                             </li>
-                            <li role="presentation">
+                            <li role="presentation" style="display: none">
                                 <a tabindex="0" role="menuitem" data-overlay-trigger="markdown-help">
                                     <i class="iconfont icon-bianji img-settings"></i> {{ _('Message formatting') }}
                                 </a>
                             </li>
-                            <li role="presentation">
+                            <li role="presentation" style="display: none">
                                 <a tabindex="0" role="menuitem" data-overlay-trigger="search-operators">
                                     <i class="iconfont icon-sousuo img-settings"></i> {{ _('Search operators') }}
                                 </a>
                             </li>
-                            <li class="divider" role="presentation"></li>
+                            <!-- <li class="divider" role="presentation"></li> -->
                             <!-- <li role="presentation">
                                 <a href="javascript:void(0)" target="_blank" role="menuitem">
                                     <i class="iconfont icon-xianshi img-settings"></i> {{ _('Desktop & mobile apps') }}

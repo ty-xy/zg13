@@ -199,17 +199,17 @@ exports.load_messages = function (opts) {
                                         s = date.getSeconds();
                                         return Y+M+D+h+m+s;
                                     }
+                                    console.log("------------")
                                     console.log(res)
-                                    console.log(res.backlog_dict.accessory_list)
-                                    var img = [];
-                                    for(var key in res.backlog_dict.accessory_list){
+                                    // var img = [];
+                                    // for(var key in res.backlog_dict.accessory_list){
                                         
-                                        var s = res.backlog_dict.accessory_list[key].url.indexOf(".");
-                                        var b = res.backlog_dict.accessory_list[key].url.substring(s);
-                                        console.log(b)
-                                        img.push(b);
-                                        console.log(img)
-                                    }
+                                    //     var s = res.backlog_dict.accessory_list[key].url.indexOf(".");
+                                    //     var b = res.backlog_dict.accessory_list[key].url.substring(s);
+                                    //     console.log(b)
+                                    //     img.push(b);
+                                    //     console.log(img)
+                                    // }
                                     var taskdetail_list = res.backlog_dict.task;
                                     var taskdetail_addnote = res.backlog_dict.task_details;
                                     var create_time = timestampToTime(res.backlog_dict.create_time).substring(0,10);
@@ -227,7 +227,6 @@ exports.load_messages = function (opts) {
                                         id:id,
                                         update_backlog_list:update_backlog_list,
                                         accessory_dict:accessory_dict,
-                                        img:img
                                     })
                                     $(".app").after(html)
                                     $(".taskdetail_md").show();
@@ -285,6 +284,13 @@ exports.load_messages = function (opts) {
                                                     var accessory_dict = res.backlog_dict.accessory_list;
                                                     var accessory_length = accessory_dict.length;
                                                     var accessory_li = templates.render("accessory_li",{accessory_dict:accessory_dict,accessory_length:accessory_length});
+                                                    if(accessory_length>3){
+                                                        $(".taskdetail_numberT").fadeIn();
+                                                        setTimeout(function(){
+                                                            $(".taskdetail_numberT").fadeOut();
+                                                        },3000)
+                                                        return;
+                                                    }
                                                     $(".taskdetail_attachment_box").children().remove();
                                                     $(".taskdetail_attachment_box").append(accessory_li)
                                                     //任务详情弹窗内的文件展示 划入事件
@@ -438,7 +444,7 @@ exports.load_messages = function (opts) {
                                     return n;
                                 }
                                 var create_time = timestamp($("input[title='"+id+"']").val().substring(0,10));
-                                var over_time = timestamp($(".new_task_date[name='"+id+"']").val().substring(0,10)+86399);
+                                var over_time = timestamp($(".new_task_date[name='"+id+"']").val().substring(0,10))+86399;
                                 var backlog_id = id;
                                 var state = $(".taskdetail_state[name='"+id+"']").val();
                                 // var state = Number(localStorage.getItem("state"));

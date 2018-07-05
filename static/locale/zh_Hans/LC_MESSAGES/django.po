@@ -1043,6 +1043,10 @@ msgstr "所有消息"
 msgid "management"
 msgstr "待办事项"
 
+#: templates/zerver/left_sidebar.html:26
+msgid "Log assistant"
+msgstr "日志助手"
+
 #: templates/zerver/left_sidebar.html:17 templates/zerver/left_sidebar.html:22
 msgid "Private messages"
 msgstr "私信"
