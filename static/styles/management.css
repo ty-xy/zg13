@@ -998,10 +998,11 @@ ul{
     letter-spacing: 0.18px;
     margin-left: 20px;
     margin-top: 20px;
+    font-weight: 500;
 }
 .log_assistant_finishedctn{
     font-size: 15px;
-    color: #666666;
+    color: #888888;
     letter-spacing: 0.18px;
     margin: 0 auto;
     margin-top: 6px;
@@ -1013,10 +1014,11 @@ ul{
     letter-spacing: 0.18px;
     margin-left: 20px;
     margin-top: 20px;
+    font-weight: 500;
 }
 .log_assistant_unfinishedctn{
     font-size: 15px;
-    color: #666666;
+    color: #888888;
     letter-spacing: 0.18px;
     margin: 0 auto;
     margin-top: 6px;
@@ -1031,7 +1033,7 @@ ul{
 }
 .log_assistant_ongoingctn{
     font-size: 15px;
-    color: #666666;
+    color: #888888;
     letter-spacing: 0.18px;
     margin-top: 6px;
     margin-left: 20px;
@@ -1045,7 +1047,7 @@ ul{
 }
 .log_assistant_planctn{
     font-size: 15px;
-    color: #666666;
+    color: #888888;
     letter-spacing: 0.18px;
     margin-top: 6px;
     margin-left: 36px;

@@ -284,6 +284,11 @@ exports.load_messages = function (opts) {
                                                     var accessory_dict = res.backlog_dict.accessory_list;
                                                     var accessory_length = accessory_dict.length;
                                                     var accessory_li = templates.render("accessory_li",{accessory_dict:accessory_dict,accessory_length:accessory_length});
+                                                    console.log(accessory_length)
+                                                    if(accessory_length>3){
+                                                        alert("上传文件过多")
+                                                        return;
+                                                    }
                                                     $(".taskdetail_attachment_box").children().remove();
                                                     $(".taskdetail_attachment_box").append(accessory_li)
                                                     //任务详情弹窗内的文件展示 划入事件

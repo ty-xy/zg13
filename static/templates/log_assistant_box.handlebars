@@ -84,12 +84,14 @@
                                 <div class="generate_log_pack">
                                         {{#each url_list}}
                                         <div class="generate_log_pack_left">
-                                            <img src="../../static/img/pnglogo.png" alt="">
+                                            {{!-- <a href="{{url}}" download="{{url}}"> --}}
+                                                <img src="../../static/img/pnglogo.png" alt="">
+                                            {{!-- </a> --}}
                                             {{!-- <i class="iconfont icon-shanchu1 generate_log_pack_delete"></i> --}}
                                         </div>
                                         <div class="generate_log_pack_right">
                                             <p>{{name}}</p>
-                                            <p>{{size}}MB</p>
+                                            <p>{{size}}</p>
                                         </div>
                                         {{/each}}
                                 </div>
