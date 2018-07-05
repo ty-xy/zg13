@@ -168,7 +168,6 @@
             }); 
             $(".new_plan").on("click",".new_plan_save",function(e){
                 var j = plancommon()
-<<<<<<< HEAD
                 if(j.inttitle==""){
                     $(".new_plan_title").css("border","1px solid #EF5350");
                     setTimeout(function(){$(".new_plan_title").css("border","1px solid #ccc")},3000)
@@ -181,20 +180,6 @@
                     setTimeout(function(){
                         $(".new_task_date").css("border","1px solid #ccc");
                         $(".add-on").css("border","1px solid #ccc")
-=======
-                channel.post({
-                    // idempotent: true,
-                    url:"json/zg/backlog/",
-                    data:j.j,
-                    success: function (data) {
-                        if(data.errno===0){
-                            var li = innhtml(j.inttitle,j.inttime,data)
-                            $('.generate_log_plan_box').append(li)
-                            del()
-                            editor()
-                            updata()
-                        }
->>>>>>> master
                     },
                     3000)
                     return;
