@@ -342,7 +342,9 @@
                     $('.already-choose').text("选中(0)")
                     //左边的选中状态都是false
                     $(".choose-check").prop("checked", false);
-                    $(".checkbox-input").prop("checked",false)
+                    $(".checkbox-input").prop("checked",false);
+                    $(".checkbox-inputs").prop("checked",false);
+                    $('.choose-list-box:checkbox').prop("checked", false)
                 })
                 //点击取消
                 $(".button-cancel").on("click",function(e){
@@ -549,7 +551,7 @@
                             var li = $(templates.render('choose_person',{
                                 datalist:result
                             }));
-                            $(".box-right-list").append(li)
+                            $(".box-right-list").html(li)
                             deletes()
                             // confirm()
                         }else{
@@ -563,26 +565,24 @@
                     var lid = $(".choose-nav-left").children()
                     $(".choose-nav-left").on('click','.choose-check',function(e){
                         var inputid= $(this).attr("inputid")
-                        console.log(6)
+
                         if($(this).is(":checked")){
                             data_list= data.streams_dict[inputid]
                             console.log(data_list)
                             data_list.forEach(function(val,i){
                                  val.did=inputid
                             })
-                            console.log(data_list)
                             var li = $(templates.render('choose_person',{
                                 datalist:data_list
                             }));
                             $(".box-right-list").append(li)
-                            // $('.choose-nav-left').applend(li)
-                            //查看$(".box-right-list").长度
-                            deletes()
-                            //点击清空
+
                         }else{
                             //没有咋勾选状态，就移除元素
                             $("[data_id='"+inputid+"']").remove()
+                            // deletes()
                         }
+                        deletes()
                     }) 
                     confirm()
                     //点击取消，模态框取消，里面所有的元素都没有了
@@ -609,36 +609,41 @@
                         // $(".modal-log-content").empty()
                            // 渲染频道下级选发送人
                         // $(".choose-nav-left").children().remove
-                        console.log(12121)
+                       
                         var id = $(this).attr('button-key')
                         var li = $(templates.render('choose_people',{
                             datalists:data.streams_dict[id],
                             channels:id
                         }));
                         $(".choose-nav-left").html(li)
+                        // 右边对像的children
+                        var rightlength = $(".box-right-list").children()
+                         rightlength.each(function(){
+                            var id = Number($(this).attr("key-data"));
+                            $("[data-key='"+id+"']:checkbox").prop("checked", true)
+                            // data.streams_dict[id].forEach(function)
+                        })
                         $(".checkbox-inputs").on("click",function(e){
                             if($(this).is(":checked")){
                                 $('.choose-list-box:checkbox').prop("checked", true)
-                                var data_list=data.streams_dict[id]
-                                data_list.forEach(function(val,i){
+                                var data_list_number=data.streams_dict[id]
+                                data_list_number.forEach(function(val,i){
+                                    $('.box_list_right[key-data='+val.id+']').remove()
                                     val.did=id
                                })
                                 var li = $(templates.render('choose_person',{
-                                    datalist:data.streams_dict[id]
+                                    datalist:data_list_number
                                 }));
-                                console.log(data.streams_dict[id])
                                 $(".box-right-list").append(li)
-                                deletes()
+                                
                             }else{
                                 $('.choose-list-box:checkbox').prop("checked", false)
                                 var dataId =$.trim($(this).parent().prev().children().eq(1).text())
-                                $("[data_id='"+dataId+"']").remove()
-                                deletes()
-                                // $(".box-right-list").empty()
+                                $("[data_id='"+dataId+"']").remove()  
                             }
+                            deletes()
                           })
                         $(".box-choose-lefts").on("click",".choose-list-box",function(e){
-                            console.log(423423)
                             var inputid= $(this).attr("data-key")
                             // 获得人的名字
                             var silcontent = $.trim($(this).parent().text())
@@ -650,11 +655,11 @@
                                         <div class='box-list-left'>\
                                             <span class='name-list'>"+silcontent+"</span>\
                                         </div>\
-                                        <button class='button-right' data-id="+inputid+">删除</button>\
+                                        <button class='button-right-delete' data-id="+inputid+">删除</button>\
                                     </li>"
                             // $(".modal-log-content").empty()
                             $('.box-right-list').append(li)
-                              deletes()
+                              
                             $('.button-right').on('click',function(e){
                                 var keydata = $(this).attr('data-id')
                                 $(this).parent().remove()
@@ -664,6 +669,7 @@
                             }else{
                                 $("[key-data='"+inputid+"']").remove()
                             }
+                            deletes()
                         })
                            // 点击下级全选
                      
