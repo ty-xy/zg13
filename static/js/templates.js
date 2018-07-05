@@ -110,10 +110,10 @@ Handlebars.registerHelper("tp",function(str){
     }
     return str;
 })
-// Handlebars.registerHelper("trim",function(str){
-//     var s = trim(str);
-//     return s;
-// })
+Handlebars.registerHelper("substr",function(str){
+    var s = str.substring(0,10);
+    return s;
+})
 Handlebars.registerHelper('if_or', function () {
     // Execute the conditional code if any of the conditions are true.
     // Example usage:

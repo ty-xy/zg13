@@ -13,26 +13,20 @@
         <div class="generate_log_finished">
             已完成:
         </div>
-        <textarea class="generate_log_finished_text">
-            {{#each accomplish_list}}
-            {{addKey @index}}:{{this}}
-            {{/each}}
+        <textarea class="generate_log_finished_text">{{#each accomplish_list}}{{addKey @index}}:{{this}}
+        {{/each}}
         </textarea>
         <div class="generate_log_unfinished">
              未完成:
         </div>
-        <textarea class="generate_log_unfinished_text">
-            {{#each overdue_list}}
-            {{addKey @index}}:{{this}}
-            {{/each}}
+        <textarea class="generate_log_unfinished_text">{{#each overdue_list}}{{addKey @index}}:{{this}}
+        {{/each}}
         </textarea>
         <div class="generate_log_pdfinished">
              进行中:
         </div>
-        <textarea class="generate_log_pdfinished_text">
-             {{#each underway_list}}
-             {{addKey @index}}:{{this}}
-             {{/each}}
+        <textarea class="generate_log_pdfinished_text">{{#each underway_list}}{{addKey @index}}:{{this}}
+        {{/each}}
         </textarea>
         <div class="generate_log_plan">
                 计划（添加任务后，自动生成待办事项）:
@@ -69,7 +63,9 @@
                      <a id="attach_file">上传附件</a>
                 <input type="file" id="file_inputs" class="test-image-file"/>
             </div>
-           
+            <div class='progress active process-bar-parent'>\
+                <div class='bar' id= 'process-bar' style='width:0'></div>\
+            </div>
         </div>
         <div class="generate_log_send">
             发送至:

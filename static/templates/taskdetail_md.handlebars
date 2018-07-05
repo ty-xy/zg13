@@ -44,10 +44,11 @@
                 <i class="taskdetail_lineA"></i>
                 <div class="taskdetail_upfile_box">
                     <i class="iconfont icon-fujian1 upfile_icon"></i>
-                    <p class="taskdetail_addattachment">添加附件</p>
-                    <p class="taskdetail_upfile" id="file_choose"> 
+                    {{!-- <p class="taskdetail_addattachment">添加附件</p> --}}
+                    <p class="taskdetail_addattachment taskdetail_upfile" id="file_choose"> 
                         <input type="file" id="file_inputs" class="test-image-file"/>
                         <a id="attach_file">上传文件</a>
+                        <span class="taskdetail_numberT">最多只能上传3个附件哦</span>
                     </p>
                 </div>
                 <ul class="taskdetail_attachment_box" length="{{accessory_length}}">
@@ -55,6 +56,7 @@
                     <li class="taskdetail_attachment" value="{{id}}">
                         <div class="taskdetail_attachment_left" value="{{url}}">
                             {{!-- {{#each img}} --}}
+
                             <img src="../../static/img/pnglogo.png" alt="">
                             {{!-- <p>{{this}}</p>
                             {{/each}} --}}

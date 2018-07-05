@@ -86,9 +86,9 @@ exports.options = function (config) {
 
     var progressUpdated = function (i, file, progress) {
         $("#" + upload_bar).width(progress + "%");
-        if (progress === 100) {
-            maybe_hide_upload_status();
-        }
+        // if (progress === 100) {
+        //     maybe_hide_upload_status();
+        // }
     };
 
     var uploadError = function (error_code, server_response, file) {
