@@ -404,12 +404,13 @@ var management = (function () {
                 var childrenlength=$(".box-right-list").children().length
                 // console.log(childrenlength)
                 $('.already-choose').text("选中("+childrenlength+")")
-                console.log(childrenlength,"判断")
+                // console.log(childrenlength,"判断")
                   //点击删除,选取的人删除,判断左边频道的状态
                 $(".button-right-delete").on('click',function(e){
                     // console.log($(this))
                     var attr= $(this).parent().attr('data_id')
                         var keyAttr= $(this).parent().attr('key-data')
+                        $(".checkbox-input").prop("checked",false);
                         $("[data-key='"+keyAttr+"']:checkbox").prop("checked", false);
                     $(this).parent().remove()
                     var childrenlengths=$(".box-right-list").children().length
