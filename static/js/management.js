@@ -404,16 +404,18 @@
                 var childrenlength=$(".box-right-list").children().length
                 // console.log(childrenlength)
                 $('.already-choose').text("选中("+childrenlength+")")
+                console.log(childrenlength,"判断")
                   //点击删除,选取的人删除,判断左边频道的状态
                 $(".button-right-delete").on('click',function(e){
                     // console.log($(this))
                     var attr= $(this).parent().attr('data_id')
+                        var keyAttr= $(this).parent().attr('key-data')
+                        $(".checkbox-input").prop("checked",false);
+                        $("[data-key='"+keyAttr+"']:checkbox").prop("checked", false);
                     $(this).parent().remove()
-                    // 点击删除的时候，选中的人数减一
-                    var clength = $('.already-choose').text().slice(3,4)-1
-                    console.log(1)
-                    if(clength>0){
-                        $('.already-choose').text("选中("+clength+")")
+                    var childrenlengths=$(".box-right-list").children().length
+                    if(childrenlengths>0){
+                        $('.already-choose').text("选中("+childrenlengths+")")
                     }else{
                         $('.already-choose').text("选中(0)")
                         $(".choose-check").prop("checked", false);
@@ -543,7 +545,6 @@
                             $('.choose-check:checkbox').prop("checked", true)
                             var datakeylist= data.streams_dict
                             var result = simpleArr(datakeylist)
-                            console.log(result)
                             result.forEach(function(val,i){
                                 val.did=1
                            })
@@ -551,23 +552,21 @@
                                 datalist:result
                             }));
                             $(".box-right-list").html(li)
-                            deletes()
-                            // confirm()
+                           
                         }else{
                             $('.choose-check:checkbox').prop("checked", false)
                             $(".box-right-list").empty()
-                            deletes()
+                            
                         }
+                        deletes()
                     })
                     
                      //点击频道频道
                     var lid = $(".choose-nav-left").children()
                     $(".choose-nav-left").on('click','.choose-check',function(e){
                         var inputid= $(this).attr("inputid")
-
                         if($(this).is(":checked")){
                             data_list= data.streams_dict[inputid]
-                            console.log(data_list)
                             data_list.forEach(function(val,i){
                                  val.did=inputid
                             })
@@ -575,11 +574,17 @@
                                 datalist:data_list
                             }));
                             $(".box-right-list").append(li)
-
+                            
+                             var $subs = $('.choose-check:checkbox')
+                            $(".checkbox-input").prop("checked",$subs.length==$subs.filter(":checked").length ? true : false);
                         }else{
                             //没有咋勾选状态，就移除元素
                             $("[data_id='"+inputid+"']").remove()
-                            // deletes()
+                            $(".checkbox-input").prop("checked",false);
+                            data_list= data.streams_dict[inputid]
+                            data_list.forEach(function(val,i){
+                                $("[key-data='"+val.id+"']").remove()
+                           })
                         }
                         deletes()
                     }) 
@@ -605,16 +610,16 @@
                     
                     //点击下级
                     $('.choose-nav-left').on('click',".next-right",function(e){
-                        // $(".modal-log-content").empty()
-                           // 渲染频道下级选发送人
-                        // $(".choose-nav-left").children().remove
-                       
                         var id = $(this).attr('button-key')
                         var li = $(templates.render('choose_people',{
                             datalists:data.streams_dict[id],
                             channels:id
                         }));
+                        
                         $(".choose-nav-left").html(li)
+                        // if($(this).siblings().children().eq(0).is(":checked")){
+                        //     $(".checkbox-inputs").prop("checked",true)
+                        // }
                         // 右边对像的children
                         var rightlength = $(".box-right-list").children()
                          rightlength.each(function(){
@@ -649,7 +654,6 @@
                             // 获得头像
                             var avatarurl =$(this).parent().parent().attr("avatar")
                             if($(this).is(":checked")){
-                                console.log(123)
                                var li = "<li class='input-box-list box_list_right' key-data="+inputid+" avatarurl="+avatarurl+">\
                                         <div class='box-list-left'>\
                                             <span class='name-list'>"+silcontent+"</span>\
@@ -658,7 +662,8 @@
                                     </li>"
                             // $(".modal-log-content").empty()
                             $('.box-right-list').append(li)
-                              
+                            var $subs = $('.choose-list-box:checkbox')
+                            $(".checkbox-inputs").prop("checked",$subs.length==$subs.filter(":checked").length ? true : false);
                             $('.button-right').on('click',function(e){
                                 var keydata = $(this).attr('data-id')
                                 $(this).parent().remove()
@@ -667,6 +672,7 @@
                            
                             }else{
                                 $("[key-data='"+inputid+"']").remove()
+                                $(".checkbox-inputs").prop("checked",false)
                             }
                             deletes()
                         })
