@@ -98,18 +98,114 @@
                                无
                             </div>
                         {{/if}}
-                        {{!-- <div class="log_assistant_pack">
+                        <div class="log_assistant_pack">
                                 <div class="generate_log_pack">
-                                        <div class="generate_log_pack_left">
-                                            <img src="../../static/img/pnglogo.png" alt="">
-                                            <i class="iconfont icon-shanchu1 generate_log_pack_delete"></i>
-                                        </div>
-                                        <div class="generate_log_pack_right">
-                                            <p>工程项目报表.jpg</p>
-                                            <p>3.29MB</p>
-                                        </div>
+                                        {{#each url_list}}
+                                            {{#compare type '==' 'jpg'}}
+                                                <a href="{{url}}" download=""><img src="{{url}}" alt="" class="thumbnail"></a>
+                                                {{else}}
+                                            {{/compare}}
+                                            {{#compare type '==' 'png'}}
+                                                <a href="{{url}}" download=""><img src="{{url}}" alt="" class="thumbnail"></a>
+                                                {{else}}
+                                            {{/compare}}
+                                            {{#compare type '==' 'jpeg'}}
+                                                <a href="{{url}}" download=""><img src="{{url}}" alt="" class="thumbnail"></a>
+                                                {{else}}
+                                            {{/compare}}
+                                            {{#compare type '==' 'gif'}}
+                                                <a href="{{url}}" download=""><img src="{{url}}" alt="" class="thumbnail"></a>
+                                                {{else}}
+                                            {{/compare}}
+                                            {{#compare type '==' 'bmp'}}
+                                                <a href="{{url}}" download=""><img src="{{url}}" alt="" class="thumbnail"></a>
+                                                {{else}}
+                                            {{/compare}}
+                                            {{#compare type '==' 'docx'}}
+                                                <div class="generate_log_pack_left">
+                                                    <img src="../../static/icons/type_icon/moren.png" alt="">
+                                                </div>
+                                                <div class="generate_log_pack_right">
+                                                    <p>{{name}}</p>
+                                                    <p>{{size}}</p>
+                                                </div>
+                                                {{else}}
+                                            {{/compare}}
+                                            {{#compare type '==' 'txt'}}
+                                                <div class="generate_log_pack_left">
+                                                    <img src="../../static/icons/type_icon/txt.png" alt="">
+                                                </div>
+                                                <div class="generate_log_pack_right">
+                                                    <p>{{name}}</p>
+                                                    <p>{{size}}</p>
+                                                </div>
+                                                {{else}}
+                                            {{/compare}}
+                                            {{#compare type '==' 'zip'}}
+                                                <div class="generate_log_pack_left">
+                                                    <img src="../../static/icons/type_icon/zip.png" alt="">
+                                                </div>
+                                                <div class="generate_log_pack_right">
+                                                    <p>{{name}}</p>
+                                                    <p>{{size}}</p>
+                                                </div>
+                                                {{else}}
+                                            {{/compare}}
+                                            {{#compare type '==' 'rar'}}
+                                                <div class="generate_log_pack_left">
+                                                    <img src="../../static/icons/type_icon/rar.png" alt="">
+                                                </div>
+                                                <div class="generate_log_pack_right">
+                                                    <p>{{name}}</p>
+                                                    <p>{{size}}</p>
+                                                </div>
+                                                {{else}}
+                                            {{/compare}}
+                                            {{#compare type '==' 'ppt'}}
+                                                <div class="generate_log_pack_left">
+                                                    <img src="../../static/icons/type_icon/ppt.png" alt="">
+                                                </div>
+                                                <div class="generate_log_pack_right">
+                                                    <p>{{name}}</p>
+                                                    <p>{{size}}</p>
+                                                </div>
+                                                {{else}}
+                                            {{/compare}}
+                                            {{#compare type '==' 'doc'}}
+                                                <div class="generate_log_pack_left">
+                                                    <img src="../../static/icons/type_icon/moren.png" alt="">
+                                                </div>
+                                                <div class="generate_log_pack_right">
+                                                    <p>{{name}}</p>
+                                                    <p>{{size}}</p>
+                                                </div>
+                                                {{else}}
+                                            {{/compare}}
+                                            {{#compare type '==' 'xls'}}
+                                                <div class="generate_log_pack_left">
+                                                    <img src="../../static/icons/type_icon/xls.png" alt="">
+                                                </div>
+                                                <div class="generate_log_pack_right">
+                                                    <p>{{name}}</p>
+                                                    <p>{{size}}</p>
+                                                </div>
+                                                {{else}}
+                                            {{/compare}}
+                                            {{#compare type '==' 'xlsx'}}
+                                                <div class="generate_log_pack_left">
+                                                    <img src="../../static/icons/type_icon/moren.png" alt="">
+                                                </div>
+                                                <div class="generate_log_pack_right">
+                                                    <p>{{name}}</p>
+                                                    <p>{{size}}</p>
+                                                </div>
+                                                {{else}}
+                                            {{/compare}}
+                                        
+                                        
+                                        {{/each}}
                                 </div>
-                        </div> --}}
+                        </div>
                         <!-- <i class="log_assistant_lineB"></i> -->
 
                         <!-- 已读未读 -->
