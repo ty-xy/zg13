@@ -1,14 +1,14 @@
 
 
    
-    <div class="generate_log_head">
+    {{!-- <div class="generate_log_head">
         <p>e建联</p>
         <i></i>
         <p>一键生成日志</p>
         <a class="generate_log_close">
            <i class="iconfont icon-guanbiUI"></i>
         </a>
-    </div>
+    </div> --}}
     <div class="generate_log_ctn">
         <div class="generate_log_finished">
             已完成:
@@ -42,18 +42,21 @@
                 </p>
             </li> --}}
         </ul>
-        <form action="" class="new_plan">
-                <input type="text" class="new_plan_title" placeholder="请输入任务标题">
-                <!-- <input type="text" class="new_plan_date" placeholder="请选择日期"> -->
-                <div class="input-append date" id="newplan_datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
-                        <input class="new_task_date create_taskdate" size="16" type="text" value="" readonly placeholder="请选择日期...">  
-                        <span class="add-on select_date_icon">
-                            <i data-date-icon="icon-calendar" class="icon-calendar iconfont icon-riqi"></i>
-                        </span>  
-                </div>
-                <div class="new_plan_save">保存</div>
-                <div class="new_plan_cancel">取消</div>
-        </form>
+        <div class="new-plan-box">
+            <div class="new_add_task_plan">新增任务</div>
+            <form action="" class="new_plan">
+                    <input type="text" class="new_plan_title" placeholder="请输入任务标题">
+                    <!-- <input type="text" class="new_plan_date" placeholder="请选择日期"> -->
+                    <div class="input-append date" id="newplan_datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
+                            <input class="new_task_date create_taskdate" size="16" type="text" value="" readonly placeholder="请选择日期...">  
+                            <span class="add-on select_date_icon">
+                                <i data-date-icon="icon-calendar" class="icon-calendar iconfont icon-riqi"></i>
+                            </span>  
+                    </div>
+                    <div class="new_plan_save">保存</div>
+                    <div class="new_plan_cancel">取消</div>
+            </form>
+        </div>
         <i class="generate_log_plan_lineA"></i>
         <div class="generate_log_addattachment">
                 添加附件:

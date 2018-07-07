@@ -1,5 +1,5 @@
 .management_set{
-    width: 1100px;
+    width: 937px;
     height: 800px;
     position: fixed;
     left: 380px;
@@ -47,7 +47,7 @@
 }
 #create_log_de{
    /* height:inherit */
-     width: 1300px;
+     width: 937px;
     height: 800px;
     position: absolute;
     left:0;
@@ -445,36 +445,51 @@ ul{
 
 /* 一键生成日志样式 */
 .generate_log_left{
-    width: 200px;
-    height: 800px;
-    background: #354052;
+    width: 937px;
+    height: 60px;
+    background: #FFFFFF;
+    box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30);
     overflow: hidden;
+    position: relative;
+    border-bottom:1px solid  #F2F2F2;
 }
 .generate_log_sliber{
     list-style: none;
     margin: 0;
     overflow: hidden;
-    margin-top: 14px;
+    /* margin-top: 14px; */
+    height: inherit;
+    display: flex;
+    align-items: center;
+
 }
 .generate_log_sliber>li{
-    margin: 14px 69px;
+    float: left;
+    padding-top:2px;
+    margin-left:30px;
     font-size: 15px;
     color: #A0ACBF;
     letter-spacing: 0.18px;
+    height:58px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-bottom:2px solid transparent;
+    box-sizing: border-box
 }
-.generate_log_left{
+/* .generate_log_left{
     float: left;
-}
+} */
 .generate_log_right{
-    float: left;
+    /* float: left; */
     background: #FFF;
     position: relative;
     height:800px;
-    width:1100px;
+    width:937px;
+    overflow-y: scroll
 }
 .generate_log_head{
-    width: 1100px;
+    width: 937px;
     height: 60px;
     overflow: hidden;
     line-height: 60px;
@@ -507,15 +522,16 @@ ul{
     color: #999;
     position: absolute;
     right: 20px;
-    font-size: 16px;
+    font-size: 20px;
     height: 16px;
     cursor: pointer;
+    top:19px;
 }
 .generate_log_ctn{
-    width: 1014px;
+    width:877px;
     height: 740px;
-    overflow: auto;
     margin: 0 auto;
+    margin-top:30px;
 }
 .generate_log_finished{
     font-size: 15px;
@@ -525,8 +541,8 @@ ul{
 }
 .generate_log_finished_text{
     /* padding-top:5px; */
-    width: 1000px;
-    min-height: 125px;
+    width: 877px;
+    min-height: 62px;
     border: 1px solid #CCCCCC;
     border-radius: 5px;
     /* resize: vertical; */
@@ -541,7 +557,7 @@ ul{
     text-align: left;
 }
 .generate_log_unfinished_text{
-    width: 1000px;
+    width: 877px;
     min-height: 62px;
     border: 1px solid #CCCCCC;
     border-radius: 5px;
@@ -555,7 +571,7 @@ ul{
     text-align: left;
 }
 .generate_log_pdfinished_text{
-    width: 1000px;
+    width: 877px;
     min-height: 62px;
     border: 1px solid #CCCCCC;
     border-radius: 5px;
@@ -570,11 +586,11 @@ ul{
     margin-top: 10px;
 }
 .generate_log_plan_box{
-    width: 1000px;
+    width: 877px;
     margin: 0;
 }
 .generate_log_plan_ctn{
-    width: 1000px;
+    width: 877px;
     height: 50px;
     background: #F7F7F7;
     border-radius: 2px;
@@ -623,7 +639,7 @@ ul{
     cursor: pointer;
 }
 .generate_log_plan_lineA{
-    width: 1000px;
+    width: 877px;
     height: 2px;
     background: #ccc;
     display: block;
@@ -1205,6 +1221,7 @@ ul{
 }
 .high_light{
     color: #000!important;
+    border-bottom-color:#14A4FA !important;
 }
 .log_assistant_commentsbtn{
     width: 65px;
@@ -1314,7 +1331,7 @@ ul{
 }
 .loading-img{
     height:800px;
-    width:1100px;
+    width:937px;
     line-height:800px
     /* position: absolute;
     left:0;
