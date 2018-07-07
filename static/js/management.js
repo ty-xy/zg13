@@ -961,7 +961,7 @@
         $(".right_san").on("click",function(){
                 $(".completed_box").toggle();
         })
-
+        
         //点击待办事项文本内容展示详情弹窗
         $(".add_ctn").on("click",function(e){
             console.log("dadasdasd")
@@ -1094,15 +1094,10 @@
                         var receive_table_list = res.receive_table_list;
                         var html = templates.render("log_assistant_box",{receive_table_list:receive_table_list})
                         $(".app").after(html)
-                        console.log(res)
-                        // console.log(res.receive_table_list)
-                        // for(var i = 0;i<res.receive_table_list.length;i++){
-                        //     console.log(res.receive_table_list[i])
-                        //     var str = res.receive_table_list[i].overdue;
-                        //     strs =  str.replace(/[\r\n]+/, '\n')
-                        //     console.log(res.receive_table_list[i].overdue)
-                        //     console.log(strs)
-                        // }
+                        //点击下载附件图片
+                        $(".download_fujian").on("click",function(){
+                            window.open($(this).attr("href"))
+                        })
                         $(".log_assistant_md").on("click",function(e){
                             e.stopPropagation();
                             e.preventDefault();
@@ -1135,12 +1130,14 @@
                                         url:"json/zg/my/receive/web",
                                         contentType:"application/json",
                                         success:function(res){
-                                            console.log("-----------------")
-                                            console.log(res)
                                             $(".log_assistant_ctn").remove();
                                             var receive_table_list = res.receive_table_list;
                                             var html = templates.render("log_assistant_receive",{receive_table_list:receive_table_list})
                                             $(".log_assistant_ctn_box").append(html)
+                                            //点击下载附件图片
+                                            $(".download_fujian").on("click",function(){
+                                                window.open($(this).attr("href"))
+                                            })
                                         }
                                     })
 
@@ -1164,6 +1161,10 @@
                                     var send_table_list = res.send_table_list;
                                     var html = templates.render("log_assistant_send",{send_table_list:send_table_list})
                                     $(".log_assistant_ctn_box").append(html)
+                                    //点击下载附件图片
+                                    $(".download_fujian").on("click",function(){
+                                        window.open($(this).attr("href"))
+                                    })
                                     //显示未读
                                     $(".log_assistant_unread").on("click",".log_assistant_unreadperson",function(){
                                         $(".already_read").hide();
@@ -1175,7 +1176,10 @@
                                         $(".already_read").show();
                                         $(".unread").hide();
                                     })
-
+                                    //附件图片显示原图
+                                    $(".thumbnail").on("click",function(){
+                                        console.log($(this))
+                                    })
                                     }
                                 })
                         })
