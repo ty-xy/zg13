@@ -695,7 +695,7 @@ ul{
     font-size: 20px;
 }
 .generate_log_pack_left>:first-child{
-    margin: 10px;
+    /* margin: 10px; */
 }
 .generate_log_pack_right{
     width: 110px;
@@ -1340,6 +1340,10 @@ ul{
     top:0;
     margin:auto; */
 }
+.download_fujian{
+    margin-left: 26px;
+    cursor: pointer;
+}
 .error_tip{
     letter-spacing: 2px;
     color: red;
@@ -1362,6 +1366,14 @@ ul{
 }
 .right_san:hover{
     transform: rotate(90deg);
+}
+.thumbnail{
+    width: 52px;
+    height: 52px;
+}
+.thumbnail_b{
+    width: 27px;
+    height: 30px;
 }
 /* 聊天气泡右侧 */
 .my_img{
