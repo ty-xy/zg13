@@ -87,20 +87,70 @@ Handlebars.registerHelper('tt', function (timestamp) {
     // return options.inverse(this);
 });
 
-// Handlebars.registerHelper("tl",function(str){
-//     var dict = [];
-//     // str = str.replace(/-/g,'/');
-//     // var regx = /:/g,
-
-// })
-// Handlebars.registerHelper('addKey',function(){
-//     return index + 1;
-// });
-
-
+Handlebars.registerHelper("tl", function(text) {
+    text = Handlebars.Utils.escapeExpression(text);
+    text = text.replace(/(\r\n|\n|\r)/gm, '<br>');
+    return new Handlebars.SafeString(text);
+});
+Handlebars.registerHelper("tj",function(str){
+    var p = str.indexOf(".");
+    var strs = str.substring(p);
+    return strs;
+})
 Handlebars.registerHelper('addKey',function(index){  
     return index + 1;  
 }); 
+Handlebars.registerHelper("tp",function(str){
+    if(str == "day"){
+        str = "日报"
+    }else if(str == "month"){
+        str = "月报"
+    }else if(str == "week"){
+        str = "周报"
+    }
+    return str;
+})
+Handlebars.registerHelper("substr",function(str){
+    var s = str.substring(0,10);
+    return s;
+})
+//文件类型判断
+Handlebars.registerHelper("isJpg",function(str){
+    if(str == "jpg"){
+        return true;
+    }else{
+        return false;
+    }
+})
+Handlebars.registerHelper('compare', function(left, operator, right, options) {
+    if (arguments.length < 3) {
+      throw new Error('Handlerbars Helper "compare" needs 2 parameters');
+    }
+    var operators = {
+      '==':     function(l, r) {return l == r; },
+      '===':    function(l, r) {return l === r; },
+      '!=':     function(l, r) {return l != r; },
+      '!==':    function(l, r) {return l !== r; },
+      '<':      function(l, r) {return l < r; },
+      '>':      function(l, r) {return l > r; },
+      '<=':     function(l, r) {return l <= r; },
+      '>=':     function(l, r) {return l >= r; },
+      'typeof': function(l, r) {return typeof l == r; }
+    };
+
+    if (!operators[operator]) {
+      throw new Error('Handlerbars Helper "compare" doesn\'t know the operator ' + operator);
+    }
+
+    var result = operators[operator](left, right);
+
+    if (result) {
+      return options.fn(this);
+    } else {
+      return options.inverse(this);
+    }
+});
+
 Handlebars.registerHelper('if_or', function () {
     // Execute the conditional code if any of the conditions are true.
     // Example usage:

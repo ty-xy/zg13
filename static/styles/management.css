@@ -1,5 +1,5 @@
 .management_set{
-    width: 1100px;
+    width: 937px;
     height: 800px;
     position: fixed;
     left: 380px;
@@ -47,7 +47,7 @@
 }
 #create_log_de{
    /* height:inherit */
-     width: 1300px;
+     width: 937px;
     height: 800px;
     position: absolute;
     left:0;
@@ -221,6 +221,7 @@ ul{
 .taskdetail_state{
     float: left;
     font-size: 16px;
+    display: none;
     /* display: none; */
     /* margin-bottom: -2px; */
 }
@@ -241,7 +242,14 @@ ul{
     font-size: 18px;
     color: #333333;
     letter-spacing: 0.22px;
-    margin-left: 20px;
+    background:none!important;  
+	outline:none!important;  
+	border:0px!important;
+    /* margin-left: 20px; */
+    width: 495px;
+}
+.taskdetail_list:focus{
+    outline: none;
 }
 #taskdetail_addnote{
     width: 500px;
@@ -339,7 +347,6 @@ ul{
     color: #999999;
     letter-spacing: 0.22px;
     margin-left: 6px;
-    cursor: pointer;
 }
 .taskdetail_upfile{
     float: right;
@@ -438,34 +445,51 @@ ul{
 
 /* 一键生成日志样式 */
 .generate_log_left{
-    width: 200px;
-    height: 800px;
-    background: #354052;
+    width: 937px;
+    height: 60px;
+    background: #FFFFFF;
+    box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30);
     overflow: hidden;
+    position: relative;
+    border-bottom:1px solid  #F2F2F2;
 }
 .generate_log_sliber{
     list-style: none;
     margin: 0;
     overflow: hidden;
-    margin-top: 14px;
+    /* margin-top: 14px; */
+    height: inherit;
+    display: flex;
+    align-items: center;
+
 }
 .generate_log_sliber>li{
-    margin: 14px 69px;
+    float: left;
+    padding-top:2px;
+    margin-left:30px;
     font-size: 15px;
     color: #A0ACBF;
     letter-spacing: 0.18px;
+    height:58px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-bottom:2px solid transparent;
+    box-sizing: border-box
 }
-.generate_log_left{
+/* .generate_log_left{
     float: left;
-}
+} */
 .generate_log_right{
-    float: left;
+    /* float: left; */
     background: #FFF;
     position: relative;
+    height:800px;
+    width:937px;
+    overflow-y: scroll
 }
 .generate_log_head{
-    width: 1100px;
+    width: 937px;
     height: 60px;
     overflow: hidden;
     line-height: 60px;
@@ -498,15 +522,16 @@ ul{
     color: #999;
     position: absolute;
     right: 20px;
-    font-size: 16px;
+    font-size: 20px;
     height: 16px;
     cursor: pointer;
+    top:19px;
 }
 .generate_log_ctn{
-    width: 1014px;
+    width:877px;
     height: 740px;
-    overflow: auto;
     margin: 0 auto;
+    margin-top:30px;
 }
 .generate_log_finished{
     font-size: 15px;
@@ -515,11 +540,13 @@ ul{
     text-align: left;
 }
 .generate_log_finished_text{
-    width: 1000px;
-    min-height: 125px;
+    /* padding-top:5px; */
+    width: 877px;
+    min-height: 62px;
     border: 1px solid #CCCCCC;
     border-radius: 5px;
-    resize: vertical;
+    /* resize: vertical; */
+    overflow-y: visible;
     margin-top: 22px;
     overflow:auto;
 }
@@ -530,7 +557,7 @@ ul{
     text-align: left;
 }
 .generate_log_unfinished_text{
-    width: 1000px;
+    width: 877px;
     min-height: 62px;
     border: 1px solid #CCCCCC;
     border-radius: 5px;
@@ -544,7 +571,7 @@ ul{
     text-align: left;
 }
 .generate_log_pdfinished_text{
-    width: 1000px;
+    width: 877px;
     min-height: 62px;
     border: 1px solid #CCCCCC;
     border-radius: 5px;
@@ -559,11 +586,11 @@ ul{
     margin-top: 10px;
 }
 .generate_log_plan_box{
-    width: 1000px;
+    width: 877px;
     margin: 0;
 }
 .generate_log_plan_ctn{
-    width: 1000px;
+    width: 877px;
     height: 50px;
     background: #F7F7F7;
     border-radius: 2px;
@@ -575,6 +602,7 @@ ul{
     float: left;
     font-size: 16px;
     margin: 18px 10px;
+    display: none;
 }
 .generate_log_plan_ctn>p:nth-of-type(1){
     float: left;
@@ -582,6 +610,7 @@ ul{
     font-size: 14px;
     color: #666666;
     letter-spacing: 0.17px;
+    margin-left: 20px;
 }
 .generate_log_plan_ctn>p:nth-of-type(2){
     float: left;
@@ -610,7 +639,7 @@ ul{
     cursor: pointer;
 }
 .generate_log_plan_lineA{
-    width: 1000px;
+    width: 877px;
     height: 2px;
     background: #ccc;
     display: block;
@@ -638,6 +667,7 @@ ul{
 }
 .generate_log_upfile_box{
     overflow: hidden;
+    position:relative;
 }
 .generate_log_upfile{
     float: left;
@@ -652,7 +682,7 @@ ul{
 }
 .generate_log_pack_left{
     width: 50px;
-    height: 50px;
+    min-height: 50px;
     float: left;
     border: 1px solid #ccc;
     margin-right: 5px;
@@ -665,7 +695,7 @@ ul{
     font-size: 20px;
 }
 .generate_log_pack_left>:first-child{
-    margin: 10px;
+    /* margin: 10px; */
 }
 .generate_log_pack_right{
     width: 110px;
@@ -679,6 +709,9 @@ ul{
     letter-spacing: 0.15px;
     margin-bottom: 1px;
     margin-top: 5px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 .generate_log_pack_right>:last-child{
     font-size: 11px;
@@ -722,7 +755,7 @@ ul{
     width: 68px;
     height: 68px;
     border: 1px solid #ccc;
-    box-shadow: 2px 2px 25px 0 rgba(204,204,204,0.80);
+    /* box-shadow: 2px 2px 25px 0 rgba(204,204,204,0.80); */
     border-radius: 50%;
     margin-top: 20px;
     cursor: pointer;
@@ -814,8 +847,8 @@ ul{
 
 /* 日志助手样式 */
 .log_assistant_box{
-    width: 1300px;
-    height: 800px;
+    width: 937px;
+    height: 740px;
     /* border: 1px solid #ccc; */
     position: absolute;
     left: 0;
@@ -830,6 +863,7 @@ ul{
     height: 800px;
     background: #354052;
     overflow: hidden;
+    display: none;
 }
 .log_assistant_sliber{
     list-style: none;
@@ -851,7 +885,7 @@ ul{
     float: left;
 }
 .log_assistant_head{
-    width: 1100px;
+    width: 937px;
     height: 60px;
     overflow: hidden;
     line-height: 60px;
@@ -863,16 +897,17 @@ ul{
     letter-spacing: 0.22px;
     float: left;
     margin-left: 30px;
+    cursor: pointer;
 }
 .log_assistant_head>i:nth-of-type(1){
-    border: 1px solid #A0ACBF;
+    /* border: 1px solid #A0ACBF;
     float: left;
     display: block;
     height: 20px;
     width: -1px;
-    background: #A0ACBF;
-    margin-left: 16px;
-    margin-top: 19px;
+    background: #A0ACBF; */
+    /* margin-left: 16px;
+    margin-top: 19px; */
 }
 .log_assistant_head>p:nth-of-type(2){
     font-size: 15px;
@@ -880,18 +915,20 @@ ul{
     letter-spacing: 0.22px;
     float: left;
     margin-left: 20px;
+    cursor: pointer;
+    margin-left: 42px;
 }
 .log_assistant_close{
     color: #999;
     position: absolute;
     right: 20px;
-    font-size: 16px;
+    font-size: 12px;
     height: 16px;
     cursor: pointer;
 }
 .log_assistant_ctn_box{
     background: #f5f5f5;
-    width: 1100px;
+    width: 937px;
     height: 740px;
     overflow: auto;
 }
@@ -934,7 +971,7 @@ ul{
     height: 80px;
 }
 .log_assistant_ctn{
-    width: 985px;
+    width: 877px;
     margin: 0 auto;
     overflow: hidden;
     background: #fff;
@@ -970,72 +1007,83 @@ ul{
 }
 .log_assistant_lineA{
     display: block;
-    width: 945px;
+    width: 842px;
     height: 2px;
-    background: #ccc;
+    background: #f2f2f2;
     margin: 0 auto;
     position: absolute;
     top: 80px;
     left: 20px;
 }
 .log_assistant_finished{
-    font-size: 15px;
+    font-size: 16px;
     color: #333333;
     letter-spacing: 0.18px;
     margin-left: 20px;
     margin-top: 20px;
+    font-weight: 500;
 }
 .log_assistant_finishedctn{
-    font-size: 15px;
-    color: #666666;
+    font-size: 14px;
+    color: #888888;
     letter-spacing: 0.18px;
     margin: 0 auto;
     margin-top: 6px;
     margin-left: 20px;
 }
 .log_assistant_unfinished{
-    font-size: 15px;
+    font-size: 16px;
     color: #333333;
     letter-spacing: 0.18px;
     margin-left: 20px;
     margin-top: 20px;
+    font-weight: 500;
 }
 .log_assistant_unfinishedctn{
-    font-size: 15px;
-    color: #666666;
+    font-size: 14px;
+    color: #888888;
     letter-spacing: 0.18px;
     margin: 0 auto;
     margin-top: 6px;
     margin-left: 20px;
 }
 .log_assistant_ongoing{
-    font-size: 15px;
+    font-size: 16px;
     color: #333333;
     letter-spacing: 0.18px;
     margin-left: 20px;
     margin-top: 20px;
+    font-weight: 500;
 }
 .log_assistant_ongoingctn{
-    font-size: 15px;
-    color: #666666;
+    font-size: 14px;
+    color: #888888;
     letter-spacing: 0.18px;
     margin-top: 6px;
     margin-left: 20px;
 }
 .log_assistant_plan{
-    font-size: 15px;
+    font-size: 16px;
     color: #333333;
     letter-spacing: 0.18px;
     margin-left: 20px;
     margin-top: 20px;
+    font-weight: 500;
 }
 .log_assistant_planctn{
-    font-size: 15px;
-    color: #666666;
+    font-size: 14px;
+    color: #888888;
     letter-spacing: 0.18px;
     margin-top: 6px;
     margin-left: 36px;
 
+}
+.log_assistant_planctn2{
+    font-size: 14px;
+    color: #888888;
+    letter-spacing: 0.18px;
+    margin-top: 6px;
+    margin-left: 20px;
 }
 .log_assistant_planctn_title{
     font-size: 15px;
@@ -1117,6 +1165,7 @@ ul{
     color: #333333;
     letter-spacing: 0.18px;
     float: left;
+    cursor: pointer;
     
 }
 .log_assistant_unreadperson{
@@ -1125,6 +1174,7 @@ ul{
     color: #999999;
     letter-spacing: 0.18px;
     margin-left: 10px;
+    cursor: pointer;
 }
 
 .log_assistant_user_list{
@@ -1170,7 +1220,8 @@ ul{
     align-items:center; */
 }
 .high_light{
-    color: #fff!important;
+    color: #000!important;
+    border-bottom-color:#14A4FA !important;
 }
 .log_assistant_commentsbtn{
     width: 65px;
@@ -1277,4 +1328,60 @@ ul{
 }
 .unread{
     display: none;
+}
+.loading-img{
+    height:800px;
+    width:937px;
+    line-height:800px
+    /* position: absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    top:0;
+    margin:auto; */
+}
+.download_fujian{
+    margin-left: 26px;
+    cursor: pointer;
+}
+.error_tip{
+    letter-spacing: 2px;
+    color: red;
+}
+.error_pw{
+    display: none;
+}
+.taskdetail_numberT{
+    color: red;
+    padding-left: 20px;
+    display: none;
+}
+.file_inputs{
+    width: 69px;
+}
+.right_san{
+    float: left;
+    margin-left: 20px;
+    cursor: pointer;
+}
+.right_san:hover{
+    transform: rotate(90deg);
+}
+.thumbnail{
+    width: 52px;
+    height: 52px;
+}
+.thumbnail_b{
+    width: 27px;
+    height: 30px;
+}
+/* 聊天气泡右侧 */
+.my_img{
+    float: right;
+}
+.my_name{
+    float: right;
+}
+.my_talk{
+    margin-right: 70px
 }

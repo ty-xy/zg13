@@ -51,7 +51,7 @@
     margin: 2px 0px 22px 0px;
     padding: 0;
     font-weight: normal;
-    height: 1440px;
+    /* height: 1440px; */
 }
 
 .left-sidebar li {
@@ -533,7 +533,7 @@ li.show-more-private-messages a {
 }
 /* zyc添加 */
 .bottom_sidebar{
-    margin-top:92px;
+    /* margin-top:92px; */
 }
 .user_head_box{
     width: 60px;
@@ -583,4 +583,7 @@ li.show-more-private-messages a {
     color: #A0ACBF;
     letter-spacing: 0.18px;
     text-indent: 10px;
+}
+#taskdata{
+    float: left;
 }

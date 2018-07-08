@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Chriser Chaoo <jsf.chris@foxmail.com>, 2017
 # Greg Price <gnprice@gmail.com>, 2017
@@ -1042,6 +1042,10 @@ msgstr "所有消息"
 #: templates/zerver/left_sidebar.html:24
 msgid "management"
 msgstr "待办事项"
+
+#: templates/zerver/left_sidebar.html:26
+msgid "Log assistant"
+msgstr "日志助手"
 
 #: templates/zerver/left_sidebar.html:17 templates/zerver/left_sidebar.html:22
 msgid "Private messages"

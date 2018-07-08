@@ -1515,7 +1515,7 @@ blockquote p {
 }
 
 .messagebox-content {
-    padding: 4px 10px 1px 10px;
+    padding: 4px 10px 1px 10px;overflow: hidden;
 }
 
 .last_message .messagebox-content {
@@ -1890,7 +1890,8 @@ nav .column-left {
     border-top: 1px solid #354052;
     margin-top: -1px;
     width: 200px;
-    height: 151px;
+    /* height: 151px; */
+    height: 60px;
     border-bottom: 1px solid #3D495D
 }
 
@@ -2075,7 +2076,7 @@ div.floating_recipient {
     display: block;
     height: 464px!important;
     background: #fff;
-    width: 962px;
+    /* width: 899px; */
 }
 
 .loading_indicator_spinner {
@@ -2404,7 +2405,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
 .cancel-list{
     border: 1px solid #A0ACBF;
     border-radius: 100px;
-    height:30px !important;
+    /* height:30px !important; */
     width:65px !important;
     box-sizing:border-box;
     
@@ -3003,7 +3004,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     position: absolute;
     left: 0;
     top: 0;
-    height: 2000px;
+    /* height: 6000px; */
 }
 .column-middle_shodowr{
     width: 10px;
@@ -3011,7 +3012,8 @@ div.topic_edit_spinner .loading_indicator_spinner {
     position: absolute;
     right: 0;
     top: 0;
-    height: 2000px;
+    /* height: 6000px; */
+    z-index: 11;
 }
 .tip-top{
     margin-bottom:10px !important
@@ -3019,13 +3021,14 @@ div.topic_edit_spinner .loading_indicator_spinner {
 
 #management_ctn{
     background: #fff;
-    min-width: 924px;
+    min-width: 624px;
 }
 .management_titleA{
     overflow: hidden;
     margin-top: 20px;
     margin-left: 20px;
     margin-right: 20px;
+    min-width: 300px;
 }
 .my_management{
     float: left;
@@ -3041,13 +3044,16 @@ div.topic_edit_spinner .loading_indicator_spinner {
     cursor: pointer;
 }
 .management_lineA{
-    border: 1px solid #CCCCCC;
     width: 878px;
-    height: 0px;
+    height: 20px;
     display: block;
-    background: #ccc;
     margin: 0 auto;
     margin-top: 16px;
+    margin: 10px auto;
+    list-style: none;
+    overflow: hidden;
+    border: none;
+    border-bottom: 1px solid #CCCCCC;
 }
 .management_icon{
     margin-top: 26px;
@@ -3110,7 +3116,8 @@ div.topic_edit_spinner .loading_indicator_spinner {
     cursor: pointer;
 }
 .new_task_box{
-    margin: 24px 10px;
+    margin: 24px 8px;
+    height: 50px;
 }
 .add_task{
     border: 1px solid #A0ACBF;
@@ -3130,14 +3137,16 @@ div.topic_edit_spinner .loading_indicator_spinner {
     margin-left: -10px;
 }
 .todo_box>li{
-    width: 876px;
+    /* width: 876px; */
+    min-width: 300px;
     height: 50px;
     margin: 10px auto;
-    background: #FFFFFF;
-    border: 1px solid #CCCCCC;
+    background: #F7F7F7;
+    /* border: 1px solid #CCCCCC; */
     border-radius: 2px;
     list-style: none;
     overflow: hidden;
+    margin: 10px 20px;
 }
 .todo_left{
     float: left;
@@ -3145,7 +3154,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
 .todo_right{
     float: right;
     overflow: hidden;
-    width: 150px;
+    width: 220px;
     margin-right: 10px;
     line-height: 50px;
 }
@@ -3169,7 +3178,8 @@ div.topic_edit_spinner .loading_indicator_spinner {
     text-overflow: ellipsis; 
     white-space: nowrap; 
     overflow: hidden; 
-    width: 600px;
+    /* width: 600px; */
+    min-width: 300px;
     cursor: pointer;
     text-align: left;
 }
@@ -3188,23 +3198,38 @@ div.topic_edit_spinner .loading_indicator_spinner {
     cursor: pointer;
 }
 .add_datatime{
-    float: left;
+    float: right;
     font-size: 13px;
     color: #999999;
     letter-spacing: 0.16px;
     width: 67px;
 }
+.completed_box{
+    overflow: auto;
+    margin-left: -10px;
+    display: none;
+}
 .completed_box>li{
-    width: 876px;
+    /* width: 876px; */
     height: 50px;
     margin: 10px auto;
     margin-left: -10px;
     margin-top: 20px;
-    background: #FFFFFF;
-    border: 1px solid #CCCCCC;
+    min-width: 300px;
+    height: 50px;
+    margin: 10px auto;
+    background: #F7F7F7;
+    /* border: 1px solid #CCCCCC; */
     border-radius: 2px;
     list-style: none;
     overflow: hidden;
+    margin: 10px 20px;
+}
+.completed_box>li:hover{
+    background: #E7EBF0;
+}
+.todo_box>li:hover{
+    background: #E7EBF0;
 }
 .completed{
     overflow: hidden;
@@ -3222,7 +3247,8 @@ div.topic_edit_spinner .loading_indicator_spinner {
     text-overflow: ellipsis; 
     white-space: nowrap; 
     overflow: hidden; 
-    width: 600px;
+    /* width: 600px; */
+    min-width: 300px;
     text-align: left;
     color: #BBBBBB;
     text-decoration: line-through;
@@ -3252,6 +3278,20 @@ div.topic_edit_spinner .loading_indicator_spinner {
 .new_task{
     overflow: hidden;
     margin-left: 10px;
+    min-width: 300px;
+    display: none;
+}
+.new_add_task_plan,.new_add_task{
+    width: 100px;
+    height: 38px;
+    border: 1px solid #A0ACBF;
+    border-radius: 100px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 14px;
+    color: #A0ACBF;
+    letter-spacing: 0.17px;
+    cursor: pointer;
 }
 .new_task>input{
     float: left;
@@ -3267,7 +3307,8 @@ div.topic_edit_spinner .loading_indicator_spinner {
 .new_task_title{
     /* border: 1px solid #A0ACBF!important; */
     border-radius: 100px!important;
-    width: 400px;
+    /* width: 400px; */
+    min-width: 200px;
     height: 30px!important;
     text-indent: 20px;
     font-size: 14px;
@@ -3287,6 +3328,7 @@ input::-webkit-input-placeholder{
     border-top-right-radius: 0px!important;
     font-size: 14px;
     background: #fff!important;
+    float: left;
 }
 .new_task_save{
     float: left;
@@ -3321,14 +3363,19 @@ input::-webkit-input-placeholder{
 .new_plan{
     overflow: hidden;
     margin-top: 20px;
+    display:none;
+}
+.new_add_task_plan{
+    margin-top: 20px;
+    margin-bottom:20px
 }
 .new_plan>input{
     float: left;
 }
 .new_plan_title{
-    border: 1px solid #A0ACBF!important;
+    border: 1px solid #A0ACBF;
     border-radius: 100px!important;
-    width: 400px;
+    width: 280px;
     height: 30px!important;
     text-indent: 20px;
     font-size: 14px;

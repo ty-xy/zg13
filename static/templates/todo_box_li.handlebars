@@ -5,9 +5,14 @@
             <p class='add_ctn' over_time="{{over_time}}" task="{{task}}" taskid="{{backlog_id}}" taskdetails="{{task_details}}">{{task}}</p>
         </div>
         <div class='todo_right'>
+            {{#if task_details}}
             <i class='iconfont icon-beizhu note_icon'></i>
+            {{/if}}
+                {{#if accessory_list}}
                 <i class='iconfont icon-fujian1 attachment_icon'></i>
-                <p class='add_datatime'>{{over_time}}</p>
+                {{/if}}
+                <p class='add_datatime'>{{substr over_time}}</p>
+                <p class="add_datatime">{{substr create_time}}</p>
         </div>
 </li>
 {{/each}}
@@ -15,12 +20,17 @@
 <li class='todo'>
     <div class='todo_left'>
         <input type='checkbox' class='add_checkbox' inputid = "{{backlog_id}}" state = "{{state}}">
-            <p class='add_ctn overdue' over_time="{{over_time}}" task="{{task}}" taskid="{{backlog_id}}" taskdetails="{{task_details}}">{{task}}</p>
+            <p class='add_ctn' over_time="{{over_time}}" task="{{task}}" taskid="{{backlog_id}}" taskdetails="{{task_details}}">{{task}}</p>
         </div>
         <div class='todo_right'>
+            {{#if task_details}}
             <i class='iconfont icon-beizhu note_icon'></i>
+            {{/if}}
+                {{#if accessory_list}}
                 <i class='iconfont icon-fujian1 attachment_icon'></i>
-                <p class='add_datatime overdue'>{{over_time}}</p>
+                {{/if}}
+                <p class='add_datatime overdue'>{{substr over_time}}</p>
+                <p class='add_datatime overdue'>{{substr create_time}}</p>
         </div>
 </li>
 {{/each}}

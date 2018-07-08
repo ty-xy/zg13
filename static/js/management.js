@@ -1,8 +1,35 @@
-    var management = (function () {
+var management = (function () {
     var exports = {};
+  
     $("body").ready(function () {
         //点击一键生成日志 出现日志弹窗
         // $(".create_generate_log").hide();
+        // autoTextarea.js query封装函数
+        (function($){
+            $.fn.autoTextarea = function(options) {
+              var defaults={
+                maxHeight:null,
+                minHeight:$(this).height()
+              };
+              var opts = $.extend({},defaults,options);
+              return $(this).each(function() {
+                $(this).bind("paste cut keydown keyup focus blur",function(){
+                  var height,style=this.style;
+                  this.style.height = opts.minHeight + 'px';
+                  if (this.scrollHeight > opts.minHeight) {
+                    if (opts.maxHeight && this.scrollHeight > opts.maxHeight) {
+                      height = opts.maxHeight
+                      style.overflowY = 'scroll';
+                    } else {
+                      height = this.scrollHeight
+                      style.overflowY = 'hidden';
+                    }
+                    style.height = height+ 'px';
+                  }
+                });
+              });
+            };
+          })(jQuery);
         function cancel (){
             $(".new_plan_title").val("");
             $(".create_taskdate").val('');
@@ -28,10 +55,17 @@
         }
         function alert(text,color){
             $('.toast-alert').fadeIn({
-                duration: 1000
+                duration: 1
             }).delay (1000).fadeOut ({duration: 1000});
             $('.toast-alert').html(text)
             $('.toast-alert').css('background-color',color)
+        }
+        function textheight(option){
+            $(option).height($(option)[0].scrollHeight-25);
+            $(option).autoTextarea({
+                minHeight: 72,
+                maxHeight:200
+            })
         }
         function del(){
             $('.generate_log_plan_ctn ').on('click',".generate_log_plan_delete",function(e){
@@ -72,19 +106,27 @@
         }
        function simpleArr(datakeylist){
             var arr = [];
-            for(var i in datakeylist){
-            arr=arr.concat(datakeylist[i]);
+            for(var i in datakeylist){ 
+               arr=arr.concat(datakeylist[i]);
             }
             var hash = {};
+            var ress=[];
             var result = [];
+            arr.forEach(function(item){
+                 ress.push({name:item.nid,id:item.id})
+            })
+            // var hash = {};item
             for(var i = 0, len = arr.length; i < len; i++){
+                // hashlist[arr[i].id]=[]
                 if (!hash[arr[i].id]) //如果hash表中没有当前项
                     {
                         hash[arr[i].id] = true; //存入hash表
-                        result.push(arr[i]); //把当前数组的当前项push到临时数组里面
+                        result.push(arr[i]);    
+                      //把当前数组的当前项push到临时数组里面
                     }
             }
-            return result 
+           
+            return {result:result,ress:ress}
        }
         //一键生成日志
 
@@ -95,8 +137,19 @@
                 accomplish_list:data.accomplish_list,
                 overdue_list:data.overdue_list
             }));
-            $('.generate_log_right').append(rendered);
-          
+            $('.generate_log_right').html(rendered);
+           
+            //高度随着变化而变化，
+              // 1.已经完成
+            $(".generate_log_finished_text").height($(".generate_log_finished_text")[0].scrollHeight-25);
+            $('.generate_log_finished_text').autoTextarea({
+                minHeight: 62,
+                maxHeight:200
+            })
+               //2.未完成
+            textheight(".generate_log_unfinished_text")
+               // 3.进行中
+            textheight(".generate_log_pdfinished_text")
             //  $("#create_log_de").on("click",function(e){
             $("#management_ctn").on("click",".create_generate_log",function(e){
             // console.log("修改成功")
@@ -122,27 +175,44 @@
             }); 
             $(".new_plan").on("click",".new_plan_save",function(e){
                 var j = plancommon()
-                channel.post({
-                    // idempotent: true,
-                    url:"json/zg/backlog/",
-                    data:j.j,
-                    success: function (data) {
-                        console.log(data)
-                        if(data.errno===0){
-                            var li = innhtml(j.inttitle,j.inttime,data)
-                            $('.generate_log_plan_box').append(li)
-                            del()
-                            editor()
-                        }
+                if(j.inttitle==""){
+                    $(".new_plan_title").css("border","1px solid #EF5350");
+                    setTimeout(function(){$(".new_plan_title").css("border","1px solid #ccc")},3000)
+                    return;
+                }
+                if(j.inttime==""){
+                    $(".new_task_date").css("border","1px solid #EF5350");
+                    $(".new_task_date").css("border-right","1px solid #ccc");
+                    $(".add-on").css("border","1px solid #EF5350")
+                    setTimeout(function(){
+                        $(".new_task_date").css("border","1px solid #ccc");
+                        $(".add-on").css("border","1px solid #ccc")
                     },
-                });
+                    3000)
+                    return;
+                }
+                if(j.inttitle!==""&&j.inttime!==""){
+                    channel.post({
+                        // idempotent: true,
+                        url:"json/zg/backlog/",
+                        data:j.j,
+                        success: function (data) {
+                            if(data.errno===0){
+                                var li = innhtml(j.inttitle,j.inttime,data)
+                                $('.generate_log_plan_box').append(li)
+                                del()
+                                editor()
+                            }
+                        },
+                    });
+                }
+             
                 cancel()
             })
             function editor(){
                 $('.generate_log_plan_ctn ').on('click',".generate_log_plan_editor",function(e){
                     e.preventDefault()
                     var that =$(this)
-                    console.log(that)
                     var li  = "."+(that.parent().parent()).attr("class")
                     var textval=  $(li).find(".text-inline").text()
                     var textdate= $(li).find(".date-inline").text()
@@ -158,7 +228,10 @@
                     cancel.attr("revise_id",fix_id)
                 })
             }
-       
+            $(".new_add_task_plan").on('click',function(e){
+                 $(this).hide()
+                 $(".new_plan").show()
+            })
             $(".new_plan ").on("click",'.fix_plan_save',function(e){
                 var j = plancommon()
                 var over_time = timestamp(j.inttime);
@@ -170,14 +243,12 @@
                 var data_list ={
                     "backlog_id":obj.backlog_id
                 }
-                console.log(obj.backlog_id)
                 var data = JSON.stringify(obj)
                 channel.put({
                     url:"json/zg/backlog/",
                     data:data,
                     success:function(data){
                         if(data.errno===0){
-                            console.log()
                             var li = innhtml(j.inttitle,j.inttime,data_list)
                             $('.generate_log_plan_box').append(li)
                             var plan = $(".new_plan").find(".fix_plan_save")
@@ -205,10 +276,9 @@
             })
             //点击提交功能
             $(".generate_log_submit").on("click",function(e){
-                var accomplish= $(".generate_log_finished_text").val()
-                
-                var underway  =$(".generate_log_unfinished_text").val()
-                var overdue = $(".generate_log_pdfinished_text").val()
+                var accomplish= $(".generate_log_finished_text").val().trim();
+                var underway  =$(".generate_log_unfinished_text").val().trim();
+                var overdue = $(".generate_log_pdfinished_text").val().trim();
                 var list = []
                 $(".generate_log_plan_delete").each(function(){
                     var ids= Number($(this).attr('data_id'))
@@ -218,14 +288,13 @@
                 var send_list =[]
                 $(".generate_log_member_box").children().not($(".add_log_people")).each(function(){
                     var ids= Number($(this).attr('data_id'))
-                    console.log(ids)
                     send_list.push(ids)
                 })
                 var statement_accessory_list = []
                 $(".generate_log_pack").each(function(){
                     var isn = $(this).attr('data-url')
-                    var name = $(".generate_log_pack_right").children().eq(0).text()
-                    var size=$(".generate_log_pack_right").children().eq(1).text()
+                    var name = $(this).children().eq(1).children().eq(0).text()
+                    var size=$(this).children().eq(1).children().eq(1).text()
                     var file ={
                         url:isn,
                         size:size,
@@ -233,8 +302,6 @@
                     }
                     statement_accessory_list.push(file)
                 })
-                console.log(statement_accessory_list,send_list)
-                console.log(accomplish,underway,overdue)
                  var paramas ={
                     accomplish:accomplish,
                     underway:$.trim(underway),
@@ -242,10 +309,10 @@
                     backlog_list:list,
                     send_list:send_list,
                     statement_accessory_list:statement_accessory_list,
-                    date_type:"day"
+                    date_type:data.date_type
                  }
-                 console.log(paramas)
-                 channel.post({
+                if(accomplish.length>0&&send_list.length>0){
+                    channel.post({
                         url:"json/zg/table/",
                         data:JSON.stringify(paramas),
                         // idempotent: true,
@@ -253,16 +320,29 @@
                         success:function(data){
                             if(data.errno===0){
                                alert('提交成功','rgba(0,107,169,0.30)')
+                              $(".create_generate_log").delay(3000).hide(0)
+                            //    $(".create_generate_log").hide();
                             } else if(data.errno===1){
                                 alert('请完善必填内容','rgba(169,12,0,0.30)')
                             } else{
                                 alert('网络不稳定,请重新提交','rgba(169,12,0,0.30)')
                             }
                         }
-                 })
+                    })
+                }else{
+                    if(accomplish.length===0){
+                        alert('请添加已完成任务','rgba(169,12,0,0.30)')
+                    }else if(send_list.length===0){
+                        alert('请选择人员','rgba(169,12,0,0.30)')
+                    }else{
+                        alert('请添加已完成任务以及发送人员','rgba(169,12,0,0.30)')
+                    }
+                }
             })
             $('.new_plan').on('click',".new_plan_cancel",function(e){
                 cancel()
+                $('.new_plan').hide()
+                $('.new_add_task_plan').show()
             })
             function button(){
                  //点击清空
@@ -273,7 +353,9 @@
                     $('.already-choose').text("选中(0)")
                     //左边的选中状态都是false
                     $(".choose-check").prop("checked", false);
-                    $(".checkbox-input").prop("checked",false)
+                    $(".checkbox-input").prop("checked",false);
+                    $(".checkbox-inputs").prop("checked",false);
+                    $('.choose-list-box:checkbox').prop("checked", false)
                 })
                 //点击取消
                 $(".button-cancel").on("click",function(e){
@@ -284,8 +366,15 @@
             }
             function confirm(){
                 //点击确定
-                $('.button-confirm').on('click',function(e){
+                $(".choose-right-list").on('click','.button-confirm',function(e){
                     var arrlist =[]
+                    var peopleList = []
+                    $('#create_log_de .generate_log_member_box').children().not($(".add_log_people")).each(function(){
+                        
+                        var index = Number($(this).attr('data_id'))
+                        peopleList.push(index)
+                    })
+                    console.log(peopleList)
                     $(".box-right-list").children().each(function () { 
                         var id = Number($(this).attr("key-data"));
                         var avatar = $(this).attr("avatarurl")
@@ -296,12 +385,16 @@
                             name:name,
                             namel:name.slice(0,4)+"...."
                         }
-                        arrlist.push(peppleList)
+                        if(peopleList.indexOf(peppleList.id)===-1){
+                            arrlist.push(peppleList)
+                        }
                     })
-                    console.log(avatar)
+                   
+                    // console.log($(".add_log_people").siblings().length)
                     var li = $(templates.render('send_people',{
                        peoplelist:arrlist
                    }));
+                   $(".add_log_people").before(li)
                    $('.generate_log_member').mouseenter(function(){
                       $(this).children().eq(2).show()
                       $(this).on('click',".dust-delete",function(e){
@@ -311,7 +404,7 @@
                    $('.generate_log_member').mouseleave(function(){
                      $('.avatar-over').hide()
                   })
-                   $(".add_log_people").before(li)
+                   
                    $('.box-right-list').remove()
                    $(".modal-log").hide()
                    //清除里面所有的元素，模态框消失。
@@ -319,32 +412,43 @@
             
                 })
             }
-            function deletes(){
+            function deletes(data){
                 var childrenlength=$(".box-right-list").children().length
                 // console.log(childrenlength)
                 $('.already-choose').text("选中("+childrenlength+")")
+                // console.log(childrenlength,"判断")
                   //点击删除,选取的人删除,判断左边频道的状态
                 $(".button-right-delete").on('click',function(e){
                     // console.log($(this))
-                    var attr= $(this).parent().attr('data_id')
-                    $(this).parent().remove()
-                    // 点击删除的时候，选中的人数减一
-                    var clength = $('.already-choose').text().slice(3,4)-1
-                    console.log(1)
-                    if(clength>0){
-                        $('.already-choose').text("选中("+clength+")")
-                    }else{
-                        $('.already-choose').text("选中(0)")
-                        $(".choose-check").prop("checked", false);
+                        var attr= $(this).parent().attr('data_id')
+                        var keyAttr= $(this).parent().attr('key-data')
                         $(".checkbox-input").prop("checked",false);
-                        $(".checkbox-inputs").prop("checked",false);
-                        $('.choose-list-box:checkbox').prop("checked", false)
-                    }
-                    var length= $("[data_id='"+attr+"']").length
-                    //频道里面的人长度为0，左边的选中状态取消
-                    if(length===0){
-                        $("[inputid='"+attr+"']:checkbox").prop("checked", false);
-                    }
+                        $("[data-key='"+keyAttr+"']:checkbox").prop("checked", false);
+                        $(this).parent().remove()
+                        var childrenlengths=$(".box-right-list").children().length
+                        var ress =simpleArr(data).ress
+                            ress.forEach(function(val,i){
+                                if(val.id==keyAttr){
+                                    $("[inputid='"+val.name+"']:checkbox").prop("checked", false);
+                                }
+                            })
+                        // })
+                        var $subs = $('.choose-list-box:checkbox')
+                        $(".checkbox-inputs").prop("checked",$subs.length==$subs.filter(":checked").length ? true : false);
+                        if(childrenlengths>0){
+                            $('.already-choose').text("选中("+childrenlengths+")")
+                        }else{
+                            $('.already-choose').text("选中(0)")
+                            $(".choose-check").prop("checked", false);
+                            $(".checkbox-input").prop("checked",false);
+                            $(".checkbox-inputs").prop("checked",false);
+                            $('.choose-list-box:checkbox').prop("checked", false)
+                        }
+                        var length= $("[data_id='"+attr+"']").length
+                        //频道里面的人长度为0，左边的选中状态取消
+                        if(length===0){
+                            $("[inputid='"+attr+"']:checkbox").prop("checked", false);
+                        }
                 })
             }
             // 上传文件
@@ -353,6 +457,20 @@
                // e.preventDefault();
                $("#up_files #file_inputs").trigger("click");
            });
+           var drop =function(){
+            $('.process-bar-parent').show()
+           }
+           var progressUpdated = function (i, file, progress) {
+            // $('.process-bar-parent').show()
+            $("#" + "process-bar").width(progress + "%");
+            if (progress === 100) {
+                // maybe_hide_upload_status();
+                setTimeout(function () {
+                    $('.process-bar-parent').hide()
+                }, 1000);
+               
+            }
+           };
            function make_upload_absolute(uri) {
             if (uri.indexOf(compose.uploads_path) === 0) {
                 // Rewrite the URI to a usable link
@@ -387,6 +505,7 @@
         };
         $(".generate_log_upfile_box").on("click",".generate_log_pack_delete",function(e){
              $(this).parent().parent().remove()
+             alert('删除成功','rgba(0,107,169,0.30)')
         })
         $("#up_files").filedrop({
             url: "/json/user_uploads",
@@ -398,14 +517,14 @@
                 csrfmiddlewaretoken: csrf_token,
             },
             // raw_droppable: ['text/uri-list', 'text/plain'],
-            // drop: drop,
-            // progressUpdated: progressUpdated,
+            drop: drop,
+            progressUpdated: progressUpdated,
             // error: uploadError,
             uploadFinished: uploadFinished,
          //    afterAll:function(contents){
          //        console.log(contents,321312)
          //    }
-        })
+          })
            // 1.点击添加人员
            $('.add_log_people').on("click",".generate_log_member_addlogo",function(e){ 
                //显示模态框
@@ -418,12 +537,13 @@
                         data:data.streams_dict
                     }));
                      // 渲染频道
+                     console.log(data.streams_dict)
                     $(".modal-log-content").append(rendered)
                     // 搜索
                     $(".choose-nav-left .search-icon").keyup(function(){
                         if($(".search-icon").val().length!==0){
                             $(".modal-ul-choose").show()
-                            var listarr = simpleArr(data.streams_dict)
+                            var listarr = simpleArr(data.streams_dict).result
                             var indexlist = []
                             var value = $(this).val()
                             listarr.forEach(function(val,i){
@@ -434,7 +554,6 @@
                                    }
                                 //    console.log(indexlist)
                             })
-                             console.log(indexlist)
                         }
                         
                     })
@@ -447,47 +566,56 @@
                         if($(this).is(":checked")){
                             $('.choose-check:checkbox').prop("checked", true)
                             var datakeylist= data.streams_dict
-                            var result = simpleArr(datakeylist)
-                            console.log(result)
+                            for(var i in datakeylist){
+                                var indexkey = i
+                                datakeylist[i].forEach(function(index,v){
+                                     index.nid=indexkey 
+                                })
+                                // chooselist=datakeylist[i].push[i]
+                            }
+                            var result = simpleArr(datakeylist).result
+                            
                             result.forEach(function(val,i){
                                 val.did=1
                            })
                             var li = $(templates.render('choose_person',{
                                 datalist:result
                             }));
-                            $(".box-right-list").append(li)
-                            deletes()
-                            confirm()
+                            $(".box-right-list").html(li)
+                           
                         }else{
                             $('.choose-check:checkbox').prop("checked", false)
                             $(".box-right-list").empty()
                         }
+                        deletes(data.streams_dict)
                     })
                     
                      //点击频道频道
                     var lid = $(".choose-nav-left").children()
                     $(".choose-nav-left").on('click','.choose-check',function(e){
                         var inputid= $(this).attr("inputid")
-                        console.log(6)
                         if($(this).is(":checked")){
                             data_list= data.streams_dict[inputid]
-                            console.log(data_list)
                             data_list.forEach(function(val,i){
                                  val.did=inputid
                             })
-                            console.log(data_list)
                             var li = $(templates.render('choose_person',{
                                 datalist:data_list
                             }));
                             $(".box-right-list").append(li)
-                            // $('.choose-nav-left').applend(li)
-                            //查看$(".box-right-list").长度
-                            deletes()
-                            //点击清空
+                            
+                             var $subs = $('.choose-check:checkbox')
+                            $(".checkbox-input").prop("checked",$subs.length==$subs.filter(":checked").length ? true : false);
                         }else{
                             //没有咋勾选状态，就移除元素
                             $("[data_id='"+inputid+"']").remove()
+                            $(".checkbox-input").prop("checked",false);
+                            data_list= data.streams_dict[inputid]
+                            data_list.forEach(function(val,i){
+                                $("[key-data='"+val.id+"']").remove()
+                           })
                         }
+                        deletes(data.streams_dict)
                     }) 
                     confirm()
                     //点击取消，模态框取消，里面所有的元素都没有了
@@ -497,8 +625,16 @@
                         // var li = $(templates.render('choose_channel',{
                         //     data:data.streams_dict
                         // }));
+                        var checkinput = $(".choose-nav-left .checkbox-inputs:checkbox").is(":checked")
+                        // console.log(checkinput,$(".choose-nav-left .checkbox-inputs:checkbox"))
                         $(".choose-nav-left").children().remove()
                         $(".choose-nav-left").html(lid)
+                        var text = $(this).next().children().text()
+                        if(checkinput){
+                            $("[inputid='"+text+"']").prop("checked", true);
+                        }else{
+                            $("[inputid='"+text+"']").prop("checked", false);
+                        }
                         var childrenlength=$(".box-right-list").children().length
                         // 给选中赋值
                         if(childrenlength===0){
@@ -511,51 +647,60 @@
                     
                     //点击下级
                     $('.choose-nav-left').on('click',".next-right",function(e){
-                        // $(".modal-log-content").empty()
-                           // 渲染频道下级选发送人
-                        // $(".choose-nav-left").children().remove
                         var id = $(this).attr('button-key')
                         var li = $(templates.render('choose_people',{
                             datalists:data.streams_dict[id],
                             channels:id
                         }));
+                        
                         $(".choose-nav-left").html(li)
+                        if($(this).siblings().children().eq(0).is(":checked")){
+                            $(".checkbox-inputs").prop("checked",true)
+                        }
+                        //右边对像的children
+                        var rightlength = $(".box-right-list").children()
+                         rightlength.each(function(){
+                            var id = Number($(this).attr("key-data"));
+                            $("[data-key='"+id+"']:checkbox").prop("checked", true)
+                            // data.streams_dict[id].forEach(function)
+                        })
                         $(".checkbox-inputs").on("click",function(e){
                             if($(this).is(":checked")){
                                 $('.choose-list-box:checkbox').prop("checked", true)
-                                var data_list=data.streams_dict[id]
-                                data_list.forEach(function(val,i){
+                                var data_list_number=data.streams_dict[id]
+                                data_list_number.forEach(function(val,i){
+                                    $('.box_list_right[key-data='+val.id+']').remove()
                                     val.did=id
                                })
                                 var li = $(templates.render('choose_person',{
-                                    datalist:data.streams_dict[id]
+                                    datalist:data_list_number
                                 }));
-                                console.log(data.streams_dict[id])
                                 $(".box-right-list").append(li)
-                                deletes()
+                                
                             }else{
                                 $('.choose-list-box:checkbox').prop("checked", false)
-                                $(".box-right-list").empty()
+                                var dataId =$.trim($(this).parent().prev().children().eq(1).text())
+                                $("[data_id='"+dataId+"']").remove()  
                             }
+                            deletes(data.streams_dict )
                           })
                         $(".box-choose-lefts").on("click",".choose-list-box",function(e){
-                            console.log(423423)
                             var inputid= $(this).attr("data-key")
                             // 获得人的名字
                             var silcontent = $.trim($(this).parent().text())
                             // 获得头像
                             var avatarurl =$(this).parent().parent().attr("avatar")
                             if($(this).is(":checked")){
-                                console.log(123)
                                var li = "<li class='input-box-list box_list_right' key-data="+inputid+" avatarurl="+avatarurl+">\
                                         <div class='box-list-left'>\
                                             <span class='name-list'>"+silcontent+"</span>\
                                         </div>\
-                                        <button class='button-right' data-id="+inputid+">删除</button>\
+                                        <button class='button-right-delete' data-id="+inputid+">删除</button>\
                                     </li>"
                             // $(".modal-log-content").empty()
                             $('.box-right-list').append(li)
-                              deletes()
+                            var $subs = $('.choose-list-box:checkbox')
+                            $(".checkbox-inputs").prop("checked",$subs.length==$subs.filter(":checked").length ? true : false);
                             $('.button-right').on('click',function(e){
                                 var keydata = $(this).attr('data-id')
                                 $(this).parent().remove()
@@ -564,13 +709,15 @@
                            
                             }else{
                                 $("[key-data='"+inputid+"']").remove()
+                                $(".checkbox-inputs").prop("checked",false)
                             }
+                            deletes(data.streams_dict)
                         })
                            // 点击下级全选
                      
                         // 点击选取联系人,返回频道选人
                         button()
-                        confirm()
+                        // confirm()
                     })
                   }
               })
@@ -585,6 +732,8 @@
                 idempotent: true,
                 success: function (data) {
                 if(data){
+                     data.date_type="day"
+                     console.log(data)
                      logClick(data)
                     }
                 },
@@ -596,6 +745,7 @@
                     idempotent: true,
                     success: function (data) {
                     if(data){
+                        data.date_type="week"
                          logClick(data)
                         }
                     },
@@ -608,6 +758,7 @@
                     idempotent: true,
                     success: function (data) {
                     if(data){
+                        data.date_type="day"
                          logClick(data)
                         }
                     },
@@ -620,6 +771,7 @@
                     idempotent: true,
                     success: function (data) {
                     if(data){
+                        data.date_type="month"
                          logClick(data)
                         }
                     },
@@ -647,6 +799,11 @@
         })
         $(".new_task_title").on("click",function(e){
             $("#search_query").val("");
+        })
+        //新增任务
+        $(".new_add_task").on("click",function(){
+            $(".new_add_task").hide();
+            $(".new_task").show();
         })
 
         function updata(){
@@ -676,7 +833,7 @@
     
         $(".new_task_save").on("click",function(e){
             var inttitle = $(".create_tasttitle").val();
-            var inttime = $(".create_taskdate").val();
+            var inttime = $("#daibandata").val();
             function timestamp(str){
                 str = str.replace(/-/g,'/');
                 var date = new Date(str); 
@@ -690,8 +847,8 @@
                 "over_time":over_time+86399,
             }
             var j = JSON.stringify(obj)
+            
             if(inttitle==""){
-                console.log("11333")
                 $("#taskinput").css("border","1px solid #EF5350");
                 return;
             }
@@ -716,6 +873,7 @@
                 data:j,
                 success:function(res){
                     if(res.errno == 0){
+                        $(".error_tip").text("")
                         $.ajax({
                             type:"GET",
                             url:"json/zg/backlog/gets",
@@ -723,26 +881,6 @@
                                 if(response.errno == 3){
                                     console.log(response.message)
                                 }
-                            //     var new_append_task;
-                            //     var new_append_over_time;
-                            //     var new_append_id;
-                            //     for(var key in response.backlog_list){
-                            //         new_append_id = response.backlog_list[0].backlog_id
-                            //         new_append_task = response.backlog_list[0].task
-                            //         new_append_over_time = response.backlog_list[0].over_time
-                            //     }
-                            //     $(".todo_box").prepend("<li class='todo'>\
-                            //     <div class='todo_left'>\
-                            //             <input type='checkbox' class='add_checkbox'>\
-                            //             <p class='add_ctn' inputid="+new_append_id+" taskid="+new_append_id+">"+new_append_task+"</p>\
-                            //     </div>\
-                            //     <div class='todo_right'>\
-                            //             <i class='iconfont icon-beizhu note_icon'></i>\
-                            //             <i class='iconfont icon-fujian1 attachment_icon' id='file-inputs'></i>\
-                            //             <p class='add_datatime'>"+new_append_over_time+"</p>\
-                            //     </div>\
-                            // </li>")
-                            //测试方案2
                             updata()
                             //测试方案2
                         $(".new_task_title").val("");
@@ -755,8 +893,8 @@
                         $(".add_ctn").on("click",function(e){
                             $(".taskdetail_md").show();
                             $(".app").css("overflow-y","hidden");
-                            $(".taskdetail_list").html($(this).html());
-                            
+                            // $(".taskdetail_list").html($(this).html());
+                            // $(".taskdetail_list").val($(this).val());
                             var taskid = Number($(this).attr("taskid"))
                             backlog_id = taskid;
                         })
@@ -837,6 +975,7 @@
                         console.log(res.message)
                     }else if(res.errno == 3){
                         console.log(res.message)
+                        $(".error_tip").text(res.message)
                     }
                 },
                 error:function(rej){
@@ -848,13 +987,23 @@
         $(".new_task_cancel").on("click",function(e){
             $(".new_task_title").val("");
             $(".new_task_date").val("")
+            $("#taskinput").css("border","1px solid #ccc");
+            $(".new_task_date").css("border","1px solid #ccc");
+            $("#taskdata").css("border","1px solid #ccc")
+            $(".error_tip").text("");
+            $(".new_add_task").show();
+            $(".new_task").hide();
         })
+        //点击收拉已完成任务
+        $(".right_san").on("click",function(){
+                $(".completed_box").toggle();
+        })
+        
         //点击待办事项文本内容展示详情弹窗
         $(".add_ctn").on("click",function(e){
             console.log("dadasdasd")
             $(".taskdetail_md").show();
             $(".app").css("overflow-y","hidden")
-            console.log("helow")
         })
         //点击任务详情模版关闭任务详情
         $(".taskdetail_md").on("click",function(e){
@@ -982,8 +1131,10 @@
                         var receive_table_list = res.receive_table_list;
                         var html = templates.render("log_assistant_box",{receive_table_list:receive_table_list})
                         $(".app").after(html)
-                        console.log(res)
-                        
+                        //点击下载附件图片
+                        $(".download_fujian").on("click",function(){
+                            window.open($(this).attr("href"))
+                        })
                         $(".log_assistant_md").on("click",function(e){
                             e.stopPropagation();
                             e.preventDefault();
@@ -1013,13 +1164,17 @@
                             $(".log_assistant_title").html("我收到的")
                             $.ajax({
                                         type:"GET",
-                                        url:"json/receive/web",
+                                        url:"json/zg/my/receive/web",
                                         contentType:"application/json",
                                         success:function(res){
                                             $(".log_assistant_ctn").remove();
                                             var receive_table_list = res.receive_table_list;
                                             var html = templates.render("log_assistant_receive",{receive_table_list:receive_table_list})
                                             $(".log_assistant_ctn_box").append(html)
+                                            //点击下载附件图片
+                                            $(".download_fujian").on("click",function(){
+                                                window.open($(this).attr("href"))
+                                            })
                                         }
                                     })
 
@@ -1043,6 +1198,10 @@
                                     var send_table_list = res.send_table_list;
                                     var html = templates.render("log_assistant_send",{send_table_list:send_table_list})
                                     $(".log_assistant_ctn_box").append(html)
+                                    //点击下载附件图片
+                                    $(".download_fujian").on("click",function(){
+                                        window.open($(this).attr("href"))
+                                    })
                                     //显示未读
                                     $(".log_assistant_unread").on("click",".log_assistant_unreadperson",function(){
                                         $(".already_read").hide();
@@ -1054,7 +1213,10 @@
                                         $(".already_read").show();
                                         $(".unread").hide();
                                     })
-
+                                    //附件图片显示原图
+                                    $(".thumbnail").on("click",function(){
+                                        console.log($(this))
+                                    })
                                     }
                                 })
                         })

@@ -2,7 +2,8 @@
     <form class="display-settings-form">
         <!-- this is inline block so that the alert notification can sit beside
         it. If there's not an alert, don't make it inline-block. -->
-        <h3 class="inline-block">{{t "Language settings" }}</h3>
+        
+        {{!-- <h3 class="inline-block">{{t "Language settings" }}</h3>
         <div class="alert-notification" id="language-settings-status"></div>
 
         <div class="input-group user-name-section">
@@ -13,7 +14,7 @@
                     <i class="fa fa-pencil"></i>
                 </button>
             </a>
-        </div>
+        </div> --}}
 
         {{ partial "default_language_modal"}}
 

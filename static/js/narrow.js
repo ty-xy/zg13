@@ -269,7 +269,7 @@ exports.stream_topic = function () {
 
     if (msg) {
         return {
-            stream: msg.stream || undefined,
+             stream: msg.stream || undefined,
             topic: msg.subject || undefined,
         };
     }
@@ -593,13 +593,15 @@ function pick_empty_narrow_banner() {
 }
 
 exports.show_empty_narrow_message = function () {
-    console.log("show2")
+
+    // console.log("show2")
     $(".empty_feed_notice").hide();
     pick_empty_narrow_banner().show();
 };
 
 exports.hide_empty_narrow_message = function () {
-    console.log("show1")
+
+    // console.log("show1")
     $(".empty_feed_notice").hide();
 };
 

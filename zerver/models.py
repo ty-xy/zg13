@@ -57,7 +57,7 @@ class Backlog(models.Model):
     create_time = models.PositiveIntegerField()
     over_time = models.PositiveIntegerField()
     task = models.CharField(max_length=70)
-    task_details = models.CharField(null = True, max_length=300)
+    task_details = models.CharField(null=True, max_length=300)
     state = models.IntegerField(default=2)
     is_delete = models.BooleanField(default=False)
 
@@ -67,7 +67,7 @@ class BacklogAccessory(models.Model):
     backlog_id = models.ForeignKey(Backlog)
     accessory_url = models.CharField(max_length=200, default='')
     accessory_size = models.CharField(max_length=40, default='')
-    accessory_name = models.CharField(max_length =60,default='')
+    accessory_name = models.CharField(max_length=120, default='')
     is_delete = models.BooleanField(default=False)
 
 
@@ -82,8 +82,8 @@ class Statement(models.Model):
     user = models.CharField(max_length=80)
     generate_time = models.PositiveIntegerField()
     accomplish = models.CharField(max_length=700)
-    overdue = models.CharField(max_length=400,null=True)
-    underway = models.CharField(max_length=400,null=True)
+    overdue = models.CharField(max_length=400, null=True)
+    underway = models.CharField(max_length=400, null=True)
     types = models.CharField(max_length=6)
 
 
@@ -98,8 +98,8 @@ class StatementBacklog(models.Model):
 class StatementAccessory(models.Model):
     statement_id = models.ForeignKey(Statement)
     statement_accessory_url = models.CharField(max_length=200)
-    accessory_size = models.CharField(max_length=40,default='')
-    accessory_name = models.CharField(max_length =60,default='')
+    accessory_size = models.CharField(max_length=40, default='')
+    accessory_name = models.CharField(max_length=120, default='')
     is_delete = models.BooleanField(default=False)
 
 
@@ -1320,6 +1320,8 @@ class Message(AbstractMessage):
         if content.startswith('/me ') and '\n' not in content:
             if rendered_content.startswith('<p>') and rendered_content.endswith('</p>'):
                 return True
+        print(content)
+        print(rendered_content)
         return False
 
     def update_calculated_fields(self) -> None:

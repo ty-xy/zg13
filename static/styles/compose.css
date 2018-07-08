@@ -106,8 +106,8 @@
 
 .compose_table #compose-lock-icon i {
     position: absolute;
-    left: 5px;
-    top: 3px;
+    left: 32px;
+    top: 4px;
 }
 
 .compose_table .message_header {
@@ -396,9 +396,10 @@ input.recipient_box {
     /* border: 1px solid hsl(170, 68%, 41%); */
     /* background-color: hsl(170, 47%, 54%); */
     color: hsl(0, 0%, 100%);
-    background: #A0ACBF;
+    background: #14A4FA;
     border-radius: 100px;
     padding: 4px 18px;
+    text-align: center;
 }
 
 #compose-send-button:focus {

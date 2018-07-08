@@ -12,7 +12,8 @@
                     {{else}}
                      <input type="checkbox" class="taskdetail_state" id="taskdetail_check"  name="{{id}}" value="{{state}}" checked="checked">
                    {{/if}}
-                    <p class="taskdetail_list">{{taskdetail_list}}</p>
+                    {{!-- <p class="taskdetail_list">{{taskdetail_list}}</p> --}}
+                    <input type="text" class="taskdetail_list" value="{{taskdetail_list}}">
                 </div>
                 <textarea name="{{id}}" id="taskdetail_addnote" cols="30" rows="10" placeholder="添加备注...">{{taskdetail_addnote}}</textarea>
                 <i class="taskdetail_lineA"></i>
@@ -43,28 +44,181 @@
                 <i class="taskdetail_lineA"></i>
                 <div class="taskdetail_upfile_box">
                     <i class="iconfont icon-fujian1 upfile_icon"></i>
-                    <p class="taskdetail_addattachment">添加附件</p>
-                    <p class="taskdetail_upfile" id="file_choose"> 
+                    {{!-- <p class="taskdetail_addattachment">添加附件</p> --}}
+                    <p class="taskdetail_addattachment taskdetail_upfile" id="file_choose"> 
                         <input type="file" id="file_inputs" class="test-image-file"/>
                         <a id="attach_file">上传文件</a>
+                        <span class="taskdetail_numberT">最多只能上传3个附件哦</span>
                     </p>
                 </div>
                 <ul class="taskdetail_attachment_box" length="{{accessory_length}}">
                     {{#each accessory_dict}}
                     <li class="taskdetail_attachment" value="{{id}}">
-                        <div class="taskdetail_attachment_left">
-                            <img src="../../static/img/pnglogo.png" alt="">
-                            <p>{{name}}</p>
-                            <p>
-                                <span>{{size}}</span>
-                                {{!-- <span>{{}}</span> --}}
-                            </p>
-                        </div>
-                        <div class="taskdetail_attachment_right">
-                            <input type="hidden" value="{{url}}">
-                            <span class="taskdetail_download">下载</span>
-                            <span class="taskdetail_delete">删除</span>
-                        </div>
+                        {{#compare type '==' 'png'}}
+                            <div class="taskdetail_attachment_left" value="{{url}}">
+                                <img src="../../static/icons/type_icon/png.png" alt="" class="thumbnail_b">
+                                <p>{{name}}</p>
+                                <p>
+                                    <span>{{size}}</span>
+                                </p>
+                            </div>
+                            <div class="taskdetail_attachment_right">
+                                <input type="hidden" value="{{url}}">
+                                <span class="taskdetail_download">下载</span>
+                                <span class="taskdetail_delete">删除</span>
+                            </div>
+                            {{else}}
+                        {{/compare}}
+                        {{#compare type '==' 'jpg'}}
+                            <div class="taskdetail_attachment_left" value="{{url}}">
+                                <img src="../../static/icons/type_icon/jpg.png" alt="" class="thumbnail_b">
+                                <p>{{name}}</p>
+                                <p>
+                                    <span>{{size}}</span>
+                                </p>
+                            </div>
+                            <div class="taskdetail_attachment_right">
+                                <input type="hidden" value="{{url}}">
+                                <span class="taskdetail_download">下载</span>
+                                <span class="taskdetail_delete">删除</span>
+                            </div>
+                            {{else}}
+                        {{/compare}}
+                        {{#compare type '==' 'jpeg'}}
+                            <div class="taskdetail_attachment_left" value="{{url}}">
+                                <img src="../../static/icons/type_icon/moren.png" alt="" class="thumbnail_b">
+                                <p>{{name}}</p>
+                                <p>
+                                    <span>{{size}}</span>
+                                </p>
+                            </div>
+                            <div class="taskdetail_attachment_right">
+                                <input type="hidden" value="{{url}}">
+                                <span class="taskdetail_download">下载</span>
+                                <span class="taskdetail_delete">删除</span>
+                            </div>
+                            {{else}}
+                        {{/compare}}
+                        {{#compare type '==' 'gif'}}
+                            <div class="taskdetail_attachment_left" value="{{url}}">
+                                <img src="../../static/icons/type_icon/gif.png" alt="" class="thumbnail_b">
+                                <p>{{name}}</p>
+                                <p>
+                                    <span>{{size}}</span>
+                                </p>
+                            </div>
+                            <div class="taskdetail_attachment_right">
+                                <input type="hidden" value="{{url}}">
+                                <span class="taskdetail_download">下载</span>
+                                <span class="taskdetail_delete">删除</span>
+                            </div>
+                            {{else}}
+                        {{/compare}}
+                        {{#compare type '==' 'bmp'}}
+                            <div class="taskdetail_attachment_left" value="{{url}}">
+                                <img src="../../static/icons/type_icon/moren.png" alt="" class="thumbnail_b">
+                                <p>{{name}}</p>
+                                <p>
+                                    <span>{{size}}</span>
+                                </p>
+                            </div>
+                            <div class="taskdetail_attachment_right">
+                                <input type="hidden" value="{{url}}">
+                                <span class="taskdetail_download">下载</span>
+                                <span class="taskdetail_delete">删除</span>
+                            </div>
+                            {{else}}
+                        {{/compare}}
+                        {{#compare type '==' 'txt'}}
+                            <div class="taskdetail_attachment_left" value="{{url}}">
+                                <img src="../../static/icons/type_icon/txt.png" alt="" class="thumbnail_b">
+                                <p>{{name}}</p>
+                                <p>
+                                    <span>{{size}}</span>
+                                </p>
+                            </div>
+                            <div class="taskdetail_attachment_right">
+                                <input type="hidden" value="{{url}}">
+                                <span class="taskdetail_download">下载</span>
+                                <span class="taskdetail_delete">删除</span>
+                            </div>
+                            {{else}}
+                        {{/compare}}
+                        {{#compare type '==' 'xls'}}
+                            <div class="taskdetail_attachment_left" value="{{url}}">
+                                <img src="../../static/icons/type_icon/xls.png" alt="" class="thumbnail_b">
+                                <p>{{name}}</p>
+                                <p>
+                                    <span>{{size}}</span>
+                                </p>
+                            </div>
+                            <div class="taskdetail_attachment_right">
+                                <input type="hidden" value="{{url}}">
+                                <span class="taskdetail_download">下载</span>
+                                <span class="taskdetail_delete">删除</span>
+                            </div>
+                            {{else}}
+                        {{/compare}}
+                        {{#compare type '==' 'pdf'}}
+                            <div class="taskdetail_attachment_left" value="{{url}}">
+                                <img src="../../static/icons/type_icon/pdf.png" alt="" class="thumbnail_b">
+                                <p>{{name}}</p>
+                                <p>
+                                    <span>{{size}}</span>
+                                </p>
+                            </div>
+                            <div class="taskdetail_attachment_right">
+                                <input type="hidden" value="{{url}}">
+                                <span class="taskdetail_download">下载</span>
+                                <span class="taskdetail_delete">删除</span>
+                            </div>
+                            {{else}}
+                        {{/compare}}
+                        {{#compare type '==' 'rar'}}
+                            <div class="taskdetail_attachment_left" value="{{url}}">
+                                <img src="../../static/icons/type_icon/rar.png" alt="" class="thumbnail_b">
+                                <p>{{name}}</p>
+                                <p>
+                                    <span>{{size}}</span>
+                                </p>
+                            </div>
+                            <div class="taskdetail_attachment_right">
+                                <input type="hidden" value="{{url}}">
+                                <span class="taskdetail_download">下载</span>
+                                <span class="taskdetail_delete">删除</span>
+                            </div>
+                            {{else}}
+                        {{/compare}}
+                        {{#compare type '==' 'zip'}}
+                            <div class="taskdetail_attachment_left" value="{{url}}">
+                                <img src="../../static/icons/type_icon/zip.png" alt="" class="thumbnail_b">
+                                <p>{{name}}</p>
+                                <p>
+                                    <span>{{size}}</span>
+                                </p>
+                            </div>
+                            <div class="taskdetail_attachment_right">
+                                <input type="hidden" value="{{url}}">
+                                <span class="taskdetail_download">下载</span>
+                                <span class="taskdetail_delete">删除</span>
+                            </div>
+                            {{else}}
+                        {{/compare}}
+                         {{#compare type '==' 'word'}}
+                            <div class="taskdetail_attachment_left" value="{{url}}">
+                                <img src="../../static/icons/type_icon/word.png" alt="" class="thumbnail_b">
+                                <p>{{name}}</p>
+                                <p>
+                                    <span>{{size}}</span>
+                                </p>
+                            </div>
+                            <div class="taskdetail_attachment_right">
+                                <input type="hidden" value="{{url}}">
+                                <span class="taskdetail_download">下载</span>
+                                <span class="taskdetail_delete">删除</span>
+                            </div>
+                            {{else}}
+                        {{/compare}}
                     </li>
                     {{/each}}
                     {{!-- <li class="taskdetail_attachment">
