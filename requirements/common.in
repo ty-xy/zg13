@@ -138,9 +138,9 @@ tornado==4.5.3
 typing==3.6.4
 
 # Fast JSON parser
-# -e git+https://github.com/zulip/ultrajson@70ac02bec#egg=ujson==1.35+git
-# -e git+ssh://git@gitlab.com/zg-xym/ultrajson.git@70ac02bec#egg=ujson==1.35+git
 -e git+git://github.com/zulip/ultrajson@70ac02bec#egg=ujson==1.35+git
+# -e git+ssh://git@gitlab.com/zg-xym/ultrajson.git@70ac02bec#egg=ujson==1.35+git
+# -e git+git://github.com/zulip/ultrajson@70ac02bec#egg=ujson==1.35+git
 
 uritemplate==3.0.0
 
@@ -172,12 +172,12 @@ pyoembed==0.1.2
 # these tightly, including fetching content not included in the normal
 # release tarballs (which is a bug).  So we need to pin it makes sense
 # to pin a version from Git rather than a release.
-# -e "git+https://github.com/zulip/python-zulip-api.git@0.4.4#egg=zulip==0.4.4_git&subdirectory=zulip"
-# -e "git+https://github.com/zulip/python-zulip-api.git@0.4.4#egg=zulip_bots==0.4.4+git&subdirectory=zulip_bots"
-# -e "git+ssh://git@gitlab.com/zg-xym/python-zulip-api.git@0.4.4#egg=zulip==0.4.4_git&subdirectory=zulip"
-# -e "git+ssh://git@gitlab.com/zg-xym/python-zulip-api.git@0.4.4#egg=zulip_bots==0.4.4+git&subdirectory=zulip_bots"
 -e "git+git://github.com/zulip/python-zulip-api.git@0.4.4#egg=zulip==0.4.4_git&subdirectory=zulip"
 -e "git+git://github.com/zulip/python-zulip-api.git@0.4.4#egg=zulip_bots==0.4.4+git&subdirectory=zulip_bots"
+# -e "git+ssh://git@gitlab.com/zg-xym/python-zulip-api.git@0.4.4#egg=zulip==0.4.4_git&subdirectory=zulip"
+# -e "git+ssh://git@gitlab.com/zg-xym/python-zulip-api.git@0.4.4#egg=zulip_bots==0.4.4+git&subdirectory=zulip_bots"
+# -e "git+git://github.com/zulip/python-zulip-api.git@0.4.4#egg=zulip==0.4.4_git&subdirectory=zulip"
+# -e "git+git://github.com/zulip/python-zulip-api.git@0.4.4#egg=zulip_bots==0.4.4+git&subdirectory=zulip_bots"
 
 
 # Used for Hesiod lookups, etc.
