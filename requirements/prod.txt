@@ -10,13 +10,17 @@
 --no-binary psycopg2
 
 # git+https://github.com/zulip/talon.git@7d8bdc4dbcfcc5a73298747293b99fe53da55315#egg=talon==1.2.10.zulip1
-git+ssh://git@gitlab.com/zg-xym/talon.git@7d8bdc4dbcfcc5a73298747293b99fe53da55315#egg=talon==1.2.10.zulip1
+# git+ssh://git@gitlab.com/zg-xym/talon.git@7d8bdc4dbcfcc5a73298747293b99fe53da55315#egg=talon==1.2.10.zulip1
+git+git://github.com/zulip/talon.git@7d8bdc4dbcfcc5a73298747293b99fe53da55315#egg=talon==1.2.10.zulip1
 # git+https://github.com/zulip/ultrajson@70ac02bec#egg=ujson==1.35+git
--e git+ssh://git@gitlab.com/zg-xym/ultrajson.git@70ac02bec#egg=ujson==1.35+git
+# -e git+ssh://git@gitlab.com/zg-xym/ultrajson.git@70ac02bec#egg=ujson==1.35+git
+git+git://github.com/zulip/ultrajson@70ac02bec#egg=ujson==1.35+git
 # git+https://github.com/zulip/python-zulip-api.git@0.4.4#egg=zulip==0.4.4_git&subdirectory=zulip
 # git+https://github.com/zulip/python-zulip-api.git@0.4.4#egg=zulip_bots==0.4.4+git&subdirectory=zulip_bots
-git+ssh://git@gitlab.com/zg-xym/python-zulip-api.git@0.4.4#egg=zulip==0.4.4_git&subdirectory=zulip
-git+ssh://git@gitlab.com/zg-xym/python-zulip-api.git@0.4.4#egg=zulip_bots==0.4.4+git&subdirectory=zulip_bots
+# git+ssh://git@gitlab.com/zg-xym/python-zulip-api.git@0.4.4#egg=zulip==0.4.4_git&subdirectory=zulip
+# git+ssh://git@gitlab.com/zg-xym/python-zulip-api.git@0.4.4#egg=zulip_bots==0.4.4+git&subdirectory=zulip_bots
+git+git://github.com/zulip/python-zulip-api.git@0.4.4#egg=zulip==0.4.4_git&subdirectory=zulip
+git+git://github.com/zulip/python-zulip-api.git@0.4.4#egg=zulip_bots==0.4.4+git&subdirectory=zulip_bots
 
 apns2==0.3.0
 argon2-cffi==18.1.0
