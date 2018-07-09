@@ -1127,9 +1127,14 @@ var management = (function () {
                     url:"json/zg/my/receive/web",
                     contentType:"application/json",
                     success:function(res){
+                        console.log(res)
+                        var page = [];
+                        for(var i= 1;i<=res.page;i++){
+                            page.push(i)
+                        }
                         $(".log_assistant_md").remove();
                         var receive_table_list = res.receive_table_list;
-                        var html = templates.render("log_assistant_box",{receive_table_list:receive_table_list})
+                        var html = templates.render("log_assistant_box",{receive_table_list:receive_table_list,page:page})
                         $(".app").after(html)
                         //点击下载附件图片
                         $(".download_fujian").on("click",function(){
@@ -1190,6 +1195,31 @@ var management = (function () {
                                         }
                                     })
 
+                        })
+                        //点击分页
+                        $(".paging").on("click",".paging_btn",function(e){
+                            var page = Number($(this).text());
+                            console.log($(this).text())
+                            $(this).addClass("high_light").siblings().removeClass("high_light");
+                            $(".log_assistant_prompt_box").show();
+                            $(".log_assistant_ctn").css("margin-top","0px");
+                            $(".log_assistant_unread").hide();
+                            $(".log_assistant_title").html("我收到的")
+                            $.ajax({
+                                type:"GET",
+                                url:"json/zg/my/receive/web?page="+page+"",
+                                contentType:"application/json",
+                                success:function(res){
+                                    $(".log_assistant_ctn").remove();
+                                    var receive_table_list = res.receive_table_list;
+                                    var html = templates.render("log_assistant_receive",{receive_table_list:receive_table_list})
+                                    $(".log_assistant_ctn_box").append(html)
+                                    //点击下载附件图片
+                                    $(".download_fujian").on("click",function(){
+                                        window.open($(this).attr("href"))
+                                    })
+                                }
+                            })
                         })
                         //我发出的 点击内容
                         $(".log_assistant_box").on("click",".log_assistant_send",function(e){

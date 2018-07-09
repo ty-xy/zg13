@@ -262,13 +262,13 @@
                     {{/each}}
                 {{!-- {{/if}} --}}
                 <div class="paging_box">
+                    <div>《</div>
                     <ul class="paging">
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
+                        {{#each page}}
+                            <li class="paging_btn">{{this}}</li>
+                        {{/each}}
                     </ul>
+                    <div>》</div>
                 </div>
               </div>
             </div>

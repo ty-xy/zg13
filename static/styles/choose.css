@@ -396,8 +396,19 @@ a.message-control-button {
     top:60px;
 }
 .paging_box{
-
+    width: 937px;
+    height: 50px;
+    margin: 0 auto;
 }
 .paging{
+    list-style: none;
+}
+.paging>li{
+    float: left;
+    width: 24px;
+    height: 24px;
+    font-size: 24px;
+    margin: 0 10px;
+    border: 1px solid #ccc;
     
 }

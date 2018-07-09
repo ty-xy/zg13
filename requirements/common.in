@@ -74,7 +74,7 @@ google-api-python-client==1.6.6
 html2text==2018.1.9
 httplib2==0.11.3
 # -e git+https://github.com/zulip/talon.git@7d8bdc4dbcfcc5a73298747293b99fe53da55315#egg=talon==1.2.10.zulip1
--e git+ssh://git@gitlab.com:zg-xym/talon.git@7d8bdc4dbcfcc5a73298747293b99fe53da55315#egg=talon==1.2.10.zulip1
+-e git+ssh://git@gitlab.com/zg-xym/talon.git@7d8bdc4dbcfcc5a73298747293b99fe53da55315#egg=talon==1.2.10.zulip1
 
 # Needed for inlining the CSS in emails
 premailer==3.1.1
@@ -139,7 +139,7 @@ typing==3.6.4
 
 # Fast JSON parser
 # -e git+git://github.com/zulip/ultrajson@70ac02bec#egg=ujson==1.35+git
--e git+ssh://git@gitlab.com:zg-xym/ultrajson.git@70ac02bec#egg=ujson==1.35+git
+-e git+ssh://git@gitlab.com/zg-xym/ultrajson.git@70ac02bec#egg=ujson==1.35+git
 # -e git+git://github.com/zulip/ultrajson@70ac02bec#egg=ujson==1.35+git
 
 uritemplate==3.0.0
@@ -174,8 +174,8 @@ pyoembed==0.1.2
 # to pin a version from Git rather than a release.
 # -e "git+git://github.com/zulip/python-zulip-api.git@0.4.4#egg=zulip==0.4.4_git&subdirectory=zulip"
 # -e "git+git://github.com/zulip/python-zulip-api.git@0.4.4#egg=zulip_bots==0.4.4+git&subdirectory=zulip_bots"
--e "git+ssh://git@gitlab.com:zg-xym/python-zulip-api.git@0.4.4#egg=zulip==0.4.4_git&subdirectory=zulip"
--e "git+ssh://git@gitlab.com:zg-xym/python-zulip-api.git@0.4.4#egg=zulip_bots==0.4.4+git&subdirectory=zulip_bots"
+-e "git+ssh://git@gitlab.com/zg-xym/python-zulip-api.git@0.4.4#egg=zulip==0.4.4_git&subdirectory=zulip"
+-e "git+ssh://git@gitlab.com/zg-xym/python-zulip-api.git@0.4.4#egg=zulip_bots==0.4.4+git&subdirectory=zulip_bots"
 # -e "git+git://github.com/zulip/python-zulip-api.git@0.4.4#egg=zulip==0.4.4_git&subdirectory=zulip"
 # -e "git+git://github.com/zulip/python-zulip-api.git@0.4.4#egg=zulip_bots==0.4.4+git&subdirectory=zulip_bots"
 
