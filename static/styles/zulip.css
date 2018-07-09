@@ -3281,7 +3281,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     min-width: 300px;
     display: none;
 }
-.new_add_task{
+.new_add_task_plan,.new_add_task{
     width: 100px;
     height: 38px;
     border: 1px solid #A0ACBF;
@@ -3363,6 +3363,11 @@ input::-webkit-input-placeholder{
 .new_plan{
     overflow: hidden;
     margin-top: 20px;
+    display:none;
+}
+.new_add_task_plan{
+    margin-top: 20px;
+    margin-bottom:20px
 }
 .new_plan>input{
     float: left;
@@ -3370,7 +3375,7 @@ input::-webkit-input-placeholder{
 .new_plan_title{
     border: 1px solid #A0ACBF;
     border-radius: 100px!important;
-    width: 400px;
+    width: 280px;
     height: 30px!important;
     text-indent: 20px;
     font-size: 14px;
