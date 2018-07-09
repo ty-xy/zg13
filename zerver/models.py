@@ -1320,8 +1320,7 @@ class Message(AbstractMessage):
         if content.startswith('/me ') and '\n' not in content:
             if rendered_content.startswith('<p>') and rendered_content.endswith('</p>'):
                 return True
-        print(content)
-        print(rendered_content)
+
         return False
 
     def update_calculated_fields(self) -> None:
