@@ -154,11 +154,11 @@ msgstr "回车"
 
 #: templates/zerver/accounts_home.html:16
 msgid "Sign up for e建联"
-msgstr "注册e建联"
+msgstr "e建联注册"
 
 #: templates/zerver/accounts_home.html:35
 msgid "You need an invitation to join this organization."
-msgstr "您需要邀请才能加入本团队。"
+msgstr "你需要被邀请才能加入。"
 
 #: templates/zerver/accounts_home.html:70 templates/zerver/footer.html:39
 #: templates/zerver/login.html:149 templates/zerver/portico-header.html:43
