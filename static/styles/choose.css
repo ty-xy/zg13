@@ -202,12 +202,11 @@ a.message-control-button {
 }
 .log_screening{
     width: 342px;
-    height: 391px;
+    height: 316px;
     position: absolute;
-    right: 57px;
+    right: 31px;
     top: 137px;
     background: #fff;
-    /* border: 1px solid red; */
     box-shadow: 0 1px 10px 0 rgba(204,204,204,0.30);
     border-radius: 1px;
     display: none;
@@ -222,7 +221,7 @@ a.message-control-button {
     border-bottom: 1px solid #ccc;
 }
 .log_screening_person{
-    margin-top: 20px;
+    margin-top: 32px;
 }
 .log_screening_person>:first-child{
     font-size: 15px;
@@ -287,7 +286,7 @@ a.message-control-button {
     width: 165px;
     height: 60px;
     margin: 0 auto;
-    margin-top: 55px;
+    margin-top: 36px;
 }
 .log_screening_reset{
     width: 65px;

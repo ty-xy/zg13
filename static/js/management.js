@@ -1155,6 +1155,18 @@ var management = (function () {
                             e.stopPropagation();
                             e.preventDefault();
                         })
+                        $(".log_assistant_screening").on("click",function(e){
+                            e.preventDefault();
+                            e.stopPropagation();
+                            $(".log_screening").show();
+                        })
+                        $(".log_screening").on("click",function(){
+                            e.stopPropagation();
+                            e.preventDefault();
+                        })
+                        $(".log_assistant_ctn_box").on("click",function(e){
+                            $(".log_screening").hide();
+                        })
                                 //我收到的 点击内容
                         $(".log_assistant_box").on("click",".log_assistant_received",function(e){
                             $(this).addClass("high_light").siblings().removeClass("high_light");
