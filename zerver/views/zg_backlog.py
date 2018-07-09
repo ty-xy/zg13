@@ -104,7 +104,7 @@ def look_table(request, user_profile):
 
 # web接收到日志
 def web_my_receive(request, user_profile):
-    page = request.GET.get('page', 1)
+    page = int(request.GET.get('page', 1))
     try:
         page1 = (page - 1) * 10
         page2 = page * 10
@@ -163,7 +163,7 @@ def web_my_receive(request, user_profile):
 
 # web发送的日志
 def web_my_send(request, user_profile):
-    page = request.GET.get('page', 1)
+    page = int(request.GET.get('page', 1))
     try:
         page1 = (page - 1) * 10
         page2 = page * 10
@@ -439,7 +439,9 @@ def generate_table(request, user_profile):
 
         month_backlog_count = Backlog.objects.filter(user=user, create_time__range=(day_begin, day_end),
                                                      is_delete='f', state=0).count()
-        completeness = month_backlog_count / (month_backlog_count + len(month_overdue_list))
+        completeness=0                                            
+        if month_backlog_count + len(month_overdue_list):
+            completeness = month_backlog_count / (month_backlog_count + len(month_overdue_list))
         return JsonResponse(
             {'errno': 0, 'message': "成功", 'accomplish_list': month_accomplish_list, 'overdue_list':
                 month_overdue_list, "underway_list": month_underway_list, 'completeness': completeness})
@@ -466,9 +468,10 @@ def generate_table(request, user_profile):
             if month_backlog.over_time > now and month_backlog.state == 2:
                 week_underway_list.append(month_backlog.task)
         week_backlog_count = Backlog.objects.filter(user=user, create_time__range=(a, b), is_delete='f',
-                                                    state=0).count()
-
-        completeness = week_backlog_count / (week_backlog_count + len(week_overdue_list))
+                                                  state=0).count()
+        completeness=0
+        if week_backlog_count + len(week_overdue_list):
+            completeness = week_backlog_count / (week_backlog_count + len(week_overdue_list))
 
         return JsonResponse(
             {'errno': 0, 'message': "成功", 'accomplish_list': week_accomplish_list, 'overdue_list':
@@ -495,8 +498,9 @@ def generate_table(request, user_profile):
             if month_backlog.over_time > now and month_backlog.state == 2:
                 day_underway_list.append(month_backlog.task)
         day_backlog_count = Backlog.objects.filter(user=user, create_time__range=(a, b), is_delete='f', state=0).count()
-
-        completeness = day_backlog_count / (day_backlog_count + len(day_overdue_list))
+        completeness=0
+        if day_backlog_count + len(day_overdue_list):
+            completeness = day_backlog_count / (day_backlog_count + len(day_overdue_list))
 
         return JsonResponse(
             {'errno': 0, 'message': "成功", 'accomplish_list': day_accomplish_list, 'overdue_list':

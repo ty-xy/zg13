@@ -35,16 +35,16 @@
             {% else %}
                 {% if login_link_disabled %}
                 {% elif not only_sso %}
-                <a href="/login">{{ _('Log in') }}</a>
+                <a href="/login">{{ _('注册') }}</a>
                 {% endif %}
             {% endif %}
             {% if register_link_disabled %}
             {% elif only_sso %}
-                <a href="{{ url('login-sso') }}">{{ _('Log in') }}</a>
+                <a href="{{ url('login-sso') }}">{{ _('注册') }}</a>
             {% else %}
                 {% if user_is_authenticated %}
                 {% else %}
-                <a href="{{ url('register') }}">{{ _('Sign up') }}</a>
+                <a href="{{ url('register') }}">{{ _('登录') }}</a>
                 {% endif %}
             {% endif %}
         </div>

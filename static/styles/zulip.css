@@ -3280,6 +3280,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     margin-left: 10px;
     min-width: 300px;
     display: none;
+    height: 65px;
 }
 .new_add_task_plan,.new_add_task{
     width: 100px;
@@ -3339,7 +3340,6 @@ input::-webkit-input-placeholder{
     color: #fff;
     line-height: 30px;
     margin-top: 5px;
-    margin-left: 20px;
     border: 1px solid #14A4FA;
     cursor: pointer;
 }
@@ -3357,7 +3357,9 @@ input::-webkit-input-placeholder{
     border: 1px solid #A0ACBF;
     color: #A0ACBF;
 }
-
+.save_cancel{
+    float: right;
+}
 /* 添加计划 */
 
 .new_plan{

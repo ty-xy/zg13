@@ -16,7 +16,7 @@
                   <i class="iconfont icon-guanbiUI log_assistant_close"></i>
               </div>
               <div class="log_assistant_ctn_box">
-                    {{!-- <div class="log_assistant_prompt_box">
+                    <div class="log_assistant_prompt_box">
                         <div class="log_assistant_screening">
                                     筛选
                         </div>
@@ -24,7 +24,7 @@
                             只看未读
                         </div>
                         
-                    </div> --}}
+                    </div>
             {{!-- {{#if receive_table_list}} --}}
                 {{#each receive_table_list}}
                     <div class="log_assistant_ctn">
@@ -261,16 +261,25 @@
                     </div>
                     {{/each}}
                 {{!-- {{/if}} --}}
+                <div class="paging_box">
+                    <div>《</div>
+                    <ul class="paging">
+                        {{#each page}}
+                            <li class="paging_btn">{{this}}</li>
+                        {{/each}}
+                    </ul>
+                    <div>》</div>
+                </div>
               </div>
             </div>
 
             <!-- 筛选弹窗 -->
             <div class="log_screening">
                 <i class="iconfont icon-xiaosanjiao"></i>
-                <i class="iconfont icon-guanbiUI log_screening_close"></i>
-                <div class="log_screening_tilte">
+                {{!-- <i class="iconfont icon-guanbiUI log_screening_close"></i> --}}
+                {{!-- <div class="log_screening_tilte">
                     任务详情
-                </div>
+                </div> --}}
                 <div class="log_screening_person">
                     <span>选择发送人</span>
                     <input type="text" placeholder="请选择" class="log_screening_select">
