@@ -1140,7 +1140,7 @@ msgstr ""
 
 #: templates/zerver/login.html:146
 msgid "Forgot your password?"
-msgstr ""
+msgstr "忘记了您的密码？"
 
 #: templates/zerver/markdown_help.html:2 templates/zerver/navbar.html:110
 msgid "Message formatting"
