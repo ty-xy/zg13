@@ -210,12 +210,10 @@ var management = (function () {
                 cancel()
             })
             function editor(){
-                $('.generate_log_plan_ctn ').on('click',".generate_log_plan_editor",function(e){
+                $('.generate_log_plan_box').on('click',".generate_log_plan_editor",function(e){
                     e.preventDefault()
                     var that =$(this)
                     var li  = that.parent().parent()
-                    // var textval=  $(li).find(".text-inline").text()
-                    // var textdate= $(li).find(".date-inline").text()
                     var textval = that.parent().prev().prev().text()
                     var textdate = that.parent().prev().children().eq(1).text()
                     $(".new_plan_title").val(textval);
@@ -264,6 +262,9 @@ var management = (function () {
                 cancel()
             })
             $(".new_plan").on("click",".fix_plan_cancel",function(e){
+                // cancel()
+                // $('.new_plan').hide()
+                // $('.new_add_task_plan').show()
                 var j = plancommon()
                 var data = {
                       backlog_id:$(this).attr("revise_id")
@@ -272,8 +273,7 @@ var management = (function () {
                 $('.generate_log_plan_box').append(li)
                 var plan = $(".new_plan").find(".fix_plan_cancel")
                     plan.attr("class","new_plan_cancel")
-                editor()
-                del()
+                // del()
                 cancel()
             })
             //点击提交功能
