@@ -546,6 +546,7 @@ ul{
     border: 1px solid #CCCCCC;
     border-radius: 5px;
     /* resize: vertical; */
+    resize: none;
     overflow-y: visible;
     margin-top: 22px;
     overflow:auto;
