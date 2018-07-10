@@ -1,23 +1,51 @@
 {{#each accessory_dict}}
-    {{!-- <li class="taskdetail_attachment" value="{{id}}">
-        <div class="taskdetail_attachment_left">
-            <img src="../../static/img/pnglogo.png" alt="">
-            <p>{{name}}</p>
-            <p>
-                <span>{{size}}MBMB</span>
-            </p>
-        </div>
-        <div class="taskdetail_attachment_right">
-            <input type="hidden" value="{{url}}">
-            <span class="taskdetail_download">下载</span>
-            <span class="taskdetail_delete">删除</span>
-        </div>
-        
-    </li> --}}
     <li class="taskdetail_attachment" value="{{id}}">
-                        {{#compare type '==' 'png'}}
-                            <div class="taskdetail_attachment_left" value="{{url}}">
-                                <img src="../../static/icons/type_icon/png.png" alt="" class="thumbnail_b">
+                        <div class="taskdetail_attachment_left" value="{{url}}">
+                                {{#compare type '==' 'png'}}
+                                    <img src="../../static/icons/type_icon/png.png" alt="" class="thumbnail_b">
+                                    {{else}}
+                                        {{#compare type '==' 'jpg'}}
+                                            <img src="../../static/icons/type_icon/jpg.png" alt="" class="thumbnail_b">
+                                        {{else}}
+                                            {{#compare type '==' 'jpeg'}}
+                                                <img src="../../static/icons/type_icon/moren.png" alt="" class="thumbnail_b">
+                                            {{else}}
+                                                {{#compare type '==' 'gif'}}
+                                                    <img src="../../static/icons/type_icon/gif.png" alt="" class="thumbnail_b">
+                                                {{else}}
+                                                    {{#compare type '==' 'bmp'}}
+                                                        <img src="../../static/icons/type_icon/moren.png" alt="" class="thumbnail_b">
+                                                    {{else}}
+                                                        {{#compare type '==' 'txt'}}
+                                                            <img src="../../static/icons/type_icon/txt.png" alt="" class="thumbnail_b">
+                                                        {{else}}
+                                                            {{#compare type '==' 'xls'}}
+                                                                <img src="../../static/icons/type_icon/xls.png" alt="" class="thumbnail_b">
+                                                            {{else}}
+                                                                {{#compare type '==' 'pdf'}}
+                                                                    <img src="../../static/icons/type_icon/pdf.png" alt="" class="thumbnail_b">
+                                                                {{else}}
+                                                                    {{#compare type '==' 'rar'}}
+                                                                        <img src="../../static/icons/type_icon/rar.png" alt="" class="thumbnail_b">
+                                                                    {{else}}
+                                                                        {{#compare type '==' 'zip'}}
+                                                                            <img src="../../static/icons/type_icon/zip.png" alt="" class="thumbnail_b">
+                                                                        {{else}}
+                                                                            {{#compare type '==' 'word'}}
+                                                                                <img src="../../static/icons/type_icon/word.png" alt="" class="thumbnail_b">
+                                                                            {{else}}
+                                                                                <img src="../../static/icons/type_icon/moren.png" alt="" class="thumbnail_b">
+                                                                        {{/compare}}
+                                                                    {{/compare}}
+                                                                {{/compare}}
+                                                            {{/compare}}
+                                                        {{/compare}}
+                                                    {{/compare}}
+                                                {{/compare}}
+                                            {{/compare}}
+                                        {{/compare}}
+                                    {{/compare}}
+                                {{/compare}}
                                 <p>{{name}}</p>
                                 <p>
                                     <span>{{size}}MB</span>
@@ -28,157 +56,5 @@
                                 <span class="taskdetail_download">下载</span>
                                 <span class="taskdetail_delete">删除</span>
                             </div>
-                            {{else}}
-                        {{/compare}}
-                        {{#compare type '==' 'jpg'}}
-                            <div class="taskdetail_attachment_left" value="{{url}}">
-                                <img src="../../static/icons/type_icon/jpg.png" alt="" class="thumbnail_b">
-                                <p>{{name}}</p>
-                                <p>
-                                    <span>{{size}}MB</span>
-                                </p>
-                            </div>
-                            <div class="taskdetail_attachment_right">
-                                <input type="hidden" value="{{url}}">
-                                <span class="taskdetail_download">下载</span>
-                                <span class="taskdetail_delete">删除</span>
-                            </div>
-                            {{else}}
-                        {{/compare}}
-                        {{#compare type '==' 'jpeg'}}
-                            <div class="taskdetail_attachment_left" value="{{url}}">
-                                <img src="../../static/icons/type_icon/moren.png" alt="" class="thumbnail_b">
-                                <p>{{name}}</p>
-                                <p>
-                                    <span>{{size}}MB</span>
-                                </p>
-                            </div>
-                            <div class="taskdetail_attachment_right">
-                                <input type="hidden" value="{{url}}">
-                                <span class="taskdetail_download">下载</span>
-                                <span class="taskdetail_delete">删除</span>
-                            </div>
-                            {{else}}
-                        {{/compare}}
-                        {{#compare type '==' 'gif'}}
-                            <div class="taskdetail_attachment_left" value="{{url}}">
-                                <img src="../../static/icons/type_icon/gif.png" alt="" class="thumbnail_b">
-                                <p>{{name}}</p>
-                                <p>
-                                    <span>{{size}}MB</span>
-                                </p>
-                            </div>
-                            <div class="taskdetail_attachment_right">
-                                <input type="hidden" value="{{url}}">
-                                <span class="taskdetail_download">下载</span>
-                                <span class="taskdetail_delete">删除</span>
-                            </div>
-                            {{else}}
-                        {{/compare}}
-                        {{#compare type '==' 'bmp'}}
-                            <div class="taskdetail_attachment_left" value="{{url}}">
-                                <img src="../../static/icons/type_icon/moren.png" alt="" class="thumbnail_b">
-                                <p>{{name}}</p>
-                                <p>
-                                    <span>{{size}}MB</span>
-                                </p>
-                            </div>
-                            <div class="taskdetail_attachment_right">
-                                <input type="hidden" value="{{url}}">
-                                <span class="taskdetail_download">下载</span>
-                                <span class="taskdetail_delete">删除</span>
-                            </div>
-                            {{else}}
-                        {{/compare}}
-                        {{#compare type '==' 'txt'}}
-                            <div class="taskdetail_attachment_left" value="{{url}}">
-                                <img src="../../static/icons/type_icon/txt.png" alt="" class="thumbnail_b">
-                                <p>{{name}}</p>
-                                <p>
-                                    <span>{{size}}MB</span>
-                                </p>
-                            </div>
-                            <div class="taskdetail_attachment_right">
-                                <input type="hidden" value="{{url}}">
-                                <span class="taskdetail_download">下载</span>
-                                <span class="taskdetail_delete">删除</span>
-                            </div>
-                            {{else}}
-                        {{/compare}}
-                        {{#compare type '==' 'xls'}}
-                            <div class="taskdetail_attachment_left" value="{{url}}">
-                                <img src="../../static/icons/type_icon/xls.png" alt="" class="thumbnail_b">
-                                <p>{{name}}</p>
-                                <p>
-                                    <span>{{size}}MB</span>
-                                </p>
-                            </div>
-                            <div class="taskdetail_attachment_right">
-                                <input type="hidden" value="{{url}}">
-                                <span class="taskdetail_download">下载</span>
-                                <span class="taskdetail_delete">删除</span>
-                            </div>
-                            {{else}}
-                        {{/compare}}
-                        {{#compare type '==' 'pdf'}}
-                            <div class="taskdetail_attachment_left" value="{{url}}">
-                                <img src="../../static/icons/type_icon/pdf.png" alt="" class="thumbnail_b">
-                                <p>{{name}}</p>
-                                <p>
-                                    <span>{{size}}MB</span>
-                                </p>
-                            </div>
-                            <div class="taskdetail_attachment_right">
-                                <input type="hidden" value="{{url}}">
-                                <span class="taskdetail_download">下载</span>
-                                <span class="taskdetail_delete">删除</span>
-                            </div>
-                            {{else}}
-                        {{/compare}}
-                        {{#compare type '==' 'rar'}}
-                            <div class="taskdetail_attachment_left" value="{{url}}">
-                                <img src="../../static/icons/type_icon/rar.png" alt="" class="thumbnail_b">
-                                <p>{{name}}</p>
-                                <p>
-                                    <span>{{size}}MB</span>
-                                </p>
-                            </div>
-                            <div class="taskdetail_attachment_right">
-                                <input type="hidden" value="{{url}}">
-                                <span class="taskdetail_download">下载</span>
-                                <span class="taskdetail_delete">删除</span>
-                            </div>
-                            {{else}}
-                        {{/compare}}
-                        {{#compare type '==' 'zip'}}
-                            <div class="taskdetail_attachment_left" value="{{url}}">
-                                <img src="../../static/icons/type_icon/zip.png" alt="" class="thumbnail_b">
-                                <p>{{name}}</p>
-                                <p>
-                                    <span>{{size}}MB</span>
-                                </p>
-                            </div>
-                            <div class="taskdetail_attachment_right">
-                                <input type="hidden" value="{{url}}">
-                                <span class="taskdetail_download">下载</span>
-                                <span class="taskdetail_delete">删除</span>
-                            </div>
-                            {{else}}
-                        {{/compare}}
-                         {{#compare type '==' 'word'}}
-                            <div class="taskdetail_attachment_left" value="{{url}}">
-                                <img src="../../static/icons/type_icon/word.png" alt="" class="thumbnail_b">
-                                <p>{{name}}</p>
-                                <p>
-                                    <span>{{size}}MB</span>
-                                </p>
-                            </div>
-                            <div class="taskdetail_attachment_right">
-                                <input type="hidden" value="{{url}}">
-                                <span class="taskdetail_download">下载</span>
-                                <span class="taskdetail_delete">删除</span>
-                            </div>
-                            {{else}}
-                        {{/compare}}
                     </li>
 {{/each}}

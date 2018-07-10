@@ -206,9 +206,7 @@
                                         {{/each}}
                                 </div>
                         </div>
-                        
                         <!-- <i class="log_assistant_lineB"></i> -->
-
                         <!-- 已读未读 -->
                         {{!-- <div class="log_assistant_unread">
                             <div class="log_assistant_readperson">
@@ -262,13 +260,14 @@
                     {{/each}}
                 {{!-- {{/if}} --}}
                 <div class="paging_box">
-                    <div>《</div>
                     <ul class="paging">
+                        <li class="paging_prev">上一页</li>
+                        <li class="paging_btn blue_light">1</li>
                         {{#each page}}
                             <li class="paging_btn">{{this}}</li>
                         {{/each}}
+                        <li class="paging_next">下一页</li>
                     </ul>
-                    <div>》</div>
                 </div>
               </div>
             </div>
