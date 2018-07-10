@@ -68,7 +68,7 @@ var management = (function () {
             })
         }
         function del(){
-            $('.generate_log_plan_ctn ').on('click',".generate_log_plan_delete",function(e){
+            $('.generate_log_plan_box').on('click',".generate_log_plan_delete",function(e){
                 e.preventDefault()
                 var that =$(this)
                 // console.log($(this).attr("data_id"))
@@ -202,6 +202,8 @@ var management = (function () {
                                 $('.generate_log_plan_box').append(li)
                                 del()
                                 editor()
+                                $('.new_plan').hide()
+                                $('.new_add_task_plan').show()
                             }
                         },
                     });
@@ -226,6 +228,8 @@ var management = (function () {
                     var cancel = $(".new_plan").find(".new_plan_cancel")
                     cancel.attr("class","fix_plan_cancel")
                     cancel.attr("revise_id",fix_id)
+                    $('.new_plan').show()
+                    $('.new_add_task_plan').hide()
                 })
             }
             $(".new_add_task_plan").on('click',function(e){
@@ -255,6 +259,8 @@ var management = (function () {
                                 plan.attr("class","new_plan_save")
                                 editor()
                                 del()
+                                $('.new_plan').hide()
+                                $('.new_add_task_plan').show()
                             }
                             
                     }
@@ -262,9 +268,6 @@ var management = (function () {
                 cancel()
             })
             $(".new_plan").on("click",".fix_plan_cancel",function(e){
-                // cancel()
-                // $('.new_plan').hide()
-                // $('.new_add_task_plan').show()
                 var j = plancommon()
                 var data = {
                       backlog_id:$(this).attr("revise_id")
@@ -273,7 +276,6 @@ var management = (function () {
                 $('.generate_log_plan_box').append(li)
                 var plan = $(".new_plan").find(".fix_plan_cancel")
                     plan.attr("class","new_plan_cancel")
-                // del()
                 cancel()
             })
             //点击提交功能
