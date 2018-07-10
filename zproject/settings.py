@@ -1179,6 +1179,7 @@ JS_SPECS = {
             # 'js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js'
             'third/bootstrap-datetimepicker.min.js',
             'js/choose_file.js',
+            'js/file.js'
 
         ],
         'output_filename': 'min/app.js'

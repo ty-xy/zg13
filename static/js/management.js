@@ -523,15 +523,17 @@ var management = (function () {
             }
             var split_uri = response.uri.split("/");
             var filename = split_uri[split_uri.length - 1];
+            var type = file.type.split("/")
+                typeName= type[type.length-1]
             var uri = make_upload_absolute(response.uri);
             var size = (file.size/1024/1024).toFixed(2)
-            // console.log(uri,filename,file,response)
             if(i != -1){
                 $('.uploading-img').hide()
+                var img = fileType.type_indicator(typeName.toString())
                 var li =  
                 "<div class='generate_log_pack' data-url="+uri+">\
                   <div class='generate_log_pack_left'>\
-                    <img src='../../static/img/pnglogo.png' alt=''>\
+                    "+img+"\
                     <i class='iconfont icon-shanchu1 generate_log_pack_delete'></i>\
                 </div>\
                 <div class='generate_log_pack_right'>\

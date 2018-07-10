@@ -696,7 +696,7 @@ ul{
     font-size: 20px;
 }
 .generate_log_pack_left>:first-child{
-    margin: 10px;
+    /* margin: 2px 0; */
 }
 .generate_log_pack_right{
     width: 110px;
