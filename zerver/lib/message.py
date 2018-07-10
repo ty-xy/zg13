@@ -337,7 +337,6 @@ class MessageDict:
                                        'understand the formatting of your message]</p>')
 
         if rendered_content is not None:
-
             obj['is_me_message'] = Message.is_status_message(content, rendered_content)
         else:
             obj['is_me_message'] = False

@@ -696,6 +696,9 @@ ul{
 }
 .generate_log_pack_left>:first-child{
     /* margin: 10px; */
+    width: 27px;
+    height: 30px;
+    margin: 10px;
 }
 .generate_log_pack_right{
     width: 110px;
@@ -793,6 +796,7 @@ ul{
 #datetimepicker{
     float: left;
     font-size: 14px;
+    position: relative;
 }
 #newplan_datetimepicker{
     float: left;
@@ -933,10 +937,10 @@ ul{
     overflow: auto;
 }
 .log_assistant_prompt_box{
-    width: 985px;
+    width: 937px;
     margin: 0 auto;
     margin-top: 20px;
-    height: 40px;
+    height: 35px;
 }
 .log_assistant_read{
     background: #FFFFFF;
@@ -966,6 +970,7 @@ ul{
     text-align: center;
     line-height: 30px;
     cursor: pointer;
+    margin-right: 30px;
 }
 .log_assistant_user_box{
     height: 80px;
@@ -1133,7 +1138,7 @@ ul{
     /* margin-top: 22px; */
 }
 .log_assistant_pack{
-    width: 945px;
+    width: 937px;
     height: 70px;
 }
 .log_assistant_commentsctn>p{
@@ -1347,6 +1352,9 @@ ul{
 .error_tip{
     letter-spacing: 2px;
     color: red;
+    top: 45px;
+    right: 40px;
+    position: absolute;
 }
 .error_pw{
     display: none;
