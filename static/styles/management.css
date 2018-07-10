@@ -696,7 +696,7 @@ ul{
     font-size: 20px;
 }
 .generate_log_pack_left>:first-child{
-    /* margin: 10px; */
+    margin: 10px;
 }
 .generate_log_pack_right{
     width: 110px;
@@ -1167,7 +1167,6 @@ ul{
     letter-spacing: 0.18px;
     float: left;
     cursor: pointer;
-    
 }
 .log_assistant_unreadperson{
     float: left;
@@ -1385,4 +1384,15 @@ ul{
 }
 .my_talk{
     margin-right: 70px
+}
+.uploading-img{
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    border:1px solid #ddd;
+    float:left;
+    margin-top: 14px;
+    margin-left: 20px;
+    display: none;
 }
