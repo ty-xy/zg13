@@ -213,9 +213,11 @@ var management = (function () {
                 $('.generate_log_plan_ctn ').on('click',".generate_log_plan_editor",function(e){
                     e.preventDefault()
                     var that =$(this)
-                    var li  = "."+(that.parent().parent()).attr("class")
-                    var textval=  $(li).find(".text-inline").text()
-                    var textdate= $(li).find(".date-inline").text()
+                    var li  = that.parent().parent()
+                    // var textval=  $(li).find(".text-inline").text()
+                    // var textdate= $(li).find(".date-inline").text()
+                    var textval = that.parent().prev().prev().text()
+                    var textdate = that.parent().prev().children().eq(1).text()
                     $(".new_plan_title").val(textval);
                     $(".create_taskdate").val(textdate);
                     var fix_id = that.next().find(".data_id").prevObject.attr("data_id")
