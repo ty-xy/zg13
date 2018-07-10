@@ -251,11 +251,14 @@ def web_my_send(request, user_profile):
 
 # 我发出的
 def my_send(request, user_profile):
-    page = request.GET.get('page', 1)
+    page = int(request.GET.get('page', 1))
+
     try:
         page1 = (page - 1) * 10
         page2 = page * 10
         statement = Statement.objects.filter(user=user_profile.email).order_by('-id')[page1:page2]
+        page_count = Statement.objects.filter(user=user_profile.email).count()
+        page_count = math.ceil(page_count / 10)
     except Exception:
         return JsonResponse({'errno': 2, 'message': "获取数据失败", })
 
@@ -268,28 +271,29 @@ def my_send(request, user_profile):
             user_dict['generate_time'] = st.generate_time
             user_dict['table_id'] = st.id
             user_dict['type'] = st.types
-
             send_table_list.append(user_dict)
 
     except Exception:
         return JsonResponse({'errno': 1, 'message': "获取数据失败", })
 
-    return JsonResponse({'errno': 0, 'message': "成功", 'send_table_list': send_table_list})
+    return JsonResponse({'errno': 0, 'message': "成功", 'send_table_list': send_table_list, 'page': page_count})
 
 
 # 我收到的
 def my_receive(request, user_profile):
-    screen_start_time = request.GET.get('start_time')
-    screen_over_time = request.GET.get('over_time')
-    sender = request.GET.get('sender')
-    date_type = request.GET.get('date_type')
+    # screen_start_time = request.GET.get('start_time')
+    # screen_over_time = request.GET.get('over_time')
+    # sender = request.GET.get('sender')
+    # date_type = request.GET.get('date_type')
 
-    page = request.GET.get('page', 1)
+    page = int(request.GET.get('page', 1))
     page1 = (page - 1) * 10
     page2 = page * 10
     try:
 
         statement_state_list = StatementState.objects.filter(staff=user_profile.id).order_by('-id')[page1:page2]
+        page_count = StatementState.objects.filter(staff=user_profile.id).count()
+        page_count = math.ceil(page_count / 10)
     except Exception:
         return JsonResponse({'errno': 1, 'message': "获取我收到的报表失败"})
 
@@ -309,7 +313,7 @@ def my_receive(request, user_profile):
             receive_table_list.append(user_dict)
     except Exception:
         return JsonResponse({'errno': 2, 'message': "获取信息失败"})
-    return JsonResponse({'errno': 0, 'message': "成功", 'receive_table_list': receive_table_list})
+    return JsonResponse({'errno': 0, 'message': "成功", 'receive_table_list': receive_table_list, 'page': page_count})
 
 
 # 日志助手
@@ -426,6 +430,7 @@ def generate_table(request, user_profile):
         month_accomplish_list = []
         month_overdue_list = []
         month_underway_list = []
+        month_accessory_list = []
 
         for month_backlog in month_backlog_list:
             if month_backlog.state == 0:
@@ -436,13 +441,21 @@ def generate_table(request, user_profile):
 
             if month_backlog.over_time > now and month_backlog.state == 2:
                 month_underway_list.append(month_backlog.task)
+            month_accessory_obj_list = BacklogAccessory.objects.filter(backlog_id=month_backlog)
+            month_accessory_obj_dict = {}
+            for month_accessory_obj in month_accessory_obj_list:
+                month_accessory_obj_dict['url'] = month_accessory_obj.accessory_url
+                month_accessory_obj_dict['size'] = month_accessory_obj.accessory_size
+                month_accessory_obj_dict['name'] = month_accessory_obj.accessory_name
+
+            month_accessory_list.append(month_accessory_obj_dict)
 
         month_backlog_count = Backlog.objects.filter(user=user, create_time__range=(day_begin, day_end),
                                                      is_delete='f', state=0).count()
         completeness = month_backlog_count / (month_backlog_count + len(month_overdue_list))
         return JsonResponse(
             {'errno': 0, 'message': "成功", 'accomplish_list': month_accomplish_list, 'overdue_list':
-                month_overdue_list, "underway_list": month_underway_list, 'completeness': completeness})
+                month_overdue_list, "underway_list": month_underway_list, 'completeness': completeness,'accessory_list':month_accessory_list})
 
     elif date_type == 'week':
 
