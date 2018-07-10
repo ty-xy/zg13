@@ -272,10 +272,12 @@ def send_signup_message(sender: UserProfile, admin_realm_signup_notifications_st
         internal_send_message(
             user_profile.realm,
             sender,
-            "stream",
+            # "stream",
+            "频道",
             signup_notifications_stream.name,
-            "signups",
-            "%s (%s) just signed up for Zulip. (total: %i)" % (
+            # "signups",
+            "注册",
+            "%s (%s) 刚刚注册e建联. (用户数: %i)" % (
                 user_profile.full_name, user_profile.email, user_count
             )
         )
@@ -292,10 +294,13 @@ def send_signup_message(sender: UserProfile, admin_realm_signup_notifications_st
     internal_send_message(
         admin_realm,
         sender,
-        "stream",
+        # "stream",
+        "频道",
         admin_realm_signup_notifications_stream,
         user_profile.realm.display_subdomain,
-        "%s <`%s`> just signed up for Zulip!%s(total: **%i**)" % (
+        # "%s <`%s`> just signed up for Zulip!%s(total: **%i**)" % (
+        "%s <`%s`> 刚刚注册e建联!%s(用户数: **%i**)" % (
+
             user_profile.full_name,
             user_profile.email,
             internal_blurb,
@@ -305,7 +310,12 @@ def send_signup_message(sender: UserProfile, admin_realm_signup_notifications_st
 
 def notify_new_user(user_profile: UserProfile, internal: bool=False) -> None:
     if settings.NOTIFICATION_BOT is not None:
-        send_signup_message(settings.NOTIFICATION_BOT, "signups", user_profile, internal)
+        send_signup_message(
+            settings.NOTIFICATION_BOT,
+            # "signups",
+            "注册",
+            user_profile,
+            internal)
     statsd.gauge("users.signups.%s" % (user_profile.realm.string_id), 1, delta=True)
 
     # We also clear any scheduled invitation emails to prevent them
@@ -379,7 +389,8 @@ def process_new_human_user(user_profile: UserProfile,
             user_profile.realm,
             get_system_bot(settings.NOTIFICATION_BOT),
             prereg_user.referred_by,
-            "%s <`%s`> accepted your invitation to join Zulip!" % (
+            # "%s <`%s`> accepted your invitation to join Zulip!" % (
+            "%s <`%s`> 接受您的邀请加入e建联!" % (
                 user_profile.full_name,
                 user_profile.email,
             )
