@@ -34,7 +34,7 @@ exports.dispatch_normal_event = function dispatch_normal_event(event) {
         var reload_options = {save_pointer: true,
                               save_narrow: true,
                               save_compose: true,
-                              message: "The application has been updated; reloading!",
+                              message: "已更新应用程序；重新加载!",
                              };
         if (event.immediate) {
             reload_options.immediate = true;

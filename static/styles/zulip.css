@@ -3044,7 +3044,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     cursor: pointer;
 }
 .management_lineA{
-    width: 878px;
+    /* width: 878px; */
     height: 20px;
     display: block;
     margin: 0 auto;
