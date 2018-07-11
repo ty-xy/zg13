@@ -68,7 +68,7 @@ var management = (function () {
             })
         }
         function del(){
-            $('.generate_log_plan_ctn ').on('click',".generate_log_plan_delete",function(e){
+            $('.generate_log_plan_box').on('click',".generate_log_plan_delete",function(e){
                 e.preventDefault()
                 var that =$(this)
                 // console.log($(this).attr("data_id"))
@@ -202,6 +202,8 @@ var management = (function () {
                                 $('.generate_log_plan_box').append(li)
                                 del()
                                 editor()
+                                $('.new_plan').hide()
+                                $('.new_add_task_plan').show()
                             }
                         },
                     });
@@ -210,12 +212,12 @@ var management = (function () {
                 cancel()
             })
             function editor(){
-                $('.generate_log_plan_ctn ').on('click',".generate_log_plan_editor",function(e){
+                $('.generate_log_plan_box').on('click',".generate_log_plan_editor",function(e){
                     e.preventDefault()
                     var that =$(this)
-                    var li  = "."+(that.parent().parent()).attr("class")
-                    var textval=  $(li).find(".text-inline").text()
-                    var textdate= $(li).find(".date-inline").text()
+                    var li  = that.parent().parent()
+                    var textval = that.parent().prev().prev().text()
+                    var textdate = that.parent().prev().children().eq(1).text()
                     $(".new_plan_title").val(textval);
                     $(".create_taskdate").val(textdate);
                     var fix_id = that.next().find(".data_id").prevObject.attr("data_id")
@@ -226,6 +228,8 @@ var management = (function () {
                     var cancel = $(".new_plan").find(".new_plan_cancel")
                     cancel.attr("class","fix_plan_cancel")
                     cancel.attr("revise_id",fix_id)
+                    $('.new_plan').show()
+                    $('.new_add_task_plan').hide()
                 })
             }
             $(".new_add_task_plan").on('click',function(e){
@@ -255,6 +259,8 @@ var management = (function () {
                                 plan.attr("class","new_plan_save")
                                 editor()
                                 del()
+                                $('.new_plan').hide()
+                                $('.new_add_task_plan').show()
                             }
                             
                     }
@@ -270,8 +276,6 @@ var management = (function () {
                 $('.generate_log_plan_box').append(li)
                 var plan = $(".new_plan").find(".fix_plan_cancel")
                     plan.attr("class","new_plan_cancel")
-                editor()
-                del()
                 cancel()
             })
             //点击提交功能
@@ -452,6 +456,7 @@ var management = (function () {
                 })
             }
             // 上传文件
+            var should_hide_upload_status = false;
             upload.feature_check($("#up_files #attach_files"));
             $("#up_files").on("click", "#attach_files", function (e) {
                // e.preventDefault();
@@ -459,6 +464,8 @@ var management = (function () {
            });
            var drop =function(){
             $('.process-bar-parent').show()
+            $('.uploading-img').show()
+            alert(i18n.t("Uploading…"),'rgba(0,107,169,0.30)')
            }
            var progressUpdated = function (i, file, progress) {
             // $('.process-bar-parent').show()
@@ -468,31 +475,65 @@ var management = (function () {
                 setTimeout(function () {
                     $('.process-bar-parent').hide()
                 }, 1000);
-               
             }
            };
            function make_upload_absolute(uri) {
             if (uri.indexOf(compose.uploads_path) === 0) {
                 // Rewrite the URI to a usable link
-                console.log(compose.uploads_path,compose.uploads_domain)
                 return compose.uploads_domain + uri;
             }
             return uri;
         }
+        var uploadError = function (error_code, server_response, file) {
+            // var msg;
+            // send_status.addClass("alert-error")
+            //     .removeClass("alert-info");
+            // send_button.prop("disabled", false);
+            // $("#" + upload_bar).parent().remove();
+            switch (error_code) {
+            case 'BrowserNotSupported':
+                msg = i18n.t("File upload is not yet available for your browser.");
+                break;
+            case 'TooManyFiles':
+                msg = i18n.t("Unable to upload that many files at once.");
+                break;
+            case 'FileTooLarge':
+                // sanitization not needed as the file name is not potentially parsed as HTML, etc.
+                var context = {
+                    file_name: file.name,
+                };
+                msg = i18n.t('"__file_name__" was too large; the maximum file size is 25MiB.', context);
+                break;
+            case 413: // HTTP status "Request Entity Too Large"
+                msg = i18n.t("Sorry, the file was too large.");
+                break;
+            case 400:
+                var server_message = server_response && server_response.msg;
+                msg = server_message || i18n.t("An unknown error occurred.");
+                break;
+            default:
+                msg = i18n.t("An unknown error occurred.");
+                break;
+            }
+              alert(msg,'rgba(169,12,0,0.30)');
+        };
        var uploadFinished = function (i, file, response) {
             if (response.uri === undefined) {
             return;
             }
             var split_uri = response.uri.split("/");
             var filename = split_uri[split_uri.length - 1];
+            var type = file.type.split("/")
+                typeName= type[type.length-1]
             var uri = make_upload_absolute(response.uri);
             var size = (file.size/1024/1024).toFixed(2)
-            console.log(uri,filename,file,response)
             if(i != -1){
+                $('.uploading-img').hide()
+                var img = fileType.type_indicator(typeName.toString())
                 var li =  
                 "<div class='generate_log_pack' data-url="+uri+">\
                   <div class='generate_log_pack_left'>\
-                    <img src='../../static/img/pnglogo.png' alt=''>\
+                    "+img+"\
                     <i class='iconfont icon-shanchu1 generate_log_pack_delete'></i>\
                 </div>\
                 <div class='generate_log_pack_right'>\
@@ -500,7 +541,8 @@ var management = (function () {
                     <p>"+size+"MB</p>\
                 </div>\
               </div>"
-                $(".generate_log_upfile").after(li)
+                $(".generate_log_upfile_box").append(li)
+                alert('上传成功','rgba(0,107,169,0.30)');
             }
         };
         $(".generate_log_upfile_box").on("click",".generate_log_pack_delete",function(e){
@@ -519,7 +561,7 @@ var management = (function () {
             // raw_droppable: ['text/uri-list', 'text/plain'],
             drop: drop,
             progressUpdated: progressUpdated,
-            // error: uploadError,
+            error: uploadError,
             uploadFinished: uploadFinished,
          //    afterAll:function(contents){
          //        console.log(contents,321312)
@@ -892,7 +934,7 @@ var management = (function () {
                         });
                         $(".add_ctn").on("click",function(e){
                             $(".taskdetail_md").show();
-                            $(".app").css("overflow-y","hidden");
+                            // $(".app").css("overflow-y","hidden");
                             // $(".taskdetail_list").html($(this).html());
                             // $(".taskdetail_list").val($(this).val());
                             var taskid = Number($(this).attr("taskid"))
@@ -1003,7 +1045,7 @@ var management = (function () {
         $(".add_ctn").on("click",function(e){
             console.log("dadasdasd")
             $(".taskdetail_md").show();
-            $(".app").css("overflow-y","hidden")
+            // $(".app").css("overflow-y","hidden")
         })
         //点击任务详情模版关闭任务详情
         $(".taskdetail_md").on("click",function(e){
@@ -1121,7 +1163,7 @@ var management = (function () {
                 $(".log_assistant_md").css("height",window_high);
                 $(".log_assistant_md").css("overflow","auto");
                 $(".log_assistant_md").show();
-                $(".app").css("overflow-y","hidden");
+                // $(".app").css("overflow-y","hidden");
                 $.ajax({
                     type:"GET",
                     url:"json/zg/my/receive/web",
