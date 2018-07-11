@@ -149,6 +149,10 @@ Handlebars.registerHelper('compare', function(left, operator, right, options) {
     } else {
       return options.inverse(this);
     }
+    // Example usage:
+    // {{#compare type '==' 'txt'}}
+    //     {{else}}
+    // {{/compare}}
 });
 
 Handlebars.registerHelper('if_or', function () {
