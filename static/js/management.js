@@ -1198,6 +1198,10 @@ var management = (function () {
                                             var paging = templates.render("paging_receive",{page:page})
                                             $(".log_assistant_ctn_box").append(html);
                                             $(".log_assistant_ctn_box").append(paging);
+                                            //点击下载附件图片
+                                            $(".download_fujian").on("click",function(){
+                                                window.open($(this).attr("href"))
+                                            })
                                              //点击分页
                                             $(".paging_receive").on("click",".paging_btn_receive",function(e){
                                                 var page = Number($(this).text());
@@ -1368,6 +1372,10 @@ var management = (function () {
                                     var paging = templates.render("paging_send",{page:page})
                                     $(".log_assistant_ctn_box").append(html);
                                     $(".log_assistant_ctn_box").append(paging);
+                                    //点击下载附件图片
+                                    $(".download_fujian").on("click",function(){
+                                        window.open($(this).attr("href"))
+                                    })
                                     //点击分页
                                     $(".paging_send").on("click",".paging_btn_send",function(e){
                                         var page = Number($(this).text());
