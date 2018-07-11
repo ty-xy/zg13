@@ -1,13 +1,94 @@
 from zerver.models import Backlog, BacklogAccessory, UpdateBacklog, Statement, StatementBacklog, StatementAccessory, \
-    StatementState, UserProfile, Stream
+    StatementState, UserProfile, Stream, ZgStatementComment, ZgReplyComment
 from django.http import JsonResponse, HttpResponse, HttpRequest
 import datetime, time, json, calendar
 from zerver.lib import avatar
 
 import re, math
 
-# 获取频道内的所有用户
 from zerver.lib.actions import get_user_ids_for_streams
+
+
+# 查看日志评论
+def statement_review(request, user_profile):
+    table_id = request.GET.get('table_id')
+    if not table_id:
+        return JsonResponse({'errno': 1, 'message': "缺少必要参数"})
+    table_id = int(table_id)
+    comment_list = []
+    try:
+        comment_obj_list = ZgStatementComment.objects.filter(topic_id=table_id)
+        for comment_obj in comment_obj_list:
+            comment_dict = {}
+
+            comment_dict['comment_id'] = comment_obj.id
+            comment_dict['comment_content'] = comment_obj.content
+            comment_dict['comment_time'] = comment_obj.comment_time
+            user = UserProfile.objects.filter(id=comment_obj.from_uid)
+            user = user[0]
+            comment_dict['comment_user_name'] = user.full_name
+            comment_dict['comment_user_avatar_url'] = avatar.absolute_avatar_url(user)
+            reply_obj_list = ZgReplyComment.objects.filter(comment_id=comment_obj)
+            comment_dict['comment_reply_list'] = []
+            for reply_obj in reply_obj_list:
+                reply_dict = {}
+                reply_dict['reply_id'] = reply_obj.id
+                reply_dict['reply_user_id'] = reply_obj.reply_user_id
+                reply_dict['reply_content'] = reply_obj.content
+                reply_dict['user_reply_id'] = reply_obj.from_uid
+                reply_dict['reply_reply_time'] = reply_obj.reply_time
+                comment_dict['comment_reply_list'].append(reply_dict)
+
+            comment_list.append(comment_dict)
+    except Exception:
+        return JsonResponse({'errno': 1, 'message': "获取评论失败"})
+
+    return JsonResponse({'errno': 0, 'message': "获取成功", 'comment_list': comment_list})
+
+
+# 添加评论
+def statement_review_post(request, user_profile):
+    req = request.body
+    req = req.decode()
+    req = json.loads(req)
+    table_id = req.get('table_id')
+    comment = req.get('comment')
+    if not all([table_id, comment]):
+        return JsonResponse({'errno': 1, 'message': "缺少必要参数"})
+    print(table_id, comment)
+    try:
+        comment_obj = ZgStatementComment.objects.create(topic_id=table_id, content=comment, from_uid=user_profile.id,
+                                                        comment_time=time.time(), topic_type='statement')
+
+    except Exception:
+        return JsonResponse({'errno': 1, 'message': "添加评论失败"})
+
+    return JsonResponse({'errno': 0, 'message': "评论成功", 'comment_id': comment_obj.id})
+
+
+# 添加评论回复
+def reply_comment(request, user_profile):
+    req = request.body
+    req = req.decode()
+    req = json.loads(req)
+    comment_id = req.get('comment_id')
+    content = req.get('content')
+    reply_id = req.get('reply_id')
+    if not all([comment_id, content]):
+        return JsonResponse({'errno': 1, 'message': "缺少必要参数"})
+    try:
+        a = ZgStatementComment.objects.get(id=comment_id)
+        reply_obj = ZgReplyComment(comment_id=a, content=content, reply_type='reply_comment',
+                                   from_uid=user_profile.id, reply_time=time.time())
+        reply_obj.save()
+        if reply_id:
+            reply_obj.reply_user_id = reply_id
+            reply_obj.save()
+            reply_id = reply_obj.id
+
+    except Exception:
+        return JsonResponse({'errno': 1, 'message': "添加回复失败"})
+    return JsonResponse({'errno': 0, 'message': "评论成功", 'reply_id': reply_id})
 
 
 # 已读未读
@@ -60,11 +141,9 @@ def look_table(request, user_profile):
     try:
 
         statement = Statement.objects.get(id=table_id)
-
-        if statement.user != user_profile.email:
-            a = StatementState.objects.get(statement_id=statement.id, staff=user_profile.id)
-            a.state = True
-            a.save()
+        a = StatementState.objects.get(statement_id=statement.id, staff=user_profile.id)
+        a.state = True
+        a.save()
 
         statement_backlogs_list = StatementBacklog.objects.filter(statement_id=statement).order_by('-id')
         user = UserProfile.objects.get(email=statement.user)
@@ -104,12 +183,32 @@ def look_table(request, user_profile):
 
 # web接收到日志
 def web_my_receive(request, user_profile):
-    page = request.GET.get('page', 1)
+    page = int(request.GET.get('page', 1))
+    generate_time = request.GET.get('start_time')
+    screen_over_time = request.GET.get('over_time')
+    sender = request.GET.get('sender')
+    date_type = request.GET.get('date_type')
+    filter_dict = dict()
+    if generate_time:
+        filter_dict['receive_time__range'] = (generate_time, time.time())
+    if screen_over_time:
+        filter_dict['receive_time__range'] = ('0', screen_over_time)
+
+    if all([generate_time, screen_over_time]):
+        filter_dict['receive_time__range'] = (generate_time, screen_over_time)
+
+    if sender:
+        filter_dict['staff'] = sender
+    else:
+        filter_dict['staff'] = user_profile.id
+    if date_type:
+        filter_dict['types'] = date_type
+
     try:
         page1 = (page - 1) * 10
         page2 = page * 10
-        statement_state_list = StatementState.objects.filter(staff=user_profile.id).order_by('-id')[page1:page2]
-        page_count = StatementState.objects.filter(staff=user_profile.id).count()
+        statement_state_list = StatementState.objects.filter(**filter_dict).order_by('-id')[page1:page2]
+        page_count = StatementState.objects.filter(**filter_dict).count()
         page_count = math.ceil(page_count / 10)
 
     except Exception:
@@ -163,12 +262,27 @@ def web_my_receive(request, user_profile):
 
 # web发送的日志
 def web_my_send(request, user_profile):
-    page = request.GET.get('page', 1)
+    page = int(request.GET.get('page', 1))
+    generate_time = request.GET.get('start_time')
+    screen_over_time = request.GET.get('over_time')
+    date_type = request.GET.get('date_type')
+
+    filter_dict = dict()
+    if generate_time:
+        filter_dict['generate_time__range'] = (generate_time, time.time())
+    if screen_over_time:
+        filter_dict['generate_time__range'] = ('0', screen_over_time)
+    if all([generate_time, screen_over_time]):
+        filter_dict['generate_time__range'] = (generate_time, screen_over_time)
+    if date_type:
+        filter_dict['types'] = date_type
+    filter_dict['user'] = user_profile.email
+
     try:
         page1 = (page - 1) * 10
         page2 = page * 10
-        statement = Statement.objects.filter(user=user_profile.email).order_by('-id')[page1:page2]
-        page_count = Statement.objects.filter(user=user_profile.email).count()
+        statement = Statement.objects.filter(**filter_dict).order_by('-id')[page1:page2]
+        page_count = Statement.objects.filter(**filter_dict).count()
         page_count = math.ceil(page_count / 10)
     except Exception:
         return JsonResponse({'errno': 1, 'message': "获取我收到的报表失败"})
@@ -253,14 +367,30 @@ def web_my_send(request, user_profile):
 def my_send(request, user_profile):
     page = int(request.GET.get('page', 1))
 
+    generate_time = request.GET.get('start_time')
+    screen_over_time = request.GET.get('over_time')
+    date_type = request.GET.get('date_type')
+
     try:
         page1 = (page - 1) * 10
         page2 = page * 10
-        statement = Statement.objects.filter(user=user_profile.email).order_by('-id')[page1:page2]
-        page_count = Statement.objects.filter(user=user_profile.email).count()
+        filter_dict = dict()
+
+        if generate_time:
+            filter_dict['generate_time__range'] = (generate_time, time.time())
+        if screen_over_time:
+            filter_dict['generate_time__range'] = ('0', screen_over_time)
+        if all([generate_time, screen_over_time]):
+            filter_dict['generate_time__range'] = (generate_time, screen_over_time)
+        if date_type:
+            filter_dict['types'] = date_type
+        filter_dict['user'] = user_profile.email
+
+        statement = Statement.objects.filter(**filter_dict).order_by('-id')[page1:page2]
+        page_count = Statement.objects.filter(**filter_dict).count()
         page_count = math.ceil(page_count / 10)
     except Exception:
-        return JsonResponse({'errno': 2, 'message': "获取数据失败", })
+        return JsonResponse({'errno': 2, 'message': "获取我收到的报表失败", })
 
     try:
         send_table_list = []
@@ -281,19 +411,35 @@ def my_send(request, user_profile):
 
 # 我收到的
 def my_receive(request, user_profile):
-    # screen_start_time = request.GET.get('start_time')
-    # screen_over_time = request.GET.get('over_time')
-    # sender = request.GET.get('sender')
-    # date_type = request.GET.get('date_type')
+    generate_time = request.GET.get('start_time')
+    screen_over_time = request.GET.get('over_time')
+    sender = request.GET.get('sender')
+    date_type = request.GET.get('date_type')
 
     page = int(request.GET.get('page', 1))
     page1 = (page - 1) * 10
     page2 = page * 10
     try:
+        filter_dict = dict()
+        if generate_time:
+            filter_dict['receive_time__range'] = (generate_time, time.time())
+        if screen_over_time:
+            filter_dict['receive_time__range'] = ('0', screen_over_time)
 
-        statement_state_list = StatementState.objects.filter(staff=user_profile.id).order_by('-id')[page1:page2]
-        page_count = StatementState.objects.filter(staff=user_profile.id).count()
+        if all([generate_time, screen_over_time]):
+            filter_dict['receive_time__range'] = (generate_time, screen_over_time)
+
+        if sender:
+            filter_dict['staff'] = sender
+        else:
+            filter_dict['staff'] = user_profile.id
+        if date_type:
+            filter_dict['types'] = date_type
+
+        statement_state_list = StatementState.objects.filter(**filter_dict).order_by('-id')[page1:page2]
+        page_count = StatementState.objects.filter(**filter_dict).count()
         page_count = math.ceil(page_count / 10)
+
     except Exception:
         return JsonResponse({'errno': 1, 'message': "获取我收到的报表失败"})
 
@@ -402,7 +548,6 @@ def table_view(request, user_profile):
 # 一键生成
 def generate_table(request, user_profile):
     now = int(time.time())
-
     user = str(user_profile)
     user = re.match(r"<UserProfile: (.*) <.*>>", user).group(1)
     date_type = request.GET.get('date_type')
@@ -425,8 +570,8 @@ def generate_table(request, user_profile):
         day_end = time.mktime(time.strptime(day_end, '%Y-%m-%d %H:%M:%S'))
 
         month_backlog_list = Backlog.objects.filter(user=user, create_time__range=(day_begin, day_end),
-                                                    is_delete='f').order_by(
-            '-id')
+                                                    is_delete='f').order_by('-id')
+
         month_accomplish_list = []
         month_overdue_list = []
         month_underway_list = []
@@ -441,21 +586,29 @@ def generate_table(request, user_profile):
 
             if month_backlog.over_time > now and month_backlog.state == 2:
                 month_underway_list.append(month_backlog.task)
+
             month_accessory_obj_list = BacklogAccessory.objects.filter(backlog_id=month_backlog)
             month_accessory_obj_dict = {}
+
             for month_accessory_obj in month_accessory_obj_list:
                 month_accessory_obj_dict['url'] = month_accessory_obj.accessory_url
                 month_accessory_obj_dict['size'] = month_accessory_obj.accessory_size
-                month_accessory_obj_dict['name'] = month_accessory_obj.accessory_name
+                accessory_name = month_accessory_obj.accessory_name
+                month_accessory_obj_dict['name'] = accessory_name
+                types = accessory_name.split('.')
+                month_accessory_obj_dict['type'] = types[-1]
 
-            month_accessory_list.append(month_accessory_obj_dict)
-
+            if month_accessory_obj_dict:
+                month_accessory_list.append(month_accessory_obj_dict)
         month_backlog_count = Backlog.objects.filter(user=user, create_time__range=(day_begin, day_end),
                                                      is_delete='f', state=0).count()
-        completeness = month_backlog_count / (month_backlog_count + len(month_overdue_list))
+        completeness = 0
+        if month_backlog_count + len(month_overdue_list):
+            completeness = month_backlog_count / (month_backlog_count + len(month_overdue_list))
         return JsonResponse(
             {'errno': 0, 'message': "成功", 'accomplish_list': month_accomplish_list, 'overdue_list':
-                month_overdue_list, "underway_list": month_underway_list, 'completeness': completeness,'accessory_list':month_accessory_list})
+                month_overdue_list, "underway_list": month_underway_list, 'completeness': completeness,
+             'accessory_list': month_accessory_list})
 
     elif date_type == 'week':
 
@@ -468,24 +621,42 @@ def generate_table(request, user_profile):
         week_accomplish_list = []
         week_overdue_list = []
         week_underway_list = []
+        week_accessory_list = []
 
-        for month_backlog in week_backlog_list:
-            if month_backlog.state == 0:
-                week_accomplish_list.append(month_backlog.task)
+        for week_backlog in week_backlog_list:
+            if week_backlog.state == 0:
+                week_accomplish_list.append(week_backlog.task)
 
-            if month_backlog.over_time < now and month_backlog.state == 2:
-                week_overdue_list.append(month_backlog.task)
+            if week_backlog.over_time < now and week_backlog.state == 2:
+                week_overdue_list.append(week_backlog.task)
 
-            if month_backlog.over_time > now and month_backlog.state == 2:
-                week_underway_list.append(month_backlog.task)
+            if week_backlog.over_time > now and week_backlog.state == 2:
+                week_underway_list.append(week_backlog.task)
+
+            month_accessory_obj_list = BacklogAccessory.objects.filter(backlog_id=week_backlog)
+            month_accessory_obj_dict = {}
+
+            for month_accessory_obj in month_accessory_obj_list:
+                month_accessory_obj_dict['url'] = month_accessory_obj.accessory_url
+                month_accessory_obj_dict['size'] = month_accessory_obj.accessory_size
+                accessory_name = month_accessory_obj.accessory_name
+                month_accessory_obj_dict['name'] = accessory_name
+                types = accessory_name.split('.')
+                month_accessory_obj_dict['type'] = types[-1]
+
+            if month_accessory_obj_dict:
+                week_accessory_list.append(month_accessory_obj_dict)
+
         week_backlog_count = Backlog.objects.filter(user=user, create_time__range=(a, b), is_delete='f',
                                                     state=0).count()
-
-        completeness = week_backlog_count / (week_backlog_count + len(week_overdue_list))
+        completeness = 0
+        if week_backlog_count + len(week_overdue_list):
+            completeness = week_backlog_count / (week_backlog_count + len(week_overdue_list))
 
         return JsonResponse(
             {'errno': 0, 'message': "成功", 'accomplish_list': week_accomplish_list, 'overdue_list':
-                week_overdue_list, "underway_list": week_underway_list, 'completeness': completeness})
+                week_overdue_list, "underway_list": week_underway_list, 'completeness': completeness,
+             'accessory_list': week_accessory_list})
 
     elif date_type == "day":
         a = int(time.mktime(time.strptime(str(datetime.date.today()), '%Y-%m-%d')))
@@ -497,23 +668,41 @@ def generate_table(request, user_profile):
         day_accomplish_list = []
         day_overdue_list = []
         day_underway_list = []
+        day_accessory_list = []
 
-        for month_backlog in day_backlog_list:
-            if month_backlog.state == 0:
-                day_accomplish_list.append(month_backlog.task)
+        for day_backlog in day_backlog_list:
+            if day_backlog.state == 0:
+                day_accomplish_list.append(day_backlog.task)
 
-            if month_backlog.over_time < now and month_backlog.state == 2:
-                day_overdue_list.append(month_backlog.task)
+            if day_backlog.over_time < now and day_backlog.state == 2:
+                day_overdue_list.append(day_backlog.task)
 
-            if month_backlog.over_time > now and month_backlog.state == 2:
-                day_underway_list.append(month_backlog.task)
+            if day_backlog.over_time > now and day_backlog.state == 2:
+                day_underway_list.append(day_backlog.task)
+
+            month_accessory_obj_list = BacklogAccessory.objects.filter(backlog_id=day_backlog)
+            month_accessory_obj_dict = {}
+
+            for month_accessory_obj in month_accessory_obj_list:
+                month_accessory_obj_dict['url'] = month_accessory_obj.accessory_url
+                month_accessory_obj_dict['size'] = month_accessory_obj.accessory_size
+                accessory_name = month_accessory_obj.accessory_name
+                month_accessory_obj_dict['name'] = accessory_name
+                types = accessory_name.split('.')
+                month_accessory_obj_dict['type'] = types[-1]
+
+            if month_accessory_obj_dict:
+                day_accessory_list.append(month_accessory_obj_dict)
+
         day_backlog_count = Backlog.objects.filter(user=user, create_time__range=(a, b), is_delete='f', state=0).count()
-
-        completeness = day_backlog_count / (day_backlog_count + len(day_overdue_list))
+        completeness = 0
+        if day_backlog_count + len(day_overdue_list):
+            completeness = day_backlog_count / (day_backlog_count + len(day_overdue_list))
 
         return JsonResponse(
             {'errno': 0, 'message': "成功", 'accomplish_list': day_accomplish_list, 'overdue_list':
-                day_overdue_list, "underway_list": day_underway_list, 'completeness': completeness})
+                day_overdue_list, "underway_list": day_underway_list, 'completeness': completeness,
+             'accessory_list': day_accessory_list})
 
 
 # 待办事项增
@@ -539,7 +728,7 @@ def backlogs_view_po(request, user_profile):
     over_time = int(over_time)
     create_time = int(create_time)
     if create_time > over_time:
-        return JsonResponse({'errno': 3, 'message': '开始时间大于结束时间'})
+        return JsonResponse({'errno': 3, 'message': '截止时间不能早于当前时间'})
     try:
         backlog = Backlog.objects.create(user=user, create_time=create_time, task=task,
                                          over_time=over_time, task_details=task_details
@@ -741,11 +930,11 @@ def backlogs_view_g(request, user_profile):
             b['task'] = bl.task
             b['task_details'] = bl.task_details
             if bl.over_time - now < 86400:
-                b['warn'] = 'true'
+                b['warn'] = True
 
 
             else:
-                b['warn'] = 'false'
+                b['warn'] = False
             b['state'] = bl.state
 
             accessory_lists = BacklogAccessory.objects.filter(backlog_id=bl.id, is_delete='f')
@@ -792,7 +981,6 @@ def backlogs_details(request, user_profile):
         accessory_dict['name'] = accessory_name
         types = accessory_name.split('.')
         accessory_dict['type'] = types[-1]
-
         accessory_list.append(accessory_dict)
     backlogs_dict['accessory_list'] = accessory_list
 
@@ -806,6 +994,23 @@ def accomplis_backlogs_view(request, user_profile):
     user = re.match(r"<UserProfile: (.*) <.*>>", user).group(1)
 
     page = request.GET.get('page')
+    generate_time = request.GET.get('generate_time')
+    over_time = request.GET.get('over_time')
+    accomplis_task = request.GET.get('accomplis_task')
+    filter_dict={}
+
+    if generate_time:
+        filter_dict['create_time__range'] = (generate_time, time.time())
+    if over_time:
+        filter_dict['create_time__range'] = ('0', over_time)
+    if all([generate_time, over_time]):
+        filter_dict['create_time__range'] = (generate_time, over_time)
+
+    if accomplis_task:
+        filter_dict['task__contains'] = accomplis_task
+    filter_dict['user']=user
+    filter_dict['state'] = 0
+    filter_dict['is_delete'] = 'f'
 
     try:
         page = int(page)
@@ -814,7 +1019,7 @@ def accomplis_backlogs_view(request, user_profile):
         if page != 1:
             sums1 = (page - 1) * 20
             sums2 = page * 20
-        accomplis_backlogs_list = Backlog.objects.filter(user=user, state=0, is_delete='f').order_by('-id')[sums1:sums2]
+        accomplis_backlogs_list = Backlog.objects.filter(**filter_dict).order_by('-id')[sums1:sums2]
     except Exception:
         return JsonResponse({'errno': 1, 'message': '获取数据失败'})
 
@@ -844,7 +1049,6 @@ def accomplis_backlogs_view(request, user_profile):
                 accessory_dict['name'] = accessory_name
                 types = accessory_name.split('.')
                 accessory_dict['type'] = types[-1]
-
             a["accessory_dict"] = accessory_dict
 
         a['state'] = accomplis_backlogs.state
