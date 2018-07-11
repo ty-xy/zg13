@@ -171,6 +171,9 @@ class NarrowBuilder:
             return query.where(maybe_negate(cond))
         elif operand == 'management':
             cond = column("flags").op("&")(UserMessage.flags.management.mask) != 0
+            return query.where(maybe_negate(cond))
+        elif operand == 'supervise':
+            cond = column("flags").op("&")(UserMessage.flags.supervise.mask) != 0
             # print (UserMessage.flags.management.mask,"mask")
             return query.where(maybe_negate(cond))
         raise BadNarrowOperator("unknown 'is' operand " + operand)

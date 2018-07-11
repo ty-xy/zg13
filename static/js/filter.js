@@ -45,18 +45,24 @@ function message_in_home(message) {
 }
 
 function message_matches_search_term(message, operator, operand) {
+    //  console.log(message,11)
     switch (operator) {
     case 'is':
         if (operand === 'private') {
             return (message.type === 'private');
+            console.log(message)
         } else if (operand === 'starred') {
             return message.starred;
+            console.log(message)
         } else if (operand === 'mentioned') {
             return message.mentioned;
         } else if (operand === 'alerted') {
+            console.log(message)
             return message.alerted;
         } else if (operand === 'unread') {
             return unread.message_unread(message);
+        } else if (operand==='supervise'){
+            return message.supervise
         }
         return true; // is:whatever returns true
 
@@ -519,12 +525,17 @@ function describe_unescaped(operators) {
                 return verb + 'alerted messages';
             } else if (operand === 'unread') {
                 return verb + 'unread messages';
+            }else if (operand === 'supervise') {
+                return verb + 'supervise messages';
+            } else if (operand === 'management') {
+                return verb + 'management messages';
             }
             return operand + ' messages';
         }
         var prefix_for_operator = Filter.operator_to_prefix(canonicalized_operator,
                                                             elem.negated);
         if (prefix_for_operator !== '') {
+            console.log(prefix_for_operator,11)
             return prefix_for_operator + ' ' + operand;
         }
         return "unknown operator";

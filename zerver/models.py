@@ -1414,7 +1414,8 @@ class AbstractUserMessage(models.Model):
     # migration to set it to 0 first
     ALL_FLAGS = ['read', 'starred', 'collapsed', 'mentioned', 'wildcard_mentioned',
                  'summarize_in_home', 'summarize_in_stream', 'force_expand', 'force_collapse',
-                 'has_alert_word', "historical", "management"]
+                 'has_alert_word', "historical","management","supervise"]
+
     flags = BitField(flags=ALL_FLAGS, default=0)  # type: BitHandler
 
     class Meta:

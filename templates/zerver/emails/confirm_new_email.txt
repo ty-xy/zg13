@@ -1,13 +1,12 @@
-Hi!
+您好!
 
-We received a request to change the email address for the Zulip account on
-{{ realm_uri }} from {{ old_email }} to {{ new_email }}. If you would like
-to confirm this change, please click this link:
+您要求将在{{ realm_uri }}上的e建联账户从{{ old_email }}变成{{ new_email }}.
 
+如果您确认改变，请点击:
 {{ activate_url }}
 
-If you did not request this change, please contact us immediately at
+如果您未要求邮箱变化, 请立刻联系我们：
 <{{ support_email }}>.
 
-Cheers,
-Team Zulip
+顺颂商祺！
+知工网络科技

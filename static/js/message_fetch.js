@@ -19,16 +19,8 @@ function process_result(data, opts) {
     var messages = data.messages;
     $('#connection-error').removeClass("show");
        if(opts.msg_list.filter._operators[0].operand=== "management"){
-        // opts.msg_list._items=[]
-        // opts.msg_list._hash=[]
-        // opts.msg_list._all_items=[]
-        // opts.msg_list.view.message_containers={}
-        // opts.msg_list.view._message_groups=[]
-        // opts.msg_list.view._rows=[]
-        // opts.msg_list._selected_id= -1;
         narrow.show_empty_narrow_message();
 
-        // console.log(11111)
     }
     if ((messages.length === 0) && (current_msg_list === message_list.narrowed) &&
         message_list.narrowed.empty()) {
@@ -36,7 +28,6 @@ function process_result(data, opts) {
         // messages to display in this narrow.
         narrow.show_empty_narrow_message();
 
-        // console.log(11112)
     }
 
     _.each(messages, message_store.set_message_booleans);
@@ -58,7 +49,6 @@ function process_result(data, opts) {
 
     if (messages.length !== 0) {
 
-        // console.log(11111111111)
         message_util.add_messages(messages, opts.msg_list, {messages_are_new: false});
     }
     activity.process_loaded_messages(messages);
@@ -199,17 +189,6 @@ exports.load_messages = function (opts) {
                                         s = date.getSeconds();
                                         return Y+M+D+h+m+s;
                                     }
-                                    console.log("------------")
-                                    console.log(res)
-                                    // var img = [];
-                                    // for(var key in res.backlog_dict.accessory_list){
-                                        
-                                    //     var s = res.backlog_dict.accessory_list[key].url.indexOf(".");
-                                    //     var b = res.backlog_dict.accessory_list[key].url.substring(s);
-                                    //     console.log(b)
-                                    //     img.push(b);
-                                    //     console.log(img)
-                                    // }
                                     var taskdetail_list = res.backlog_dict.task;
                                     var taskdetail_addnote = res.backlog_dict.task_details;
                                     var create_time = timestampToTime(res.backlog_dict.create_time).substring(0,10);
@@ -271,82 +250,69 @@ exports.load_messages = function (opts) {
                                             contentType:"application/json",
                                             data:obj_accessory,
                                             success:function(res){
-                                                accessory_id = res.accessory_id
-                                            }
-                                       })
-                                       if(i != -1){
-                                           $.ajax({
-                                                type:"GET",
-                                                url:"json/zg/backlog/details",
-                                                contentType:"application/json",
-                                                data:obj,
-                                                success:function(res){
-                                                    var accessory_dict = res.backlog_dict.accessory_list;
-                                                    var accessory_length = accessory_dict.length;
-                                                    var accessory_li = templates.render("accessory_li",{accessory_dict:accessory_dict,accessory_length:accessory_length});
-                                                    if(accessory_length>3){
-                                                        $(".taskdetail_numberT").fadeIn();
-                                                        setTimeout(function(){
-                                                            $(".taskdetail_numberT").fadeOut();
-                                                        },3000)
-                                                        return;
-                                                    }
-                                                    $(".taskdetail_attachment_box").children().remove();
-                                                    $(".taskdetail_attachment_box").append(accessory_li)
-                                                    //任务详情弹窗内的文件展示 划入事件
-                                                    $(".taskdetail_attachment").on("mousemove",function(e){
-                                                        $(this).css("border","1px solid #A0ACBF")
-                                                        $(this).children().last().show();
-                                                    })
-                                                    //任务详情弹窗内的文件展示 划出事件
-                                                    $(".taskdetail_attachment").on("mouseleave",function(e){
-                                                        $(this).css("border","1px solid #fff")
-                                                        $(this).children().last().hide();
-                                                    })
-                                                    //下载附件
-                                                    $(".taskdetail_download").on("click",function(e){
-                                                        window.open($(this).prev().val())
-                                                    })
-                                                    //删除附件
-                                                    $(".taskdetail_attachment").on("click",".taskdetail_delete",function(e){
-                                                        var _this = $(this)
-                                                        var accessory_id = $(this).parent().parent().val();
-                                                        var _obj_accessory = {accessory_list:[
-                                                            {
-                                                                accessory_id:accessory_id,
-                                                                type:"del"
-                                                            }],backlog_id:backlog_id
-                                                        }
-                                                        var obj_accessory = JSON.stringify(_obj_accessory)
-                                                        $.ajax({
-                                                            type:"POST",
-                                                            url:"json/zg/accessory/",
-                                                            contentType:"application/json",
-                                                            data:obj_accessory,
-                                                            success:function(res){
-                                                                if(res.errno==0){
-                                                                    _this.parent().parent().remove();
-                                                                }
-                                                            }
-                                                        })
+                                                accessory_id = res.accessory_id;
+                                                if(i != -1){
+                                                    $.ajax({
+                                                         type:"GET",
+                                                         url:"json/zg/backlog/details",
+                                                         contentType:"application/json",
+                                                         data:obj,
+                                                         success:function(res){
+                                                             var accessory_dict = res.backlog_dict.accessory_list;
+                                                             var accessory_length = accessory_dict.length;
+                                                             var accessory_li = templates.render("accessory_li",{accessory_dict:accessory_dict,accessory_length:accessory_length});
+                                                            //  if(accessory_length>3){
+                                                            //      $(".taskdetail_numberT").fadeIn();
+                                                            //      setTimeout(function(){
+                                                            //          $(".taskdetail_numberT").fadeOut();
+                                                            //      },3000)
+                                                            //      return;
+                                                            //  }
+                                                             $(".taskdetail_attachment_box").children().remove();
+                                                             $(".taskdetail_attachment_box").append(accessory_li)
+                                                             //任务详情弹窗内的文件展示 划入事件
+                                                             $(".taskdetail_attachment").on("mousemove",function(e){
+                                                                 $(this).css("border","1px solid #A0ACBF")
+                                                                 $(this).children().last().show();
+                                                             })
+                                                             //任务详情弹窗内的文件展示 划出事件
+                                                             $(".taskdetail_attachment").on("mouseleave",function(e){
+                                                                 $(this).css("border","1px solid #fff")
+                                                                 $(this).children().last().hide();
+                                                             })
+                                                             // //下载附件
+                                                             // $(".taskdetail_download").on("click",function(e){
+                                                             //     window.open($(this).prev().val())
+                                                             // })
+                                                             //删除附件
+                                                             $(".taskdetail_attachment").on("click",".taskdetail_delete",function(e){
+                                                                 var _this = $(this)
+                                                                 var accessory_id = $(this).parent().parent().val();
+                                                                 var _obj_accessory = {accessory_list:[
+                                                                     {
+                                                                         accessory_id:accessory_id,
+                                                                         type:"del"
+                                                                     }],backlog_id:backlog_id
+                                                                 }
+                                                                 var obj_accessory = JSON.stringify(_obj_accessory)
+                                                                 $.ajax({
+                                                                     type:"POST",
+                                                                     url:"json/zg/accessory/",
+                                                                     contentType:"application/json",
+                                                                     data:obj_accessory,
+                                                                     success:function(res){
+                                                                         if(res.errno==0){
+                                                                             _this.parent().parent().remove();
+                                                                         }
+                                                                     }
+                                                                 })
+                                                             })
+                                                         }
                                                     })
                                                 }
-                                           })
-                                    //        var li =  
-                                    //        "<li class='taskdetail_attachment' val="+accessory_id+">\
-                                    //        <div class='taskdetail_attachment_left'>\
-                                    //            <img src='../../static/img/pnglogo.png' alt=''>\
-                                    //            <p>"+filename+"</p>\
-                                    //            <p>\
-                                    //                <span>"+size+"MB</span>\
-                                    //            </p>\
-                                    //        </div>\
-                                    //        <div class='taskdetail_attachment_right'>\
-                                    //            <span class='taskdetail_download'>下载</span>\
-                                    //            <span class='taskdetail_delete'>删除</span>\
-                                    //        </div>\
-                                    //    </li>"
-                                       }
+                                            }
+                                       })
+                                       
                                    };
                             
                                    $("#file_choose").filedrop({
@@ -405,9 +371,9 @@ exports.load_messages = function (opts) {
                                 })
                             })
                             //下载附件
-                            $(".taskdetail_download").on("click",function(e){
-                                window.open($(this).prev().val())
-                            })
+                            // $(".taskdetail_download").on("click",function(e){
+                            //     window.open($(this).prev().val())
+                            // })
 
                             //点击任务详情模版关闭任务详情
                             $(".taskdetail_md").on("click",function(e){
@@ -648,9 +614,9 @@ exports.load_messages = function (opts) {
                                                     })
                                                 })
                                                 //下载附件
-                                                $(".taskdetail_download").on("click",function(e){
-                                                    window.open($(this).prev().val())
-                                                })
+                                                // $(".taskdetail_download").on("click",function(e){
+                                                //     window.open($(this).prev().val())
+                                                // })
                                                 //删除附件
                                                 $(".taskdetail_attachment").on("click",".taskdetail_delete",function(e){
                                                     var _this = $(this)

@@ -378,19 +378,26 @@ ul{
 .taskdetail_attachment_left>:first-child{
     float: left;
     margin: 12px 14px;
+    position: absolute;
 }
 .taskdetail_attachment_left>p:nth-of-type(1){
     font-size: 14px;
     color: #333333;
     letter-spacing: 0.15px;
     margin-top: 10px;
+    width: 328px;
+    margin-left: 52px;
+    overflow: hidden;
+    height: 20px;
 }
 .taskdetail_attachment_left>p:nth-of-type(2){
     margin-top: -12px;
     font-size: 11px;
     color: #999999;
     letter-spacing: 0.12px;
-    padding: 0px 36px;
+    /* padding: 0px 36px; */
+    margin-left: 52px;
+    
 }
 .taskdetail_download{
     font-size: 14px;
@@ -400,6 +407,7 @@ ul{
     line-height: 56px;
     margin-right: 20px;
     cursor: pointer;
+    text-decoration: none;
 }
 .taskdetail_delete{
     font-size: 14px;
@@ -546,6 +554,7 @@ ul{
     border: 1px solid #CCCCCC;
     border-radius: 5px;
     /* resize: vertical; */
+    resize: none;
     overflow-y: visible;
     margin-top: 22px;
     overflow:auto;
@@ -695,6 +704,7 @@ ul{
     font-size: 20px;
 }
 .generate_log_pack_left>:first-child{
+    /* margin: 2px 0; */
     /* margin: 10px; */
     width: 27px;
     height: 30px;
@@ -1140,6 +1150,7 @@ ul{
 .log_assistant_pack{
     width: 937px;
     height: 70px;
+    margin-bottom: 16px;
 }
 .log_assistant_commentsctn>p{
     margin-left: 20px;
@@ -1171,7 +1182,6 @@ ul{
     letter-spacing: 0.18px;
     float: left;
     cursor: pointer;
-    
 }
 .log_assistant_unreadperson{
     float: left;
@@ -1383,6 +1393,10 @@ ul{
     width: 27px;
     height: 30px;
 }
+.blue_light{
+    color: #fff!important;
+    background: #14A4FA!important;
+}
 /* 聊天气泡右侧 */
 .my_img{
     float: right;
@@ -1392,4 +1406,15 @@ ul{
 }
 .my_talk{
     margin-right: 70px
+}
+.uploading-img{
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    border:1px solid #ddd;
+    float:left;
+    margin-top: 14px;
+    margin-left: 20px;
+    display: none;
 }

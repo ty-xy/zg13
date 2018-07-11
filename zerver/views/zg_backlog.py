@@ -605,6 +605,7 @@ def generate_table(request, user_profile):
         completeness = 0
         if month_backlog_count + len(month_overdue_list):
             completeness = month_backlog_count / (month_backlog_count + len(month_overdue_list))
+
         return JsonResponse(
             {'errno': 0, 'message': "成功", 'accomplish_list': month_accomplish_list, 'overdue_list':
                 month_overdue_list, "underway_list": month_underway_list, 'completeness': completeness,

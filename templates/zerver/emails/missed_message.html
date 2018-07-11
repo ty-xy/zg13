@@ -11,10 +11,10 @@
 {% endblock %}
 
 {% block content %}
-    Hello {{ name }},
+    {{ name }}, 您好!
 
     <p>
-        While you were away you received {{ message_count }} new{% if group_pm %} group private{% elif private_message %} private{% endif %} message{{ message_count|pluralize }}{% if mention %} in which you were mentioned{% endif %}!
+        在您离开时您收到了 {{ message_count }} 新{% if group_pm %} 组 私{% elif private_message %} 私{% endif %} 信{{ message_count|pluralize }}{% if mention %} 您被提到{% endif %}!
     </p>
 
     {% if show_message_content %}
@@ -39,23 +39,23 @@
 
 
     <p>
-        <a href="{{ realm_uri }}">Click here to log in to Zulip and view your new messages.</a>
+        <a href="{{ realm_uri }}">点击这里去登录e建联并阅读您的新信息:</a>
         {% if reply_to_zulip %}
-        Or just reply to this email.
         {% endif %}
     </p>
 
     {% if reply_warning %}
-    <p>Please do not reply to this automated message. To respond to the missed messages you have received, please log on to Zulip and send your replies there.</p>
+    <p>请勿回复本邮件.请登录e建联然后回复未读信息.</p>
     {% endif %}
 
     <p>
-        Cheers,
+        顺颂商祺,
         <br />
-        The Zulip Team
+        知工网络科技
     </p>
 {% endblock %}
 
 {% block manage_preferences %}
-<p><a href="{{ realm_uri }}/#settings">Manage email preferences</a> | <a href="{{ unsubscribe_link }}">Unsubscribe from missed message emails</a></p>
+<p><a href="{{ realm_uri }}/#settings">管理邮件配置</a> | <a href="{{ unsubscribe_link }}">退订未读信息邮件</a></p>
 {% endblock %}
+
