@@ -231,8 +231,32 @@
     {
         "accept_events":[
             {
+                "message":{
+                    "type":"supervise"
+                },
+                "flags":null
+            }
+        ],
+        "reject_events":[
+            {
+                "message":{
+                    "type":"stream"
+                },
+                "flags":null
+            }
+        ],
+        "narrow":[
+            [
+                "is",
+                "supervise"
+            ]
+        ]
+    },
+    {
+        "accept_events":[
+            {
                 "message":null,
-                "flags": [],
+                "flags": []
             }
         ],
         "reject_events":[
