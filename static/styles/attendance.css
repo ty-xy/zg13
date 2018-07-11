@@ -7,3 +7,43 @@
     top: 0;
     z-index: 111;
 }
+.attendance_box{
+    width: 937px;
+    height: 740px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    z-index: 1000;
+    background: #fff;
+}
+.attendance_head{
+    width: 937px;
+    height: 60px;
+    background: #FFFFFF;
+    box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30);
+    overflow: hidden;
+    position: relative;
+    border-bottom: 1px solid #F2F2F2;
+}
+.attendance_tab{
+    overflow: hidden;
+    margin: 0;
+}
+.attendance_tab>li{
+    font-size: 15px;
+    color: #A0ACBF;
+    letter-spacing: 0.18px;
+    line-height: 60px;
+    float: left;
+    margin-left: 30px;
+}
+.attendance_close{
+    font-size: 16px;
+    float: right;
+    margin-right: 20px;
+    line-height: 60px;
+    color: #A0ACBF;
+}
