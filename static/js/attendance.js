@@ -1,14 +1,18 @@
-var attendance = (function () {
+var management = (function () {
     var exports = {};
+  
+    $("body").ready(function () {
+        
+        $(".common_img").on("click",function(){
+            var html = templates.render("attendance_box");
+            $(".app").after(html);
+        })
 
-    // console.log($(".common_img"))
-    $(".common_img").on("click",function(){
-        console.log("123123")
-    })
-    
+             
+    });  
     return exports;
     }());
     
     if (typeof module !== 'undefined') {
-        module.exports = attendance ;
+        module.exports = management ;
     }

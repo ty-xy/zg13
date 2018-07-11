@@ -66,7 +66,6 @@ exports.handle_narrow_activated = function (filter) {
     }
     ops = filter.operands('is');
     if (ops.length >= 1) {
-        console.log(ops)
         filter_name = ops[0];
         if ((filter_name === 'starred') || (filter_name === 'mentioned')||(filter_name === "management")) {
             filter_li = exports.get_global_filter_li(filter_name);

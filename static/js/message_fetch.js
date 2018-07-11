@@ -21,7 +21,6 @@ function process_result(data, opts) {
        if(opts.msg_list.filter._operators[0].operand=== "management"){
         narrow.show_empty_narrow_message();
 
-        // console.log(11111)
     }
     if ((messages.length === 0) && (current_msg_list === message_list.narrowed) &&
         message_list.narrowed.empty()) {
@@ -29,7 +28,6 @@ function process_result(data, opts) {
         // messages to display in this narrow.
         narrow.show_empty_narrow_message();
 
-        console.log(11112)
     }
 
     _.each(messages, message_store.set_message_booleans);
@@ -51,7 +49,6 @@ function process_result(data, opts) {
 
     if (messages.length !== 0) {
 
-        // console.log(11111111111)
         message_util.add_messages(messages, opts.msg_list, {messages_are_new: false});
     }
     activity.process_loaded_messages(messages);
