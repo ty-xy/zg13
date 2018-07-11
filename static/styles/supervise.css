@@ -14,3 +14,25 @@
     color: #666666;
     letter-spacing: 0.17px;
 }
+.my_supervise_img{
+    display: flex;
+    margin-top:30px;
+}
+.common_img{
+    height:100px;
+    width:140px;
+    box-shadow: 2px 2px 25px 0 rgba(204,204,204,0.80);
+    border-radius: 2px;
+    padding:20px;
+    box-sizing: border-box
+}
+.img_color{
+    background: #FF7072;
+}
+.text_img{
+    font-family: PingFangSC-Medium;
+    font-size: 14px;
+    color: #FFFFFF;
+    letter-spacing: 0.21px;
+    margin-top:11px;
+}
