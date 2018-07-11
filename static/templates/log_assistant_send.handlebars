@@ -1,411 +1,213 @@
-<!-- 日志助手板块 -->
-    {{!-- <div class="log_assistant_md">
+{{#each send_table_list}}
+    <div class="log_assistant_ctn">
+        <div class="log_assistant_user_box">
+            <div class="log_assistant_user_avater">
+                <img src="{{avatarurl}}" alt="">
+            </div>
+            <div class="log_assistant_user_time">
+                <p class="log_assistant_user_name">{{fullname}}的{{tp type}}</p>
+                <p class="log_assistant_user_date">
+                    <span>{{ts generate_time}}&nbsp;</span>
+                    {{!-- <span>18:22</span> --}}
+                </p>
+            </div>
+        </div>
+        <i class="log_assistant_lineA"></i>
+            <div class="log_assistant_finished">
+                已完成:
+            </div>
+        {{#if accomplish}}
+            <div class="log_assistant_finishedctn">
+                        {{tl accomplish}}
+            </div>
+            {{else}}
+            <div class="log_assistant_finishedctn">
+                        无
+            </div>
+        {{/if}}
         
-    <div class="log_assistant_box">
-            <div class="log_assistant_left">
-                  <ul class="log_assistant_sliber">
-                      <li class="log_assistant_received high_light">我收到的</li>
-                      <li class="log_assistant_send">我发出的</li>
-                  </ul>
+            <div class="log_assistant_unfinished">
+                未完成:
             </div>
-            <div class="log_assistant_right">
-              <div class="log_assistant_head">
-                  <p>e建联</p>
-                  <i></i>
-                  <p class="log_assistant_title">我收到的</p>
-                  <i class="iconfont icon-guanbiUI log_assistant_close"></i>
-              </div>
-              <div class="log_assistant_ctn_box">
-                    <div class="log_assistant_prompt_box">
-                        <div class="log_assistant_screening">
-                                    筛选
-                        </div>
-                        <div class="log_assistant_read">
-                            只看未读
-                        </div>
-                        
-                    </div> --}}
-                {{#each send_table_list}}
-                    <div class="log_assistant_ctn">
-                        <div class="log_assistant_user_box">
-                            <div class="log_assistant_user_avater">
-                                <img src="{{avatarurl}}" alt="">
-                            </div>
-                            <div class="log_assistant_user_time">
-                                <p class="log_assistant_user_name">{{fullname}}的{{tp type}}</p>
-                                <p class="log_assistant_user_date">
-                                    <span>{{ts generate_time}}&nbsp;</span>
-                                    {{!-- <span>18:22</span> --}}
-                                </p>
-                            </div>
-                        </div>
-                        <i class="log_assistant_lineA"></i>
-                            <div class="log_assistant_finished">
-                                已完成:
-                            </div>
-                        {{#if accomplish}}
-                            <div class="log_assistant_finishedctn">
-                                        {{tl accomplish}}
-                            </div>
-                            {{else}}
-                            <div class="log_assistant_finishedctn">
-                                        无
-                            </div>
-                        {{/if}}
-                        
-                            <div class="log_assistant_unfinished">
-                                未完成:
-                            </div>
-                        {{#if overdue}}
-                            <div class="log_assistant_unfinishedctn">
-                                    {{tl overdue}}
-                            </div>
-                            {{else}}
-                            <div class="log_assistant_unfinishedctn">
-                                    无
-                            </div>
-                        {{/if}}
-                        
-                            <div class="log_assistant_ongoing">
-                                进行中:
-                            </div>
-                        {{#if underway}}
-                            <div class="log_assistant_ongoingctn">
-                                    {{tl underway}}
-                            </div>
-                            {{else}}
-                            <div class="log_assistant_ongoingctn">
-                                    无
-                            </div>
-                        {{/if}}
-                        
-                            <div class="log_assistant_plan">
-                                计划:
-                            </div>
-                        {{#if backlog_list}}
-                        {{#each backlog_list}}
-                            <div class="log_assistant_planctn">
-                                <i class="log_assistant_plan_line"></i>
-                                <p class="log_assistant_planctn_title">{{task}}</p>
-                                <p class="log_assistant_planctn_date">
-                                    <span>截止</span>
-                                    <span>{{tt over_time}}</span>
-                                </p>
-                            </div>
-                        {{/each}}
-                        {{else}}
-                            <div class="log_assistant_planctn log_assistant_planctn2">
-                               无
-                            </div>
-                        {{/if}}
-                        <div class="log_assistant_pack">
-                                <div class="generate_log_pack">
-                                        {{#each url_list}}
-                                            {{#compare type '==' 'jpg'}}
-                                                <a href="{{url}}" download=""><img src="{{url}}" alt="" class="thumbnail"></a>
-                                                {{else}}
-                                            {{/compare}}
-                                            {{#compare type '==' 'png'}}
-                                                <a href="{{url}}" download=""><img src="{{url}}" alt="" class="thumbnail"></a>
-                                                {{else}}
-                                            {{/compare}}
-                                            {{#compare type '==' 'jpeg'}}
-                                                <a href="{{url}}" download=""><img src="{{url}}" alt="" class="thumbnail"></a>
-                                                {{else}}
-                                            {{/compare}}
-                                            {{#compare type '==' 'gif'}}
-                                                <a href="{{url}}" download=""><img src="{{url}}" alt="" class="thumbnail"></a>
-                                                {{else}}
-                                            {{/compare}}
-                                            {{#compare type '==' 'bmp'}}
-                                                <a href="{{url}}" download=""><img src="{{url}}" alt="" class="thumbnail"></a>
-                                                {{else}}
-                                            {{/compare}}
-                                            {{#compare type '==' 'docx'}}
-                                                <div class="generate_log_pack_left">
-                                                    <img src="../../static/icons/type_icon/moren.png" alt="">
-                                                </div>
-                                                <div class="generate_log_pack_right">
-                                                    <p>{{name}}</p>
-                                                    <p>{{size}}<a href="{{url}}" download="{{url}}" class="download_fujian">下载</a></p>
-                                                </div>
-                                                {{else}}
-                                            {{/compare}}
-                                            {{#compare type '==' 'txt'}}
-                                                <div class="generate_log_pack_left">
-                                                    <img src="../../static/icons/type_icon/txt.png" alt="">
-                                                </div>
-                                                <div class="generate_log_pack_right">
-                                                    <p>{{name}}</p>
-                                                    <p>{{size}}<a href="{{url}}" download="{{url}}" class="download_fujian">下载</a></p>
-                                                </div>
-                                                {{else}}
-                                            {{/compare}}
-                                            {{#compare type '==' 'zip'}}
-                                                <div class="generate_log_pack_left">
-                                                    <img src="../../static/icons/type_icon/zip.png" alt="">
-                                                </div>
-                                                <div class="generate_log_pack_right">
-                                                    <p>{{name}}</p>
-                                                    <p>{{size}}<a href="{{url}}" download="{{url}}" class="download_fujian">下载</a></p>
-                                                </div>
-                                                {{else}}
-                                            {{/compare}}
-                                            {{#compare type '==' 'rar'}}
-                                                <div class="generate_log_pack_left">
-                                                    <img src="../../static/icons/type_icon/rar.png" alt="">
-                                                </div>
-                                                <div class="generate_log_pack_right">
-                                                    <p>{{name}}</p>
-                                                    <p>{{size}}<a href="{{url}}" download="{{url}}" class="download_fujian">下载</a></p>
-                                                </div>
-                                                {{else}}
-                                            {{/compare}}
-                                            {{#compare type '==' 'ppt'}}
-                                                <div class="generate_log_pack_left">
-                                                    <img src="../../static/icons/type_icon/ppt.png" alt="">
-                                                </div>
-                                                <div class="generate_log_pack_right">
-                                                    <p>{{name}}</p>
-                                                    <p>{{size}}<a href="{{url}}" download="{{url}}" class="download_fujian">下载</a></p>
-                                                </div>
-                                                {{else}}
-                                            {{/compare}}
-                                            {{#compare type '==' 'doc'}}
-                                                <div class="generate_log_pack_left">
-                                                    <img src="../../static/icons/type_icon/moren.png" alt="">
-                                                </div>
-                                                <div class="generate_log_pack_right">
-                                                    <p>{{name}}</p>
-                                                    <p>{{size}}<a href="{{url}}" download="{{url}}" class="download_fujian">下载</a></p>
-                                                </div>
-                                                {{else}}
-                                            {{/compare}}
-                                            {{#compare type '==' 'xls'}}
-                                                <div class="generate_log_pack_left">
-                                                    <img src="../../static/icons/type_icon/xls.png" alt="">
-                                                </div>
-                                                <div class="generate_log_pack_right">
-                                                    <p>{{name}}</p>
-                                                    <p>{{size}}<a href="{{url}}" download="{{url}}" class="download_fujian">下载</a></p>
-                                                </div>
-                                                {{else}}
-                                            {{/compare}}
-                                            {{#compare type '==' 'xlsx'}}
-                                                <div class="generate_log_pack_left">
-                                                    <img src="../../static/icons/type_icon/moren.png" alt="">
-                                                </div>
-                                                <div class="generate_log_pack_right">
-                                                    <p>{{name}}</p>
-                                                    <p>{{size}}<a href="{{url}}" download="{{url}}" class="download_fujian">下载</a></p>
-                                                </div>
-                                                {{else}}
-                                            {{/compare}}
-                                        
-                                        
-                                        {{/each}}
+        {{#if overdue}}
+            <div class="log_assistant_unfinishedctn">
+                    {{tl overdue}}
+            </div>
+            {{else}}
+            <div class="log_assistant_unfinishedctn">
+                    无
+            </div>
+        {{/if}}
+        
+            <div class="log_assistant_ongoing">
+                进行中:
+            </div>
+        {{#if underway}}
+            <div class="log_assistant_ongoingctn">
+                    {{tl underway}}
+            </div>
+            {{else}}
+            <div class="log_assistant_ongoingctn">
+                    无
+            </div>
+        {{/if}}
+        
+            <div class="log_assistant_plan">
+                计划:
+            </div>
+        {{#if backlog_list}}
+        {{#each backlog_list}}
+            <div class="log_assistant_planctn">
+                <i class="log_assistant_plan_line"></i>
+                <p class="log_assistant_planctn_title">{{task}}</p>
+                <p class="log_assistant_planctn_date">
+                    <span>截止</span>
+                    <span>{{tt over_time}}</span>
+                </p>
+            </div>
+        {{/each}}
+        {{else}}
+            <div class="log_assistant_planctn log_assistant_planctn2">
+                无
+            </div>
+        {{/if}}
+        <div class="log_assistant_pack">
+                <div class="generate_log_pack">
+                        {{#each url_list}}
+                            {{#compare type '==' 'jpg'}}
+                                <a href="{{url}}" download=""><img src="{{url}}" alt="" class="thumbnail"></a>
+                                {{else}}
+                            {{/compare}}
+                            {{#compare type '==' 'png'}}
+                                <a href="{{url}}" download=""><img src="{{url}}" alt="" class="thumbnail"></a>
+                                {{else}}
+                            {{/compare}}
+                            {{#compare type '==' 'jpeg'}}
+                                <a href="{{url}}" download=""><img src="{{url}}" alt="" class="thumbnail"></a>
+                                {{else}}
+                            {{/compare}}
+                            {{#compare type '==' 'gif'}}
+                                <a href="{{url}}" download=""><img src="{{url}}" alt="" class="thumbnail"></a>
+                                {{else}}
+                            {{/compare}}
+                            {{#compare type '==' 'bmp'}}
+                                <a href="{{url}}" download=""><img src="{{url}}" alt="" class="thumbnail"></a>
+                                {{else}}
+                            {{/compare}}
+                            {{#compare type '==' 'docx'}}
+                                <div class="generate_log_pack_left">
+                                    <img src="../../static/icons/type_icon/moren.png" alt="">
                                 </div>
-                        </div>
-                        <!-- <i class="log_assistant_lineB"></i> -->
+                                <div class="generate_log_pack_right">
+                                    <p>{{name}}</p>
+                                    <p>{{size}}<a href="{{url}}" download="{{url}}" class="download_fujian">下载</a></p>
+                                </div>
+                                {{else}}
+                            {{/compare}}
+                            {{#compare type '==' 'txt'}}
+                                <div class="generate_log_pack_left">
+                                    <img src="../../static/icons/type_icon/txt.png" alt="">
+                                </div>
+                                <div class="generate_log_pack_right">
+                                    <p>{{name}}</p>
+                                    <p>{{size}}<a href="{{url}}" download="{{url}}" class="download_fujian">下载</a></p>
+                                </div>
+                                {{else}}
+                            {{/compare}}
+                            {{#compare type '==' 'zip'}}
+                                <div class="generate_log_pack_left">
+                                    <img src="../../static/icons/type_icon/zip.png" alt="">
+                                </div>
+                                <div class="generate_log_pack_right">
+                                    <p>{{name}}</p>
+                                    <p>{{size}}<a href="{{url}}" download="{{url}}" class="download_fujian">下载</a></p>
+                                </div>
+                                {{else}}
+                            {{/compare}}
+                            {{#compare type '==' 'rar'}}
+                                <div class="generate_log_pack_left">
+                                    <img src="../../static/icons/type_icon/rar.png" alt="">
+                                </div>
+                                <div class="generate_log_pack_right">
+                                    <p>{{name}}</p>
+                                    <p>{{size}}<a href="{{url}}" download="{{url}}" class="download_fujian">下载</a></p>
+                                </div>
+                                {{else}}
+                            {{/compare}}
+                            {{#compare type '==' 'ppt'}}
+                                <div class="generate_log_pack_left">
+                                    <img src="../../static/icons/type_icon/ppt.png" alt="">
+                                </div>
+                                <div class="generate_log_pack_right">
+                                    <p>{{name}}</p>
+                                    <p>{{size}}<a href="{{url}}" download="{{url}}" class="download_fujian">下载</a></p>
+                                </div>
+                                {{else}}
+                            {{/compare}}
+                            {{#compare type '==' 'doc'}}
+                                <div class="generate_log_pack_left">
+                                    <img src="../../static/icons/type_icon/moren.png" alt="">
+                                </div>
+                                <div class="generate_log_pack_right">
+                                    <p>{{name}}</p>
+                                    <p>{{size}}<a href="{{url}}" download="{{url}}" class="download_fujian">下载</a></p>
+                                </div>
+                                {{else}}
+                            {{/compare}}
+                            {{#compare type '==' 'xls'}}
+                                <div class="generate_log_pack_left">
+                                    <img src="../../static/icons/type_icon/xls.png" alt="">
+                                </div>
+                                <div class="generate_log_pack_right">
+                                    <p>{{name}}</p>
+                                    <p>{{size}}<a href="{{url}}" download="{{url}}" class="download_fujian">下载</a></p>
+                                </div>
+                                {{else}}
+                            {{/compare}}
+                            {{#compare type '==' 'xlsx'}}
+                                <div class="generate_log_pack_left">
+                                    <img src="../../static/icons/type_icon/moren.png" alt="">
+                                </div>
+                                <div class="generate_log_pack_right">
+                                    <p>{{name}}</p>
+                                    <p>{{size}}<a href="{{url}}" download="{{url}}" class="download_fujian">下载</a></p>
+                                </div>
+                                {{else}}
+                            {{/compare}}
+                        
+                        
+                        {{/each}}
+                </div>
+        </div>
 
-                        <!-- 已读未读 -->
-                        <div class="log_assistant_unread">
-                            <div class="log_assistant_readperson">
-                                已读{{already_count}}人
-                            </div>
-                            <div class="log_assistant_unreadperson">
-                                未读{{unread_count}}人
-                            </div>
-                            <ul class="log_assistant_user_list">
-                                {{#each already_list}}
-                                <li class="already_read">
-                                    <div class="log_assistant_user_touxiang_box">
-                                        <img src="{{avatar}}" alt="" class="log_assistant_user_touxiang">
-                                    </div>
-                                    <p class="log_assistant_user_xinming">{{user_name}}</p>
-                                </li>
-                                {{/each}}
-                                {{#each unread_list}}
-                                <li class="unread">
-                                    <div class="log_assistant_user_touxiang_box">
-                                        <img src="{{avatar}}" alt="" class="log_assistant_user_touxiang">
-                                    </div>
-                                    <p class="log_assistant_user_xinming">{{user_name}}</p>
-                                </li>
-                                {{/each}}
-                                
-                                {{!-- <li>
-                                    <div class="log_assistant_user_touxiang_box">
-                                            <img src="" alt="" class="log_assistant_user_touxiang">
-                                    </div>
-                                    <p class="log_assistant_user_xinming">张淑芬</p>
-                                </li>
-                                <li>
-                                    <div class="log_assistant_user_touxiang_box">
-                                            <img src="" alt="" class="log_assistant_user_touxiang">
-                                    </div>
-                                    <p class="log_assistant_user_xinming">张淑芬</p>
-                                </li> --}}
-                            </ul>
-                        </div>
-                        <!-- 已读未读 -->
-                        {{!-- <div class="log_assistant_comments">
-                            评论:
-                        </div>
-                        <div class="log_assistant_commentsctn">
-                            <input class="log_assistant_inputcomments" placeholder="输入评论..."></input>
-                            <p>
-                                <span>
-                                    李林:
-                                </span>
-                                <span>
-                                    加油～看好你哦！
-                                </span>
-                            </p>
-                            <div class="log_assistant_commentsbtn">
-                                发送
-                            </div>
-                        </div> --}}
-                    </div>
-                    {{/each}}
-              {{!-- </div>
+        <div class="log_assistant_unread">
+            <div class="log_assistant_readperson">
+                已读{{already_count}}人
             </div>
-
-            <!-- 筛选弹窗 -->
-            <div class="log_screening">
-                <i class="iconfont icon-xiaosanjiao"></i>
-                <i class="iconfont icon-guanbiUI log_screening_close"></i>
-                <div class="log_screening_tilte">
-                    任务详情
-                </div>
-                <div class="log_screening_person">
-                    <span>选择发送人</span>
-                    <input type="text" placeholder="请选择" class="log_screening_select">
-                </div>
-                <div class="log_screening_startdate">
-                    <p>开始时间</p>
-                    <div class="input-append date" id="screenstart_datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
-                            <input class="new_task_date" size="16" type="text" value="" readonly placeholder="请选择日期...">  
-                            <span class="add-on select_date_icon">
-                                <i data-date-icon="icon-calendar" class="icon-calendar iconfont icon-riqi"></i>
-                            </span>  
-                    </div>
-                </div>
-                <div class="log_screening_enddate">
-                    <p>截止时间</p>
-                    <div class="input-append date" id="screenend_datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
-                            <input class="new_task_date" size="16" type="text" value="" readonly placeholder="请选择日期...">  
-                            <span class="add-on select_date_icon">
-                                <i data-date-icon="icon-calendar" class="icon-calendar iconfont icon-riqi"></i>
-                            </span>  
-                    </div>
-                </div>
-                <div class="log_screening_btn">
-                    <div class="log_screening_reset">
-                        重置
-                    </div>
-                    <div class="log_screening_enter">
-                        确定
-                    </div>
-                </div>
+            <div class="log_assistant_unreadperson">
+                未读{{unread_count}}人
             </div>
-            <div id="people-choose" class="choose-team">
-                    <i class="iconfont icon-guanbiUI choose_team_close"></i>
-                    <div class="choose-header">
-                        选择发送人
+            <ul class="log_assistant_user_list">
+                {{#each already_list}}
+                <li class="already_read">
+                    <div class="log_assistant_user_touxiang_box">
+                        <img src="{{avatar}}" alt="" class="log_assistant_user_touxiang">
                     </div>
-                    <div class="choose-nav">
-                        <div class="choose-nav-left">
-                            <div class="icon-sousuo-search">
-                                <i class="iconfont icon-sousuo icon-search-choose"></i>
-                                <input placeholder="搜索" class="search-icon"/>
-                            </div>
-                            <div class="input-box">
-                               <input type="checkbox" class="checkbox-input"/>
-                               <span>全选</span>
-                            </div>
-                            <ul class="box-left-list">
-                                <li class="input-box-list">
-                                    <div class="box-list-left">
-                                        <input type="checkbox"/>
-                                        <span>设计组</span>
-                                    </div>
-                                    <button class="button-right">下级</button>
-                                </li>
-                                <li class="input-box-list">
-                                    <div class="box-list-left">
-                                        <input type="checkbox"/>
-                                        <span>产品组</span>
-                                    </div>
-                                    <button class="button-right">下级</button>
-                                </li>
-                                <li class="input-box-list">
-                                    <div class="box-list-left">
-                                        <input type="checkbox"/>
-                                        <span>运营组</span> 
-                                    </div>
-                                    <button class="button-right">下级</button>
-                                </li>
-                                <li class="input-box-list">
-                                    <div class="box-list-left">
-                                        <input type="checkbox"/>
-                                        <span>测试组</span>
-                                    </div>
-                                    <button class="button-right">下级</button>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="choose-right-list">
-                            <div class="icon-sousuo-search choose-right">
-                                <div>已选(5)</div>
-                                <button class="button-right">清空</button>
-                            </div>
-                            <ul class="box-left-list">
-                                <li class="input-box-list box-list-right">
-                                        <div class="box-list-left">
-                                            <input type="checkbox"/>
-                                            <span>李俊伟</span>
-                                        </div>
-                                        <button class="button-right">删除</button>
-                                </li>
-                                <li class="input-box-list box-list-right">
-                                        <div class="box-list-left">
-                                            <input type="checkbox"/>
-                                            <span>刘凯瑞</span>
-                                        </div>
-                                        <button class="button-right">删除</button>
-                                </li>
-                                <li class="input-box-list box-list-right">
-                                        <div class="box-list-left">
-                                            <input type="checkbox"/>
-                                            <span>颜如晶</span>
-                                        </div>
-                                        <button class="button-right">删除</button>
-                                </li>
-                                <li class="input-box-list box-list-right">
-                                        <div class="box-list-left">
-                                            <input type="checkbox"/>
-                                            <span>大王</span>
-                                        </div>
-                                        <button class="button-right">删除</button>
-                                </li>
-                                <li class="input-box-list box-list-right">
-                                        <div class="box-list-left">
-                                            <input type="checkbox"/>
-                                            <span>臧鸿飞</span>
-                                        </div>
-                                        <button class="button-right">删除</button>
-                                </li>
-                            </ul>
-                           <div class="button-bottom">
-                               <button class="button-anniu button-cancel">取消</button>
-                               <button class="button-anniu button-confirm">确定</button>
-                           </div>
-                        </div>
+                    <p class="log_assistant_user_xinming">{{user_name}}</p>
+                </li>
+                {{/each}}
+                {{#each unread_list}}
+                <li class="unread">
+                    <div class="log_assistant_user_touxiang_box">
+                        <img src="{{avatar}}" alt="" class="log_assistant_user_touxiang">
                     </div>
-                </div>
+                    <p class="log_assistant_user_xinming">{{user_name}}</p>
+                </li>
+                {{/each}}
+            </ul>
+        </div>
+    </div>
+    {{/each}}
 
-            <!-- 筛选弹窗 -->
-        </div>      
-      </div> --}}
-    <!-- 日志助手板块 -->
+
+           

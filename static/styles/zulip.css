@@ -664,10 +664,10 @@ td.pointer {
     vertical-align: middle;
     padding: 1px;
     font-weight: 400;
-    position: absolute;
-    left: 400px;
+    /* position: absolute; */
+    /* left: 400px; */
     line-height: 20px;
-    text-align: right;
+    text-align: center;
     -webkit-transition: background-color 1.5s ease-in, color 1.5s ease-in;
     -moz-transition: background-color 1.5s ease-in, color 1.5s ease-in;
     -o-transition: background-color 1.5s ease-in, color 1.5s ease-in;
