@@ -934,7 +934,7 @@ var management = (function () {
                         });
                         $(".add_ctn").on("click",function(e){
                             $(".taskdetail_md").show();
-                            $(".app").css("overflow-y","hidden");
+                            // $(".app").css("overflow-y","hidden");
                             // $(".taskdetail_list").html($(this).html());
                             // $(".taskdetail_list").val($(this).val());
                             var taskid = Number($(this).attr("taskid"))
@@ -1045,7 +1045,7 @@ var management = (function () {
         $(".add_ctn").on("click",function(e){
             console.log("dadasdasd")
             $(".taskdetail_md").show();
-            $(".app").css("overflow-y","hidden")
+            // $(".app").css("overflow-y","hidden")
         })
         //点击任务详情模版关闭任务详情
         $(".taskdetail_md").on("click",function(e){
@@ -1163,7 +1163,7 @@ var management = (function () {
                 $(".log_assistant_md").css("height",window_high);
                 $(".log_assistant_md").css("overflow","auto");
                 $(".log_assistant_md").show();
-                $(".app").css("overflow-y","hidden");
+                // $(".app").css("overflow-y","hidden");
                 $.ajax({
                     type:"GET",
                     url:"json/zg/my/receive/web",
