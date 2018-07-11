@@ -1,11 +1,12 @@
-Hello there.
+您好！
 
-You recently signed up for Zulip. Awesome!
+您最近注册了e建联，真棒！
 
-To complete signup, visit this link below:
+为完成注册，请点击:
     <{{ activate_url }}>
 
-Feel free to give us a shout at <{{ support_email }}> if you have any questions.
+有任何问题请联系客服： <{{ support_email }}> .
 
-Cheers,
-Team Zulip
+
+顺颂商祺！
+知工网络科技

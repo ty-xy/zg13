@@ -1,8 +1,7 @@
-Hi,
+您好!
 
-We just wanted to let you know that the email associated with your Zulip account
-was recently changed to {{ new_email }}. If you did not request this change,
-please contact us immediately at <{{ support_email }}>.
+您e建联账户关联的邮箱变成了 {{ new_email }}. 如果不是您要求的变动,
+请通过 <{{ support_email }}>立即联系我们 .
 
-Best,
-Team Zulip
+顺颂商祺,
+知工网络科技
