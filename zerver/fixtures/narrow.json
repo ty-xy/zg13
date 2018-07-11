@@ -255,6 +255,30 @@
     {
         "accept_events":[
             {
+                "message":{
+                    "type":"management"
+                },
+                "flags":null
+            }
+        ],
+        "reject_events":[
+            {
+                "message":{
+                    "type":"stream"
+                },
+                "flags":null
+            }
+        ],
+        "narrow":[
+            [
+                "is",
+                "management"
+            ]
+        ]
+    },
+    {
+        "accept_events":[
+            {
                 "message":null,
                 "flags": []
             }

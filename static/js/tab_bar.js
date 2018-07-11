@@ -105,7 +105,7 @@ function make_tab_data() {
             // Search is not a clickable link, since we don't have
             // a search narrow
             tabs.push(make_tab("Search results", false));
-        } else if(filter.has_operator("near")||filter.has_operand("is", "management")) {
+        } else if(filter.has_operand("is", "management")) {
          
             tabs.push(make_tab("管理", '#narrow/is/management',
                                 undefined, 'management '));

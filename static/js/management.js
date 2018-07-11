@@ -1563,7 +1563,6 @@ var management = (function () {
         $(".log_assistant_read").on("click",function(e){
             
         })
-        
         //点击打开周报
         // $("#weekly").on("click",function(e){
         //     var zjson={
