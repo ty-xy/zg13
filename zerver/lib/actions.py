@@ -1785,7 +1785,7 @@ def check_schedule_message(sender: UserProfile, client: Client,
 
 def check_stream_name(stream_name: Text) -> None:
     if stream_name.strip() == "":
-        raise JsonableError(_("Invalid stream name '%s'" % (stream_name)))
+        raise JsonableError(_("无效频道名 '%s'" % (stream_name)))
     if len(stream_name) > Stream.MAX_NAME_LENGTH:
         raise JsonableError(_("Stream name too long (limit: %s characters)." % (Stream.MAX_NAME_LENGTH)))
     for i in stream_name:
