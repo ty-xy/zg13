@@ -378,19 +378,26 @@ ul{
 .taskdetail_attachment_left>:first-child{
     float: left;
     margin: 12px 14px;
+    position: absolute;
 }
 .taskdetail_attachment_left>p:nth-of-type(1){
     font-size: 14px;
     color: #333333;
     letter-spacing: 0.15px;
     margin-top: 10px;
+    width: 328px;
+    margin-left: 52px;
+    overflow: hidden;
+    height: 20px;
 }
 .taskdetail_attachment_left>p:nth-of-type(2){
     margin-top: -12px;
     font-size: 11px;
     color: #999999;
     letter-spacing: 0.12px;
-    padding: 0px 36px;
+    /* padding: 0px 36px; */
+    margin-left: 52px;
+    
 }
 .taskdetail_download{
     font-size: 14px;
@@ -400,6 +407,7 @@ ul{
     line-height: 56px;
     margin-right: 20px;
     cursor: pointer;
+    text-decoration: none;
 }
 .taskdetail_delete{
     font-size: 14px;

@@ -106,8 +106,9 @@
                                 </p>
                             </div>
                             <div class="taskdetail_attachment_right">
-                                <input type="hidden" value="{{url}}">
-                                <span class="taskdetail_download">下载</span>
+                                {{!-- <input type="hidden" value="{{url}}"> --}}
+                                {{!-- <span class="taskdetail_download">下载</span> --}}
+                                <a href="{{url}}" download="{{url}}" class="taskdetail_download">下载</a>
                                 <span class="taskdetail_delete">删除</span>
                             </div>
                     </li>
