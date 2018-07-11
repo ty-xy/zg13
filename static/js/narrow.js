@@ -563,6 +563,11 @@ function pick_empty_narrow_banner() {
             $("#zfilt").removeClass("focused_table");
             // $("#compose").hide()
             return $("#management_ctn");
+        }else if (first_operand === "supervise") {
+            // $('#zfilt').hide()
+            // $("#zfilt").removeClass("focused_table");
+            // $("#compose").hide()
+            return $("#supervise_ctn");
         }
     } else if ((first_operator === "stream") && !stream_data.is_subscribed(first_operand)) {
         // You are narrowed to a stream which does not exist or is a private stream
@@ -593,15 +598,11 @@ function pick_empty_narrow_banner() {
 }
 
 exports.show_empty_narrow_message = function () {
-
-    // console.log("show2")
     $(".empty_feed_notice").hide();
     pick_empty_narrow_banner().show();
 };
 
 exports.hide_empty_narrow_message = function () {
-
-    // console.log("show1")
     $(".empty_feed_notice").hide();
 };
 

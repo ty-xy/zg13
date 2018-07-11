@@ -15,7 +15,7 @@
                 <span class="arrow stream-sidebar-arrow"><i class="icon-vector-chevron-down"></i></span>
                 <i class="left_tab_line" style="display: none;"></i>
             </li>
-            <!-- 添加管理栏start -->
+            <!-- 添加代办事项start -->
             <li data-name="management" class="global-filter left_tab" title="{{ _('management') }} (Esc)" id="management">
                 <a href="#narrow/is/management" id="management_refresh">
                     <span class="filter-icon">
@@ -29,7 +29,20 @@
                 <!-- <span class="arrow stream-sidebar-arrow"><i class="icon-vector-chevron-down"></i></span> -->
                 <i class="left_tab_line" style="display: none;"></i>
             </li>
-            <!-- 添加管理栏end -->
+            <!-- 添加管理 -->
+            <li data-name="supervise" class="global-filter left_tab" title="{{ _('supervise') }} (Esc)" id="management">
+                <a href="#narrow/is/supervise" id="supervise">
+                    <span class="filter-icon">
+                        <i class="iconfont icon-caidan left_tab_icon" style="font-size: 12px;"></i>
+                    </span>
+                    <span class="hover-underline">管理</span>
+                    <span class="count">
+                        <span class="value"></span>
+                    </span>
+                </a>
+                <!-- <span class="arrow stream-sidebar-arrow"><i class="icon-vector-chevron-down"></i></span> -->
+                <i class="left_tab_line" style="display: none;"></i>
+            </li>
             <!-- 添加日志助手 -->
             <li data-name="" class="global-filter left_tab log_assistant_btn" title="{{ _('Private messages') }} (P)" class="log_assistant">
                 <a href="javascript:void(0)">

@@ -952,10 +952,12 @@ PIPELINE = {
                 'styles/night_mode.css',
                 'styles/management.css',
                 'styles/choose.css',
+                'styles/supervise.css',
                 # 'js/bootstrap-timepicker/css/bootstrap-timepicker.min.css',
                 # 'js/bootstrap-datepicker/css/datepicker.css',
                 # 'js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css'
-                'third/bootstrap-datetimepicker.min.css'
+                'third/bootstrap-datetimepicker.min.css',
+                'styles/attendance.css'
             ),
             'output_filename': 'min/app.css'
         },
@@ -1179,7 +1181,8 @@ JS_SPECS = {
             # 'js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js'
             'third/bootstrap-datetimepicker.min.js',
             'js/choose_file.js',
-            'js/file.js'
+            'js/file.js',
+            'js/attendance.js'
 
         ],
         'output_filename': 'min/app.js'
