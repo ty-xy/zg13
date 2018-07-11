@@ -952,6 +952,7 @@ PIPELINE = {
                 'styles/night_mode.css',
                 'styles/management.css',
                 'styles/choose.css',
+                'styles/supervise.css',
                 # 'js/bootstrap-timepicker/css/bootstrap-timepicker.min.css',
                 # 'js/bootstrap-datepicker/css/datepicker.css',
                 # 'js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css'

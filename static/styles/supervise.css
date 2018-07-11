@@ -1,0 +1,16 @@
+#supervise_ctn{
+   background-color:#fff;
+   min-height:500px;
+   max-height:100%;
+}
+.supervise_line{
+   height:5px;
+   margin-top:0px !important;
+   border-bottom: 1px solid #CCCCCC;
+}
+.my_management_supervise{
+    font-family: PingFangSC-Medium;
+    font-size: 14px;
+    color: #666666;
+    letter-spacing: 0.17px;
+}
