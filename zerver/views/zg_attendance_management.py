@@ -37,6 +37,7 @@ def sign_in(request):
                                                       attendance_working_time__month=month,
                                                       attendance_working_time__day=day)
 
+
         if morning_working_time >= nowTime:
             if attendance_time:
                 return JsonResponse({'errno': '9', 'message': '签到成功请勿重复打卡'})
