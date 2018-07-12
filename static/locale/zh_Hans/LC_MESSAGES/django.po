@@ -1329,7 +1329,7 @@ msgstr "全名或简称"
 
 #: templates/zerver/register.html:52
 msgid "Full name"
-msgstr "名字"
+msgstr "全名"
 
 #: templates/zerver/register.html:71
 msgid ""
@@ -2251,7 +2251,7 @@ msgstr "名称太短！"
 
 #: zerver/lib/users.py:21
 msgid "Invalid characters in name!"
-msgstr "名称中有不正确字符！"
+msgstr "名字中有不正确字符！"
 
 #: zerver/lib/users.py:27 zerver/views/users.py:300 zerver/views/users.py:457
 msgid "Bad name or username"
