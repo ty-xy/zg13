@@ -404,8 +404,16 @@ v1_api_and_json_patterns = [
     # 已读未读
     url(r'^zg/state/view$', rest_dispatch,
         {'GET': 'zerver.views.zg_backlog.state_view'}),
+    # 日志评论
+    url(r'^zg/statement/review/$', rest_dispatch,
+        {'POST': 'zerver.views.zg_backlog.statement_review_post'}),
 
+    url(r'^zg/statement/review$', rest_dispatch,
+        {'GET': 'zerver.views.zg_backlog.statement_review'}),
 
+    # 回复评论
+    url(r'^zg/reply/comment/$', rest_dispatch,
+        {'POST': 'zerver.views.zg_backlog.reply_comment'}),
 
 ]
 

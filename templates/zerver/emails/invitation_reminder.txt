@@ -1,11 +1,11 @@
-Hi again,
+您好!
 
-This is a friendly reminder that {{ referrer_name }} ({{ referrer_email }}) wants you to join them on Zulip, a workplace chat tool that actually makes you more productive.
+友情提示 {{ referrer_name }} ({{ referrer_email }}) 期待您在e建联上加入他们的团队, 在那里聊天工作更有效率 - 一键联通好管理!
 
-To get started, visit the link below:
+点击下下面链接起步:
     <{{ activate_url }}>
 
-We're here for you at <{{ support_email }}> if you have any questions.
+如果有任何问题我们在这里等您<{{ support_email }}> .
 
-Cheers,
-The Zulip Team
+顺颂商祺,
+知工网络科技

@@ -1,57 +1,55 @@
-Hello {{ name }},
+{{ name }}，您好！
 
-A lot has happened on Zulip while you've been away! Visit
-{{ realm_uri }} to catch up.
+在您离开的日子离e建联上发生了很多事情。请访问 {{ realm_uri }} 去了解更多.
 
 {% if unread_pms %}
-** Missed private messages **
+** 错过的私信 **
 
-You have some missed private messages. Here are some of them:
+您错过了一些私信。这是错过私信中的一些:
 
 {% for recipient_block in unread_pms %}{{ recipient_block.header.plain }}
 {% for sender_block in recipient_block.senders %}{% if sender_block.sender %}{{ sender_block.sender }}{% endif %}
 {% for message_block in sender_block.content %}{{ message_block.plain }}
 {% endfor %}
 {% endfor %}{% endfor %}
-{% if remaining_unread_pms_count > 0 %}+ {{ remaining_unread_pms_count }} more new private message{{ remaining_unread_pms_count|pluralize }}{% endif %}
-Catch up on the rest of your PMs: {{ realm_uri }}/#narrow/is/private{% endif %}
+{% if remaining_unread_pms_count > 0 %}+ {{ remaining_unread_pms_count }} 更多私信 {{ remaining_unread_pms_count|pluralize }}{% endif %}
+请阅读剩余私信: {{ realm_uri }}/#narrow/is/private{% endif %}
 
 {% if hot_conversations %}
-** Hot conversations **
+** 热的聊天 **
 
-Here are some of the hot conversations that have happened while you've
-been gone:
+您外出期间的热点聊天:
 
 {% for convo in hot_conversations %}{% for recipient_block in convo.first_few_messages %}{{ recipient_block.header.plain }}
 {% for sender_block in recipient_block.senders %}{% if sender_block.sender %}{{ sender_block.sender }}
 {% endif %}
 {% for message_block in sender_block.content %}{{ message_block.plain }}
 {% endfor %}{% endfor %}
-{% if convo.count > 0 %}+ {{ convo.count }} more message{{ convo.count|pluralize }} by {{ convo.participants|display_list(4) }}.{% endif %}
+{% if convo.count > 0 %}+ {{ convo.count }} 更多消息 {{ convo.count|pluralize }} 由 {{ convo.participants|display_list(4) }}.{% endif %}
 {% endfor %}{% endfor %}
-Catch up on the rest of these conversations: {{ realm_uri }}.{% endif %}
+阅读剩余聊天: {{ realm_uri }}.{% endif %}
 
 
-{% if new_users and new_streams.plain %}** Group updates **{% elif new_users %}** New users **{% elif new_streams.plain %}** New streams **{% endif %}
+{% if new_users and new_streams.plain %}** 群更新 **{% elif new_users %}** New users **{% elif new_streams.plain %}** 新频道 **{% endif %}
 
-{% if new_streams.plain %}{% if new_stream_count and new_stream_count > 1 %}A new stream was{% else %}Some new streams were{% endif %} created:
+{% if new_streams.plain %}{% if new_stream_count and new_stream_count > 1 %} 新频道是 {% else %}新频道{% endif %}:
 
     {{ new_streams.plain|display_list(4) }}.
 
-Visit your Streams page to subscribe: {{ realm_uri }}/#streams.{% endif %}
+访问您的频道去订阅: {{ realm_uri }}/#streams.{% endif %}
 
-{% if new_users %}{% if new_streams.plain or unread_pms or hot_conversations %}And finally, please{% else %}Please{% endif %} welcome {{ new_users|display_list(4) }} to Zulip!{% endif %}
+{% if new_users %}{% if new_streams.plain or unread_pms or hot_conversations %}最后, 请{% else %}请{% endif %} 欢迎 {{ new_users|display_list(4) }} 加入e建联!{% endif %}
 
-Click here to log in to Zulip and catch up: {{ realm_uri }}.
+点击这里登录e建联: {{ realm_uri }}.
 
-Cheers,
-The Zulip Team
+顺颂商祺,
+知工网络科技
 
 --
-Manage email preferences:
+管理邮箱设置:
 
-{{ realm_uri }}/#settings
+{{ realm_uri }}/#settings**Other notification settings**
 
-Unsubscribe from digest emails:
+退订摘要邮件:
 
 {{ unsubscribe_link }}

@@ -1,18 +1,17 @@
-Hi,
+您好!
 
-This is a notification that a new login to your Zulip account has just occurred.
+通知：您的e建联账户刚刚有一次新登录.
 
-Login details:
-Server: {{ realm_uri }}
-Account: {{ user_email }}
-Time: {{ device_info.login_time }}
-Device: {{ device_info.device_browser if device_info.device_browser else 'an unknown browser' }} on {{ device_info.device_os if device_info.device_os else 'an unknown operating system' }}.
-IP Address: {{ device_info.device_ip }}
+登录详情:
+服务器: {{ realm_uri }}
+帐号: {{ user_email }}
+时间: {{ device_info.login_time }}
+设备: {{ device_info.device_browser if device_info.device_browser else 'an unknown browser' }} on {{ device_info.device_os if device_info.device_os else 'an unknown operating system' }}.
+IP地址: {{ device_info.device_ip }}
 
-If you do not recognize this login activity, or think your account may have
-been compromised, please contact us immediately at {{ support_email }}.
+如果这不是您登录的，或您的帐号有问题，请立即联系我们： {{ support_email }}.
 
-If you recognize this login activity, you can archive this notice.
+如果这是您的操作，请保存本通知.
 
-Thanks,
-Zulip Account Security
+谢谢,
+知工网络科技

@@ -1,12 +1,12 @@
-Hi there,
+您好!
 
-{{ referrer.full_name }} ({{ referrer.email }}) wants you to join them on Zulip -- the team communication tool designed for productivity.
+{{ referrer.full_name }} ({{ referrer.email }}) 期待您加入e建联 -- e键联通好管理.
 
-To get started, visit the link below:
+请点击下面链接启动:
     <{{ activate_url }}>
 
-Feel free to give us a shout at <{{ support_email }}> if you have any questions.
+如果您有任何问题请联系我们： <{{ support_email }}> .
 
-Cheers,
+顺颂商祺,
 
-The Zulip Team
+知工网络科技

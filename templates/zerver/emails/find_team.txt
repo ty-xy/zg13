@@ -1,12 +1,10 @@
-Hi {{ user_profile.full_name }},
+{{ user_profile.full_name }}, 您好!
 
-You can log in to your Zulip organization, {{ user_profile.realm.name }},
-at the following link:
+您可以用下列链接登录到您的e建联团队 {{ user_profile.realm.name }} :
     {{ user_profile.realm.uri }}
 
-The email address associated with your account is {{ user_profile.email }}.
+与您账户相关联的邮箱地址是 {{ user_profile.email }}.
 
-If you have trouble logging in, please contact Zulip support by replying to
-this email.
 
-Thanks for using Zulip!
+感谢使用e建联!
+
