@@ -8,6 +8,7 @@ set -e
 # * yarn_detect_profile was removed
 # * Paths were changed to variables declared at the top
 # * Most of the non error coloration was removed to not distract during installs.
+# download: https://github.com/yarnpkg/yarn/releases
 # #######################
 
 reset="\033[0m"
@@ -30,7 +31,8 @@ yarn_get_tarball() {
     # Validate that the version matches MAJOR.MINOR.PATCH to avoid garbage-in/garbage-out behavior
     version=$2
     if echo $version | grep -qE "^[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+$"; then
-      url="https://yarnpkg.com/downloads/$version/yarn-v$version.tar.gz"
+      # url="https://yarnpkg.com/downloads/$version/yarn-v$version.tar.gz"
+      url="https://github.com/yarnpkg/yarn/releases/$version/yarn-v$version.tar.gz"
     else
       printf "$red> Version number must match MAJOR.MINOR.PATCH.$reset\n"
       exit 1;
@@ -146,6 +148,8 @@ yarn_install() {
   yarn_get_tarball $1 $2
   yarn_link
   yarn_reset
+
+  yarn config set registry 'https://registry.npm.taobao.org'
 }
 
 yarn_verify_or_quit() {
