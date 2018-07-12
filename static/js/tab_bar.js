@@ -14,7 +14,6 @@ function make_tab(title, hash, data, extra_class, home) {
 function make_tab_data() {
     var tabs = [];
     var filter = narrow_state.filter();
-    console.log(filter)
     function filtered_to_non_home_view_stream() {
         if (!filter.has_operator('stream')) {
             return false;
@@ -24,7 +23,6 @@ function make_tab_data() {
         if (!stream_id) {
             return true;
         }
-        console.log(stream_data.in_home_view(stream_id))
         return !stream_data.in_home_view(stream_id);
     }
 
@@ -36,7 +34,6 @@ function make_tab_data() {
     }
 
     if (in_all()) {
-        console.log(1111)
         tabs.push(make_tab("所有消息", "#narrow/in/all", undefined, "root"));
         // All Messages
     } else if (page_params.narrow !== undefined) {
@@ -53,7 +50,6 @@ function make_tab_data() {
     if (narrow_state.active() && narrow_state.operators().length > 0) {
         var stream;
         var ops = narrow_state.operators();
-        console.log(ops)
         // Second breadcrumb item
         var hashed = hashchange.operators_to_hash(ops.slice(0, 1));
         

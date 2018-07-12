@@ -598,13 +598,11 @@ function pick_empty_narrow_banner() {
 }
 
 exports.show_empty_narrow_message = function () {
-    console.log("show2")
     $(".empty_feed_notice").hide();
     pick_empty_narrow_banner().show();
 };
 
 exports.hide_empty_narrow_message = function () {
-    console.log("show1")
     $(".empty_feed_notice").hide();
 };
 
