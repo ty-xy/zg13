@@ -35,6 +35,13 @@ var attendance = (function () {
                     forceParse: 0,
                     format:'hh:ii',
                    })
+                //接入地点
+                $(".kaoqin-era").on('click',function(){
+                    $('#map-area').show()
+                    $("#map-area").on('click',".attendance-map-close",function(){
+                        $('#map-area').hide()
+                    })
+                })
            })
            $(".attendance_ctn").on('click',".back_attendance",function(){
                 var html = templates.render("attendance_management");

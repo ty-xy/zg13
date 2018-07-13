@@ -40,7 +40,7 @@
     float: left;
     margin-left: 30px;
 }
-.attendance_close{
+.attendance-map-close,.attendance_close{
     font-size: 16px;
     float: right;
     margin-right: 20px;

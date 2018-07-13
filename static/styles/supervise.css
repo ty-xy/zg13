@@ -170,7 +170,7 @@
     height:22px;
     display: inline-block
 }
-.button-common,.button-common-date{
+.button-common,.button-common-date,.kaoqin-era{
     background: #FFFFFF;
     border: 1px solid #A0ACBF;
     border-radius: 100px;
@@ -211,20 +211,72 @@
     border-radius: 100px !important;
     text-align: center
 }
-.map-area{
-    position: fixed;
-    left:0;
-    right:0;
-    bottom:0;
-    top:0;
-    margin:auto;
+#map-area{
     z-index:3000;
-    display:none
+    height:100%; 
+    width:100%;
+    position:fixed;
+    /* background: #FF7072; */
+    left:0;
+    top:0;
+    display: none
 }
-.map-content{
+#map-content{
+     position: absolute;
+     left:0;
+     right:0;
+     top:0;
+     bottom:0;
+     height:473px;
+     width:700px ;
+     margin:auto;
+     background: #FFFFFF;
+     box-shadow: 0 1px 10px 0 rgba(204,204,204,0.30);
+     border-radius: 1px;
+}
+#map-content>.kaoqin-title{
+    height:40px;
+    width:700px;
+    background: #FFFFFF;
+    box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30);
+    border-radius: 1px 1px 0 0;
+    text-align: center;
+    line-height: 40px;
+}
+.attendance-map-close{
+    line-height:40px !important;
+    cursor: pointer;
+}
+#container{
     background: #FFFFFF;
     box-shadow: 0 1px 10px 0 rgba(204,204,204,0.30);
     border-radius: 1px;
-    height:473px;
-    width:700px
+    height:200px;
+    width:660px;
+    position:relative;
+    margin:10px 20px;
+    box-sizing:border-box
+}
+.sure-place{
+    margin:0;
+}
+.sure-place>li{
+    padding:0 20px;
+    height:35px;
+    line-height:35px;
+    border-bottom:2px solid #CCCCCC;
+    box-sizing:border-box;
+}
+.place-button{
+    padding-top:14px;
+    width:100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.place-sure{
+    background: #14A4FA;
+    border-radius: 100px;
+    width:120px;
+    height:40px;
 }
