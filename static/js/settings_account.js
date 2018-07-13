@@ -360,7 +360,7 @@ exports.set_up = function () {
         $("#user-avatar-source").hide();
 
         var spinner = $("#upload_avatar_spinner").expectOne();
-        loading.make_indicator(spinner, {text: 'Uploading avatar.'});
+        loading.make_indicator(spinner, {text: '上传头像中...'});
 
         channel.post({
             url: '/json/users/me/avatar',
