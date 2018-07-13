@@ -7,6 +7,14 @@
     top: 0;
     z-index: 111;
 }
+.fix:after{
+    display:block; 
+    content:"clear"; 
+    height:0; 
+    clear:both; 
+    overflow:hidden; 
+    visibility:hidden;
+}
 .attendance_box{
     width: 937px;
     height: 740px;
@@ -17,19 +25,20 @@
     right: 0;
     margin: auto;
     z-index: 1000;
-    background: #fff;
+    /* background: #fff; */
+    background: #F5F5F5;
+    border-radius: 1px;
+    overflow-y: auto;
 }
 .attendance_head{
     width: 937px;
     height: 60px;
     background: #FFFFFF;
     box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30);
-    overflow: hidden;
     position: relative;
     border-bottom: 1px solid #F2F2F2;
 }
 .attendance_tab{
-    overflow: hidden;
     margin: 0;
 }
 .attendance_tab>li{
@@ -46,4 +55,370 @@
     margin-right: 20px;
     line-height: 60px;
     color: #A0ACBF;
+}
+.attendance_top{
+    margin-top: 18px;
+}
+.attendance_top_left{
+    float: left;
+}
+.attendance_top_right{
+    float: left;
+    margin-left: 200px;
+}
+.attendance_group_tilte{
+    font-size: 15px;
+    color: #666666;
+    letter-spacing: 0.18px;
+}
+.attendance_screen_title{
+    font-size: 15px;
+    color: #666666;
+    letter-spacing: 0.18px;
+}
+.attendance_groups{
+
+}
+.attendance_groups>div{
+    float: left;
+    background: #A0ACBF;
+    border-radius: 100px;
+    width: 120px;
+    height: 30px;
+    color: #fff;
+    letter-spacing: 0.16px;
+    font-size: 13px;
+    text-align: center;
+    line-height: 30px;
+    margin-right: 10px;
+}
+.attendance_ctn{
+    width: 878px;
+    margin: 0 auto;
+}
+.attendance_middle{
+    background: #fff;
+    box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30);
+    border-radius: 4px;
+    margin-top: 20px;
+    padding: 0 21px;
+    overflow: hidden;
+}
+.attendance_statistical{
+    margin-top: 20px;
+    border-bottom: 1px solid #ccc;
+}
+.attendance_statistical_title,.attendance_statistical_num{
+    font-size: 17px;
+    color: #333333;
+    letter-spacing: 0.2px;
+    float: left;
+}
+.attendance_statistical_title{
+    margin-top: 5px;
+}
+.attendance_statistical_num{
+    margin-left: 10px;
+}
+.attendance_statistical_num>span{
+    font-size: 35px;
+    color: #333333;
+    letter-spacing: 0.42px;
+}
+.attendance_statistical_detail{
+    margin-top: 10px;
+}
+.attendance_statistical_detail>p{
+    font-size: 16px;
+    color: #333333;
+    letter-spacing: 0.19px;
+}
+.attendance_statistical_detail>p>span:nth-of-type(1){
+    font-weight: 500;
+}
+.attendance_statistical_detail>p>span:nth-of-type(2){
+    color: #666666;
+    margin-left: 10px;
+}
+.attendance_bottom{
+    background: #fff;
+    box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30);
+    border-radius: 4px;
+    margin-top: 20px;
+    padding: 0 21px;
+    overflow: hidden;
+}
+.attendance_bottom_head{
+    margin-top: 16px;
+}
+.attendance_bottom_title{
+    font-size: 15px;
+    color: #333333;
+    letter-spacing: 0.18px;
+    float: left;
+    margin-left: 310px;
+    margin-top: 10px;
+}
+.attendance_bottom_search{
+    float: right;
+    position: relative;
+}
+.attendance_bottom_search_person{
+    border: 1px solid #CCCCCC;
+    border-radius: 100px;   
+    width:200px;
+    height: 30px;
+    font-size: 12px;
+    color: #999999;
+    letter-spacing: 0.14px;
+    border-radius: 100px!important;
+    text-indent: 20px;
+}
+.attendance_bottom_search_icon{
+    position: absolute;
+    left: 10px;
+    top: 7px;
+    font-size: 6px;
+    color: #ccc;
+}
+.attendance_bottom_ctn{
+    margin: 0;
+    margin-bottom: 20px;
+}
+.attendance_bottom_person{
+    height: 60px;
+    border-bottom: 1px solid #ccc;
+}
+.attendance_bottom_img_box{
+    width: 40px;
+    height: 40px;
+    margin: 10px;
+    overflow: hidden;
+    border-radius: 50%;
+    background: red;
+    float: left;
+    margin-left:0;
+}
+.attendance_bottom_name{
+    float: left;
+    font-size: 14px;
+    color: #333333;
+    letter-spacing: 0.17px;
+    margin: 20px 0;
+}
+.attendance_bottom_calendar_box{
+    float: right;
+    margin: 20px 0;
+    cursor: pointer;
+}
+.attendance_bottom_calendar{
+    font-size: 13px;
+    color: #A0ACBF;
+    letter-spacing: 0.16px;
+}
+/* 考勤日历样式 */
+.calendar_head{
+    margin-top: 20px;
+    border-bottom: 1px solid #ccc;
+}
+.calendar_state{
+    margin: 0;
+    float: left;
+}
+.calendar_state>li{
+    float: left;
+}
+.green{
+    background: #9CCC65;
+}
+.yellow{
+    background: #FFCA28;
+}
+.red{
+    background: #EF5350; 
+}
+.calendar_state>li>span{
+    display: block;
+    float: left;
+}
+.calendar_state>li>span:nth-of-type(1){
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin: 5px 0;
+    margin-right: 10px;
+}
+.calendar_state>li>span:nth-of-type(2){
+    margin-right: 20px;
+}
+.calendar_screen{
+    float: left;
+}
+.calendar_screen>p{
+    float: left;
+}
+.calendar_screen_title{
+    font-size: 14px;
+    color: #333333;
+    letter-spacing: 0.17px;
+    margin-left: 224px;
+    margin-right: 20px;
+}
+.calendar_screen_select{
+    background: #FFFFFF;
+    border: 1px solid #A0ACBF;
+    border-radius: 100px;
+    width: 99px;
+    height: 28px;
+    line-height: 30px;
+    font-size: 13px;
+    color: #A0ACBF;
+    letter-spacing: 0.16px;
+    text-align: center;
+    margin-top: -5px;
+    cursor: pointer;
+}
+.calendar_return{
+    float: left;
+    background: #A0ACBF;
+    border-radius: 100px;
+    width: 60px;
+    height: 30px;
+    color: #fff;
+    text-align: center;
+    line-height: 30px;
+    margin-left: 40px;
+    margin-top: -5px;
+    cursor: pointer;
+}
+.calendar_ctn{
+    margin: 0;
+    margin-top: 16px;
+}
+.calendar_ctn>li{
+    width: 340px;
+    height: 490px;
+    background: #fff;
+    float: left;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+.calendar_person{
+    padding: 10px 20px;
+}
+
+.calendar_top{
+    height: 50px;
+    border-bottom: 1px solid #ccc;
+}
+.calendar_avatar_box{
+    float: left;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #EF5350;
+}
+.calendar_person_name{
+    float: left;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #333333;
+    letter-spacing: 0.17px;
+    margin-left: 10px;
+}
+.calendar_person_month{
+    float: right;
+    font-size: 26px;
+    color: #333333;
+    letter-spacing: 0.31px;
+    margin-top: 10px;
+}
+.calendar_person_detail{
+    height: 40px;
+    background: #F5F5F5;
+    border-radius: 4px;
+    margin-top: 10px;
+    padding-left: 10px;
+}
+.calendar_person_detail>span{
+    line-height: 40px;
+    margin-right: 6px;
+    font-size: 14px;
+    color: #333333;
+    letter-spacing: 0.17px;
+}
+.calendar_list{
+    margin: 0;
+}
+.calendar_list>li{
+    float: left;
+    width: 44px;
+    height: 44px;
+    text-align: center;
+    line-height: 44px;
+}
+.calendar_list_num{
+    height: 18px;
+    width: 18px;
+    line-height: 18px;
+    margin: 2px 13px;
+    /* background: #ccc; */
+    border-radius: 50%;
+}
+.calendar_list_state{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin: 0 17px;
+    background: #EF5350; 
+}
+.calendar_place_box{
+    padding: 4px 20px;
+}
+.calendar_place_title{
+    float: left;
+    font-size: 12px;
+    color: #333333;
+    letter-spacing: 0.14px;
+}
+.calendar_place_set{
+    float: left;
+    font-size: 12px;
+    color: #999999;
+    letter-spacing: 0.14px;
+    margin-left: 10px;
+}
+.calendar_time_box{
+    margin: 0;
+}
+.calendar_time_up,.calendar_time_down{
+    padding: 10px 20px;
+    background: #F5F5F5;
+    border-radius: 4px;
+    margin-bottom: 5px;
+}
+.calendar_time_up_left{
+    float: left;
+}
+.calendar_time_up_right{
+    float: right;
+}
+.calendar_time_up_left>span{
+    font-size: 13px;
+    color: #333333;
+    letter-spacing: 0.16px;
+}
+.calendar_time_place{
+    font-size: 13px;
+    color: #000000;
+    letter-spacing: 0.14px;
+    line-height: 18px;
+    margin-right: 10px;
+}
+.calendar_time_state{
+    padding: 2px 8px;
+    color: #fff;
+    background: #9CCC65;
+    border-radius: 4px;
+    font-size: 12px;
 }

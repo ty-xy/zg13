@@ -1,0 +1,80 @@
+ {{!-- 日历板块 --}}
+                <div class="calendar_box">
+                    <div class="calendar_head fix">
+                        <ul class="calendar_state fix">
+                            <li><span class="green"></span><span>正常</span></li>
+                            <li><span class="yellow"></span><span>外勤、请假</span></li>
+                            <li><span class="red"></span><span>异常（缺卡、迟到、早退）</span></li>
+                        </ul>
+                        <div class="calendar_screen fix">
+                            <p class="calendar_screen_title">筛选:</p>
+                            <p class="calendar_screen_select">2018年</p>
+                        </div>
+                        <div class="calendar_return">
+                            返回
+                        </div>
+                    </div>
+                    <ul class="calendar_ctn">
+                        <li class="calendar_person">
+                            <div class="calendar_top fix">
+                                <div class="calendar_avatar_box">
+                                    <img src="" alt="">
+                                </div>
+                                <p class="calendar_person_name">李萌</p>
+                                <p class="calendar_person_month">5月</p>
+                            </div>
+                            <div class="calendar_person_detail">
+                                <span>出勤&nbsp;9</span>
+                                <span>外勤&nbsp;9</span>
+                                <span>缺卡&nbsp;9</span>
+                                <span>迟到&nbsp;9</span>
+                                <span>早退&nbsp;9</span>
+                                <span>请假&nbsp;9</span>
+                            </div>
+                            <div class="calendar_list_box">
+                                <ul class="calendar_list fix">
+                                    <li>日</li>
+                                    <li>一</li>
+                                    <li>二</li>
+                                    <li>三</li>
+                                    <li>四</li>
+                                    <li>五</li>
+                                    <li>六</li>
+                                    {{#each arr}}
+                                    <li>
+                                        <p class="calendar_list_num">{{this}}</p>
+                                        <p class="calendar_list_state"></p>
+                                    </li>
+                                    {{/each}}
+                                </ul>
+                            </div>
+                            <div class="calendar_place_box fix">
+                                <p class="calendar_place_title">朝阳门考勤组</p>
+                                <p class="calendar_place_set">(<span>上午09:00</span>/<span>下午18:00</span>)</p>
+                            </div>
+                            <ul class="calendar_time_box">
+                                <li class="calendar_time_up fix">
+                                    <div class="calendar_time_up_left">
+                                        <span>上班打卡&nbsp;</span>
+                                        <span>08:45</span>
+                                    </div>
+                                    <div class="calendar_time_up_right">
+                                        <span class="calendar_time_place">华普国际大厦</span>
+                                        <span class="calendar_time_state">正常</span>
+                                    </div>
+                                </li>
+                                <li class="calendar_time_up fix">
+                                    <div class="calendar_time_up_left">
+                                        <span>下班打卡&nbsp;</span>
+                                        <span>08:45</span>
+                                    </div>
+                                    <div class="calendar_time_up_right">
+                                        <span class="calendar_time_place">华普国际大厦</span>
+                                        <span class="calendar_time_state">正常</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            {{!-- 日历板块 --}}
