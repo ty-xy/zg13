@@ -35,7 +35,7 @@ casper.then(function () {
 // Make sure the realm creation page is loaded correctly
 casper.then(function () {
     this.waitUntilVisible('.pitch', function () {
-        this.test.assertSelectorContains('.pitch', "You're almost there.");
+        this.test.assertSelectorContains('.pitch', "马上就好.");
     });
 
     this.waitUntilVisible('#id_email', function () {
@@ -45,7 +45,7 @@ casper.then(function () {
     });
 
     this.waitUntilVisible('label[for=id_team_name]', function () {
-        this.test.assertSelectorHasText('label[for=id_team_name]', 'Organization name');
+        this.test.assertSelectorHasText('label[for=id_team_name]', '团队名称');
     });
 });
 

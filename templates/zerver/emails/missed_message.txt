@@ -1,6 +1,6 @@
-Hello {{ name }},
+{{ name }},您好!
 
-While you were away you received {{ message_count }} new{% if group_pm %} group private{% elif private_message %} private{% endif %} message{{ message_count|pluralize }}{% if mention %} in which you were mentioned{% endif %}!
+在您离开时您收到了 {{ message_count }} 新{% if group_pm %} 组私{% elif private_message %} 私{% endif %}信{{ message_count|pluralize }}{% if mention %} 您被提到{% endif %}!
 
 {% if show_message_content %}
 {% for recipient_block in messages %}
@@ -13,24 +13,24 @@ While you were away you received {{ message_count }} new{% if group_pm %} group 
 {% endfor %}
 {% endif %}
 
-Click here to log in to Zulip and view your new messages:
+点击这里去登录e建联并阅读您的新信息:
 
 {{ realm_uri }}
 
 {% if reply_to_zulip  %}
-Or just reply to this email.
+
 {% endif %}
 {% if reply_warning %}
-Please do not reply to this automated message. To respond to the missed messages you have received, please log on to Zulip and send your replies there.
+请勿回复本邮件.请登录e建联然后回复未读信息.
 {% endif %}
 
-Cheers,
-The Zulip Team
+顺颂商祺,
+知工网络科技
 
-Manage email preferences:
+管理邮件配置:
 
 {{ realm_uri }}/#settings
 
-Unsubscribe from missed message emails:
+退订未读信息邮件:
 
 {{ unsubscribe_link }}

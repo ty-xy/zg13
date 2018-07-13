@@ -5,10 +5,10 @@
 {% endblock %}
 
 {% block content %}
-<p>Hi {{ user_profile.full_name }},</p>
+<p>{{ user_profile.full_name }},您好!</p>
 
-<p>You can log in to your Zulip organization, {{ user_profile.realm.name }},
-at the following link:</p>
+<p>您可以用下列链接登录到您的e建联团队{{ user_profile.realm.name }}:
+</p>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
@@ -18,10 +18,8 @@ at the following link:</p>
     </tr>
 </table>
 
-<p>The email address associated with your account is <b>{{ user_profile.email }}</b>.</p>
+<p>与您账户相关联的邮箱地址是 <b>{{ user_profile.email }}</b>.</p>
 
-<p>If you have trouble logging in, please contact Zulip support by replying to
-  this email.</p>
 
-<p>Thanks for using Zulip!</p>
+<p>感谢使用e建联!</p>
 {% endblock %}

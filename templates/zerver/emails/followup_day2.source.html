@@ -5,32 +5,32 @@
 {% endblock %}
 
 {% block content %}
-<p>Hey,</p>
+<p>您好!</p>
 
-<p>I wanted to share one last thing with you: a few tips about topics, since mastering topics is a key part of being a Zulip power user.</p>
+<p>让我们谈谈话题. 管理话题是用好e建联的关键.</p>
 
 <img src="{{ email_images_base_uri }}/day2_2.png"/>
 
-<p>Topics are like email subject lines. The big difference, though, is that they're really short and lightweight. Two or three words will do it. Don't overthink 'em&mdash;you can always edit the message later!</p>
+<p>话题类似邮件的主题，只是比主题短小一点而已。两三个词足矣。别想多了，每条消息都可以编辑的!</p>
 
 <ul>
-    <li>Good topics: design mockup, Bug 345, acme burgers</li>
-    <li>Not recommended: "What do people think of this new design mockup?", "I'm looking at Bug 345", "Is Acme Burgers open for lunch?"</li>
+    <li>好的话题：设计模型、bug 345</li>
+    <li>不好的话题: "人民对新设计模式怎么看？", "我正在看bug 345"。</li>
 </ul>
 
 <img src="{{ email_images_base_uri }}/day2_3.png"/>
 
-<p>Why bother with topics? Well, two reasons: it makes conversations clearer (imagine if email didn't have them!), and it lets you more efficiently catch up on what's happened while you're away&mdash;read the topics that are relevant to you, and ignore the ones that aren't!</p>
+<p>为什么使用话题？两点。其一，使聊天更清晰；其二，使得你离开时能更有效跟进：阅读跟你相关的主题，忽略无关主题!</p>
 
-<p><a href="{{ realm_uri }}">Take it for a spin now.</a></p>
+<p><a href="{{ realm_uri }}">赶快尝试吧.</a></p>
 
-<p>Thanks,<br />Zulip</p>
+<p>谢谢,<br />知工网络科技</p>
 {% endblock %}
 
 {% block manage_preferences %}
 
 <p>
-    <a href="{{ realm_uri }}/#settings">Manage email preferences</a> |
-    <a href="{{ unsubscribe_link }}">Unsubscribe from welcome emails</a>
+    <a href="{{ realm_uri }}/#settings">管理邮箱设置</a> |
+    <a href="{{ unsubscribe_link }}">从欢迎邮箱退订</a>
 </p>
 {% endblock %}

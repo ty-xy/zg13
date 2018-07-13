@@ -146,6 +146,8 @@ yarn_install() {
   yarn_get_tarball $1 $2
   yarn_link
   yarn_reset
+
+  yarn config set registry 'https://registry.npm.taobao.org'
 }
 
 yarn_verify_or_quit() {

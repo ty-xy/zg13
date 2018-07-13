@@ -5,22 +5,20 @@
 {% endblock %}
 
 {% block content %}
-<p>Hi there,
+<p>您好!
 </p>
 <p>
-    {{ referrer.full_name }} ({{ referrer.email }}) wants you to join
-    them on Zulip &mdash; the team communication tool designed for
-    productivity.
+    {{ referrer.full_name }} ({{ referrer.email }}) 期待您加入e建联 -- e键联通好管理.
 </p>
 <p>
-    To get started, please click here:
-    <a class="button" href="{{ activate_url }}">Complete registration</a>
+    请点击下面链接启动:
+    <a class="button" href="{{ activate_url }}">完成注册</a>
 </p>
 <p>
-    Feel free to give us a shout at <a href="mailto:{{ support_email }}">{{ support_email }}</a>, if you have any questions.
+    如果您有任何问题请联系我们： <a href="mailto:{{ support_email }}">{{ support_email }}</a>.
 </p>
 <p>
-    Cheers,<br />
-    Team Zulip
+    顺颂商祺,<br />
+    知工网络科技
 </p>
 {% endblock %}
