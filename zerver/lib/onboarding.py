@@ -31,21 +31,31 @@ def send_initial_pms(user: UserProfile) -> None:
     organization_setup_text = ""
     if user.is_realm_admin:
         help_url = user.realm.uri + "/help/getting-your-organization-started-with-zulip"
-        organization_setup_text = ("* [Read the guide](%s) for getting your organization "
-                                   "started with Zulip\n" % (help_url,))
+        organization_setup_text = ("* [阅读指南](%s) 进入团队 "
+                                   "开始使用e建联\n" % (help_url,))
 
     content = (
-        "Hello, and welcome to Zulip!\n\nThis is a private message from me, Welcome Bot. "
-        "Here are some tips to get you started:\n"
-        "* Download our [Desktop and mobile apps](/apps)\n"
-        "* Customize your account and notifications on your [Settings page](#settings)\n"
-        "* Type `?` to check out Zulip's keyboard shortcuts\n"
+     #   "Hello, and welcome to Zulip!\n\nThis is a private message from me, Welcome Bot. "
+     #   "Here are some tips to get you started:\n"
+     #   "* Download our [Desktop and mobile apps](/apps)\n"
+     #   "* Customize your account and notifications on your [Settings page](#settings)\n"
+     #   "* Type `?` to check out Zulip's keyboard shortcuts\n"
+     #   "%s"
+     #   "\n"
+     #   "The most important shortcut is `r` to reply.\n\n"
+     #   "Practice sending a few messages by replying to this conversation. If you're not into "
+     #   "keyboards, that's okay too; clicking anywhere on this message will also do the trick!") \
+        "欢迎使用e建联!\n\n这是[欢迎机器人]发出的私信. "
+        "这是引导您使用的秘诀:\n"
+        "* 去应用商店下载我们的[手机App](/apps)\n"
+        "* 去设置页定制您的通知方式\n"
+        "* 键`?` 呼出e建联快捷键\n"
         "%s"
         "\n"
-        "The most important shortcut is `r` to reply.\n\n"
-        "Practice sending a few messages by replying to this conversation. If you're not into "
-        "keyboards, that's okay too; clicking anywhere on this message will also do the trick!") \
-        % (organization_setup_text,)
+        "最常用的快捷键用`r` 来回复消息.\n\n"
+        "练练手吧，按`r`来回复本聊天对话."
+        "如果您不用键盘，没关系，点击本消息任何地方，能达到同样目的，即回复消息!") \
+              % (organization_setup_text,)
 
     internal_send_private_message(user.realm, get_system_bot(settings.WELCOME_BOT),
                                   user, content)
@@ -54,11 +64,9 @@ def setup_initial_streams(realm: Realm) -> None:
     stream_dicts = [
         {'name': "一般"},
         {'name': "新成员",
-         'description': "For welcoming and onboarding new members. If you haven't yet, "
-         "introduce yourself in a new thread using your name as the topic!"},
-        {'name': "zulip",
-         'description': "For discussing Zulip, Zulip tips and tricks, and asking "
-         "questions about how Zulip works"}]  # type: List[Mapping[str, Any]]
+         'description': "欢迎新成员. 您可以用您的名字作为话题来介绍自己!"},
+        {'name': "e建联",
+         'description': "e建联讨论、秘诀、提问题等等"}]  # type: List[Mapping[str, Any]]
     create_streams_if_needed(realm, stream_dicts)
     set_default_streams(realm, {stream['name']: {} for stream in stream_dicts})
 
@@ -69,37 +77,34 @@ def send_initial_realm_messages(realm: Realm) -> None:
     # view slightly less overwhelming
     welcome_messages = [
         {'stream': Realm.DEFAULT_NOTIFICATION_STREAM_NAME,
-         'topic': "welcome",
-         'content': "This is a message on stream `%s` with the topic `welcome`. We'll use this stream "
-         "for system-generated notifications." % (Realm.DEFAULT_NOTIFICATION_STREAM_NAME,)},
+         'topic': "欢迎",
+         'content': "这是频道 `%s` 话题 `欢迎` 的消息. 我们使用这个频道 "
+         "来放置系统生成的通知." % (Realm.DEFAULT_NOTIFICATION_STREAM_NAME,)},
         {'stream': Realm.INITIAL_PRIVATE_STREAM_NAME,
-         'topic': "private streams",
-         'content': "This is a private stream. Only admins and people you invite "
-         "to the stream will be able to see that this stream exists."},
-        {'stream': "general",
+         'topic': "私有频道",
+         'content': "这是私有频道. 只有管理员和您邀请的人才能看见本频道的存在."},
+        {'stream': "会客厅",
          'topic': "welcome",
-         'content': "Welcome to #**general**."},
-        {'stream': "new members",
-         'topic': "onboarding",
-         'content': "A #**new members** stream is great for onboarding new members.\n\nIf you're "
-         "reading this and aren't the first person here, introduce yourself in a new thread "
-         "using your name as the topic! Type `c` or click on `New Topic` at the bottom of the "
-         "screen to start a new topic."},
-        {'stream': "zulip",
-         'topic': "topic demonstration",
-         'content': "Here is a message in one topic. Replies to this message will go to this topic."},
-        {'stream': "zulip",
-         'topic': "topic demonstration",
-         'content': "A second message in this topic. With [turtles](/static/images/cute/turtle.png)!"},
-        {'stream': "zulip",
-         'topic': "second topic",
-         'content': "This is a message in a second topic.\n\nTopics are similar to email subjects, "
-         "in that each conversation should get its own topic. Keep them short, though; one "
-         "or two words will do it!"},
+         'content': "Welcome to #**会客厅**."},
+        {'stream': "新成员",
+         'topic': "报到",
+         'content': "#**新成员** 频道，为新员工报到而设置.\n\n如果您不是这里的第一个人而读到本消息 "
+         "请在用您的名字作为话题名来介绍自己! "
+         "键入 `c` 或在屏幕下方点击 `新话题` 来开始新话题."},
+        {'stream': "e建联",
+         'topic': "话题演示",
+         'content': "这是一个话题里面的一条消息. 回复本消息将加入本话题."},
+        {'stream': "e建联",
+         'topic': "话题演示",
+         'content': "该话题第二条消息，带这[海龟](/static/images/cute/turtle.png)!"},
+        {'stream': "e建联",
+         'topic': "第二个话题",
+         'content': "第二个话题的消息.\n\n 话题类似邮件的主题, "
+         "明天沟通对话都围绕自己的话题. 话题宜短小，两三个词最好!"},
     ]  # type: List[Dict[str, Text]]
     messages = [internal_prep_stream_message(
         realm, welcome_bot,
-        message['stream'], message['topic'], message['content']) for message in welcome_messages]
+        message['频道'], message['话题'], message['内容']) for message in welcome_messages]
     message_ids = do_send_messages(messages)
 
     # We find the one of our just-sent messages with turtle.png in it,
@@ -107,6 +112,6 @@ def send_initial_realm_messages(realm: Realm) -> None:
     # 1-off thing.
     turtle_message = Message.objects.get(
         id__in=message_ids,
-        subject='topic demonstration',
+        subject='话题演示',
         content__icontains='cute/turtle.png')
     do_add_reaction_legacy(welcome_bot, turtle_message, 'turtle')
