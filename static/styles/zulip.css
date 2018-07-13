@@ -668,6 +668,8 @@ td.pointer {
     /* left: 400px; */
     line-height: 20px;
     text-align: center;
+    margin-bottom: -20px;
+    margin-top: -5px;
     -webkit-transition: background-color 1.5s ease-in, color 1.5s ease-in;
     -moz-transition: background-color 1.5s ease-in, color 1.5s ease-in;
     -o-transition: background-color 1.5s ease-in, color 1.5s ease-in;
@@ -706,7 +708,7 @@ td.pointer {
     display: inline-block;
     position: absolute;
     top: 2px;
-    right: 84px;
+    right: 0;
     z-index: 1;
 }
 
@@ -753,7 +755,7 @@ td.pointer {
 
 .message_list .recipient_row {
     /* border-bottom: 1px solid hsl(0, 0%, 88%); */
-    /* margin-bottom: 10px; */
+    margin-bottom: 10px;
 
 }
 
@@ -1516,10 +1518,11 @@ blockquote p {
 
 .messagebox-content {
     padding: 4px 10px 1px 10px;overflow: hidden;
+    background: #fff;
 }
 
 .last_message .messagebox-content {
-    padding-bottom: 1px;
+    padding-bottom: 12px;
     /* border-bottom: 10px solid #eee; */
     background: #fff;
 }
