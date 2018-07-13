@@ -114,6 +114,9 @@
     letter-spacing: 0.2px;
     float: left;
 }
+.attendance_statistical_title{
+    margin-top: 5px;
+}
 .attendance_statistical_num{
     margin-left: 10px;
 }
@@ -355,8 +358,12 @@
     line-height: 44px;
 }
 .calendar_list_num{
-    width: 44px;
-    height: 22px;
+    height: 18px;
+    width: 18px;
+    line-height: 18px;
+    margin: 2px 13px;
+    /* background: #ccc; */
+    border-radius: 50%;
 }
 .calendar_list_state{
     width: 10px;

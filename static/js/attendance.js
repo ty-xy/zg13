@@ -16,10 +16,57 @@ var attendance = (function () {
             $(".attendance_bottom_ctn").on("click",".attendance_bottom_calendar",function(){
                 $(".attendance_ctn").children().remove();
                 var arr=[]
-                var firstDay = 1;
+                var firstDay = 7;
                 var lastDay = 30;
-                for(var i=1;i<lastDay;i++){
-                    arr.push(i)
+                if(firstDay==1){
+                    for(var i=1;i<lastDay;i++){
+                        arr.push(i)
+                    }
+                }else if(firstDay==2){
+                    arr.unshift("");
+                    for(var i=1;i<lastDay;i++){
+                        arr.push(i)
+                    }
+                }else if(firstDay==3){
+                    arr.unshift("");
+                    arr.unshift("");
+                    for(var i=1;i<lastDay;i++){
+                        arr.push(i)
+                    }
+                }else if(firstDay==4){
+                    arr.unshift("");
+                    arr.unshift("");
+                    arr.unshift("");
+                    for(var i=1;i<lastDay;i++){
+                        arr.push(i)
+                    }
+                }else if(firstDay==5){
+                    arr.unshift("");
+                    arr.unshift("");
+                    arr.unshift("");
+                    arr.unshift("");
+                    for(var i=1;i<lastDay;i++){
+                        arr.push(i)
+                    }
+                }else if(firstDay==6){
+                    arr.unshift("");
+                    arr.unshift("");
+                    arr.unshift("");
+                    arr.unshift("");
+                    arr.unshift("");
+                    for(var i=1;i<lastDay;i++){
+                        arr.push(i)
+                    }
+                }else if(firstDay==7){
+                    arr.unshift("");
+                    arr.unshift("");
+                    arr.unshift("");
+                    arr.unshift("");
+                    arr.unshift("");
+                    arr.unshift("");
+                    for(var i=1;i<lastDay;i++){
+                        arr.push(i)
+                    }
                 }
                 var calendar_box = templates.render("calendar_box",{arr:arr});
                 $(".attendance_ctn").append(calendar_box);
@@ -30,7 +77,6 @@ var attendance = (function () {
                 $(".attendance_ctn").children().remove();
                 var attendance_all = templates.render("attendance_all")
                 $(".attendance_ctn").append(attendance_all);
-                console.log("iqwehqowbej123123123123123123")
                 //查看考勤日历
                 $(".attendance_bottom_ctn").on("click",".attendance_bottom_calendar",function(){
                     $(".attendance_ctn").children().remove();
