@@ -10,8 +10,39 @@ var attendance = (function () {
                 $(".attendance_md").remove()
            })
            //点击考勤组的样式
+           $(".attendance_mangement").on('click',function(){
+               $(this).addClass("high_light").siblings().removeClass("high_light")
+               var html = templates.render("attendance_management");
+               $(".attendance_ctn").html(html)
+             
+           })
+           //新增加项目
+           $(".attendance_ctn").on('click',".new_attendance",function(){
+                var html = templates.render("attendance_team");
+                $(".attendance_ctn").html(html)
+                //选择日期
+                $(".button-common").datetimepicker({
+                    language:"zh-CN",  
+                    weekStart: 1,
+                    todayBtn:  0,
+                    autoclose: 1,
+                    todayHighlight: 1,
+                    startView: 1,
+                    minView: 0,
+                    showHours : true,
+                    // minuteStep:1,
+                    maxView: 1,
+                    forceParse: 0,
+                    format:'hh:ii',
+                   })
+           })
+           $(".attendance_ctn").on('click',".back_attendance",function(){
+                var html = templates.render("attendance_management");
+                $(".attendance_ctn").html(html)
+           })
         })
       
+
              
     });  
     return exports;
