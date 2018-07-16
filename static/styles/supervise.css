@@ -24,7 +24,8 @@
     box-shadow: 2px 2px 25px 0 rgba(204,204,204,0.80);
     border-radius: 2px;
     padding:20px;
-    box-sizing: border-box
+    box-sizing: border-box;
+    cursor: pointer;
 }
 .img_color{
     background: #FF7072;
@@ -35,4 +36,331 @@
     color: #FFFFFF;
     letter-spacing: 0.21px;
     margin-top:11px;
+}
+.attendance_team{
+    height:200px;
+    width:400px;
+    background: #FFFFFF;
+    box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30);
+    border-radius: 4px;
+    position: relative;
+}
+.new_attendance{
+    background: #A0ACBF;
+    border-radius: 100px;
+    height:30px;
+    width:120px;
+}
+.attendance_box{
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.attendance_ctn{
+    padding:0 30px;
+   
+}
+.attendance_ul_team{
+    margin:0;
+}
+.new_attendance_title{
+    margin-top:40px;
+    margin-bottom:30px;
+}
+.attendance_team>h1{
+    font-family: PingFangSC-Medium;
+    font-size: 20px;
+    color: #333333;
+    letter-spacing: 0.24px;
+    margin:0;
+    /* padding-left:20px; */
+    padding:15px 0 13px 20px; 
+    /* margin-bottom:20px; */
+    line-height:28px;
+    height: 28px;
+
+}
+.attendance_team_bottom{
+    background: #ACBACE;
+    border-radius: 0 0 4px 4px;
+    height:35px;
+    position: absolute;
+    bottom:0;
+    width:inherit;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.attendance_team_bottom>button{
+    border:none;
+    font-family: PingFangSC-Medium;
+    font-size: 13px;
+    background: #ACBACE;
+    color: #FFFFFF;
+    letter-spacing: 0.16px;
+    
+}
+.team-line{
+    border-bottom: 1px solid #CCCCCC;
+    height:1px;
+    display:block;
+    margin:0 20px;
+    margin-bottom:17px;
+}
+.attendance-new-detail{
+    height:680px;
+    width:877px;
+    overflow-y: auto;
+    background: #fff;
+    background: #FFFFFF;
+    box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30);
+    border-radius: 1px 1px 0 0;
+    padding:22px 10px;
+    position: relative;
+}
+.new_title_detail{
+    display:flex;
+    justify-content: space-between;
+    margin-top: 24px !important;
+    margin-bottom: 14px !important ;
+}
+.new_title_detail>p{
+    font-family: PingFangSC-Medium;
+    font-size: 16px;
+    color: #333333;
+    letter-spacing: 0.19px;
+}
+.team-line-detail{
+    margin:0;
+    margin-bottom:17px;
+  
+}
+.back_attendance{
+    background: #A0ACBF;
+    border-radius: 100px;
+    height:30px;
+    width:60px;
+}
+.kaoqin-common{
+    margin-top:30px
+}
+.kaoqin-name{
+    display: flex;
+    align-items: center;
+}
+.kaoqin-common>h2{
+    font-family: PingFangSC-Medium;
+    font-size: 17px;
+    color: #333333;
+    letter-spacing: 0.2px;
+    margin:0;
+}
+.kaoqin-name>input{
+    margin:0;
+    height:40px;
+    width:300px;
+    margin-left:24px;
+    box-sizing: border-box
+}
+.kaoqin-door{
+    font-family: PingFangSC-Regular;
+    font-size: 16px;
+    color: #666666;
+    letter-spacing: 0.19px;
+    width:130px;
+    height:22px;
+    display: inline-block
+}
+.button-common,.button-common-date,.kaoqin-era,.button-common-area{
+    background: #FFFFFF;
+    border: 1px solid #A0ACBF;
+    border-radius: 100px;
+    height:30px;
+    width:120px !important;
+    margin-right:10px;
+}
+.title-common{
+    margin-top:15px;
+}
+.new-button-bottom{
+    position: absolute;
+    left:0;
+    right:0;
+    margin: auto;
+    bottom:28px;
+    display: flex;
+    justify-content: center
+}
+.new-button-bottom>button{
+    width:330px;
+    height:55px;
+    background: #14A4FA;
+    border-radius: 3px;
+}
+.kaoqin-place{
+    font-family: PingFangSC-Regular;
+    font-size: 16px;
+    color: #666666;
+    letter-spacing: 0.19px;
+    height:22px;
+    width:65px;
+    display: inline-block;
+    margin-right:20px;
+}
+.button-input{
+    margin-bottom:0 !important;
+    border-radius: 100px !important;
+    text-align: center
+}
+#map-area{
+    z-index:3000;
+    height:100%; 
+    width:100%;
+    position:fixed;
+    /* background: #FF7072; */
+    left:0;
+    top:0;
+    display: none
+}
+#map-content{
+     position: absolute;
+     left:0;
+     right:0;
+     top:0;
+     bottom:0;
+     height:473px;
+     width:700px ;
+     margin:auto;
+     background: #FFFFFF;
+     box-shadow: 0 1px 10px 0 rgba(204,204,204,0.30);
+     border-radius: 1px;
+}
+#map-content>.kaoqin-title{
+    height:40px;
+    width:700px;
+    background: #FFFFFF;
+    box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30);
+    border-radius: 1px 1px 0 0;
+    text-align: center;
+    line-height: 40px;
+}
+.attendance-map-close{
+    line-height:40px !important;
+    cursor: pointer;
+}
+#container{
+    background: #FFFFFF;
+    box-shadow: 0 1px 10px 0 rgba(204,204,204,0.30);
+    border-radius: 1px;
+    height:200px;
+    width:660px;
+    position:relative;
+    margin:10px 20px;
+    box-sizing:border-box
+}
+.sure-place{
+    margin:0;
+}
+.sure-place>li{
+    padding:0 20px;
+    height:35px;
+    line-height:35px;
+    border-bottom:2px solid #CCCCCC;
+    box-sizing:border-box;
+}
+.place-button{
+    padding-top:14px;
+    width:100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.place-sure{
+    background: #14A4FA;
+    border-radius: 100px;
+    width:120px;
+    height:40px;
+}
+.title-cache-area{
+    display:flex;
+    
+}
+.btn-group-area{
+    position:relative
+}
+.drop-menu-list{
+   min-width: 143px !important;
+}
+.drop-menu-list>li{
+    text-align: center
+}
+
+.kaoqin-date-choose{
+    width:100%;
+    height:100%;
+    position: fixed;
+    /* background: #FF7072; */
+    left:0;
+    top:0;
+    display: none;
+    z-index: 3000;
+}
+.kaoqin-date{
+    position: absolute;
+    top:0;
+    bottom:0;
+    right:0;
+    left:0;
+    margin: auto;
+    width:300px;
+    height:473px;
+    background: #FFFFFF;
+    box-shadow: 0 1px 10px 0 rgba(204,204,204,0.30);
+    border-radius: 1px;
+}
+.kaoqin-title{
+    background: #FFFFFF;
+    box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30);
+    border-radius: 1px 1px 0 0;
+    height:40px;
+    text-align: center;
+    line-height: 40px;
+}
+.kaoqin-choose-week{
+    margin-top:5px;
+    margin-left:0;
+    padding:0 20px;
+}
+.kaoqin-choose-week>li{
+    margin-top:15px;
+    height:22px;
+    line-height:22px;
+}
+.kaoqin-choose-week>li>input{
+    height:16px;
+    width:16px;
+    
+}
+.kaoqin-choose-week>li>span{
+    margin-left:12px;
+    font-family: PingFangSC-Regular;
+    font-size: 16px;
+    color: #333333;
+    letter-spacing: 0.23px;
+}
+.divid-line{
+    border-bottom: 1px solid #CCCCCC
+}
+.kaoqin-date-area{
+    margin-top:30px;
+    background: #14A4FA;
+    border-radius: 100px;
+    color:#fff;
+    height:40px;
+    width:120px;
+    margin-left:90px;
+}
+.attendance_close_week{
+    cursor: pointer;
+    position: absolute;
+    right:10px
 }

@@ -49,13 +49,14 @@
     float: left;
     margin-left: 30px;
 }
-.attendance_close{
+.attendance-map-close,.attendance_close{
     font-size: 16px;
     float: right;
     margin-right: 20px;
     line-height: 60px;
     color: #A0ACBF;
 }
+
 .attendance_top{
     margin-top: 18px;
 }
@@ -423,6 +424,7 @@
     border-radius: 4px;
     font-size: 12px;
 }
+
 /* 补卡窗口 */
 .calendar_card{
     width: 400px;
@@ -546,3 +548,4 @@ textarea:focus {
     background: url("../img/jiahao.png")no-repeat;
     background-image: 14px 14px;
 } */
+

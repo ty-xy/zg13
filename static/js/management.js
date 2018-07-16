@@ -325,7 +325,7 @@ var management = (function () {
                         success:function(data){
                             if(data.errno===0){
                                alert('提交成功','rgba(0,107,169,0.30)')
-                              $(".create_generate_log").delay(3000).hide(0)
+                              $(".create_generate_log").delay(1000).hide(0)
                             //    $(".create_generate_log").hide();
                             } else if(data.errno===1){
                                 alert('请完善必填内容','rgba(169,12,0,0.30)')
@@ -1584,7 +1584,10 @@ var management = (function () {
         $(".log_assistant_read").on("click",function(e){
             
         })
-        
+           // console.log($(".common_img"))
+        // $(".common_img").on("click",function(){
+        //     console.log("123123")
+        // })
         //点击打开周报
         // $("#weekly").on("click",function(e){
         //     var zjson={
