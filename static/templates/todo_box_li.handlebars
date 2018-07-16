@@ -11,8 +11,15 @@
                 {{#if accessory_list}}
                 <i class='iconfont icon-fujian1 attachment_icon'></i>
                 {{/if}}
-                <p class='add_datatime'>{{substr over_time}}</p>
-                <p class="add_datatime">{{substr create_time}}</p>
+                {{!-- <p class='add_datatime'>{{substr over_time}}</p>
+                <p class="add_datatime">{{substr create_time}}</p> --}}
+                {{#compareDate over_time '==' create_time}}
+                    <p class='add_datatime'>{{substrMonth over_time}}</p>
+                    <p class="add_datatime">{{substrMonth create_time}}</p>
+                    {{else}}
+                    <p class='add_datatime'>{{substrYear over_time}}</p>
+                    <p class="add_datatime">{{substrYear create_time}}</p>
+                {{/compareDate}}
         </div>
 </li>
 {{/each}}
@@ -29,8 +36,15 @@
                 {{#if accessory_list}}
                 <i class='iconfont icon-fujian1 attachment_icon'></i>
                 {{/if}}
-                <p class='add_datatime overdue'>{{substr over_time}}</p>
-                <p class='add_datatime overdue'>{{substr create_time}}</p>
+                {{!-- <p class='add_datatime overdue'>{{substr over_time}}</p>
+                <p class='add_datatime overdue'>{{substr create_time}}</p> --}}
+                {{#compareDate over_time '==' create_time}}
+                    <p class='add_datatime overdue'>{{substrMonth over_time}}</p>
+                    <p class="add_datatime overdue">{{substrMonth create_time}}</p>
+                    {{else}}
+                    <p class='add_datatime overdue'>{{substrYear over_time}}</p>
+                    <p class="add_datatime overdue">{{substrYear create_time}}</p>
+                {{/compareDate}}
         </div>
 </li>
 {{/each}}

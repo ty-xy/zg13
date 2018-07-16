@@ -70,6 +70,19 @@ var attendance = (function () {
                 }
                 var calendar_box = templates.render("calendar_box",{arr:arr});
                 $(".attendance_ctn").append(calendar_box);
+                //补卡弹窗
+                // var calendar_card = templates.render("calendar_card")
+                // $(".attendance_ctn").append(calendar_card)
+                $(".calendar_screen_select").datetimepicker({
+                    startView: 'decade',
+                    minView: 'decade',
+                    format: 'yyyy',
+                    maxViewMode: 2,
+                    minViewMode:2,
+                    autoclose: true
+                    }).on("changeDate",function(){
+                        console.log("这是一个秋天")
+                    }); 
 
             })
             //返回到管理界面
@@ -84,8 +97,7 @@ var attendance = (function () {
                     $(".attendance_ctn").append(calendar_box);
                 })
             })
-        })
-        
+        })           
              
     });  
     return exports;
