@@ -49,13 +49,15 @@
     float: left;
     margin-left: 30px;
 }
-.attendance_close{
+.attendance-map-close,.attendance_close{
     font-size: 16px;
     float: right;
     margin-right: 20px;
     line-height: 60px;
     color: #A0ACBF;
 }
+<<<<<<< HEAD
+=======
 .attendance_top{
     margin-top: 18px;
 }
@@ -422,3 +424,4 @@
     border-radius: 4px;
     font-size: 12px;
 }
+>>>>>>> master
