@@ -45,7 +45,7 @@ class PrincipalError(JsonableError):
 
     @staticmethod
     def msg_format() -> Text:
-        return _("User not authorized to execute queries on behalf of '{principal}'")
+        return _("用户未授权执行代表'{principal}'的查询")
 
 def principal_to_user_profile(agent: UserProfile, principal: Text) -> UserProfile:
     try:
@@ -380,14 +380,14 @@ def add_subscriptions_backend(
         if notifications_stream is not None:
             if len(created_streams) > 1:
                 stream_strs = ", ".join('#**%s**' % s.name for s in created_streams)
-                stream_msg = "the following streams: %s" % (stream_strs,)
+                stream_msg = "下列频道: %s" % (stream_strs,)
             else:
-                stream_msg = "a new stream #**%s**." % created_streams[0].name
-            msg = ("%s just created %s" % (user_profile.full_name, stream_msg))
+                stream_msg = "新频道 #**%s**." % created_streams[0].name
+            msg = ("%s 刚刚创建 %s" % (user_profile.full_name, stream_msg))
 
             sender = get_system_bot(settings.NOTIFICATION_BOT)
             stream_name = notifications_stream.name
-            topic = 'Streams'
+            topic = '频道'
 
             notifications.append(
                 internal_prep_stream_message(

@@ -14,17 +14,17 @@ from zulip_bots.custom_exceptions import ConfigValidationError
 def check_full_name(full_name_raw: Text) -> Text:
     full_name = full_name_raw.strip()
     if len(full_name) > UserProfile.MAX_NAME_LENGTH:
-        raise JsonableError(_("Name too long!"))
+        raise JsonableError(_("名字太长!"))
     if len(full_name) < UserProfile.MIN_NAME_LENGTH:
-        raise JsonableError(_("Name too short!"))
+        raise JsonableError(_("名字太短!"))
     if list(set(full_name).intersection(UserProfile.NAME_INVALID_CHARS)):
-        raise JsonableError(_("Invalid characters in name!"))
+        raise JsonableError(_("名字中有不正确字符！"))
     return full_name
 
 def check_short_name(short_name_raw: Text) -> Text:
     short_name = short_name_raw.strip()
     if len(short_name) == 0:
-        raise JsonableError(_("Bad name or username"))
+        raise JsonableError(_("不正确的名字或用户名"))
     return short_name
 
 def check_valid_bot_config(service_name: str, config_data: Dict[str, str]) -> None:
@@ -39,7 +39,7 @@ def check_valid_bot_config(service_name: str, config_data: Dict[str, str]) -> No
         # triggered in the external zulip_bots package.
         # TODO: Think of some clever way to provide a more specific
         # error message.
-        raise JsonableError(_("Invalid configuration data!"))
+        raise JsonableError(_("配置数据非法!"))
 
 def check_bot_creation_policy(user_profile: UserProfile, bot_type: int) -> None:
     # Realm administrators can always add bot
@@ -49,10 +49,10 @@ def check_bot_creation_policy(user_profile: UserProfile, bot_type: int) -> None:
     if user_profile.realm.bot_creation_policy == Realm.BOT_CREATION_EVERYONE:
         return
     if user_profile.realm.bot_creation_policy == Realm.BOT_CREATION_ADMINS_ONLY:
-        raise JsonableError(_("Must be an organization administrator"))
+        raise JsonableError(_("必须是团队的系统管理员"))
     if user_profile.realm.bot_creation_policy == Realm.BOT_CREATION_LIMIT_GENERIC_BOTS and \
             bot_type == UserProfile.DEFAULT_BOT:
-        raise JsonableError(_("Must be an organization administrator"))
+        raise JsonableError(_("必须是团队的系统管理员"))
 
 def check_valid_bot_type(user_profile: UserProfile, bot_type: int) -> None:
     if bot_type not in user_profile.allowed_bot_types:

@@ -46,6 +46,8 @@ if [ "$current_node_version" != "v$node_version" ]; then
     sed -i "s|NODE_PATH|$NODE_BIN|" /usr/local/bin/node
 fi
 
+npm config set registry https://registry.npm.taobao.org
+
 # Work around the fact that apparently sudo doesn't clear the HOME
 # environment variable in some cases; we don't want root
 # accessing/storing yarn configuration in the non-root user's home

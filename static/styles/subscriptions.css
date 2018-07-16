@@ -1010,7 +1010,7 @@ form#add_new_subscription {
 }
 
 #subscription_overlay ul.grey-box li input[type=checkbox] {
-    margin-top: 0px;
+    margin-top: 16px;
 }
 
 #subscription_overlay ul.grey-box li:last-of-type {
