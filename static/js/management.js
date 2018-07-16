@@ -284,6 +284,7 @@ var management = (function () {
                 var underway  =$(".generate_log_unfinished_text").val().trim();
                 var overdue = $(".generate_log_pdfinished_text").val().trim();
                 var list = []
+                updata();
                 $(".generate_log_plan_delete").each(function(){
                     var ids= Number($(this).attr('data_id'))
                     list.push(ids)
@@ -1256,7 +1257,9 @@ var management = (function () {
                                                         $(".log_assistant_ctn").remove();
                                                         var receive_table_list = res.receive_table_list;
                                                         var html = templates.render("log_assistant_receive",{receive_table_list:receive_table_list})
-                                                        $(".paging_box_receive").before(html)
+                                                        $(".paging_box_receive").before(html);
+                                                        //翻页后移至顶部
+                                                        $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
                                                         //点击下载附件图片
                                                         $(".download_fujian").on("click",function(){
                                                             window.open($(this).attr("href"))
@@ -1281,6 +1284,8 @@ var management = (function () {
                                                                 var receive_table_list = res.receive_table_list;
                                                                 var html = templates.render("log_assistant_receive",{receive_table_list:receive_table_list})
                                                                 $(".paging_box_receive").before(html)
+                                                                //翻页后移至顶部
+                                                                $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
                                                                 //点击下载附件图片
                                                                 $(".download_fujian").on("click",function(){
                                                                     window.open($(this).attr("href"))
@@ -1305,6 +1310,8 @@ var management = (function () {
                                                                 var receive_table_list = res.receive_table_list;
                                                                 var html = templates.render("log_assistant_receive",{receive_table_list:receive_table_list})
                                                                 $(".paging_box_receive").before(html)
+                                                                //翻页后移至顶部
+                                                                $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
                                                                 //点击下载附件图片
                                                                 $(".download_fujian").on("click",function(){
                                                                     window.open($(this).attr("href"))
@@ -1334,6 +1341,8 @@ var management = (function () {
                                     var receive_table_list = res.receive_table_list;
                                     var html = templates.render("log_assistant_receive",{receive_table_list:receive_table_list})
                                     $(".paging_box").before(html)
+                                    //翻页后移至顶部
+                                    $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
                                     //点击下载附件图片
                                     $(".download_fujian").on("click",function(){
                                         window.open($(this).attr("href"))
@@ -1358,6 +1367,8 @@ var management = (function () {
                                     var receive_table_list = res.receive_table_list;
                                     var html = templates.render("log_assistant_receive",{receive_table_list:receive_table_list})
                                     $(".paging_box").before(html)
+                                    //翻页后移至顶部
+                                    $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
                                     //点击下载附件图片
                                     $(".download_fujian").on("click",function(){
                                         window.open($(this).attr("href"))
@@ -1378,6 +1389,8 @@ var management = (function () {
                                     var receive_table_list = res.receive_table_list;
                                     var html = templates.render("log_assistant_receive",{receive_table_list:receive_table_list})
                                     $(".paging_box").before(html)
+                                    //翻页后移至顶部
+                                    $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
                                     //点击下载附件图片
                                     $(".download_fujian").on("click",function(){
                                         window.open($(this).attr("href"))
@@ -1414,6 +1427,8 @@ var management = (function () {
                                     var paging = templates.render("paging_send",{page:page})
                                     $(".log_assistant_ctn_box").append(html);
                                     $(".log_assistant_ctn_box").append(paging);
+                                    //翻页后移至顶部
+                                    $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
                                     //点击下载附件图片
                                     $(".download_fujian").on("click",function(){
                                         window.open($(this).attr("href"))
@@ -1433,6 +1448,8 @@ var management = (function () {
                                                 var html = templates.render("log_assistant_send",{send_table_list:send_table_list})
                                                 console.log(html)
                                                 $(".paging_box_send").before(html)
+                                                //翻页后移至顶部
+                                                $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
                                                 //点击下载附件图片
                                                 $(".download_fujian").on("click",function(){
                                                     window.open($(this).attr("href"))
@@ -1459,6 +1476,8 @@ var management = (function () {
                                                     var html = templates.render("log_assistant_send",{send_table_list:send_table_list})
                                                     console.log(html)
                                                     $(".paging_box_send").before(html)
+                                                    //翻页后移至顶部
+                                                    $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
                                                     //点击下载附件图片
                                                     $(".download_fujian").on("click",function(){
                                                         window.open($(this).attr("href"))
@@ -1485,6 +1504,8 @@ var management = (function () {
                                                     var html = templates.render("log_assistant_send",{send_table_list:send_table_list})
                                                     console.log(html)
                                                     $(".paging_box_send").before(html)
+                                                    //翻页后移至顶部
+                                                    $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
                                                     //点击下载附件图片
                                                     $(".download_fujian").on("click",function(){
                                                         window.open($(this).attr("href"))

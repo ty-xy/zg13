@@ -110,7 +110,11 @@ Handlebars.registerHelper("tp",function(str){
     }
     return str;
 })
-Handlebars.registerHelper("substr",function(str){
+Handlebars.registerHelper("substrMonth",function(str){
+    var s = str.substring(5,10);
+    return s;
+})
+Handlebars.registerHelper("substrYear",function(str){
     var s = str.substring(0,10);
     return s;
 })
@@ -122,6 +126,33 @@ Handlebars.registerHelper("isJpg",function(str){
         return false;
     }
 })
+Handlebars.registerHelper('compareDate', function(left, operator, right, options) {
+    var operators = {
+      '==':     function(l, r) {return l == r; },
+      '===':    function(l, r) {return l === r; },
+      '!=':     function(l, r) {return l != r; },
+      '!==':    function(l, r) {return l !== r; },
+      '<':      function(l, r) {return l < r; },
+      '>':      function(l, r) {return l > r; },
+      '<=':     function(l, r) {return l <= r; },
+      '>=':     function(l, r) {return l >= r; },
+      'typeof': function(l, r) {return typeof l == r; }
+    };
+    left = left.substring(0,4)
+    right = right.substring(0,4)
+    var result = operators[operator](left, right);
+
+    if (result) {
+      return options.fn(this);
+    } else {
+      return options.inverse(this);
+    }
+    // Example usage:
+    // {{#compare type '==' 'txt'}}
+    //     {{else}}
+    // {{/compare}}
+});
+
 Handlebars.registerHelper('compare', function(left, operator, right, options) {
     if (arguments.length < 3) {
       throw new Error('Handlerbars Helper "compare" needs 2 parameters');

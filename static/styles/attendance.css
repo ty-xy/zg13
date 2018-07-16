@@ -56,8 +56,7 @@
     line-height: 60px;
     color: #A0ACBF;
 }
-<<<<<<< HEAD
-=======
+
 .attendance_top{
     margin-top: 18px;
 }
@@ -266,7 +265,7 @@
     margin-left: 224px;
     margin-right: 20px;
 }
-.calendar_screen_select{
+#calendar_screen_select{
     background: #FFFFFF;
     border: 1px solid #A0ACBF;
     border-radius: 100px;
@@ -279,6 +278,7 @@
     text-align: center;
     margin-top: -5px;
     cursor: pointer;
+    padding: 0;
 }
 .calendar_return{
     float: left;
@@ -424,4 +424,128 @@
     border-radius: 4px;
     font-size: 12px;
 }
->>>>>>> master
+
+/* 补卡窗口 */
+.calendar_card{
+    width: 400px;
+    height: 500px;
+    background: #fff;
+    position: absolute;right: 20px;top: 20px;
+}
+.calendar_card_head{
+    box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30);
+    border-radius: 1px 1px 0 0;
+    width: 400px;
+    height: 40px;
+    position: relative;
+}
+.calendar_card_head_title{
+    font-size: 15px;
+    color: #666666;
+    letter-spacing: 0.18px;
+    text-align: center;
+    line-height: 40px;
+}
+.calendar_card_close{
+    font-size: 14px;
+    position: absolute;
+    right: 10px;
+    top: 11px;
+    color:#A0ACBF;
+}
+.calendar_card_ctn{
+    padding: 20px 20px;
+}
+.calendar_card_time_title{
+    float: left;
+    font-size: 15px;
+    color: #333333;
+    letter-spacing: 0.22px;
+    line-height: 30px;
+}
+#calendar_card_time{
+    float: left;
+    background: #FFFFFF;
+    border: 1px solid #A0ACBF;
+    border-radius: 100px;
+    width: 80px;
+    height: 28px;
+    padding: 0;
+    margin: 0;
+    margin-left: 20px;
+}
+.calendar_card_explain_title{
+    font-size: 15px;
+    color: #333333;
+    letter-spacing: 0.22px;
+}
+.calendar_card_explain_box{
+    width: 360px;
+    height: 200px;
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+}
+#calendar_card_explain_input{
+    border: none;
+    width: 348px;
+    height: 100px;
+}
+#calendar_card_explain_input:focus{
+    outline: none;
+}
+textarea:focus {
+    outline: none;
+}
+.calendar_card_addimg_box{
+    margin-left: 22px;
+}
+.calendar_card_addimg{
+    width: 44px;
+    height: 44px;
+    border: 1px solid #ccc;
+}
+.calendar_card_addimg_title{
+    font-size: 13px;
+    color: #666;
+}
+.calendar_card_send_title{
+    font-size: 15px;
+    color: #666666;
+    letter-spacing: 0.18px;
+    margin-top: 10px;
+}
+.calendar_card_add{
+    width:50px;
+    height: 50px;
+    border: 1px solid #CCCCCC;
+    border-radius: 100px;
+}
+.calendar_card_send{
+    margin-left: 4px;
+}
+.calendar_card_add_title{
+    font-size: 13px;
+    color: #666666;
+    letter-spacing: 0.16px;
+}
+.calendar_card_submit{
+    background: #14A4FA;
+    border-radius: 100px;
+    width: 120px;
+    height: 40px;
+    font-size: 15px;
+    color: #FFFFFF;
+    letter-spacing: 0.14px;
+    line-height: 40px;
+    text-align: center;
+    margin: 0 auto;
+}
+/* .calendar_card_addimg{
+    background: url("../img/jiahao.png")no-repeat;
+    background-image: 14px 14px;
+}
+.calendar_card_add{
+    background: url("../img/jiahao.png")no-repeat;
+    background-image: 14px 14px;
+} */
+
