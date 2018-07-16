@@ -42,6 +42,16 @@ var attendance = (function () {
                         $('#map-area').hide()
                     })
                 })
+                $(".button-common-date").on('click',function(){
+                    $(".kaoqin-date-choose").show()
+                    $(".attendance_close_week").on('click',function(){
+                        $(".kaoqin-date-choose").hide()
+                    })
+                })
+                $(".kaoqin-date-area").on('click',function(){
+                    $(".kaoqin-date-choose").hide()
+                })
+                
            })
            $(".attendance_ctn").on('click',".back_attendance",function(){
                 var html = templates.render("attendance_management");
