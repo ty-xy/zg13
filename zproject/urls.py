@@ -414,7 +414,15 @@ v1_api_and_json_patterns = [
     # 回复评论
     url(r'^zg/reply/comment/$', rest_dispatch,
         {'POST': 'zerver.views.zg_backlog.reply_comment'}),
+    # ------考勤信息----
 
+    # 打卡
+    url(r'^zg/attendance/sign/$', rest_dispatch,
+        {'POST': 'zerver.views.zg_attendance.sign_in_def'}),
+
+    # web个人月历
+    url(r'^zg/attendance/month/solo/web$', rest_dispatch,
+        {'GET': 'zerver.views.zg_attendance.solo_month_attendance_web'}),
 ]
 
 # These views serve pages (HTML). As such, their internationalization
