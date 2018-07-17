@@ -6,11 +6,17 @@ var attendance = (function () {
         $(".common_img").on("click",function(){
             var html = templates.render("attendance_box");
             $(".app").after(html);
+           
             $(".attendance_md").on("click",".attendance_close",function(){
                 $(".attendance_md").remove()
            })
+          
            var attendance_all = templates.render("attendance_all")
-           $(".attendance_ctn").append(attendance_all)
+           $(".attendance_ctn").html(attendance_all)
+           $(".attendance_statistics").on('click',function(){
+            $(this).addClass("high_light").siblings().removeClass("high_light")
+            $(".attendance_ctn").html(attendance_all);
+           })
            //关闭考勤
            $(".attendance_close").on("click",function(){
                $(".attendance_md").hide();
