@@ -593,6 +593,18 @@ def flush_realm_filter(sender: Any, **kwargs: Any) -> None:
 post_save.connect(flush_realm_filter, sender=RealmFilter)
 post_delete.connect(flush_realm_filter, sender=RealmFilter)
 
+# 考勤组设置
+class ZgDepartmentAttendance(models.Model):
+    attendance_name = models.CharField(max_length=50, verbose_name="考勤组名")
+
+    jobs_time = models.TimeField(default="08:00:00", verbose_name="上班时间")
+    rest_time = models.TimeField(default="18:00:00", verbose_name="下班时间")
+    site = models.CharField(max_length=40, verbose_name='打卡地点名')
+    longitude = models.CharField(max_length=20, default='39.9073660631', verbose_name="经度")
+    latitude = models.CharField(max_length=20, default='116.3977432251', verbose_name="维度")
+
+    default_distance = models.IntegerField(default=300, verbose_name="默认距离")
+    attendance_time = models.CharField(max_length=15, default='12345')
 
 class UserProfile(AbstractBaseUser, PermissionsMixin):
     DEFAULT_BOT = 1
@@ -636,6 +648,9 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     is_mirror_dummy = models.BooleanField(default=False)  # type: bool
     bot_owner = models.ForeignKey('self', null=True, on_delete=models.SET_NULL)  # type: Optional[UserProfile]
     long_term_idle = models.BooleanField(default=False, db_index=True)  # type: bool
+
+    atendance = models.ForeignKey(ZgDepartmentAttendance, null=True)
+
 
     USERNAME_FIELD = 'email'
     MAX_NAME_LENGTH = 100
@@ -861,6 +876,28 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
             return int(self.tos_version.split('.')[0])
         else:
             return -1
+
+
+# 外勤表
+class ZgOutsideWork(models.Model):
+    user_name = models.ForeignKey(UserProfile)
+    sign_in_time = models.DateTimeField(verbose_name="签到时间")
+    sign_off_time= models.DateTimeField(verbose_name="签退时间")
+    longitude = models.CharField(max_length=20, verbose_name="经度")
+    latitude = models.CharField(max_length=20, verbose_name="维度")
+    site = models.CharField(max_length=40, verbose_name='打卡地点名')
+    img_url = models.URLField(null=True, verbose_name="打卡图片")
+    notes = models.CharField(max_length=100, null=True,verbose_name="外勤说明")
+    outsidework_notes = models.CharField(max_length=100,verbose_name="状态")
+
+
+# 考勤表
+class ZgAttendance(models.Model):
+    user_name = models.ForeignKey(UserProfile)
+    sign_in_time = models.DateTimeField(default='1970-01-01 08:00:00', verbose_name="打卡时间")
+    sign_off_time = models.DateTimeField(default='1970-01-01 08:00:00', verbose_name="下班时间")
+    sign_in_explain = models.CharField(max_length=15, default='缺卡', verbose_name="打卡备注")
+    sign_off_explain = models.CharField(max_length=15, default='缺卡', verbose_name="打卡备注")
 
 
 class UserGroup(models.Model):
