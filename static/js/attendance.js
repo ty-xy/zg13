@@ -12,6 +12,14 @@ var attendance = (function () {
             $(".attendance_close").on("click",function(){
                 $(".attendance_md").hide();
             })
+            //初始化按事件筛选
+            $(".calendar_screen_select_y").datetimepicker({
+                language:"zh-CN",  
+                todayHighlight: true,  
+                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                weekStart:1,
+                format:"yyyy-mm-dd"
+            })
             //查看考勤日历
             $(".attendance_bottom_ctn").on("click",".attendance_bottom_calendar",function(){
                 $(".attendance_ctn").children().remove();
@@ -38,7 +46,6 @@ var attendance = (function () {
                         //点击具体日期显示详情
                         $(".calendar_list").on("click",".calendar_list_num",function(){
                             $(this).addClass("gray_date").parent().siblings().children().removeClass("gray_date");
-                            // $(this).siblings().removeClass("gray_date");
                         })
                     }
                 })
@@ -55,6 +62,14 @@ var attendance = (function () {
                $(".attendance_ctn").children().remove();
                var attendance_all = templates.render("attendance_all")
                $(".attendance_ctn").append(attendance_all);
+               //初始化按事件筛选
+                $(".calendar_screen_select_y").datetimepicker({
+                    language:"zh-CN",  
+                    todayHighlight: true,  
+                    minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                    weekStart:1,
+                    format:"yyyy-mm-dd"
+                })
                //查看考勤日历
                $(".attendance_bottom_ctn").on("click",".attendance_bottom_calendar",function(){
                    $(".attendance_ctn").children().remove();
@@ -79,7 +94,11 @@ var attendance = (function () {
                                 autoclose: true
                                 }).on("changeDate",function(){
                                     console.log("这是一个秋天")
-                            }); 
+                            });
+                             //点击具体日期显示详情
+                            $(".calendar_list").on("click",".calendar_list_num",function(){
+                                $(this).addClass("gray_date").parent().siblings().children().removeClass("gray_date");
+                            })
                         }
                     })
                })
