@@ -212,7 +212,7 @@ def month_attendance_tools(user_profile, months):
 
     return {'attendance_count': attendance_count, 'outsidework_count': outsidework_count,
             'overdue_count': overdue_count, 'leave_early_count': leave_early_count, 'leave_count': leave_count,
-            'absenteeism_count': absenteeism_time, 'month':month,'month_count':month_count,'month_week':month_week,
+            'absenteeism_count': absenteeism_count, 'month':month,'month_count':month_count,'month_week':month_week,
             'normal_list':normal_list,'outside_work_list':outside_work_list,'no_normal_list':no_normal_list
             }
 

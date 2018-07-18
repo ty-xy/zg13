@@ -57,7 +57,8 @@
 }
 .attendance_ctn{
     padding:0 30px;
-   
+    height:680px;
+    overflow-y: auto; 
 }
 .attendance_ul_team{
     margin:0;
@@ -170,13 +171,18 @@
     height:22px;
     display: inline-block
 }
-.button-common,.button-common-date,.kaoqin-era,.button-common-area{
+.button-common,.button-common-date,.kaoqin-era,.button-common-area,.button-common-people{
     background: #FFFFFF;
     border: 1px solid #A0ACBF;
     border-radius: 100px;
-    height:30px;
-    width:120px !important;
+    height:40px;
+    min-width:120px !important;
     margin-right:10px;
+}
+.button-common-people{
+    max-width:270px;
+    overflow: hidden;
+    white-space:nowrap;
 }
 .title-common{
     margin-top:15px;
@@ -209,7 +215,14 @@
 .button-input{
     margin-bottom:0 !important;
     border-radius: 100px !important;
-    text-align: center
+    text-align: center;
+    width:120px;
+    height:40px !important;
+    box-sizing: border-box;
+    border: 1px solid #A0ACBF !important;
+}
+.button-common-area{
+    width:120px;
 }
 #map-area{
     z-index:3000;
@@ -251,7 +264,7 @@
     background: #FFFFFF;
     box-shadow: 0 1px 10px 0 rgba(204,204,204,0.30);
     border-radius: 1px;
-    height:200px;
+    height:260px;
     width:660px;
     position:relative;
     margin:10px 20px;
@@ -259,6 +272,8 @@
 }
 .sure-place{
     margin:0;
+    margin-top:30px;
+    padding:0 20px;
 }
 .sure-place>li{
     padding:0 20px;
@@ -268,7 +283,7 @@
     box-sizing:border-box;
 }
 .place-button{
-    padding-top:14px;
+    padding-top:30px;
     width:100%;
     display: flex;
     align-items: center;
@@ -312,7 +327,7 @@
     left:0;
     margin: auto;
     width:300px;
-    height:473px;
+    height:400px;
     background: #FFFFFF;
     box-shadow: 0 1px 10px 0 rgba(204,204,204,0.30);
     border-radius: 1px;
@@ -363,4 +378,14 @@
     cursor: pointer;
     position: absolute;
     right:10px
+}
+.amap-sug-result {
+    position: absolute;
+    z-index: 4000;
+    background-color: #fefefe;
+    border: 1px solid #d1d1d1;
+    bottom: auto;
+}
+#myPageTop {
+   top:180px;
 }
