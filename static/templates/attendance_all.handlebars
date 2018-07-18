@@ -2,8 +2,9 @@
                 <div class="attendance_top_left fix">
                     <p class="attendance_group_tilte">考勤组</p>
                     <div class="attendance_groups fix">
-                        <div>朝阳门考勤组</div>
-                        <div>五间房考勤组</div>
+                        {{#each attendances_list}}
+                            <div>{{attendances_location}}</div>
+                        {{/each}}
                     </div>
                 </div>
                 <div class="attendance_top_right fix">
