@@ -57,7 +57,8 @@
 }
 .attendance_ctn{
     padding:0 30px;
-   
+    height:680px;
+    overflow-y: auto; 
 }
 .attendance_ul_team{
     margin:0;
@@ -174,9 +175,14 @@
     background: #FFFFFF;
     border: 1px solid #A0ACBF;
     border-radius: 100px;
-    height:30px;
-    width:120px !important;
+    height:40px;
+    min-width:120px !important;
     margin-right:10px;
+}
+.button-common-people{
+    max-width:270px;
+    overflow: hidden;
+    white-space:nowrap;
 }
 .title-common{
     margin-top:15px;
@@ -209,7 +215,14 @@
 .button-input{
     margin-bottom:0 !important;
     border-radius: 100px !important;
-    text-align: center
+    text-align: center;
+    width:120px;
+    height:40px !important;
+    box-sizing: border-box;
+    border: 1px solid #A0ACBF !important;
+}
+.button-common-area{
+    width:120px;
 }
 #map-area{
     z-index:3000;
@@ -314,7 +327,7 @@
     left:0;
     margin: auto;
     width:300px;
-    height:473px;
+    height:400px;
     background: #FFFFFF;
     box-shadow: 0 1px 10px 0 rgba(204,204,204,0.30);
     border-radius: 1px;

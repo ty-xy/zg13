@@ -28,14 +28,16 @@
     /* background: #fff; */
     background: #F5F5F5;
     border-radius: 1px;
-    overflow-y: auto;
+    /* overflow-y: auto; */
 }
 .attendance_head{
     width: 937px;
     height: 60px;
     background: #FFFFFF;
     box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30);
-    position: relative;
+    /* position: fixed;
+    left:0;
+    top:0; */
     border-bottom: 1px solid #F2F2F2;
 }
 .attendance_tab{
