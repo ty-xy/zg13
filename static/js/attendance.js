@@ -15,61 +15,72 @@ var attendance = (function () {
             //查看考勤日历
             $(".attendance_bottom_ctn").on("click",".attendance_bottom_calendar",function(){
                 $(".attendance_ctn").children().remove();
-                var arr=[]
-                var firstDay = 7;
-                var lastDay = 30;
-                if(firstDay==1){
-                    for(var i=1;i<lastDay;i++){
-                        arr.push(i)
+                $.ajax({
+                    type:"GET",
+                    url:"json/zg/attendance/month/solo/web",
+                    contentType:"application/json",
+                    data:{page:1},
+                    success:function(res){
+                        console.log(res);
+                        var month_attendance_list = res.month_attendance_list;
+                        var calendar_box = templates.render("calendar_box",{month_attendance_list:month_attendance_list});
+                        $(".attendance_ctn").append(calendar_box);
                     }
-                }else if(firstDay==2){
-                    arr.unshift("");
-                    for(var i=1;i<lastDay;i++){
-                        arr.push(i)
-                    }
-                }else if(firstDay==3){
-                    arr.unshift("");
-                    arr.unshift("");
-                    for(var i=1;i<lastDay;i++){
-                        arr.push(i)
-                    }
-                }else if(firstDay==4){
-                    arr.unshift("");
-                    arr.unshift("");
-                    arr.unshift("");
-                    for(var i=1;i<lastDay;i++){
-                        arr.push(i)
-                    }
-                }else if(firstDay==5){
-                    arr.unshift("");
-                    arr.unshift("");
-                    arr.unshift("");
-                    arr.unshift("");
-                    for(var i=1;i<lastDay;i++){
-                        arr.push(i)
-                    }
-                }else if(firstDay==6){
-                    arr.unshift("");
-                    arr.unshift("");
-                    arr.unshift("");
-                    arr.unshift("");
-                    arr.unshift("");
-                    for(var i=1;i<lastDay;i++){
-                        arr.push(i)
-                    }
-                }else if(firstDay==7){
-                    arr.unshift("");
-                    arr.unshift("");
-                    arr.unshift("");
-                    arr.unshift("");
-                    arr.unshift("");
-                    arr.unshift("");
-                    for(var i=1;i<lastDay;i++){
-                        arr.push(i)
-                    }
-                }
-                var calendar_box = templates.render("calendar_box",{arr:arr});
-                $(".attendance_ctn").append(calendar_box);
+                })
+                // var arr=[]
+                // var firstDay = 7;
+                // var lastDay = 30;
+                // if(firstDay==1){
+                //     for(var i=1;i<lastDay;i++){
+                //         arr.push(i)
+                //     }
+                // }else if(firstDay==2){
+                //     arr.unshift("");
+                //     for(var i=1;i<lastDay;i++){
+                //         arr.push(i)
+                //     }
+                // }else if(firstDay==3){
+                //     arr.unshift("");
+                //     arr.unshift("");
+                //     for(var i=1;i<lastDay;i++){
+                //         arr.push(i)
+                //     }
+                // }else if(firstDay==4){
+                //     arr.unshift("");
+                //     arr.unshift("");
+                //     arr.unshift("");
+                //     for(var i=1;i<lastDay;i++){
+                //         arr.push(i)
+                //     }
+                // }else if(firstDay==5){
+                //     arr.unshift("");
+                //     arr.unshift("");
+                //     arr.unshift("");
+                //     arr.unshift("");
+                //     for(var i=1;i<lastDay;i++){
+                //         arr.push(i)
+                //     }
+                // }else if(firstDay==6){
+                //     arr.unshift("");
+                //     arr.unshift("");
+                //     arr.unshift("");
+                //     arr.unshift("");
+                //     arr.unshift("");
+                //     for(var i=1;i<lastDay;i++){
+                //         arr.push(i)
+                //     }
+                // }else if(firstDay==7){
+                //     arr.unshift("");
+                //     arr.unshift("");
+                //     arr.unshift("");
+                //     arr.unshift("");
+                //     arr.unshift("");
+                //     arr.unshift("");
+                //     for(var i=1;i<lastDay;i++){
+                //         arr.push(i)
+                //     }
+                // }
+                
                 //补卡弹窗
                 // var calendar_card = templates.render("calendar_card")
                 // $(".attendance_ctn").append(calendar_card)

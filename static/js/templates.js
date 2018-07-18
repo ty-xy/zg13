@@ -126,6 +126,125 @@ Handlebars.registerHelper("isJpg",function(str){
         return false;
     }
 })
+//输入当月月份
+Handlebars.registerHelper('outMonth',function(month_week,month_count,no_normal_list,normal_list,outside_work_list){
+                var arr=[]
+                var firstDay = month_week;
+                var lastDay = month_count;
+                console.log(no_normal_list)
+                console.log(normal_list)
+                console.log(outside_work_list)
+                function stateColor(){
+                    for(var key in no_normal_list){
+                        $(".calendar_list_num[value='"+no_normal_list[key]+"']").next().addClass("calendar_list_stateR")
+                    }
+                    for(var key in normal_list){
+                        $(".calendar_list_num[value='"+normal_list[key]+"']").next().addClass("calendar_list_stateG")
+                    }
+                    for(var key in outside_work_list){
+                        $(".calendar_list_num[value='"+outside_work_list[key]+"']").next().addClass("calendar_list_stateY")
+                    }
+                } 
+                if(firstDay==1){
+                    var out = '<ul class="calendar_list">';
+                    arr.unshift("");
+                    for(var i=1;i<lastDay+1;i++){
+                        arr.push(i)
+                        out = out + '<li><p class="calendar_list_num" value='+arr[i]+'>'+arr[i]+'</p><p class=""></p></li>'
+                    }
+                    $("body").ready(function () { 
+                        stateColor()
+                    })
+                    return out + '</ul>';
+                }else if(firstDay==2){
+                    var out = '<ul class="calendar_list">';
+                    arr.unshift("");
+                    arr.unshift("");
+                    for(var i=1;i<lastDay+2;i++){
+                        arr.push(i)
+                        out = out + '<li><p class="calendar_list_num" value='+arr[i]+'>'+arr[i]+'</p><p class=""></p></li>'
+                    }
+                    $("body").ready(function () { 
+                        stateColor()
+                    })
+                    return out + '</ul>';
+                }else if(firstDay==3){
+                    var out = '<ul class="calendar_list">';
+                    arr.unshift("");
+                    arr.unshift("");
+                    arr.unshift("");
+                    for(var i=1;i<lastDay+3;i++){
+                        arr.push(i)
+                        out = out + '<li><p class="calendar_list_num" value='+arr[i]+'>'+arr[i]+'</p><p class=""></p></li>'
+                    }
+                    $("body").ready(function () { 
+                        stateColor()
+                    })
+                    return out + '</ul>';
+                }else if(firstDay==4){
+                    var out = '<ul class="calendar_list">';
+                    arr.unshift("");
+                    arr.unshift("");
+                    arr.unshift("");
+                    arr.unshift("");
+                    for(var i=1;i<lastDay+4;i++){
+                        arr.push(i)
+                        out = out + '<li><p class="calendar_list_num" value='+arr[i]+'>'+arr[i]+'</p><p class=""></p></li>'
+                    }
+                    $("body").ready(function () { 
+                        stateColor()
+                    })
+                    return out + '</ul>';
+                }else if(firstDay==5){
+                    var out = '<ul class="calendar_list">';
+                    arr.unshift("");
+                    arr.unshift("");
+                    arr.unshift("");
+                    arr.unshift("");
+                    arr.unshift("");
+                    for(var i=1;i<lastDay+5;i++){
+                        arr.push(i)
+                        out = out + '<li><p class="calendar_list_num" value='+arr[i]+'>'+arr[i]+'</p><p class=""></p></li>'
+                    }
+                    $("body").ready(function () { 
+                        stateColor()
+                    })
+                    return out + '</ul>';
+                }else if(firstDay==6){
+                    var out = '<ul class="calendar_list">';
+                    arr.unshift("");
+                    arr.unshift("");
+                    arr.unshift("");
+                    arr.unshift("");
+                    arr.unshift("");
+                    arr.unshift("");
+                    for(var i=1;i<lastDay+6;i++){
+                        arr.push(i)
+                        out = out + '<li><p class="calendar_list_num" value='+arr[i]+'>'+arr[i]+'</p><p class=""></p></li>'
+                    }
+                    $("body").ready(function () { 
+                        stateColor()
+                    })
+                    return out + '</ul>';
+                }else if(firstDay==7){
+                    var out = '<ul class="calendar_list">';
+                    arr.unshift("");
+                    arr.unshift("");
+                    arr.unshift("");
+                    arr.unshift("");
+                    arr.unshift("");
+                    arr.unshift("");
+                    arr.unshift("");
+                    for(var i=1;i<lastDay+7;i++){
+                        arr.push(i)
+                        out = out + '<li><p class="calendar_list_num" value='+arr[i]+'>'+arr[i]+'</p><p class=""></p></li>'
+                    }
+                    $("body").ready(function () { 
+                        stateColor()
+                    })
+                    return out + '</ul>';
+                }
+})
 Handlebars.registerHelper('compareDate', function(left, operator, right, options) {
     var operators = {
       '==':     function(l, r) {return l == r; },

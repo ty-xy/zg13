@@ -18,30 +18,43 @@ def statement_review(request, user_profile):
     comment_list = []
     try:
         comment_obj_list = ZgStatementComment.objects.filter(topic_id=table_id)
-        for comment_obj in comment_obj_list:
-            comment_dict = {}
-
-            comment_dict['comment_id'] = comment_obj.id
-            comment_dict['comment_content'] = comment_obj.content
-            comment_dict['comment_time'] = comment_obj.comment_time
-            user = UserProfile.objects.filter(id=comment_obj.from_uid)
-            user = user[0]
-            comment_dict['comment_user_name'] = user.full_name
-            comment_dict['comment_user_avatar_url'] = avatar.absolute_avatar_url(user)
-            reply_obj_list = ZgReplyComment.objects.filter(comment_id=comment_obj)
-            comment_dict['comment_reply_list'] = []
-            for reply_obj in reply_obj_list:
-                reply_dict = {}
-                reply_dict['reply_id'] = reply_obj.id
-                reply_dict['reply_user_id'] = reply_obj.reply_user_id
-                reply_dict['reply_content'] = reply_obj.content
-                reply_dict['user_reply_id'] = reply_obj.from_uid
-                reply_dict['reply_reply_time'] = reply_obj.reply_time
-                comment_dict['comment_reply_list'].append(reply_dict)
-
-            comment_list.append(comment_dict)
     except Exception:
-        return JsonResponse({'errno': 1, 'message': "获取评论失败"})
+        return JsonResponse({'errno': 2, 'message': "获取评论失败"})
+
+    for comment_obj in comment_obj_list:
+        comment_dict = {}
+        comment_dict['comment_id'] = comment_obj.id
+        comment_dict['comment_content'] = comment_obj.content
+        comment_dict['comment_time'] = comment_obj.comment_time
+        user = UserProfile.objects.filter(id=comment_obj.from_uid)
+        user = user[0]
+        comment_dict['comment_user_name'] = user.full_name
+        comment_dict['comment_user_avatar_url'] = avatar.absolute_avatar_url(user)
+        reply_obj_list = ZgReplyComment.objects.filter(comment_id=comment_obj)
+        comment_dict['comment_reply_list'] = []
+        for reply_obj in reply_obj_list:
+            reply_dict = {}
+
+            # 用户回复id
+            reply_dict['reply_user_id'] = reply_obj.reply_user_id
+            if reply_obj.reply_user_id :
+                user_obj = UserProfile.objects.get(id=reply_obj.reply_user_id)
+                reply_dict['reply_user_name'] = user_obj.full_name
+
+            # 回复内容
+            reply_dict['reply_content'] = reply_obj.content
+            # 回复用户id
+            reply_dict['user_reply_id'] = reply_obj.from_uid
+            user_obj = UserProfile.objects.get(id=reply_obj.from_uid)
+            reply_dict['user_reply_avatar'] = avatar.absolute_avatar_url(user_obj)
+            reply_dict['user_reply_name'] = user_obj.full_name
+
+            # 回复时间
+            reply_dict['reply_time'] = reply_obj.reply_time
+
+            comment_dict['comment_reply_list'].append(reply_dict)
+
+        comment_list.append(comment_dict)
 
     return JsonResponse({'errno': 0, 'message': "获取成功", 'comment_list': comment_list})
 
@@ -995,10 +1008,10 @@ def accomplis_backlogs_view(request, user_profile):
     user = re.match(r"<UserProfile: (.*) <.*>>", user).group(1)
 
     page = request.GET.get('page')
-    generate_time = request.GET.get('generate_time')
+    generate_time = request.GET.get('start_time')
     over_time = request.GET.get('over_time')
     accomplis_task = request.GET.get('accomplis_task')
-    filter_dict={}
+    filter_dict = {}
 
     if generate_time:
         filter_dict['create_time__range'] = (generate_time, time.time())
@@ -1009,7 +1022,7 @@ def accomplis_backlogs_view(request, user_profile):
 
     if accomplis_task:
         filter_dict['task__contains'] = accomplis_task
-    filter_dict['user']=user
+    filter_dict['user'] = user
     filter_dict['state'] = 0
     filter_dict['is_delete'] = 'f'
 

@@ -299,7 +299,7 @@
 }
 .calendar_ctn>li{
     width: 340px;
-    height: 490px;
+    height: 538px;
     background: #fff;
     float: left;
     margin-right: 20px;
@@ -349,6 +349,46 @@
     color: #333333;
     letter-spacing: 0.17px;
 }
+.calendar_listA{
+    margin: 0;
+}
+.calendar_listA>li{
+    float: left;
+    width: 44px;
+    height: 44px;
+    text-align: center;
+    line-height: 44px;
+}
+.calendar_list_num{
+    height: 18px;
+    width: 18px;
+    line-height: 18px;
+    margin: 2px 13px;
+    /* background: #ccc; */
+    border-radius: 50%;
+}
+.calendar_list_stateR{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin: 0 17px;
+    background: #EF5350; 
+}
+.calendar_list_stateG{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin: 0 17px;
+    background: #9CCC65;; 
+}
+.calendar_list_stateY{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin: 0 17px;
+    background: #FFCA28;; 
+}
+
 .calendar_list{
     margin: 0;
 }
@@ -366,13 +406,6 @@
     margin: 2px 13px;
     /* background: #ccc; */
     border-radius: 50%;
-}
-.calendar_list_state{
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    margin: 0 17px;
-    background: #EF5350; 
 }
 .calendar_place_box{
     padding: 4px 20px;
