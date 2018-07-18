@@ -113,6 +113,20 @@ def sign_in_def(request, user_profile):
         return JsonResponse({'errno': '0', 'message': '下班打卡成功'})
 
 
+# 考勤组全部成员
+def attendances_member_view(user_profile,attendances_id):
+    
+    user_obj_list = UserProfile.objects.filter(atendance=attendances_id)
+    user_list = []
+    for user_obj in user_obj_list:
+        user_dict = {}
+        user_dict['user_avater'] = avatar.absolute_avatar_url(user_obj)
+        user_dict['user_name'] = user_obj.full_name
+        user_dict['user_id'] = user_obj.id
+        user_list.append(user_dict)
+    return user_list
+
+
 # 月考勤信息工具
 # 缺少外勤信息，请假信息
 def month_attendance_tools(user_profile, months):
@@ -230,70 +244,76 @@ def solo_month_attendance_web(request, user_profile):
     for months in month_list:
         month_attendance_list.append(month_attendance_tools(user_profile, months))
 
-    return JsonResponse({'errno': '0', 'message': '成功', 'super_user': user_profile.is_api_super_user,
+    return JsonResponse({'errno': '0', 'message': '成功', 'super_user': user_profile.is_realm_admin,
                          "month_attendance_list": month_attendance_list})
 
 
 # 管理单天
 # 缺少外勤，请假
 def attendances_day(request, user_profile):
-    if user_profile.is_realm_admin:
+    if not user_profile.is_realm_admin:
+        return JsonResponse({'errno': 888})
 
-        attendances_id = request.GET.get('attendances_id')
-        dates = request.GET.get('date')
-        if not attendances_id:
-            return JsonResponse({'errno': '0', 'message': '缺少id'})
-        if dates:
-            stockpile_time = datetime.strptime(dates, '%Y-%m-%d')
-            year = stockpile_time.year
-            month = stockpile_time.month
-            day = stockpile_time.day
+    attendances_id = request.GET.get('attendances_id')
+    attendances_id = 3
+    dates = request.GET.get('date')
 
-        else:
-            stockpile_time = datetime.utcnow()
-            stockpile_time = stockpile_time.replace(tzinfo=timezone.utc)
-            tzutc_8 = timezone(timedelta(hours=8))
-            stockpile_time = stockpile_time.astimezone(tzutc_8) + timedelta(hours=8)
+    if dates:
+        stockpile_time = datetime.strptime(dates, '%Y-%m-%d')
+        year = stockpile_time.year
+        month = stockpile_time.month
+        day = stockpile_time.day
 
-            year = stockpile_time.year
-            month = stockpile_time.month
-            day = stockpile_time.day
+    else:
+        stockpile_time = datetime.utcnow()
+        stockpile_time = stockpile_time.replace(tzinfo=timezone.utc)
+        tzutc_8 = timezone(timedelta(hours=8))
+        stockpile_time = stockpile_time.astimezone(tzutc_8) + timedelta(hours=8)
 
+        year = stockpile_time.year
+        month = stockpile_time.month
+        day = stockpile_time.day
+    attendances_obj_list = ZgDepartmentAttendance.objects.all()
+    if not attendances_id:
+        attendances_id = attendances_obj_list[0]
+    # 用户组信息
+    attendances_list = list()
+    for attendances_obj in attendances_obj_list:
+        attendances_dict = {}
+        attendances_dict['attendances_name'] = attendances_obj.attendance_name
+        attendances_dict['attendances_id'] = attendances_obj.id
+        attendances_list.append(attendances_dict)
+    user_obj_list = UserProfile.objects.filter(atendance=attendances_id)
+    attendance_obj_list = []
+    # 迟到
+    late = []
+    # 缺卡
+    missing_card = []
+    for user_obj in user_obj_list:
+        try:
+            attendance_obj = ZgAttendance.objects.get(sign_in_time__month=month, sign_in_time__year=year,
+                                                            sign_in_time__day=day,
+                                                            user_name=user_obj)
+        except Exception:
+            continue
+        attendance_obj_list.append(attendance_obj)       
+        if attendance_obj_lis.sign_in_explain == '迟到':
+            late.append(attendance_obj.user_name.full_name)
+        elif attendance_obj.sign_in_explain == '缺卡' or attendance_obj_lis.sign_off_explain == '缺卡':
+            if attendance_obj.user_name.full_name not in missing_card:
+                missing_card.append(attendance_obj.user_name.full_name)
+    # 实际到达
+    actual_arrival_count = len(attendance_obj_list)
+    # 应该到达
+    should_arrival_count = len(user_obj_list)
 
-        user_obj_list = UserProfile.objects.filter(atendance=attendances_id)
-        attendance_obj_list = []
-        # 迟到
-        late = []
-        # 缺卡
-        missing_card = []
-        for user_obj in user_obj_list:
-            attendance_obj_list = ZgAttendance.objects.filter(sign_in_time__month=month, sign_in_time__year=year,
-                                                              sign_in_time__day=day,
-                                                              user_name=user_obj)
-            attendance_obj_list += attendance_obj_list
-            if attendance_obj_list[0].sign_in_explain == '迟到':
-                late.append(attendance_obj_list[0].user_name.full_name)
-            elif attendance_obj_list[0].sign_in_explain == '缺卡' or attendance_obj_list[0].sign_off_explain == '缺卡':
-                if attendance_obj_list[0].user_name.full_name not in missing_card:
-                    missing_card.append(attendance_obj_list[0].user_name.full_name)
-        # 实际到达
-        actual_arrival_count = len(attendance_obj_list)
-        # 应该到达
-        should_arrival_count = len(user_obj_list)
-
-        attendances_obj_list = ZgDepartmentAttendance.objects.all()
-        # 用户组信息
-        attendances_list = list()
-        for attendances_obj in attendances_obj_list:
-            attendances_dict = {}
-            attendances_dict['attendances_name'] = attendances_obj.attendance_name
-            attendances_dict['attendances_id'] = attendances_obj.id
-            attendances_list.append(attendances_dict)
-
-        return JsonResponse({'errno': '0', 'message': '成功', 'super_user': user_profile.is_api_super_user,
-                             'late': late, 'missing_card': missing_card,
-                             'actual_arrival_count': actual_arrival_count,
-                             'should_arrival_count': should_arrival_count, 'attendances_list': attendances_list})
+    return JsonResponse({'errno': '0', 'message': '成功', 'super_user': user_profile.is_realm_admin,
+                         'late': late, 'missing_card': missing_card,
+                         'actual_arrival_count': actual_arrival_count,
+                         'should_arrival_count': should_arrival_count,
+                         'attendances_list': attendances_list,
+                         'attendances_member_list': attendances_member_view(user_profile,attendances_id)
+                         })
 
 
 # 添加考勤组
@@ -303,7 +323,7 @@ def add_attendances(request, user_profile):
     req = json.loads(req)
     attendances_name = req.get('name')
     # 成员=>list
-    attendances_member_list = req.get('member')
+    attendances_member_list = req.get('member_list')
     # 上下班时间
     attendances_jobs_time = req.get('jobs_time')
     attendances_rest_time = req.get('rest_time')
@@ -314,7 +334,7 @@ def add_attendances(request, user_profile):
     attendances_latitude = req.get('latitude')
     # 地点
     attendances_location = req.get('location')
-    # 范围
+    # 范围=>int
     attendances_range = req.get('range')
 
     if not all(
@@ -332,9 +352,9 @@ def add_attendances(request, user_profile):
                                                                 site=attendances_location,
                                                                 default_distance=attendances_range)
         for user_id in attendances_member_list:
-            user_obj = UserProfile.objects.filter(id=user_id)
-            user_obj[0].atendance = attendances_obj
-            user_obj[0].save()
+            user_obj = UserProfile.objects.get(id=user_id)
+            user_obj.atendance = attendances_obj
+            user_obj.save()
 
     except Exception:
         return JsonResponse({'errno': '2', 'message': '储存考勤组信息失败'})
@@ -354,7 +374,7 @@ def update_attendances(request, user_profile):
     # 上下班时间
     attendances_jobs_time = req.get('jobs_time')
     attendances_rest_time = req.get('rest_time')
-    # 考勤日期
+    # 考勤日期=>
     attendances_date = req.get('date')
     # 经纬度
     attendances_longitude = req.get('longitude')
@@ -409,26 +429,12 @@ def del_attendances(request, user_profile):
     return JsonResponse({'errno': '0', 'message': '删除成功'})
 
 
-# 考勤组全部成员
-def attendances_member_view(request, user_profile):
-    sttendance_member = request.GET.get('sttendance_member')
-    if not sttendance_member:
-        return JsonResponse({'errno': '1', 'message': '缺少参数'})
-    user_obj_list = UserProfile.objects.filter(atendance=sttendance_member)
-    user_list = []
-    user_list.append(user_profile.id)
-    for user_obj in user_obj_list:
-        user_dict = {}
-        user_dict['user_avater'] = avatar.absolute_avatar_url(user_obj)
-        user_dict['user_name'] = user_obj.full_name
-        user_dict['user_id'] = user_obj.id
-        user_list.append(user_dict)
-    return JsonResponse({'errno': '0', 'message': '成功', 'user_list': user_list})
-
-
 # 考勤组列表
 def attendances_management(request, user_profile):
     attendances_obj_list = ZgDepartmentAttendance.objects.all()
+    if attendances_obj_list:
+        JsonResponse({'errno': '1', 'message': '暂无用户组哦'})
+
     # 用户组信息
     attendances_list = list()
     attendance_dates = {'1': '周一', '2': '二', '3': '三', '4': '四', '5': '五', '6': '六', '7': '日'}

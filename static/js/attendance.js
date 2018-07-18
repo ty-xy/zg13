@@ -5,38 +5,41 @@ var attendance = (function () {
         
         $(".common_img").on("click",function(){
             // var da = {
-            //     name:"周明珠",
-            //     member:[34,35,36,37,38,39,40],
+            //     name:"陈二狗",
+            //     member_list:[34,35,36,37,38,39,40],
             //     jobs_time:"09:30:00",
             //     rest_time:"20:00:00",
-            //     date:"123456",
+            //     date:"1234567",
             //     longitude:"123.12",
             //     latitude:"123.11",
-            //     location:"华普国际大厦CBD",
+            //     location:"门头沟",
             //     range:"100000"
             // }
+            // $.ajax({
+            //     type:"POST",
+            //     url:"json/zg/attendances/add/",
+            //     contentType:"application/json",
+            //     data:JSON.stringify(da),
+            //     success:function(res){
+
+            //     }})
             $.ajax({
                     type:"GET",
-                    url:"json/zg/attendances/management",
+                    url:"json/zg/attendances/day",
                     contentType:"application/json",
                     success:function(res){
                         if(res.super_user==true){
                             //确认管理员身份继续请求日统计数据
+                            console.log(res)
                             var attendances_id;
                             for(var i=0;i<res.attendances_list.length;i++){
                                 attendances_id = res.attendances_list[0].attendances_id
                             }
-                            $.ajax({
-                                type:"GET",
-                                url:"json/zg/attendances/day?attendances_id="+attendances_id+"",
-                                success:function(res){
-                                    console.log(res)
-                                }
-                            })
                             var html = templates.render("attendance_box");
                             $(".app").after(html);
                             var attendances_list = res.attendances_list;
-                            var attendance_all = templates.render("attendance_all",{attendances_list:attendances_list})
+                            var attendances_member_list = res.attendances_member_list;
+                            var attendance_all = templates.render("attendance_all",{attendances_list:attendances_list,attendances_member_list:attendances_member_list})
                             $(".attendance_ctn").append(attendance_all)
                             //关闭考勤
                             $(".attendance_close").on("click",function(){
@@ -79,13 +82,9 @@ var attendance = (function () {
                                         })
                                     }
                                 })
-                                
-                                
                                 //补卡弹窗
                                 // var calendar_card = templates.render("calendar_card")
                                 // $(".attendance_ctn").append(calendar_card)
-                                
-
                             })
                             //返回到管理界面
                             $(".attendance_box").on("click",".calendar_return",function(){

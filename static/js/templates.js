@@ -301,7 +301,10 @@ Handlebars.registerHelper('compare', function(left, operator, right, options) {
     //     {{else}}
     // {{/compare}}
 });
-
+//取数组长度
+Handlebars.registerHelper("cut_list",function(list){
+    return list.length
+})
 Handlebars.registerHelper('if_or', function () {
     // Execute the conditional code if any of the conditions are true.
     // Example usage:
