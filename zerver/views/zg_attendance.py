@@ -301,8 +301,9 @@ def add_attendances(request, user_profile):
     req = req.decode()
     req = json.loads(req)
     attendances_name = req.get('name')
+    
     # 成员=>list
-    attendances_member_list = req.get('member')
+    attendances_member_list = req.get('member_list')
     # 上下班时间
     attendances_jobs_time = req.get('jobs_time')
     attendances_rest_time = req.get('rest_time')
@@ -315,7 +316,8 @@ def add_attendances(request, user_profile):
     attendances_location = req.get('location')
     # 范围
     attendances_range = req.get('range')
-
+    print(attendances_date, attendances_latitude, attendances_name, attendances_range, attendances_location,
+         attendances_longitude, attendances_member_list, attendances_rest_time, attendances_jobs_time)
     if not all(
         [attendances_date, attendances_latitude, attendances_name, attendances_range, attendances_location,
          attendances_longitude, attendances_member_list, attendances_rest_time, attendances_jobs_time]):

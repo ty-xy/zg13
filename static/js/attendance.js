@@ -226,6 +226,20 @@ var attendance = (function () {
                    }
            })
        }
+
+    var countdown = 10;
+    function settime() {
+        if(countdown == 0) {
+            $(".button-submit").attr("disabled", false);
+            // $("#btn").attr("value", "免费获取验证码");
+            countdown = 10;
+        } else {
+            $(".button-submit").attr("disabled", true);
+            // $("#btn").attr("value", "重新发送(" + countdown + ")");
+            countdown--;
+            setTimeout(settime, 1000)
+        }
+    }
            $(".attendance_ctn").on('click',".new_attendance",function(){
                 var html = templates.render("attendance_team");
                 $(".attendance_ctn").html(html)
@@ -479,7 +493,39 @@ var attendance = (function () {
                 $(".kaoqin-date-area").on('click',function(){
                     $(".kaoqin-date-choose").hide()
                 })
-                
+                //点击提交
+                $(".attendance_ctn").on("click",".button-submit",function(){
+                    settime()
+                    var name = $(".title-input").val()
+                    var member_list = $(".button-common-people").attr("data_id")
+                    var jobs_time = $(".button-job").val()
+                    var rest_time = $(".button-rest").val()
+                    var date =$(".button-common-date").html()
+                    var longitude = $(".kaoqin-era").attr("location").split(",")[0]
+                    var latitude = $(".kaoqin-era").attr("location").split(",")[1]
+                    var location = $(".kaoqin-era").html()
+                    var range = $(".button-common-area").val().slice(0,3);
+                    console.log(member_list)
+                    var data_list  ={
+                         name:name,
+                         member_list:[1],
+                         jobs_time:jobs_time,
+                         rest_time:rest_time,
+                         date:"1",
+                         longitude:longitude,
+                         latitude:latitude,
+                         location:location,
+                         range:range,
+                    }
+                    channel.post({
+                        url:'json/zg/backlog/',
+                        data:JSON.stringify(data_list),
+                        success:function(data){
+                            console.log(data)
+                        }
+
+                    })
+                })
            })
            $(".attendance_ctn").on('click',".back_attendance",function(){
                 var html = templates.render("attendance_management");
