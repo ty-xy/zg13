@@ -581,4 +581,7 @@ textarea:focus {
     background: url("../img/jiahao.png")no-repeat;
     background-image: 14px 14px;
 } */
-
+.gray_date{
+    color: #fff;
+    background: #A0ACBF;
+}

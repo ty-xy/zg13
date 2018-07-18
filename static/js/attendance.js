@@ -21,79 +21,33 @@ var attendance = (function () {
                     contentType:"application/json",
                     data:{page:1},
                     success:function(res){
-                        console.log(res);
                         var month_attendance_list = res.month_attendance_list;
                         var calendar_box = templates.render("calendar_box",{month_attendance_list:month_attendance_list});
                         $(".attendance_ctn").append(calendar_box);
+                        //筛选时间
+                        $(".calendar_screen_select").datetimepicker({
+                            startView: 'decade',
+                            minView: 'decade',
+                            format: 'yyyy',
+                            maxViewMode: 2,
+                            minViewMode:2,
+                            autoclose: true
+                            }).on("changeDate",function(){
+                                console.log("这是一个秋天")
+                        }); 
+                        //点击具体日期显示详情
+                        $(".calendar_list").on("click",".calendar_list_num",function(){
+                            $(this).addClass("gray_date").parent().siblings().children().removeClass("gray_date");
+                            // $(this).siblings().removeClass("gray_date");
+                        })
                     }
                 })
-                // var arr=[]
-                // var firstDay = 7;
-                // var lastDay = 30;
-                // if(firstDay==1){
-                //     for(var i=1;i<lastDay;i++){
-                //         arr.push(i)
-                //     }
-                // }else if(firstDay==2){
-                //     arr.unshift("");
-                //     for(var i=1;i<lastDay;i++){
-                //         arr.push(i)
-                //     }
-                // }else if(firstDay==3){
-                //     arr.unshift("");
-                //     arr.unshift("");
-                //     for(var i=1;i<lastDay;i++){
-                //         arr.push(i)
-                //     }
-                // }else if(firstDay==4){
-                //     arr.unshift("");
-                //     arr.unshift("");
-                //     arr.unshift("");
-                //     for(var i=1;i<lastDay;i++){
-                //         arr.push(i)
-                //     }
-                // }else if(firstDay==5){
-                //     arr.unshift("");
-                //     arr.unshift("");
-                //     arr.unshift("");
-                //     arr.unshift("");
-                //     for(var i=1;i<lastDay;i++){
-                //         arr.push(i)
-                //     }
-                // }else if(firstDay==6){
-                //     arr.unshift("");
-                //     arr.unshift("");
-                //     arr.unshift("");
-                //     arr.unshift("");
-                //     arr.unshift("");
-                //     for(var i=1;i<lastDay;i++){
-                //         arr.push(i)
-                //     }
-                // }else if(firstDay==7){
-                //     arr.unshift("");
-                //     arr.unshift("");
-                //     arr.unshift("");
-                //     arr.unshift("");
-                //     arr.unshift("");
-                //     arr.unshift("");
-                //     for(var i=1;i<lastDay;i++){
-                //         arr.push(i)
-                //     }
-                // }
+                
                 
                 //补卡弹窗
                 // var calendar_card = templates.render("calendar_card")
                 // $(".attendance_ctn").append(calendar_card)
-                $(".calendar_screen_select").datetimepicker({
-                    startView: 'decade',
-                    minView: 'decade',
-                    format: 'yyyy',
-                    maxViewMode: 2,
-                    minViewMode:2,
-                    autoclose: true
-                    }).on("changeDate",function(){
-                        console.log("这是一个秋天")
-                    }); 
+                
 
            })
            //返回到管理界面
@@ -104,8 +58,30 @@ var attendance = (function () {
                //查看考勤日历
                $(".attendance_bottom_ctn").on("click",".attendance_bottom_calendar",function(){
                    $(".attendance_ctn").children().remove();
-                   var calendar_box = templates.render("calendar_box");
-                   $(".attendance_ctn").append(calendar_box);
+                //    var calendar_box = templates.render("calendar_box");
+                //    $(".attendance_ctn").append(calendar_box);
+                    $.ajax({
+                        type:"GET",
+                        url:"json/zg/attendance/month/solo/web",
+                        contentType:"application/json",
+                        data:{page:1},
+                        success:function(res){
+                            var month_attendance_list = res.month_attendance_list;
+                            var calendar_box = templates.render("calendar_box",{month_attendance_list:month_attendance_list});
+                            $(".attendance_ctn").append(calendar_box);
+                            //筛选时间
+                            $(".calendar_screen_select").datetimepicker({
+                                startView: 'decade',
+                                minView: 'decade',
+                                format: 'yyyy',
+                                maxViewMode: 2,
+                                minViewMode:2,
+                                autoclose: true
+                                }).on("changeDate",function(){
+                                    console.log("这是一个秋天")
+                            }); 
+                        }
+                    })
                })
            })      
            //点击考勤组的样式
