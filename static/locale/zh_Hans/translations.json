@@ -274,7 +274,7 @@
   "Message sent when you were not subscribed": "在您订阅前发送的消息",
   "Messages retention period in days (blank means messages are retained forever)": "消息保留期在几天(空白意味着消息永远保留)",
   "Method": "方法",
-  "Minimum account age (N)": "",
+  "Minimum account age (N)": "最低账户时间 (N)",
   "Mobile notifications": "手机推送通知",
   "Mobile notifications always (even when online)": "手机推送通知(即使在线)",
   "Mobile notifications when offline": "离线时机推送通知",
