@@ -262,7 +262,6 @@ var management = (function () {
                                 $('.new_plan').hide()
                                 $('.new_add_task_plan').show()
                             }
-                            
                     }
                 })
                 cancel()

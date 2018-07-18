@@ -145,11 +145,7 @@
                         
                 </div>
         </div>
-        <div class="modal-log" style="display:none">
-             <div class="modal-log-content">
-                 
-             </div>
-        </div>  
+       
         <!-- <div class="create_generate_log">
               <div class="generate_log_left">
                     <ul class="generate_log_sliber">
@@ -334,12 +330,24 @@
             </div>
             <div id="container">
             </div>
-            <ul class="sure-place">
-                 <li>华普国际大厦</li>
-                 <li>朝外大街</li>
-                 <li>中华人民共和国外交部</li>
-                 <li>丰联广场</li>
-            </ul>
+            <div id="myPageTop">
+                <table>
+                    <tr>
+                        <td>
+                            <label>请输入关键字：</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input id="tipinput"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <!-- <input id="complete" type="text" placeholder="输入您要定位的地址" /> -->
+            <div class="sure-place">
+                 地址详情:<span class="place-area"></span>
+            </div>
             <div class="place-button">
                  <button class="place-sure">确定</button>
             </div>
@@ -352,41 +360,45 @@
         </div>
         <ul class="kaoqin-choose-week">
             <li>
-                <input type="checkbox"/>
+                <input type="checkbox" class="date-checkbox"/>
                 <span>星期一</span>
             </li>
             <li>
-                <input type="checkbox"/>
+                <input type="checkbox" class="date-checkbox"/>
                 <span>星期二</span>
             </li>
             <li>
-                <input type="checkbox"/>
+                <input type="checkbox" class="date-checkbox"/>
                 <span>星期三</span>
             </li>
             <li>
-                <input type="checkbox"/>
+                <input type="checkbox" class="date-checkbox"/>
                 <span>星期四</span>
             </li>
             <li>
-                <input type="checkbox"/>
+                <input type="checkbox" class="date-checkbox"/>
                 <span>星期五</span>
             </li>
             <li>
-                <input type="checkbox"/>
+                <input type="checkbox" class="date-checkbox"/>
                 <span>星期六</span>
             </li>
             <li>
-                <input type="checkbox"/>
+                <input type="checkbox" class="date-checkbox"/>
                 <span>星期日</span>
             </li>
-            <li class="divid-line"></li>
+            <!-- <li class="divid-line"></li>
             <li>
                 <input type="checkbox"/>
                 <span>节假日休息自动排班</span>
-            </li>
+            </li> -->
         </ul>
     
             <button class="kaoqin-date-area">确定</button>
     </div>
 </div>
-
+<div class="modal-log" style="display:none">
+    <div class="modal-log-content">
+        
+    </div>
+</div>  
