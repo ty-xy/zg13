@@ -187,6 +187,13 @@ var attendance = (function () {
        
            })
        }
+       function alert(text,color){
+        $('.toast-alert-button').fadeIn({
+            duration: 1
+        }).delay (1000).fadeOut ({duration: 1000});
+        $('.toast-alert-button').html(text)
+        $('.toast-alert-button').css('background-color',color)
+      }
        function deletes(data){
            var childrenlength=$(".box-right-list").children().length
            // console.log(childrenlength)
@@ -497,14 +504,45 @@ var attendance = (function () {
                 $(".attendance_ctn").on("click",".button-submit",function(){
                     settime()
                     var name = $(".title-input").val()
-                    var member_list = $(".button-common-people").attr("data_id").split(",")
+                    if(name==""){
+                        alert('请填写考情组的名字','rgba(169,12,0,0.30)')
+                        return 
+                    }
+                    var member_list = $(".button-common-people").attr("data_id")
+                    if(member_list=="请设置参加人员"){
+                        alert('请填写考情组的名字','rgba(169,12,0,0.30)')
+                        return 
+                    }else{
+                        member_list.split(",")
+                    }
                     var jobs_time = $(".button-job").val()
+                    if(jobs_time=="00:00"){
+                        alert('请填写开始时间','rgba(169,12,0,0.30)')
+                        return
+                    }
                     var rest_time = $(".button-rest").val()
+                    if(rest_time=="00:00"){
+                        alert('请填写结束时间','rgba(169,12,0,0.30)')
+                        return
+                    }
                     var date =$(".button-common-date").html()
+                    if(date=="设置考勤日期"){
+                        alert('请填写日期','rgba(169,12,0,0.30)')
+                        return
+                    }
+                    var location = $(".kaoqin-era").html()
+                    if(location=="设置考勤地点"){
+                        alert('设置考勤地点','rgba(169,12,0,0.30)')
+                        return
+                    }
                     var longitude = $(".kaoqin-era").attr("location").split(",")[0]
                     var latitude = $(".kaoqin-era").attr("location").split(",")[1]
-                    var location = $(".kaoqin-era").html()
+                    
                     var range = $(".button-common-area").val().slice(0,3);
+                    if(range=="设置考勤范围"){
+                        alert('设置考勤范围','rgba(169,12,0,0.30)')
+                        return
+                    }
                     console.log(date.split(","))
                     date = date.split(",")
                     var datelist =[]
@@ -542,7 +580,8 @@ var attendance = (function () {
                         data:JSON.stringify(data_list),
                         // contentType:"application/json",
                         success:function(data){
-                            if(data.errno===0){
+                            console.log(data)
+                            if(data.errno==0){
                                 $(".attendance_md").hide();
                             }
                         }
