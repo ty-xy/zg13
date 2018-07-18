@@ -256,7 +256,7 @@ var attendance = (function () {
                     // minuteStep:1,
                     maxView: 1,
                     forceParse: 0,
-                    format:'hh:ii',
+                    format:'hh:ii:00',
                    })
                 //接入地点
                 $(".kaoqin-era").on('click',function(){
@@ -497,7 +497,7 @@ var attendance = (function () {
                 $(".attendance_ctn").on("click",".button-submit",function(){
                     settime()
                     var name = $(".title-input").val()
-                    var member_list = $(".button-common-people").attr("data_id")
+                    var member_list = $(".button-common-people").attr("data_id").split(",")
                     var jobs_time = $(".button-job").val()
                     var rest_time = $(".button-rest").val()
                     var date =$(".button-common-date").html()
@@ -505,25 +505,47 @@ var attendance = (function () {
                     var latitude = $(".kaoqin-era").attr("location").split(",")[1]
                     var location = $(".kaoqin-era").html()
                     var range = $(".button-common-area").val().slice(0,3);
-                    console.log(member_list)
+                    console.log(date.split(","))
+                    date = date.split(",")
+                    var datelist =[]
+                    date.forEach(function(val,i ){
+                           if(val==="星期一"){
+                            datelist.push(1)
+                           }else if(val==="星期二"){
+                            datelist.push(2)
+                           }else if(val==="星期三"){
+                            datelist.push(3)
+                           }else if(val==="星期四"){
+                            datelist.push(4)
+                           }else if(val==="星期五"){
+                            datelist.push(5)
+                           }else if(val==="星期六"){
+                            datelist.push(6)
+                           }else if(val==="星期日"){
+                            datelist.push(7)
+                           }
+                    })
+                   
                     var data_list  ={
                          name:name,
-                         member_list:[1],
+                         member_list:member_list,
                          jobs_time:jobs_time,
                          rest_time:rest_time,
-                         date:"1",
+                         date: datelist.join(""),
                          longitude:longitude,
                          latitude:latitude,
                          location:location,
                          range:range,
                     }
                     channel.post({
-                        url:'json/zg/backlog/',
+                        url:'/json/zg/attendances/add/',
                         data:JSON.stringify(data_list),
+                        // contentType:"application/json",
                         success:function(data){
-                            console.log(data)
+                            if(data.errno===0){
+                                $(".attendance_md").hide();
+                            }
                         }
-
                     })
                 })
            })
