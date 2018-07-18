@@ -278,6 +278,13 @@ var attendance = (function () {
        
            })
        }
+       function alert(text,color){
+        $('.toast-alert-button').fadeIn({
+            duration: 1
+        }).delay (1000).fadeOut ({duration: 1000});
+        $('.toast-alert-button').html(text)
+        $('.toast-alert-button').css('background-color',color)
+      }
        function deletes(data){
            var childrenlength=$(".box-right-list").children().length
            // console.log(childrenlength)
@@ -317,6 +324,20 @@ var attendance = (function () {
                    }
            })
        }
+
+    var countdown = 10;
+    function settime() {
+        if(countdown == 0) {
+            $(".button-submit").attr("disabled", false);
+            // $("#btn").attr("value", "免费获取验证码");
+            countdown = 10;
+        } else {
+            $(".button-submit").attr("disabled", true);
+            // $("#btn").attr("value", "重新发送(" + countdown + ")");
+            countdown--;
+            setTimeout(settime, 1000)
+        }
+    }
            $(".attendance_ctn").on('click',".new_attendance",function(){
                 var html = templates.render("attendance_team");
                 $(".attendance_ctn").html(html)
@@ -333,7 +354,7 @@ var attendance = (function () {
                     // minuteStep:1,
                     maxView: 1,
                     forceParse: 0,
-                    format:'hh:ii',
+                    format:'hh:ii:00',
                    })
                 //接入地点
                 $(".kaoqin-era").on('click',function(){
@@ -570,7 +591,93 @@ var attendance = (function () {
                 $(".kaoqin-date-area").on('click',function(){
                     $(".kaoqin-date-choose").hide()
                 })
-                
+                //点击提交
+                $(".attendance_ctn").on("click",".button-submit",function(){
+                    settime()
+                    var name = $(".title-input").val()
+                    if(name==""){
+                        alert('请填写考情组的名字','rgba(169,12,0,0.30)')
+                        return 
+                    }
+                    var member_list = $(".button-common-people").attr("data_id")
+                    if(member_list=="请设置参加人员"){
+                        alert('请填写考情组的名字','rgba(169,12,0,0.30)')
+                        return 
+                    }else{
+                        member_list.split(",")
+                    }
+                    var jobs_time = $(".button-job").val()
+                    if(jobs_time=="00:00"){
+                        alert('请填写开始时间','rgba(169,12,0,0.30)')
+                        return
+                    }
+                    var rest_time = $(".button-rest").val()
+                    if(rest_time=="00:00"){
+                        alert('请填写结束时间','rgba(169,12,0,0.30)')
+                        return
+                    }
+                    var date =$(".button-common-date").html()
+                    if(date=="设置考勤日期"){
+                        alert('请填写日期','rgba(169,12,0,0.30)')
+                        return
+                    }
+                    var location = $(".kaoqin-era").html()
+                    if(location=="设置考勤地点"){
+                        alert('设置考勤地点','rgba(169,12,0,0.30)')
+                        return
+                    }
+                    var longitude = $(".kaoqin-era").attr("location").split(",")[0]
+                    var latitude = $(".kaoqin-era").attr("location").split(",")[1]
+                    
+                    var range = $(".button-common-area").val().slice(0,3);
+                    if(range=="设置考勤范围"){
+                        alert('设置考勤范围','rgba(169,12,0,0.30)')
+                        return
+                    }
+                    console.log(date.split(","))
+                    date = date.split(",")
+                    var datelist =[]
+                    date.forEach(function(val,i ){
+                           if(val==="星期一"){
+                            datelist.push(1)
+                           }else if(val==="星期二"){
+                            datelist.push(2)
+                           }else if(val==="星期三"){
+                            datelist.push(3)
+                           }else if(val==="星期四"){
+                            datelist.push(4)
+                           }else if(val==="星期五"){
+                            datelist.push(5)
+                           }else if(val==="星期六"){
+                            datelist.push(6)
+                           }else if(val==="星期日"){
+                            datelist.push(7)
+                           }
+                    })
+                   
+                    var data_list  ={
+                         name:name,
+                         member_list:member_list,
+                         jobs_time:jobs_time,
+                         rest_time:rest_time,
+                         date: datelist.join(""),
+                         longitude:longitude,
+                         latitude:latitude,
+                         location:location,
+                         range:range,
+                    }
+                    channel.post({
+                        url:'/json/zg/attendances/add/',
+                        data:JSON.stringify(data_list),
+                        // contentType:"application/json",
+                        success:function(data){
+                            console.log(data)
+                            if(data.errno==0){
+                                $(".attendance_md").hide();
+                            }
+                        }
+                    })
+                })
            })
            $(".attendance_ctn").on('click',".back_attendance",function(){
                 var html = templates.render("attendance_management");

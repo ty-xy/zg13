@@ -368,7 +368,7 @@ a.message-control-button {
   box-shadow: 0 2px 4px 0 rgba(226,226,226,0.50);
   display:none
 }
-.toast-alert{
+.toast-alert,.toast-alert-button{
     height:34px;
     min-width:184px;
     max-width:350px;
@@ -382,6 +382,10 @@ a.message-control-button {
     margin:auto;
     line-height:34px;
     display:none;
+}
+.toast-alert-button{
+    bottom:100px;
+    text-align:center;
 }
 #process-bar{
     position:absolute;

@@ -59,6 +59,7 @@
     padding:0 30px;
     height:680px;
     overflow-y: auto; 
+    overflow-x: hidden;
 }
 .attendance_ul_team{
     margin:0;
