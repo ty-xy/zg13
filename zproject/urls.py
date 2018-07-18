@@ -423,6 +423,29 @@ v1_api_and_json_patterns = [
     # web个人月历
     url(r'^zg/attendance/month/solo/web$', rest_dispatch,
         {'GET': 'zerver.views.zg_attendance.solo_month_attendance_web'}),
+
+    # 考勤组列表
+    url(r'^zg/attendances/management$', rest_dispatch,
+        {'GET': 'zerver.views.zg_attendance.attendances_management'}),
+
+    # 团队单日考勤信息
+    url(r'^zg/attendances/day', rest_dispatch,
+        {'GET': 'zerver.views.zg_attendance.attendances_day'}),
+
+    # 考勤组成员
+    url(r'^zg/attendances/member', rest_dispatch,
+        {'GET': 'zerver.views.zg_attendance.attendances_member_view'}),
+
+    # 添加考勤组
+    url(r'^zg/attendances/add/', rest_dispatch,
+        {'PUT': 'zerver.views.zg_attendance.add_attendances'}),
+    # 更新考勤组
+    url(r'^zg/attendances/update/', rest_dispatch,
+        {'POST': 'zerver.views.zg_attendance.update_attendances'}),
+    # 删除考勤组
+    url(r'^zg/attendances/del/', rest_dispatch,
+        {'DELETE': 'zerver.views.zg_attendance.del_attendances'}),
+
 ]
 
 # These views serve pages (HTML). As such, their internationalization
@@ -725,3 +748,26 @@ def handler400(request: HttpRequest, exception: Exception) -> HttpResponse:
     # https://docs.djangoproject.com/en/1.11/topics/http/views/#customizing-error-views
     return HttpResponseBadRequest(
         '<h1>Bad Request (400)</h1>', content_type='text/html')
+
+
+# from apscheduler.scheduler import Scheduler
+# from zerver.views.zg_attendance import testFuncton
+#
+# sched = Scheduler()
+#
+#
+# @sched.interval_schedule(seconds=3)
+# def my_task():
+#     testFuncton()
+#
+#
+# sched.start()
+
+
+# from apscheduler.triggers.combining import AndTrigger
+# from apscheduler.triggers.interval import IntervalTrigger
+# from apscheduler.triggers.cron import CronTrigger
+#
+# trigger = AndTrigger([IntervalTrigger(hours=2),
+#                       CronTrigger(day_of_week='sat,sun')])
+# scheduler.add_job(job_function, trigger)
