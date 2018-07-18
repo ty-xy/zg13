@@ -438,10 +438,10 @@ v1_api_and_json_patterns = [
 
     # 添加考勤组
     url(r'^zg/attendances/add/', rest_dispatch,
-        {'PUT': 'zerver.views.zg_attendance.add_attendances'}),
+        {'POST': 'zerver.views.zg_attendance.add_attendances'}),
     # 更新考勤组
     url(r'^zg/attendances/update/', rest_dispatch,
-        {'POST': 'zerver.views.zg_attendance.update_attendances'}),
+        {'PUT': 'zerver.views.zg_attendance.update_attendances'}),
     # 删除考勤组
     url(r'^zg/attendances/del/', rest_dispatch,
         {'DELETE': 'zerver.views.zg_attendance.del_attendances'}),
