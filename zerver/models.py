@@ -599,6 +599,7 @@ class ZgDepartmentAttendance(models.Model):
 
     jobs_time = models.TimeField(default="08:00:00", verbose_name="上班时间")
     rest_time = models.TimeField(default="18:00:00", verbose_name="下班时间")
+
     site = models.CharField(max_length=40, verbose_name='打卡地点名')
     longitude = models.CharField(max_length=20, default='39.9073660631', verbose_name="经度")
     latitude = models.CharField(max_length=20, default='116.3977432251', verbose_name="维度")
@@ -898,6 +899,7 @@ class ZgAttendance(models.Model):
     sign_off_time = models.DateTimeField(default='1970-01-01 08:00:00', verbose_name="下班时间")
     sign_in_explain = models.CharField(max_length=15, default='缺卡', verbose_name="打卡备注")
     sign_off_explain = models.CharField(max_length=15, default='缺卡', verbose_name="打卡备注")
+
 
 
 class UserGroup(models.Model):
