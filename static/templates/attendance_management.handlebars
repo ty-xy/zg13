@@ -9,19 +9,21 @@
     </div>
  {{/if}} --}}
 <ul class="attendance_ul_team">
+   {{#each data_list}}
     <li class="attendance_team">
-        <h1>朝阳考勤组</h1>
+        <h1>{{attendances_name}}</h1>
         <i class="team-line"></i>
         <div>
             <ul>
                 <li>参与部门(频道)：<span>技术组、产品组</span></li>
-                <li>考勤时间：<span>周一、二、三、四、五  09:00-18:00</span</li>
-                <li>考勤地点：<span>华普国际大厦</span></li>
+                <li>考勤时间：<span>{{attendance_time_list}}  09:00-18:00</span</li>
+                <li>考勤地点：<span>{{attendances_location}}</span></li>
             </ul>
         </div>
         <div class="attendance_team_bottom" >
-            <button>修改</button>
-            <button>删除</button>
+            <button data_id={{attendances_id}} class="button-fix">修改</button>
+            <button data_id={{attendances_id}} class="button-delete">删除</button>
         </div>
     </li>
+    {{/each}}
 </ul>
