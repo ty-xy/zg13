@@ -429,22 +429,25 @@ v1_api_and_json_patterns = [
         {'GET': 'zerver.views.zg_attendance.attendances_management'}),
 
     # 团队单日考勤信息
-    url(r'^zg/attendances/day', rest_dispatch,
+    url(r'^zg/attendances/day$', rest_dispatch,
         {'GET': 'zerver.views.zg_attendance.attendances_day'}),
 
     # 考勤组成员
-    url(r'^zg/attendances/member', rest_dispatch,
+    url(r'^zg/attendances/member$', rest_dispatch,
         {'GET': 'zerver.views.zg_attendance.attendances_member_view'}),
 
     # 添加考勤组
-    url(r'^zg/attendances/add/', rest_dispatch,
+    url(r'^zg/attendances/add/$', rest_dispatch,
         {'POST': 'zerver.views.zg_attendance.add_attendances'}),
     # 更新考勤组
-    url(r'^zg/attendances/update/', rest_dispatch,
+    url(r'^zg/attendances/update/$', rest_dispatch,
         {'PUT': 'zerver.views.zg_attendance.update_attendances'}),
     # 删除考勤组
-    url(r'^zg/attendances/del/', rest_dispatch,
+    url(r'^zg/attendances/del/$', rest_dispatch,
         {'DELETE': 'zerver.views.zg_attendance.del_attendances'}),
+    # 获取考勤组
+    url(r'^zg/attendances$', rest_dispatch,
+        {'GET': 'zerver.views.zg_attendance.get_attendances'}),
 
 ]
 
