@@ -689,12 +689,17 @@ ul{
     margin-left: 20px;
     position: relative;
 }
+.thumbnail_box{
+    float: left;
+}
 .generate_log_pack_left{
     width: 50px;
     min-height: 50px;
     float: left;
     border: 1px solid #ccc;
     margin-right: 5px;
+    margin-top: 5px;
+    margin-left: 10px;
 }
 .generate_log_pack_delete{
     position: absolute;
@@ -715,6 +720,7 @@ ul{
     height: 50px;
     float: left;
     text-align: left;
+    margin-top: 5px;
 }
 .generate_log_pack_right>:first-child{
     font-size: 14px;

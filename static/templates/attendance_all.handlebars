@@ -2,26 +2,39 @@
                 <div class="attendance_top_left fix">
                     <p class="attendance_group_tilte">考勤组</p>
                     <div class="attendance_groups fix">
-                        <div>朝阳门考勤组</div>
-                        <div>五间房考勤组</div>
+                        {{#each attendances_list}}
+                            <div>{{attendances_name}}</div>
+                        {{/each}}
                     </div>
                 </div>
                 <div class="attendance_top_right fix">
                     <p class="attendance_screen_title">按时间筛选</p>
                     <div>
-                        <div></div>
+                        <input type="text" class="calendar_screen_select_y" id="calendar_screen_select_y" value="2018-10-11">
                     </div>
                 </div>
             </div>
             <div class="attendance_middle fix">
                 <div class="attendance_statistical fix">
                     <p class="attendance_statistical_title">日统计</p>
-                    <p class="attendance_statistical_num"><span>49/</span><span>51人</span></p>
+                    <p class="attendance_statistical_num"><span>{{actual_arrival_count}}/</span><span>{{should_arrival_count}}人</span></p>
                 </div>
                 <i></i>
                 <div class="attendance_statistical_detail">
-                    <p><span>迟到3人:</span><span>二狗子</span></p>
-                    <p><span>缺卡1人:</span><span>二狗子</span></p>
+                    {{#each late}}
+                        {{#if late}}
+                            <p><span>迟到{{cut_list late}}人:</span><span>{{this}}</span></p>
+                        {{/if}}
+                        {{else}}
+                            <p><span>迟到0人:</span><span></span></p>
+                    {{/each}}
+                    {{#each missing_card}}
+                        {{#if missing_card}}
+                            <p><span>缺卡{{cut_list missing_card}}人:</span><span>{{this}}</span></p>
+                        {{/if}}
+                        {{else}}
+                            <p><span>缺卡0人:</span><span></span></p>
+                    {{/each}}
                     <p><span>外勤20人:</span><span>二狗子</span></p>
                     <p><span>请假0人:</span><span>二狗子</span></p>
                 </div>
@@ -35,15 +48,17 @@
                     </div>
                 </div>
                 <ul class="attendance_bottom_ctn">
-                    <li class="attendance_bottom_person fix">
-                        <div class="attendance_bottom_img_box">
-                            <img src="" alt="" class="attendance_bottom_img">
-                        </div>
-                        <p class="attendance_bottom_name">二狗子</p>
-                        <div class="attendance_bottom_calendar_box">
-                            <span class="attendance_bottom_calendar">查看考勤日历</span>
-                            <i class="iconfont icon-xiangyou attendance_bottom_calendar_icon"></i>
-                        </div>
-                    </li>
+                    {{#each attendances_member_list}}
+                        <li class="attendance_bottom_person fix">
+                            <div class="attendance_bottom_img_box">
+                                <img src="{{user_avater}}" alt="" class="attendance_bottom_img">
+                            </div>
+                            <p class="attendance_bottom_name">{{user_name}}</p>
+                            <div class="attendance_bottom_calendar_box">
+                                <span class="attendance_bottom_calendar" value="{{user_id}}">查看考勤日历</span>
+                                <i class="iconfont icon-xiangyou attendance_bottom_calendar_icon"></i>
+                            </div>
+                        </li>
+                    {{/each}}
                 </ul>
             </div>

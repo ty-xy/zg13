@@ -114,10 +114,14 @@ def sign_in_def(request, user_profile):
 
 
 # 考勤组全部成员
+<<<<<<< HEAD
 def attendances_member_view(user_profile, attendances_id):
+=======
+def attendances_member_view(user_profile,attendances_id):
+    
+>>>>>>> 97b776462065417cabb3749b87809479bd60c92f
     user_obj_list = UserProfile.objects.filter(atendance=attendances_id)
     user_list = []
-    user_list.append(user_profile.id)
     for user_obj in user_obj_list:
         user_dict = {}
         user_dict['user_avater'] = avatar.absolute_avatar_url(user_obj)
@@ -189,15 +193,15 @@ def month_attendance_tools(user_profile, months):
     except Exception:
         return ({'errno': '6', 'message': '获取缺卡天数失败'})
 
-    month_data = dict()
-    month_data['month'] = months
-    monthRange = calendar.monthrange(int(year), months)
-    month_data['month_count'] = monthRange[1]
-    month_data['month_week'] = monthRange[0] + 1
 
-    month_data['normal_list'] = []
-    month_data['outside_work_list'] = []
-    month_data['no_normal_list'] = []
+    month = months
+    monthRange = calendar.monthrange(int(year), months)
+    month_count = monthRange[1]
+    month_week = monthRange[0] + 1
+
+    normal_list = []
+    outside_work_list = []
+    no_normal_list = []
     # 正常
     attendance_obj_list = ZgAttendance.objects.filter(user_name=user_profile, sign_in_explain='正常',
                                                       sign_off_explain='正常',
@@ -205,7 +209,7 @@ def month_attendance_tools(user_profile, months):
 
     for attendance_obj in attendance_obj_list:
         normal = str(attendance_obj.sign_in_time)[8:10]
-        month_data['normal_list'].append(int(normal))
+        normal_list.append(int(normal))
     # 外勤请假
     outside_work_obj_list = ZgOutsideWork.objects.filter(user_name=user_profile, sign_in_time__month=months,
                                                          sign_in_time__year=year)
@@ -215,18 +219,19 @@ def month_attendance_tools(user_profile, months):
         qutside_work = str(qutside_work_obj.sign_in_time)[8:10]
         outside_work_dict[qutside_work] = 1
     for k, y in outside_work_dict:
-        month_data['outside_work_list'].append(k)
+        outside_work_list.append(k)
     # 不正常
     no_attendance_obj_list = ZgAttendance.objects.filter(~Q(sign_in_explain='正常') | ~Q(sign_off_explain='正常'),
                                                          sign_in_time__month=months, sign_in_time__year=year,
                                                          user_name=user_profile)
     for no_attendance_obj in no_attendance_obj_list:
         normal = str(no_attendance_obj.sign_in_time)[8:10]
-        month_data['no_normal_list'].append(int(normal))
+        no_normal_list.append(int(normal))
 
     return {'attendance_count': attendance_count, 'outsidework_count': outsidework_count,
             'overdue_count': overdue_count, 'leave_early_count': leave_early_count, 'leave_count': leave_count,
-            'absenteeism_count': absenteeism_count, 'month_data': month_data
+            'absenteeism_count': absenteeism_count, 'month':month,'month_count':month_count,'month_week':month_week,
+            'normal_list':normal_list,'outside_work_list':outside_work_list,'no_normal_list':no_normal_list
             }
 
 
@@ -254,6 +259,7 @@ def attendances_day(request, user_profile):
         return JsonResponse({'errno': 888})
 
     attendances_id = request.GET.get('attendances_id')
+    attendances_id = 3
     dates = request.GET.get('date')
 
     if dates:
@@ -278,7 +284,7 @@ def attendances_day(request, user_profile):
     attendances_list = list()
     for attendances_obj in attendances_obj_list:
         attendances_dict = {}
-        attendances_dict['attendances_name'] = attendances_obj.name
+        attendances_dict['attendances_name'] = attendances_obj.attendance_name
         attendances_dict['attendances_id'] = attendances_obj.id
         attendances_list.append(attendances_dict)
     user_obj_list = UserProfile.objects.filter(atendance=attendances_id)
@@ -288,15 +294,18 @@ def attendances_day(request, user_profile):
     # 缺卡
     missing_card = []
     for user_obj in user_obj_list:
-        attendance_obj_list = ZgAttendance.objects.filter(sign_in_time__month=month, sign_in_time__year=year,
-                                                          sign_in_time__day=day,
-                                                          user_name=user_obj)
-        attendance_obj_list += attendance_obj_list
-        if attendance_obj_list[0].sign_in_explain == '迟到':
-            late.append(attendance_obj_list[0].user_name.full_name)
-        elif attendance_obj_list[0].sign_in_explain == '缺卡' or attendance_obj_list[0].sign_off_explain == '缺卡':
-            if attendance_obj_list[0].user_name.full_name not in missing_card:
-                missing_card.append(attendance_obj_list[0].user_name.full_name)
+        try:
+            attendance_obj = ZgAttendance.objects.get(sign_in_time__month=month, sign_in_time__year=year,
+                                                            sign_in_time__day=day,
+                                                            user_name=user_obj)
+        except Exception:
+            continue
+        attendance_obj_list.append(attendance_obj)       
+        if attendance_obj_lis.sign_in_explain == '迟到':
+            late.append(attendance_obj.user_name.full_name)
+        elif attendance_obj.sign_in_explain == '缺卡' or attendance_obj_lis.sign_off_explain == '缺卡':
+            if attendance_obj.user_name.full_name not in missing_card:
+                missing_card.append(attendance_obj.user_name.full_name)
     # 实际到达
     actual_arrival_count = len(attendance_obj_list)
     # 应该到达
@@ -307,7 +316,11 @@ def attendances_day(request, user_profile):
                          'actual_arrival_count': actual_arrival_count,
                          'should_arrival_count': should_arrival_count,
                          'attendances_list': attendances_list,
+<<<<<<< HEAD
                          'attendances_member_list': attendances_member_view(user_profile, attendances_id)
+=======
+                         'attendances_member_list': attendances_member_view(user_profile,attendances_id)
+>>>>>>> 97b776462065417cabb3749b87809479bd60c92f
                          })
 
 
@@ -320,6 +333,7 @@ def add_attendances(request, user_profile):
     req = req.decode()
     req = json.loads(req)
     attendances_name = req.get('name')
+    
     # 成员=>list
     attendances_member_list = req.get('member_list')
     # 上下班时间
@@ -334,7 +348,8 @@ def add_attendances(request, user_profile):
     attendances_location = req.get('location')
     # 范围=>int
     attendances_range = req.get('range')
-
+    print(attendances_date, attendances_latitude, attendances_name, attendances_range, attendances_location,
+         attendances_longitude, attendances_member_list, attendances_rest_time, attendances_jobs_time)
     if not all(
         [attendances_date, attendances_latitude, attendances_name, attendances_range, attendances_location,
          attendances_longitude, attendances_member_list, attendances_rest_time, attendances_jobs_time]):
@@ -352,8 +367,13 @@ def add_attendances(request, user_profile):
         for user_id in attendances_member_list:
             user_obj = UserProfile.objects.get(id=user_id)
             user_obj.atendance = attendances_obj
+<<<<<<< HEAD
             user_obj.full_name = '小吕啊'
             user_obj.save()
+=======
+            user_obj.save()
+
+>>>>>>> 97b776462065417cabb3749b87809479bd60c92f
     except Exception:
         return JsonResponse({'errno': '2', 'message': '储存考勤组信息失败'})
 

@@ -4,95 +4,186 @@ var attendance = (function () {
     $("body").ready(function () {
         
         $(".common_img").on("click",function(){
-            var html = templates.render("attendance_box");
-            $(".app").after(html);
-           
-            $(".attendance_md").on("click",".attendance_close",function(){
-                $(".attendance_md").remove()
-           })
-          
-           var attendance_all = templates.render("attendance_all")
-           $(".attendance_ctn").html(attendance_all)
-           $(".attendance_statistics").on('click',function(){
-            $(this).addClass("high_light").siblings().removeClass("high_light")
-            $(".attendance_ctn").html(attendance_all);
-           })
-           //关闭考勤
-           $(".attendance_close").on("click",function(){
-               $(".attendance_md").hide();
-           })
-           //查看考勤日历
-           $(".attendance_bottom_ctn").on("click",".attendance_bottom_calendar",function(){
-               $(".attendance_ctn").children().remove();
-               var arr=[]
-               var firstDay = 7;
-               var lastDay = 30;
-               if(firstDay==1){
-                   for(var i=1;i<lastDay;i++){
-                       arr.push(i)
-                   }
-               }else if(firstDay==2){
-                   arr.unshift("");
-                   for(var i=1;i<lastDay;i++){
-                       arr.push(i)
-                   }
-               }else if(firstDay==3){
-                   arr.unshift("");
-                   arr.unshift("");
-                   for(var i=1;i<lastDay;i++){
-                       arr.push(i)
-                   }
-               }else if(firstDay==4){
-                   arr.unshift("");
-                   arr.unshift("");
-                   arr.unshift("");
-                   for(var i=1;i<lastDay;i++){
-                       arr.push(i)
-                   }
-               }else if(firstDay==5){
-                   arr.unshift("");
-                   arr.unshift("");
-                   arr.unshift("");
-                   arr.unshift("");
-                   for(var i=1;i<lastDay;i++){
-                       arr.push(i)
-                   }
-               }else if(firstDay==6){
-                   arr.unshift("");
-                   arr.unshift("");
-                   arr.unshift("");
-                   arr.unshift("");
-                   arr.unshift("");
-                   for(var i=1;i<lastDay;i++){
-                       arr.push(i)
-                   }
-               }else if(firstDay==7){
-                   arr.unshift("");
-                   arr.unshift("");
-                   arr.unshift("");
-                   arr.unshift("");
-                   arr.unshift("");
-                   arr.unshift("");
-                   for(var i=1;i<lastDay;i++){
-                       arr.push(i)
-                   }
-               }
-               var calendar_box = templates.render("calendar_box",{arr:arr});
-               $(".attendance_ctn").append(calendar_box);
+            // var da = {
+            //     name:"陈二狗",
+            //     member_list:[34,35,36,37,38,39,40],
+            //     jobs_time:"09:30:00",
+            //     rest_time:"20:00:00",
+            //     date:"1234567",
+            //     longitude:"123.12",
+            //     latitude:"123.11",
+            //     location:"门头沟",
+            //     range:"100000"
+            // }
+            // $.ajax({
+            //     type:"POST",
+            //     url:"json/zg/attendances/add/",
+            //     contentType:"application/json",
+            //     data:JSON.stringify(da),
+            //     success:function(res){
 
-           })
-           //返回到管理界面
-           $(".attendance_box").on("click",".calendar_return",function(){
-               $(".attendance_ctn").children().remove();
-               var attendance_all = templates.render("attendance_all")
-               $(".attendance_ctn").append(attendance_all);
-               //查看考勤日历
-               $(".attendance_bottom_ctn").on("click",".attendance_bottom_calendar",function(){
-                   $(".attendance_ctn").children().remove();
-                   var calendar_box = templates.render("calendar_box");
-                   $(".attendance_ctn").append(calendar_box);
-               })
-           })      
+            //     }})
+            $.ajax({
+                    type:"GET",
+                    url:"json/zg/attendances/day",
+                    contentType:"application/json",
+                    success:function(res){
+                        if(res.super_user==true){
+                            //确认管理员身份继续请求日统计数据
+                            console.log(res)
+                            var attendances_id;
+                            for(var i=0;i<res.attendances_list.length;i++){
+                                attendances_id = res.attendances_list[0].attendances_id
+                            }
+                            var html = templates.render("attendance_box");
+                            $(".app").after(html);
+                            var attendances_list = res.attendances_list;
+                            var attendances_member_list = res.attendances_member_list;
+                            var attendance_all = templates.render("attendance_all",{attendances_list:attendances_list,attendances_member_list:attendances_member_list})
+                            $(".attendance_ctn").append(attendance_all)
+                            //关闭考勤
+                            $(".attendance_close").on("click",function(){
+                                $(".attendance_md").hide();
+                            })
+                            //初始化按事件筛选
+                            $(".calendar_screen_select_y").datetimepicker({
+                                language:"zh-CN",  
+                                todayHighlight: true,  
+                                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                                weekStart:1,
+                                format:"yyyy-mm-dd"
+                            })
+                            //查看考勤日历
+                            $(".attendance_bottom_ctn").on("click",".attendance_bottom_calendar",function(){
+                                $(".attendance_ctn").children().remove();
+                                $.ajax({
+                                    type:"GET",
+                                    url:"json/zg/attendance/month/solo/web",
+                                    contentType:"application/json",
+                                    data:{page:1},
+                                    success:function(res){
+                                        var month_attendance_list = res.month_attendance_list;
+                                        var calendar_box = templates.render("calendar_box",{month_attendance_list:month_attendance_list});
+                                        $(".attendance_ctn").append(calendar_box);
+                                        //筛选时间
+                                        $(".calendar_screen_select").datetimepicker({
+                                            startView: 'decade',
+                                            minView: 'decade',
+                                            format: 'yyyy',
+                                            maxViewMode: 2,
+                                            minViewMode:2,
+                                            autoclose: true
+                                            }).on("changeDate",function(){
+                                                console.log("这是一个秋天")
+                                        }); 
+                                        //点击具体日期显示详情
+                                        $(".calendar_list").on("click",".calendar_list_num",function(){
+                                            $(this).addClass("gray_date").parent().siblings().children().removeClass("gray_date");
+                                        })
+                                    }
+                                })
+                                //补卡弹窗
+                                // var calendar_card = templates.render("calendar_card")
+                                // $(".attendance_ctn").append(calendar_card)
+                            })
+                            //返回到管理界面
+                            $(".attendance_box").on("click",".calendar_return",function(){
+                                $(".attendance_ctn").children().remove();
+                                var attendance_all = templates.render("attendance_all")
+                                $(".attendance_ctn").append(attendance_all);
+                                //初始化按事件筛选
+                                $(".calendar_screen_select_y").datetimepicker({
+                                    language:"zh-CN",  
+                                    todayHighlight: true,  
+                                    minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                                    weekStart:1,
+                                    format:"yyyy-mm-dd"
+                                })
+                                //查看考勤日历
+                                $(".attendance_bottom_ctn").on("click",".attendance_bottom_calendar",function(){
+                                    $(".attendance_ctn").children().remove();
+                                //    var calendar_box = templates.render("calendar_box");
+                                //    $(".attendance_ctn").append(calendar_box);
+                                    $.ajax({
+                                        type:"GET",
+                                        url:"json/zg/attendance/month/solo/web",
+                                        contentType:"application/json",
+                                        data:{page:1},
+                                        success:function(res){
+                                            var month_attendance_list = res.month_attendance_list;
+                                            var calendar_box = templates.render("calendar_box",{month_attendance_list:month_attendance_list});
+                                            $(".attendance_ctn").append(calendar_box);
+                                            //筛选时间
+                                            $(".calendar_screen_select").datetimepicker({
+                                                startView: 'decade',
+                                                minView: 'decade',
+                                                format: 'yyyy',
+                                                maxViewMode: 2,
+                                                minViewMode:2,
+                                                autoclose: true
+                                                }).on("changeDate",function(){
+                                                    console.log("这是一个秋天")
+                                            });
+                                                //点击具体日期显示详情
+                                            $(".calendar_list").on("click",".calendar_list_num",function(){
+                                                $(this).addClass("gray_date").parent().siblings().children().removeClass("gray_date");
+                                            })
+                                        }
+                                    })
+                                })
+                            })      
+                            //点击考勤组的样式
+                            $(".attendance_mangement").on('click',function(){
+                                $(this).addClass("high_light").siblings().removeClass("high_light")
+                                var html = templates.render("attendance_management");
+                                $(".attendance_ctn").html(html)
+                            })
+                            //新增加项目
+                            $(".attendance_ctn").on('click',".new_attendance",function(){
+                                var html = templates.render("attendance_team");
+                                $(".attendance_ctn").html(html)
+                                //选择日期
+                                $(".button-common").datetimepicker({
+                                    language:"zh-CN",  
+                                    weekStart: 1,
+                                    todayBtn:  0,
+                                    autoclose: 1,
+                                    todayHighlight: 1,
+                                    startView: 1,
+                                    minView: 0,
+                                    showHours : true,
+                                    // minuteStep:1,
+                                    maxView: 1,
+                                    forceParse: 0,
+                                    format:'hh:ii',
+                                    })
+                                //接入地点
+                                $(".kaoqin-era").on('click',function(){
+                                    $('#map-area').show()
+                                    $("#map-area").on('click',".attendance-map-close",function(){
+                                        $('#map-area').hide()
+                                    })
+                                })
+                                $(".button-common-date").on('click',function(){
+                                    $(".kaoqin-date-choose").show()
+                                    $(".attendance_close_week").on('click',function(){
+                                        $(".kaoqin-date-choose").hide()
+                                    })
+                                })
+                                $(".kaoqin-date-area").on('click',function(){
+                                    $(".kaoqin-date-choose").hide()
+                                })
+                                
+                            })
+                            $(".attendance_ctn").on('click',".back_attendance",function(){
+                                var html = templates.render("attendance_management");
+                                $(".attendance_ctn").html(html)
+                            })
+                        }else{
+                        //普通成员请求
+                        }
+                }
+            })     
            //点击考勤组的样式
            $(".attendance_mangement").on('click',function(){
                $(this).addClass("high_light").siblings().removeClass("high_light")
@@ -187,6 +278,13 @@ var attendance = (function () {
        
            })
        }
+       function alert(text,color){
+        $('.toast-alert-button').fadeIn({
+            duration: 1
+        }).delay (1000).fadeOut ({duration: 1000});
+        $('.toast-alert-button').html(text)
+        $('.toast-alert-button').css('background-color',color)
+      }
        function deletes(data){
            var childrenlength=$(".box-right-list").children().length
            // console.log(childrenlength)
@@ -226,6 +324,20 @@ var attendance = (function () {
                    }
            })
        }
+
+    var countdown = 10;
+    function settime() {
+        if(countdown == 0) {
+            $(".button-submit").attr("disabled", false);
+            // $("#btn").attr("value", "免费获取验证码");
+            countdown = 10;
+        } else {
+            $(".button-submit").attr("disabled", true);
+            // $("#btn").attr("value", "重新发送(" + countdown + ")");
+            countdown--;
+            setTimeout(settime, 1000)
+        }
+    }
            $(".attendance_ctn").on('click',".new_attendance",function(){
                 var html = templates.render("attendance_team");
                 $(".attendance_ctn").html(html)
@@ -242,7 +354,7 @@ var attendance = (function () {
                     // minuteStep:1,
                     maxView: 1,
                     forceParse: 0,
-                    format:'hh:ii',
+                    format:'hh:ii:00',
                    })
                 //接入地点
                 $(".kaoqin-era").on('click',function(){
@@ -479,7 +591,93 @@ var attendance = (function () {
                 $(".kaoqin-date-area").on('click',function(){
                     $(".kaoqin-date-choose").hide()
                 })
-                
+                //点击提交
+                $(".attendance_ctn").on("click",".button-submit",function(){
+                    settime()
+                    var name = $(".title-input").val()
+                    if(name==""){
+                        alert('请填写考情组的名字','rgba(169,12,0,0.30)')
+                        return 
+                    }
+                    var member_list = $(".button-common-people").attr("data_id")
+                    if(member_list=="请设置参加人员"){
+                        alert('请填写考情组的名字','rgba(169,12,0,0.30)')
+                        return 
+                    }else{
+                        member_list.split(",")
+                    }
+                    var jobs_time = $(".button-job").val()
+                    if(jobs_time=="00:00"){
+                        alert('请填写开始时间','rgba(169,12,0,0.30)')
+                        return
+                    }
+                    var rest_time = $(".button-rest").val()
+                    if(rest_time=="00:00"){
+                        alert('请填写结束时间','rgba(169,12,0,0.30)')
+                        return
+                    }
+                    var date =$(".button-common-date").html()
+                    if(date=="设置考勤日期"){
+                        alert('请填写日期','rgba(169,12,0,0.30)')
+                        return
+                    }
+                    var location = $(".kaoqin-era").html()
+                    if(location=="设置考勤地点"){
+                        alert('设置考勤地点','rgba(169,12,0,0.30)')
+                        return
+                    }
+                    var longitude = $(".kaoqin-era").attr("location").split(",")[0]
+                    var latitude = $(".kaoqin-era").attr("location").split(",")[1]
+                    
+                    var range = $(".button-common-area").val().slice(0,3);
+                    if(range=="设置考勤范围"){
+                        alert('设置考勤范围','rgba(169,12,0,0.30)')
+                        return
+                    }
+                    console.log(date.split(","))
+                    date = date.split(",")
+                    var datelist =[]
+                    date.forEach(function(val,i ){
+                           if(val==="星期一"){
+                            datelist.push(1)
+                           }else if(val==="星期二"){
+                            datelist.push(2)
+                           }else if(val==="星期三"){
+                            datelist.push(3)
+                           }else if(val==="星期四"){
+                            datelist.push(4)
+                           }else if(val==="星期五"){
+                            datelist.push(5)
+                           }else if(val==="星期六"){
+                            datelist.push(6)
+                           }else if(val==="星期日"){
+                            datelist.push(7)
+                           }
+                    })
+                   
+                    var data_list  ={
+                         name:name,
+                         member_list:member_list,
+                         jobs_time:jobs_time,
+                         rest_time:rest_time,
+                         date: datelist.join(""),
+                         longitude:longitude,
+                         latitude:latitude,
+                         location:location,
+                         range:range,
+                    }
+                    channel.post({
+                        url:'/json/zg/attendances/add/',
+                        data:JSON.stringify(data_list),
+                        // contentType:"application/json",
+                        success:function(data){
+                            console.log(data)
+                            if(data.errno==0){
+                                $(".attendance_md").hide();
+                            }
+                        }
+                    })
+                })
            })
            $(".attendance_ctn").on('click',".back_attendance",function(){
                 var html = templates.render("attendance_management");
