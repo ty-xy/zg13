@@ -1,0 +1,57 @@
+    <div class="new_attendance_title new_title_detail">
+        <p>考勤组设置</p>
+        <button class="back_attendance">返回</button>
+    </div>
+    <i class="team-line team-line-detail"></i>
+    {{#each datalist }}
+    <div class="attendance-new-detail">
+        <ul>
+            <li class="kaoqin-common kaoqin-name">
+               <h2>考勤组名称</h2>
+               <input type="text" placeholder="输入考勤组名称…" class="title-input" value={{name}} />
+           </li>
+             <li class="kaoqin-common">
+                <h2>成员设置</h2>
+                <div class="title-common">
+                    <span class="kaoqin-door">考勤组参与人员:</span>
+                    <button class="button-common-people">
+                        {{#each member_list}}
+                        {{name}}
+                        {{/each}}
+                    </button>
+                </div>
+           </li>
+             <li class="kaoqin-common">
+                <h2>规则设置</h2>
+                <div class="title-common">
+                    <span class="kaoqin-place">考勤时间</span>
+                    <input class="button-common button-input button-job" type="text" placeholder="00:00" value= {{jobs_time}} />
+                    <input class="button-common button-input button-rest" type="text" placeholder="00:00" value= {{rest_time}} />
+                </div>
+                  <div class="title-common">
+                    <span class="kaoqin-place">考勤日期</span>
+                    <button class="button-common-date">{{date}}</button>
+                </div>
+           </li>
+             <li class="kaoqin-common">
+                <h2>地点设置</h2>
+                <div class="title-common">
+                    <span class="kaoqin-place">考勤地点</span>
+                    <input type="button" class="kaoqin-era" value={{location}} />
+               </div>
+                <div class="title-common title-cache-area">
+                    <span class="kaoqin-place">考勤范围</span>
+                    <select class="form-control button-common-area">
+                    <option>{{range}}米</option>
+                    <option>300米</option>
+                    <option>500米</option>
+                    <option>1000米</option>
+                    </select>
+               </div>
+           </li>
+        </ul>
+        <div class="new-button-bottom">
+            <button class="button-submit">提交</button>
+        </div>
+    </div>
+    {{/each}}
