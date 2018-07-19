@@ -84,17 +84,22 @@
 }
 .attendance_groups>div{
     float: left;
-    background: #A0ACBF;
+    background: #fff;
     border-radius: 100px;
     width: 120px;
-    height: 30px;
-    color: #fff;
+    height: 28px;
+    color: #A0ACBF;
     letter-spacing: 0.16px;
     font-size: 13px;
     text-align: center;
     line-height: 30px;
     margin-right: 10px;
     cursor: pointer;
+    border: 1px solid #A0ACBF;
+}
+.gray_bg{
+    background: #A0ACBF!important;
+    color: #fff!important;
 }
 .attendance_ctn{
     width: 878px;
