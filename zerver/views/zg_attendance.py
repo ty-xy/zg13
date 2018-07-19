@@ -257,7 +257,6 @@ def attendances_day(request, user_profile):
         return JsonResponse({'errno': 888})
 
     attendances_id = request.GET.get('attendances_id')
-    attendances_id = 3
     dates = request.GET.get('date')
 
     if dates:
