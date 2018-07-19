@@ -30,11 +30,6 @@ var attendance = (function () {
                     success:function(res){
                         if(res.super_user==true){
                             //确认管理员身份继续请求日统计数据
-                            console.log(res)
-                            var attendances_id;
-                            for(var i=0;i<res.attendances_list.length;i++){
-                                attendances_id = res.attendances_list[0].attendances_id
-                            }
                             var html = templates.render("attendance_box");
                             $(".app").after(html);
                             var attendances_list = res.attendances_list;
@@ -88,49 +83,65 @@ var attendance = (function () {
                             })
                             //返回到管理界面
                             $(".attendance_box").on("click",".calendar_return",function(){
-                                $(".attendance_ctn").children().remove();
-                                var attendance_all = templates.render("attendance_all")
-                                $(".attendance_ctn").append(attendance_all);
-                                //初始化按事件筛选
-                                $(".calendar_screen_select_y").datetimepicker({
-                                    language:"zh-CN",  
-                                    todayHighlight: true,  
-                                    minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
-                                    weekStart:1,
-                                    format:"yyyy-mm-dd"
-                                })
-                                //查看考勤日历
-                                $(".attendance_bottom_ctn").on("click",".attendance_bottom_calendar",function(){
-                                    $(".attendance_ctn").children().remove();
-                                //    var calendar_box = templates.render("calendar_box");
-                                //    $(".attendance_ctn").append(calendar_box);
-                                    $.ajax({
-                                        type:"GET",
-                                        url:"json/zg/attendance/month/solo/web",
-                                        contentType:"application/json",
-                                        data:{page:1},
-                                        success:function(res){
-                                            var month_attendance_list = res.month_attendance_list;
-                                            var calendar_box = templates.render("calendar_box",{month_attendance_list:month_attendance_list});
-                                            $(".attendance_ctn").append(calendar_box);
-                                            //筛选时间
-                                            $(".calendar_screen_select").datetimepicker({
-                                                startView: 'decade',
-                                                minView: 'decade',
-                                                format: 'yyyy',
-                                                maxViewMode: 2,
-                                                minViewMode:2,
-                                                autoclose: true
-                                                }).on("changeDate",function(){
-                                                    console.log("这是一个秋天")
-                                            });
-                                                //点击具体日期显示详情
-                                            $(".calendar_list").on("click",".calendar_list_num",function(){
-                                                $(this).addClass("gray_date").parent().siblings().children().removeClass("gray_date");
+                                $.ajax({
+                                    type:"GET",
+                                    url:"json/zg/attendances/day",
+                                    contentType:"application/json",
+                                    success:function(res){
+                                        if(res.super_user==true){
+                                            $(".attendance_ctn").children().remove();
+                                            var attendances_list = res.attendances_list;
+                                            var attendances_member_list = res.attendances_member_list;
+                                            var attendance_all = templates.render("attendance_all",{attendances_list:attendances_list,attendances_member_list:attendances_member_list})
+                                            $(".attendance_ctn").append(attendance_all);
+                                            //初始化按事件筛选
+                                            $(".calendar_screen_select_y").datetimepicker({
+                                                language:"zh-CN",  
+                                                todayHighlight: true,  
+                                                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                                                weekStart:1,
+                                                format:"yyyy-mm-dd"
                                             })
+                                            //查看考勤日历
+                                            $(".attendance_bottom_ctn").on("click",".attendance_bottom_calendar",function(){
+                                                $(".attendance_ctn").children().remove();
+                                            //    var calendar_box = templates.render("calendar_box");
+                                            //    $(".attendance_ctn").append(calendar_box);
+                                                $.ajax({
+                                                    type:"GET",
+                                                    url:"json/zg/attendance/month/solo/web",
+                                                    contentType:"application/json",
+                                                    data:{page:1},
+                                                    success:function(res){
+                                                        var month_attendance_list = res.month_attendance_list;
+                                                        var calendar_box = templates.render("calendar_box",{month_attendance_list:month_attendance_list});
+                                                        $(".attendance_ctn").append(calendar_box);
+                                                        //筛选时间
+                                                        $(".calendar_screen_select").datetimepicker({
+                                                            startView: 'decade',
+                                                            minView: 'decade',
+                                                            format: 'yyyy',
+                                                            maxViewMode: 2,
+                                                            minViewMode:2,
+                                                            autoclose: true
+                                                            }).on("changeDate",function(){
+                                                                console.log("这是一个秋天")
+                                                        });
+                                                            //点击具体日期显示详情
+                                                        $(".calendar_list").on("click",".calendar_list_num",function(){
+                                                            $(this).addClass("gray_date").parent().siblings().children().removeClass("gray_date");
+                                                        })
+                                                    }
+                                                })
+                                            })
+                                        }else{
+                                            
                                         }
-                                    })
+                                    }
                                 })
+                                
+                                
+                                
                             })      
                             //点击考勤组的样式
                             $(".attendance_mangement").on('click',function(){
