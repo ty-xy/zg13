@@ -341,6 +341,7 @@
     height: 40px;
     border-radius: 50%;
     background: #EF5350;
+    overflow: hidden;
 }
 .calendar_person_name{
     float: left;
@@ -389,6 +390,7 @@
     margin: 2px 13px;
     /* background: #ccc; */
     border-radius: 50%;
+    cursor: pointer;
 }
 .calendar_list_stateR{
     width: 10px;

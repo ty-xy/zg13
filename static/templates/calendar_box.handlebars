@@ -21,9 +21,9 @@
                         <li class="calendar_person">
                             <div class="calendar_top fix">
                                 <div class="calendar_avatar_box">
-                                    <img src="" alt="">
+                                    <img src="{{user_avatar}}" alt="">
                                 </div>
-                                <p class="calendar_person_name">李萌</p>
+                                <p class="calendar_person_name">{{user_name}}</p>
                                 <p class="calendar_person_month">{{month}}月</p>
                             </div>
                             <div class="calendar_person_detail">
@@ -52,7 +52,7 @@
                                     {{/outMonth}}
                                 </ul>
                             </div>
-                            <div class="calendar_place_box fix">
+                            {{!-- <div class="calendar_place_box fix">
                                 <p class="calendar_place_title">朝阳门考勤组</p>
                                 <p class="calendar_place_set">(<span>上午09:00</span>/<span>下午18:00</span>)</p>
                             </div>
@@ -77,7 +77,7 @@
                                         <span class="calendar_time_state">正常</span>
                                     </div>
                                 </li>
-                            </ul>
+                            </ul> --}}
                         </li>
                     </ul>
                      {{/each}}

@@ -5,7 +5,36 @@ var attendance = (function () {
         
         $(".common_img").on("click",function(){
             //查看考勤日历
-            function checkCalendar(){
+            function checkCalendar(user_id){  
+                $.ajax({
+                    type:"GET",
+                    url:"json/zg/attendance/month/solo/web?user_id="+user_id+"",
+                    contentType:"application/json",
+                    data:{page:1},
+                    success:function(res){
+                        var month_attendance_list = res.month_attendance_list;
+                        var calendar_box = templates.render("calendar_box",{month_attendance_list:month_attendance_list});
+                        $(".attendance_ctn").append(calendar_box);
+                        //筛选时间
+                        $(".calendar_screen_select").datetimepicker({
+                            startView: 'decade',
+                            minView: 'decade',
+                            format: 'yyyy',
+                            maxViewMode: 2,
+                            minViewMode:2,
+                            autoclose: true
+                            }).on("changeDate",function(){
+                                console.log("这是一个秋天")
+                        }); 
+                        //点击具体日期显示详情
+                        $(".calendar_list").on("click",".calendar_list_num",function(){
+                            $(this).addClass("gray_date").parent().siblings().children().removeClass("gray_date");
+                        })
+                    }
+                })
+            }
+            //查看自己考勤日历
+            function checkCalendarMy(){  
                 $.ajax({
                     type:"GET",
                     url:"json/zg/attendance/month/solo/web",
@@ -15,6 +44,8 @@ var attendance = (function () {
                         var month_attendance_list = res.month_attendance_list;
                         var calendar_box = templates.render("calendar_box",{month_attendance_list:month_attendance_list});
                         $(".attendance_ctn").append(calendar_box);
+                        $(".calendar_return").hide();
+                        $(".calendar_screen").css("float","right");
                         //筛选时间
                         $(".calendar_screen_select").datetimepicker({
                             startView: 'decade',
@@ -48,7 +79,8 @@ var attendance = (function () {
                          //查看考勤日历
                          $(".attendance_bottom_ctn").on("click",".attendance_bottom_calendar",function(){
                              $(".attendance_ctn").children().remove();
-                             checkCalendar();
+                             var user_id = $(this).attr("user_id")
+                             checkCalendar(user_id);
                              //补卡弹窗
                              // var calendar_card = templates.render("calendar_card")
                              // $(".attendance_ctn").append(calendar_card)
@@ -93,7 +125,8 @@ var attendance = (function () {
                             //查看考勤日历
                             $(".attendance_bottom_ctn").on("click",".attendance_bottom_calendar",function(){
                                 $(".attendance_ctn").children().remove();
-                                checkCalendar();
+                                var user_id = $(this).attr("user_id")
+                                checkCalendar(user_id);
                             })
                             //返回到管理界面
                             $(".attendance_box").on("click",".calendar_return",function(){
@@ -129,10 +162,13 @@ var attendance = (function () {
                                             //查看考勤日历
                                             $(".attendance_bottom_ctn").on("click",".attendance_bottom_calendar",function(){
                                                 $(".attendance_ctn").children().remove();
-                                                checkCalendar();
+                                                var user_id = $(this).attr("user_id")
+                                                checkCalendar(user_id);
                                             })
                                         }else{
-
+                                            var html = templates.render("attendance_box");
+                                            $(".app").after(html);
+                                            checkCalendar();
                                         }
                                     }
                                 })
@@ -189,6 +225,14 @@ var attendance = (function () {
                             })
                         }else{
                         //普通成员请求
+                            console.log("hello123123")
+                            var html = templates.render("attendance_box");
+                            $(".app").after(html);
+                            checkCalendarMy();
+                            //关闭考勤
+                            $(".attendance_close").on("click",function(){
+                                $(".attendance_md").hide();
+                            })
                         }
                 }
             })     
