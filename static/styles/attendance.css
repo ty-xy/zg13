@@ -341,6 +341,7 @@
     height: 40px;
     border-radius: 50%;
     background: #EF5350;
+    overflow: hidden;
 }
 .calendar_person_name{
     float: left;
@@ -389,6 +390,7 @@
     margin: 2px 13px;
     /* background: #ccc; */
     border-radius: 50%;
+    cursor: pointer;
 }
 .calendar_list_stateR{
     width: 10px;
@@ -473,10 +475,24 @@
     line-height: 18px;
     margin-right: 10px;
 }
-.calendar_time_state{
+.calendar_time_stateG{
     padding: 2px 8px;
     color: #fff;
     background: #9CCC65;
+    border-radius: 4px;
+    font-size: 12px;
+}
+.calendar_time_stateR{
+    padding: 2px 8px;
+    color: #fff;
+    background: #EF5350;
+    border-radius: 4px;
+    font-size: 12px;
+}
+.calendar_time_stateY{
+    padding: 2px 8px;
+    color: #fff;
+    background: #FFCA28;
     border-radius: 4px;
     font-size: 12px;
 }
