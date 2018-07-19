@@ -114,11 +114,8 @@ def sign_in_def(request, user_profile):
 
 
 # 考勤组全部成员
-def attendances_member_view(request, user_profile):
-    sttendance_member = request.GET.get('sttendance_member')
-    if not sttendance_member:
-        return JsonResponse({'errno': '1', 'message': '缺少参数'})
-    user_obj_list = UserProfile.objects.filter(atendance=sttendance_member)
+def attendances_member_view(user_profile, attendances_id):
+    user_obj_list = UserProfile.objects.filter(atendance=attendances_id)
     user_list = []
     user_list.append(user_profile.id)
     for user_obj in user_obj_list:
@@ -310,8 +307,11 @@ def attendances_day(request, user_profile):
                          'actual_arrival_count': actual_arrival_count,
                          'should_arrival_count': should_arrival_count,
                          'attendances_list': attendances_list,
-                         'attendances_member_list': attendances_member_view(request, user_profile)
+                         'attendances_member_list': attendances_member_view(user_profile, attendances_id)
                          })
+
+
+print()
 
 
 # 添加考勤组
@@ -350,10 +350,10 @@ def add_attendances(request, user_profile):
                                                                 site=attendances_location,
                                                                 default_distance=attendances_range)
         for user_id in attendances_member_list:
-            user_obj = UserProfile.objects.filter(id=user_id)
-            user_obj[0].atendance = attendances_obj
-            user_obj[0].save()
-
+            user_obj = UserProfile.objects.get(id=user_id)
+            user_obj.atendance = attendances_obj
+            user_obj.full_name = '小吕啊'
+            user_obj.save()
     except Exception:
         return JsonResponse({'errno': '2', 'message': '储存考勤组信息失败'})
 
@@ -389,13 +389,16 @@ def update_attendances(request, user_profile):
     if attendances_name:
         attendances_obj.attendances_name = attendances_name
     if attendances_member_dict:
-        for k, v in attendances_member_dict:
+        print(attendances_member_dict)
+        for key, value in attendances_member_dict.items():
             try:
-                user_obj = UserProfile.objects.get(id=int(k))
+                user_obj = UserProfile.objects.get(id=int(key))
+                user_obj.atendance = ZgDepartmentAttendance.objects.get(id=int(value))
+                user_obj.save()
+
             except Exception:
                 return JsonResponse({'errno': '2', 'message': '用户id错误'})
-            user_obj.atendance = v
-            user_obj.save()
+
     if attendances_jobs_time:
         attendances_obj.jobs_time = attendances_jobs_time
     if attendances_rest_time:
@@ -411,6 +414,8 @@ def update_attendances(request, user_profile):
     if attendances_range:
         attendances_obj.default_distance = attendances_range
     attendances_obj.save()
+
+    print(user_profile.atendance)
     return JsonResponse({'errno': '0', 'message': '修改成功'})
 
 
@@ -421,10 +426,52 @@ def del_attendances(request, user_profile):
     req = json.loads(req)
     attendances_id = req.get('attendances_id')
     try:
+        user_obj_list = UserProfile.objects.filter(atendance=attendances_id)
+        for user_obj in user_obj_list:
+            user_obj.atendance = 7
+            user_obj.save()
         ZgDepartmentAttendance.objects.get(id=attendances_id).delete()
+
     except Exception:
         JsonResponse({'errno': '1', 'message': '删除失败'})
     return JsonResponse({'errno': '0', 'message': '删除成功'})
+
+
+# 获取单个考勤组
+def get_attendances(request, user_profile):
+    attendances_id = request.GET.get('attendances_id')
+
+    if not attendances_id:
+        return JsonResponse({'errno': '1', 'message': '缺少id'})
+
+    attendances_obj = ZgDepartmentAttendance.objects.filter(id=attendances_id)
+    attendances_obj = attendances_obj[0]
+    name = attendances_obj.attendance_name
+    # 成员=>list
+    member_list = []
+    user_obj_list = UserProfile.objects.filter(atendance=attendances_id)
+    for user_obj in user_obj_list:
+        user_dict = dict()
+        user_dict['id'] = user_obj.id
+        user_dict['name'] = user_obj.full_name
+        member_list.append(user_dict)
+    # 上下班时间
+    jobs_time = attendances_obj.jobs_time
+    rest_time = attendances_obj.rest_time
+    # 考勤日期=>attendance_time
+    date = attendances_obj.attendance_time
+    # 经纬度
+    longitude = attendances_obj.longitude
+    latitude = attendances_obj.latitude
+    # 地点site
+    site = attendances_obj.site
+    # 范围default_distance
+    range = attendances_obj.default_distance
+
+    return JsonResponse(
+        {'errno': '0', 'message': '获取成功', 'name': name, 'member_list': member_list, 'jobs_time': jobs_time,
+         'rest_time': rest_time, 'date': date, 'longitude': longitude, 'latitude': latitude, 'location': site,
+         'range': range})
 
 
 # 考勤组列表
