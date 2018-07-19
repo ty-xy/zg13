@@ -1,4 +1,43 @@
+{{!-- {{#compare m '==' month}} --}}
 <div class="calendar_place_box fix">
+    <p class="calendar_place_title">{{attendance_name}}</p>
+    <p class="calendar_place_set">(<span>上午{{jobs_time}}</span>/<span>下午{{rest_time}}</span>)</p>
+</div>
+<ul class="calendar_time_box">
+    <li class="calendar_time_up fix">
+        <div class="calendar_time_up_left">
+            <span>上班打卡&nbsp;</span>
+            <span>{{sign_in_time}}</span>
+        </div>
+        <div class="calendar_time_up_right">
+            <span class="calendar_time_place">{{location}}</span>
+            {{#compare sign_in_explain '==' "正常"}}
+                <span class="calendar_time_stateG">{{sign_in_explain}}</span>
+            {{/compare}}
+            {{#compare sign_in_explain '==' "迟到"}}
+                <span class="calendar_time_stateR">{{sign_in_explain}}</span>
+            {{/compare}}
+        </div>
+    </li>
+    <li class="calendar_time_up fix">
+        <div class="calendar_time_up_left">
+            <span>下班打卡&nbsp;</span>
+            <span>{{sign_off_time}}</span>
+        </div>
+        <div class="calendar_time_up_right">
+            <span class="calendar_time_place">{{location}}</span>
+            {{#compare sign_off_explain '==' "正常"}}
+                <span class="calendar_time_stateG">{{sign_off_explain}}</span>
+            {{/compare}}
+            {{#compare sign_off_explain '==' "迟到"}}
+                <span class="calendar_time_stateR">{{sign_off_explain}}</span>
+            {{/compare}}
+        </div>
+    </li>
+</ul>
+{{!-- {{/compare}} --}}
+
+{{!-- <div class="calendar_place_box fix">
     <p class="calendar_place_title">朝阳门考勤组</p>
     <p class="calendar_place_set">(<span>上午09:00</span>/<span>下午18:00</span>)</p>
 </div>
@@ -10,7 +49,7 @@
         </div>
         <div class="calendar_time_up_right">
             <span class="calendar_time_place">华普国际大厦</span>
-            <span class="calendar_time_state">正常</span>
+            <span class="calendar_time_state"></span>
         </div>
     </li>
     <li class="calendar_time_up fix">
@@ -23,4 +62,4 @@
             <span class="calendar_time_state">正常</span>
         </div>
     </li>
-</ul>
+</ul> --}}

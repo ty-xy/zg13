@@ -431,6 +431,10 @@ v1_api_and_json_patterns = [
     # 团队单日考勤信息
     url(r'^zg/attendances/day$', rest_dispatch,
         {'GET': 'zerver.views.zg_attendance.attendances_day'}),
+    # 个人单天考勤信息
+    url(r'^zg/attendance/day/solo$', rest_dispatch,
+        {'GET': 'zerver.views.zg_attendance.attendance_day_solo'}),
+
 
     # 考勤组成员
     url(r'^zg/attendances/member$', rest_dispatch,

@@ -475,10 +475,24 @@
     line-height: 18px;
     margin-right: 10px;
 }
-.calendar_time_state{
+.calendar_time_stateG{
     padding: 2px 8px;
     color: #fff;
     background: #9CCC65;
+    border-radius: 4px;
+    font-size: 12px;
+}
+.calendar_time_stateR{
+    padding: 2px 8px;
+    color: #fff;
+    background: #EF5350;
+    border-radius: 4px;
+    font-size: 12px;
+}
+.calendar_time_stateY{
+    padding: 2px 8px;
+    color: #fff;
+    background: #FFCA28;
     border-radius: 4px;
     font-size: 12px;
 }

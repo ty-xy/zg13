@@ -113,9 +113,54 @@ def sign_in_def(request, user_profile):
         return JsonResponse({'errno': '0', 'message': '下班打卡成功'})
 
 
+def attendance_day_solo(request, user_profile):
+    user_date = request.GET.get("user_date")
+    user_id = request.GET.get("user_id")
+    if user_date:
+        stockpile_time = datetime.strptime(user_date, '%Y-%m-%d %H:%M:%S')
+        year = stockpile_time.year
+        month = stockpile_time.month
+        day = stockpile_time.day
+
+    else:
+        stockpile_time = datetime.utcnow()
+        stockpile_time = stockpile_time.replace(tzinfo=timezone.utc)
+        year = stockpile_time.year
+        month = stockpile_time.month
+        day = stockpile_time.day
+        tzutc_8 = timezone(timedelta(hours=8))
+        stockpile_time = stockpile_time.astimezone(tzutc_8) + timedelta(hours=8)
+        
+    if user_id:
+        try:
+            user_profile = UserProfile.objects.get(id=user_id)
+        except Exception:
+            return JsonResponse({'errno': '1', 'message': '用户id错误'})
+
+    print(year,month,day,user_profile.full_name)
+    # try:
+    attendance_obj = ZgAttendance.objects.filter(sign_in_time__year=str(year), sign_in_time__month=str(month),
+                                                sign_in_time__day=str(day),
+                                                user_name=user_profile)
+    attendance_obj=attendance_obj[0]
+    # except Exception:
+    #     return JsonResponse({'errno': '2', 'message': '获取考勤信息失败'})
+    print(attendance_obj.sign_in_time)
+
+    return JsonResponse({'errno': '0', 'message': '成功',
+                         'sign_in_explain': attendance_obj.sign_in_explain,
+                         'sign_off_explain': attendance_obj.sign_off_explain,
+                         "sign_in_time": attendance_obj.sign_in_time,
+                         'sign_off_time': attendance_obj.sign_off_time,
+                         'attendance_name': user_profile.atendance.attendance_name,
+                         'jobs_time': user_profile.atendance.jobs_time,
+                         'rest_time': user_profile.atendance.rest_time,
+                         'location': user_profile.atendance.site
+                         })
+
+
 # 考勤组全部成员
-def attendances_member_view(user_profile,attendances_id):
-    
+def attendances_member_view(user_profile, attendances_id):
     user_obj_list = UserProfile.objects.filter(atendance=attendances_id)
     user_list = []
     for user_obj in user_obj_list:
@@ -429,9 +474,14 @@ def del_attendances(request, user_profile):
     req = json.loads(req)
     attendances_id = req.get('attendances_id')
     try:
+        user_obj_list = UserProfile.objects.filter(atendance=attendances_id)
+        for user_obj in user_obj_list:
+            user_obj.atendance = None
+            user_obj.save()
+
         ZgDepartmentAttendance.objects.get(id=attendances_id).delete()
     except Exception:
-        JsonResponse({'errno': '1', 'message': '删除失败'})
+        return JsonResponse({'errno': '1', 'message': '删除失败'})
     return JsonResponse({'errno': '0', 'message': '删除成功'})
 
 
@@ -456,13 +506,11 @@ def attendances_management(request, user_profile):
         attendances_dict['attendance_time_list'] = []
         for attendance_time in attendances_obj.attendance_time:
             attendances_dict['attendance_time_list'].append(attendance_dates[attendance_time])
-
+        attendances_dict['jobs_time'] = attendances_obj.jobs_time
+        attendances_dict['rest_time'] = attendances_obj.rest_time
         attendances_dict['attendances_location'] = attendances_obj.site
         attendances_list.append(attendances_dict)
-    a = user_profile.is_realm_admin
-
-    return JsonResponse({'errno': '0', 'message': '成功', 'attendances_list': attendances_list,
-                         'super_user': a})
+    return JsonResponse({'errno': '0', 'message': '成功', 'attendances_list': attendances_list})
 
 
 def testFuncton():
