@@ -1,0 +1,39 @@
+{{#each month_attendance_list}}
+    <ul class="calendar_ctn">
+        <li class="calendar_person">
+            <div class="calendar_top fix">
+                <div class="calendar_avatar_box">
+                    <img src="{{user_avatar}}" alt="">
+                </div>
+                <p class="calendar_person_name">{{user_name}}</p>
+                <p class="calendar_person_month">{{month}}月</p>
+            </div>
+            <div class="calendar_person_detail">
+                <span>出勤&nbsp;{{attendance_count}}</span>
+                <span>外勤&nbsp;{{outsidework_count}}</span>
+                <span>缺卡&nbsp;{{absenteeism_count}}</span>
+                <span>迟到&nbsp;{{overdue_count}}</span>
+                <span>早退&nbsp;{{leave_early_count}}</span>
+                <span>请假&nbsp;{{leave_count}}</span>
+            </div>
+            <div class="calendar_list_box">
+                <ul class="calendar_listA fix">
+                    
+                    <li>一</li>
+                    <li>二</li>
+                    <li>三</li>
+                    <li>四</li>
+                    <li>五</li>
+                    <li>六</li>
+                    <li>日</li>
+                    {{#outMonth month_week month_count no_normal_list normal_list outside_work_list year month}}
+                            {{!-- <li>
+                                <p class="calendar_list_num">{{this}}</p>
+                                <p class="calendar_list_state"></p>
+                            </li> --}}
+                    {{/outMonth}}
+                </ul>
+            </div>
+        </li>
+    </ul>
+{{/each}}
