@@ -37,7 +37,7 @@ def statement_review(request, user_profile):
 
             # 用户回复id
             reply_dict['reply_user_id'] = reply_obj.reply_user_id
-            if reply_obj.reply_user_id :
+            if reply_obj.reply_user_id:
                 user_obj = UserProfile.objects.get(id=reply_obj.reply_user_id)
                 reply_dict['reply_user_name'] = user_obj.full_name
 
@@ -530,9 +530,11 @@ def table_view(request, user_profile):
 
         if overdue:
             a.overdue = overdue
+            print('未完成：%s' % overdue)
 
         if underway:
             a.underway = underway
+            print('进行中：%s' % underway)
 
         a.save()
 

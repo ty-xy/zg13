@@ -264,49 +264,59 @@ var attendance = (function () {
                                 
                                 
                             })      
-                            //点击考勤组的样式
-                            $(".attendance_mangement").on('click',function(){
+                            // 点击考勤组的样式
+                            $(".attendance_box").on('click',".attendance_mangement",function(){
                                 $(this).addClass("high_light").siblings().removeClass("high_light")
-                                var html = templates.render("attendance_management");
-                                $(".attendance_ctn").html(html)
+                                 channel.get({
+                                    url:"json/zg/attendances/management",
+                                    success:function(data){
+                                       var data_list = data.attendances_list
+                                       var html = $(templates.render('attendance_management',{
+                                        data_list:data_list
+                                        }));
+                                       $(".attendance_ctn").html(html)
+                                       $(".attendance_ctn").on("click",".button-delete",function(){
+                                        var attendances_id= $(this).attr("data_id")
+                                        var that = $(this)
+                                           channel.del({
+                                                 url:"json/zg/attendances/del/",
+                                                 data:JSON.stringify({attendances_id:attendances_id}),
+                                                 success:function(data){
+                                                    alert(data.message,'rgba(0,107,169,0.30)')
+                                                    that.parent().parent().remove()
+                                                 }
+                                           })
+                                       })
+                                       $(".attendance_ctn").on("click",".button-fix",function(){
+                                            var index =$(this).attr("data_id")
+                                            var datalist =[]
+                                            channel.get({
+                                                url:"json/zg/attendances",
+                                                data:{attendances_id:index},
+                                                success:function(data){
+                                                    datalist[0]=data
+                                                    var html = $(templates.render('attendance_update',{
+                                                          datalist:datalist
+                                                        }));
+                                                       $(".attendance_ctn").html(html)
+                                                           //接入地点
+                                                        commonf()
+                                                }
+                                            })
+                                       })
+                                    }
+                                 })
+                                 $(".attendance_ctn").on('click',".new_attendance",function(){
+                                    var lis  =  $(".attendance_ctn").children()
+                                    var html = templates.render("attendance_team");
+                                    $(".attendance_ctn").html(html)
+                                    commonf(lis)
+                                })
                             })
+                      
                             //新增加项目
-                            $(".attendance_ctn").on('click',".new_attendance",function(){
-                                var html = templates.render("attendance_team");
-                                $(".attendance_ctn").html(html)
-                                //选择日期
-                                $(".button-common").datetimepicker({
-                                    language:"zh-CN",  
-                                    weekStart: 1,
-                                    todayBtn:  0,
-                                    autoclose: 1,
-                                    todayHighlight: 1,
-                                    startView: 1,
-                                    minView: 0,
-                                    showHours : true,
-                                    // minuteStep:1,
-                                    maxView: 1,
-                                    forceParse: 0,
-                                    format:'hh:ii',
-                                    })
-                                //接入地点
-                                $(".kaoqin-era").on('click',function(){
-                                    $('#map-area').show()
-                                    $("#map-area").on('click',".attendance-map-close",function(){
-                                        $('#map-area').hide()
-                                    })
-                                })
-                                $(".button-common-date").on('click',function(){
-                                    $(".kaoqin-date-choose").show()
-                                    $(".attendance_close_week").on('click',function(){
-                                        $(".kaoqin-date-choose").hide()
-                                    })
-                                })
-                                $(".kaoqin-date-area").on('click',function(){
-                                    $(".kaoqin-date-choose").hide()
-                                })
-                                
-                            })
+                            
+                           
                             $(".attendance_ctn").on('click',".back_attendance",function(){
                                 var html = templates.render("attendance_management");
                                 $(".attendance_ctn").html(html)
@@ -325,164 +335,21 @@ var attendance = (function () {
                 }
             })     
            //点击考勤组的样式
-           $(".attendance_mangement").on('click',function(){
-               $(this).addClass("high_light").siblings().removeClass("high_light")
-               var html = templates.render("attendance_management");
-               $(".attendance_ctn").html(html)
-           })
-           //新增加项目
-           function button(){
-            //点击清空
-            $(".button-right-clear").on('click',function(e){
-               // 清空右边列表
-                 $(".box-right-list").empty()
-               // 选中的数数值为0
-               $('.already-choose').text("选中(0)")
-               //左边的选中状态都是false
-               $(".choose-check").prop("checked", false);
-               $(".checkbox-input").prop("checked",false);
-               $(".checkbox-inputs").prop("checked",false);
-               $('.choose-list-box:checkbox').prop("checked", false)
-           })
-           //点击取消
-           $(".button-cancel").on("click",function(e){
-               $(".modal-log").hide()
-               //清除里面所有的元素，模态框消失。
-               $(".modal-log-content").empty()
-            })
-       }
-   
-   function simpleArr(datakeylist){
-        var arr = [];
-        for(var i in datakeylist){ 
-           arr=arr.concat(datakeylist[i]);
-        }
-        var hash = {};
-        var ress=[];
-        var result = [];
-        arr.forEach(function(item){
-             ress.push({name:item.nid,id:item.id})
-        })
-        // var hash = {};item
-        for(var i = 0, len = arr.length; i < len; i++){
-            // hashlist[arr[i].id]=[]
-            if (!hash[arr[i].id]) //如果hash表中没有当前项
-                {
-                    hash[arr[i].id] = true; //存入hash表
-                    result.push(arr[i]);    
-                  //把当前数组的当前项push到临时数组里面
-                }
-        }
-       
-        return {result:result,ress:ress}
-   }
-       function confirm(){
-           //点击确定
-           $(".choose-right-list").on('click','.button-confirm',function(e){
-               var arrlist =[]
-               var peopleList = []
-               $('#create_log_de .generate_log_member_box').children().not($(".add_log_people")).each(function(){
-                   
-                   var index = Number($(this).attr('data_id'))
-                   peopleList.push(index)
-               })
-               var idlist = []
-               var namelist =[]
-               $(".box-right-list").children().each(function () { 
-                   var id = Number($(this).attr("key-data"));
-                //    var avatar = $(this).attr("avatarurl")
-                   var name = $(this).children().find('.name-list').text()
-                   var peppleList = {
-                       id:id,
-                    //    avatar:avatar,
-                       name:name,
-                    //    namel:name.slice(0,4)+"...."
-                   }
-                   if(peopleList.indexOf(peppleList.id)===-1){
-                       arrlist.push(peppleList)
-                       idlist.push(peppleList.id)
-                       namelist.push(peppleList.name)
-                   }
-               })
-               namelist=namelist.join(",")
-               $(".button-common-people").html(namelist)
-               $(".button-common-people").attr("data_id",idlist)
-            //    var li = $(templates.render('send_people',{
-            //       peoplelist:arrlist
-            //   }));
-              
-              $('.box-right-list').remove()
-              $(".modal-log").hide()
-              //清除里面所有的元素，模态框消失。
-              $(".modal-log-content").empty()
-       
-           })
-       }
-       function alert(text,color){
-        $('.toast-alert-button').fadeIn({
-            duration: 1
-        }).delay (1000).fadeOut ({duration: 1000});
-        $('.toast-alert-button').html(text)
-        $('.toast-alert-button').css('background-color',color)
-      }
-       function deletes(data){
-           var childrenlength=$(".box-right-list").children().length
-           // console.log(childrenlength)
-           $('.already-choose').text("选中("+childrenlength+")")
-           // console.log(childrenlength,"判断")
-             //点击删除,选取的人删除,判断左边频道的状态
-           $(".button-right-delete").on('click',function(e){
-               // console.log($(this))
-                   var attr= $(this).parent().attr('data_id')
-                   var keyAttr= $(this).parent().attr('key-data')
-                   $(".checkbox-input").prop("checked",false);
-                   $("[data-key='"+keyAttr+"']:checkbox").prop("checked", false);
-                   $(this).parent().remove()
-                   var childrenlengths=$(".box-right-list").children().length
-                   var ress =simpleArr(data).ress
-                       ress.forEach(function(val,i){
-                           if(val.id==keyAttr){
-                               $("[inputid='"+val.name+"']:checkbox").prop("checked", false);
-                           }
-                       })
-                   // })
-                   var $subs = $('.choose-list-box:checkbox')
-                   $(".checkbox-inputs").prop("checked",$subs.length==$subs.filter(":checked").length ? true : false);
-                   if(childrenlengths>0){
-                       $('.already-choose').text("选中("+childrenlengths+")")
-                   }else{
-                       $('.already-choose').text("选中(0)")
-                       $(".choose-check").prop("checked", false);
-                       $(".checkbox-input").prop("checked",false);
-                       $(".checkbox-inputs").prop("checked",false);
-                       $('.choose-list-box:checkbox').prop("checked", false)
-                   }
-                   var length= $("[data_id='"+attr+"']").length
-                   //频道里面的人长度为0，左边的选中状态取消
-                   if(length===0){
-                       $("[inputid='"+attr+"']:checkbox").prop("checked", false);
-                   }
-           })
-       }
-
-    var countdown = 10;
-    function settime() {
-        if(countdown == 0) {
-            $(".button-submit").attr("disabled", false);
-            // $("#btn").attr("value", "免费获取验证码");
-            countdown = 10;
-        } else {
-            $(".button-submit").attr("disabled", true);
-            // $("#btn").attr("value", "重新发送(" + countdown + ")");
-            countdown--;
-            setTimeout(settime, 1000)
-        }
-    }
-           $(".attendance_ctn").on('click',".new_attendance",function(){
-                var html = templates.render("attendance_team");
-                $(".attendance_ctn").html(html)
+        //    $(".attendance_mangement").on('click',function(){
+        //        $(this).addClass("high_light").siblings().removeClass("high_light")
+        //        var html = templates.render("attendance_management");
+        //        $(".attendance_ctn").html(html)
+        //    })
+           // 公共函数
+               //接入地点
+           function commonf(lis){
+                
                 //选择日期
-                $(".button-common").datetimepicker({
+                $(".attendance_ctn").on('click',".back_attendance",function(){
+                    // var html = templates.render("attendance_management");
+                    $(".attendance_ctn").html(lis)
+               })
+                $(".attendance_ctn .button-common").datetimepicker({
                     language:"zh-CN",  
                     weekStart: 1,
                     todayBtn:  0,
@@ -495,26 +362,35 @@ var attendance = (function () {
                     maxView: 1,
                     forceParse: 0,
                     format:'hh:ii:00',
-                   })
+                    })
                 //接入地点
-                $(".kaoqin-era").on('click',function(){
+                $(".attendance_ctn").on('click',".kaoqin-era",function(){
                     $('#map-area').show()
                     $("#map-area").on('click','.place-sure',function(){
                         $('#tipinput').val("")
                         $('#map-area').hide()
                         var text=$('.place-area').text()
                         var location = $('.place-area').attr("data_loaction")
-                        $(".attendance-new-detail .kaoqin-era").empty("")
-                        $(".attendance-new-detail .kaoqin-era").append(text)
+                        // $(".attendance-new-detail .kaoqin-era").empty("")
+                        $(".attendance-new-detail .kaoqin-era").val(text)
                         $(".kaoqin-era").attr("location",location)
-                        $('.place-area').html("") 
+                        // $('.place-area').html("") 
                     })
                     $("#map-area").on('click',".attendance-map-close",function(){
                         $('#map-area').hide()
                     })
                 })
-                //接入设置参加人员
-                $('.button-common-people').on("click",function(e){ 
+                $(".attendance_ctn").on('click',".button-common-date",function(){
+                    $(".kaoqin-date-choose").show()
+                    $(".attendance_close_week").on('click',function(){
+                        $(".kaoqin-date-choose").hide()
+                    })
+                })
+                $(".kaoqin-date-area").on('click',function(){
+                    $(".kaoqin-date-choose").hide()
+                })
+                //接入人员
+                $('.attendance_ctn').on("click",".button-common-people",function(e){ 
                     //显示模态框
                     $(".modal-log").show()
                    //获取数据
@@ -710,7 +586,7 @@ var attendance = (function () {
                        }
                    })
                 })
-                //考情日期
+                //接入时间
                 $(".button-common-date").on('click',function(){
                     $(".kaoqin-date-choose").show()
                    
@@ -736,15 +612,17 @@ var attendance = (function () {
                     settime()
                     var name = $(".title-input").val()
                     if(name==""){
-                        alert('请填写考情组的名字','rgba(169,12,0,0.30)')
+                        alert('请填写考勤组的名字','rgba(169,12,0,0.30)')
                         return 
                     }
                     var member_list = $(".button-common-people").attr("data_id")
-                    if(member_list=="请设置参加人员"){
-                        alert('请填写考情组的名字','rgba(169,12,0,0.30)')
+                    console.log(member_list)
+                    if(member_list == undefined){
+                        alert('请选择考勤人员','rgba(169,12,0,0.30)')
                         return 
                     }else{
-                        member_list.split(",")
+                        member_list=member_list.split(",")
+                        console.log(member_list)
                     }
                     var jobs_time = $(".button-job").val()
                     if(jobs_time=="00:00"){
@@ -761,7 +639,7 @@ var attendance = (function () {
                         alert('请填写日期','rgba(169,12,0,0.30)')
                         return
                     }
-                    var location = $(".kaoqin-era").html()
+                    var location = $(".kaoqin-era").val()
                     if(location=="设置考勤地点"){
                         alert('设置考勤地点','rgba(169,12,0,0.30)')
                         return
@@ -809,7 +687,7 @@ var attendance = (function () {
                     channel.post({
                         url:'/json/zg/attendances/add/',
                         data:JSON.stringify(data_list),
-                        // contentType:"application/json",
+                        contentType:"application/json",
                         success:function(data){
                             console.log(data)
                             if(data.errno==0){
@@ -818,14 +696,159 @@ var attendance = (function () {
                         }
                     })
                 })
+                
+           
+           }
+           //新增加项目
+           function button(){
+            //点击清空
+            $(".button-right-clear").on('click',function(e){
+               // 清空右边列表
+                 $(".box-right-list").empty()
+               // 选中的数数值为0
+               $('.already-choose').text("选中(0)")
+               //左边的选中状态都是false
+               $(".choose-check").prop("checked", false);
+               $(".checkbox-input").prop("checked",false);
+               $(".checkbox-inputs").prop("checked",false);
+               $('.choose-list-box:checkbox').prop("checked", false)
            })
-           $(".attendance_ctn").on('click',".back_attendance",function(){
-                var html = templates.render("attendance_management");
-                $(".attendance_ctn").html(html)
-           })
+           //点击取消
+           $(".button-cancel").on("click",function(e){
+               $(".modal-log").hide()
+               //清除里面所有的元素，模态框消失。
+               $(".modal-log-content").empty()
+            })
+       }
+   
+   function simpleArr(datakeylist){
+        var arr = [];
+        for(var i in datakeylist){ 
+           arr=arr.concat(datakeylist[i]);
+        }
+        var hash = {};
+        var ress=[];
+        var result = [];
+        arr.forEach(function(item){
+             ress.push({name:item.nid,id:item.id})
         })
-      
+        // var hash = {};item
+        for(var i = 0, len = arr.length; i < len; i++){
+            // hashlist[arr[i].id]=[]
+            if (!hash[arr[i].id]) //如果hash表中没有当前项
+                {
+                    hash[arr[i].id] = true; //存入hash表
+                    result.push(arr[i]);    
+                  //把当前数组的当前项push到临时数组里面
+                }
+        }
+       
+        return {result:result,ress:ress}
+   }
+       function confirm(){
+           //点击确定
+           $(".choose-right-list").on('click','.button-confirm',function(e){
+               var arrlist =[]
+               var peopleList = []
+               $('#create_log_de .generate_log_member_box').children().not($(".add_log_people")).each(function(){
+                   
+                   var index = Number($(this).attr('data_id'))
+                   peopleList.push(index)
+               })
+               var idlist = []
+               var namelist =[]
+               $(".box-right-list").children().each(function () { 
+                   var id = Number($(this).attr("key-data"));
+                //    var avatar = $(this).attr("avatarurl")
+                   var name = $(this).children().find('.name-list').text()
+                   var peppleList = {
+                       id:id,
+                    //    avatar:avatar,
+                       name:name,
+                    //    namel:name.slice(0,4)+"...."
+                   }
+                   if(peopleList.indexOf(peppleList.id)===-1){
+                       arrlist.push(peppleList)
+                       idlist.push(peppleList.id)
+                       namelist.push(peppleList.name)
+                   }
+               })
+               namelist=namelist.join(",")
+               $(".button-common-people").html(namelist)
+               $(".button-common-people").attr("data_id",idlist)
+            //    var li = $(templates.render('send_people',{
+            //       peoplelist:arrlist
+            //   }));
+              
+              $('.box-right-list').remove()
+              $(".modal-log").hide()
+              //清除里面所有的元素，模态框消失。
+              $(".modal-log-content").empty()
+       
+           })
+       }
+       function alert(text,color){
+        $('.toast-alert-button').fadeIn({
+            duration: 1
+        }).delay (1000).fadeOut ({duration: 1000});
+        $('.toast-alert-button').html(text)
+        $('.toast-alert-button').css('background-color',color)
+      }
+       function deletes(data){
+           var childrenlength=$(".box-right-list").children().length
+           // console.log(childrenlength)
+           $('.already-choose').text("选中("+childrenlength+")")
+           // console.log(childrenlength,"判断")
+             //点击删除,选取的人删除,判断左边频道的状态
+           $(".button-right-delete").on('click',function(e){
+               // console.log($(this))
+                   var attr= $(this).parent().attr('data_id')
+                   var keyAttr= $(this).parent().attr('key-data')
+                   $(".checkbox-input").prop("checked",false);
+                   $("[data-key='"+keyAttr+"']:checkbox").prop("checked", false);
+                   $(this).parent().remove()
+                   var childrenlengths=$(".box-right-list").children().length
+                   var ress =simpleArr(data).ress
+                       ress.forEach(function(val,i){
+                           if(val.id==keyAttr){
+                               $("[inputid='"+val.name+"']:checkbox").prop("checked", false);
+                           }
+                       })
+                   // })
+                   var $subs = $('.choose-list-box:checkbox')
+                   $(".checkbox-inputs").prop("checked",$subs.length==$subs.filter(":checked").length ? true : false);
+                   if(childrenlengths>0){
+                       $('.already-choose').text("选中("+childrenlengths+")")
+                   }else{
+                       $('.already-choose').text("选中(0)")
+                       $(".choose-check").prop("checked", false);
+                       $(".checkbox-input").prop("checked",false);
+                       $(".checkbox-inputs").prop("checked",false);
+                       $('.choose-list-box:checkbox').prop("checked", false)
+                   }
+                   var length= $("[data_id='"+attr+"']").length
+                   //频道里面的人长度为0，左边的选中状态取消
+                   if(length===0){
+                       $("[inputid='"+attr+"']:checkbox").prop("checked", false);
+                   }
+           })
+       }
+
+    var countdown = 10;
+    function settime() {
+        if(countdown == 0) {
+            $(".button-submit").attr("disabled", false);
+            // $("#btn").attr("value", "免费获取验证码");
+            countdown = 10;
+        } else {
+            $(".button-submit").attr("disabled", true);
+            // $("#btn").attr("value", "重新发送(" + countdown + ")");
+            countdown--;
+            setTimeout(settime, 1000)
+        }
+    }
           
+        })  
     });  
     return exports;
     }());
