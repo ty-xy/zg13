@@ -232,18 +232,43 @@ var attendance = (function () {
                                        })
                                        $(".attendance_ctn").on("click",".button-fix",function(){
                                             var index =$(this).attr("data_id")
+                                            $("#button-time").datetimepicker({
+                                                language:"zh-CN",  
+                                                weekStart: 1,
+                                                todayBtn:  0,
+                                                autoclose: 1,
+                                                todayHighlight: 1,
+                                                startView: 1,
+                                                minView: 0,
+                                                showHours : true,
+                                                // minuteStep:1,
+                                                maxView: 1,
+                                                forceParse: 0,
+                                                format:'hh:ii:00',
+                                                })
                                             var datalist =[]
-                                            channel.get({
+                                            $.ajax({
+                                                type:"GET",
                                                 url:"json/zg/attendances",
+                                                contentType:"application/json",
                                                 data:{attendances_id:index},
                                                 success:function(data){
                                                     datalist[0]=data
+                                                    console.log(data)
                                                     var html = $(templates.render('attendance_update',{
                                                           datalist:datalist
                                                         }));
-                                                       $(".attendance_ctn").html(html)
-                                                           //接入地点
-                                                        commonf()
+                                                         $(".attendance_ctn").html(html)
+                                                         var idIndex = []
+                                                          data.member_list.forEach(function(val){
+                                                               idIndex.push(val.id)
+                                                          })
+                                                        //   console.log(idIndex)
+                                                        //   console.log()
+                                                         $(".kaoqin-era").attr("location",data.longitude+","+data.latitude)
+                                                         $(".button-common-people").attr("data_id",idIndex)
+                                                         commonf()  //接入地点
+                                                         update(index)
                                                 }
                                             })
                                        })
@@ -253,8 +278,26 @@ var attendance = (function () {
                                     var lis  =  $(".attendance_ctn").children()
                                     var html = templates.render("attendance_team");
                                     $(".attendance_ctn").html(html)
+                                    
+                                    $(".attendance_ctn .button-common").datetimepicker({
+                                        language:"zh-CN",  
+                                        weekStart: 1,
+                                        todayBtn:  0,
+                                        autoclose: 1,
+                                        todayHighlight: 1,
+                                        startView: 1,
+                                        minView: 0,
+                                        showHours : true,
+                                        // minuteStep:1,
+                                        maxView: 1,
+                                        forceParse: 0,
+                                        format:'hh:ii:00',
+                                        })
+                                    
                                     commonf(lis)
+                                     commit()
                                 })
+                       
                             })
                       
                             //新增加项目
@@ -285,6 +328,7 @@ var attendance = (function () {
         //    })
            // 公共函数
                //接入地点
+             
            function commonf(lis){
                 
                 //选择日期
@@ -292,20 +336,6 @@ var attendance = (function () {
                     // var html = templates.render("attendance_management");
                     $(".attendance_ctn").html(lis)
                })
-                $(".attendance_ctn .button-common").datetimepicker({
-                    language:"zh-CN",  
-                    weekStart: 1,
-                    todayBtn:  0,
-                    autoclose: 1,
-                    todayHighlight: 1,
-                    startView: 1,
-                    minView: 0,
-                    showHours : true,
-                    // minuteStep:1,
-                    maxView: 1,
-                    forceParse: 0,
-                    format:'hh:ii:00',
-                    })
                 //接入地点
                 $(".attendance_ctn").on('click',".kaoqin-era",function(){
                     $('#map-area').show()
@@ -551,96 +581,124 @@ var attendance = (function () {
                     $(".kaoqin-date-choose").hide()
                 })
                 //点击提交
-                $(".attendance_ctn").on("click",".button-submit",function(){
-                    settime()
-                    var name = $(".title-input").val()
-                    if(name==""){
-                        alert('请填写考勤组的名字','rgba(169,12,0,0.30)')
-                        return 
-                    }
-                    var member_list = $(".button-common-people").attr("data_id")
-                    console.log(member_list)
-                    if(member_list == undefined){
-                        alert('请选择考勤人员','rgba(169,12,0,0.30)')
-                        return 
-                    }else{
-                        member_list=member_list.split(",")
-                        console.log(member_list)
-                    }
-                    var jobs_time = $(".button-job").val()
-                    if(jobs_time=="00:00"){
-                        alert('请填写开始时间','rgba(169,12,0,0.30)')
-                        return
-                    }
-                    var rest_time = $(".button-rest").val()
-                    if(rest_time=="00:00"){
-                        alert('请填写结束时间','rgba(169,12,0,0.30)')
-                        return
-                    }
-                    var date =$(".button-common-date").html()
-                    if(date=="设置考勤日期"){
-                        alert('请填写日期','rgba(169,12,0,0.30)')
-                        return
-                    }
-                    var location = $(".kaoqin-era").val()
-                    if(location=="设置考勤地点"){
-                        alert('设置考勤地点','rgba(169,12,0,0.30)')
-                        return
-                    }
-                    var longitude = $(".kaoqin-era").attr("location").split(",")[0]
-                    var latitude = $(".kaoqin-era").attr("location").split(",")[1]
-                    
-                    var range = $(".button-common-area").val().slice(0,3);
-                    if(range=="设置考勤范围"){
-                        alert('设置考勤范围','rgba(169,12,0,0.30)')
-                        return
-                    }
-                    console.log(date.split(","))
-                    date = date.split(",")
-                    var datelist =[]
-                    date.forEach(function(val,i ){
-                           if(val==="星期一"){
-                            datelist.push(1)
-                           }else if(val==="星期二"){
-                            datelist.push(2)
-                           }else if(val==="星期三"){
-                            datelist.push(3)
-                           }else if(val==="星期四"){
-                            datelist.push(4)
-                           }else if(val==="星期五"){
-                            datelist.push(5)
-                           }else if(val==="星期六"){
-                            datelist.push(6)
-                           }else if(val==="星期日"){
-                            datelist.push(7)
-                           }
-                    })
-                   
-                    var data_list  ={
-                         name:name,
-                         member_list:member_list,
-                         jobs_time:jobs_time,
-                         rest_time:rest_time,
-                         date: datelist.join(""),
-                         longitude:longitude,
-                         latitude:latitude,
-                         location:location,
-                         range:range,
-                    }
-                    channel.post({
-                        url:'/json/zg/attendances/add/',
-                        data:JSON.stringify(data_list),
-                        contentType:"application/json",
-                        success:function(data){
-                            console.log(data)
-                            if(data.errno==0){
-                                $(".attendance_md").hide();
-                            }
-                        }
-                    })
-                })
+              
                 
            
+           }
+           // 公共参数
+           function commonContent(){
+            settime()
+            var name = $(".title-input").val()
+            if(name==""){
+                alert('请填写考勤组的名字','rgba(169,12,0,0.30)')
+                return 
+            }
+            var member_list = $(".button-common-people").attr("data_id")
+            console.log(member_list)
+            if(member_list == undefined){
+                alert('请选择考勤人员','rgba(169,12,0,0.30)')
+                return 
+            }else{
+                member_list=member_list.split(",")
+                console.log(member_list)
+            }
+            var jobs_time = $(".button-job").val()
+            if(jobs_time=="00:00"){
+                alert('请填写开始时间','rgba(169,12,0,0.30)')
+                return
+            }
+            var rest_time = $(".button-rest").val()
+            if(rest_time=="00:00"){
+                alert('请填写结束时间','rgba(169,12,0,0.30)')
+                return
+            }
+            var date =$(".button-common-date").html()
+            console.log(date)
+            if(date=="设置考勤日期"){
+                alert('请填写日期','rgba(169,12,0,0.30)')
+                return
+            }
+            var location = $(".kaoqin-era").val()
+            if(location=="设置考勤地点"){
+                alert('设置考勤地点','rgba(169,12,0,0.30)')
+                return
+            }
+            var longitude = $(".kaoqin-era").attr("location").split(",")[0]
+            var latitude = $(".kaoqin-era").attr("location").split(",")[1]
+            
+            var range = $(".button-common-area").val().slice(0,3);
+            if(range=="设置考勤范围"){
+                alert('设置考勤范围','rgba(169,12,0,0.30)')
+                return
+            }
+            date = date.split(",")
+            var datelist =[]
+            date.forEach(function(val,i ){
+                   var item = val[val.length-1]
+                   if(item==="一"){
+                    datelist.push(1)
+                   }else if(item==="二"){
+                    datelist.push(2)
+                   }else if(item==="三"){
+                    datelist.push(3)
+                   }else if(item==="四"){
+                    datelist.push(4)
+                   }else if(item==="五"){
+                    datelist.push(5)
+                   }else if(item==="六"){
+                    datelist.push(6)
+                   }else if(item==="日"){
+                    datelist.push(7)
+                   } 
+            })
+            console.log(date,datelist)
+            data_list  ={
+                 name:name,
+                 member_list:member_list,
+                 jobs_time:jobs_time,
+                 rest_time:rest_time,
+                 date: datelist.join(""),
+                 longitude:longitude,
+                 latitude:latitude,
+                 location:location,
+                 range:range,
+            }
+            console.log(data_list)
+            return  data_list
+           }
+           //点击提交的公共函数
+           function commit(){
+                $(".attendance_ctn").on("click",".button-submit",function(){
+                        var data_list = commonContent()
+                        channel.post({
+                            url:'/json/zg/attendances/add/',
+                            data:JSON.stringify(data_list),
+                            contentType:"application/json",
+                            success:function(data){
+                                console.log(data)
+                                if(data.errno==0){
+                                    $(".attendance_md").hide();
+                                }
+                            }
+                        })
+                    })
+           }
+           function update(id){
+            $(".attendance_ctn").on("click",".button-submit",function(){
+                var data_list = commonContent()
+                data_list.attendances_id = id
+                channel.put({
+                    url:'json/zg/attendances/update/',
+                    data:JSON.stringify(data_list),
+                    contentType:"application/json",
+                    success:function(data){
+                        console.log(data)
+                        if(data.errno==0){
+                            $(".attendance_md").hide();
+                        }
+                    }
+                })
+            })
            }
            //新增加项目
            function button(){
