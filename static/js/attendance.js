@@ -5,10 +5,12 @@ var attendance = (function () {
         
         $(".common_img").on("click",function(){
             //查看考勤日历
-            function checkCalendar(user_id){  
+            function checkCalendar(user_id,select_year){  
+                var user_id;
+                var select_year = select_year;
                 $.ajax({
                     type:"GET",
-                    url:"json/zg/attendance/month/solo/web?user_id="+user_id+"",
+                    url:"json/zg/attendance/month/solo/web?user_id="+user_id+"&select_year="+select_year+"",
                     contentType:"application/json",
                     data:{page:1},
                     success:function(res){
@@ -17,8 +19,10 @@ var attendance = (function () {
                         for(var i =0;i<month_attendance_list.length;i++){
                             month_week = month_attendance_list[0].month_week
                         }
-                        var calendar_box = templates.render("calendar_box",{month_attendance_list:month_attendance_list});
+                        var calendar_box = templates.render("calendar_box");
+                        var calendar_list = templates.render("calendar_list",{month_attendance_list:month_attendance_list})
                         $(".attendance_ctn").append(calendar_box);
+                        $(".attendance_ctn").append(calendar_list)
                         //筛选时间
                         $(".calendar_screen_select").datetimepicker({
                             startView: 'decade',
@@ -28,7 +32,9 @@ var attendance = (function () {
                             minViewMode:2,
                             autoclose: true
                             }).on("changeDate",function(){
-                                console.log("这是一个秋天")
+                                // var select_year = $(this).val();
+                                // checkCalendar(user_id,select_year);
+                                
                         }); 
                         //获取个人单天考勤信息
                         $.ajax({
@@ -44,7 +50,9 @@ var attendance = (function () {
                                 var sign_in_time = res.sign_in_time;
                                 var sign_off_explain = res.sign_off_explain;
                                 var sign_off_time = res.sign_off_time;
-                                var m = Number(sign_in_time.substring(8,10));
+                                if(sign_in_time){
+                                    var m = Number(sign_in_time.substring(8,10));
+                                }
                                 var n = m + month_week - 2;
                                 var calendar_detail = templates.render("calendar_detail",{
                                     attendance_name:attendance_name,
@@ -60,6 +68,15 @@ var attendance = (function () {
                         $(".calendar_list").on("click",".calendar_list_num",function(){
                             $(this).addClass("gray_date").parent().siblings().children().removeClass("gray_date");
                         })
+                        //点击日期事件
+                        $(".calendar_list").on("click",".calendar_list_num",function(){
+                            var user_date = $(this).text();
+                            var year = $(this).attr("year");
+                            var month = $(this).attr("month");
+                            user_id = user_id
+                            var _this = $(this);
+                            checkOne(user_date,user_id,year,month,_this)
+                        })
                     }
                 })
             }
@@ -72,8 +89,10 @@ var attendance = (function () {
                     data:{page:1},
                     success:function(res){
                         var month_attendance_list = res.month_attendance_list;
-                        var calendar_box = templates.render("calendar_box",{month_attendance_list:month_attendance_list});
+                        var calendar_box = templates.render("calendar_box");
+                        var calendar_list = templates.render("calendar_list",{month_attendance_list:month_attendance_list})
                         $(".attendance_ctn").append(calendar_box);
+                        $(".attendance_ctn").append(calendar_list)
                         $(".calendar_return").hide();
                         $(".calendar_screen").css("float","right");
                         //筛选时间
@@ -91,6 +110,8 @@ var attendance = (function () {
                         $(".calendar_list").on("click",".calendar_list_num",function(){
                             $(this).addClass("gray_date").parent().siblings().children().removeClass("gray_date");
                         })
+                        //点击日期事件
+                        // $(".calendar_list")
                     }
                 })
             }
@@ -117,6 +138,42 @@ var attendance = (function () {
                          })
                      }
                  })
+            }
+            //查找具体某一天考勤信息
+            function checkOne(user_date,user_id,year,month,_this){
+                var user_date = user_date;
+                var user_id = user_id;
+                var year = year;
+                var month = month;
+                var _this = _this;
+                if(month<10){
+                    month = '0'+month
+                }
+                user_date = ''+year+'-'+month+'-'+user_date
+                $.ajax({
+                    type:"GET",
+                    url:"json/zg/attendance/day/solo?user_date="+user_date+"&user_id="+user_id+"",
+                    contentType:"application/json",
+                    success:function(res){
+                        console.log(res)
+                        $(".calendar_place_box").remove();
+                        $(".calendar_time_box").remove();
+                        var attendance_name = res.attendance_name;
+                        var jobs_time = res.jobs_time;
+                        var location = res.location;
+                        var rest_time = res.rest_time;
+                        var sign_in_explain = res.sign_in_explain;
+                        var sign_in_time = res.sign_in_time;
+                        var sign_off_explain = res.sign_off_explain;
+                        var sign_off_time = res.sign_off_time;
+                        var calendar_detail = templates.render("calendar_detail",{
+                            attendance_name:attendance_name,
+                            jobs_time:jobs_time,location:location,rest_time:rest_time,sign_in_explain:sign_in_explain,
+                            sign_in_time:sign_in_time,sign_off_explain:sign_off_explain,sign_off_time:sign_off_time
+                        });
+                        _this.parent().parent().parent().parent().after(calendar_detail)
+                    }
+                })
             }
             $.ajax({
                     type:"GET",
