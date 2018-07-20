@@ -1,4 +1,5 @@
 {{!-- {{#compare m '==' month}} --}}
+{{#if sign_in_explain}}
 <div class="calendar_place_box fix">
     <p class="calendar_place_title">{{attendance_name}}</p>
     <p class="calendar_place_set">(<span>上午{{jobs_time}}</span>/<span>下午{{rest_time}}</span>)</p>
@@ -7,7 +8,7 @@
     <li class="calendar_time_up fix">
         <div class="calendar_time_up_left">
             <span>上班打卡&nbsp;</span>
-            <span>{{sign_in_time}}</span>
+            <span>{{cut_time sign_in_time}}</span>
         </div>
         <div class="calendar_time_up_right">
             <span class="calendar_time_place">{{location}}</span>
@@ -17,12 +18,18 @@
             {{#compare sign_in_explain '==' "迟到"}}
                 <span class="calendar_time_stateR">{{sign_in_explain}}</span>
             {{/compare}}
+            {{#compare sign_in_explain '==' "缺卡"}}
+                <span class="calendar_time_stateR">{{sign_in_explain}}</span>
+            {{/compare}}
+            {{#compare sign_in_explain '==' "早退"}}
+                <span class="calendar_time_stateR">{{sign_in_explain}}</span>
+            {{/compare}}
         </div>
     </li>
     <li class="calendar_time_up fix">
         <div class="calendar_time_up_left">
             <span>下班打卡&nbsp;</span>
-            <span>{{sign_off_time}}</span>
+            <span>{{cut_time sign_off_time}}</span>
         </div>
         <div class="calendar_time_up_right">
             <span class="calendar_time_place">{{location}}</span>
@@ -32,9 +39,16 @@
             {{#compare sign_off_explain '==' "迟到"}}
                 <span class="calendar_time_stateR">{{sign_off_explain}}</span>
             {{/compare}}
+            {{#compare sign_off_explain '==' "缺卡"}}
+                <span class="calendar_time_stateR">{{sign_off_explain}}</span>
+            {{/compare}}
+            {{#compare sign_off_explain '==' "早退"}}
+                <span class="calendar_time_stateR">{{sign_off_explain}}</span>
+            {{/compare}}
         </div>
     </li>
 </ul>
+{{/if}}
 {{!-- {{/compare}} --}}
 
 {{!-- <div class="calendar_place_box fix">

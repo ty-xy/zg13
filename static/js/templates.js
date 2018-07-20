@@ -127,10 +127,12 @@ Handlebars.registerHelper("isJpg",function(str){
     }
 })
 //输入当月月份
-Handlebars.registerHelper('outMonth',function(month_week,month_count,no_normal_list,normal_list,outside_work_list){
+Handlebars.registerHelper('outMonth',function(month_week,month_count,no_normal_list,normal_list,outside_work_list,year,month){
                 var arr=[]
                 var firstDay = month_week;
                 var lastDay = month_count;
+                var year = year;
+                var month = month;
                 function stateColor(){
                     for(var key in no_normal_list){
                         $(".calendar_list_num[value='"+no_normal_list[key]+"']").next().addClass("calendar_list_stateR")
@@ -147,7 +149,7 @@ Handlebars.registerHelper('outMonth',function(month_week,month_count,no_normal_l
                     arr.unshift("");
                     for(var i=1;i<lastDay+1;i++){
                         arr.push(i)
-                        out = out + '<li class="calendar_list_date"><p class="calendar_list_num" value='+arr[i]+'>'+arr[i]+'</p><p class=""></p></li>'
+                        out = out + '<li class="calendar_list_date"><p class="calendar_list_num" month='+month+' year='+year+' value='+arr[i]+'>'+arr[i]+'</p><p class=""></p></li>'
                     }
                     $("body").ready(function () { 
                         stateColor()
@@ -159,7 +161,7 @@ Handlebars.registerHelper('outMonth',function(month_week,month_count,no_normal_l
                     arr.unshift("");
                     for(var i=1;i<lastDay+2;i++){
                         arr.push(i)
-                        out = out + '<li class="calendar_list_date"><p class="calendar_list_num" value='+arr[i]+'>'+arr[i]+'</p><p class=""></p></li>'
+                        out = out + '<li class="calendar_list_date"><p class="calendar_list_num" month='+month+' year='+year+' value='+arr[i]+'>'+arr[i]+'</p><p class=""></p></li>'
                     }
                     $("body").ready(function () { 
                         stateColor()
@@ -172,7 +174,7 @@ Handlebars.registerHelper('outMonth',function(month_week,month_count,no_normal_l
                     arr.unshift("");
                     for(var i=1;i<lastDay+3;i++){
                         arr.push(i)
-                        out = out + '<li class="calendar_list_date"><p class="calendar_list_num" value='+arr[i]+'>'+arr[i]+'</p><p class=""></p></li>'
+                        out = out + '<li class="calendar_list_date"><p class="calendar_list_num" month='+month+' year='+year+' value='+arr[i]+'>'+arr[i]+'</p><p class=""></p></li>'
                     }
                     $("body").ready(function () { 
                         stateColor()
@@ -186,7 +188,7 @@ Handlebars.registerHelper('outMonth',function(month_week,month_count,no_normal_l
                     arr.unshift("");
                     for(var i=1;i<lastDay+4;i++){
                         arr.push(i)
-                        out = out + '<li class="calendar_list_date"><p class="calendar_list_num" value='+arr[i]+'>'+arr[i]+'</p><p class=""></p></li>'
+                        out = out + '<li class="calendar_list_date"><p class="calendar_list_num" month='+month+' year='+year+' value='+arr[i]+'>'+arr[i]+'</p><p class=""></p></li>'
                     }
                     $("body").ready(function () { 
                         stateColor()
@@ -201,7 +203,7 @@ Handlebars.registerHelper('outMonth',function(month_week,month_count,no_normal_l
                     arr.unshift("");
                     for(var i=1;i<lastDay+5;i++){
                         arr.push(i)
-                        out = out + '<li class="calendar_list_date"><p class="calendar_list_num" value='+arr[i]+'>'+arr[i]+'</p><p class=""></p></li>'
+                        out = out + '<li class="calendar_list_date"><p class="calendar_list_num" month='+month+' year='+year+' value='+arr[i]+'>'+arr[i]+'</p><p class=""></p></li>'
                     }
                     $("body").ready(function () { 
                         stateColor()
@@ -217,7 +219,7 @@ Handlebars.registerHelper('outMonth',function(month_week,month_count,no_normal_l
                     arr.unshift("");
                     for(var i=1;i<lastDay+6;i++){
                         arr.push(i)
-                        out = out + '<li class="calendar_list_date"><p class="calendar_list_num" value='+arr[i]+'>'+arr[i]+'</p><p class=""></p></li>'
+                        out = out + '<li class="calendar_list_date"><p class="calendar_list_num" month='+month+' year='+year+' value='+arr[i]+'>'+arr[i]+'</p><p class=""></p></li>'
                     }
                     $("body").ready(function () { 
                         stateColor()
@@ -234,7 +236,7 @@ Handlebars.registerHelper('outMonth',function(month_week,month_count,no_normal_l
                     arr.unshift("");
                     for(var i=1;i<lastDay+7;i++){
                         arr.push(i)
-                        out = out + '<li class="calendar_list_date"><p class="calendar_list_num" value='+arr[i]+'>'+arr[i]+'</p><p class=""></p></li>'
+                        out = out + '<li class="calendar_list_date"><p class="calendar_list_num" month='+month+' year='+year+' value='+arr[i]+'>'+arr[i]+'</p><p class=""></p></li>'
                     }
                     $("body").ready(function () { 
                         stateColor()
@@ -304,6 +306,10 @@ Handlebars.registerHelper('compare', function(left, operator, right, options) {
 //取数组长度
 Handlebars.registerHelper("cut_list",function(list){
     return list.length
+})
+//只截取时间点
+Handlebars.registerHelper("cut_time",function(str){
+    return str.substring(11,19)
 })
 Handlebars.registerHelper('if_or', function () {
     // Execute the conditional code if any of the conditions are true.

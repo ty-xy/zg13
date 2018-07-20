@@ -117,7 +117,7 @@ def attendance_day_solo(request, user_profile):
     user_date = request.GET.get("user_date")
     user_id = request.GET.get("user_id")
     if user_date:
-        stockpile_time = datetime.strptime(user_date, '%Y-%m-%d %H:%M:%S')
+        stockpile_time = datetime.strptime(user_date, '%Y-%m-%d')
         year = stockpile_time.year
         month = stockpile_time.month
         day = stockpile_time.day
@@ -138,20 +138,26 @@ def attendance_day_solo(request, user_profile):
             return JsonResponse({'errno': '1', 'message': '用户id错误'})
 
     print(year,month,day,user_profile.full_name)
-    # try:
-    attendance_obj = ZgAttendance.objects.filter(sign_in_time__year=str(year), sign_in_time__month=str(month),
-                                                sign_in_time__day=str(day),
-                                                user_name=user_profile)
-    attendance_obj=attendance_obj[0]
-    # except Exception:
-    #     return JsonResponse({'errno': '2', 'message': '获取考勤信息失败'})
-    print(attendance_obj.sign_in_time)
+    try:
+        attendance_obj = ZgAttendance.objects.get(sign_in_time__year=str(year), sign_in_time__month=str(month),
+                                                    sign_in_time__day=str(day),
+                                                    user_name=user_profile)
 
+        sign_in_explain=attendance_obj.sign_in_explain
+        sign_off_explain= attendance_obj.sign_off_explain
+        sign_in_time= attendance_obj.sign_in_time
+        sign_off_time= attendance_obj.sign_off_time
+                         
+    except Exception:   
+        sign_in_explain='' 
+        sign_off_explain=''
+        sign_in_time=''
+        sign_off_time=''
     return JsonResponse({'errno': '0', 'message': '成功',
-                         'sign_in_explain': attendance_obj.sign_in_explain,
-                         'sign_off_explain': attendance_obj.sign_off_explain,
-                         "sign_in_time": attendance_obj.sign_in_time,
-                         'sign_off_time': attendance_obj.sign_off_time,
+                         'sign_in_explain': sign_in_explain,
+                         'sign_off_explain': sign_off_explain,
+                         "sign_in_time": sign_in_time,
+                         'sign_off_time': sign_off_time,
                          'attendance_name': user_profile.atendance.attendance_name,
                          'jobs_time': user_profile.atendance.jobs_time,
                          'rest_time': user_profile.atendance.rest_time,
@@ -273,7 +279,8 @@ def month_attendance_tools(user_profile, months):
             'overdue_count': overdue_count, 'leave_early_count': leave_early_count, 'leave_count': leave_count,
             'absenteeism_count': absenteeism_count, 'month':month,'month_count':month_count,'month_week':month_week,
             'normal_list':normal_list,'outside_work_list':outside_work_list,'no_normal_list':no_normal_list,
-            'user_name':user_profile.full_name,'user_avatar':avatar.absolute_avatar_url(user_profile)}
+            'user_name':user_profile.full_name,
+            'year':year,'user_avatar':avatar.absolute_avatar_url(user_profile)}
 
 
 # web个人月考勤统计
