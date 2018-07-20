@@ -44,6 +44,7 @@
     box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30);
     border-radius: 4px;
     position: relative;
+    margin-bottom:20px;
 }
 .new_attendance{
     background: #A0ACBF;
@@ -63,10 +64,14 @@
 }
 .attendance_ul_team{
     margin:0;
+    display: flex;
+    flex-wrap:wrap;
+    justify-content: space-between;
 }
 .new_attendance_title{
     margin-top:40px;
     margin-bottom:30px;
+
 }
 .attendance_team>h1{
     font-family: PingFangSC-Medium;

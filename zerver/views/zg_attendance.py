@@ -129,17 +129,24 @@ def attendance_day_solo(request, user_profile):
         year = stockpile_time.year
         month = stockpile_time.month
         day = stockpile_time.day
+        tzutc_8 = timezone(timedelta(hours=8))
+        stockpile_time = stockpile_time.astimezone(tzutc_8) + timedelta(hours=8)
+
     if user_id:
         try:
             user_profile = UserProfile.objects.get(id=user_id)
         except Exception:
             return JsonResponse({'errno': '1', 'message': '用户id错误'})
-    try:
-        attendance_obj = ZgAttendance.objects.get(sign_in_time__year=year, sign_in_time__month=month,
-                                                  sign_in_time__day=day,
-                                                  user_name=user_profile)
-    except Exception:
-        return JsonResponse({'errno': '2', 'message': '当前考勤信息为空'})
+
+    # try:
+    attendance_obj = ZgAttendance.objects.filter(sign_in_time__year=str(year), sign_in_time__month=str(month),
+                                                sign_in_time__day=str(day),
+                                                user_name=user_profile)
+    attendance_obj=attendance_obj[0]
+    # except Exception:
+    #     return JsonResponse({'errno': '2', 'message': '获取考勤信息失败'})
+    print(attendance_obj.sign_in_time)
+
 
     return JsonResponse({'errno': '0', 'message': '成功',
                          'sign_in_explain': attendance_obj.sign_in_explain,
@@ -176,6 +183,7 @@ def month_attendance_tools(user_profile, months):
                                                        sign_off_time__year=year,
                                                        sign_off_time__month=months
                                                        ).count()
+
     except Exception:
         return ({'errno': '1', 'message': '获取打卡天数失败'})
 
@@ -227,6 +235,7 @@ def month_attendance_tools(user_profile, months):
     except Exception:
         return ({'errno': '6', 'message': '获取缺卡天数失败'})
 
+
     month = months
     monthRange = calendar.monthrange(int(year), months)
     month_count = monthRange[1]
@@ -263,10 +272,9 @@ def month_attendance_tools(user_profile, months):
 
     return {'attendance_count': attendance_count, 'outsidework_count': outsidework_count,
             'overdue_count': overdue_count, 'leave_early_count': leave_early_count, 'leave_count': leave_count,
-            'absenteeism_count': absenteeism_count, 'month': month, 'month_count': month_count,
-            'month_week': month_week,
-            'normal_list': normal_list, 'outside_work_list': outside_work_list, 'no_normal_list': no_normal_list
-            }
+            'absenteeism_count': absenteeism_count, 'month':month,'month_count':month_count,'month_week':month_week,
+            'normal_list':normal_list,'outside_work_list':outside_work_list,'no_normal_list':no_normal_list,
+            'user_name':user_profile.full_name,'user_avatar':avatar.absolute_avatar_url(user_profile)}
 
 
 # web个人月考勤统计
@@ -275,9 +283,10 @@ def solo_month_attendance_web(request, user_profile):
     user_id = request.GET.get('user_id')
     if user_id:
         try:
-            user_profile = UserProfile.objects.get(id=user_id)
+            user_profile=UserProfile.objects.get(id=user_id)
         except Exception:
-            return JsonResponse({'errno': '0', 'message': '用户id错误'})
+
+            return JsonResponse({'errno':'1','message':'用户id错误'})
 
     month1 = int(month) - (int(page) - 1) * 2
     month2 = month1 - 1
@@ -332,8 +341,8 @@ def attendances_day(request, user_profile):
     for user_obj in user_obj_list:
         try:
             attendance_obj = ZgAttendance.objects.get(sign_in_time__month=month, sign_in_time__year=year,
-                                                      sign_in_time__day=day,
-                                                      user_name=user_obj)
+                                                            sign_in_time__day=day,
+                                                            user_name=user_obj)
         except Exception:
             continue
         attendance_obj_list.append(attendance_obj)
@@ -352,7 +361,7 @@ def attendances_day(request, user_profile):
                          'actual_arrival_count': actual_arrival_count,
                          'should_arrival_count': should_arrival_count,
                          'attendances_list': attendances_list,
-                         'attendances_member_list': attendances_member_view(user_profile, attendances_id)
+                         'attendances_member_list': attendances_member_view(user_profile,attendances_id)
                          })
 
 
@@ -378,7 +387,7 @@ def add_attendances(request, user_profile):
     # 范围=>int
     attendances_range = req.get('range')
     print(attendances_date, attendances_latitude, attendances_name, attendances_range, attendances_location,
-          attendances_longitude, attendances_member_list, attendances_rest_time, attendances_jobs_time)
+         attendances_longitude, attendances_member_list, attendances_rest_time, attendances_jobs_time)
     if not all(
         [attendances_date, attendances_latitude, attendances_name, attendances_range, attendances_location,
          attendances_longitude, attendances_member_list, attendances_rest_time, attendances_jobs_time]):
@@ -433,16 +442,13 @@ def update_attendances(request, user_profile):
     if attendances_name:
         attendances_obj.attendances_name = attendances_name
     if attendances_member_dict:
-        print(attendances_member_dict)
-        for key, value in attendances_member_dict.items():
+        for k, v in attendances_member_dict:
             try:
-                user_obj = UserProfile.objects.get(id=int(key))
-                user_obj.atendance = ZgDepartmentAttendance.objects.get(id=int(value))
-                user_obj.save()
-
+                user_obj = UserProfile.objects.get(id=int(k))
             except Exception:
                 return JsonResponse({'errno': '2', 'message': '用户id错误'})
-
+            user_obj.atendance = v
+            user_obj.save()
     if attendances_jobs_time:
         attendances_obj.jobs_time = attendances_jobs_time
     if attendances_rest_time:
@@ -458,8 +464,6 @@ def update_attendances(request, user_profile):
     if attendances_range:
         attendances_obj.default_distance = attendances_range
     attendances_obj.save()
-
-    print(user_profile.atendance)
     return JsonResponse({'errno': '0', 'message': '修改成功'})
 
 
@@ -476,10 +480,10 @@ def del_attendances(request, user_profile):
             user_obj.save()
 
         ZgDepartmentAttendance.objects.get(id=attendances_id).delete()
-
     except Exception:
         return JsonResponse({'errno': '1', 'message': '删除失败'})
     return JsonResponse({'errno': '0', 'message': '删除成功'})
+
 
 
 # 获取单个考勤组
