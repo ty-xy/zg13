@@ -118,7 +118,9 @@ def attendance_day_solo(request, user_profile):
     user_date = request.GET.get("user_date")
     user_id = request.GET.get("user_id")
     if user_date:
-        stockpile_time = datetime.strptime(user_date, '%Y-%m-%d ')
+
+        stockpile_time = datetime.strptime(user_date, '%Y-%m-%d')
+
         year = stockpile_time.year
         month = stockpile_time.month
         day = stockpile_time.day
@@ -130,8 +132,6 @@ def attendance_day_solo(request, user_profile):
         month = stockpile_time.month
         day = stockpile_time.day
 
-
-
     if user_id:
         try:
             user_profile = UserProfile.objects.get(id=user_id)
@@ -139,18 +139,26 @@ def attendance_day_solo(request, user_profile):
             return JsonResponse({'errno': '1', 'message': '用户id错误'})
 
     try:
-        attendance_obj = ZgAttendance.objects.filter(sign_in_time__year=str(year), sign_in_time__month=str(month),
-                                                     sign_in_time__day=str(day),
-                                                     user_name=user_profile)
-        attendance_obj = attendance_obj[0]
+        attendance_obj = ZgAttendance.objects.get(sign_in_time__year=str(year), sign_in_time__month=str(month),
+                                                  sign_in_time__day=str(day),
+                                                  user_name=user_profile)
+
+        sign_in_explain = attendance_obj.sign_in_explain
+        sign_off_explain = attendance_obj.sign_off_explain
+        sign_in_time = attendance_obj.sign_in_time
+        sign_off_time = attendance_obj.sign_off_time
+
     except Exception:
-        return JsonResponse({'errno': '2', 'message': '获取考勤信息失败'})
+        sign_in_explain = ''
+        sign_off_explain = ''
+        sign_in_time = ''
+        sign_off_time = ''
 
     return JsonResponse({'errno': '0', 'message': '成功',
-                         'sign_in_explain': attendance_obj.sign_in_explain,
-                         'sign_off_explain': attendance_obj.sign_off_explain,
-                         "sign_in_time": attendance_obj.sign_in_time,
-                         'sign_off_time': attendance_obj.sign_off_time,
+                         'sign_in_explain': sign_in_explain,
+                         'sign_off_explain': sign_off_explain,
+                         "sign_in_time": sign_in_time,
+                         'sign_off_time': sign_off_time,
                          'attendance_name': user_profile.atendance.attendance_name,
                          'jobs_time': user_profile.atendance.jobs_time,
                          'rest_time': user_profile.atendance.rest_time,
@@ -173,7 +181,7 @@ def attendances_member_view(user_profile, attendances_id):
 
 # 月考勤信息工具
 # 缺少外勤信息，请假信息
-def month_attendance_tools(user_profile,year, months):
+def month_attendance_tools(user_profile, year, months):
     try:
         # 本月打卡天数
         attendance_count = ZgAttendance.objects.filter(user_name=user_profile, sign_in_time__year=year,
@@ -272,7 +280,8 @@ def month_attendance_tools(user_profile,year, months):
             'absenteeism_count': absenteeism_count, 'month': month, 'month_count': month_count,
             'month_week': month_week,
             'normal_list': normal_list, 'outside_work_list': outside_work_list, 'no_normal_list': no_normal_list,
-            'user_name': user_profile.full_name, 'user_avatar': avatar.absolute_avatar_url(user_profile)}
+            'user_name': user_profile.full_name,
+            'year': year, 'user_avatar': avatar.absolute_avatar_url(user_profile)}
 
 
 # web个人月考勤统计
@@ -306,7 +315,7 @@ def solo_month_attendance_web(request, user_profile):
     month_list.append(month2)
     month_attendance_list = []
     for months in month_list:
-        month_attendance_list.append(month_attendance_tools(user_profile,year,months))
+        month_attendance_list.append(month_attendance_tools(user_profile, year, months))
 
     return JsonResponse({'errno': '0', 'message': '成功', 'super_user': user_profile.is_realm_admin,
                          "month_attendance_list": month_attendance_list})
