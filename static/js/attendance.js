@@ -275,12 +275,8 @@ var attendance = (function () {
                                         data_list:data_list
                                         }));
                                        $(".attendance_ctn").html(html)
-                                    //    var lis = $(".attendance_ctn").children()
                                        $(".attendance_ctn").on('click',".back_attendance",function(){
                                         $(".attendance_ctn").empty()
-                                        // var html = $(templates.render('attendance_management',{
-                                        //     data_list:lis
-                                        //     }));
                                            $(".attendance_ctn").html(html)
                                       })
                                        $(".attendance_ctn").on("click",".button-delete",function(){
@@ -341,15 +337,10 @@ var attendance = (function () {
                                       
                                     }
                                  })
-                           
                             })
-                            //新增加项目
-                            // $(".attendance_ctn").on('click',".back_attendance",function(){
-                            //     var html = templates.render("attendance_management");
-                            //     $(".attendance_ctn").html(html)
-                            // })
                             $(".attendance_ctn").on('click',".new_attendance",function(){
                                 // var lis  =  $(".attendance_ctn").children()
+                                $(".attendance_ctn").empty()
                                 var html = templates.render("attendance_team");
                                 $(".attendance_ctn").html(html)
                                 
@@ -383,19 +374,8 @@ var attendance = (function () {
                         }
                 }
             })     
-           //点击考勤组的样式
-        //    $(".attendance_mangement").on('click',function(){
-        //        $(this).addClass("high_light").siblings().removeClass("high_light")
-        //        var html = templates.render("attendance_management");
-        //        $(".attendance_ctn").html(html)
-        //    })
-           // 公共函数
-               //接入地点
              
            function commonf(){
-                
-                //选择日期
-                //接入地点
                 $(".attendance_ctn").on('click',".kaoqin-era",function(){
                     $('#map-area').show()
                     $("#map-area").on('click','.place-sure',function(){
@@ -422,7 +402,7 @@ var attendance = (function () {
                     $(".kaoqin-date-choose").hide()
                 })
                 //接入人员
-                $('.attendance_ctn').on("click",".button-common-people",function(e){ 
+                $(".button-common-people").on("click",function(e){ 
                     //显示模态框
                     $(".modal-log").show()
                    //获取数据
@@ -724,8 +704,9 @@ var attendance = (function () {
            }
            //点击提交的公共函数
            function commit(){
-                $(".attendance_ctn").on("click",".button-submit-common",function(){
+                $(".button-submit-common").on("click",function(){
                         var data_list = commonContent()
+                        console.log(123)
                         channel.post({
                             url:'/json/zg/attendances/add/',
                             data:JSON.stringify(data_list),
@@ -740,7 +721,7 @@ var attendance = (function () {
                     })
            }
            function update(id){
-            $(".attendance_ctn").on("click",".button-submit-update",function(){
+            $(".button-submit-update").on("click",function(){
                 var data_list = commonContent()
                 data_list.attendances_id = id
                 channel.put({
