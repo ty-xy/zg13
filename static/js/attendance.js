@@ -32,8 +32,9 @@ var attendance = (function () {
                             minViewMode:2,
                             autoclose: true
                             }).on("changeDate",function(){
-                                // var select_year = $(this).val();
-                                // checkCalendar(user_id,select_year);
+                                console.log("000111---")
+                                var select_year = $(this).val();
+                                checkCalendar(user_id,select_year);
                                 
                         }); 
                         //获取个人单天考勤信息
@@ -42,6 +43,8 @@ var attendance = (function () {
                             url:"json/zg/attendance/day/solo",
                             contentType:"application/json",
                             success:function(res){
+                                console.log(res)
+                                console.log("hello")
                                 var attendance_name = res.attendance_name;
                                 var jobs_time = res.jobs_time;
                                 var location = res.location;
@@ -77,6 +80,29 @@ var attendance = (function () {
                             var _this = $(this);
                             checkOne(user_date,user_id,year,month,_this)
                         })
+
+                        //测试功能
+                        // function searchPerson(_this){
+                        //     var _this = _this;
+                            // $(".attendance_bottom_search_person").change(function(){
+                            //     console.log("hello")
+                            //     var searchText = $(this).val();
+                            //     var $searchLi = "";
+                            //     if(searchText != ""){
+                            //         $searchLi = $(".attendance_bottom_ctn").find('a:contains('+ searchText +')').parent();
+                            //         $(".attendance_bottom_ctn").html("");
+                            //     }
+                            //     $(".attendance_bottom_ctn").html($searchLi).clone();
+                            //     $("searchText").change();
+                            //     if ($searchLi.length <= 0) {
+                            //         $(".attendance_bottom_ctn").html("<li>not find</li>")
+                            //     }
+                            //     // $("input[type=submit]").click(function () {
+                            //     //     $("searchText").change();
+                            //     // })
+                            // })
+                        // }
+                        //测试功能
                     }
                 })
             }
@@ -112,8 +138,9 @@ var attendance = (function () {
                             minViewMode:2,
                             autoclose: true
                             }).on("changeDate",function(){
-                                // var select_year = $(this).val();
-                                // checkCalendar(user_id,select_year);
+                                console.log("0000")
+                                var select_year = $(this).val();
+                                checkCalendar(user_id,select_year);
                                 
                         }); 
                         //获取个人单天考勤信息
@@ -220,6 +247,7 @@ var attendance = (function () {
                     }
                 })
             }
+            
             $.ajax({
                     type:"GET",
                     url:"json/zg/attendances/day",
