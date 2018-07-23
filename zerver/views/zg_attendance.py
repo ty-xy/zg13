@@ -388,7 +388,9 @@ def attendances_day(request, user_profile):
 # 添加考勤组
 def add_attendances(request, user_profile):
     req = request.body
+    print(req)
     req = req.decode()
+    print(req)
     req = json.loads(req)
     attendances_name = req.get('name')
 
