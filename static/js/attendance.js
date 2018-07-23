@@ -303,7 +303,6 @@ var attendance = (function () {
                                 //考勤组样式切换
                                 $(this).addClass("gray_bg").siblings().removeClass("gray_bg");
                                 checkOut(attendances_id);
-                                // get_solo()
                             })
                             //查看考勤日历
                             $(".attendance_bottom_ctn").on("click",".attendance_bottom_calendar",function(){
