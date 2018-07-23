@@ -284,7 +284,7 @@ def month_attendance_tools(user_profile, year, months):
             'year': year, 'user_avatar': avatar.absolute_avatar_url(user_profile)}
 
 
-# web个人月考勤统计
+# web个人月考勤统计（两月）
 def solo_month_attendance_web(request, user_profile):
     page = request.GET.get('page', 1)
     user_id = request.GET.get('user_id')
@@ -320,7 +320,7 @@ def solo_month_attendance_web(request, user_profile):
                          "month_attendance_list": month_attendance_list})
 
 
-# 管理单天
+# 团队管理考勤单天
 # 缺少外勤，请假
 def attendances_day(request, user_profile):
     if not user_profile.is_realm_admin:
@@ -590,7 +590,6 @@ def attendance_repair(request, user_profile):
 
 def testFuncton():
     print("Hello Scheduler")
-
 
 # =======================================================
 
