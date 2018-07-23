@@ -324,8 +324,22 @@ var attendance = (function () {
                                                           data.member_list.forEach(function(val){
                                                                idIndex.push(val.id)
                                                           })
-                                                        //   console.log(idIndex)
-                                                        //   console.log()
+                                                          $(".attendance_ctn .button-time").datetimepicker({
+                                                            language:"zh-CN",  
+                                                            weekStart: 1,
+                                                            todayBtn:  0,
+                                                            autoclose: 1,
+                                                            todayHighlight: 1,
+                                                            startView: 1,
+                                                            minView: 0,
+                                                            showHours : true,
+                                                            // minuteStep:1,
+                                                            maxView: 1,
+                                                            forceParse: 0,
+                                                            format:'hh:ii:00',
+                                                            })
+                                                         $(".button-job").val(data.jobs_time)
+                                                         $(".button-rest").val(data.rest_time)
                                                          $(".kaoqin-era").attr("location",data.longitude+","+data.latitude)
                                                          $(".button-common-people").attr("data_id",idIndex)
                                                          commonf()
@@ -623,7 +637,7 @@ var attendance = (function () {
            }
            // 公共参数
            function commonContent(){
-            settime()
+            // settime()
             var name = $(".title-input").val()
             if(name==""){
                 alert('请填写考勤组的名字','rgba(169,12,0,0.30)')
@@ -706,7 +720,9 @@ var attendance = (function () {
            function commit(){
                 $(".button-submit-common").on("click",function(){
                         var data_list = commonContent()
-                        console.log(123)
+                        if(data_list){
+                        $(".button-submit").attr("disabled", true);
+                        $(".button-submit").css("background-color","#ccc")
                         channel.post({
                             url:'/json/zg/attendances/add/',
                             data:JSON.stringify(data_list),
@@ -714,27 +730,37 @@ var attendance = (function () {
                             success:function(data){
                                 console.log(data)
                                 if(data.errno==0){
+                                    $(".button-submit").css("background-color","#14A4FA")
+                                    $(".button-submit").attr("disabled", false);
                                     $(".attendance_md").hide();
                                 }
                             }
                         })
-                    })
+                    }
+                        
+                })
            }
            function update(id){
             $(".button-submit-update").on("click",function(){
                 var data_list = commonContent()
-                data_list.attendances_id = id
-                channel.put({
-                    url:'json/zg/attendances/update/',
-                    data:JSON.stringify(data_list),
-                    contentType:"application/json",
-                    success:function(data){
-                        console.log(data)
-                        if(data.errno==0){
-                            $(".attendance_md").hide();
+                if(data_list){
+                    $(".button-submit-update").attr("disabled", true);
+                    $(".button-submit-update").css("background-color","#ccc")
+                    data_list.attendances_id = id
+                    channel.put({
+                        url:'json/zg/attendances/update/',
+                        data:JSON.stringify(data_list),
+                        contentType:"application/json",
+                        success:function(data){
+                            console.log(data)
+                            if(data.errno==0){
+                                $(".button-submit-update").css("background-color","#14A4FA")
+                                $(".button-submit-update").attr("disabled", false);
+                                $(".attendance_md").hide();
+                            }
                         }
-                    }
-                })
+                    })
+                }
             })
            }
            //新增加项目
@@ -872,19 +898,19 @@ var attendance = (function () {
            })
        }
 
-    var countdown = 10;
-    function settime() {
-        if(countdown == 0) {
-            $(".button-submit").attr("disabled", false);
-            // $("#btn").attr("value", "免费获取验证码");
-            countdown = 10;
-        } else {
-            $(".button-submit").attr("disabled", true);
-            // $("#btn").attr("value", "重新发送(" + countdown + ")");
-            countdown--;
-            setTimeout(settime, 1000)
-        }
-    }
+    // var countdown = 10;
+    // function settime() {
+    //     if(countdown == 0) {
+    //         $(".button-submit").attr("disabled", false);
+    //         // $("#btn").attr("value", "免费获取验证码");
+    //         countdown = 10;
+    //     } else {
+    //         $(".button-submit").attr("disabled", true);
+    //         // $("#btn").attr("value", "重新发送(" + countdown + ")");
+    //         countdown--;
+    //         setTimeout(settime, 1000)
+    //     }
+    // }
           
         })  
     });  
