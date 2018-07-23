@@ -498,7 +498,6 @@ def del_attendances(request, user_profile):
         for user_obj in user_obj_list:
             user_obj.atendance = None
             user_obj.save()
-
         ZgDepartmentAttendance.objects.get(id=attendances_id).delete()
     except Exception:
         return JsonResponse({'errno': '1', 'message': '删除失败'})

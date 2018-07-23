@@ -638,9 +638,6 @@ var attendance = (function () {
                     $(".kaoqin-date-choose").hide()
                 })
                 //点击提交
-              
-                
-           
            }
            // 公共参数
            function commonContent(){
