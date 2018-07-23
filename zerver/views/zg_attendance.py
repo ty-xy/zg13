@@ -391,7 +391,9 @@ def attendances_day(request, user_profile):
 # 添加考勤组
 def add_attendances(request, user_profile):
     req = request.body
+    print(req)
     req = req.decode()
+    print(req)
     req = json.loads(req)
     attendances_name = req.get('name')
 
@@ -504,7 +506,6 @@ def del_attendances(request, user_profile):
         for user_obj in user_obj_list:
             user_obj.atendance = None
             user_obj.save()
-
         ZgDepartmentAttendance.objects.get(id=attendances_id).delete()
     except Exception:
         return JsonResponse({'errno': '1', 'message': '删除失败'})
