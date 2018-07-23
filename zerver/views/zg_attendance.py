@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponseRedirect
+from django.core.urlresolvers import reverse
 from zerver.decorator import zulip_login_required
 from zerver.models import ZgAttendance, ZgOutsideWork, ZgDepartmentAttendance, UserProfile
 from tools.zg_tools.zg_attendance_tools import haversine
@@ -120,7 +121,6 @@ def attendance_day_solo(request, user_profile):
     if user_date:
 
         stockpile_time = datetime.strptime(user_date, '%Y-%m-%d')
-
         year = stockpile_time.year
         month = stockpile_time.month
         day = stockpile_time.day
@@ -294,7 +294,6 @@ def solo_month_attendance_web(request, user_profile):
         year = stockpile_time.year
         month = 12
 
-
     else:
         stockpile_time = datetime.utcnow()
         stockpile_time = stockpile_time.replace(tzinfo=timezone.utc)
@@ -326,7 +325,6 @@ def solo_month_attendance_web(request, user_profile):
 def attendances_day(request, user_profile):
     if not user_profile.is_realm_admin:
         return JsonResponse({'errno': '888'})
-
     attendances_id = request.GET.get('attendances_id')
     dates = request.GET.get('date')
 
@@ -344,6 +342,11 @@ def attendances_day(request, user_profile):
         day = stockpile_time.day
     attendances_obj_list = ZgDepartmentAttendance.objects.all()
     if not attendances_id:
+        if not attendances_obj_list:
+            if user_profile.is_realm_admin:
+                return JsonResponse({'errno': '11', 'message': '请创建考勤组', 'super_user': user_profile.is_realm_admin})
+            else:
+                return JsonResponse({'errno': '22', 'message': '暂无考勤组，请联系管理员创建考勤组'})
         attendances_id = attendances_obj_list[0]
     # 用户组信息
     attendances_list = list()
@@ -461,7 +464,7 @@ def update_attendances(request, user_profile):
         return JsonResponse({'errno': '1', 'message': '考勤组id错误'})
     if attendances_name:
         attendances_obj.attendance_name = attendances_name
-        print(attendances_obj.attendance_name )
+        print(attendances_obj.attendance_name)
         print(111111)
         attendances_obj.save()
     if attendances_member_dict:
@@ -587,3 +590,8 @@ def attendance_repair(request, user_profile):
 
 def testFuncton():
     print("Hello Scheduler")
+
+
+# =======================================================
+
+# 个人考勤
