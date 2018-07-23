@@ -159,7 +159,7 @@ def attendance_day_solo(request, user_profile):
                          'sign_off_explain': sign_off_explain,
                          "sign_in_time": sign_in_time,
                          'sign_off_time': sign_off_time,
-                         'attendance_name': user_profile.atendance.attendance_name,
+                         'attendance_name': user_profile.atendance,
                          'jobs_time': user_profile.atendance.jobs_time,
                          'rest_time': user_profile.atendance.rest_time,
                          'location': user_profile.atendance.site
@@ -460,15 +460,18 @@ def update_attendances(request, user_profile):
     except Exception:
         return JsonResponse({'errno': '1', 'message': '考勤组id错误'})
     if attendances_name:
-        attendances_obj.attendances_name = attendances_name
+        attendances_obj.attendance_name = attendances_name
+        print(attendances_obj.attendance_name )
+        print(111111)
+        attendances_obj.save()
     if attendances_member_dict:
-        for k, v in attendances_member_dict:
+        for key, value in attendances_member_dict.items():
             try:
-                user_obj = UserProfile.objects.get(id=int(k))
+                user_obj = UserProfile.objects.get(id=int(key))
+                user_obj.atendance = attendances_obj
+                user_obj.save()
             except Exception:
                 return JsonResponse({'errno': '2', 'message': '用户id错误'})
-            user_obj.atendance = v
-            user_obj.save()
     if attendances_jobs_time:
         attendances_obj.jobs_time = attendances_jobs_time
     if attendances_rest_time:
