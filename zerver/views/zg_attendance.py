@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponseRedirect
+from django.core.urlresolvers import reverse
 from zerver.decorator import zulip_login_required
 from zerver.models import ZgAttendance, ZgOutsideWork, ZgDepartmentAttendance, UserProfile
 from tools.zg_tools.zg_attendance_tools import haversine
@@ -117,10 +118,18 @@ def sign_in_def(request, user_profile):
 def attendance_day_solo(request, user_profile):
     user_date = request.GET.get("user_date")
     user_id = request.GET.get("user_id")
+
+    if user_id:
+        try:
+            user_profile = UserProfile.objects.get(id=user_id)
+        except Exception:
+            return JsonResponse({'errno': '1', 'message': '用户id错误'})
+    if not user_profile.atendance:
+        return JsonResponse({'errno': '223', 'message': '该用户不属于任何考勤组'})
+
     if user_date:
 
         stockpile_time = datetime.strptime(user_date, '%Y-%m-%d')
-
         year = stockpile_time.year
         month = stockpile_time.month
         day = stockpile_time.day
@@ -132,11 +141,7 @@ def attendance_day_solo(request, user_profile):
         month = stockpile_time.month
         day = stockpile_time.day
 
-    if user_id:
-        try:
-            user_profile = UserProfile.objects.get(id=user_id)
-        except Exception:
-            return JsonResponse({'errno': '1', 'message': '用户id错误'})
+    
 
     try:
         attendance_obj = ZgAttendance.objects.get(sign_in_time__year=str(year), sign_in_time__month=str(month),
@@ -281,19 +286,29 @@ def month_attendance_tools(user_profile, year, months):
             'month_week': month_week,
             'normal_list': normal_list, 'outside_work_list': outside_work_list, 'no_normal_list': no_normal_list,
             'user_name': user_profile.full_name,
-            'year': year, 'user_avatar': avatar.absolute_avatar_url(user_profile)}
+            'year': year, 'user_avatar': avatar.absolute_avatar_url(user_profile),
+            'user_atendance':user_profile.atendance.id}
 
 
-# web个人月考勤统计
+# web个人月考勤统计（两月）
 def solo_month_attendance_web(request, user_profile):
     page = request.GET.get('page', 1)
     user_id = request.GET.get('user_id')
-    user_date = request.GET.get("user_date")
-    if user_date:
-        stockpile_time = datetime.strptime(user_date, '%Y')
-        year = stockpile_time.year
-        month = 12
+    user_date = request.GET.get("select_year")
+    if user_id:
+        try:
+            user_profile = UserProfile.objects.get(id=user_id)
+        except Exception:
+            return JsonResponse({'errno': '1', 'message': '用户id错误'})
+    if not user_profile.atendance:
+        return JsonResponse({'errno': '223', 'message': '该用户不属于任何考勤组'})
 
+
+    if user_date != 'undefined':
+        user_date=user_date+'-12-10'
+        stockpile_time = datetime.strptime(user_date, '%Y-%m-%d')
+        year = stockpile_time.year
+        month = stockpile_time.month
 
     else:
         stockpile_time = datetime.utcnow()
@@ -301,12 +316,7 @@ def solo_month_attendance_web(request, user_profile):
         year = stockpile_time.year
         month = stockpile_time.month
 
-    if user_id:
-        try:
-            user_profile = UserProfile.objects.get(id=user_id)
-        except Exception:
 
-            return JsonResponse({'errno': '1', 'message': '用户id错误'})
 
     month1 = int(month) - (int(page) - 1) * 2
     month2 = month1 - 1
@@ -321,12 +331,11 @@ def solo_month_attendance_web(request, user_profile):
                          "month_attendance_list": month_attendance_list})
 
 
-# 管理单天
+# 团队管理考勤单天
 # 缺少外勤，请假
 def attendances_day(request, user_profile):
     if not user_profile.is_realm_admin:
         return JsonResponse({'errno': '888'})
-
     attendances_id = request.GET.get('attendances_id')
     dates = request.GET.get('date')
 
@@ -344,6 +353,11 @@ def attendances_day(request, user_profile):
         day = stockpile_time.day
     attendances_obj_list = ZgDepartmentAttendance.objects.all()
     if not attendances_id:
+        if not attendances_obj_list:
+            if user_profile.is_realm_admin:
+                return JsonResponse({'errno': '11', 'message': '请创建考勤组', 'super_user': user_profile.is_realm_admin})
+            else:
+                return JsonResponse({'errno': '22', 'message': '暂无考勤组，请联系管理员创建考勤组'})
         attendances_id = attendances_obj_list[0]
     # 用户组信息
     attendances_list = list()
@@ -388,7 +402,9 @@ def attendances_day(request, user_profile):
 # 添加考勤组
 def add_attendances(request, user_profile):
     req = request.body
+    print(req)
     req = req.decode()
+    print(req)
     req = json.loads(req)
     attendances_name = req.get('name')
 
@@ -460,15 +476,18 @@ def update_attendances(request, user_profile):
     except Exception:
         return JsonResponse({'errno': '1', 'message': '考勤组id错误'})
     if attendances_name:
-        attendances_obj.attendances_name = attendances_name
+        attendances_obj.attendance_name = attendances_name
+        print(attendances_obj.attendance_name)
+        print(111111)
+        attendances_obj.save()
     if attendances_member_dict:
-        for k, v in attendances_member_dict:
+        for key, value in attendances_member_dict.items():
             try:
-                user_obj = UserProfile.objects.get(id=int(k))
+                user_obj = UserProfile.objects.get(id=int(key))
+                user_obj.atendance = attendances_obj
+                user_obj.save()
             except Exception:
                 return JsonResponse({'errno': '2', 'message': '用户id错误'})
-            user_obj.atendance = v
-            user_obj.save()
     if attendances_jobs_time:
         attendances_obj.jobs_time = attendances_jobs_time
     if attendances_rest_time:
@@ -498,7 +517,6 @@ def del_attendances(request, user_profile):
         for user_obj in user_obj_list:
             user_obj.atendance = None
             user_obj.save()
-
         ZgDepartmentAttendance.objects.get(id=attendances_id).delete()
     except Exception:
         return JsonResponse({'errno': '1', 'message': '删除失败'})
@@ -584,3 +602,7 @@ def attendance_repair(request, user_profile):
 
 def testFuncton():
     print("Hello Scheduler")
+
+# =======================================================
+
+# 个人考勤

@@ -16,21 +16,22 @@
                     <span class="kaoqin-door">考勤组参与人员:</span>
                     <button class="button-common-people">
                         {{#each member_list}}
-                        {{name}}
+                           {{name}}
                         {{/each}}
                     </button>
                 </div>
            </li>
              <li class="kaoqin-common">
                 <h2>规则设置</h2>
-                <div class="title-common">
+                <div class="title-common title-date">
                     <span class="kaoqin-place">考勤时间</span>
-                    <input class="button-common button-input button-job" type="text" placeholder="00:00" value= {{jobs_time}} />
-                    <input class="button-common button-input button-rest" type="text" placeholder="00:00" value= {{rest_time}} />
+                    {{!-- <input class="button-time" placeholder="00"/> --}}
+                    <input class="button-input button-job button-time"  placeholder="00:00"  />
+                    <input class="button-input button-rest button-time"  placeholder="00:00"  />
                 </div>
                   <div class="title-common">
                     <span class="kaoqin-place">考勤日期</span>
-                    <button class="button-common-date">{{date}}</button>
+                    <button class="button-common-date">{{attendance_time_list}}</button>
                 </div>
            </li>
              <li class="kaoqin-common">
@@ -51,7 +52,7 @@
            </li>
         </ul>
         <div class="new-button-bottom">
-            <button class="button-submit">提交</button>
+            <button class="button-submit-update">提交</button>
         </div>
     </div>
     {{/each}}

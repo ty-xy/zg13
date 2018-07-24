@@ -600,6 +600,7 @@ post_delete.connect(flush_realm_filter, sender=RealmFilter)
 class ZgDepartmentAttendance(models.Model):
     attendance_name = models.CharField(max_length=50, verbose_name="考勤组名")
 
+
     jobs_time = models.TimeField(default="08:00:00", verbose_name="上班时间")
     rest_time = models.TimeField(default="18:00:00", verbose_name="下班时间")
 

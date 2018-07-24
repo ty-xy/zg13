@@ -12,9 +12,11 @@
                             {{!-- <p class="calendar_screen_select">2018年</p> --}}
                             <input type="text"  id="calendar_screen_select" class="calendar_screen_select" value="2018">
                         </div>
-                        <div class="calendar_return">
+                        {{!-- {{#each month_attendance_list}} --}}
+                        <div class="calendar_return" attendances_id="{{attendances_id}}">
                             返回
                         </div>
+                        {{!-- {{/each}} --}}
                     </div>
                     
                 </div>
