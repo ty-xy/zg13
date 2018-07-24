@@ -1,13 +1,9 @@
-from django.shortcuts import redirect, render
-from django.http import JsonResponse, HttpResponseRedirect
-from django.core.urlresolvers import reverse
-from zerver.decorator import zulip_login_required
+from django.http import JsonResponse
 from zerver.models import ZgAttendance, ZgOutsideWork, ZgDepartmentAttendance, UserProfile
-from tools.zg_tools.zg_attendance_tools import haversine
+from zerver.views.zg_tools import haversine
 from django.db.models import Q
 import calendar
 from datetime import datetime, timezone, timedelta
-import time
 from zerver.lib import avatar
 import json
 
@@ -17,10 +13,11 @@ stockpile_time = stockpile_time.replace(tzinfo=timezone.utc)
 year = stockpile_time.year
 month = stockpile_time.month
 day = stockpile_time.day
+nowTime = stockpile_time.time()
 tzutc_8 = timezone(timedelta(hours=8))
 stockpile_time = stockpile_time.astimezone(tzutc_8) + timedelta(hours=8)
 
-nowTime = stockpile_time.time()
+
 
 
 # number = calendar.monthrange(nowTime.year, nowTime.month)[1]
@@ -592,6 +589,66 @@ def attendance_repair(request, user_profile):
 def testFuncton():
     print("Hello Scheduler")
 
+
 # =======================================================
 
 # 个人考勤
+# 打卡球：
+def sign_in_view(request, user_profile):
+    staff = user_profile.atendance
+    if not staff:
+        return JsonResponse({'errno': '1', 'message': '您暂无考勤组，请联系管理员设置考勤组'})
+    stockpile_time = datetime.utcnow()
+    stockpile_time = stockpile_time.replace(tzinfo=timezone.utc)
+    year = stockpile_time.year
+    month = stockpile_time.month
+    day = stockpile_time.day
+    tzutc_8 = timezone(timedelta(hours=8))
+
+    nowTime = stockpile_time.time()
+    # 获取经纬度
+    my_longitude = request.GET.get('longitude')
+    my_latitude = request.GET.get('latitude')
+
+    if not all([my_longitude, my_latitude]):
+        return JsonResponse({'errno': '7', 'message': '地理位置错误'})
+
+    # 获取设置地点
+    longitude = staff.longitude
+    latitude = staff.latitude
+    my_longitude = float(my_longitude)
+    my_latitude = float(my_latitude)
+    longitude = float(longitude)
+    latitude = float(latitude)
+
+    # 计算距离
+    distance = haversine(longitude, latitude, my_longitude, my_latitude)
+
+    # 默认距离
+    default_distance = staff.default_distance
+
+    if distance > default_distance:
+        return JsonResponse({'errno': '0', 'message': '未进入考勤范围，是否选择外勤'})
+
+    else:
+        # 获取规定的上下班时间呢
+        morning_working_time = staff.jobs_time
+        afternoon_rest_time = staff.rest_time
+        print()
+
+        if morning_working_time >= nowTime:
+            return JsonResponse({'errno': '0', 'message': '上班打卡'})
+
+        elif afternoon_rest_time > nowTime > morning_working_time:
+            attendance_time = ZgAttendance.objects.filter(user_name=user_profile,
+                                                          attendance_working_time__year=year,
+                                                          attendance_working_time__month=month,
+                                                          attendance_working_time__day=day).count()
+            if attendance_time == 1:
+                return JsonResponse({'errno': '01', 'message': '下班打卡'})
+
+            return JsonResponse({'errno': '02', 'message': '迟到打卡'})
+
+        elif nowTime >= afternoon_rest_time:
+            print(nowTime,afternoon_rest_time)
+            return JsonResponse({'errno': '0', 'message': '下班打卡'})
