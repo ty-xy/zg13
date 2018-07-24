@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponseRedirect
+from django.core.urlresolvers import reverse
 from zerver.decorator import zulip_login_required
 from zerver.models import ZgAttendance, ZgOutsideWork, ZgDepartmentAttendance, UserProfile
 from tools.zg_tools.zg_attendance_tools import haversine
@@ -117,10 +118,18 @@ def sign_in_def(request, user_profile):
 def attendance_day_solo(request, user_profile):
     user_date = request.GET.get("user_date")
     user_id = request.GET.get("user_id")
+
+    if user_id:
+        try:
+            user_profile = UserProfile.objects.get(id=user_id)
+        except Exception:
+            return JsonResponse({'errno': '1', 'message': '用户id错误'})
+    if not user_profile.atendance:
+        return JsonResponse({'errno': '223', 'message': '该用户不属于任何考勤组'})
+
     if user_date:
 
         stockpile_time = datetime.strptime(user_date, '%Y-%m-%d')
-
         year = stockpile_time.year
         month = stockpile_time.month
         day = stockpile_time.day
@@ -132,11 +141,7 @@ def attendance_day_solo(request, user_profile):
         month = stockpile_time.month
         day = stockpile_time.day
 
-    if user_id:
-        try:
-            user_profile = UserProfile.objects.get(id=user_id)
-        except Exception:
-            return JsonResponse({'errno': '1', 'message': '用户id错误'})
+    
 
     try:
         attendance_obj = ZgAttendance.objects.get(sign_in_time__year=str(year), sign_in_time__month=str(month),
@@ -290,6 +295,15 @@ def solo_month_attendance_web(request, user_profile):
     page = request.GET.get('page', 1)
     user_id = request.GET.get('user_id')
     user_date = request.GET.get("select_year")
+    if user_id:
+        try:
+            user_profile = UserProfile.objects.get(id=user_id)
+        except Exception:
+            return JsonResponse({'errno': '1', 'message': '用户id错误'})
+    if not user_profile.atendance:
+        return JsonResponse({'errno': '223', 'message': '该用户不属于任何考勤组'})
+
+
     if user_date != 'undefined':
         user_date=user_date+'-12-10'
         stockpile_time = datetime.strptime(user_date, '%Y-%m-%d')
@@ -302,12 +316,7 @@ def solo_month_attendance_web(request, user_profile):
         year = stockpile_time.year
         month = stockpile_time.month
 
-    if user_id:
-        try:
-            user_profile = UserProfile.objects.get(id=user_id)
-        except Exception:
 
-            return JsonResponse({'errno': '1', 'message': '用户id错误'})
 
     month1 = int(month) - (int(page) - 1) * 2
     month2 = month1 - 1
@@ -327,7 +336,6 @@ def solo_month_attendance_web(request, user_profile):
 def attendances_day(request, user_profile):
     if not user_profile.is_realm_admin:
         return JsonResponse({'errno': '888'})
-
     attendances_id = request.GET.get('attendances_id')
     dates = request.GET.get('date')
 
@@ -345,6 +353,11 @@ def attendances_day(request, user_profile):
         day = stockpile_time.day
     attendances_obj_list = ZgDepartmentAttendance.objects.all()
     if not attendances_id:
+        if not attendances_obj_list:
+            if user_profile.is_realm_admin:
+                return JsonResponse({'errno': '11', 'message': '请创建考勤组', 'super_user': user_profile.is_realm_admin})
+            else:
+                return JsonResponse({'errno': '22', 'message': '暂无考勤组，请联系管理员创建考勤组'})
         attendances_id = attendances_obj_list[0]
     # 用户组信息
     attendances_list = list()
@@ -462,7 +475,7 @@ def update_attendances(request, user_profile):
         return JsonResponse({'errno': '1', 'message': '考勤组id错误'})
     if attendances_name:
         attendances_obj.attendance_name = attendances_name
-        print(attendances_obj.attendance_name )
+        print(attendances_obj.attendance_name)
         print(111111)
         attendances_obj.save()
     if attendances_member_dict:
@@ -588,3 +601,8 @@ def attendance_repair(request, user_profile):
 
 def testFuncton():
     print("Hello Scheduler")
+
+
+# =======================================================
+
+# 个人考勤

@@ -536,6 +536,7 @@ def upload_message_file(uploaded_file_name: Text, uploaded_file_size: int,
                         content_type: Optional[Text], file_data: bytes,
                         user_profile: UserProfile, target_realm: Optional[Realm]=None) -> Text:
 
+
     return upload_backend.upload_message_file(uploaded_file_name, uploaded_file_size,
                                               content_type, file_data, user_profile,
                                               target_realm=target_realm)

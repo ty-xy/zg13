@@ -65,7 +65,6 @@ var attendance = (function () {
                                 });
                                 $(".calendar_list_box").first().after(calendar_detail);
                                 $(".calendar_list_box").first().children().children().children().eq(n).children().first().addClass("gray_date")
-                                // console.log($(".calendar_list_box").first().children().children().children().eq(m))
                             }
                          })
                         //点击具体日期显示详情
@@ -92,7 +91,7 @@ var attendance = (function () {
                 var select_year = select_year;
                 $.ajax({
                     type:"GET",
-                    url:"json/zg/attendance/month/solo/web",
+                    url:"json/zg/attendance/month/solo/web?select_year="+select_year+"",
                     contentType:"application/json",
                     data:{page:1},
                     success:function(res){
@@ -147,7 +146,6 @@ var attendance = (function () {
                                 });
                                 $(".calendar_list_box").first().after(calendar_detail);
                                 $(".calendar_list_box").first().children().children().children().eq(n).children().first().addClass("gray_date")
-                                // console.log($(".calendar_list_box").first().children().children().children().eq(m))
                             }
                          })
                         //点击具体日期显示详情
@@ -253,7 +251,6 @@ var attendance = (function () {
                         console.log(res)
                         if(res.super_user==true){
                             //确认管理员身份继续请求日统计数据
-                            // var attendances_id
                             var html = templates.render("attendance_box");
                             $(".app").after(html);                       
                             var attendances_list = res.attendances_list;
@@ -262,7 +259,6 @@ var attendance = (function () {
                             var attendance_member = templates.render("attendance_member",{attendances_member_list:attendances_member_list})
                             $(".attendance_ctn").append(attendance_all)
                             $(".attendance_ctn").append(attendance_member)
-                            //
                             $("body").ready(function(){
                                 $(".attendance_groups").children().first().addClass("gray_bg");
                             })
@@ -327,8 +323,7 @@ var attendance = (function () {
                                             var attendance_member = templates.render("attendance_member",{attendances_member_list:attendances_member_list})
                                             $(".attendance_ctn").append(attendance_all)
                                             $(".attendance_ctn").append(attendance_member)
-                                            // console.log($(".attendance_groups_list").filter(""))
-                                            // console.log("---------------")
+                                            $(".attendance_groups_list[name="+attendances_id+"]").addClass("gray_bg")
                                             //搜索全部成员
                                             var p = $(".attendance_bottom_ctn").children();
                                             $(".attendance_bottom_search_person").bind('input propertychange',function(){
