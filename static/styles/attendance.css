@@ -627,3 +627,24 @@ textarea:focus {
 .calendar_list_box{
     padding: 0 14px;
 }
+.personal_space_box{
+    background: #F5F5F5;
+}
+.personal_space_titleA{
+    font-size: 16px;
+    color: #666666;
+    letter-spacing: 0.19px;
+}
+.personal_space_titleB{
+    font-size: 12px;
+    color: #999999;
+    letter-spacing: 0.14px;
+}
+.personal_space_img{
+    width: 259px;
+    height: 111px;
+}
+.personal_space_ctn{
+    text-align: center;
+    margin-top: 200px;
+}
