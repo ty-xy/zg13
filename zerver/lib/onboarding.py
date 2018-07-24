@@ -42,7 +42,7 @@ def send_initial_pms(user: UserProfile) -> None:
      #   "* Type `?` to check out Zulip's keyboard shortcuts\n"
      #   "%s"
      #   "\n"
-     #   "The most important shortcut is `r` to reply.\n\n"
+     #   "The most important shortcut is `r` to reply.\n\n
      #   "Practice sending a few messages by replying to this conversation. If you're not into "
      #   "keyboards, that's okay too; clicking anywhere on this message will also do the trick!") \
         "欢迎使用e建联!\n\n这是[欢迎机器人]发出的私信. "

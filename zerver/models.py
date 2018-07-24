@@ -242,8 +242,11 @@ class Realm(models.Model):
                                    max_length=1)  # type: Text
     icon_version = models.PositiveSmallIntegerField(default=1)  # type: int
 
-    DEFAULT_NOTIFICATION_STREAM_NAME = u'announce'
-    INITIAL_PRIVATE_STREAM_NAME = u'core team'
+#    DEFAULT_NOTIFICATION_STREAM_NAME = u'announce'
+#    INITIAL_PRIVATE_STREAM_NAME = u'core team'
+    DEFAULT_NOTIFICATION_STREAM_NAME = u'通知'
+    INITIAL_PRIVATE_STREAM_NAME = u'核心团队'
+
 
     BOT_CREATION_POLICY_TYPES = [
         BOT_CREATION_EVERYONE,
