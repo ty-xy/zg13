@@ -95,7 +95,7 @@ var management = (function () {
             var over_time = timestamp(inttime);
             var obj = {
                 "task":inttitle,
-                "over_time":over_time,
+                "over_time":over_time+86399,
             }
             var j = JSON.stringify(obj)
             return {
@@ -204,11 +204,13 @@ var management = (function () {
                                 editor()
                                 $('.new_plan').hide()
                                 $('.new_add_task_plan').show()
+                            }else{
+                                
+                                alert(data.message,'rgba(169,12,0,0.30)')
                             }
                         },
                     });
                 }
-             
                 cancel()
             })
             function editor(){
@@ -241,7 +243,7 @@ var management = (function () {
                 var over_time = timestamp(j.inttime);
                 var obj = {
                     "task":j.inttitle,
-                    "over_time":over_time,
+                    "over_time":over_time+86399,
                     "backlog_id":$(this).attr("revise_id")
                 }
                 var data_list ={
@@ -462,7 +464,7 @@ var management = (function () {
                // e.preventDefault();
                $("#up_files #file_inputs").trigger("click");
            });
-           var drop =function(){
+           var drop =function(file){
             $('.process-bar-parent').show()
             $('.uploading-img').show()
             alert(i18n.t("Uploading…"),'rgba(0,107,169,0.30)')
@@ -485,11 +487,12 @@ var management = (function () {
             return uri;
         }
         var uploadError = function (error_code, server_response, file) {
-            // var msg;
-            // send_status.addClass("alert-error")
-            //     .removeClass("alert-info");
-            // send_button.prop("disabled", false);
-            // $("#" + upload_bar).parent().remove();
+            var msg;
+            $('.process-bar-parent').hide()
+            $('.uploading-img').hide()
+            if(error_code=="BrowserNotSupported"&&server_response==undefined){
+                return
+            }
             switch (error_code) {
             case 'BrowserNotSupported':
                 msg = i18n.t("File upload is not yet available for your browser.");
