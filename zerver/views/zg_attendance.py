@@ -118,6 +118,15 @@ def sign_in_def(request, user_profile):
 def attendance_day_solo(request, user_profile):
     user_date = request.GET.get("user_date")
     user_id = request.GET.get("user_id")
+
+    if user_id:
+        try:
+            user_profile = UserProfile.objects.get(id=user_id)
+        except Exception:
+            return JsonResponse({'errno': '1', 'message': '用户id错误'})
+    if not user_profile.atendance:
+        return JsonResponse({'errno': '223', 'message': '该用户不属于任何考勤组'})
+
     if user_date:
 
         stockpile_time = datetime.strptime(user_date, '%Y-%m-%d')
@@ -132,11 +141,7 @@ def attendance_day_solo(request, user_profile):
         month = stockpile_time.month
         day = stockpile_time.day
 
-    if user_id:
-        try:
-            user_profile = UserProfile.objects.get(id=user_id)
-        except Exception:
-            return JsonResponse({'errno': '1', 'message': '用户id错误'})
+    
 
     try:
         attendance_obj = ZgAttendance.objects.get(sign_in_time__year=str(year), sign_in_time__month=str(month),
@@ -159,7 +164,7 @@ def attendance_day_solo(request, user_profile):
                          'sign_off_explain': sign_off_explain,
                          "sign_in_time": sign_in_time,
                          'sign_off_time': sign_off_time,
-                         'attendance_name': user_profile.atendance,
+                         'attendance_name': user_profile.atendance.attendance_name,
                          'jobs_time': user_profile.atendance.jobs_time,
                          'rest_time': user_profile.atendance.rest_time,
                          'location': user_profile.atendance.site
@@ -281,18 +286,29 @@ def month_attendance_tools(user_profile, year, months):
             'month_week': month_week,
             'normal_list': normal_list, 'outside_work_list': outside_work_list, 'no_normal_list': no_normal_list,
             'user_name': user_profile.full_name,
-            'year': year, 'user_avatar': avatar.absolute_avatar_url(user_profile)}
+            'year': year, 'user_avatar': avatar.absolute_avatar_url(user_profile),
+            'user_atendance':user_profile.atendance.id}
 
 
 # web个人月考勤统计（两月）
 def solo_month_attendance_web(request, user_profile):
     page = request.GET.get('page', 1)
     user_id = request.GET.get('user_id')
-    user_date = request.GET.get("user_date")
-    if user_date:
-        stockpile_time = datetime.strptime(user_date, '%Y')
+    user_date = request.GET.get("select_year")
+    if user_id:
+        try:
+            user_profile = UserProfile.objects.get(id=user_id)
+        except Exception:
+            return JsonResponse({'errno': '1', 'message': '用户id错误'})
+    if not user_profile.atendance:
+        return JsonResponse({'errno': '223', 'message': '该用户不属于任何考勤组'})
+
+
+    if user_date != 'undefined':
+        user_date=user_date+'-12-10'
+        stockpile_time = datetime.strptime(user_date, '%Y-%m-%d')
         year = stockpile_time.year
-        month = 12
+        month = stockpile_time.month
 
     else:
         stockpile_time = datetime.utcnow()
@@ -300,12 +316,7 @@ def solo_month_attendance_web(request, user_profile):
         year = stockpile_time.year
         month = stockpile_time.month
 
-    if user_id:
-        try:
-            user_profile = UserProfile.objects.get(id=user_id)
-        except Exception:
 
-            return JsonResponse({'errno': '1', 'message': '用户id错误'})
 
     month1 = int(month) - (int(page) - 1) * 2
     month2 = month1 - 1
