@@ -290,7 +290,7 @@ def month_attendance_tools(user_profile, year, months):
             'user_atendance':user_profile.atendance.id}
 
 
-# web个人月考勤统计
+# web个人月考勤统计（两月）
 def solo_month_attendance_web(request, user_profile):
     page = request.GET.get('page', 1)
     user_id = request.GET.get('user_id')
@@ -331,7 +331,7 @@ def solo_month_attendance_web(request, user_profile):
                          "month_attendance_list": month_attendance_list})
 
 
-# 管理单天
+# 团队管理考勤单天
 # 缺少外勤，请假
 def attendances_day(request, user_profile):
     if not user_profile.is_realm_admin:
@@ -402,7 +402,9 @@ def attendances_day(request, user_profile):
 # 添加考勤组
 def add_attendances(request, user_profile):
     req = request.body
+    print(req)
     req = req.decode()
+    print(req)
     req = json.loads(req)
     attendances_name = req.get('name')
 
@@ -515,7 +517,6 @@ def del_attendances(request, user_profile):
         for user_obj in user_obj_list:
             user_obj.atendance = None
             user_obj.save()
-
         ZgDepartmentAttendance.objects.get(id=attendances_id).delete()
     except Exception:
         return JsonResponse({'errno': '1', 'message': '删除失败'})
@@ -601,7 +602,6 @@ def attendance_repair(request, user_profile):
 
 def testFuncton():
     print("Hello Scheduler")
-
 
 # =======================================================
 

@@ -207,6 +207,10 @@
     height:55px;
     background: #14A4FA;
     border-radius: 3px;
+    font-family: PingFangHK-Medium;
+    font-size: 17px;
+    color: #FFFFFF;
+    letter-spacing: 0.27px;
 }
 .kaoqin-place{
     font-family: PingFangSC-Regular;
