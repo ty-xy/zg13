@@ -649,14 +649,16 @@ def sign_in_view(request, user_profile):
                                                       sign_in_time__day=day).count()
 
         if morning_working_time >= nowTime:
-            if len(attendance_time) == 1:
+            if attendance_time == 1:
                 return JsonResponse({'errno': '04', 'message': '下班打卡'})
-            return JsonResponse({'errno': '04', 'message': '上班打卡'})
+            return JsonResponse({'errno': '09', 'message': '上班打卡'})
 
         elif afternoon_rest_time > nowTime > morning_working_time:
-            if len(attendance_time) == 1:
+            if attendance_time == 1:
                 return JsonResponse({'errno': '05', 'message': '下班打卡'})
             return JsonResponse({'errno': '06', 'message': '迟到打卡'})
 
         elif nowTime >= afternoon_rest_time:
+            if attendance_time == 1:
+                return JsonResponse({'errno': '08', 'message': '上班打卡'})
             return JsonResponse({'errno': '07', 'message': '下班打卡'})
