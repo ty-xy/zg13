@@ -228,6 +228,7 @@ def web_my_receive(request, user_profile):
         return JsonResponse({'errno': 1, 'message': "获取我收到的报表失败"})
 
     try:
+
         receive_table_list = []
         for statement_state in statement_state_list:
 
@@ -236,7 +237,9 @@ def web_my_receive(request, user_profile):
             statement_state.state = True
             statement_state.save()
 
-            user = UserProfile.objects.get(email=s.user)
+            user = UserProfile.objects.filter(email=s.user)
+            user=user[0]
+        
             web_my_receive_dict['avatarurl'] = avatar.absolute_avatar_url(user)
             web_my_receive_dict['fullname'] = user.full_name
             web_my_receive_dict['generate_time'] = statement_state.receive_time

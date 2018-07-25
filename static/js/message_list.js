@@ -5,7 +5,6 @@ var exports = {};
 exports.narrowed = undefined;
 
 exports.MessageList = function (table_name, filter, opts) {
-
     _.extend(this, {
         collapse_messages: true,
         muting_enabled: true,

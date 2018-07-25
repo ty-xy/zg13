@@ -855,7 +855,8 @@ form#add_new_subscription {
     background: #7ED321;
     border-radius: 100px;
     box-sizing: border-box;
-    border:1px solid transparent
+    border:1px solid transparent;
+    line-height:18px;
 }
 
 #subscription_overlay .stream-header .button-group {
