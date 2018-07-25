@@ -685,8 +685,8 @@ ul{
     float: left;
     /* overflow: hidden; */
     /* width: 170px; */
-    margin-top: 14px;
-    margin-left: 20px;
+    margin-top: 10px;
+    margin-left: 11px;
     position: relative;
 }
 .thumbnail_box{
@@ -700,6 +700,7 @@ ul{
     margin-right: 5px;
     margin-top: 5px;
     margin-left: 10px;
+    box-sizing: border-box;
 }
 .generate_log_pack_delete{
     position: absolute;

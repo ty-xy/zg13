@@ -253,14 +253,13 @@ var attendance = (function () {
                     url:"json/zg/attendances/day",
                     contentType:"application/json",
                     success:function(res){
-                        console.log(res)
+                        $(".attendance_md").remove();
                         if(res.super_user==true){
                             if(res.errno == 11){
                                 var html = templates.render("attendance_box");
                                 $(".app").after(html);   
                                 $(".attendance_statistics").remove();
                                 $(".attendance_mangement").addClass("high_light").removeClass("attendance_mangement");
-                                $("body").ready(function(){
                                     $(".attendance_ctn").empty();
                                     var html = templates.render("attendance_team");
                                     $(".attendance_ctn").html(html);
@@ -281,8 +280,11 @@ var attendance = (function () {
                                         })
                                     commonf()
                                     commit()
-                                })
-                                
+                                    //关闭考勤
+                                    $(".attendance_close").on("click",function(){
+                                        $(".attendance_md").hide();
+                                    })
+                                    return;
                             }
                             //确认管理员身份继续请求日统计数据
                             var html = templates.render("attendance_box");
