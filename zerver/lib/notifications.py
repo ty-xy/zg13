@@ -375,7 +375,8 @@ def do_send_missedmessage_events_reply_in_zulip(user_profile: UserProfile,
             'realm_str': user_profile.realm.name,
         })
 
-    from_name = "Zulip missed messages"  # type: Text
+    # from_name = "Zulip missed messages"  # type: Text
+    from_name = "e建联错过的消息"  # type: Text
     from_address = FromAddress.NOREPLY
     if len(senders) == 1 and settings.SEND_MISSED_MESSAGE_EMAILS_AS_USER:
         # If this setting is enabled, you can reply to the Zulip
