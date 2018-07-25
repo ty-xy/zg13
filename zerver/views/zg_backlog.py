@@ -844,7 +844,6 @@ def backlogs_view_pu(request, user_profile):
 
                 elif req['state'] == 2:
                     backlog.state = req['state']
-
         backlog.save()
     except Exception:
         return JsonResponse({'errno': 3, 'message': '保存数据失败'})
