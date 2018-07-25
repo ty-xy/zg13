@@ -1,13 +1,9 @@
-from django.shortcuts import redirect, render
-from django.http import JsonResponse, HttpResponseRedirect
-from django.core.urlresolvers import reverse
-from zerver.decorator import zulip_login_required
+from django.http import JsonResponse
 from zerver.models import ZgAttendance, ZgOutsideWork, ZgDepartmentAttendance, UserProfile
-from tools.zg_tools.zg_attendance_tools import haversine
+from zerver.views.zg_tools import haversine
 from django.db.models import Q
 import calendar
 from datetime import datetime, timezone, timedelta
-import time
 from zerver.lib import avatar
 import json
 
@@ -17,10 +13,9 @@ stockpile_time = stockpile_time.replace(tzinfo=timezone.utc)
 year = stockpile_time.year
 month = stockpile_time.month
 day = stockpile_time.day
+nowTime = stockpile_time.time()
 tzutc_8 = timezone(timedelta(hours=8))
 stockpile_time = stockpile_time.astimezone(tzutc_8) + timedelta(hours=8)
-
-nowTime = stockpile_time.time()
 
 
 # number = calendar.monthrange(nowTime.year, nowTime.month)[1]
@@ -140,8 +135,6 @@ def attendance_day_solo(request, user_profile):
         year = stockpile_time.year
         month = stockpile_time.month
         day = stockpile_time.day
-
-    
 
     try:
         attendance_obj = ZgAttendance.objects.get(sign_in_time__year=str(year), sign_in_time__month=str(month),
@@ -287,7 +280,7 @@ def month_attendance_tools(user_profile, year, months):
             'normal_list': normal_list, 'outside_work_list': outside_work_list, 'no_normal_list': no_normal_list,
             'user_name': user_profile.full_name,
             'year': year, 'user_avatar': avatar.absolute_avatar_url(user_profile),
-            'user_atendance':user_profile.atendance.id}
+            'user_atendance': user_profile.atendance.id}
 
 
 # web个人月考勤统计（两月）
@@ -303,9 +296,8 @@ def solo_month_attendance_web(request, user_profile):
     if not user_profile.atendance:
         return JsonResponse({'errno': '223', 'message': '该用户不属于任何考勤组'})
 
-
     if user_date != 'undefined':
-        user_date=user_date+'-12-10'
+        user_date = user_date + '-12-10'
         stockpile_time = datetime.strptime(user_date, '%Y-%m-%d')
         year = stockpile_time.year
         month = stockpile_time.month
@@ -315,8 +307,6 @@ def solo_month_attendance_web(request, user_profile):
         stockpile_time = stockpile_time.replace(tzinfo=timezone.utc)
         year = stockpile_time.year
         month = stockpile_time.month
-
-
 
     month1 = int(month) - (int(page) - 1) * 2
     month2 = month1 - 1
@@ -603,6 +593,70 @@ def attendance_repair(request, user_profile):
 def testFuncton():
     print("Hello Scheduler")
 
+
 # =======================================================
 
 # 个人考勤
+# 打卡球：
+def sign_in_view(request, user_profile):
+    staff = user_profile.atendance
+    if not staff:
+        if user_profile.is_realm_admin:
+            return JsonResponse({'errno': '01', 'message': '暂无考勤组，请设置考勤组'})
+        return JsonResponse({'errno': '02', 'message': '您暂无考勤组，请联系管理员设置考勤组'})
+    stockpile_time = datetime.utcnow()
+    stockpile_time = stockpile_time.replace(tzinfo=timezone.utc)
+
+    year = stockpile_time.year
+    month = stockpile_time.month
+    day = stockpile_time.day
+    tzutc_8 = timezone(timedelta(hours=8))
+    stockpile_time = stockpile_time.astimezone(tzutc_8)
+
+    nowTime = stockpile_time.time()
+    # 获取经纬度
+    my_longitude = request.GET.get('longitude')
+    my_latitude = request.GET.get('latitude')
+
+    if not all([my_longitude, my_latitude]):
+        return JsonResponse({'errno': '1', 'message': '地理位置错误'})
+
+    # 获取设置地点
+    longitude = staff.longitude
+    latitude = staff.latitude
+    my_longitude = float(my_longitude)
+    my_latitude = float(my_latitude)
+    longitude = float(longitude)
+    latitude = float(latitude)
+
+    # 计算距离
+    distance = haversine(longitude, latitude, my_longitude, my_latitude)
+
+    # 默认距离
+    default_distance = staff.default_distance
+
+    if distance > default_distance:
+        return JsonResponse({'errno': '03', 'message': '未进入考勤范围，是否选择外勤'})
+
+    else:
+        # 获取规定的上下班时间呢
+        morning_working_time = staff.jobs_time
+        afternoon_rest_time = staff.rest_time
+
+        attendance_time = ZgAttendance.objects.filter(user_name=user_profile,
+                                                      sign_in_time__year=year,
+                                                      sign_in_time__month=month,
+                                                      sign_in_time__day=day).count()
+
+        if morning_working_time >= nowTime:
+            if len(attendance_time) == 1:
+                return JsonResponse({'errno': '04', 'message': '下班打卡'})
+            return JsonResponse({'errno': '04', 'message': '上班打卡'})
+
+        elif afternoon_rest_time > nowTime > morning_working_time:
+            if len(attendance_time) == 1:
+                return JsonResponse({'errno': '05', 'message': '下班打卡'})
+            return JsonResponse({'errno': '06', 'message': '迟到打卡'})
+
+        elif nowTime >= afternoon_rest_time:
+            return JsonResponse({'errno': '07', 'message': '下班打卡'})

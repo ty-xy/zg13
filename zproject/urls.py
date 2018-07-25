@@ -458,6 +458,10 @@ v1_api_and_json_patterns = [
     url(r'^zg/attendance/repair/$', rest_dispatch,
         {'PATCH': 'zerver.views.zg_attendance.attendance_repair'}),
 
+    # ----个人打卡----
+    url(r'^zg/attendance/sign_in$', rest_dispatch,
+        {'GET': 'zerver.views.zg_attendance.sign_in_view'}),
+
 ]
 
 # These views serve pages (HTML). As such, their internationalization

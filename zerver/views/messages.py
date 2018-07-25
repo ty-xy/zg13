@@ -1426,8 +1426,7 @@ def json_fetch_raw_message(request: HttpRequest, user_profile: UserProfile,
                          'rendered_content': message.rendered_content, 'edit_history': message.edit_history,
                          'has_attachment': message.has_attachment, 'has_image': message.has_image,
                          'has_link': message.has_link, 'recipient_id': message.recipient_id,
-                         'sender_id': message.sender_id, 'sending_client_id': message.sending_client_id,
-                         'search_tsvector': message.search_tsvector, 'search_pgroonga': message.search_pgroonga})
+                         'sender_id': message.sender_id, 'sending_client_id': message.sending_client_id})
 
 
 @has_request_variables
