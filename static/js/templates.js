@@ -68,7 +68,7 @@ Handlebars.registerHelper('ts', function (timestamp) {
         M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
         D = date.getDate() + ' ';
         h = date.getHours() + ':';
-        m = date.getMinutes() + ':';
+        m = (date.getMinutes()<10 ? '0'+date.getMinutes():date.getMinutes()) + ':';
         s = date.getSeconds();
     return Y+M+D+h+m+s;
     // return options.inverse(this);

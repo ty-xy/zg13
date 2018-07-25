@@ -16,13 +16,16 @@ var attendance = (function () {
                     success:function(res){
                         var month_attendance_list = res.month_attendance_list;
                         var month_week;
+                        var attendances_id;
                         for(var i =0;i<month_attendance_list.length;i++){
                             month_week = month_attendance_list[0].month_week
+                            attendances_id = month_attendance_list[0].user_atendance
                         }
-                        var calendar_box = templates.render("calendar_box");
+                        var calendar_box = templates.render("calendar_box",{attendances_id:attendances_id});
                         var calendar_list = templates.render("calendar_list",{month_attendance_list:month_attendance_list})
                         $(".attendance_ctn").append(calendar_box);
-                        $(".attendance_ctn").append(calendar_list)
+                        $(".attendance_ctn").append(calendar_list);
+                        
                         //筛选时间
                         $(".calendar_screen_select").datetimepicker({
                             startView: 'decade',
@@ -32,8 +35,95 @@ var attendance = (function () {
                             minViewMode:2,
                             autoclose: true
                             }).on("changeDate",function(){
-                                // var select_year = $(this).val();
-                                // checkCalendar(user_id,select_year);
+                                var select_year = $(this).val();
+                                checkCalendar(user_id,select_year);
+                                
+                        }); 
+                        //获取个人单天考勤信息
+                        $.ajax({
+                            type:"GET",
+                            url:"json/zg/attendance/day/solo",
+                            contentType:"application/json",
+                            success:function(res){
+                                console.log(res)
+                                var attendance_name = res.attendance_name;
+                                var jobs_time = res.jobs_time;
+                                var location = res.location;
+                                var rest_time = res.rest_time;
+                                var sign_in_explain = res.sign_in_explain;
+                                var sign_in_time = res.sign_in_time;
+                                var sign_off_explain = res.sign_off_explain;
+                                var sign_off_time = res.sign_off_time;
+                                if(sign_in_time){
+                                    var m = Number(sign_in_time.substring(8,10));
+                                }
+                                var n = m + month_week - 2;
+                                var calendar_detail = templates.render("calendar_detail",{
+                                    attendance_name:attendance_name,
+                                    jobs_time:jobs_time,location:location,rest_time:rest_time,sign_in_explain:sign_in_explain,
+                                    sign_in_time:sign_in_time,sign_off_explain:sign_off_explain,sign_off_time:sign_off_time
+                                });
+                                $(".calendar_list_box").first().after(calendar_detail);
+                                $(".calendar_list_box").first().children().children().children().eq(n).children().first().addClass("gray_date")
+                            }
+                         })
+                        //点击具体日期显示详情
+                        $(".calendar_list").on("click",".calendar_list_num",function(){
+                            $(this).addClass("gray_date").parent().siblings().children().removeClass("gray_date");
+                        })
+                        //点击日期事件
+                        $(".calendar_list").on("click",".calendar_list_num",function(){
+                            var user_date = $(this).text();
+                            var year = $(this).attr("year");
+                            var month = $(this).attr("month");
+                            user_id = user_id
+                            var _this = $(this);
+                            checkOne(user_date,user_id,year,month,_this)
+                        })
+
+                    }
+                })
+            }
+            
+            //查看自己考勤日历
+            function checkCalendarMy(user_id,select_year){  
+                var user_id;
+                var select_year = select_year;
+                $.ajax({
+                    type:"GET",
+                    url:"json/zg/attendance/month/solo/web?select_year="+select_year+"",
+                    contentType:"application/json",
+                    data:{page:1},
+                    success:function(res){
+                        if(res.errno == 223){
+                            var personal_space = templates.render("personal_space");
+                            $(".attendance_ctn").append(personal_space)
+                            return;
+                        }
+                        var month_attendance_list = res.month_attendance_list;
+                        var month_week;
+
+                        for(var i =0;i<month_attendance_list.length;i++){
+                            month_week = month_attendance_list[0].month_week
+                        }
+                        var calendar_box = templates.render("calendar_box");
+                        var calendar_list = templates.render("calendar_list",{month_attendance_list:month_attendance_list})
+                        $(".attendance_ctn").append(calendar_box);
+                        $(".attendance_ctn").append(calendar_list)
+                        $(".calendar_return").hide();
+                        $(".calendar_screen").css("float","right");
+                        //筛选时间
+                        $(".calendar_screen_select").datetimepicker({
+                            startView: 'decade',
+                            minView: 'decade',
+                            format: 'yyyy',
+                            maxViewMode: 2,
+                            minViewMode:2,
+                            autoclose: true
+                            }).on("changeDate",function(){
+                                console.log("0000")
+                                var select_year = $(this).val();
+                                checkCalendar(user_id,select_year);
                                 
                         }); 
                         //获取个人单天考勤信息
@@ -61,7 +151,6 @@ var attendance = (function () {
                                 });
                                 $(".calendar_list_box").first().after(calendar_detail);
                                 $(".calendar_list_box").first().children().children().children().eq(n).children().first().addClass("gray_date")
-                                // console.log($(".calendar_list_box").first().children().children().children().eq(m))
                             }
                          })
                         //点击具体日期显示详情
@@ -73,45 +162,10 @@ var attendance = (function () {
                             var user_date = $(this).text();
                             var year = $(this).attr("year");
                             var month = $(this).attr("month");
-                            user_id = user_id
+                            user_id = "";
                             var _this = $(this);
                             checkOne(user_date,user_id,year,month,_this)
                         })
-                    }
-                })
-            }
-            //查看自己考勤日历
-            function checkCalendarMy(){  
-                $.ajax({
-                    type:"GET",
-                    url:"json/zg/attendance/month/solo/web",
-                    contentType:"application/json",
-                    data:{page:1},
-                    success:function(res){
-                        var month_attendance_list = res.month_attendance_list;
-                        var calendar_box = templates.render("calendar_box");
-                        var calendar_list = templates.render("calendar_list",{month_attendance_list:month_attendance_list})
-                        $(".attendance_ctn").append(calendar_box);
-                        $(".attendance_ctn").append(calendar_list)
-                        $(".calendar_return").hide();
-                        $(".calendar_screen").css("float","right");
-                        //筛选时间
-                        $(".calendar_screen_select").datetimepicker({
-                            startView: 'decade',
-                            minView: 'decade',
-                            format: 'yyyy',
-                            maxViewMode: 2,
-                            minViewMode:2,
-                            autoclose: true
-                            }).on("changeDate",function(){
-                                console.log("这是一个秋天")
-                        }); 
-                        //点击具体日期显示详情
-                        $(".calendar_list").on("click",".calendar_list_num",function(){
-                            $(this).addClass("gray_date").parent().siblings().children().removeClass("gray_date");
-                        })
-                        //点击日期事件
-                        // $(".calendar_list")
                     }
                 })
             }
@@ -127,6 +181,25 @@ var attendance = (function () {
                          var attendances_member_list = res.attendances_member_list;
                          var attendance_member = templates.render("attendance_member",{attendances_member_list:attendances_member_list})
                          $(".attendance_ctn").append(attendance_member);
+                         //搜索全部成员
+                         var p = $(".attendance_bottom_ctn").children();
+                         $(".attendance_bottom_search_person").bind('input propertychange',function(){
+                             var searchText = $(this).val();
+                             var $searchLi = "";
+                             if(searchText != ""){
+                                 $searchLi = $(".attendance_bottom_ctn").find('p:contains('+ searchText +')').parent();
+                                 $(".attendance_bottom_ctn").html("");
+                             }
+                             $(".attendance_bottom_ctn").html($searchLi).clone();
+                             if ($searchLi.length <= 0) {
+                                 $(".attendance_bottom_ctn").html("<li>没有找到该成员</li>")
+                             }
+                             if (searchText == "") {
+                                 $(".attendance_bottom_ctn").children().remove();
+                                 $(".attendance_bottom_ctn").append(p)
+                             }
+                         })
+                         //搜索全部成员
                          //查看考勤日历
                          $(".attendance_bottom_ctn").on("click",".attendance_bottom_calendar",function(){
                              $(".attendance_ctn").children().remove();
@@ -155,7 +228,6 @@ var attendance = (function () {
                     url:"json/zg/attendance/day/solo?user_date="+user_date+"&user_id="+user_id+"",
                     contentType:"application/json",
                     success:function(res){
-                        console.log(res)
                         $(".calendar_place_box").remove();
                         $(".calendar_time_box").remove();
                         var attendance_name = res.attendance_name;
@@ -175,21 +247,76 @@ var attendance = (function () {
                     }
                 })
             }
+            //默认加载内容
             $.ajax({
                     type:"GET",
                     url:"json/zg/attendances/day",
                     contentType:"application/json",
                     success:function(res){
+                        $(".attendance_md").remove();
                         if(res.super_user==true){
+                            if(res.errno == 11){
+                                var html = templates.render("attendance_box");
+                                $(".app").after(html);   
+                                $(".attendance_statistics").remove();
+                                $(".attendance_mangement").addClass("high_light").removeClass("attendance_mangement");
+                                    $(".attendance_ctn").empty();
+                                    var html = templates.render("attendance_team");
+                                    $(".attendance_ctn").html(html);
+                                    $(".back_attendance").remove();
+                                    $(".attendance_ctn .button-common").datetimepicker({
+                                        language:"zh-CN",  
+                                        weekStart: 1,
+                                        todayBtn:  0,
+                                        autoclose: 1,
+                                        todayHighlight: 1,
+                                        startView: 1,
+                                        minView: 0,
+                                        showHours : true,
+                                        // minuteStep:1,z
+                                        maxView: 1,
+                                        forceParse: 0,
+                                        format:'hh:ii:00',
+                                        })
+                                    commonf()
+                                    commit()
+                                    //关闭考勤
+                                    $(".attendance_close").on("click",function(){
+                                        $(".attendance_md").hide();
+                                    })
+                                    return;
+                            }
                             //确认管理员身份继续请求日统计数据
                             var html = templates.render("attendance_box");
-                            $(".app").after(html);
+                            $(".app").after(html);                       
                             var attendances_list = res.attendances_list;
                             var attendances_member_list = res.attendances_member_list;
                             var attendance_all = templates.render("attendance_all",{attendances_list:attendances_list})
                             var attendance_member = templates.render("attendance_member",{attendances_member_list:attendances_member_list})
                             $(".attendance_ctn").append(attendance_all)
                             $(".attendance_ctn").append(attendance_member)
+                            $("body").ready(function(){
+                                $(".attendance_groups").children().first().addClass("gray_bg");
+                            })
+                            //搜索全部成员
+                            var p = $(".attendance_bottom_ctn").children();
+                            $(".attendance_bottom_search_person").bind('input propertychange',function(){
+                                var searchText = $(this).val();
+                                var $searchLi = "";
+                                if(searchText != ""){
+                                    $searchLi = $(".attendance_bottom_ctn").find('p:contains('+ searchText +')').parent();
+                                    $(".attendance_bottom_ctn").html("");
+                                }
+                                $(".attendance_bottom_ctn").html($searchLi).clone();
+                                if ($searchLi.length <= 0) {
+                                    $(".attendance_bottom_ctn").html("<li>没有找到该成员</li>")
+                                }
+                                if (searchText == "") {
+                                    $(".attendance_bottom_ctn").children().remove();
+                                    $(".attendance_bottom_ctn").append(p)
+                                }
+                            })
+                            //搜索全部成员
                             //关闭考勤
                             $(".attendance_close").on("click",function(){
                                 $(".attendance_md").hide();
@@ -208,7 +335,6 @@ var attendance = (function () {
                                 //考勤组样式切换
                                 $(this).addClass("gray_bg").siblings().removeClass("gray_bg");
                                 checkOut(attendances_id);
-                                // get_solo()
                             })
                             //查看考勤日历
                             $(".attendance_bottom_ctn").on("click",".attendance_bottom_calendar",function(){
@@ -218,9 +344,11 @@ var attendance = (function () {
                             })
                             //返回到管理界面
                             $(".attendance_box").on("click",".calendar_return",function(){
+                                var attendances_id = $(this).attr("attendances_id");
                                 $.ajax({
                                     type:"GET",
-                                    url:"json/zg/attendances/day",
+                                    url:"json/zg/attendances/day?attendances_id="+attendances_id+"",
+                                    // url:"json/zg/attendances/day",
                                     contentType:"application/json",
                                     success:function(res){
                                         if(res.super_user==true){
@@ -231,7 +359,26 @@ var attendance = (function () {
                                             var attendance_member = templates.render("attendance_member",{attendances_member_list:attendances_member_list})
                                             $(".attendance_ctn").append(attendance_all)
                                             $(".attendance_ctn").append(attendance_member)
-
+                                            $(".attendance_groups_list[name="+attendances_id+"]").addClass("gray_bg")
+                                            //搜索全部成员
+                                            var p = $(".attendance_bottom_ctn").children();
+                                            $(".attendance_bottom_search_person").bind('input propertychange',function(){
+                                                var searchText = $(this).val();
+                                                var $searchLi = "";
+                                                if(searchText != ""){
+                                                    $searchLi = $(".attendance_bottom_ctn").find('p:contains('+ searchText +')').parent();
+                                                    $(".attendance_bottom_ctn").html("");
+                                                }
+                                                $(".attendance_bottom_ctn").html($searchLi).clone();
+                                                if ($searchLi.length <= 0) {
+                                                    $(".attendance_bottom_ctn").html("<li>没有找到该成员</li>")
+                                                }
+                                                if (searchText == "") {
+                                                    $(".attendance_bottom_ctn").children().remove();
+                                                    $(".attendance_bottom_ctn").append(p)
+                                                }
+                                            })
+                                            //搜索全部成员
                                             //点击切换考勤组
                                             $(".attendance_groups").on("click",".attendance_groups_list",function(){
                                                 var attendances_id = $(this).attr("attendances_id");
@@ -266,6 +413,7 @@ var attendance = (function () {
                             })      
                             // 点击考勤组的样式
                             $(".attendance_box").on('click',".attendance_mangement",function(){
+                                var original = $(".attendance_ctn").children();
                                 $(this).addClass("high_light").siblings().removeClass("high_light")
                                  channel.get({
                                     url:"json/zg/attendances/management",
@@ -351,6 +499,54 @@ var attendance = (function () {
                                       
                                     }
                                  })
+
+                                //-------------切换回考勤统计-----------------
+                                 $(".attendance_statistics").on("click",function(){
+                                    $(this).addClass("high_light").siblings().removeClass("high_light")
+                                     $(".attendance_ctn").children().remove();
+                                     $(".attendance_ctn").append(original)
+                                     //搜索全部成员
+                                     var p = $(".attendance_bottom_ctn").children();
+                                     $(".attendance_bottom_search_person").bind('input propertychange',function(){
+                                         var searchText = $(this).val();
+                                         var $searchLi = "";
+                                         if(searchText != ""){
+                                             $searchLi = $(".attendance_bottom_ctn").find('p:contains('+ searchText +')').parent();
+                                             $(".attendance_bottom_ctn").html("");
+                                         }
+                                         $(".attendance_bottom_ctn").html($searchLi).clone();
+                                         if ($searchLi.length <= 0) {
+                                             $(".attendance_bottom_ctn").html("<li>没有找到该成员</li>")
+                                         }
+                                         if (searchText == "") {
+                                             $(".attendance_bottom_ctn").children().remove();
+                                             $(".attendance_bottom_ctn").append(p)
+                                         }
+                                     })
+                                     //搜索全部成员
+                                     //点击切换考勤组
+                                     $(".attendance_groups").on("click",".attendance_groups_list",function(){
+                                         var attendances_id = $(this).attr("attendances_id");
+                                         //考勤组样式切换
+                                         $(this).addClass("gray_bg").siblings().removeClass("gray_bg");
+                                         checkOut(attendances_id);
+                                     })
+                                     //查看考勤日历
+                                    $(".attendance_bottom_ctn").on("click",".attendance_bottom_calendar",function(){
+                                        $(".attendance_ctn").children().remove();
+                                        var user_id = $(this).attr("user_id")
+                                        checkCalendar(user_id);
+                                    })
+                                    //初始化按事件筛选
+                                    $(".calendar_screen_select_y").datetimepicker({
+                                        language:"zh-CN",  
+                                        todayHighlight: true,  
+                                        minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                                        weekStart:1,
+                                        format:"yyyy-mm-dd"
+                                    })
+                                 })
+                                 //-------------切换回考勤统计-----------------
                             })
                             $(".attendance_ctn").on('click',".new_attendance",function(){
                                 // var lis  =  $(".attendance_ctn").children()
@@ -377,9 +573,12 @@ var attendance = (function () {
                             })
                         }else{
                         //普通成员请求
-                            console.log("hello123123")
                             var html = templates.render("attendance_box");
                             $(".app").after(html);
+                            $(".attendance_mangement").hide();
+                            $(".attendance_ctn").children().remove();
+                            
+                            console.log("hello world")
                             checkCalendarMy();
                             //关闭考勤
                             $(".attendance_close").on("click",function(){
@@ -639,6 +838,7 @@ var attendance = (function () {
            function commonContent(){
             // settime()
             var name = $(".title-input").val()
+            console.log(name)
             if(name==""){
                 alert('请填写考勤组的名字','rgba(169,12,0,0.30)')
                 return 
@@ -720,6 +920,7 @@ var attendance = (function () {
            function commit(){
                 $(".button-submit-common").on("click",function(){
                         var data_list = commonContent()
+                        console.log(data_list)
                         if(data_list){
                         $(".button-submit").attr("disabled", true);
                         $(".button-submit").css("background-color","#ccc")
@@ -785,30 +986,30 @@ var attendance = (function () {
             })
        }
    
-   function simpleArr(datakeylist){
-        var arr = [];
-        for(var i in datakeylist){ 
-           arr=arr.concat(datakeylist[i]);
-        }
-        var hash = {};
-        var ress=[];
-        var result = [];
-        arr.forEach(function(item){
-             ress.push({name:item.nid,id:item.id})
-        })
-        // var hash = {};item
-        for(var i = 0, len = arr.length; i < len; i++){
-            // hashlist[arr[i].id]=[]
-            if (!hash[arr[i].id]) //如果hash表中没有当前项
-                {
-                    hash[arr[i].id] = true; //存入hash表
-                    result.push(arr[i]);    
-                  //把当前数组的当前项push到临时数组里面
+        function simpleArr(datakeylist){
+                var arr = [];
+                for(var i in datakeylist){ 
+                arr=arr.concat(datakeylist[i]);
                 }
+                var hash = {};
+                var ress=[];
+                var result = [];
+                arr.forEach(function(item){
+                    ress.push({name:item.nid,id:item.id})
+                })
+                // var hash = {};item
+                for(var i = 0, len = arr.length; i < len; i++){
+                    // hashlist[arr[i].id]=[]
+                    if (!hash[arr[i].id]) //如果hash表中没有当前项
+                        {
+                            hash[arr[i].id] = true; //存入hash表
+                            result.push(arr[i]);    
+                        //把当前数组的当前项push到临时数组里面
+                        }
+                }
+            
+                return {result:result,ress:ress}
         }
-       
-        return {result:result,ress:ress}
-   }
        function confirm(){
            //点击确定
            $(".choose-right-list").on('click','.button-confirm',function(e){
@@ -857,7 +1058,7 @@ var attendance = (function () {
         }).delay (1000).fadeOut ({duration: 1000});
         $('.toast-alert-button').html(text)
         $('.toast-alert-button').css('background-color',color)
-      }
+        }
        function deletes(data){
            var childrenlength=$(".box-right-list").children().length
            // console.log(childrenlength)
