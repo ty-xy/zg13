@@ -3,6 +3,7 @@ var tab_bar = (function () {
 var exports = {};
 
 function make_tab(title, hash, data, extra_class, home) {
+    // console.log(title,data,hash,home)
     return {active: "inactive",
             cls: extra_class || "",
             title: title,

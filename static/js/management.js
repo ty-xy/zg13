@@ -54,6 +54,7 @@ var management = (function () {
             return li 
         }
         function alert(text,color){
+            console.log(111)
             $('.toast-alert').fadeIn({
                 duration: 1
             }).delay (1000).fadeOut ({duration: 1000});
@@ -468,7 +469,7 @@ var management = (function () {
            var drop =function(file){
             $('.process-bar-parent').show()
             $('.uploading-img').show()
-            alert(i18n.t("Uploading…"),'rgba(0,107,169,0.30)')
+            // alert(i18n.t("Uploading…"),'rgba(0,107,169,0.30)')
            }
            var progressUpdated = function (i, file, progress) {
             // $('.process-bar-parent').show()
@@ -546,8 +547,10 @@ var management = (function () {
                 </div>\
               </div>"
                 $(".generate_log_upfile_box").append(li)
+                $('#file_inputs').val('');
                 alert('上传成功','rgba(0,107,169,0.30)');
             }
+           
         };
         $(".generate_log_upfile_box").on("click",".generate_log_pack_delete",function(e){
              $(this).parent().parent().remove()
@@ -567,9 +570,9 @@ var management = (function () {
             progressUpdated: progressUpdated,
             error: uploadError,
             uploadFinished: uploadFinished,
-         //    afterAll:function(contents){
-         //        console.log(contents,321312)
-         //    }
+            afterAll:function(contents){
+                console.log(contents,321312)
+            }
           })
            // 1.点击添加人员
            $('.add_log_people').on("click",".generate_log_member_addlogo",function(e){ 

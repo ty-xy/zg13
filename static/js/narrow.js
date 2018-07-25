@@ -44,7 +44,7 @@ function report_unnarrow_time() {
     unnarrow_times = {};
 }
 
-exports.narrow_title = "home";
+exports.narrow_title = "主页";
 exports.activate = function (raw_operators, opts) {
     var start_time = new Date();
     var was_narrowed_already = narrow_state.active();
@@ -68,7 +68,22 @@ exports.activate = function (raw_operators, opts) {
             exports.narrow_title = filter.operands("stream")[0];
         }
     } else if (filter.has_operator("is")) {
-        exports.narrow_title = filter.operands("is")[0];
+        console.log(filter.operands("is")[0])
+        switch(filter.operands("is")[0]){
+            case "management":
+            exports.narrow_title = "管理";
+            break;
+            case  "private":
+            exports.narrow_title= "私信";
+            break;
+            case  "starred":
+            exports.narrow_title = "星标记";
+            break;
+            case  "mentioned":
+            exports.narrow_title = "提及";
+            break;
+        }
+        
     } else if (filter.has_operator("pm-with")) {
         exports.narrow_title = "private";
     } else if (filter.has_operator("group-pm-with")) {
@@ -506,7 +521,7 @@ exports.deactivate = function () {
 
     $(document).trigger($.Event('narrow_deactivated.zulip', {msg_list: current_msg_list}));
 
-    exports.narrow_title = "home";
+    exports.narrow_title = "主页";
     notifications.redraw_title();
 
     unnarrow_times.initial_core_time = new Date();
