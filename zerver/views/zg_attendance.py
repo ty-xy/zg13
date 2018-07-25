@@ -18,8 +18,6 @@ tzutc_8 = timezone(timedelta(hours=8))
 stockpile_time = stockpile_time.astimezone(tzutc_8) + timedelta(hours=8)
 
 
-
-
 # number = calendar.monthrange(nowTime.year, nowTime.month)[1]
 
 # 打卡
@@ -597,13 +595,17 @@ def testFuncton():
 def sign_in_view(request, user_profile):
     staff = user_profile.atendance
     if not staff:
-        return JsonResponse({'errno': '1', 'message': '您暂无考勤组，请联系管理员设置考勤组'})
+        if user_profile.is_realm_admin:
+            return JsonResponse({'errno': '01', 'message': '暂无考勤组，请设置考勤组'})
+        return JsonResponse({'errno': '02', 'message': '您暂无考勤组，请联系管理员设置考勤组'})
     stockpile_time = datetime.utcnow()
     stockpile_time = stockpile_time.replace(tzinfo=timezone.utc)
+
     year = stockpile_time.year
     month = stockpile_time.month
     day = stockpile_time.day
     tzutc_8 = timezone(timedelta(hours=8))
+    stockpile_time = stockpile_time.astimezone(tzutc_8)
 
     nowTime = stockpile_time.time()
     # 获取经纬度
@@ -611,7 +613,7 @@ def sign_in_view(request, user_profile):
     my_latitude = request.GET.get('latitude')
 
     if not all([my_longitude, my_latitude]):
-        return JsonResponse({'errno': '7', 'message': '地理位置错误'})
+        return JsonResponse({'errno': '1', 'message': '地理位置错误'})
 
     # 获取设置地点
     longitude = staff.longitude
@@ -628,27 +630,27 @@ def sign_in_view(request, user_profile):
     default_distance = staff.default_distance
 
     if distance > default_distance:
-        return JsonResponse({'errno': '0', 'message': '未进入考勤范围，是否选择外勤'})
+        return JsonResponse({'errno': '03', 'message': '未进入考勤范围，是否选择外勤'})
 
     else:
         # 获取规定的上下班时间呢
         morning_working_time = staff.jobs_time
         afternoon_rest_time = staff.rest_time
-        print()
+
+        attendance_time = ZgAttendance.objects.filter(user_name=user_profile,
+                                                      sign_in_time__year=year,
+                                                      sign_in_time__month=month,
+                                                      sign_in_time__day=day).count()
 
         if morning_working_time >= nowTime:
-            return JsonResponse({'errno': '0', 'message': '上班打卡'})
+            if len(attendance_time) == 1:
+                return JsonResponse({'errno': '04', 'message': '下班打卡'})
+            return JsonResponse({'errno': '04', 'message': '上班打卡'})
 
         elif afternoon_rest_time > nowTime > morning_working_time:
-            attendance_time = ZgAttendance.objects.filter(user_name=user_profile,
-                                                          attendance_working_time__year=year,
-                                                          attendance_working_time__month=month,
-                                                          attendance_working_time__day=day).count()
-            if attendance_time == 1:
-                return JsonResponse({'errno': '01', 'message': '下班打卡'})
-
-            return JsonResponse({'errno': '02', 'message': '迟到打卡'})
+            if len(attendance_time) == 1:
+                return JsonResponse({'errno': '05', 'message': '下班打卡'})
+            return JsonResponse({'errno': '06', 'message': '迟到打卡'})
 
         elif nowTime >= afternoon_rest_time:
-            print(nowTime,afternoon_rest_time)
-            return JsonResponse({'errno': '0', 'message': '下班打卡'})
+            return JsonResponse({'errno': '07', 'message': '下班打卡'})
