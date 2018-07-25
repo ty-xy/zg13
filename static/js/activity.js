@@ -11,8 +11,8 @@ var DEFAULT_IDLE_TIMEOUT_MS = 5 * 60 * 1000;
 var ACTIVE_PING_INTERVAL_MS = 50 * 1000;
 
 var presence_descriptions = {
-    active: 'is active',
-    idle:   'is not active',
+    active: '活跃',
+    idle:   '不活跃',
 };
 
 /* Keep in sync with views.py:update_active_status_backend() */

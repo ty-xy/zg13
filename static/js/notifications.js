@@ -140,11 +140,11 @@ exports.update_title_count = function (count) {
 exports.redraw_title = function () {
     // Update window title and favicon to reflect unread messages in current view
     var n;
-
+   
     var new_title = (new_message_count ? ("(" + new_message_count + ") ") : "")
         + narrow.narrow_title + " - "
         + page_params.realm_name + " - "
-        + "Zulip";
+        + "e建联";
 
     if (document.title === new_title) {
         return;
