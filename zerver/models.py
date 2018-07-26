@@ -2176,7 +2176,7 @@ class Backlog(models.Model):
     create_time = models.PositiveIntegerField()
     over_time = models.PositiveIntegerField()
     task = models.CharField(max_length=70)
-    task_details = models.CharField(null=True, max_length=300)
+    task_details = models.CharField(null=True, max_length=230)
     state = models.IntegerField(default=2)
     is_delete = models.BooleanField(default=False)
 
@@ -2193,7 +2193,7 @@ class BacklogAccessory(models.Model):
 # 修改表
 class UpdateBacklog(models.Model):
     backlog_id = models.ForeignKey(Backlog)
-    update_backlog = models.CharField(max_length=60)
+    update_backlog = models.CharField(max_length=230)
 
 
 # 报表
