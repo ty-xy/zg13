@@ -171,8 +171,8 @@ table.compose_table {
 
 .compose-content {
     padding: 15px 10px 15px 10px;
-    margin-left: 200px;
-    margin-right: 275px !important;
+    margin-left: 460px;
+    /* margin-right: 275px !important; */
     position: relative;
 /* 
     border-left: 1px solid hsl(0, 0%, 93%);

@@ -1,9 +1,10 @@
 #left-sidebar {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background: #354052;
+    /* background: #354052; */
     font-size: 0.89rem;
     height: 100%;
+    background: #F4F5F7;
 }
 
 #left-sidebar #user-list,
@@ -151,9 +152,9 @@ li.active-sub-filter {
 #global_filters .global-filter {
     position: relative;
     /* padding: 1px 10px; */
-    height: 36px;
+    /* height: 36px;
     width: 200px;
-    background: #354052;
+    background: #354052; */
 }
 
 .left-sidebar li {
@@ -438,8 +439,8 @@ li.expanded_private_message a {
 }
 
 #global_filters {
-    margin-bottom: 20px;
-    margin-top: -11px;
+    /* margin-bottom: 20px;
+    margin-top: -11px; */
 }
 
 #global_filters i {
@@ -552,7 +553,9 @@ li.show-more-private-messages a {
     letter-spacing: 0.19px;
 }
 .column-left{
-    background: #354052;
+    /* background: #354052; */
+    width: 100px;
+    height: 100%;
 }
 .hover-underline{
     font-family: PingFangSC-Medium;
@@ -586,4 +589,13 @@ li.show-more-private-messages a {
 }
 #taskdata{
     float: left;
+}
+/* zyc添加中部样式 */
+#global_search{
+    width: 320px;
+    height: 40px;
+    background: #F4F5F7;
+    border-radius: 6px;
+    margin: 20px;
+    padding: 0;
 }
