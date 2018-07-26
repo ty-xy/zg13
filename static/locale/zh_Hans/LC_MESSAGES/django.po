@@ -1364,7 +1364,7 @@ msgstr ""
 
 #: templates/zerver/register.html:153
 msgid "The address you'll use to log in to your organization."
-msgstr ""
+msgstr "您将要登录到您的组织的地址"
 
 #: templates/zerver/register.html:174
 #, python-format
