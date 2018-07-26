@@ -61,6 +61,9 @@ function process_result(data, opts) {
 }
 
 function get_messages_success(data, opts) {
+    console.log("!!!")
+    console.log(data)
+    console.log(opts)
     if (opts.msg_list.narrowed && opts.msg_list !== current_msg_list) {
         // We unnarrowed before receiving new messages so
         // don't bother processing the newly arrived messages.
@@ -128,11 +131,15 @@ exports.load_messages = function (opts) {
             }
         })
     }
+    console.log("-----------------------")
+    console.log(data)
     channel.get({
         url:      '/json/messages',
         data:     data,
         idempotent: true,
         success: function (data) {
+            console.log("------------------------++++++++++++++++++")
+            console.log(data)
             get_messages_success(data, opts);
             if(data.result == "success"){
             $.ajax({

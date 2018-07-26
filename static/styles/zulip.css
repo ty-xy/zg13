@@ -187,6 +187,7 @@ p.n-margin {
     width: 100%;
     /* border-bottom: 1px solid hsla(0, 0%, 0%, 0.2); */
     height: 60px;
+    display: none;
 }
 
 #panels {
@@ -265,6 +266,7 @@ p.n-margin {
     position: fixed;
     z-index: 98;
     left: 0px;
+    display: none;
 }
 
 /* .column-left, */
@@ -285,18 +287,26 @@ p.n-margin {
     position: absolute;
     right: 0px;
     top: 0px;
+    display: none;
 }
-
+.column_two{
+    width: 300px;
+    height: 100%;
+    border-right: 1px solid #ddd;
+    float: left;
+    margin-left: 100px;
+}
 .app-main .column-left .left-sidebar,
 .app-main .column-right .right-sidebar {
     position: fixed;
-    margin-top: 70px;
+    /* margin-top: 70px; */
     z-index: 100;
 }
 
 .app-main .column-left .left-sidebar {
-    width: 200px;
+    width: 100px;
     padding-left: 0px;
+    background: #F4F5F7;
 }
 
 .app-main .column-right .right-sidebar {
@@ -309,7 +319,7 @@ p.n-margin {
 }
 
 .column-middle {
-    margin-right: 250px;
+    /* margin-right: 250px; */
     margin-left: 200px;
     position: relative;
     height: 25px;
@@ -2080,6 +2090,7 @@ div.floating_recipient {
     height: 464px!important;
     background: #fff;
     /* width: 899px; */
+    display: none;
 }
 
 .loading_indicator_spinner {
@@ -2912,6 +2923,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
 }
 #streams_list{
     margin-top: 50px;
+    display: none;
 }
 #ppp{
     display: show;
@@ -3001,13 +3013,13 @@ div.topic_edit_spinner .loading_indicator_spinner {
     padding:3px;
     margin-bottom:5px;
 }
-.column-middle_shodowl{
+/* .column-middle_shodowl{
     width: 10px;
     background: #f2f2f2;
     position: absolute;
     left: 0;
     top: 0;
-    /* height: 6000px; */
+    height: 6000px;
 }
 .column-middle_shodowr{
     width: 10px;
@@ -3015,9 +3027,9 @@ div.topic_edit_spinner .loading_indicator_spinner {
     position: absolute;
     right: 0;
     top: 0;
-    /* height: 6000px; */
+    height: 6000px;
     z-index: 11;
-}
+} */
 .tip-top{
     margin-bottom:10px !important
 }
@@ -3302,7 +3314,9 @@ div.topic_edit_spinner .loading_indicator_spinner {
     
 }
 .tab-content {
-    overflow: hidden;
+    /* overflow: hidden; */
+    height: 815px;
+    overflow-y: auto;
 }
 .new_task>input:focus,.new_plan>input:focus{
     box-shadow: none !important;

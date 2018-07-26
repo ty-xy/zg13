@@ -68,7 +68,6 @@ exports.activate = function (raw_operators, opts) {
             exports.narrow_title = filter.operands("stream")[0];
         }
     } else if (filter.has_operator("is")) {
-        console.log(filter.operands("is")[0])
         switch(filter.operands("is")[0]){
             case "management":
             exports.narrow_title = "管理";
