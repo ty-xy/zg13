@@ -855,7 +855,8 @@ form#add_new_subscription {
     background: #7ED321;
     border-radius: 100px;
     box-sizing: border-box;
-    border:1px solid transparent
+    border:1px solid transparent;
+    line-height:18px;
 }
 
 #subscription_overlay .stream-header .button-group {
@@ -1031,11 +1032,11 @@ form#add_new_subscription {
     }
 
     #subscription_overlay .left {
-        width: 40%;
+        width: 45%;
     }
 
     #subscription_overlay .right {
-        width: calc(60% - 1px);
+        width: calc(54% - 1px);
     }
 
     #search_stream_name {
@@ -1096,7 +1097,6 @@ form#add_new_subscription {
         margin: 0;
         width: 100%;
         height: calc(100% - 45px);
-
         border: none;
     }
 
@@ -1111,7 +1111,7 @@ form#add_new_subscription {
     #subscription_overlay .right,
     #settings_page .content-wrapper.right {
         position: absolute;
-        left: 101%;
+        left: 100%;
 
         top: 45px;
         border-top: 1px solid hsl(0, 0%, 86%);

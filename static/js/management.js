@@ -139,7 +139,7 @@ var management = (function () {
                 overdue_list:data.overdue_list
             }));
             $('.generate_log_right').html(rendered);
-           
+            $(".generate_log_submit").css("background-color","#14A4FA")
             //高度随着变化而变化，
               // 1.已经完成
             $(".generate_log_finished_text").height($(".generate_log_finished_text")[0].scrollHeight-25);
@@ -288,6 +288,8 @@ var management = (function () {
                 var overdue = $(".generate_log_pdfinished_text").val().trim();
                 var list = []
                 updata();
+                $(this).attr("disabled",true)
+                $(this).css("background-color","#ccc")
                 $(".generate_log_plan_delete").each(function(){
                     var ids= Number($(this).attr('data_id'))
                     list.push(ids)
@@ -327,23 +329,31 @@ var management = (function () {
                         contentType:"application/json",
                         success:function(data){
                             if(data.errno===0){
+                               $(this).css("background-color","#14A4FA")
                                alert('提交成功','rgba(0,107,169,0.30)')
+                               $(this).attr("disabled",false)
                               $(".create_generate_log").delay(1000).hide(0)
-                            //    $(".create_generate_log").hide();
                             } else if(data.errno===1){
                                 alert('请完善必填内容','rgba(169,12,0,0.30)')
+                                $(this).attr("disabled",false)
+                                $(this).css("background-color","#14A4FA")
                             } else{
                                 alert('网络不稳定,请重新提交','rgba(169,12,0,0.30)')
+                                $(this).attr("disabled",false)
+                                $(this).css("background-color","#14A4FA")
                             }
                         }
                     })
                 }else{
                     if(accomplish.length===0){
                         alert('请添加已完成任务','rgba(169,12,0,0.30)')
+                        $(this).attr("disabled",false)
+                        $(this).css("background-color","#14A4FA")
                     }else if(send_list.length===0){
+                        
                         alert('请选择人员','rgba(169,12,0,0.30)')
-                    }else{
-                        alert('请添加已完成任务以及发送人员','rgba(169,12,0,0.30)')
+                        $(this).attr("disabled",false)
+                        $(this).css("background-color","#14A4FA")
                     }
                 }
             })

@@ -115,7 +115,7 @@
 }
 .attendance-new-detail{
     height:680px;
-    width:877px;
+    /* width:877px; */
     overflow-y: auto;
     background: #fff;
     background: #FFFFFF;
