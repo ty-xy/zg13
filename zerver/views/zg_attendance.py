@@ -804,11 +804,10 @@ def attendance_data(request, user_profile):
          'attendance_count': attendance_count, 'overdue_count': overdue_count,
          'absenteeism_count': absenteeism_count})
 
-
+# 重新定位
 def attendance_location(request, user_profile):
     my_longitude = request.GET.get('longitude')
     my_latitude = request.GET.get('latitude')
-
     longitude = user_profile.atendance.longitude
     latitude = user_profile.atendance.latitude
     my_longitude = float(my_longitude)
@@ -826,8 +825,7 @@ def attendance_location(request, user_profile):
         return JsonResponse({'errno': '0', 'message': '2'})
 
 
-
-# 外勤打卡
+# 外勤页面
 def outside_sign_in_view(request, user_profile):
     my_longitude = request.GET.get('longitude')
     my_latitude = request.GET.get('latitude')
@@ -843,7 +841,7 @@ def outside_sign_in_view(request, user_profile):
     default_distance = user_profile.atendance.default_distance
 
     if distance < default_distance:
-        return JsonResponse({'errno': '0', 'message': '1'})
+        return JsonResponse({'errno': '1', 'message': '您当前在考勤范围内'})
 
     stockpile_time = datetime.utcnow()
     stockpile_time = stockpile_time.replace(tzinfo=timezone.utc)
@@ -854,16 +852,45 @@ def outside_sign_in_view(request, user_profile):
                                             sign_in_time__year=year,
                                             sign_in_time__month=month,
                                             sign_in_time__day=day)
+    outside_list = list()
+    for outside in outsides:
+        outside_dict = dict()
+        outside_dict['sign_in_time'] = outside.sign_in_time
+        outside_dict['longitude'] = outside.longitude
+        outside_dict['latitude'] = outside.latitude
+        outside_dict['site'] = outside.site
+        outside_dict['img_url'] = outside.img_url
+        outside_dict['notes'] = outside.notes
+        outside_dict['type'] = outside.outsidework_notes
+        outside_list.append(outside_dict)
 
-    # outside_list=list()
-    # for outside in outsides:
-    #     outside_dict=dict()
-    #     outside_dict['sign_in_time']=outside.sign_in_time
-    #     outside_dict['sign_off_time']=outside.sign_off_time
-    #     outside_dict['sign_in_time']=outside.
-    #     outside_dict['sign_in_time']=outside.
+    return JsonResponse({'errno': '0', 'message': '成功', 'outside_list': outside_list})
 
+# 外勤打卡
+def outside_sign_in(request, user_profile):
+    req = request.body
+    req = req.decode()
+    req = json.loads(req)
+    type = req.get('type')
+    longitude = req.get('longitude')
+    latitude = req.get('latitude')
+    site = req.get('site')
 
-def outside_sign_in(request,user_profile):
+    notes = req.get('notes')
+    img_url = req.get('img_url')
 
-    pass
+    stockpile_time = datetime.utcnow()
+    stockpile_time = stockpile_time.replace(tzinfo=timezone.utc)
+
+    if not all([type, longitude, latitude, site]):
+        return JsonResponse({'errno': '1', 'message': '缺少必要参数'})
+    try:
+        ZgOutsideWork.objects.create(outsidework_notes=type, longitude=longitude, latitude=latitude, site=site,
+                                     notes=notes,
+                                     img_url=img_url, sign_in_time=stockpile_time)
+    except Exception:
+        return JsonResponse({'errno': '2', 'message': '外勤打卡失败'})
+
+    return JsonResponse(
+        {'errno': '0', 'message': '成功', 'type': type, 'longitude': longitude, 'latitude': latitude, 'site': site,
+         'notes': notes, 'img_url': img_url, 'stockpile_time': stockpile_time})
