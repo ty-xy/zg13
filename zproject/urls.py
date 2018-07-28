@@ -462,7 +462,6 @@ v1_api_and_json_patterns = [
     # 定位
     url(r'^zg/attendance/location', rest_dispatch,
         {'GET': 'zerver.views.zg_attendance.attendance_location'}),
-
     # 打卡
     url(r'^zg/attendance/sign_in/$', rest_dispatch,
         {'POST': 'zerver.views.zg_attendance.sign_in_post'}),
