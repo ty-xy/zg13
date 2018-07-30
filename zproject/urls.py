@@ -420,9 +420,6 @@ v1_api_and_json_patterns = [
         {'POST': 'zerver.views.zg_backlog.reply_comment'}),
     # ------考勤信息----
 
-    # 打卡
-    url(r'^zg/attendance/sign/$', rest_dispatch,
-        {'POST': 'zerver.views.zg_attendance.sign_in_def'}),
 
     # web个人月历
     url(r'^zg/attendance/month/solo/web$', rest_dispatch,
@@ -463,8 +460,26 @@ v1_api_and_json_patterns = [
         {'PATCH': 'zerver.views.zg_attendance.attendance_repair'}),
 
     # ----个人打卡----
-    url(r'^zg/attendance/sign_in$', rest_dispatch,
+    # 获取打卡球内信息
+    url(r'^zg/attendance/sign_in_view$', rest_dispatch,
         {'GET': 'zerver.views.zg_attendance.sign_in_view'}),
+    # 定位
+    url(r'^zg/attendance/location', rest_dispatch,
+        {'GET': 'zerver.views.zg_attendance.attendance_location'}),
+    # 打卡
+    url(r'^zg/attendance/sign_in/$', rest_dispatch,
+        {'POST': 'zerver.views.zg_attendance.sign_in_post'}),
+    # 打卡页面考勤信息
+    url(r'^zg/attendance/sign_in/attendance_data$', rest_dispatch,
+        {'GET': 'zerver.views.zg_attendance.attendance_data'}),
+
+    # 外勤页面
+    url(r'^zg/attendance/sign_in/outside/view$', rest_dispatch,
+        {'GET': 'zerver.views.zg_attendance.outside_sign_in_view'}),
+    # 外勤打卡
+    url(r'^zg/attendance/sign_in/outside/$', rest_dispatch,
+        {'POST': 'zerver.views.zg_attendance.outside_sign_in'}),
+
 
 ]
 
@@ -779,8 +794,8 @@ def handler400(request: HttpRequest, exception: Exception) -> HttpResponse:
 # @sched.interval_schedule(seconds=3)
 # def my_task():
 #     testFuncton()
-#
-#
+# #
+# #
 # sched.start()
 
 
