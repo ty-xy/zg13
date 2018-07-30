@@ -884,7 +884,6 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
 class ZgOutsideWork(models.Model):
     user_name = models.ForeignKey(UserProfile)
     sign_in_time = models.DateTimeField(verbose_name="签到时间")
-    sign_off_time = models.DateTimeField(verbose_name="签退时间")
     longitude = models.CharField(max_length=20, verbose_name="经度")
     latitude = models.CharField(max_length=20, verbose_name="维度")
     site = models.CharField(max_length=40, verbose_name='打卡地点名')

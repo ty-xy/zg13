@@ -1083,6 +1083,7 @@ def users_view(request,user_profile):
         user_dict['user_avatar'] = avatar.absolute_avatar_url(user)
         user_dict['name']=user.full_name
         user_dict['id'] = user.id
+        user_dict['email'] = user.email
         user_list.append(user_dict)
     return JsonResponse({'errno':'0','message':'成功','user_list':user_list})
 

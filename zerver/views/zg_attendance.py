@@ -884,12 +884,12 @@ def outside_sign_in(request, user_profile):
 
     if not all([type, longitude, latitude, site]):
         return JsonResponse({'errno': '1', 'message': '缺少必要参数'})
-    try:
-        ZgOutsideWork.objects.create(outsidework_notes=type, longitude=longitude, latitude=latitude, site=site,
-                                     notes=notes,
+    # try:
+    ZgOutsideWork.objects.create(outsidework_notes=type, longitude=longitude, latitude=latitude, site=site,
+                                     notes=notes,user_name=user_profile,
                                      img_url=img_url, sign_in_time=stockpile_time)
-    except Exception:
-        return JsonResponse({'errno': '2', 'message': '外勤打卡失败'})
+    # except Exception:
+    #     return JsonResponse({'errno': '2', 'message': '外勤打卡失败'})
 
     return JsonResponse(
         {'errno': '0', 'message': '成功', 'type': type, 'longitude': longitude, 'latitude': latitude, 'site': site,

@@ -12,6 +12,15 @@ var contact = (function(){
                     var user_list = res.user_list;
                     var user_list_our = templates.render("user_list_our",{user_list:user_list})
                     $(".notice_ctn_box").append(user_list_our)
+                    //点击联系人弹出右边页面
+                    $(".notice_ctn_box").on("click",".user_list_box",function(){
+                        var user_name = $(this).children().last().text();
+                        var user_id = $(this).attr("user_id");
+                        var email = $(this).attr("email");
+                        console.log(user_name)
+                        console.log(user_id)
+                        console.log(email)
+                    })
                 }
             })
         })
