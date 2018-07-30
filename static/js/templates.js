@@ -30,7 +30,7 @@ exports.render = function (name, arg) {
 // named arguments.  Arguments should alternate between strings which will be
 // used as the name and the associated value.
 Handlebars.registerHelper('partial', function (template_name) {
-    console.log(template_name)
+    // console.log(template_name)
     var extra_data = {};
     var args_len = arguments.length;
     var i;
@@ -39,7 +39,7 @@ Handlebars.registerHelper('partial', function (template_name) {
         extra_data[arguments[i]] = arguments[i + 1];
     }
     var data = _.extend({}, this, extra_data);
-    console.log(data)
+    // console.log(data)
     return new Handlebars.SafeString(exports.render(template_name, data));
 });
 
