@@ -62,6 +62,7 @@ exports.activate = function (raw_operators, opts) {
     // If the operator is something other than "stream", "topic", or
     // "is", we shouldn't update the narrow title
     if (filter.has_operator("stream")) {
+         console.log(111111111111)
         if (filter.has_operator("topic")) {
             exports.narrow_title = filter.operands("topic")[0];
         } else {

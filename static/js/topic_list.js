@@ -170,7 +170,7 @@ exports.widget = function (parent_elem, my_stream_id) {
         self.active_topic = active_topic;
 
         self.dom = self.build_list();
-
+        console.log(parent_elem)
         parent_elem.append(self.dom);
 
         // We often rebuild an entire topic list, and the

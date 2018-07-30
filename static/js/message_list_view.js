@@ -457,7 +457,9 @@ MessageListView.prototype = {
 
         var list = this.list; // for convenience
         var table_name = this.table_name;
+        console.log(rows,"rows",table_name)
         var table = rows.get_table(table_name);
+        console.log(table,"table")
         var orig_scrolltop_offset;
         var message_containers;
 
@@ -512,7 +514,7 @@ MessageListView.prototype = {
         // Render new message groups on the top
         if (message_actions.prepend_groups.length > 0) {
             save_scroll_position();
-
+           
             rendered_groups = $(templates.render('message_group', {
                 message_groups: message_actions.prepend_groups,
                 use_match_properties: self.list.filter.is_search(),
@@ -909,6 +911,7 @@ MessageListView.prototype = {
                 same_recipient(current_group[current_group.length - 1], message_container)) {
                 current_group.push(message_container);
             } else {
+                console.log(current_group)
                 message_groups.push(current_group);
                 current_group = [];
             }

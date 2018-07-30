@@ -466,3 +466,73 @@ a.message-control-button {
     margin: 0 2px;
     cursor: pointer;
 }
+.message_table_left{
+    width:130px;
+    background: #FFFFFF;
+    height:790px;
+    border:1px solid #ddd;
+    border-top:none;
+    border-left:none;
+    box-sizing:border-box;
+    /* margin-top:50px; */
+}
+
+.message-middle-total{
+    display:flex
+}
+.home-title{
+    height:89px;
+    border-bottom:1px solid #ddd;
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    padding:0 20px;
+}
+.home-title>button{
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #333333;
+    letter-spacing: 0.16px;
+    border:none
+}
+.group_setting{
+    position:absolute;
+    right:0;
+    bottom:0;
+    top:0;
+    height:100%;
+    width:380px;
+    z-index:500000;
+    background: #FFFFFF;
+    box-shadow: 0 2px 4px 0 rgba(179,179,179,0.50);
+    display:none
+}
+.setting_body{
+    padding:20px
+}
+.setting_body>h1{
+    font-family: PingFangSC-Medium;
+    font-size: 16px;
+    color: #333333;
+    letter-spacing: 0.18px;
+}
+.color-setting{
+    display: inline-block;
+    height:44px;
+    width:44px;
+    border-radius:50%;
+    background: #4584FF;
+    font-family: PingFangSC-Medium;
+    font-size: 16px;
+    color: #FFFFFF;
+    letter-spacing: 0.18px;
+}
+.color-setting-total>span{
+    display: inline-block;
+}
+.color-setting-total{
+   height:44px;
+   display:flex;
+   align-items: center;
+   margin-top:20px;
+}
