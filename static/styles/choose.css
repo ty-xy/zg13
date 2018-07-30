@@ -536,3 +536,13 @@ a.message-control-button {
    align-items: center;
    margin-top:20px;
 }
+.group_icon{
+    height:50px;
+    padding:0 20px;
+}
+.icon_qunzu{
+    display: inline-block;
+    height:38px;
+    width:38px;
+    border-radius: 50%;
+}

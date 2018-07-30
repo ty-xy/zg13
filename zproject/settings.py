@@ -1183,7 +1183,8 @@ JS_SPECS = {
             'third/bootstrap-datetimepicker.min.js',
             'js/choose_file.js',
             'js/file.js',
-            'js/attendance.js'
+            'js/attendance.js',
+            'js/contact.js'
 
         ],
         'output_filename': 'min/app.js'

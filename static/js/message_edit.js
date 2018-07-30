@@ -480,6 +480,8 @@ exports.show_history = function (message) {
         url: "/json/messages/" + message.id + "/history",
         data: {message_id: JSON.stringify(message.id)},
         success: function (data) {
+            console.log(message.id)
+            console.log(data)
             // For now, we ignore topic edits
             var content_edit_history = [];
             var prev_timestamp;

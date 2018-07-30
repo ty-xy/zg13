@@ -280,7 +280,7 @@ p.n-margin {
     position: absolute;
     left: 0px;
     top: 0px;
-    background: #2196F3;
+    /* background: #2196F3; */
 }
 
 .column-right {
@@ -290,11 +290,12 @@ p.n-margin {
     display: none;
 }
 .column_two{
-    width: 300px;
+    width: 360px;
     height: 100%;
     border-right: 1px solid #ddd;
     float: left;
     margin-left: 100px;
+    overflow-y: auto;
 }
 .app-main .column-left .left-sidebar,
 .app-main .column-right .right-sidebar {
@@ -320,7 +321,7 @@ p.n-margin {
 
 .column-middle {
     /* margin-right: 250px; */
-    margin-left: 200px;
+    margin-left: 461px;
     position: relative;
     height: 25px;
 }
