@@ -1073,3 +1073,17 @@ def accomplis_backlogs_view(request, user_profile):
         accomplis_backlogs_listss.append(a)
 
     return JsonResponse({'errno': 0, 'message': '成功', 'accomplis_backlog_list': accomplis_backlogs_listss})
+
+
+def users_view(request,user_profile):
+    users=UserProfile.objects.all()
+    user_list=list()
+    for user in users:
+        user_dict=dict()
+        user_dict['user_avatar'] = avatar.absolute_avatar_url(user)
+        user_dict['name']=user.full_name
+        user_dict['id'] = user.id
+        user_list.append(user_dict)
+    return JsonResponse({'errno':'0','message':'成功','user_list':user_list})
+
+        

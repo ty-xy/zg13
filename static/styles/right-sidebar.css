@@ -93,6 +93,7 @@
     border-color: hsl(0, 0%, 50%);
     float: right;
     margin-right: 1px;
+    display: none;
 }
 
 .user_unknown .user-status-indicator {

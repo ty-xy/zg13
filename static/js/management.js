@@ -1652,7 +1652,7 @@ var management = (function () {
     //     console.log(taskdetail_s)
     // })
     });
-
+    
     
     
     return exports;
