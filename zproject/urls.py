@@ -349,6 +349,10 @@ v1_api_and_json_patterns = [
     url(r'^zg/person/$', rest_dispatch,
         {'POST': 'zerver.views.zg_backlog.person_list'}),
 
+    # 用户列表
+    url(r'^zg/user$', rest_dispatch,
+        {'GET': 'zerver.views.zg_backlog.users_view'}),
+
     # 待办事项
     url(r'^zg/backlog/$', rest_dispatch,
         {'POST': 'zerver.views.zg_backlog.backlogs_view_po',

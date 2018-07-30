@@ -61,9 +61,6 @@ function process_result(data, opts) {
 }
 
 function get_messages_success(data, opts) {
-    console.log("!!!")
-    console.log(data)
-    console.log(opts)
     if (opts.msg_list.narrowed && opts.msg_list !== current_msg_list) {
         // We unnarrowed before receiving new messages so
         // don't bother processing the newly arrived messages.
@@ -100,7 +97,6 @@ exports.load_messages = function (opts) {
     if (opts.use_first_unread_anchor) {
         data.use_first_unread_anchor = true;
     }
-
     data.client_gravatar = true;
     // if(opts.msg_list.filter._operators[0].operand=== "management"){
     //     opts.msg_list.filter._operators[0].operand= "private"
@@ -131,15 +127,11 @@ exports.load_messages = function (opts) {
             }
         })
     }
-    console.log("-----------------------")
-    console.log(data)
     channel.get({
         url:      '/json/messages',
         data:     data,
         idempotent: true,
         success: function (data) {
-            console.log("------------------------++++++++++++++++++")
-            console.log(data)
             get_messages_success(data, opts);
             if(data.result == "success"){
             $.ajax({
@@ -149,19 +141,6 @@ exports.load_messages = function (opts) {
                     if(res.errno == 0){
                         $(".todo_box").children().remove();
                         var state = "";
-                        // for(var key in res.backlog_list){
-                        //     $(".todo_box").append("<li class='todo'>\
-                        //     <div class='todo_left'>\
-                        //             <input type='checkbox' class='add_checkbox' inputid = "+res.backlog_list[key].id+" state = "+res.backlog_list[key].state+">\
-                        //             <p class='add_ctn' over_time="+res.backlog_list[key].over_time+" task="+res.backlog_list[key].task+" taskid="+ res.backlog_list[key].id +" taskdetails="+res.backlog_list[key].task_details+">"+res.backlog_list[key].task+"</p>\
-                        //     </div>\
-                        //     <div class='todo_right'>\
-                        //             <i class='iconfont icon-beizhu note_icon'></i>\
-                        //             <i class='iconfont icon-fujian1 attachment_icon'></i>\
-                        //             <p class='add_datatime'>"+res.backlog_list[key].over_time+"</p>\
-                        //     </div>\
-                        // </li>")
-                        // }
                         var backlog_list = res.backlog_list
                         var past_due_list = res.past_due_list
                         var html_li = templates.render("todo_box_li",{backlog_list:backlog_list,past_due_list:past_due_list});
