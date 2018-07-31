@@ -601,3 +601,34 @@ a#undo_markdown_preview {
     font-size: 14px;
     color: #999;
 }
+.compose-title{
+    margin-right:0 !important;
+    display:flex;
+    justify-content: space-between;
+}
+.create-topic{
+    border:none;
+    font-family: PingFangSC-Regular;
+    font-size: 15px;
+    color: #4584FF;
+    letter-spacing: 0.22px;
+}
+.topic-list{
+    display:flex
+}
+.topic-item-list{
+    height:34px;
+    width:124px;
+    box-sizing: border-box;
+    /* background: #4584FF; */
+    border: 1px solid #4584FF;
+    border-radius: 100px;
+    margin-right:10px;
+    text-align: center;
+    line-height:34px;
+    cursor: pointer;
+}
+.compos-left-title{
+   display: flex;
+   align-items: center;
+}

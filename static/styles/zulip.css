@@ -2924,7 +2924,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
 }
 #streams_list{
     margin-top: 50px;
-    display: none;
+    display: block
 }
 #ppp{
     display: show;

@@ -11,20 +11,59 @@ var message_group = (function () {
         $(".group_icon").on("click",function(e){
             $("#empty_narrow_all_mentioned").hide()
             $("#zhome").hide()
-              $("#group_seeting_choose").show()
-              $(".home-title").hide()
-              $(".home_gruop_title").show()
-               var streams = stream_data.subscribed_subs();
-               var subscriptions = stream_data.get_streams_for_settings_page();
-               var content1 =  templates.render('show_group', {subscriptions:streams});
-              $("#group_seeting_choose").html(content1)
+            $("#group_seeting_choose").show()
+            $(".home-title").hide()
+            $(".home_gruop_title").show()
+            var streams = stream_data.subscribed_subs();
+            var subscriptions = stream_data.get_streams_for_settings_page();
+            var content1 =  templates.render('show_group', {subscriptions:streams});
+            $("#group_seeting_choose").html(content1)
               //已订阅的群组
+            $(".streams-list").on("click",".stream-row",function(){
+                var name =  $(this).attr("data-stream-name")
+                var index = $(this).attr("data-stream-id")
+                var nfirst= name.slice(0,1)
+                var  li = "<li class='group_list_index' data_steam_id="+index+" >\
+                             <span class='color-setting avatar_setting'>"+nfirst+"</span>\
+                             <div class='list-setting-common'>\
+                               <div class='list-right-setting'>\
+                                  <span>"+name+"</span>\
+                                  <span>12:15</span>\
+                               </div>\
+                               <p>请假申请发给你啦，通过一下…</p>\
+                             </div>\
+                           </li>"
+                $(".notice_ctn_box").empty()
+                $(".group_icon").hide()
+                $(window).attr("location","#narrow/is/private")
+                $(".home-title").show()
+                $(".home-title span").html(name)
+                $(".home_gruop_title").hide()
+                $("#zfilt").hide()
+                $(".notice_ctn_box").append(li)
+                $(".group_list_index").on("click",function(){
+                    $(window).attr("location","#narrow/stream/"+index+"-"+name+"")
+                    $("#zfilt").show()
+                    var topic_names = topic_data.get_recent_names(index);
+                    var li = templates.render('topic_list', {topiclist:topic_names});
+                    $(".topic-list").html(li)
+                    $(".topic-item-list").on("click",function(){
+                         var topic= $.trim($(this).text())
+                         var person=page_params.full_name
+                        //  console.log(message_list.last())
+                         $(this).css("background","#4584FF").siblings().css("background","#fff")
+                        $(window).attr("location","#narrow/stream/"+index+"-"+name+"/topic/"+topic+"")
+                    })
+                })
+            
+              })
+               
               $(".all_group").on("click",function(){
-                  common(subscriptions,".all_group")
+                common(subscriptions,".all_group")
               })
               //全部群组
               $(".already_sub").on("click",function(){
-                 common(streams,".already_sub")
+                common(streams,".already_sub")
             })
         })
         $(".home-title").on("click","button",function(e){

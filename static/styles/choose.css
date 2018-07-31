@@ -542,6 +542,7 @@ a.message-control-button {
     padding:0 20px;
     line-height: 50px;
     cursor: pointer;
+    display:none;
 }
 .icon_qunzu{
     display: inline-block;
@@ -583,4 +584,27 @@ a.message-control-button {
     height:40px;
     width:230px;
     color:#fff !important;
+}
+.group_list_index{
+    padding:0 20px;
+}
+.group_list_index,.list-setting-commn{
+    display:flex;
+}
+.list-setting-common{
+    margin-left:10px;
+}
+.avatar_setting{
+   line-height:44px;
+   text-align:center;
+}
+.list-right-setting{
+    display:flex;
+    justify-content: space-between
+}
+.topic-item-list{
+    
+}
+.inline-right{
+    float:right
 }
