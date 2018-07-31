@@ -296,6 +296,8 @@ p.n-margin {
     float: left;
     margin-left: 100px;
     overflow-y: auto;
+    position: absolute;
+    z-index: 111;
 }
 .app-main .column-left .left-sidebar,
 .app-main .column-right .right-sidebar {
@@ -1089,6 +1091,7 @@ td.pointer {
 
 .message-header-contents {
     /* border-right: 1px solid hsl(0, 0%, 88%); */
+    /* display: none; */
 }
 
 .mention .messagebox {
@@ -1104,7 +1107,7 @@ td.pointer {
 }
 
 .unread_marker {
-    display: block;
+    /* display: none; */
     position: absolute;
     left: 2px;
     top: 0px;
@@ -1162,7 +1165,7 @@ td.pointer {
                      -1px 1px 0px 0px hsl(215, 47%, 50%),
                       1px -1px 0px 0px hsl(215, 47%, 50%); */
     /* border: 2px solid #D8E7FF;*/
-    box-shadow: 0px 4px 5px #999;
+    /* box-shadow: 0px 4px 5px #999; */
 }
 
 .message_sender {
@@ -1175,9 +1178,10 @@ td.pointer {
     display: inline-block;
     font-weight: 700;
     vertical-align: top;
-    line-height: 12px;
+    line-height: 34px;
     font-size: 14px;
     margin-left: -3px;
+    /* display: none; */
 }
 
 .sender-status {
@@ -1544,7 +1548,7 @@ blockquote p {
 
 .messagebox p:last-of-type {
     margin-bottom: 3px;
-    background: #F2F2F2;
+    background: #F4F5F7;
     border-radius: 10px;
     padding: 10px 10px;
     margin-top: 24px;
@@ -3316,7 +3320,8 @@ div.topic_edit_spinner .loading_indicator_spinner {
 }
 .tab-content {
     /* overflow: hidden; */
-    height: 815px;
+    /* height: 774px; */
+    height: calc(100% - 232px);
     overflow-y: auto;
 }
 .new_task>input:focus,.new_plan>input:focus{

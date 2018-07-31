@@ -19,7 +19,7 @@
     }
 
     .column-right {
-        display: none;
+        /* display: none; */
     }
 
     .column-right.expanded {

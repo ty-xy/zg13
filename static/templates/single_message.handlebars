@@ -15,7 +15,7 @@
                             </div>
                             {{#if status_message}}
                                 <span class="sender-status">
-                                    <span class="sender_name-in-status auto-select sender_info_hover">{{msg/sender_full_name}}</span>
+                                    <span class="sender_name-in-status auto-select sender_info_hover user_me" user_name="{{msg/sender_full_name}}">{{msg/sender_full_name}}</span>
                                     {{#if sender_is_bot}}
                                     <i class="zulip-icon bot" aria-hidden="true"></i>
                                     {{/if}}
@@ -27,7 +27,7 @@
                                     {{/if_and}}
                                 </span>
                             {{else}}
-                                <span class="sender_name auto-select">{{msg/sender_full_name}}</span>
+                                <span class="sender_name auto-select user_me"  name="{{msg/sender_full_name}}" user_name="{{msg/sender_full_name}}">{{msg/sender_full_name}}</span>
                                 {{#if sender_is_bot}}
                                 <i class="zulip-icon bot" aria-hidden="true"></i>
                                 {{/if}}
@@ -41,7 +41,7 @@
                         <div class="message_edit_notice" title="{{#tr this}}Edited (__last_edit_timestr__){{/tr}}">{{t "EDITED" }}</div>
                         {{/unless}}
                     {{/if_and}}
-                    <div class="message_controls{{#status_message}} sender-status-controls{{/status_message}} no-select">
+                    {{!-- <div class="message_controls{{#status_message}} sender-status-controls{{/status_message}} no-select">
                         {{#if msg/sent_by_me}}
                         <div class="edit_content"></div>
                         {{else}}
@@ -66,7 +66,7 @@
                         </div>
                         {{/unless}}
 
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="message_content">{{#unless status_message}}{{#if use_match_properties}}{{{msg/match_content}}}{{else}}{{{msg/content}}}{{/if}}{{/unless}}</div>
                 {{#if last_edit_timestr}}

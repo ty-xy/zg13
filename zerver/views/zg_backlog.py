@@ -1084,7 +1084,8 @@ def users_view(request,user_profile):
         user_dict['name']=user.full_name
         user_dict['id'] = user.id
         user_dict['email'] = user.email
+        user_dict['short_name'] = user.short_name
         user_list.append(user_dict)
-    return JsonResponse({'errno':'0','message':'成功','user_list':user_list})
+    return JsonResponse({'errno':'0','message':'成功','user_list':user_list,'user_me':user_profile.full_name})
 
         

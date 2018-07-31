@@ -444,6 +444,8 @@ MessageListView.prototype = {
         var msg_to_render = _.extend(message_container, {
             table_name: this.table_name,
         });
+        console.log(msg_to_render)
+        console.log("hellow wolr d")
         return templates.render('single_message', msg_to_render);
     },
 

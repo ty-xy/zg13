@@ -698,3 +698,56 @@ li.show-more-private-messages a {
 .user_list_box:hover{
     background: #F1F6FD;
 }
+.user_detail_box{
+    text-align: center;
+}
+.user_detail_img_box{
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #14A4FA;
+    margin: 0 auto;
+    margin-top: 200px;
+}
+.user_detail_img{
+    width: 160px;
+    height: 160px;
+}
+.user_detail_name{
+    font-size: 24px;
+    color: #333333;
+    letter-spacing: 0.27px;
+    margin-top: 50px;
+}
+.user_detail_email{
+    font-size: 18px;
+    color: #666666;
+    letter-spacing: 0.2px;
+    margin-top: 16px;
+}
+.user_detail_send{
+    width: 300px;
+    height: 50px;
+    background: #4584FF;
+    color: #fff;
+    font-size: 17px;
+    color: #FFFFFF;
+    letter-spacing: 0.27px;
+    line-height: 50px;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 100px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.private_user_name{
+    font-size: 18px;
+    color: #333333;
+    letter-spacing: 0.2px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 20px;
+}
+.float{
+    float: right;
+}
