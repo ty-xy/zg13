@@ -466,3 +466,145 @@ a.message-control-button {
     margin: 0 2px;
     cursor: pointer;
 }
+.message_table_left{
+    width:130px;
+    background: #FFFFFF;
+    height:790px;
+    border:1px solid #ddd;
+    border-top:none;
+    border-left:none;
+    box-sizing:border-box;
+    /* margin-top:50px; */
+}
+
+.message-middle-total{
+    display:flex
+}
+.home-title,.home_gruop_title,.home_title_body{
+    height:89px;
+    border-bottom:1px solid #ddd;
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    padding:0 20px;
+}
+.home-title>button,.home_title_body>button{
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #333333;
+    letter-spacing: 0.16px;
+    border:none
+}
+.group_setting{
+    position:absolute;
+    right:0;
+    bottom:0;
+    top:0;
+    height:100%;
+    width:380px;
+    z-index:500000;
+    background: #FFFFFF;
+    box-shadow: 0 2px 4px 0 rgba(179,179,179,0.50);
+    display:none
+}
+.setting_body{
+    padding:20px
+}
+.setting_body>h1{
+    font-family: PingFangSC-Medium;
+    font-size: 16px;
+    color: #333333;
+    letter-spacing: 0.18px;
+}
+.color-setting{
+    display: inline-block;
+    height:44px;
+    width:44px;
+    border-radius:50%;
+    background: #4584FF;
+    font-family: PingFangSC-Medium;
+    font-size: 16px;
+    color: #FFFFFF;
+    letter-spacing: 0.18px;
+}
+.color-setting-total>span{
+    display: inline-block;
+}
+.color-setting-total{
+   height:44px;
+   display:flex;
+   align-items: center;
+   margin-top:20px;
+}
+.group_icon{
+    height:50px;
+    position: relative;
+    padding:0 20px;
+    line-height: 50px;
+    cursor: pointer;
+    display:none;
+}
+.icon_qunzu{
+    display: inline-block;
+    height:38px;
+    width:38px;
+    border-radius: 50%;
+    background: #4584FF;
+    line-height:38px; 
+    text-align:center
+}
+.icon-pindao{
+    color:#fff;
+    
+}
+.icon-xiayiji{
+    position: absolute;
+    right:20px;
+}
+#group_seeting_choose{
+    display:none
+}
+.home_gruop_title{
+    display:none
+}
+.home_title_body{
+    display:flex;
+}
+.all_group,.already_sub{
+    cursor: pointer;
+    font-family: PingFangSC-Medium;
+    font-size: 18px;
+    color: #888888;
+    letter-spacing: 0.2px;
+    margin-right:52px;
+}
+.new_setting{
+    background: #4584FF;
+    border-radius: 4px;
+    height:40px;
+    width:230px;
+    color:#fff !important;
+}
+.group_list_index{
+    padding:0 20px;
+}
+.group_list_index,.list-setting-commn{
+    display:flex;
+}
+.list-setting-common{
+    margin-left:10px;
+}
+.avatar_setting{
+   line-height:44px;
+   text-align:center;
+}
+.list-right-setting{
+    display:flex;
+    justify-content: space-between
+}
+.topic-item-list{
+    
+}
+.inline-right{
+    float:right
+}

@@ -207,6 +207,11 @@ MessageListView.prototype = {
         _.each(message_containers, function (message_container) {
             var message_reactions = reactions.get_message_reactions(message_container.msg);
             message_container.msg.message_reactions = message_reactions;
+            if(message_container.msg.sender_full_name===page_params.full_name){
+                message_container.compare=true;
+            }else{
+                message_container.compare=false
+            }
             message_container.include_recipient = false;
             message_container.include_footer    = false;
 
@@ -388,6 +393,7 @@ MessageListView.prototype = {
                                      last_msg_container);
                 }
             }
+            console.log(new_message_groups,"new_message_groups")
             message_actions.append_groups = new_message_groups;
             this._message_groups = this._message_groups.concat(new_message_groups);
         }
@@ -444,6 +450,7 @@ MessageListView.prototype = {
         var msg_to_render = _.extend(message_container, {
             table_name: this.table_name,
         });
+        console.log(msg_to_render,"dededee")
         return templates.render('single_message', msg_to_render);
     },
 
@@ -457,7 +464,9 @@ MessageListView.prototype = {
 
         var list = this.list; // for convenience
         var table_name = this.table_name;
+        console.log(rows,"rows",table_name)
         var table = rows.get_table(table_name);
+        console.log(table,"table",list)
         var orig_scrolltop_offset;
         var message_containers;
 
@@ -508,11 +517,10 @@ MessageListView.prototype = {
         _.each(message_containers, function (message_container) {
             self.message_containers[message_container.msg.id] = message_container;
         });
-
+        console.log(message_actions.prepend_groups,self.list.filter.is_search(),21213213213123123,self.table_name)
         // Render new message groups on the top
         if (message_actions.prepend_groups.length > 0) {
             save_scroll_position();
-
             rendered_groups = $(templates.render('message_group', {
                 message_groups: message_actions.prepend_groups,
                 use_match_properties: self.list.filter.is_search(),
@@ -526,6 +534,7 @@ MessageListView.prototype = {
 
             // The date row will be included in the message groups or will be
             // added in a rerenderd in the group below
+            console.log(rendered_groups,"eqweqweq")
             table.find('.recipient_row').first().prev('.date_row').remove();
             table.prepend(rendered_groups);
             condense.condense_and_collapse(dom_messages);
@@ -595,7 +604,7 @@ MessageListView.prototype = {
 
             dom_messages = rendered_groups.find('.message_row');
             new_dom_elements = new_dom_elements.concat(rendered_groups);
-
+            console.log(message_actions.append_groups,self.list.filter.is_search(),self.table_name)
             self._post_process_dom_messages(dom_messages.get());
 
             // This next line is a workaround for a weird scrolling
@@ -611,7 +620,7 @@ MessageListView.prototype = {
             // the view).  During debugging, we found that this adding
             // this next line seems to prevent the Chrome bug from firing.
             message_viewport.scrollTop();
-
+            console.log(rendered_groups,"rendered_groups")
             table.append(rendered_groups);
             condense.condense_and_collapse(dom_messages);
         }
@@ -645,7 +654,7 @@ MessageListView.prototype = {
                 var message_row = self.get_row(message_group.message_containers[0].msg.id);
                 return rows.get_message_recipient_row(message_row);
             };
-
+            console.log(get_element,"get_element",new_message_groups)
             compose_fade.update_rendered_message_groups(new_message_groups, get_element);
         }
 
@@ -878,6 +887,7 @@ MessageListView.prototype = {
         message_container.contains_mention = message_container.msg.mentioned;
 
         var rendered_msg = $(this._get_message_template(message_container));
+        console.log(rendered_msg,"rendered_msg")
         if (message_content_edited) {
             rendered_msg.addClass("fade-in-message");
         }
@@ -909,6 +919,7 @@ MessageListView.prototype = {
                 same_recipient(current_group[current_group.length - 1], message_container)) {
                 current_group.push(message_container);
             } else {
+                console.log(current_group)
                 message_groups.push(current_group);
                 current_group = [];
             }

@@ -148,6 +148,7 @@ exports.get_non_default_stream_names = function () {
 };
 
 exports.subscribed_subs = function () {
+    
     return _.where(stream_info.values(), {subscribed: true});
 };
 

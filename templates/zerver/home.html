@@ -8,217 +8,218 @@
             </g>
         </svg>
     </div> -->
-    <div id="loading_more_messages_indicator"></div>
-    <div id="page_loading_indicator"></div>
-    <div id="first_run_message" class="empty_feed_notice">
-        <h4>{% trans %}Welcome to Zulip.{% endtrans %}</h4>
-        <p>
-            {% trans %}
-            See, the thing about it is... there aren't any messages
-            here for you right now. I'm sure someone will eventually send
-            you one.
-            {% endtrans %}
-        </p>
+        <div id="group_seeting_choose"  class="empty_feed_notice">312312</div>
+        <div id="loading_more_messages_indicator"></div>
+        <div id="page_loading_indicator"></div>
+        <div id="first_run_message" class="empty_feed_notice">
+            <h4>{% trans %}Welcome to Zulip.{% endtrans %}</h4>
+            <p>
+                {% trans %}
+                See, the thing about it is... there aren't any messages
+                here for you right now. I'm sure someone will eventually send
+                you one.
+                {% endtrans %}
+            </p>
 
-        <p>
-            {% trans %}
-            Or, <strong>take matters into your own hands</strong>,
-            and <a href="#" class="empty_feed_compose_stream">
-            compose a new stream message</a>.
-            {% endtrans %}
-        </p>
-    </div>
-    <div id="empty_narrow_message" class="empty_feed_notice">
-        <h4>{{ _("Nothing's been sent here yet!") }}</h4>
-        <p>
-            {% trans %}
-            Why not <a href="#" class="empty_feed_compose_stream">
-            start the conversation</a>?
-            {% endtrans %}
-        </p>
-    </div>
-    <div id="empty_narrow_all_private_message" class="empty_feed_notice">
-        <h4>{{ _('You have no private messages yet!') }}</h4>
-        <p>
-            {% trans %}
-            Why not <a href="#" class="empty_feed_compose_private">
-            start the conversation</a>?
-            {% endtrans %}
-        </p>
-    </div>
-    <div id="empty_narrow_private_message" class="empty_feed_notice">
-        <h4>{{ _('You have no private messages with this person yet!') }}</h4>
-
-        <p>
-            {% trans %}
-            Why not <a href="#" class="empty_feed_compose_private">
-            start the conversation</a>?
-            {% endtrans %}
-        </p>
-    </div>
-    <div id="empty_narrow_group_private_message" class="empty_feed_notice">
-        <h4>{{ _('You have no group private messages with this person yet!') }}</h4>
-
-        <p>
-            {% trans %}
-            Why not <a href="#" class="empty_feed_compose_private">
-            start the conversation</a>?
-            {% endtrans %}
-        </p>
-    </div>
-    <div id="empty_narrow_multi_private_message" class="empty_feed_notice">
-        <h4>{{ _('You have no private messages with these people yet!') }}</h4>
-
-        <p>
-            {% trans %}
-            Why not <a href="#" class="empty_feed_compose_private">
-            start the conversation</a>?
-            {% endtrans %}
-        </p>
-    </div>
-    <div id="silent_user" class="empty_feed_notice">
-        <h4>{{ _("You haven't received any messages sent by this user yet!") }}</h4>
-    </div>
-    <div id="non_existing_user" class="empty_feed_notice">
-        <h4>{{ _("This user does not exist!") }}</h4>
-    </div>
-    <div id="nonsubbed_stream_narrow_message" class="empty_feed_notice">
-        <h4>{{ _("You aren't subscribed to this stream and nobody has talked about that yet!") }}</h4>
-        <div class="sub_button_row new-style">
-            <button class="button white rounded stream_sub_unsub_button sea-green" type="button" name="subscription">
-                {{ _('Subscribe') }}
-            </button>
+            <p>
+                {% trans %}
+                Or, <strong>take matters into your own hands</strong>,
+                and <a href="#" class="empty_feed_compose_stream">
+                compose a new stream message</a>.
+                {% endtrans %}
+            </p>
         </div>
-    </div>
-    <div id="nonsubbed_private_nonexistent_stream_narrow_message" class="empty_feed_notice">
-        <h4>{{ _("This stream does not exist or is private.") }}</h4>
-    </div>
-    <div id="empty_star_narrow_message" class="empty_feed_notice" style="background: #fff;">
-        <h4>{{ _("You haven't starred anything yet!") }}</h4>
+        <div id="empty_narrow_message" class="empty_feed_notice">
+            <h4>{{ _("Nothing's been sent here yet!") }}</h4>
+            <p>
+                {% trans %}
+                Why not <a href="#" class="empty_feed_compose_stream">
+                start the conversation</a>?
+                {% endtrans %}
+            </p>
+        </div>
+        <div id="empty_narrow_all_private_message" class="empty_feed_notice">
+            <h4>{{ _('You have no private messages yet!') }}</h4>
+            <p>
+                {% trans %}
+                Why not <a href="#" class="empty_feed_compose_private">
+                start the conversation</a>?
+                {% endtrans %}
+            </p>
+        </div>
+        <div id="empty_narrow_private_message" class="empty_feed_notice">
+            <h4>{{ _('You have no private messages with this person yet!') }}</h4>
 
-        <!-- <p>
-            {% trans %}
-            Learn more about starring messages <a href="/help/star-a-message">
-            here</a>.
-            {% endtrans %}
-        </p> -->
-    </div>
-    <div id="no_unread_narrow_message" class="empty_feed_notice">
-        <h4>{{ _("You have no unread messages!") }}</h4>
-    </div>
-    <div id="empty_narrow_all_mentioned" class="empty_feed_notice" style="background: #fff;">
-        <h4>{{ _("You haven't been mentioned yet!") }}</h4>
+            <p>
+                {% trans %}
+                Why not <a href="#" class="empty_feed_compose_private">
+                start the conversation</a>?
+                {% endtrans %}
+            </p>
+        </div>
+        <div id="empty_narrow_group_private_message" class="empty_feed_notice">
+            <h4>{{ _('You have no group private messages with this person yet!') }}</h4>
 
-        <!-- <p>
-            {% trans %}
-            Learn more about mentions <a href="/help/at-mention-a-team-member">
-            here</a>.
-            {% endtrans %}
-        </p> -->
-    </div>
-    <!-- zyc -->
-    <div id="management_ctn" class="empty_feed_notice">
-        <div class="management_titleA">
-            <div class="my_management">待办事项</div>
-            <!-- <div class="edit_management">排序</div> -->
-            <div class="generate_log">
-                <p>一键生成日志</p>
+            <p>
+                {% trans %}
+                Why not <a href="#" class="empty_feed_compose_private">
+                start the conversation</a>?
+                {% endtrans %}
+            </p>
+        </div>
+        <div id="empty_narrow_multi_private_message" class="empty_feed_notice">
+            <h4>{{ _('You have no private messages with these people yet!') }}</h4>
+
+            <p>
+                {% trans %}
+                Why not <a href="#" class="empty_feed_compose_private">
+                start the conversation</a>?
+                {% endtrans %}
+            </p>
+        </div>
+        <div id="silent_user" class="empty_feed_notice">
+            <h4>{{ _("You haven't received any messages sent by this user yet!") }}</h4>
+        </div>
+        <div id="non_existing_user" class="empty_feed_notice">
+            <h4>{{ _("This user does not exist!") }}</h4>
+        </div>
+        <div id="nonsubbed_stream_narrow_message" class="empty_feed_notice">
+            <h4>{{ _("You aren't subscribed to this stream and nobody has talked about that yet!") }}</h4>
+            <div class="sub_button_row new-style">
+                <button class="button white rounded stream_sub_unsub_button sea-green" type="button" name="subscription">
+                    {{ _('Subscribe') }}
+                </button>
             </div>
         </div>
-        <div class="create_generate_log" id="try-log">
-                <div id="create_log_de">
-                        <div class="generate_log_left">
-                            <ul class="generate_log_sliber">
-                                <li class="day-report high_light">生成日报</li>
-                                <li class="week-report">生成周报</li>
-                                <li class="month-report">生成月报</li>
-                            </ul>
-                            <div class="generate_log_close">
-                                <i class="iconfont icon-guanbiUI"></i>
-                            </div>
-                        </div>
-                        <div class="generate_log_right">
-                            <div class="loading-img">
-                                <img src="../../static/img/loading.gif">
-                            </div>
-                        </div>
-                        
-                </div>
+        <div id="nonsubbed_private_nonexistent_stream_narrow_message" class="empty_feed_notice">
+            <h4>{{ _("This stre am does not exist or is private.") }}</h4>
         </div>
-        <i class="management_lineA"></i>
-        <div class="new_task_box">
-            <!-- <div class="add_task"> -->
-                <!-- <p>新增任务</p> -->
-                <div class="new_add_task">
-                        新增任务
-                </div>
-                <div class="new_task">
-                    <input type="text"  id="taskinput" class="new_task_title create_tasttitle" placeholder="请输入任务标题" maxlength="25">
-                    <!-- <input type="text" class="new_task_date" placeholder="请选择日期"> -->
-                    <div class="input-append date" id="datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
-                            <input class="new_task_date create_taskdate" id="daibandata" size="16" type="text" value="" readonly placeholder="请选择截止日期...">
-                            <span class="add-on select_date_icon" id="taskdata">
-                                <i data-date-icon="icon-calendar" class="icon-calendar iconfont icon-riqi"></i>
-                            </span>  
-                            <p class="error_tip"></p>  
-                    </div>
-                    <div class="save_cancel">
-                        <div class="new_task_save">保存</div>
-                        <div class="new_task_cancel">取消</div>
-                    </div>
-                </div>
-            <!-- </div> -->
-                 <!-- 日历展示 -->
-                <div id="schedule-box" class="boxshaw"><div class="schedule-hd"><div><span class="arrow icon iconfont icon-116leftarrowheads" id="prevYear"></span><span class="arrow icon iconfont icon-112leftarrowhead" id="prevMonth"></span></div><div class="today">2018-06-09</div><div><span class="arrow icon iconfont icon-111arrowheadright" id="nextMonth"></span><span class="arrow icon iconfont icon-115rightarrowheads" id="nextYear"></span></div></div><ul class="week-ul ul-box"><li>日</li><li>一</li><li>二</li><li>三</li><li>四</li><li>五</li><li>六</li></ul><ul class="schedule-bd ul-box"><li class="other-month"><span class="dayStyle">27</span></li><li class="other-month"><span class="dayStyle">28</span></li><li class="other-month"><span class="dayStyle">29</span></li><li class="other-month"><span class="dayStyle">30</span></li><li class="other-month"><span class="dayStyle">31</span></li><li class="current-month"><span title="2018-06-01" class="currentDate dayStyle ">1</span></li><li class="current-month"><span title="2018-06-02" class="currentDate dayStyle today-flag">2</span></li><li class="current-month"><span title="2018-06-03" class="currentDate dayStyle ">3</span></li><li class="current-month"><span title="2018-06-04" class="currentDate dayStyle ">4</span></li><li class="current-month"><span title="2018-06-05" class="currentDate dayStyle ">5</span></li><li class="current-month"><span title="2018-06-06" class="currentDate dayStyle ">6</span></li><li class="current-month"><span title="2018-06-07" class="currentDate dayStyle ">7</span></li><li class="current-month"><span title="2018-06-08" class="currentDate dayStyle ">8</span></li><li class="current-month"><span title="2018-06-09" class="currentDate dayStyle selected-style">9</span></li><li class="current-month"><span title="2018-06-10" class="currentDate dayStyle ">10</span></li><li class="current-month"><span title="2018-06-11" class="currentDate dayStyle ">11</span></li><li class="current-month"><span title="2018-06-12" class="currentDate dayStyle ">12</span></li><li class="current-month"><span title="2018-06-13" class="currentDate dayStyle ">13</span></li><li class="current-month"><span title="2018-06-14" class="currentDate dayStyle ">14</span></li><li class="current-month"><span title="2018-06-15" class="currentDate dayStyle ">15</span></li><li class="current-month"><span title="2018-06-16" class="currentDate dayStyle ">16</span></li><li class="current-month"><span title="2018-06-17" class="currentDate dayStyle ">17</span></li><li class="current-month"><span title="2018-06-18" class="currentDate dayStyle ">18</span></li><li class="current-month"><span title="2018-06-19" class="currentDate dayStyle ">19</span></li><li class="current-month"><span title="2018-06-20" class="currentDate dayStyle ">20</span></li><li class="current-month"><span title="2018-06-21" class="currentDate dayStyle ">21</span></li><li class="current-month"><span title="2018-06-22" class="currentDate dayStyle ">22</span></li><li class="current-month"><span title="2018-06-23" class="currentDate dayStyle ">23</span></li><li class="current-month"><span title="2018-06-24" class="currentDate dayStyle ">24</span></li><li class="current-month"><span title="2018-06-25" class="currentDate dayStyle ">25</span></li><li class="current-month"><span title="2018-06-26" class="currentDate dayStyle ">26</span></li><li class="current-month"><span title="2018-06-27" class="currentDate dayStyle ">27</span></li><li class="current-month"><span title="2018-06-28" class="currentDate dayStyle ">28</span></li><li class="current-month"><span title="2018-06-29" class="currentDate dayStyle ">29</span></li><li class="current-month"><span title="2018-06-30" class="currentDate dayStyle ">30</span></li></ul></div>  
-                <input id="h3Ele" type="hidden"></input>
-        <!-- 日历展示 -->
+        <div id="empty_star_narrow_message" class="empty_feed_notice" style="background: #fff;">
+            <h4>{{ _("You haven't starred anything yet!") }}</h4>
+
+            <!-- <p>
+                {% trans %}
+                Learn more about starring messages <a href="/help/star-a-message">
+                here</a>.
+                {% endtrans %}
+            </p> -->
         </div>
-        <ul class="todo_box">
-            <!-- <li class="todo">
-                <div class="todo_left">
-                        <input type="checkbox" class="add_checkbox" id="todo_laber">
-                        <p class="add_ctn">落实员工薪资发放问题，并制定详细的考勤制度落实员工薪资发放问题，并制定详细的考勤制度落实员工薪资发放问题，并制定详细的考勤制度</p>
+        <div id="no_unread_narrow_message" class="empty_feed_notice">
+            <h4>{{ _("You have no unread messages!") }}</h4>
+        </div>
+        <div id="empty_narrow_all_mentioned" class="empty_feed_notice" style="background: #fff;">
+            <h4>{{ _("You haven't been mentioned yet!") }}</h4>
+
+            <!-- <p>
+                {% trans %}
+                Learn more about mentions <a href="/help/at-mention-a-team-member">
+                here</a>.
+                {% endtrans %}
+            </p> -->
+        </div>
+        <!-- zyc -->
+        <div id="management_ctn" class="empty_feed_notice">
+            <div class="management_titleA">
+                <div class="my_management">待办事项</div>
+                <!-- <div class="edit_management">排序</div> -->
+                <div class="generate_log">
+                    <p>一键生成日志</p>
                 </div>
-                <div class="todo_right">
-                        <i class="iconfont icon-beizhu note_icon"></i>
-                        <div id="file-choose">
-                            <input type="file" id="file_inputs" class="test-image-file">
-                            <i class="iconfont icon-fujian1 attachment_icon" id="attach_file"></i>
-                         </div>
-                        <p class="add_datatime">2018-06-01</p>
-                </div>
-            </li> -->
-        </ul>
-        <div class="management_titleB">
-            <div class="morn_managementtext">已完成任务</div>
-            <i class="iconfont icon-xiangyou right_san"></i>
-         </div>
-        <!-- <i class="management_lineA"></i> -->
-        <ul class="completed_box">
-                <!-- <li class="completed">
-                        <input type="checkbox" class="completed_checkbox checked" checked="checked" id="completed_css">
-                        <p class="completed_ctn">落实员工薪资发放问题，并制定详细的考</p>
+            </div>
+            <div class="create_generate_log" id="try-log">
+                    <div id="create_log_de">
+                            <div class="generate_log_left">
+                                <ul class="generate_log_sliber">
+                                    <li class="day-report high_light">生成日报</li>
+                                    <li class="week-report">生成周报</li>
+                                    <li class="month-report">生成月报</li>
+                                </ul>
+                                <div class="generate_log_close">
+                                    <i class="iconfont icon-guanbiUI"></i>
+                                </div>
+                            </div>
+                            <div class="generate_log_right">
+                                <div class="loading-img">
+                                    <img src="../../static/img/loading.gif">
+                                </div>
+                            </div>
+                            
+                    </div>
+            </div>
+            <i class="management_lineA"></i>
+            <div class="new_task_box">
+                <!-- <div class="add_task"> -->
+                    <!-- <p>新增任务</p> -->
+                    <div class="new_add_task">
+                            新增任务
+                    </div>
+                    <div class="new_task">
+                        <input type="text"  id="taskinput" class="new_task_title create_tasttitle" placeholder="请输入任务标题" maxlength="25">
+                        <!-- <input type="text" class="new_task_date" placeholder="请选择日期"> -->
+                        <div class="input-append date" id="datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
+                                <input class="new_task_date create_taskdate" id="daibandata" size="16" type="text" value="" readonly placeholder="请选择截止日期...">
+                                <span class="add-on select_date_icon" id="taskdata">
+                                    <i data-date-icon="icon-calendar" class="icon-calendar iconfont icon-riqi"></i>
+                                </span>  
+                                <p class="error_tip"></p>  
+                        </div>
+                        <div class="save_cancel">
+                            <div class="new_task_save">保存</div>
+                            <div class="new_task_cancel">取消</div>
+                        </div>
+                    </div>
+                <!-- </div> -->
+                    <!-- 日历展示 -->
+                    <div id="schedule-box" class="boxshaw"><div class="schedule-hd"><div><span class="arrow icon iconfont icon-116leftarrowheads" id="prevYear"></span><span class="arrow icon iconfont icon-112leftarrowhead" id="prevMonth"></span></div><div class="today">2018-06-09</div><div><span class="arrow icon iconfont icon-111arrowheadright" id="nextMonth"></span><span class="arrow icon iconfont icon-115rightarrowheads" id="nextYear"></span></div></div><ul class="week-ul ul-box"><li>日</li><li>一</li><li>二</li><li>三</li><li>四</li><li>五</li><li>六</li></ul><ul class="schedule-bd ul-box"><li class="other-month"><span class="dayStyle">27</span></li><li class="other-month"><span class="dayStyle">28</span></li><li class="other-month"><span class="dayStyle">29</span></li><li class="other-month"><span class="dayStyle">30</span></li><li class="other-month"><span class="dayStyle">31</span></li><li class="current-month"><span title="2018-06-01" class="currentDate dayStyle ">1</span></li><li class="current-month"><span title="2018-06-02" class="currentDate dayStyle today-flag">2</span></li><li class="current-month"><span title="2018-06-03" class="currentDate dayStyle ">3</span></li><li class="current-month"><span title="2018-06-04" class="currentDate dayStyle ">4</span></li><li class="current-month"><span title="2018-06-05" class="currentDate dayStyle ">5</span></li><li class="current-month"><span title="2018-06-06" class="currentDate dayStyle ">6</span></li><li class="current-month"><span title="2018-06-07" class="currentDate dayStyle ">7</span></li><li class="current-month"><span title="2018-06-08" class="currentDate dayStyle ">8</span></li><li class="current-month"><span title="2018-06-09" class="currentDate dayStyle selected-style">9</span></li><li class="current-month"><span title="2018-06-10" class="currentDate dayStyle ">10</span></li><li class="current-month"><span title="2018-06-11" class="currentDate dayStyle ">11</span></li><li class="current-month"><span title="2018-06-12" class="currentDate dayStyle ">12</span></li><li class="current-month"><span title="2018-06-13" class="currentDate dayStyle ">13</span></li><li class="current-month"><span title="2018-06-14" class="currentDate dayStyle ">14</span></li><li class="current-month"><span title="2018-06-15" class="currentDate dayStyle ">15</span></li><li class="current-month"><span title="2018-06-16" class="currentDate dayStyle ">16</span></li><li class="current-month"><span title="2018-06-17" class="currentDate dayStyle ">17</span></li><li class="current-month"><span title="2018-06-18" class="currentDate dayStyle ">18</span></li><li class="current-month"><span title="2018-06-19" class="currentDate dayStyle ">19</span></li><li class="current-month"><span title="2018-06-20" class="currentDate dayStyle ">20</span></li><li class="current-month"><span title="2018-06-21" class="currentDate dayStyle ">21</span></li><li class="current-month"><span title="2018-06-22" class="currentDate dayStyle ">22</span></li><li class="current-month"><span title="2018-06-23" class="currentDate dayStyle ">23</span></li><li class="current-month"><span title="2018-06-24" class="currentDate dayStyle ">24</span></li><li class="current-month"><span title="2018-06-25" class="currentDate dayStyle ">25</span></li><li class="current-month"><span title="2018-06-26" class="currentDate dayStyle ">26</span></li><li class="current-month"><span title="2018-06-27" class="currentDate dayStyle ">27</span></li><li class="current-month"><span title="2018-06-28" class="currentDate dayStyle ">28</span></li><li class="current-month"><span title="2018-06-29" class="currentDate dayStyle ">29</span></li><li class="current-month"><span title="2018-06-30" class="currentDate dayStyle ">30</span></li></ul></div>  
+                    <input id="h3Ele" type="hidden"></input>
+            <!-- 日历展示 -->
+            </div>
+            <ul class="todo_box">
+                <!-- <li class="todo">
+                    <div class="todo_left">
+                            <input type="checkbox" class="add_checkbox" id="todo_laber">
+                            <p class="add_ctn">落实员工薪资发放问题，并制定详细的考勤制度落实员工薪资发放问题，并制定详细的考勤制度落实员工薪资发放问题，并制定详细的考勤制度</p>
+                    </div>
+                    <div class="todo_right">
+                            <i class="iconfont icon-beizhu note_icon"></i>
+                            <div id="file-choose">
+                                <input type="file" id="file_inputs" class="test-image-file">
+                                <i class="iconfont icon-fujian1 attachment_icon" id="attach_file"></i>
+                            </div>
+                            <p class="add_datatime">2018-06-01</p>
+                    </div>
                 </li> -->
-        </ul>
-        <!-- 任务详情 -->
-      
-    </div>
-    {% include "zerver/supervise.html" %}
-    <!-- zyc -->
+            </ul>
+            <div class="management_titleB">
+                <div class="morn_managementtext">已完成任务</div>
+                <i class="iconfont icon-xiangyou right_san"></i>
+            </div>
+            <!-- <i class="management_lineA"></i> -->
+            <ul class="completed_box">
+                    <!-- <li class="completed">
+                            <input type="checkbox" class="completed_checkbox checked" checked="checked" id="completed_css">
+                            <p class="completed_ctn">落实员工薪资发放问题，并制定详细的考</p>
+                    </li> -->
+            </ul>
+            <!-- 任务详情 -->
+        
+        </div>
+        {% include "zerver/supervise.html" %}
+        <!-- zyc -->
 
-    <div id="empty_search_narrow_message" class="empty_feed_notice">
-        <h4>{{ _('Nobody has talked about that yet!') }}</h4>
+        <div id="empty_search_narrow_message" class="empty_feed_notice">
+            <h4>{{ _('Nobody has talked about that yet!') }}</h4>
+        </div>
+        <div class="message_table focused_table" id="zhome">
+            
+        </div>
+        <div class="message_table" id="zfilt" style="background: #fff;">
+        </div>
+        <div id="typing_notifications">
+        </div>
+        <div id="bottom_whitespace"></div>
+    
     </div>
-    <div class="message_table focused_table" id="zhome">
-    </div>
-    <div class="message_table" id="zfilt" style="background: #fff;">
-    </div>
-    <div id="typing_notifications">
-    </div>
-    <div id="bottom_whitespace"></div>
-   
-</div>
-
 
 {% include "zerver/message_history.html" %}
 {% include "zerver/delete_message.html" %}
