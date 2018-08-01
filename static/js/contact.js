@@ -4,6 +4,8 @@ var contact = (function(){
         $(".contact").on("click",function(){
             $(".notice_ctn_box").children().remove();
             $(".group_icon").show()
+            $(".home-title").hide();
+            $("#compose-container").hide();
             $.ajax({
                 url:"json/zg/user",
                 type:"GET",
