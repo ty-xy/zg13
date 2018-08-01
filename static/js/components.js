@@ -19,6 +19,7 @@ exports.toggle = (function () {
     var keys = {};
 
     var __toggle = function (opts) {
+        console.log(opts,"opts")
         var component = (function render_component(opts) {
             var _component = $("<div class='tab-switcher'></div>");
             opts.values.forEach(function (value, i) {

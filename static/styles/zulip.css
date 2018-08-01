@@ -603,7 +603,7 @@ li.actual-dropdown-menu i {
 
 .message_area_padder {
     /* The height of the header and the tabbar plus a small gap */
-    margin-top: 75px;
+    /* margin-top: 75px; */
     /* This is needed for the floating recipient bar
        in Firefox only, for some reason;
        otherwise it gets a scrollbar */
@@ -1178,7 +1178,7 @@ td.pointer {
     display: inline-block;
     font-weight: 700;
     vertical-align: top;
-    line-height: 34px;
+    line-height: 18px;
     font-size: 14px;
     margin-left: -3px;
     /* display: none; */
@@ -1382,6 +1382,7 @@ div.focused_table {
     margin-left: 46px;
     display: block;
     position: relative;
+    float: left;
 }
 
 .message_content:empty {
@@ -2928,7 +2929,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
 }
 #streams_list{
     margin-top: 50px;
-    display: none;
+    display: block
 }
 #ppp{
     display: show;

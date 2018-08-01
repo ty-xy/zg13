@@ -2,6 +2,8 @@ var contact = (function(){
     var exports = {};
     $("body").ready(function(){
         $(".contact").on("click",function(){
+            $(".notice_ctn_box").children().remove();
+            $(".group_icon").show()
             $.ajax({
                 url:"json/zg/user",
                 type:"GET",
@@ -40,6 +42,10 @@ var contact = (function(){
                     })
                 }
             })
+        })
+        $(".private_button").on("click",function(){
+            $(".group_icon").hide()
+            $(".notice_ctn_box").children().remove();
         })
     })
     
