@@ -694,3 +694,12 @@ a.message-control-button {
 .color-pop{
     display:none;
 }
+.icon-qunzu{
+    color:#959595 !important;
+}
+.top-setting{
+    justify-content: flex-start !important;
+}
+.stream-names{
+    margin-left:10px;
+}

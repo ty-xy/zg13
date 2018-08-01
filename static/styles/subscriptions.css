@@ -660,7 +660,8 @@ form#add_new_subscription {
 
 .stream-row > div {
     display: inline-block;
-    vertical-align: top;
+    /* vertical-align: top; */
+    vertical-align:middle;
 }
 
 .stream-row .check {
