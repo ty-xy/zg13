@@ -620,7 +620,7 @@ MessageListView.prototype = {
             // the view).  During debugging, we found that this adding
             // this next line seems to prevent the Chrome bug from firing.
             message_viewport.scrollTop();
-            console.log(rendered_groups,"rendered_groups")
+            // console.log(rendered_groups,"rendered_groups")
             table.append(rendered_groups);
             condense.condense_and_collapse(dom_messages);
         }

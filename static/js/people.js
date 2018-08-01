@@ -495,7 +495,9 @@ function gravatar_url_for_email(email) {
     var small_avatar_url = exports.format_small_avatar_url(avatar_url);
     return small_avatar_url;
 }
-
+exports.stream_url_for_eamil=function(email){
+    return gravatar_url_for_email(email);
+}
 exports.small_avatar_url_for_person = function (person) {
     if (person.avatar_url) {
         return exports.format_small_avatar_url(person.avatar_url);

@@ -520,6 +520,8 @@ a.message-control-button {
     display: inline-block;
     height:44px;
     width:44px;
+    text-align:center;
+    line-height:44px;
     border-radius:50%;
     background: #4584FF;
     font-family: PingFangSC-Medium;
@@ -530,11 +532,15 @@ a.message-control-button {
 .color-setting-total>span{
     display: inline-block;
 }
+.color-setting-total>span:last-child{
+    margin-left:10px;
+}
 .color-setting-total{
    height:44px;
    display:flex;
    align-items: center;
    margin-top:20px;
+   margin-bottom:20px;
 }
 .group_icon{
     height:50px;

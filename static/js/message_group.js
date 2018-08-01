@@ -8,14 +8,38 @@ var message_group = (function () {
             $("#group_seeting_choose").html(content)
             $(contents).addClass("high_light").siblings().removeClass("high_light");
         }
+        function get_email_of_subscribers(subscribers){
+            var emails = [];
+            var subd=subscribers._items
+            for(k in subd)
+             {
+                var email = people.get_person_from_user_id(subd[k].k).email;
+                emails.push(email);
+             }
+             console.log(emails)
+            //  subd.each(function (o, i) {
+            //     console.log(o,i)
+            //     var email = people.get_person_from_user_id(i).email;
+            //     emails.push(email);
+            // });
+            return emails;
+        };
         $(".group_icon").on("click",function(e){
+            // people.get_person_from_user_id(26)
             $("#empty_narrow_all_mentioned").hide()
             $("#zhome").hide()
             $("#group_seeting_choose").show()
             $(".home-title").hide()
             $(".home_gruop_title").show()
             var streams = stream_data.subscribed_subs();
+            var sub=stream_data.get_subscribers()
             var subscriptions = stream_data.get_streams_for_settings_page();
+           
+            // console.log(stream_edit,323111)
+            var get_sub_by_name =stream_data.get_sub_by_name("Denmark")
+             var emial =get_email_of_subscribers(get_sub_by_name.subscribers)
+             var avatar = people.stream_url_for_eamil(emial[0])
+            console.log(streams,subscriptions,sub,get_sub_by_name,avatar,emial[0])
             var content1 =  templates.render('show_group', {subscriptions:streams});
             $("#group_seeting_choose").html(content1)
               //已订阅的群组
@@ -71,9 +95,10 @@ var message_group = (function () {
             //组织冒泡
             e.stopPropagation();
             var title = $(this).siblings().html()
+            var titlef= title.slice(0,1)
             var text= $(".home-title span").html()
             console.log(title, $(this).siblings())
-            var html = templates.render("group_setting",{name:title})
+            var html = templates.render("group_setting",{name:title,titlef:titlef})
             $(".group_setting").html(html)
             $(".group_setting").show()
 

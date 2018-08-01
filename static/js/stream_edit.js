@@ -26,14 +26,14 @@ exports.is_sub_settings_active = function (sub) {
     return false;
 };
 
-function get_email_of_subscribers(subscribers) {
+function get_email_of_subscribers  (subscribers){
     var emails = [];
     subscribers.each(function (o, i) {
         var email = people.get_person_from_user_id(i).email;
         emails.push(email);
     });
     return emails;
-}
+};
 
 exports.rerender_subscribers_list = function (sub) {
     if (!sub.can_access_subscribers) {
