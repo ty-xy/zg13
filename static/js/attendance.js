@@ -2,8 +2,7 @@ var attendance = (function () {
     var exports = {};
   
     $("body").ready(function () {
-        
-        $(".common_img").on("click",function(){
+        exports.attendance = function(){
             //查看考勤日历
             function checkCalendar(user_id,select_year){  
                 var user_id;
@@ -257,7 +256,7 @@ var attendance = (function () {
                         if(res.super_user==true){
                             if(res.errno == 11){
                                 var html = templates.render("attendance_box");
-                                $(".app").after(html);   
+                                $(".right_content").append(html);   
                                 $(".attendance_statistics").remove();
                                 $(".attendance_mangement").addClass("high_light").removeClass("attendance_mangement");
                                     $(".attendance_ctn").empty();
@@ -288,7 +287,7 @@ var attendance = (function () {
                             }
                             //确认管理员身份继续请求日统计数据
                             var html = templates.render("attendance_box");
-                            $(".app").after(html);                       
+                            $(".right_content").append(html);                       
                             var attendances_list = res.attendances_list;
                             var attendances_member_list = res.attendances_member_list;
                             var attendance_all = templates.render("attendance_all",{attendances_list:attendances_list})
@@ -402,7 +401,7 @@ var attendance = (function () {
                                             })
                                         }else{
                                             var html = templates.render("attendance_box");
-                                            $(".app").after(html);
+                                            $(".right_content").append(html);
                                             checkCalendar();
                                         }
                                     }
@@ -574,7 +573,7 @@ var attendance = (function () {
                         }else{
                         //普通成员请求
                             var html = templates.render("attendance_box");
-                            $(".app").after(html);
+                            $(".right_content").append(html);
                             $(".attendance_mangement").hide();
                             $(".attendance_ctn").children().remove();
                             
@@ -1113,7 +1112,7 @@ var attendance = (function () {
     //     }
     // }
           
-        })  
+        }
     });  
     return exports;
     }());

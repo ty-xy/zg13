@@ -64,7 +64,6 @@ exports.widget = function (parent_elem, my_stream_id) {
 
         var max_topics = 5;
         var topic_names = topic_data.get_recent_names(my_stream_id);
-        console.log(topic_names,my_stream_id)
         var my_stream_name = stream_data.get_sub_by_id(my_stream_id).name;
 
         var ul = $('<ul class="topic-list">');
@@ -171,7 +170,6 @@ exports.widget = function (parent_elem, my_stream_id) {
         self.active_topic = active_topic;
 
         self.dom = self.build_list();
-        console.log(parent_elem)
         parent_elem.append(self.dom);
 
         // We often rebuild an entire topic list, and the
