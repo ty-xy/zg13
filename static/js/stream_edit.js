@@ -178,7 +178,7 @@ function show_subscription_settings(sub_row) {
     var stream_id = sub_row.data("stream-id");
     var sub = stream_data.get_sub_by_id(stream_id);
     var sub_settings = settings_for_sub(sub);
-
+    console.log(sub_settings)
     var colorpicker = sub_settings.find('.colorpicker');
     var color = stream_data.get_color(sub.name);
     stream_color.set_colorpicker_color(colorpicker, color);

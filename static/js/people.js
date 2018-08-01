@@ -848,6 +848,9 @@ exports.initialize_current_user = function (user_id) {
 };
 
 exports.my_full_name = function () {
+    // console.log(people_by_user_id_dict.get(23).full_name)
+    // console.log(people_by_user_id_dict.get(26).full_name)
+    // console.log(people_by_user_id_dict.get(27).full_name)
     return people_by_user_id_dict.get(my_user_id).full_name;
 };
 

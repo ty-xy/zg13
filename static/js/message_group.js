@@ -14,14 +14,13 @@ var message_group = (function () {
             for(k in subd)
              {
                 var email = people.get_person_from_user_id(subd[k].k).email;
-                emails.push(email);
+                var index = people.get_person_from_user_id(subd[k].k).full_name;
+                var person = {
+                      email:email,
+                      index:index
+                }
+                emails.push(person);
              }
-             console.log(emails)
-            //  subd.each(function (o, i) {
-            //     console.log(o,i)
-            //     var email = people.get_person_from_user_id(i).email;
-            //     emails.push(email);
-            // });
             return emails;
         };
         $(".group_icon").on("click",function(e){
@@ -36,10 +35,8 @@ var message_group = (function () {
             var subscriptions = stream_data.get_streams_for_settings_page();
            
             // console.log(stream_edit,323111)
-            var get_sub_by_name =stream_data.get_sub_by_name("Denmark")
-             var emial =get_email_of_subscribers(get_sub_by_name.subscribers)
-             var avatar = people.stream_url_for_eamil(emial[0])
-            console.log(streams,subscriptions,sub,get_sub_by_name,avatar,emial[0])
+          
+            console.log(streams,subscriptions,sub)
             var content1 =  templates.render('show_group', {subscriptions:streams});
             $("#group_seeting_choose").html(content1)
               //已订阅的群组
@@ -97,12 +94,26 @@ var message_group = (function () {
             var title = $(this).siblings().html()
             var titlef= title.slice(0,1)
             var text= $(".home-title span").html()
-            console.log(title, $(this).siblings())
-            var html = templates.render("group_setting",{name:title,titlef:titlef})
+            var get_sub_by_name =stream_data.get_sub_by_name(title)
+            var emial =get_email_of_subscribers(get_sub_by_name.subscribers)
+            // var avatar = people.stream_url_for_eamil(emial[0])
+            var avatar = []
+             emial.forEach(function(i,v){
+                 
+                 var avatarUrl= people.stream_url_for_eamil(i.email)
+                 var personnal = {
+                    avatarUrl:avatarUrl,
+                    name:i.index
+                 }
+                 avatar.push(personnal)
+             })
+            // console.log(title, $(this).siblings())
+            var html = templates.render("group_setting",{name:title,titlef:titlef,avatar:avatar})
             $(".group_setting").html(html)
             $(".group_setting").show()
-
+         
             //点击空白区域这个模态框消失
+
             if($(".group_setting").show()){
                 $('body').bind('click', function (e) {
                     var o = e.target;
