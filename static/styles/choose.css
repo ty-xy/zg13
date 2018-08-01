@@ -571,10 +571,12 @@ a.message-control-button {
     display:none
 }
 .home_gruop_title{
-    display:none
+    /* display:none */
 }
 .home_title_body{
     display:flex;
+    width:100%;
+    padding:0;
 }
 .all_group,.already_sub{
     cursor: pointer;
@@ -699,7 +701,10 @@ a.message-control-button {
 }
 .top-setting{
     justify-content: flex-start !important;
+    margin-left:10px;
 }
 .stream-names{
-    margin-left:10px;
+    /* margin-left:10px; */
+    width:106px;
+    text-align: left
 }

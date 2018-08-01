@@ -333,7 +333,7 @@ exports.maybe_get_stream_name = function (stream_id) {
 };
 
 exports.set_subscribers = function (sub, user_ids) {
-    console.log(sub,user_ids)
+    // console.log(sub,user_ids)
     sub.subscribers = Dict.from_array(user_ids || []);
 };
 

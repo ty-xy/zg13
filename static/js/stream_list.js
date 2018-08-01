@@ -70,10 +70,7 @@ exports.create_initial_sidebar_rows = function () {
     // up list items and attaching them to the "sub" data
     // structures that are kept in stream_data.js.
     var subs = stream_data.subscribed_subs();
-    console.log(subs,"subs")
     _.each(subs, function (sub) {
-        console.log("herhaha")
-        console.log(sub,1234)
         exports.create_sidebar_row(sub);
     });
 };
@@ -84,7 +81,6 @@ exports.build_stream_list = function () {
     // which largely is a matter of arranging the individual rows in
     // the right order.
     var streams = stream_data.subscribed_streams();
-    console.log(streams)
     if (streams.length === 0) {
         return;
     }
@@ -126,7 +122,6 @@ exports.build_stream_list = function () {
     }
 
     _.each(stream_groups.dormant_streams, add_sidebar_li);
-    console.log(elems)
     parent.append(elems);
     $("#stream_filter_s").append(elems)
 };
@@ -217,7 +212,6 @@ exports.set_in_home_view = function (stream_id, in_home) {
 };
 
 function build_stream_sidebar_li(sub) {
-    console.log(sub,"sub")
     var name = sub.name;
     var args = {name: name,
                 id: sub.stream_id,
@@ -235,7 +229,6 @@ function build_stream_sidebar_li(sub) {
 function build_stream_sidebar_row(sub) {
     var self = {};
     var list_item = build_stream_sidebar_li(sub);
-    console.log(list_item,"list_item")
     self.update_whether_active = function () {
         if (stream_data.is_active(sub)) {
             list_item.removeClass('inactive_stream');
@@ -245,7 +238,6 @@ function build_stream_sidebar_row(sub) {
     };
 
     self.get_li = function () {
-        console.log(23)
         return list_item;
     };
 
@@ -271,7 +263,6 @@ exports.create_sidebar_row = function (sub) {
         return;
     }
     build_stream_sidebar_row(sub);
-    console.log(2)
 };
 
 exports.redraw_stream_privacy = function (sub) {
@@ -465,7 +456,6 @@ exports.initialize = function () {
     });
 
     $(document).on('subscription_add_done.zulip', function (event) {
-        console.log(event,"sgfdgfdsg")
         exports.create_sidebar_row(event.sub);
         exports.build_stream_list();
     });
@@ -484,7 +474,6 @@ exports.initialize = function () {
         }
         var stream_id = $(e.target).parents('li').attr('data-stream-id');
         var sub = stream_data.get_sub_by_id(stream_id);
-        console.log(sub,"subdasadsda")
         popovers.hide_all();
         narrow.by('stream', sub.name, {select_first_unread: true, trigger: 'sidebar'});
         $(".home-title span").html(sub.name)

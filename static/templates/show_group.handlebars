@@ -1,3 +1,12 @@
+    <div class="home_gruop_title">
+                    <div class="home_title_body">
+                        <div>
+                            <span class="already_sub high_light">已订阅</span>
+                            <span class="all_group">全部群组</span>
+                        </div>
+                        <button class="new_setting">新建群组</button>
+                    </div>
+    </div>
     <div class="streams-list">
         {{#each subscriptions}}
         <div class="stream-row" data-stream-id="{{stream_id}}" data-stream-name="{{name}}">
@@ -10,7 +19,7 @@
             <span class="color-setting">{{name}}</span>
             <div class="sub-info-box">
                 <div class="top-bar top-setting">
-                    <div class="stream-name">{{name}}</div>
+                    <div class="stream-name stream-names">{{name}}</div>
                     <div class="subscriber-count" data-toggle="tooltip" title="{{t 'Subscriber count' }}">
                         {{partial "subscription_count"}}
                     </div>

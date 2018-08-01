@@ -220,9 +220,13 @@ def solo_month_attendance_web(request, user_profile):
 
     month1 = int(month) - (int(page) - 1) * 2
     month2 = month1 - 1
+    month3 = month2 - 1
+    month4 = month3 - 1
     month_list = list()
     month_list.append(month1)
     month_list.append(month2)
+    month_list.append(month3)
+    month_list.append(month4)
     month_attendance_list = []
     for months in month_list:
         month_attendance_list.append(month_attendance_tools(user_profile, year, months))
@@ -884,12 +888,12 @@ def outside_sign_in(request, user_profile):
 
     if not all([type, longitude, latitude, site]):
         return JsonResponse({'errno': '1', 'message': '缺少必要参数'})
-    try:
-        ZgOutsideWork.objects.create(outsidework_notes=type, longitude=longitude, latitude=latitude, site=site,
-                                     notes=notes,
+    # try:
+    ZgOutsideWork.objects.create(outsidework_notes=type, longitude=longitude, latitude=latitude, site=site,
+                                     notes=notes,user_name=user_profile,
                                      img_url=img_url, sign_in_time=stockpile_time)
-    except Exception:
-        return JsonResponse({'errno': '2', 'message': '外勤打卡失败'})
+    # except Exception:
+    #     return JsonResponse({'errno': '2', 'message': '外勤打卡失败'})
 
     return JsonResponse(
         {'errno': '0', 'message': '成功', 'type': type, 'longitude': longitude, 'latitude': latitude, 'site': site,

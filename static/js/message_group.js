@@ -3,6 +3,34 @@ var message_group = (function () {
     var exports = {};
     
     $(function(){
+        function  changeUrl (){
+            var url =window.location.hash
+            var i = url.indexOf("/")
+            var index = url.indexOf("/",i+1)
+            var url_index = url.substr(0,url.indexOf("/",i+1))
+            if (url_index=== "#narrow/stream"){
+                // var topic_names = topic_data.get_recent_names("15");
+                // console.log(topic_names)
+                // var li = templates.render('topic_list', {topiclist:topic_names});
+                // $(".topic-list").html(li)
+                if(url.indexOf("/",index+1) != -1){
+                    var j = url.slice(index+4,url.indexOf("/",index+1))
+                    $(".home-title span").html(j)
+                }else{
+                    $(".home-title span").html(url.substr(index+4))             
+                }
+                $(".home-title").show()
+                $(".compose-title").show()
+            }else{
+                $(".home-title").hide()
+                $(".compose-title").hide()
+            }
+        }
+        changeUrl()
+        window.addEventListener('hashchange', function () {
+                changeUrl()
+          })
+        // console.log(url.substr(0,url.lastIndexOf("/",1)))
         function common(subscriptions,contents){
             var content=  templates.render('show_group', {subscriptions:subscriptions});
             $("#group_seeting_choose").html(content)
@@ -25,6 +53,7 @@ var message_group = (function () {
         };
         $(".group_icon").on("click",function(e){
             // people.get_person_from_user_id(26)
+        
             $("#empty_narrow_all_mentioned").hide()
             $("#zhome").hide()
             $("#group_seeting_choose").show()
@@ -43,6 +72,8 @@ var message_group = (function () {
             $(".streams-list").on("click",".stream-row",function(){
                 var name =  $(this).attr("data-stream-name")
                 var index = $(this).attr("data-stream-id")
+                $("#compose").show()
+                $("#compose-container").show()
                 var nfirst= name.slice(0,1)
                 var  li = "<li class='group_list_index' data_steam_id="+index+" >\
                              <span class='color-setting avatar_setting'>"+nfirst+"</span>\
@@ -62,20 +93,20 @@ var message_group = (function () {
                 $(".home_gruop_title").hide()
                 $("#zfilt").hide()
                 $(".notice_ctn_box").append(li)
-                $(".group_list_index").on("click",function(){
+                // $(".group_list_index").on("click",function(){
                     $(window).attr("location","#narrow/stream/"+index+"-"+name+"")
                     $("#zfilt").show()
                     var topic_names = topic_data.get_recent_names(index);
+                    console.log(index)
                     var li = templates.render('topic_list', {topiclist:topic_names});
                     $(".topic-list").html(li)
                     $(".topic-item-list").on("click",function(){
                          var topic= $.trim($(this).text())
-                         var person=page_params.full_name
                         //  console.log(message_list.last())
                          $(this).css("background","#4584FF").siblings().css("background","#fff")
                         $(window).attr("location","#narrow/stream/"+index+"-"+name+"/topic/"+topic+"")
                     })
-                })
+                // })
             
               })
                
