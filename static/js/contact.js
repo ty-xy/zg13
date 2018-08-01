@@ -6,6 +6,7 @@ var contact = (function(){
             $(".group_icon").show()
             $(".home-title").hide();
             $("#compose-container").hide();
+            console.log("123")
             $.ajax({
                 url:"json/zg/user",
                 type:"GET",
@@ -48,6 +49,17 @@ var contact = (function(){
         $(".private_button").on("click",function(){
             $(".group_icon").hide()
             $(".notice_ctn_box").children().remove();
+        })
+        $(".manage_group").on("click",function(){
+            $("#compose_controls").hide();
+            $(".notice_ctn_box").children().remove();
+            var manage_group = templates.render("manage_groups")
+            $(".notice_ctn_box").append(manage_group)
+            
+            $(".common_img").on("click",function(){
+                
+                attendance.attendance()
+            })
         })
     })
     

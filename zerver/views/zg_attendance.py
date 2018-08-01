@@ -220,9 +220,13 @@ def solo_month_attendance_web(request, user_profile):
 
     month1 = int(month) - (int(page) - 1) * 2
     month2 = month1 - 1
+    month3 = month2 - 1
+    month4 = month3 - 1
     month_list = list()
     month_list.append(month1)
     month_list.append(month2)
+    month_list.append(month3)
+    month_list.append(month4)
     month_attendance_list = []
     for months in month_list:
         month_attendance_list.append(month_attendance_tools(user_profile, year, months))

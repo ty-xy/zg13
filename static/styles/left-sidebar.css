@@ -751,3 +751,36 @@ li.show-more-private-messages a {
 .float{
     float: right;
 }
+.manage_groups{
+    margin: 0;
+}
+.manage_groups_list{
+    width: 360px;
+    height: 64px;
+}
+.manage_groups_kaiqin_img{
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 10px 20px;
+    background: #6BA1FD;
+    float: left;
+}
+.kaoqin1_img{
+    color: #fff;
+    font-size: 26px;
+    margin: 10px;
+    line-height: 44px;
+}
+.manage_groups_title{
+    float: left;
+    font-size: 16px;
+    color: #333333;
+    letter-spacing: 0.18px;
+    line-height: 64px;
+}
+.manage_groups_list:hover{
+    background: #F1F6FD;
+    cursor: pointer;
+}
