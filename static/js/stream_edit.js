@@ -11,6 +11,7 @@ function setup_subscriptions_stream_hash(sub) {
 
 function settings_for_sub(sub) {
     var id = parseInt(sub.stream_id, 10);
+    console.log(id,sub.stream_id)
     return $("#subscription_overlay .subscription_settings[data-stream-id='" + id + "']");
 }
 
@@ -145,6 +146,7 @@ function get_stream_id(target) {
 }
 
 function get_sub_for_target(target) {
+    //  console.log(target)
     var stream_id = get_stream_id(target);
     if (!stream_id) {
         blueslip.error('Cannot find stream id for target');
@@ -576,10 +578,13 @@ $(function () {
     // This handler isn't part of the normal edit interface; it's the convenient
     // checkmark in the subscriber list.
     $("#subscriptions_table").on("click", ".sub_unsub_button", function (e) {
+        
         var sub = get_sub_for_target(e.target);
+        console.log(sub,"sub_es",e.target)
         var stream_row = $(this).parent();
         subs.sub_or_unsub(sub);
         var sub_settings = settings_for_sub(sub);
+        // console.log(sub_settings)
         var regular_sub_settings = sub_settings.find(".regular_subscription_settings");
         if (!sub.subscribed) {
             regular_sub_settings.addClass("in");

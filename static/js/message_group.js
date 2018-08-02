@@ -32,6 +32,12 @@ var message_group = (function () {
           })
         // console.log(url.substr(0,url.lastIndexOf("/",1)))
         function common(subscriptions,contents){
+            // if(contents===".all_group"){
+            //     subscriptions.show_all=true
+            // }else{
+            //     subscriptions.show_all=false
+            // }
+            console.log(subscriptions)
             var content=  templates.render('show_group', {subscriptions:subscriptions});
             $("#group_seeting_choose").html(content)
             $(contents).addClass("high_light").siblings().removeClass("high_light");
@@ -64,12 +70,35 @@ var message_group = (function () {
             var subscriptions = stream_data.get_streams_for_settings_page();
            
             // console.log(stream_edit,323111)
-          
+            // 渲染群组
+           
             console.log(streams,subscriptions,sub)
             var content1 =  templates.render('show_group', {subscriptions:streams});
             $("#group_seeting_choose").html(content1)
+            $(".swtich-button").hide()
               //已订阅的群组
+            // $("#div1").on("click",function(e){
+            //     e.preventDefault()
+            //     e.stopPropagation()
+            //     console.log(6)
+            // 开关按钮暂定状态，稍后优化
+                $("#group_seeting_choose").on("click","#div2",function(e){ 
+                    if($(this).closest($(this).parent()).length!=0){
+                        e.preventDefault()
+                        e.stopPropagation()
+                    var stream_id = Number($(this).closest(".stream-list-row").attr("data-stream-id"))
+                    var sub = stream_data.get_sub_by_id(stream_id)
+                    subs.sub_or_unsub(sub);
+                    // var x = $(this).parents(".stream-list-row")
+                    $(this).parent().attr("class",($(this).parent().attr("class")=="close1")?"open1":"close1")
+                    $(this).attr("class",($(this).attr("class")=="close2")?"open2":"close2")
+                  }
+               })
+            // })
+            // 点击群组的事件
             $(".streams-list").on("click",".stream-row",function(){
+                 e.preventDefault()
+                 e.stopPropagation()
                 var name =  $(this).attr("data-stream-name")
                 var index = $(this).attr("data-stream-id")
                 $("#compose").show()
@@ -107,15 +136,18 @@ var message_group = (function () {
                         $(window).attr("location","#narrow/stream/"+index+"-"+name+"/topic/"+topic+"")
                     })
                 // })
-            
+                      
               })
                
-              $(".all_group").on("click",function(){
+              $("#group_seeting_choose").on("click",".all_group",function(){
                 common(subscriptions,".all_group")
+                $(".swtich-button").show()
               })
               //全部群组
-              $(".already_sub").on("click",function(){
+              $("#group_seeting_choose").on("click",".already_sub",function(){
+                var streams = stream_data.subscribed_subs();
                 common(streams,".already_sub")
+                $(".swtich-button").hide()
             })
         })
         $(".home-title").on("click","button",function(e){
@@ -149,7 +181,7 @@ var message_group = (function () {
                 $('body').bind('click', function (e) {
                     var o = e.target;
                     if($(o).closest('.group_setting').length==0)//不是特定区域
-                               $(".group_setting").hide();
+                        $(".group_setting").hide();
                 });
             }
         })

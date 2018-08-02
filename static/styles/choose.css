@@ -702,9 +702,50 @@ a.message-control-button {
 .top-setting{
     justify-content: flex-start !important;
     margin-left:10px;
+    
 }
 .stream-names{
     /* margin-left:10px; */
     width:106px;
     text-align: left
 }
+/* 开关 */
+.swtich-button{
+    margin-left:calc(100% - 185px);
+}
+#div1{
+        width: 38.6px;
+        height: 23.3px;
+        border-radius: 50px;
+        position: relative;
+        align-self:flex-end !important;
+        
+    }
+    #div2{
+        width: 20px;
+        height: 20px;
+        border-radius: 20px;
+        position: absolute;
+        background: white;
+        box-shadow: 0px 2px 4px rgba(0,0,0,0.4);
+    }
+    .open1{
+        background: rgba(0,184,0,0.8);
+    }
+    .open2{
+        top: 1px;
+        right: 1px;
+    }
+    .close1{
+        background: #BBBBBB;
+        border:1px solid rgba(0,0,0,0.15);
+        border-left: transparent;
+    }
+    .close2{
+        left: 0px;
+        top: 0px;
+        border:1px solid rgba(0,0,0,0.1);
+    }
+    .stream-list-row{
+        padding-left:0px !important;
+    }
