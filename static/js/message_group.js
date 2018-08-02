@@ -101,11 +101,13 @@ var message_group = (function () {
                  e.stopPropagation()
                 var name =  $(this).attr("data-stream-name")
                 var index = $(this).attr("data-stream-id")
+                var color = $(this).children().eq(0).css("background-color")
+                console.log(color)
                 $("#compose").show()
                 $("#compose-container").show()
                 var nfirst= name.slice(0,1)
                 var  li = "<li class='group_list_index' data_steam_id="+index+" >\
-                             <span class='color-setting avatar_setting'>"+nfirst+"</span>\
+                             <span class='color-setting avatar_setting' style='background-color:"+color+"'>"+nfirst+"</span>\
                              <div class='list-setting-common'>\
                                <div class='list-right-setting'>\
                                   <span>"+name+"</span>\
