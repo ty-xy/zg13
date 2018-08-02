@@ -1,12 +1,18 @@
 var contact = (function(){
     var exports = {};
     $("body").ready(function(){
+        //联系人点击
         $(".contact").on("click",function(){
+            //清空右侧添加内容
+            $(".move_ctn").children().remove();
+            //清空列表
             $(".notice_ctn_box").children().remove();
             $(".group_icon").show()
             $(".home-title").hide();
-            $("#compose-container").hide();
-            console.log("123")
+            // $(".middle_ctn").children().hide();
+            $("#main_div").hide();
+            $("#compose").hide();
+            console.log("#compose")
             $.ajax({
                 url:"json/zg/user",
                 type:"GET",
@@ -18,10 +24,10 @@ var contact = (function(){
                     $(".notice_ctn_box").append(user_list_our)
                     //点击联系人弹出右边页面
                     $(".notice_ctn_box").on("click",".user_list_box",function(){
-                        // $("#main_div").children().remove();
-                        $(".private_user_name").remove();
                         $("#zfilt").children().remove();
-                        $(".user_detail_box").remove();
+                        $(".move_ctn").children().remove();
+                        $("#main_div").hide();
+                        $("#compose").hide();
                         var x = new Date()
                         console.log(x)
                         var user_name = $(this).children().last().text();
@@ -30,35 +36,52 @@ var contact = (function(){
                         var avatar = $(this).children().first().children().attr("src")
                         var short_name = $(this).attr("short_name");
                         var _href = "#narrow/pm-with/"+user_id+"-"+short_name
-                        $("#empty_narrow_all_mentioned").remove();
-                        $("#compose_controls").hide();
+                        // $("#empty_narrow_all_mentioned").remove();
+                        // $("#compose_controls").hide();
                         var user_detail_contact = templates.render("user_detail_contact",{user_name:user_name,user_id:user_id,email:email,avatar:avatar,_href:_href})
-                        $("#main_div").append(user_detail_contact)
-                        
+                        $(".move_ctn").append(user_detail_contact)
                         //发送消息点击事件
                         $(".user_detail_send").on("click",function(){
-                            $(".private_user_name").remove();
-                            $(".user_detail_box").remove();
-                            $("#main_div").prepend("<div class='private_user_name'>"+user_name+"</div>")
-
+                            $(".move_ctn").children().remove();
+                            // $("#compose_controls").show();
+                            $("#main_div").show();
+                            $("#compose").show();
+                            $(".tab-content").css("height","calc(100% - 232px)")
                         })
                     })
                 }
             })
         })
+        //私聊点击
         $(".private_button").on("click",function(){
+            //清空右侧添加内容
+            $(".move_ctn").children().remove();
             $(".group_icon").hide()
+            //清空列表
             $(".notice_ctn_box").children().remove();
         })
+        //管理组点击
         $(".manage_group").on("click",function(){
-            $("#compose_controls").hide();
+            //清空右侧添加内容
+            $(".move_ctn").children().remove();
+            //清空列表
             $(".notice_ctn_box").children().remove();
             var manage_group = templates.render("manage_groups")
             $(".notice_ctn_box").append(manage_group)
-            
             $(".common_img").on("click",function(){
-                
                 attendance.attendance()
+                $(".tab-content").css("height","100%");
+            })
+        })
+        //待办点击
+        $(".todo_list").on("click",function(){
+            //清空右侧添加内容
+            $(".move_ctn").children().remove();
+            //清空列表
+            $(".notice_ctn_box").children().remove();
+            $(".notice_ctn_box").append("<ul class='todo_box'></ul>")
+            $(".generate_log").on("click",function(){
+                management.generate_log();
             })
         })
     })

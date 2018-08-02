@@ -783,61 +783,63 @@ var management = (function () {
            })
         }
      
-        $(".generate_log").on("click",function(e){
-             $(".create_generate_log").show();
-             $("#try-log .day-report").addClass("high_light").siblings().removeClass("high_light");
-            channel.get({
-                url: "json/zg/creator/table?date_type=day",
-                idempotent: true,
-                success: function (data) {
-                if(data){
-                     data.date_type="day"
-                     console.log(data)
-                     logClick(data)
-                    }
-                },
-            });
-            $('.generate_log_left').on("click",".week-report",function(e){
-                $(this).addClass("high_light").siblings().removeClass("high_light");
-                channel.get({
-                    url: "json/zg/creator/table?date_type=week",
-                    idempotent: true,
-                    success: function (data) {
-                    if(data){
-                        data.date_type="week"
-                         logClick(data)
-                        }
-                    },
-                });
-            })
-            $('.generate_log_left').on("click",".day-report",function(e){
-                $(this).addClass("high_light").siblings().removeClass("high_light");
-                channel.get({
-                    url: "json/zg/creator/table?date_type=day",
-                    idempotent: true,
-                    success: function (data) {
-                    if(data){
-                        data.date_type="day"
-                         logClick(data)
-                        }
-                    },
-                });
-            })
-            $('.generate_log_left').on("click",".month-report",function(e){
-                $(this).addClass("high_light").siblings().removeClass("high_light");
-                channel.get({
-                    url: "json/zg/creator/table?date_type=month",
-                    idempotent: true,
-                    success: function (data) {
-                    if(data){
-                        data.date_type="month"
-                         logClick(data)
-                        }
-                    },
-                });
-            })
+        $(".generate_log").on("click",function(){
+            generate_log();
         })
-       
+        exports.generate_log = function(e){
+            $(".create_generate_log").show();
+            $("#try-log .day-report").addClass("high_light").siblings().removeClass("high_light");
+           channel.get({
+               url: "json/zg/creator/table?date_type=day",
+               idempotent: true,
+               success: function (data) {
+               if(data){
+                    data.date_type="day"
+                    console.log(data)
+                    logClick(data)
+                   }
+               },
+           });
+           $('.generate_log_left').on("click",".week-report",function(e){
+               $(this).addClass("high_light").siblings().removeClass("high_light");
+               channel.get({
+                   url: "json/zg/creator/table?date_type=week",
+                   idempotent: true,
+                   success: function (data) {
+                   if(data){
+                       data.date_type="week"
+                        logClick(data)
+                       }
+                   },
+               });
+           })
+           $('.generate_log_left').on("click",".day-report",function(e){
+               $(this).addClass("high_light").siblings().removeClass("high_light");
+               channel.get({
+                   url: "json/zg/creator/table?date_type=day",
+                   idempotent: true,
+                   success: function (data) {
+                   if(data){
+                       data.date_type="day"
+                        logClick(data)
+                       }
+                   },
+               });
+           })
+           $('.generate_log_left').on("click",".month-report",function(e){
+               $(this).addClass("high_light").siblings().removeClass("high_light");
+               channel.get({
+                   url: "json/zg/creator/table?date_type=month",
+                   idempotent: true,
+                   success: function (data) {
+                   if(data){
+                       data.date_type="month"
+                        logClick(data)
+                       }
+                   },
+               });
+           })
+        }
         // $("#create_log_de").on("click",function(e){
         //     // console.log("修改成功")
         //     e.preventDefault();
