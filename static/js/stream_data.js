@@ -81,7 +81,7 @@ exports.get_sub_by_name = function (name) {
     // Note: Only use this function for situations where
     // you are comfortable with a user dealing with an
     // old name of a stream (from prior to a rename).
-
+    
     var sub = stream_info.get(name);
 
     if (sub) {
@@ -148,7 +148,6 @@ exports.get_non_default_stream_names = function () {
 };
 
 exports.subscribed_subs = function () {
-    
     return _.where(stream_info.values(), {subscribed: true});
 };
 
@@ -159,7 +158,10 @@ exports.unsubscribed_subs = function () {
 exports.subscribed_streams = function () {
     return _.pluck(exports.subscribed_subs(), 'name');
 };
-
+exports.get_subscribers=function(){
+    // console.log(sub.subscribers)
+    return _.pluck(exports.subscribed_subs(), 'subscribers');
+}
 exports.invite_streams = function () {
     var invite_list = exports.subscribed_streams();
     var default_list = _.pluck(page_params.realm_default_streams, 'name');
@@ -331,6 +333,7 @@ exports.maybe_get_stream_name = function (stream_id) {
 };
 
 exports.set_subscribers = function (sub, user_ids) {
+    // console.log(sub,user_ids)
     sub.subscribers = Dict.from_array(user_ids || []);
 };
 

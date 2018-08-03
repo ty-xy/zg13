@@ -11,6 +11,7 @@ function setup_subscriptions_stream_hash(sub) {
 
 function settings_for_sub(sub) {
     var id = parseInt(sub.stream_id, 10);
+    console.log(id,sub.stream_id)
     return $("#subscription_overlay .subscription_settings[data-stream-id='" + id + "']");
 }
 
@@ -26,14 +27,14 @@ exports.is_sub_settings_active = function (sub) {
     return false;
 };
 
-function get_email_of_subscribers(subscribers) {
+function get_email_of_subscribers  (subscribers){
     var emails = [];
     subscribers.each(function (o, i) {
         var email = people.get_person_from_user_id(i).email;
         emails.push(email);
     });
     return emails;
-}
+};
 
 exports.rerender_subscribers_list = function (sub) {
     if (!sub.can_access_subscribers) {
@@ -145,6 +146,7 @@ function get_stream_id(target) {
 }
 
 function get_sub_for_target(target) {
+    //  console.log(target)
     var stream_id = get_stream_id(target);
     if (!stream_id) {
         blueslip.error('Cannot find stream id for target');
@@ -178,11 +180,11 @@ function show_subscription_settings(sub_row) {
     var stream_id = sub_row.data("stream-id");
     var sub = stream_data.get_sub_by_id(stream_id);
     var sub_settings = settings_for_sub(sub);
-
+    console.log(sub_settings)
     var colorpicker = sub_settings.find('.colorpicker');
     var color = stream_data.get_color(sub.name);
     stream_color.set_colorpicker_color(colorpicker, color);
-
+    console.log(color,colorpicker)
     if (!sub.render_subscribers) {
         return;
     }
@@ -576,10 +578,13 @@ $(function () {
     // This handler isn't part of the normal edit interface; it's the convenient
     // checkmark in the subscriber list.
     $("#subscriptions_table").on("click", ".sub_unsub_button", function (e) {
+        
         var sub = get_sub_for_target(e.target);
+        console.log(sub,"sub_es",e.target)
         var stream_row = $(this).parent();
         subs.sub_or_unsub(sub);
         var sub_settings = settings_for_sub(sub);
+        // console.log(sub_settings)
         var regular_sub_settings = sub_settings.find(".regular_subscription_settings");
         if (!sub.subscribed) {
             regular_sub_settings.addClass("in");

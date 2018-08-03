@@ -62,6 +62,7 @@ var contact = (function(){
         //管理组点击
         $(".manage_group").on("click",function(){
             //清空右侧添加内容
+            $(".group_icon").hide()
             $(".move_ctn").children().remove();
             //清空列表
             $(".notice_ctn_box").children().remove();
@@ -74,6 +75,7 @@ var contact = (function(){
         })
         //待办点击
         $(".todo_list").on("click",function(){
+            $(".group_icon").hide()
             //清空右侧添加内容
             $(".move_ctn").children().remove();
             //清空列表

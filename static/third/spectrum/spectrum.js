@@ -124,6 +124,7 @@
     }
     function instanceOptions(o, callbackContext) {
         var opts = $.extend({}, defaultOpts, o);
+        console.log(o,"o")
         opts.callbacks = {
             'move': bind(opts.move, callbackContext),
             'change': bind(opts.change, callbackContext),
@@ -136,7 +137,7 @@
     }
 
     function spectrum(element, o) {
-
+        console.log(o)
         var opts = instanceOptions(o, element),
             flat = opts.flat,
             showPaletteOnly = opts.showPaletteOnly,
@@ -312,6 +313,7 @@
                 }
                 else {
                     set($(this).data("color"));
+                    console.log($(this))
                     updateOriginalInput(true);
                     move();
                     hide();
@@ -326,7 +328,9 @@
         }
         function addColorToSelectionPalette(color) {
             if (showSelectionPalette) {
+                console.log(selectionPalette)
                 selectionPalette.push(tinycolor(color).toHexString());
+                console.log(selectionPalette)
                 if (localStorageKey && window.localStorage) {
                     window.localStorage[localStorageKey] = selectionPalette.join(",");
                 }
@@ -600,18 +604,22 @@
 
         function updateOriginalInput(fireCallback) {
             var color = get();
-
+            console.log(color)
             if (isInput) {
+                // console.log(11111111)
                 boundElement.val(color.toString(currentPreferredFormat)).change();
+                console.log(boundElement,boundElement.val(),boundElement.val(color.toString(currentPreferredFormat)).change())
             }
 
             var hasChanged = !tinycolor.equals(color, colorOnShow);
             colorOnShow = color;
-
+            console.log(fireCallback)
             // Update the selection palette with the current color
             addColorToSelectionPalette(color);
+            console.log(fireCallback,hasChanged)
+            // console.log(addColorToSelectionPalette(color))
             if (fireCallback && hasChanged) {
-                callbacks.change(color);
+                callbacks.change(color);  
             }
         }
 
