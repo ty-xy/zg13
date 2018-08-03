@@ -3136,16 +3136,35 @@ div.topic_edit_spinner .loading_indicator_spinner {
     background: #53c1ae;
 }
 .generate_log{
-    float: right;
+    /* float: right;
     font-size: 14px;
     color: #14A4FA;
     letter-spacing: 0.17px;
     margin-right: 40px;
-    cursor: pointer;
+    cursor: pointer; */
+    width: 360px;
+    height: 100px;
+    /* border: 1px solid #4584FF; */
+    border-radius: 4px;
+    font-size: 15px;
+    color: #4584FF;
+    letter-spacing: 0.18px;
+    text-align: center;
+    line-height: 40px;
+    position: fixed;
+    bottom: 0px;
+    background: #fff;
+    /* left: 65px; */
+}
+.generate_log_title{
+    width: 230px;
+    height: 40px;
+    border: 1px solid #4584FF;
+    margin-left: 55px;
 }
 .new_task_box{
-    margin: 24px 8px;
-    height: 50px;
+    /* margin: 24px 8px;
+    height: 50px; */
 }
 .add_task{
     border: 1px solid #A0ACBF;
@@ -3162,15 +3181,16 @@ div.topic_edit_spinner .loading_indicator_spinner {
 .todo_box{
     /* height: 250px; */
     overflow: auto;
-    margin-left: -10px;
+    /* margin-left: -10px; */
+    height: calc(100% - 90px)
 }
 .todo_box>li{
     /* width: 876px; */
     min-width: 300px;
     height: 50px;
     margin: 10px auto;
-    background: #F7F7F7;
-    /* border: 1px solid #CCCCCC; */
+    /* background: #F7F7F7; */
+    border-bottom: 1px solid #bdbdbd;
     border-radius: 2px;
     list-style: none;
     overflow: hidden;
@@ -3182,7 +3202,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
 .todo_right{
     float: right;
     overflow: hidden;
-    width: 220px;
+    /* width: 220px; */
     margin-right: 10px;
     line-height: 50px;
 }
@@ -3200,16 +3220,19 @@ div.topic_edit_spinner .loading_indicator_spinner {
 .add_ctn{
     float: left;
     line-height: 50px;
-    font-size: 14px;
+    font-size: 16px;
     color: #333333;
     letter-spacing: 0.17px;
     text-overflow: ellipsis; 
     white-space: nowrap; 
     overflow: hidden; 
     /* width: 600px; */
-    min-width: 300px;
+    max-width: 155px;
     cursor: pointer;
     text-align: left;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 .note_icon{
     float: left;
@@ -3227,10 +3250,10 @@ div.topic_edit_spinner .loading_indicator_spinner {
 }
 .add_datatime{
     float: right;
-    font-size: 13px;
+    font-size: 14px;
     color: #999999;
     letter-spacing: 0.16px;
-    width: 67px;
+    /* width: 67px; */
 }
 .completed_box{
     overflow: auto;
@@ -3310,7 +3333,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     display: none;
     height: 65px;
 }
-.new_add_task_plan,.new_add_task{
+.new_add_task_plan{
     width: 100px;
     height: 38px;
     border: 1px solid #A0ACBF;
@@ -3322,6 +3345,12 @@ div.topic_edit_spinner .loading_indicator_spinner {
     letter-spacing: 0.17px;
     cursor: pointer;
 }
+.new_add_task{
+    font-size: 16px;
+    color: #4584FF;
+    letter-spacing: 0.18px;
+    margin-left: 50px;
+}
 .new_task>input{
     float: left;
     
@@ -3329,7 +3358,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
 .tab-content {
     /* overflow: hidden; */
     /* height: 774px; */
-    height: calc(100% - 232px);
+    /* height: calc(100% - 232px); */
     overflow-y: auto;
 }
 .new_task>input:focus,.new_plan>input:focus{

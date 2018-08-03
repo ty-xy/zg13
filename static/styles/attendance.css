@@ -17,7 +17,7 @@
 }
 .attendance_box{
     width: 937px;
-    height: 740px;
+    /* height: 740px; */
     /* position: absolute; */
     left: 0;
     top: 0;
@@ -32,24 +32,24 @@
 }
 .attendance_head{
     width: 937px;
-    height: 60px;
+    height: 88px;
     background: #FFFFFF;
-    box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30);
+    /* box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30); */
     /* position: fixed;
     left:0;
     top:0; */
-    border-bottom: 1px solid #F2F2F2;
+    border-bottom: 1px solid #DDDDDD;
 }
 .attendance_tab{
     margin: 0;
 }
 .attendance_tab>li{
-    font-size: 15px;
-    color: #A0ACBF;
+    font-size: 18px;
+    color: #888888;
     letter-spacing: 0.18px;
-    line-height: 60px;
     float: left;
-    margin-left: 30px;
+    margin-left: 24px;
+    margin-top: 44px;
 }
 .attendance-map-close,.attendance_close{
     font-size: 16px;
@@ -61,7 +61,7 @@
 }
 
 .attendance_top{
-    margin-top: 18px;
+    margin-top: 30px;
 }
 .attendance_top_left{
     float: left;
@@ -85,21 +85,21 @@
 }
 .attendance_groups>div{
     float: left;
-    background: #fff;
+    background: #4584FF;
     border-radius: 100px;
     width: 120px;
     height: 28px;
-    color: #A0ACBF;
+    color: #fff;
     letter-spacing: 0.16px;
     font-size: 13px;
     text-align: center;
     line-height: 30px;
     margin-right: 10px;
     cursor: pointer;
-    border: 1px solid #A0ACBF;
+    border: 1px solid #4584FF;
 }
 .gray_bg{
-    background: #A0ACBF!important;
+    background: #4584FF!important;
     color: #fff!important;
 }
 .attendance_ctn{
@@ -108,10 +108,9 @@
 }
 .attendance_middle{
     background: #fff;
-    box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30);
+    /* box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30); */
     border-radius: 4px;
     margin-top: 20px;
-    padding: 0 21px;
     overflow: hidden;
 }
 .attendance_statistical{
@@ -152,21 +151,19 @@
 }
 .attendance_bottom{
     background: #fff;
-    box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30);
+    /* box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30); */
     border-radius: 4px;
     margin-top: 20px;
-    padding: 0 21px;
     overflow: hidden;
 }
 .attendance_bottom_head{
     margin-top: 16px;
 }
 .attendance_bottom_title{
-    font-size: 15px;
+    font-size: 16px;
     color: #333333;
     letter-spacing: 0.18px;
     float: left;
-    margin-left: 310px;
     margin-top: 10px;
 }
 .attendance_bottom_search{
@@ -197,7 +194,7 @@
 }
 .attendance_bottom_person{
     height: 60px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid rgba(221,221,221,0.50);
 }
 .attendance_bottom_img_box{
     width: 40px;
@@ -291,13 +288,13 @@
 }
 #calendar_screen_select_y{
     background: #FFFFFF;
-    border: 1px solid #A0ACBF;
+    border: 1px solid #4584FF;
     border-radius: 100px;
-    width: 99px;
+    width: 120px;
     height: 28px;
     line-height: 30px;
-    font-size: 13px;
-    color: #A0ACBF;
+    font-size: 15px;
+    color: #4584FF;
     letter-spacing: 0.16px;
     text-align: center;
     cursor: pointer;
