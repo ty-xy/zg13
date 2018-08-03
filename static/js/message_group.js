@@ -102,7 +102,6 @@ var message_group = (function () {
                 var name =  $(this).attr("data-stream-name")
                 var index = $(this).attr("data-stream-id")
                 var color = $(this).children().eq(0).css("background-color")
-                console.log(color)
                 $("#compose").show()
                 $("#compose-container").show()
                 var nfirst= name.slice(0,1)
@@ -152,6 +151,7 @@ var message_group = (function () {
                 $(".swtich-button").hide()
             })
         })
+        
         $(".home-title").on("click","button",function(e){
             // e.preventDefault()
             //组织冒泡
@@ -173,10 +173,18 @@ var message_group = (function () {
                  avatar.push(personnal)
              })
             // console.log(title, $(this).siblings())
-            var html = templates.render("group_setting",{name:title,titlef:titlef,avatar:avatar})
+            var html = templates.render("group_setting",{name:title,titlef:titlef,avatar:avatar,color:get_sub_by_name})
             $(".group_setting").html(html)
             $(".group_setting").show()
-         
+             // 颜色的选择
+             
+            //  var colorpicker = $(".group_setting .sub_setting_color").children().eq(0);
+            // $(".group_setting").on("click",".sub_setting_color",function(){
+                var colorpicker = $(".group_setting").find(".colorpicker")
+                var color = stream_data.get_color(title);
+                stream_color.set_colorpicker_colors(colorpicker, color);
+            // })
+
             //点击空白区域这个模态框消失
 
             if($(".group_setting").show()){
