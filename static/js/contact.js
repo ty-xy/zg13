@@ -12,7 +12,6 @@ var contact = (function(){
             // $(".middle_ctn").children().hide();
             $("#main_div").hide();
             $("#compose").hide();
-            console.log("#compose")
             $.ajax({
                 url:"json/zg/user",
                 type:"GET",
