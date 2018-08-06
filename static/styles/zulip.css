@@ -297,7 +297,7 @@ p.n-margin {
     margin-left: 100px;
     overflow-y: auto;
     position: absolute;
-    z-index: 111;
+    /* z-index: 111; */
 }
 .app-main .column-left .left-sidebar,
 .app-main .column-right .right-sidebar {
@@ -319,6 +319,7 @@ p.n-margin {
 
 .app-main .column-middle {
     min-height: 100%;
+    overflow-y: auto;
 }
 
 .column-middle {
@@ -1750,8 +1751,13 @@ blockquote p {
     margin-top: 7px;
     display: inline-block;
     float: right;
+    position: absolute;
+    bottom: 100px;
+    left: 74px;
 }
-
+.dropdown-menu>li{
+    margin: 0!important;
+}
 #navbar-buttons ul.nav {
     margin: 0px;
 }
@@ -1799,11 +1805,11 @@ blockquote p {
 }
 
 .nav .dropdown-menu {
-    left: auto;
+    /* left: auto; */
     /* right: 0px;
     top: 30px; */
-    right: 10px;
-    top: 40px;
+    left: -10px;
+    top: -105px;
     min-width: 180px;
     -webkit-box-shadow: 0px 0px 5px hsla(0, 0%, 0%, 0.2);
     -moz-box-shadow: 0px 0px 5px hsla(0, 0%, 0%, 0.2);
@@ -1857,12 +1863,12 @@ blockquote p {
     position: absolute;
     width: 0px;
     height: 0px;
-    top: -7px;
-    right: 10px;
+    left: -7px;
+    bottom: 24px;
     display: inline-block;
-    border-right: 7px solid transparent;
-    border-bottom: 7px solid hsl(0, 0%, 66%);
-    border-left: 7px solid transparent;
+    border-top: 7px solid transparent;
+    border-right: 7px solid hsl(0, 0%, 66%);
+    border-bottom: 7px solid transparent;
     content: '';
     z-index: 10;
 }
@@ -1880,7 +1886,7 @@ blockquote p {
     -moz-box-shadow: inherit;
     display: block;
     position: absolute;
-    right: 20px;
+    right: 40px;
     top: 13px;
 }
 
@@ -3113,15 +3119,14 @@ div.topic_edit_spinner .loading_indicator_spinner {
 }
 .management_titleB{
     overflow: hidden;
+    margin-left: 130px;
     margin-top: 20px;
-    margin-left: 20px;
-    margin-right: 20px;
 }
 .morn_managementtext{
     float: left;
-    font-size: 18px;
-    color: #333333;
-    letter-spacing: 0.22px;
+    font-size: 14px;
+    color: #888888;
+    letter-spacing: 0.16px;
 }
 .morn_management{
     list-style: none;
@@ -3155,6 +3160,12 @@ div.topic_edit_spinner .loading_indicator_spinner {
     bottom: 0px;
     background: #fff;
     /* left: 65px; */
+}
+.generate_log>p{
+    width: 230px;
+    height: 40px;
+    margin-left: 65px;
+    border: 1px solid #4584FF;
 }
 .generate_log_title{
     width: 230px;
@@ -3227,7 +3238,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     white-space: nowrap; 
     overflow: hidden; 
     /* width: 600px; */
-    max-width: 155px;
+    width: 155px;
     cursor: pointer;
     text-align: left;
     white-space: nowrap;
@@ -3257,11 +3268,10 @@ div.topic_edit_spinner .loading_indicator_spinner {
 }
 .completed_box{
     overflow: auto;
-    margin-left: -10px;
+    /* margin-left: -10px; */
     display: none;
 }
 .completed_box>li{
-    /* width: 876px; */
     height: 50px;
     margin: 10px auto;
     margin-left: -10px;
@@ -3269,8 +3279,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     min-width: 300px;
     height: 50px;
     margin: 10px auto;
-    background: #F7F7F7;
-    /* border: 1px solid #CCCCCC; */
+    border-bottom: 1px solid #bdbdbd;
     border-radius: 2px;
     list-style: none;
     overflow: hidden;
@@ -3299,7 +3308,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     white-space: nowrap; 
     overflow: hidden; 
     /* width: 600px; */
-    min-width: 300px;
+    min-width: 200px;
     text-align: left;
     color: #BBBBBB;
     text-decoration: line-through;
@@ -3331,7 +3340,13 @@ div.topic_edit_spinner .loading_indicator_spinner {
     margin-left: 10px;
     min-width: 300px;
     display: none;
-    height: 65px;
+}
+.new_task_title_data{
+    float: left;
+    font-size: 16px;
+    color: #666666;
+    letter-spacing: 0.23px;
+    line-height: 40px;
 }
 .new_add_task_plan{
     width: 100px;
@@ -3367,8 +3382,8 @@ div.topic_edit_spinner .loading_indicator_spinner {
 }
 .new_task_title{
     /* border: 1px solid #A0ACBF!important; */
-    border-radius: 100px!important;
-    /* width: 400px; */
+    /* border-radius: 100px!important; */
+    width: 320px;
     min-width: 200px;
     height: 30px!important;
     text-indent: 20px;
@@ -3382,7 +3397,7 @@ input::-webkit-input-placeholder{
 .new_task_date{
     margin-left: 40px!important;
     /* margin-top: 5px!important; */
-    border-radius: 100px!important;
+    border-radius: 4px!important;
     height: 30px!important;
     text-indent: 10px;
     border-bottom-right-radius: 0px!important;
@@ -3418,7 +3433,8 @@ input::-webkit-input-placeholder{
     color: #A0ACBF;
 }
 .save_cancel{
-    float: right;
+    text-align: center;
+    margin-left: 84px;
 }
 /* 添加计划 */
 

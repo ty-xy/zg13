@@ -79,9 +79,42 @@ var contact = (function(){
             //清空列表
             $(".notice_ctn_box").children().remove();
             $(".notice_ctn_box").append("<ul class='todo_box'></ul>")
-            $(".generate_log").on("click",function(){
-                management.generate_log();
+            $(".notice_ctn_box").append("<div class='generate_log'><p>一键生成日志</p></div>");
+            $(".notice_ctn_box").append(templates.render("add_new_task"))
+            $(".notice_ctn_box").append("<div class='management_titleB'>\
+            <div class='morn_managementtext'>已完成任务</div>\
+            <i class='iconfont icon-xiangyou right_san'></i></div>")
+            $(".notice_ctn_box").append("<ul class='completed_box'></ul>")
+            
+            //新增任务
+            $(".new_add_task").on("click",function(){
+                $(".new_add_task").hide();
+                $(".new_task").show();
             })
+            //取消
+            $(".new_task_cancel").on("click",function(e){
+                management.new_task_cancel();
+            })
+            //保存
+            $(".new_task_save").on("click",function(e){
+                management.new_task_save();
+                management.new_task_cancel();
+            })
+            //初始化日期
+            $('#datetimepicker').datetimepicker({  
+                language:"zh-CN",  
+                todayHighlight: true,  
+                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                weekStart:1  
+            });
+            //已完成下拉
+            $(".right_san").on("click",function(){
+                $(".completed_box").toggle();
+            })
+            // $(".generate_log").on("click",function(){
+            //     management.generate_log();
+            // })
+            
         })
     })
     

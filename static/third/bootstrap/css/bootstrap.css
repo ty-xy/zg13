@@ -2340,7 +2340,7 @@ table [class*=span],
   margin: 2px 0 0;
   list-style: none;
   background-color: #ffffff;
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
   border: 1px solid rgba(0, 0, 0, 0.2);
   *border-right-width: 2px;
   *border-bottom-width: 2px;
