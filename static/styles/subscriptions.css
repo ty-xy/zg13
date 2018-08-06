@@ -793,6 +793,7 @@ form#add_new_subscription {
 
 #stream-creation .stream-creation-body {
     padding: 15px;
+    padding-bottom:0;
 }
 
 .stream-row .settings-dropdown-trigger {

@@ -568,7 +568,8 @@ a.message-control-button {
     right:20px;
 }
 #group_seeting_choose{
-    display:none
+    display:none;
+    pointer-events: all
 }
 .home_gruop_title{
     /* display:none */
@@ -651,6 +652,9 @@ a.message-control-button {
     border-top:1px solid #ddd;
     opacity: 0.6; 
     line-height:50px;
+    display:flex;
+    justify-content: space-between;
+    align-items: center
     /* transform: rotate(-90deg); */
     /* background: #DDDDDD; */
 }
@@ -718,7 +722,7 @@ a.message-control-button {
         height: 23.3px;
         border-radius: 50px;
         position: relative;
-        align-self:flex-end !important;
+        /* align-self:flex-end !important; */
         
     }
     #div2{
@@ -727,6 +731,7 @@ a.message-control-button {
         border-radius: 20px;
         position: absolute;
         background: white;
+        cursor: pointer;
         box-shadow: 0px 2px 4px rgba(0,0,0,0.4);
     }
     .open1{
@@ -748,4 +753,105 @@ a.message-control-button {
     }
     .stream-list-row{
         padding-left:0px !important;
+    }
+    /* 新建群组 */
+    #new_steam_group{
+        z-index:30000;
+        height:100%; 
+        width:100%;
+        position:fixed;
+        background-color: hsla(0, 0%, 13%, 0.8);
+        /* opacity: 0.2;
+        background: #000000; */
+        left:0;
+        top:0;
+        display: none;
+        opacity: 1;
+        pointer-events: all;
+        transition: opacity 0.3s ease;
+        cursor: pointer;
+    }
+    .new_display_content{
+        position: absolute;
+        left:0;
+        right:0;
+        top:0;
+        bottom:0;
+        height:820px;
+        width:540px ;
+        margin:auto;
+        background: #FFFFFF;
+        opacity: 1;
+        
+        /* box-shadow: 0 1px 10px 0 rgba(204,204,204,0.30); */
+        border-radius: 4px;
+    }
+    .new_display_content .display-type{
+        padding: 6px;
+        text-align: center;
+        background: #F4F5F7;
+        height:60px;
+        line-height:60px;
+        font-weight: 600;
+        position: relative;
+        border-bottom: 1px solid hsl(0,0%,86%);
+    }
+    .icon-close-guanbi{
+       position: absolute;
+       right:30px;
+       top:5px;
+       cursor: pointer;
+    }
+    .stream_group_title{
+        display: inline-block ;
+        font-family: PingFangSC-Regular;
+        font-size: 15px;
+        color: #333333;
+        letter-spacing: 0.18px;
+        padding-top:10px;
+    }
+    .stream_description_team{
+        min-height:90px;
+        width:409px !important;
+    }
+    .stream_creation_body{
+        padding:20px;
+        overflow: auto
+    }
+    .stream_group_name{
+        width:409px;
+        height:38px !important;
+    }
+    .stream-box{
+        width:409px;
+        display: inline-block;
+        border:none;
+        background-color: #fff;
+        vertical-align: top;
+       
+    }
+    .user-attendances{
+        overflow:auto;
+        /* height:60px; */
+    }
+    .modal-footers{
+        background-color: #fff;
+        border-top:none;
+        padding:0 70px;
+        display: flex;
+        justify-content: space-around
+    }
+    .modal-footers>.button-cancel{
+       width:180px;
+       height:40px;
+       border: 1px solid #C5C5C5;
+       border-radius: 4px;
+    }
+    .modal-footers>.button-confirm{
+        width:180px;
+        height:40px;
+        background: #4584FF;
+        border: 1px solid #4584FF;
+        border-radius: 4px;
+        color:#fff !important;
     }

@@ -1,0 +1,17 @@
+<div class="new_display_content ">
+    <div class="display-type">
+            <div id="add_new_stream_title" class="stream-info-title">创建群组</div>
+            <i class="icon iconfont icon-guanbiUI icon-close-guanbi"></i>
+            {{!-- <div id="stream_settings_title" class="stream-info-title">{{t 'Stream settings' }}</div> --}}
+        </div>
+        <div class="nothing-selected">
+            {{#if can_create_streams}}
+            <button type="button" class="create_stream_button button small rounded change-create">{{t 'Create stream' }}</button>
+            {{!-- <span>{{t 'First time? Read our <a href="">guidelines</a> for creating and naming streams.' }}</span> --}}
+            {{/if}}
+        </div>
+        <div class="settings">
+            {{!-- edit stream here --}}
+        </div>
+        {{ partial "subscription_creation_forms" }}
+</div>

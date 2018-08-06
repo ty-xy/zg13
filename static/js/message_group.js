@@ -30,6 +30,7 @@ var message_group = (function () {
         window.addEventListener('hashchange', function () {
                 changeUrl()
           })
+        
         // console.log(url.substr(0,url.lastIndexOf("/",1)))
         function common(subscriptions,contents){
             // if(contents===".all_group"){
@@ -57,6 +58,10 @@ var message_group = (function () {
              }
             return emails;
         };
+        $(".create-topic").click(function(e){
+             $(".creare-topic-body").toggle()
+        })
+
         $(".group_icon").on("click",function(e){
             // people.get_person_from_user_id(26)
         
@@ -65,6 +70,7 @@ var message_group = (function () {
             $("#group_seeting_choose").show()
             $(".home-title").hide()
             $(".home_gruop_title").show()
+            $("#main_div").show();
             var streams = stream_data.subscribed_subs();
             var sub=stream_data.get_subscribers()
             var subscriptions = stream_data.get_streams_for_settings_page();
@@ -139,7 +145,36 @@ var message_group = (function () {
                 // })
                       
               })
-               
+              //新建群组
+
+              $("#group_seeting_choose").on("click",".new_setting",function(){
+                    $("#new_steam_group").show()
+                    var template = templates.render('new_group');
+                    $("#new_steam_group").html(template)
+                    var Height = $(window).height()
+                    $(".stream_creation_body").height(Height-215)
+                    // $("#stream-creation").height(Height-175)
+                    console.log(Height)
+                    $(".new_display_content").height(Height-60)
+                    $(".new_display_content").on("click",function(e){
+                        e.stopPropagation()
+                        e.preventDefault()
+                    })
+                   $(".icon-close-guanbi").on("click",function(e){
+                       e.stopPropagation()
+                       e.preventDefault()
+                       $("#new_steam_group").hide()
+                   })
+                  
+                   stream_create.show_new_steam_modals()
+              })
+              $("#new_steam_group").on("click",function(e){
+                    e.stopPropagation()
+                    e.preventDefault()
+                    $(this).hide()
+              })
+          
+            
               $("#group_seeting_choose").on("click",".all_group",function(){
                 common(subscriptions,".all_group")
                 $(".swtich-button").show()

@@ -131,7 +131,6 @@ function ajaxSubscribeForCreation(stream_name, description, principals, invite_o
 
 // Within the new stream modal...
 function update_announce_stream_state() {
-
     // If there is no notifications_stream, we simply hide the widget.
     if (!page_params.notifications_stream) {
         $('#announce-new-stream').hide();
@@ -224,7 +223,55 @@ function clear_error_display() {
     $(".stream_create_info").hide();
     stream_subscription_error.clear_errors();
 }
+exports.show_new_steam_modals = function (){
+    // $("#stream-creation").removeClass("hide");
+    // $(".right .settings").hide();
 
+    var all_users = people.get_rest_of_realm();
+    // Add current user on top of list
+    all_users.unshift(people.get_person_from_user_id(page_params.user_id));
+    var html = templates.render('new_stream_users', {
+        users: all_users,
+        streams: stream_data.get_streams_for_settings_page(),
+        is_admin: page_params.is_admin,
+    });
+
+    var container = $('#people_to_add');
+    container.html(html);
+    exports.create_handlers_for_users(container);
+
+    // Make the options default to the same each time:
+    // public, "announce stream" on.
+    $('#make-invite-only input:radio[value=public]').prop('checked', true);
+
+    if (page_params.notifications_stream) {
+        $('#announce-new-stream').show();
+        $('#announce-new-stream input').prop('disabled', false);
+        $('#announce-new-stream input').prop('checked', true);
+    } else {
+        $('#announce-new-stream').hide();
+    }
+    clear_error_display();
+
+    $("#stream-checkboxes label.checkbox").on('change', function (e) {
+        var elem = $(this);
+        var stream_id = elem.attr('data-stream-id');
+        var checked = elem.find('input').prop('checked');
+        var subscriber_ids = stream_data.get_sub_by_id(stream_id).subscribers;
+        console.log(subscriber_ids,"subscriber_ids")
+        $('#user-checkboxes label.checkbox').each(function () {
+            var user_elem = $(this);
+            var user_id = user_elem.attr('data-user-id');
+
+            if (subscriber_ids.has(user_id)) {
+                user_elem.find('input').prop('checked', checked);
+            }
+        });
+
+        update_announce_stream_state();
+        e.preventDefault();
+    });
+}
 exports.show_new_stream_modal = function () {
     $("#stream-creation").removeClass("hide");
     $(".right .settings").hide();
@@ -277,10 +324,10 @@ exports.show_new_stream_modal = function () {
 
 exports.create_handlers_for_users = function (container) {
     // container should be $('#people_to_add')...see caller to verify
-    container.on('change', '#user-checkboxes input', update_announce_stream_state);
-
-    // 'Check all' and 'Uncheck all' visible users
+    console.log(container)
+    container.on('change', '#user-checkboxes input', update_announce_stream_state); 
     container.on('click', '.subs_set_all_users', function (e) {
+        console.log("rwerwerewrw")
         $('#user-checkboxes .checkbox').each(function (idx, li) {
             if  (li.style.display !== "none") {
                 $(li.firstElementChild).prop('checked', true);
