@@ -610,6 +610,7 @@ li.show-more-private-messages a {
     padding: 5px 20px;
     width: 260px;
     height: 53px;
+    cursor: pointer;
 }
 .notice_left{
     float: left;

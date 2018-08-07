@@ -893,6 +893,9 @@ var management = (function () {
         }
     
         $(".new_task_save").on("click",function(e){
+            new_task_save();
+        })
+        exports.new_task_save = function(){
             var inttitle = $(".create_tasttitle").val();
             var inttime = $("#daibandata").val();
             function timestamp(str){
@@ -952,7 +955,9 @@ var management = (function () {
                             // $("#file-choose #file_inputs").trigger("click");
                         });
                         $(".add_ctn").on("click",function(e){
+                            $(".move_ctn").children().remove();
                             $(".taskdetail_md").show();
+                            $("#management_ctn").hide();
                             // $(".app").css("overflow-y","hidden");
                             // $(".taskdetail_list").html($(this).html());
                             // $(".taskdetail_list").val($(this).val());
@@ -1043,8 +1048,7 @@ var management = (function () {
                     console.log(rej)
                 }
             })
-        })
-
+        }
         $(".new_task_cancel").on("click",function(e){
             $(".new_task_title").val("");
             $(".new_task_date").val("")
@@ -1055,6 +1059,16 @@ var management = (function () {
             $(".new_add_task").show();
             $(".new_task").hide();
         })
+        exports.new_task_cancel = function(){
+            $(".new_task_title").val("");
+            $(".new_task_date").val("")
+            $("#taskinput").css("border","1px solid #ccc");
+            $(".new_task_date").css("border","1px solid #ccc");
+            $("#taskdata").css("border","1px solid #ccc")
+            $(".error_tip").text("");
+            $(".new_add_task").show();
+            $(".new_task").hide();
+        }
         //点击收拉已完成任务
         $(".right_san").on("click",function(){
                 $(".completed_box").toggle();
@@ -1062,7 +1076,8 @@ var management = (function () {
         
         //点击待办事项文本内容展示详情弹窗
         $(".add_ctn").on("click",function(e){
-            console.log("dadasdasd")
+            $(".move_ctn").children().remove();
+            $("#management_ctn").hide();
             $(".taskdetail_md").show();
             // $(".app").css("overflow-y","hidden")
         })
@@ -1176,6 +1191,7 @@ var management = (function () {
             }); 
         //日志助手显示
             $(".log_assistant_btn").on("click",function(e){
+                $("#empty_star_narrow_message").remove();
                 e.stopPropagation();
                 e.preventDefault();
                 var window_high = window.screen.height;
@@ -1197,7 +1213,7 @@ var management = (function () {
                         $(".log_assistant_md").remove();
                         var receive_table_list = res.receive_table_list;
                         var html = templates.render("log_assistant_box",{receive_table_list:receive_table_list,page:page})
-                        $(".app").after(html)
+                        $(".move_ctn").append(html)
                         //点击下载附件图片
                         $(".download_fujian").on("click",function(){
                             window.open($(this).attr("href"))

@@ -147,7 +147,9 @@ exports.load_messages = function (opts) {
                         $(".todo_box").append(html_li)
                         var backlog_id;
                         $(".todo_box").on("click",".add_ctn",function(e){
+                            $(".move_ctn").children().remove();
                             $(".taskdetail_md").show();
+                            $("#management_ctn").hide();
                             $(".app").css("overflow-y","hidden");
                             // $(".taskdetail_list").html($(this).html());
                             // $(".taskdetail_list").html($(this).val());
@@ -193,7 +195,7 @@ exports.load_messages = function (opts) {
                                         update_backlog_list:update_backlog_list,
                                         accessory_dict:accessory_dict,
                                     })
-                                    $(".app").after(html)
+                                    $(".move_ctn").append(html)
                                     $(".taskdetail_md").show();
                                     var obj_backlog_details = {
                                         backlog_id:id,
@@ -534,6 +536,7 @@ exports.load_messages = function (opts) {
 
                                         
                                     $(".completed_box").on("click",".completed_ctn",function(e){
+                                        $(".move_ctn").children().remove();
                                         $(".app").css("overflow-y","hidden");
                                         // $(".taskdetail_list").html($(this).html());
                                         $(".taskdetail_md").remove();
@@ -580,7 +583,7 @@ exports.load_messages = function (opts) {
                                                     update_backlog_list:update_backlog_list,
                                                     accessory_dict:accessory_dict
                                                 })
-                                                $(".app").after(html)
+                                                $(".move_ctn").append(html)
                                                 $(".taskdetail_md").show();
                                                 var obj_backlog_details = {
                                                     backlog_id:id,
