@@ -34,6 +34,7 @@ function update_stream_pin(sub, value) {
 
 exports.update_property = function (stream_id, property, value) {
     var sub = stream_data.get_sub_by_id(stream_id);
+    console.log(property)
     if (sub === undefined) {
         // This isn't a stream we know about, so ignore it.
         blueslip.warn("Update for an unknown subscription", {stream_id: stream_id,

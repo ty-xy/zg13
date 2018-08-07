@@ -260,7 +260,7 @@ exports.show_new_stream_modal = function () {
         var stream_id = elem.attr('data-stream-id');
         var checked = elem.find('input').prop('checked');
         var subscriber_ids = stream_data.get_sub_by_id(stream_id).subscribers;
-
+        console.log(subscriber_ids,"subscriber_ids")
         $('#user-checkboxes label.checkbox').each(function () {
             var user_elem = $(this);
             var user_id = user_elem.attr('data-user-id');

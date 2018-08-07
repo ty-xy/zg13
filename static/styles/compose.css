@@ -614,9 +614,12 @@ a#undo_markdown_preview {
     color: #999;
 }
 .compose-title{
-    margin-right:0 !important;
+    /* margin-right:265px!important; */
     display:flex;
+    margin-left:475px;
+    padding: 0px 10px 0px 20px;
     justify-content: space-between;
+    border:1px solid transparent;
 }
 .create-topic{
     border:none;
