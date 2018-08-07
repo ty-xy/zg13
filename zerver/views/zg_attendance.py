@@ -163,7 +163,7 @@ def month_attendance_tools(user_profile, year, months):
                                                       sign_in_time__month=months, sign_in_time__year=year)
 
     for attendance_obj in attendance_obj_list:
-        normal = str(attendance_obj.sign_in_time)[8:10]
+        normal = str(attendance_obj.sign_in_time)[0:10]
         normal_list.append(int(normal))
     # 外勤请假
     outside_work_obj_list = ZgOutsideWork.objects.filter(user_name=user_profile, sign_in_time__month=months,
@@ -171,7 +171,7 @@ def month_attendance_tools(user_profile, year, months):
     outside_work_dict = {}
 
     for qutside_work_obj in outside_work_obj_list:
-        qutside_work = str(qutside_work_obj.sign_in_time)[8:10]
+        qutside_work = str(qutside_work_obj.sign_in_time)[0:10]
         outside_work_dict[qutside_work] = 1
     for k, y in outside_work_dict:
         outside_work_list.append(k)
@@ -180,7 +180,7 @@ def month_attendance_tools(user_profile, year, months):
                                                          sign_in_time__month=months, sign_in_time__year=year,
                                                          user_name=user_profile)
     for no_attendance_obj in no_attendance_obj_list:
-        normal = str(no_attendance_obj.sign_in_time)[8:10]
+        normal = str(no_attendance_obj.sign_in_time)[0:10]
         no_normal_list.append(int(normal))
 
     return {'attendance_count': attendance_count, 'outsidework_count': outsidework_count,
