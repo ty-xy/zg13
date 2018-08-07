@@ -70,7 +70,7 @@ exports.get_editability = get_editability;
 exports.save = function (row, from_topic_edited_only) {
     var msg_list = current_msg_list;
     var message_id;
-
+    console.log(from_topic_edited_only,"from_topic_edited_only")
     if (row.hasClass('recipient_row')) {
         message_id = rows.id_for_recipient_row(row);
     } else {
@@ -88,6 +88,7 @@ exports.save = function (row, from_topic_edited_only) {
         } else {
             new_topic = row.find(".message_edit_topic").val();
         }
+        console.log(new_topic)
         topic_changed = (new_topic !== message.subject && new_topic.trim() !== "");
     }
     // Editing a not-yet-acked message (because the original send attempt failed)

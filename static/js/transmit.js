@@ -51,7 +51,7 @@ exports.send_message = function (request, on_success, error) {
         // Call back to our callers to do things like closing the compose
         // box and turning off spinners and reifying locally echoed messages.
         on_success(data);
-
+        console.log(request)
         // Once everything is done, get ready to report times to the server.
         sent_messages.report_server_ack(request.local_id);
     }

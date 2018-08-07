@@ -464,6 +464,7 @@ $(function () {
 
 
     $('.compose_stream_button').click(function () {
+        console.log("是这吗？")
         compose_actions.start('stream', {trigger: 'new topic button'});
     });
     // $('.compose_private_button').click(function () {

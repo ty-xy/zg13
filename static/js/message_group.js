@@ -15,9 +15,11 @@ var message_group = (function () {
                 // $(".topic-list").html(li)
                 if(url.indexOf("/",index+1) != -1){
                     var j = url.slice(index+4,url.indexOf("/",index+1))
+                    j= decodeURI(j)
                     $(".home-title span").html(j)
                 }else{
-                    $(".home-title span").html(url.substr(index+4))             
+                    var title = decodeURI(url.substr(index+4))
+                    $(".home-title span").html(title)             
                 }
                 $(".home-title").show()
                 $(".compose-title").show()
@@ -58,10 +60,38 @@ var message_group = (function () {
              }
             return emails;
         };
+        function fill_in_opts_from_current_narrowed_view(msg_type, opts) {
+            var default_opts = {
+                message_type:     msg_type,
+                stream:           '',
+                subject:          '',
+                private_message_recipient: '',
+                trigger:          'unknown',
+            };
+        
+            // Set default parameters based on the current narrowed view.
+            var compose_opts = narrow_state.set_compose_defaults();
+            default_opts = _.extend(default_opts, compose_opts);
+            opts = _.extend(default_opts, opts);
+            return opts;
+        }
         $(".create-topic").click(function(e){
              $(".creare-topic-body").toggle()
         })
-
+        $(".make-stream-cancel").on("click",function(e){
+            $(".creare-topic-body").hide()
+        })
+        $(".make-stream-sure").on("click",function(e){
+            opts = fill_in_opts_from_current_narrowed_view('stream', {trigger: 'new topic button'});
+            compose_state.stream_name(opts.stream),
+            compose_state.subject(opts.subject)
+            var data = compose.create_message_object()
+            data.type="stream";
+            data.subject=compose_state.subjects();
+            data.content="欢迎来到 "+data.subject+""
+            compose.send_message(data)
+            $(".creare-topic-body").hide()
+        })
         $(".group_icon").on("click",function(e){
             // people.get_person_from_user_id(26)
         
@@ -74,7 +104,7 @@ var message_group = (function () {
             var streams = stream_data.subscribed_subs();
             var sub=stream_data.get_subscribers()
             var subscriptions = stream_data.get_streams_for_settings_page();
-           
+              
             // console.log(stream_edit,323111)
             // 渲染群组
            
@@ -133,7 +163,7 @@ var message_group = (function () {
                     $(window).attr("location","#narrow/stream/"+index+"-"+name+"")
                     $("#zfilt").show()
                     var topic_names = topic_data.get_recent_names(index);
-                    console.log(index)
+                    console.log(index,topic_names)
                     var li = templates.render('topic_list', {topiclist:topic_names});
                     $(".topic-list").html(li)
                     $(".topic-item-list").on("click",function(){

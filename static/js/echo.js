@@ -158,6 +158,7 @@ exports.try_deliver_locally = function try_deliver_locally(message_request) {
 
 exports.edit_locally = function edit_locally(message, raw_content, new_topic) {
     message.raw_content = raw_content;
+    console.log(new_topic)
     if (new_topic !== undefined) {
         topic_data.remove_message({
             stream_id: message.stream_id,

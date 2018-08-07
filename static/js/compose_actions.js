@@ -51,6 +51,7 @@ exports._get_focus_area = get_focus_area;
 
 exports.set_focus = function (msg_type, opts) {
     var focus_area = get_focus_area(msg_type, opts);
+    console.log(focus_area,opts)
     if (focus_area === undefined) {
         return;
     }
@@ -122,6 +123,7 @@ exports.complete_starting_tasks = function (msg_type, opts) {
     ui_util.change_tab_to("#home");
     compose_fade.start_compose(msg_type);
     exports.decorate_stream_bar(opts.stream);
+    console.log(opts,"compose_state.subject(opts.subject)")
     $(document).trigger($.Event('compose_started.zulip', opts));
     resize.resize_bottom_whitespace();
 };
@@ -181,15 +183,17 @@ function same_recipient_as_before(msg_type, opts) {
 }
 
 exports.start = function (msg_type, opts) {
+    //自动获取焦点
     exports.autosize_message_content();
-
+    
     if (reload.is_in_progress()) {
         return;
     }
     notifications.clear_compose_notifications();
     exports.expand_compose_box();
-
-    opts = fill_in_opts_from_current_narrowed_view(msg_type, opts);
+    
+    opts = fill_in_opts_from_current_narrowed_view('stream', {trigger: 'new topic button'});
+    console.log(opts)
     // If we are invoked by a compose hotkey (c or x) or new topic button
     // or sidebar stream actions (in stream popover), do not assume that we know what
     // the message's topic or PM recipient should be.
@@ -204,10 +208,9 @@ exports.start = function (msg_type, opts) {
         // Clear the compose box if the existing message is to a different recipient
         clear_box();
     }
-
+    
     compose_state.stream_name(opts.stream);
     compose_state.subject(opts.subject);
-
     // Set the recipients with a space after each comma, so it looks nice.
     compose_state.recipient(opts.private_message_recipient.replace(/,\s*/g, ", "));
 

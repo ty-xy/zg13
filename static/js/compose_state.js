@@ -29,12 +29,16 @@ function get_or_set(fieldname, keep_leading_whitespace) {
     // We can't hoist the assignment of 'elem' out of this lambda,
     // because the DOM element might not exist yet when get_or_set
     // is called.
+    // console.log(newval)
     return function (newval) {
         var elem = $('#'+fieldname);
+        console.log(elem,fieldname)
         var oldval = elem.val();
         if (newval !== undefined) {
             elem.val(newval);
+            console.log(111,elem)
         }
+        console.log(keep_leading_whitespace,"keep_leading_whitespace")
         return keep_leading_whitespace ? util.rtrim(oldval) : $.trim(oldval);
     };
 }
@@ -42,6 +46,7 @@ function get_or_set(fieldname, keep_leading_whitespace) {
 // TODO: Break out setters and getter into their own functions.
 exports.stream_name     = get_or_set('stream');
 exports.subject         = get_or_set('subject');
+exports.subjects        = get_or_set('subjects');
 // We can't trim leading whitespace in `compose_textarea` because
 // of the indented syntax for multi-line code blocks.
 exports.message_content = get_or_set('compose-textarea', true);
