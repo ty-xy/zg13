@@ -9,6 +9,8 @@ var contact = (function(){
         $(".contact").on("click",function(){
             //清空右侧添加内容
             $(".move_ctn").children().remove();
+            //右侧填补空白页
+            $(".move_ctn").append(templates.render("right_blank_page"))
             //清空列表
             $(".notice_ctn_box").children().remove();
             $(".group_icon").show()
@@ -61,7 +63,7 @@ var contact = (function(){
             $(".move_ctn").children().remove();
             $(".group_icon").hide()
             //添加默认空白
-            $(".move_ctn").append($("#empty_star_narrow_message"));
+            $(".move_ctn").append(templates.render("right_blank_page"))
             //清空列表
             $(".notice_ctn_box").children().remove();
             $("#main_div").hide();
@@ -71,6 +73,7 @@ var contact = (function(){
             $(".tab-content").css("height","calc(100% - 232px)")
              //日志助手显示
              $(".log_assistant_btn").on("click",function(e){
+                $(".move_ctn").children().remove();
                 e.stopPropagation();
                 e.preventDefault();
                 var window_high = window.screen.height;
@@ -492,11 +495,14 @@ var contact = (function(){
             //清空右侧添加内容
             $(".group_icon").hide()
             $(".move_ctn").children().remove();
+            //右侧填补空白页
+            $(".move_ctn").append(templates.render("right_blank_page"))
             //清空列表
             $(".notice_ctn_box").children().remove();
             var manage_group = templates.render("manage_groups")
             $(".notice_ctn_box").append(manage_group)
             $(".common_img").on("click",function(){
+                $(".move_ctn").children().remove();
                 attendance.attendance()
                 $(".tab-content").css("height","100%");
             })
@@ -506,6 +512,8 @@ var contact = (function(){
             $(".group_icon").hide()
             //清空右侧添加内容
             $(".move_ctn").children().remove();
+            //右侧填补空白页
+            $(".move_ctn").append(templates.render("right_blank_page"))
             //清空列表
             $(".notice_ctn_box").children().remove();
             $(".notice_ctn_box").append("<ul class='todo_box'></ul>")
