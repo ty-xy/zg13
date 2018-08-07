@@ -608,6 +608,7 @@ def dev_direct_login(request: HttpRequest, **kwargs: Any) -> HttpResponse:
         # an enabled DevAuthBackend.
         return HttpResponseRedirect(reverse('dev_not_supported'))
     email = request.POST['direct_email']
+    print(email)
     subdomain = get_subdomain(request)
     realm = get_realm(subdomain)
     user_profile = authenticate(dev_auth_username=email, realm=realm)
@@ -617,6 +618,7 @@ def dev_direct_login(request: HttpRequest, **kwargs: Any) -> HttpResponse:
 
     next = request.GET.get('next', '')
     redirect_to = get_safe_redirect_to(next, user_profile.realm.uri)
+    redirect_to+='#narrow/is/starred'
     return HttpResponseRedirect(redirect_to)
 
 @csrf_exempt

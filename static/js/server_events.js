@@ -196,7 +196,7 @@ function get_events(options) {
                             $(".notice_top_time[name='"+$(".notice_ctn").attr("send_id")+"']").html(tf(time))
                     }else{
                         var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:send_id,time:time})
-                        $(".notice_ctn_box").append(notice_box)
+                        $(".notice_ctn_box").prepend(notice_box)
                     }
                     
                 }

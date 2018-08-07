@@ -297,7 +297,7 @@ p.n-margin {
     margin-left: 100px;
     overflow-y: auto;
     position: absolute;
-    /* z-index: 111; */
+    z-index: 11;
 }
 .app-main .column-left .left-sidebar,
 .app-main .column-right .right-sidebar {

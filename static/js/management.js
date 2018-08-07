@@ -1210,7 +1210,7 @@ var management = (function () {
                         $(".log_assistant_md").remove();
                         var receive_table_list = res.receive_table_list;
                         var html = templates.render("log_assistant_box",{receive_table_list:receive_table_list,page:page})
-                        $(".app").after(html)
+                        $(".move_ctn").append(html)
                         //点击下载附件图片
                         $(".download_fujian").on("click",function(){
                             window.open($(this).attr("href"))
