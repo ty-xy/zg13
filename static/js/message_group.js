@@ -130,6 +130,7 @@ var message_group = (function () {
                     $(this).attr("class",($(this).attr("class")=="close2")?"open2":"close2")
                   }
                })
+
             // })
             // 点击群组的事件
             $(".streams-list").on("click",".stream-row",function(){
@@ -188,22 +189,56 @@ var message_group = (function () {
                     $(".new_display_content").height(Height-60)
                     $(".new_display_content").on("click",function(e){
                         e.stopPropagation()
-                        e.preventDefault()
+                        // e.preventDefault()
                     })
                    $(".icon-close-guanbi").on("click",function(e){
                        e.stopPropagation()
                        e.preventDefault()
                        $("#new_steam_group").hide()
                    })
-                  
                    stream_create.show_new_steam_modals()
+                   // 当任何没有选中的时候，点击取消，模态框消失
+                   $(".new_display_content").on("click","[data-dismiss]", function (e) {
+                        e.preventDefault();
+                        if (e.clientY !== 0) {
+                            $("#new_steam_group").hide()
+                        }
+                   });
+                //    $(".new_display_content").on("click",".button-confirm", function (e) {
+                //     e.preventDefault();
+                //     // clear_error_display();
+                //     var stream_name = $.trim($("#create_stream_name").val());
+                //     var name_ok = stream_name_error.validate_for_submit(stream_name);
+                //     console.log(name_ok,stream_name)
+                //     // if (!name_ok) {
+                //     //     return;
+                //     // }
+                //     // var principals = get_principals();
+                //     // if (principals.length === 0) {
+                //     //     stream_subscription_error.report_no_subs_to_stream();
+                //     //     return;
+                //     // }
+                //     // if (principals.indexOf(people.my_current_email()) < 0 && !page_params.is_admin) {
+                //     //     stream_subscription_error.cant_create_stream_without_susbscribing();
+                //     //     return;
+                //     // }
+            
+                //     // if (principals.length >= 50) {
+                //     //     var invites_warning_modal = templates.render('subscription_invites_warning_modal',
+                //     //                                                  {stream_name: stream_name,
+                //     //                                                   count: principals.length});
+                //     //     $('#stream-creation').append(invites_warning_modal);
+                //     // } else {
+                //     //     create_stream();
+                //     // }
+                // });
               })
               $("#new_steam_group").on("click",function(e){
-                    e.stopPropagation()
-                    e.preventDefault()
+                    // e.stopPropagation()
+                    // e.preventDefault()
                     $(this).hide()
               })
-          
+             
             
               $("#group_seeting_choose").on("click",".all_group",function(){
                 common(subscriptions,".all_group")

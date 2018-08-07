@@ -855,3 +855,7 @@ a.message-control-button {
         border-radius: 4px;
         color:#fff !important;
     }
+    .button-sure{
+       text-align:center;
+       line-height:40px；
+    }

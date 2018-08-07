@@ -32,13 +32,13 @@ function get_or_set(fieldname, keep_leading_whitespace) {
     // console.log(newval)
     return function (newval) {
         var elem = $('#'+fieldname);
-        console.log(elem,fieldname)
+        // console.log(elem,fieldname)
         var oldval = elem.val();
         if (newval !== undefined) {
             elem.val(newval);
-            console.log(111,elem)
+            // console.log(111,elem)
         }
-        console.log(keep_leading_whitespace,"keep_leading_whitespace")
+        // console.log(keep_leading_whitespace,"keep_leading_whitespace")
         return keep_leading_whitespace ? util.rtrim(oldval) : $.trim(oldval);
     };
 }

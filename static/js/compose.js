@@ -152,7 +152,7 @@ function create_message_object() {
         message.to_user_ids = people.email_list_to_user_ids_string(emails);
     } else {
         var stream_name = compose_state.stream_name();
-        console.log(stream_name)
+        // console.log(stream_name)
         message.to = stream_name;
         message.stream = stream_name;
         var sub = stream_data.get_sub(stream_name);
@@ -220,11 +220,11 @@ exports.send_message_success = function (local_id, message_id, locally_echoed) {
 };
 
 exports.send_message = function send_message(request) {
-    console.log(request)
+    // console.log(request)
     if (request === undefined) {
         request = create_message_object();
     }
-     console.log(request)
+    //  console.log(request)
     if (request.type === "private") {
         request.to = JSON.stringify(request.to);
     } else {

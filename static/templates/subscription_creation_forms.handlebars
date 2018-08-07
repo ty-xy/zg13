@@ -1,6 +1,6 @@
 <div id="stream-creation" tabindex="-1" role="dialog"
   aria-label="{{t 'Stream creation' }}">
-    <form id="stream_creation_form" class="form-inline">
+    <form id="stream_creation_forms" class="form-inline">
         <div class="alert stream_create_info"></div>
         <div id="stream_creating_indicator"></div>
         <div class="stream-creation-body stream_creation_body">
@@ -67,7 +67,9 @@
         </div>
         <div class="modal-footer  modal-footers">
             <button class="button small white rounded button-cancel" data-dismiss="modal">{{t "Cancel" }}</button>
-            <button class="button small sea-green rounded button-confirm" type="submit">{{t "Create" }}</button>
+            <div class="button-confirm button-sure" >确定</div>
+            {{!-- <button class="button-confirm">确定</button> --}}
+            {{!-- <button class="button small sea-green rounded button-confirm" type="submit">{{t "Create" }}</button> --}}
         </div>
     </form>
 </div>
