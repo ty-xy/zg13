@@ -48,10 +48,17 @@ var contact = (function(){
                         //发送消息点击事件
                         $(".user_detail_send").on("click",function(){
                             $(".move_ctn").children().remove();
-                            // $("#compose_controls").show();
                             $("#main_div").show();
                             $("#compose").show();
                             $(".tab-content").css("height","calc(100% - 232px)")
+                            
+                            //做个切换到消息板块的假象试试
+                            $(".notice_ctn_box").children().remove();
+                            $(".news_icon").addClass("left_blue_height");
+                            $(".address_book").removeClass("left_blue_height")
+                            // var log_assistant_prompt = templates.render("log_assistant_prompt");
+                            // $(".notice_ctn_box").append(log_assistant_prompt)
+                            console.log($(".news_icon"))
                         })
                     })
                 }
@@ -73,6 +80,7 @@ var contact = (function(){
             $(".tab-content").css("height","calc(100% - 232px)")
              //日志助手显示
              $(".log_assistant_btn").on("click",function(e){
+                $(".tab-content").css("height","100%")
                 $(".move_ctn").children().remove();
                 e.stopPropagation();
                 e.preventDefault();
@@ -80,7 +88,6 @@ var contact = (function(){
                 $(".log_assistant_md").css("height",window_high);
                 $(".log_assistant_md").css("overflow","auto");
                 $(".log_assistant_md").show();
-                // $(".app").css("overflow-y","hidden");
                 $.ajax({
                     type:"GET",
                     url:"json/zg/my/receive/web",
@@ -447,14 +454,8 @@ var contact = (function(){
                                     }
                                 })
                         })
-
-
                             }
                         })
-                        
-                // $(".log_assistant_md").remove();
-                //日志助手点击md关闭
-                
                 //筛选
                 $(".log_assistant_screening").on("click",function(e){
                     $(".log_screening").show();
@@ -487,7 +488,6 @@ var contact = (function(){
                 //         $(this).unbind("mousemove");
                 //     })
                 // })
-                
             })
         })
         //管理组点击

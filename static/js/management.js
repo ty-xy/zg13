@@ -955,6 +955,7 @@ var management = (function () {
                             // $("#file-choose #file_inputs").trigger("click");
                         });
                         $(".add_ctn").on("click",function(e){
+                            $(".move_ctn").children().remove();
                             $(".taskdetail_md").show();
                             $("#management_ctn").hide();
                             // $(".app").css("overflow-y","hidden");
@@ -1075,6 +1076,7 @@ var management = (function () {
         
         //点击待办事项文本内容展示详情弹窗
         $(".add_ctn").on("click",function(e){
+            $(".move_ctn").children().remove();
             $("#management_ctn").hide();
             $(".taskdetail_md").show();
             // $(".app").css("overflow-y","hidden")
@@ -1189,6 +1191,7 @@ var management = (function () {
             }); 
         //日志助手显示
             $(".log_assistant_btn").on("click",function(e){
+                $("#empty_star_narrow_message").remove();
                 e.stopPropagation();
                 e.preventDefault();
                 var window_high = window.screen.height;
