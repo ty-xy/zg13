@@ -173,15 +173,15 @@ ul{
 
 /*任务详情样式*/
 .taskdetail_box{
-    width: 540px;
-    height: 590px;
+    /* width: 540px;
+    height: 590px; */
     /* border: 1px solid red; */
     background: #fff;
-    position: absolute;
+    /* position: absolute;
     left: 50%;
     top: 50%;
     margin-left: -270px;
-    margin-top: -295px;
+    margin-top: -295px; */
     overflow: auto;
     border-radius: 3px;
     overflow-x: hidden;
@@ -193,6 +193,7 @@ ul{
     height: 50px;
     position: relative;
     overflow: hidden;
+    /* display: none; */
 }
 .taskdetail_title{
     font-size: 16px;
@@ -252,7 +253,7 @@ ul{
     outline: none;
 }
 #taskdetail_addnote{
-    width: 500px;
+    width: 100%;
     height: 128px;
     margin: 0 auto;
     background: #F7F7F7;
@@ -275,8 +276,10 @@ ul{
     margin-left: 20px;
 }
 .taskdetail_date_box{
-    width: 500px;
-    margin: 0 auto;
+    /* width: 500px; */
+    /* margin: 0 auto; */
+    margin-left: 20px;
+    margin-top: 20px;
 }
 .taskdetail_set{
     font-size: 15px;
@@ -286,7 +289,8 @@ ul{
     margin-left: 25px;
 }
 .taskdetail_selection{
-    width: 500px;
+    /* width: 500px; */
+    padding: 20px;
     margin: 0 auto;
     overflow: hidden;
 }
@@ -296,7 +300,8 @@ ul{
 }
 .taskdetail_selection_right{
     overflow: hidden;
-    float: right;
+    float: left;
+    margin-left: 10px;
 }
 .taskdetail_selection_left>:first-child{
     float: left;
@@ -334,7 +339,7 @@ ul{
 }
 .taskdetail_upfile_box{
     width: 500px;
-    margin: 10px auto;
+    margin: 10px 20px;
     height: 30px;
 }
 .upfile_icon{
@@ -355,11 +360,12 @@ ul{
     letter-spacing: 0.23px;
 }
 .taskdetail_attachment_box{
-    width: 500px;
+    /* width: 500px; */
     margin: 10px auto;
+    padding: 0 20px;
 }
 .taskdetail_attachment{
-    width: 500px;
+    /* width: 500px; */
     height: 52px;
     margin: 12px auto;
     background: #F7F7F7;
@@ -420,16 +426,16 @@ ul{
 .taskdetail_md{
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.30);
+    /* background: rgba(0,0,0,0.30);
     position: fixed;
     left: 0;
     top: 0;
     z-index: 111;
-    display: none;
+    display: none; */
 }
 .taskdetail_records_box{
     width: 540px;
-    background: #F3F3F3;
+    /* background: #F3F3F3; */
     overflow: hidden;
     margin-top: 50px;
 }
@@ -868,14 +874,14 @@ ul{
 
 /* 日志助手样式 */
 .log_assistant_box{
-    width: 937px;
-    height: 740px;
+    /* width: 937px;
+    height: 740px; */
     /* border: 1px solid #ccc; */
-    position: absolute;
+    /* position: absolute;
     left: 0;
     top: 0;
     bottom:0;
-    right:0;
+    right:0; */
     margin:auto;
     z-index: 1000;
 }
@@ -948,9 +954,7 @@ ul{
     cursor: pointer;
 }
 .log_assistant_ctn_box{
-    background: #f5f5f5;
-    width: 937px;
-    height: 740px;
+    /* background: #f5f5f5; */
     overflow: auto;
 }
 .log_assistant_prompt_box{
@@ -998,7 +1002,8 @@ ul{
     overflow: hidden;
     background: #fff;
     position: relative;
-    box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30);
+    /* box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30); */
+    border: 1px solid #ddd;
     border-radius: 4px 4px 0 0;
     margin-top: 20px;
 }
@@ -1232,12 +1237,12 @@ ul{
 .log_assistant_md{
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.30);
+    /* background: rgba(0,0,0,0.30);
     position: fixed;
     left: 0;
     top: 0;
     z-index: 111;
-    display: flex;
+    display: flex; */
     /* display: none; */
     /* justify-content:center;
     align-items:center; */
@@ -1425,4 +1430,16 @@ ul{
     margin-top: 14px;
     margin-left: 20px;
     display: none;
+}
+.log_assistant_img{
+    font-size: 26px;
+    line-height: 40px;
+    margin-left: 9px;
+    color: #fff;
+}
+.log_assistant_box{
+
+}
+.left_blue_height{
+    color: #14A4FA!important;
 }
