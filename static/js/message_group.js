@@ -165,6 +165,7 @@ var message_group = (function () {
                     $("#zfilt").show()
                     var topic_names = topic_data.get_recent_names(index);
                     console.log(index,topic_names)
+                    topic_names.unshift("大厅")
                     var li = templates.render('topic_list', {topiclist:topic_names});
                     $(".topic-list").html(li)
                     $(".topic-item-list").on("click",function(){

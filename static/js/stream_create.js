@@ -110,8 +110,9 @@ function ajaxSubscribeForCreation(stream_name, description, principals, invite_o
         success: function () {
             $("#create_stream_name").val("");
             $("#create_stream_description").val("");
-            // ui_report.success(i18n.t("Stream successfully created!"), $(".stream_create_info"));
+            ui_report.success(i18n.t("Stream successfully created!"), $(".stream_create_info"));
             loading.destroy_indicator($('#stream_creating_indicator'));
+            $("#new_steam_group").hide()
             // The rest of the work is done via the subscribe event we will get
         },
         error: function (xhr) {

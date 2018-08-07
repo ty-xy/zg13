@@ -16,9 +16,17 @@
                 </svg>
             </div> --}}
             {{!-- {{ partial "subscription_setting_icon" }} --}}
-            <span class="color-setting" style="background-color: {{color}} ">{{name}}</span>
+            <span class="color-setting" style="background-color: {{color}} ">{{nfirst name}}</span>
             <div class="sub-info-box">
+                {{#if invite_only}}
                 <div class="top-bar top-setting">
+                    <div class="stream-name stream-names">{{name}}</div>
+                    <div class="subscriber-count" data-toggle="tooltip" title="{{t 'Subscriber count' }}">
+                        <i class="subscriber-count-lock icon-vector-lock"></i>
+                    </div>
+                </div>
+                 {{else}}
+                   <div class="top-bar top-setting">
                     <div class="stream-name stream-names">{{name}}</div>
                     <div class="subscriber-count" data-toggle="tooltip" title="{{t 'Subscriber count' }}">
                         {{partial "subscription_count"}}
@@ -27,7 +35,7 @@
                         {{partial "switch"}}
                     </div>
                 </div>
-              
+                {{/if}}
                 {{!-- <div class="bottom-bar">
                     <div class="description" data-no-description="{{t 'No description.'}}">{{{rendered_description}}}</div>
                     {{#if is_old_stream}}
