@@ -859,7 +859,18 @@ a.message-control-button {
        display:none ;
        cursor: pointer;
     }
+    .icon-prevs{
+        display:none ;
+       cursor: pointer;
+    }
    .next-icons{
         position: absolute;
         right:20px;
+    }
+    .first-icon{
+        transform:rotate(180deg) !important;
+        -ms-transform:rotate(180deg); 	/* IE 9 */
+        -moz-transform:rotate(180deg); 	/* Firefox */
+        -webkit-transform:rotate(180deg); /* Safari 和 Chrome */
+        -o-transform:rotate(180deg); 
     }

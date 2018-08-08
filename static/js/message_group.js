@@ -102,7 +102,7 @@ var message_group = (function () {
             $(".home_gruop_title").show()
             $("#main_div").show();
             var streams = stream_data.subscribed_subs();
-            var sub=stream_data.get_subscribers()
+            var sub = stream_data.get_subscribers()
             var subscriptions = stream_data.get_streams_for_settings_page();
               
             // console.log(stream_edit,323111)
@@ -170,20 +170,35 @@ var message_group = (function () {
                     $(".topic-list").html(li)
                     console.log(topic_names)
                     if(topic_names.length>5){
-                        $(".icon-nexts").show()
                         var i = 5
+                        $(".icon-nexts").show()
+                        $(".icon-prevs").show()
                         $(".icon-nexts").on("click",function(e){
-                              ++ i
-                              if(i<topic_names.length+1){
+                              if(i<topic_names.length){
+                                ++ i
                                 var topic_name = topic_names.slice(i-5,i)
                                 console.log(topic_name)
                                 li = templates.render('topic_list', {topiclist:topic_name})
                                 $(".topic-list").html(li)
+                                if(i>5){
+                                    $(".icon-prevs i").css("color","#999999")
+                                    $(".icon-prevs").on("click",function(e){
+                                        if(i-5>0){
+                                            --i
+                                            var topic_name = topic_names.slice(i-5,i)
+                                            li = templates.render('topic_list', {topiclist:topic_name})
+                                            $(".topic-list").html(li)
+                                        }
+                                    })
+                                }else{
+                                    $(".icon-prevs i").css("color","rgba(153,153,153,0.50)")
+                                }
                               }
                         })
-                      ;
+                      
                     }else{
                         $(".icon-nexts").hide()
+                        $(".icon-prevs").show()
                         li = templates.render('topic_list', {topiclist:topic_names});
                         $(".topic-list").html(li)
                     }
@@ -198,7 +213,6 @@ var message_group = (function () {
                       
               })
               //新建群组
-
               $("#group_seeting_choose").on("click",".new_setting",function(){
                     $("#new_steam_group").show()
                     var template = templates.render('new_group');
@@ -277,7 +291,29 @@ var message_group = (function () {
                 var color = stream_data.get_color(title);
                 stream_color.set_colorpicker_colors(colorpicker, color);
             // })
-
+            // 退订群组
+            $(".group_setting").on("click",".back-tuiding",function(e){
+                 var stream_id = Number($(this).closest(".setting_body").attr("data-stream-id"))
+                 var sub = stream_data.get_sub_by_id(stream_id);
+                // console.log(sub,"sub_es",e.target)
+                if(sub){
+                    channel.del({
+                        url: "/json/users/me/subscriptions",
+                        data: {subscriptions: JSON.stringify([sub.name]) },
+                        success: function () {
+                            $(".group_setting").hide();
+                            $(window).attr("location","#narrow/is/starred")
+                            // $(".stream_change_property_info").hide();
+                            // The rest of the work is done via the unsubscribe event we will get
+                        },
+                        error: function (xhr) {
+                            ui_report.error(i18n.t("Error removing subscription"), xhr,
+                                            $(".stream_change_property_info"));
+                        },
+                    });
+                }
+              
+            })
             //点击空白区域这个模态框消失
 
             if($(".group_setting").show()){

@@ -728,6 +728,7 @@ function ajaxUnsubscribe(sub) {
         url: "/json/users/me/subscriptions",
         data: {subscriptions: JSON.stringify([sub.name]) },
         success: function () {
+           
             $(".stream_change_property_info").hide();
             // The rest of the work is done via the unsubscribe event we will get
         },

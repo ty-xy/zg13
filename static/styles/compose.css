@@ -638,6 +638,8 @@ a#undo_markdown_preview {
     align-items: center;
     overflow: hidden;
     margin-left:5px;
+    padding-left:5px;
+    margin:0;
 }
 .topic-item-list{
     height:34px;
@@ -654,6 +656,7 @@ a#undo_markdown_preview {
 .compos-left-title{
    display: flex;
    align-items: center;
+   height:62px;
 }
 .creare-topic-body{
     position: relative;
@@ -716,4 +719,10 @@ a#undo_markdown_preview {
     border: 1px solid #4584FF;
     border-radius: 4px;
     color:#fff
+}
+.icon-prevs>i{
+    color: rgba(153,153,153,0.50)
+}
+.icon-nexts>i{
+    color:#999
 }
