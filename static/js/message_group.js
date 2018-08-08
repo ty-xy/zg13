@@ -189,7 +189,7 @@ var message_group = (function () {
 
             // })
             // 点击群组的事件
-            $(".streams-list").on("click",".stream-row",function(){
+            $("#group_seeting_choose").on("click",".stream-row",function(){
                  e.preventDefault()
                  e.stopPropagation()
                 var name =  $(this).attr("data-stream-name")
