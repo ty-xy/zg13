@@ -565,7 +565,7 @@ li.show-more-private-messages a {
     color: #FFFFFF;
     letter-spacing: 0.18px;
 }
-.icon-tianjia3:before{
+.tianjia22:before{
     position: absolute;
     right: 52px;
     top: 12px;
@@ -786,4 +786,28 @@ li.show-more-private-messages a {
 .manage_groups_list:hover{
     background: #F1F6FD;
     cursor: pointer;
+}
+.invited_users{
+    float: left;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+}
+.invited_users_box{
+    margin: 20px;
+}
+.users_icon{
+    margin-left: 11px;
+    line-height: 38px;
+    color: #ddd;
+}
+.invited_users_title{
+    float: left;
+    font-size: 16px;
+    color: #888888;
+    letter-spacing: 0.18px;
+    line-height: 38px;
+    margin-left: 20px;
+    text-decoration: none;
 }
