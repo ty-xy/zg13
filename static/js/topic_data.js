@@ -134,7 +134,7 @@ exports.find_or_create = function (stream_id) {
         history = exports.topic_history();
         stream_dict.set(stream_id, history);
     }
-
+    console.log(history,"history")
     return history;
 };
 
@@ -144,7 +144,7 @@ exports.add_message = function (opts) {
     var name = opts.topic_name;
 
     var history = exports.find_or_create(stream_id);
-
+    console.log(history,"history")
     history.add_or_update({
         name: name,
         message_id: message_id,

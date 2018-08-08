@@ -60,6 +60,48 @@ var message_group = (function () {
              }
             return emails;
         };
+        function common_topic(index){
+            var topic_names = topic_data.get_recent_names(index);
+                    // if(topic_names.lenght===0){
+                        topic_names.unshift("大厅")
+                    // }
+                    var li = templates.render('topic_list', {topiclist:topic_names});
+                    $(".topic-list").html(li)
+                    console.log(topic_names)
+                    if(topic_names.length>5){
+                        var i = 5
+                        $(".icon-nexts").show()
+                        $(".icon-prevs").show()
+                        $(".icon-nexts").on("click",function(e){
+                              if(i<topic_names.length){
+                                ++ i
+                                var topic_name = topic_names.slice(i-5,i)
+                                console.log(topic_name)
+                                li = templates.render('topic_list', {topiclist:topic_name})
+                                $(".topic-list").html(li)
+                                if(i>5){
+                                    $(".icon-prevs i").css("color","#999999")
+                                    $(".icon-prevs").on("click",function(e){
+                                        if(i-5>0){
+                                            --i
+                                            var topic_name = topic_names.slice(i-5,i)
+                                            li = templates.render('topic_list', {topiclist:topic_name})
+                                            $(".topic-list").html(li)
+                                        }
+                                    })
+                                }else{
+                                    $(".icon-prevs i").css("color","rgba(153,153,153,0.50)")
+                                }
+                              }
+                        })
+                      
+                    }else{
+                        $(".icon-nexts").hide()
+                        $(".icon-prevs").hide()
+                        li = templates.render('topic_list', {topiclist:topic_names});
+                        $(".topic-list").html(li)
+                    }
+        }
         function fill_in_opts_from_current_narrowed_view(msg_type, opts) {
             var default_opts = {
                 message_type:     msg_type,
@@ -80,6 +122,7 @@ var message_group = (function () {
         })
         $(".make-stream-cancel").on("click",function(e){
             $(".creare-topic-body").hide()
+            $("#subjects").val("")
         })
         $(".make-stream-sure").on("click",function(e){
             opts = fill_in_opts_from_current_narrowed_view('stream', {trigger: 'new topic button'});
@@ -90,6 +133,12 @@ var message_group = (function () {
             data.subject=compose_state.subjects();
             data.content="欢迎来到 "+data.subject+""
             compose.send_message(data)
+             
+            $("#subjects").val("")
+            var index = stream_data.get_stream_id (opts.stream)
+              common_topic(index)
+              $(window).attr("location","#narrow/stream/"+index+"-"+opts.stream+"/topic/"+data.subject+"")
+            // console.log(index)
             $(".creare-topic-body").hide()
         })
         $("#subjects ").on("input",function(e){
@@ -175,46 +224,7 @@ var message_group = (function () {
                 // $(".group_list_index").on("click",function(){
                     $(window).attr("location","#narrow/stream/"+index+"-"+name+"")
                     $("#zfilt").show()
-                    var topic_names = topic_data.get_recent_names(index);
-                   
-                    topic_names.unshift("大厅")
-                    var li = templates.render('topic_list', {topiclist:topic_names});
-                    $(".topic-list").html(li)
-                    console.log(topic_names)
-                    if(topic_names.length>5){
-                        var i = 5
-                        $(".icon-nexts").show()
-                        $(".icon-prevs").show()
-                        $(".icon-nexts").on("click",function(e){
-                              if(i<topic_names.length){
-                                ++ i
-                                var topic_name = topic_names.slice(i-5,i)
-                                console.log(topic_name)
-                                li = templates.render('topic_list', {topiclist:topic_name})
-                                $(".topic-list").html(li)
-                                if(i>5){
-                                    $(".icon-prevs i").css("color","#999999")
-                                    $(".icon-prevs").on("click",function(e){
-                                        if(i-5>0){
-                                            --i
-                                            var topic_name = topic_names.slice(i-5,i)
-                                            li = templates.render('topic_list', {topiclist:topic_name})
-                                            $(".topic-list").html(li)
-                                        }
-                                    })
-                                }else{
-                                    $(".icon-prevs i").css("color","rgba(153,153,153,0.50)")
-                                }
-                              }
-                        })
-                      
-                    }else{
-                        $(".icon-nexts").hide()
-                        $(".icon-prevs").show()
-                        li = templates.render('topic_list', {topiclist:topic_names});
-                        $(".topic-list").html(li)
-                    }
-                   
+                    common_topic(index)
                     $("#compose-container").on("click",".topic-item-list",function(){
                          var topic= $.trim($(this).text())
                         //  console.log(message_list.last())
