@@ -1,7 +1,7 @@
 var message_group = (function () {
 
     var exports = {};
-    
+    var iarr = []
     $(function(){
         function  changeUrl (){
             var url =window.location.hash
@@ -92,6 +92,13 @@ var message_group = (function () {
             compose.send_message(data)
             $(".creare-topic-body").hide()
         })
+        $("#subjects ").on("input",function(e){
+            if($(this).val()!== ""){
+                $(".make-stream-sure").removeAttr("disabled")
+            }else{
+                $(".make-stream-sure").attr("disabled",true);
+            }
+        })
         $(".group_icon").on("click",function(e){
             // people.get_person_from_user_id(26)
         
@@ -152,14 +159,19 @@ var message_group = (function () {
                                <p>请假申请发给你啦，通过一下…</p>\
                              </div>\
                            </li>"
-                $(".notice_ctn_box").empty()
+                $(".notice_ctn_boxs").show()
+                $(".notice_ctn_box").hide()
                 $(".group_icon").hide()
                 $(window).attr("location","#narrow/is/private")
                 $(".home-title").show()
+                if(iarr.indexOf(index)==-1){
+                    iarr.push(index)
+                   $(".notice_ctn_boxs").append(li)
+                }
                 $(".home-title span").html(name)
                 $(".home_gruop_title").hide()
                 $("#zfilt").hide()
-                $(".notice_ctn_box").append(li)
+               
                 // $(".group_list_index").on("click",function(){
                     $(window).attr("location","#narrow/stream/"+index+"-"+name+"")
                     $("#zfilt").show()
@@ -203,7 +215,7 @@ var message_group = (function () {
                         $(".topic-list").html(li)
                     }
                    
-                    $(".topic-item-list").on("click",function(){
+                    $("#compose-container").on("click",".topic-item-list",function(){
                          var topic= $.trim($(this).text())
                         //  console.log(message_list.last())
                          $(this).css("background","#4584FF").siblings().css("background","#fff")

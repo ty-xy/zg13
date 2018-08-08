@@ -161,8 +161,8 @@ function create_message_object() {
         }
         message.subject = subject;
     }
-    return message;
-}
+    return message; 
+}  
 // Export for testing
 exports.create_message_object = create_message_object;
 

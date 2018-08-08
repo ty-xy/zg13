@@ -664,7 +664,7 @@ a#undo_markdown_preview {
 .creare-topic-body{
     position: absolute;
     background: #F1F6FD;
-    top:-230px;
+    top:-190px;
     right:50px;
     box-shadow: 0 2px 4px 0 #E8ECF2;
     border-radius: 4px 0 0 0 4px 4px 4px;
@@ -725,4 +725,7 @@ a#undo_markdown_preview {
 }
 .icon-nexts>i{
     color:#999
+}
+.make-stream-sure:disabled{
+    opacity: 0.5;
 }
