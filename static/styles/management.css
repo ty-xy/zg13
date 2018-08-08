@@ -1391,12 +1391,12 @@ ul{
     width: 69px;
 }
 .right_san{
-    float: left;
+    /* float: left;
     margin-left: 20px;
-    cursor: pointer;
+    cursor: pointer; */
 }
 .right_san:hover{
-    transform: rotate(90deg);
+    /* transform: rotate(90deg); */
 }
 .thumbnail{
     width: 52px;
@@ -1442,4 +1442,11 @@ ul{
 }
 .left_blue_height{
     color: #14A4FA!important;
+}
+.invite_users{
+    font-size: 16px;
+    color: #888888;
+    letter-spacing: 0.18px;
+    margin-left: 20px;
+    text-decoration: none;
 }

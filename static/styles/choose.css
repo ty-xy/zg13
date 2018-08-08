@@ -103,7 +103,20 @@
     padding-left:8px;
 }
 input[type="checkbox"]{
-    vertical-align: top;
+    vertical-align: middle;
+    -webkit-appearance: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    color: #fff;
+    }
+input[type="checkbox"]:checked{
+    vertical-align: middle;
+    -webkit-appearance: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    background: url("../img/Group-2.png") no-repeat;
     }
 .input-box-list{
     width:229px;
@@ -688,10 +701,8 @@ a.message-control-button {
 }
 .icon-xialaxuanze{
     font-size:10px;
-    transform: rotate(-45deg);
-    border: 1px solid #999999;
-    height:20px;
-    width:20px
+    color: #ddd;
+    margin-left: 10px;
 }
 .color-pop{
     display:none;
