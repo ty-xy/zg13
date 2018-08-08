@@ -563,10 +563,6 @@ a.message-control-button {
     color:#fff;
     
 }
-.icon-xiayiji{
-    position: absolute;
-    right:20px;
-}
 #group_seeting_choose{
     display:none;
     pointer-events: all
@@ -858,4 +854,12 @@ a.message-control-button {
     .button-sure{
        text-align:center;
        line-height:40px;
+    }
+    .icon-nexts{
+       display:none ;
+       cursor: pointer;
+    }
+   .next-icons{
+        position: absolute;
+        right:20px;
     }

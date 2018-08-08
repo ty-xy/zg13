@@ -630,7 +630,14 @@ a#undo_markdown_preview {
     cursor: pointer;
 }
 .topic-list{
-    display:flex
+    display:flex;
+    width:680px;
+    flex-wrap: wrap;
+    width: 680px;
+    height: 34px;
+    align-items: center;
+    overflow: hidden;
+    margin-left:5px;
 }
 .topic-item-list{
     height:34px;

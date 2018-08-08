@@ -164,10 +164,30 @@ var message_group = (function () {
                     $(window).attr("location","#narrow/stream/"+index+"-"+name+"")
                     $("#zfilt").show()
                     var topic_names = topic_data.get_recent_names(index);
-                    console.log(index,topic_names)
+                   
                     topic_names.unshift("大厅")
                     var li = templates.render('topic_list', {topiclist:topic_names});
                     $(".topic-list").html(li)
+                    console.log(topic_names)
+                    if(topic_names.length>5){
+                        $(".icon-nexts").show()
+                        var i = 5
+                        $(".icon-nexts").on("click",function(e){
+                              ++ i
+                              if(i<topic_names.length+1){
+                                var topic_name = topic_names.slice(i-5,i)
+                                console.log(topic_name)
+                                li = templates.render('topic_list', {topiclist:topic_name})
+                                $(".topic-list").html(li)
+                              }
+                        })
+                      ;
+                    }else{
+                        $(".icon-nexts").hide()
+                        li = templates.render('topic_list', {topiclist:topic_names});
+                        $(".topic-list").html(li)
+                    }
+                   
                     $(".topic-item-list").on("click",function(){
                          var topic= $.trim($(this).text())
                         //  console.log(message_list.last())
@@ -205,34 +225,6 @@ var message_group = (function () {
                             $("#new_steam_group").hide()
                         }
                    });
-                //    $(".new_display_content").on("click",".button-confirm", function (e) {
-                //     e.preventDefault();
-                //     // clear_error_display();
-                //     var stream_name = $.trim($("#create_stream_name").val());
-                //     var name_ok = stream_name_error.validate_for_submit(stream_name);
-                //     console.log(name_ok,stream_name)
-                //     // if (!name_ok) {
-                //     //     return;
-                //     // }
-                //     // var principals = get_principals();
-                //     // if (principals.length === 0) {
-                //     //     stream_subscription_error.report_no_subs_to_stream();
-                //     //     return;
-                //     // }
-                //     // if (principals.indexOf(people.my_current_email()) < 0 && !page_params.is_admin) {
-                //     //     stream_subscription_error.cant_create_stream_without_susbscribing();
-                //     //     return;
-                //     // }
-            
-                //     // if (principals.length >= 50) {
-                //     //     var invites_warning_modal = templates.render('subscription_invites_warning_modal',
-                //     //                                                  {stream_name: stream_name,
-                //     //                                                   count: principals.length});
-                //     //     $('#stream-creation').append(invites_warning_modal);
-                //     // } else {
-                //     //     create_stream();
-                //     // }
-                // });
               })
               $("#new_steam_group").on("click",function(e){
                     // e.stopPropagation()
