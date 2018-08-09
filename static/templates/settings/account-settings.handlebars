@@ -227,7 +227,7 @@
 <div id="account-settings" class="settings-section show" data-name="your-account">
     <div class="alert" id="account-settings-status"></div>
     <div class="account-settings-form">
-        <div class="inline-block">
+        <div class="inline-block user_settings_btn">
             <form class="email-change-form grid">
                 <h3>{{t "User settings" }}</h3>
                 <div class="input-group user-name-section">
@@ -348,6 +348,15 @@
 
             {{!-- <h3 class="inline-block" {{#unless page_params.custom_profile_fields}}style="display: none"{{/unless}}>{{t "Profile" }}</h3> --}}
             <div class="alert-notification" id="custom-field-status"></div>
+             <div class="inline-block">
+            <form class="deactivate_account grid">
+                <div class="input-group">
+                    <button type="submit" class="button rounded w-200 btn-danger input-size" id="user_deactivate_account_button">
+                        {{t 'Deactivate account' }}
+                    </button>
+                </div>
+            </form>
+        </div>
             {{!-- <form class="form-horizontal custom-profile-fields-form grid"></form> --}}
 
         </div>
@@ -395,7 +404,7 @@
             </div>
         </div>
 
-        <hr class="settings_separator" />
+        {{!-- <hr class="settings_separator" /> --}}
 
         {{!-- <div class="form-horizontal" id="api_key_button_box" style="display:none">
             <h3>{{t "API key" }}</h3>
@@ -438,8 +447,7 @@
             <div id="user_api_key_error text-error">
             </div>
         </div>
-        <div class="inline-block">
-            <h3>{{t "Deactivate account" }}</h3>
+        {{!-- <div class="inline-block">
             <form class="deactivate_account grid">
                 <div class="input-group">
                     <button type="submit" class="button rounded w-200 btn-danger input-size" id="user_deactivate_account_button">
@@ -447,7 +455,7 @@
                     </button>
                 </div>
             </form>
-        </div>
+        </div> --}}
     </div>
 </div>
 

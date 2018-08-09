@@ -152,7 +152,7 @@ var management = (function () {
                // 3.进行中
             textheight(".generate_log_pdfinished_text")
             //  $("#create_log_de").on("click",function(e){
-            $("#management_ctn").on("click",".create_generate_log",function(e){
+            $(".create_generate_log").on("click",function(e){
             // console.log("修改成功")
                  if(e.target.className==="create_generate_log"){
                      $(".create_generate_log").hide();
@@ -162,7 +162,7 @@ var management = (function () {
                     return 
                  }
              })
-            $("#management_ctn ").on("click",".generate_log_close",function(e){
+            $(".create_generate_log").on("click",function(e){
                 // $("#management_ctn .create_generate_log").hide();
                 $(".create_generate_log").hide();
               
@@ -474,6 +474,7 @@ var management = (function () {
             upload.feature_check($("#up_files #attach_files"));
             $("#up_files").on("click", "#attach_files", function (e) {
                // e.preventDefault();
+               console.log("123123")
                $("#up_files #file_inputs").trigger("click");
            });
            var drop =function(file){
@@ -840,12 +841,11 @@ var management = (function () {
                });
            })
         }
-        // $("#create_log_de").on("click",function(e){
-        //     // console.log("修改成功")
-        //     e.preventDefault();
-        //     e.stopPropagation();
-        //     console.log(1231321)
-        // })
+        $("#create_log_de").on("click",function(e){
+            // console.log("修改成功")
+            e.preventDefault();
+            e.stopPropagation();
+        })
        
         
        
@@ -952,12 +952,13 @@ var management = (function () {
                         var backlog_id;
                         $("#file_choose").on("click", "#file_inputs", function (e) {
                             // e.preventDefault();
-                            // $("#file-choose #file_inputs").trigger("click");
+                            $("#file-choose #file_inputs").trigger("click");
                         });
                         $(".add_ctn").on("click",function(e){
                             $(".move_ctn").children().remove();
                             $(".taskdetail_md").show();
                             $("#management_ctn").hide();
+                            $(".tab-content").css("height","100%");
                             // $(".app").css("overflow-y","hidden");
                             // $(".taskdetail_list").html($(this).html());
                             // $(".taskdetail_list").val($(this).val());
@@ -1079,6 +1080,7 @@ var management = (function () {
             $(".move_ctn").children().remove();
             $("#management_ctn").hide();
             $(".taskdetail_md").show();
+            $(".tab-content").css("height","100%");
             // $(".app").css("overflow-y","hidden")
         })
         //点击任务详情模版关闭任务详情
@@ -1099,10 +1101,10 @@ var management = (function () {
             $(".app").css("overflow-y","scroll")
         })
         //日志弹窗关闭
-        // $("#management_ctn .generate_log_close").on("click",function(e){
-        //     console.log(1213)
-        //     $("#management_ctn .create_generate_log").hide();
-        // })
+        $(".generate_log_close").on("click",function(e){
+            console.log(1213)
+            $(".create_generate_log").hide();
+        })
         //任务详情弹窗内的文件展示 划入事件
         $(".taskdetail_attachment").on("mousemove",function(e){
             $(this).css("border","1px solid #A0ACBF")
