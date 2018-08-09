@@ -68,8 +68,14 @@
 
 .compose_table .right_part {
     padding: 0px;
+    opacity: 0;
+    height:0;
 }
-
+#stream-message{
+    overflow: hidden;
+    display:inline-block !important;
+    height:0;
+}
 .compose_table .right_part .icon-vector-narrow {
     font-size: 0.6em;
     position: relative;
