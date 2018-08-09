@@ -62,13 +62,13 @@ exports.activate = function (raw_operators, opts) {
     // If the operator is something other than "stream", "topic", or
     // "is", we shouldn't update the narrow title
     if (filter.has_operator("stream")) {
+         console.log(111111111111)
         if (filter.has_operator("topic")) {
             exports.narrow_title = filter.operands("topic")[0];
         } else {
             exports.narrow_title = filter.operands("stream")[0];
         }
     } else if (filter.has_operator("is")) {
-        console.log(filter.operands("is")[0])
         switch(filter.operands("is")[0]){
             case "management":
             exports.narrow_title = "管理";
@@ -561,32 +561,41 @@ function pick_empty_narrow_banner() {
         if (first_operand === "starred") {
             // You have no starred messages.
             $("#zfilt").addClass("focused_table");
+            $(".notice_ctn_boxs").hide()
+            $("#compose").hide();
             return $("#empty_star_narrow_message");
         } else if (first_operand === "mentioned") {
             $("#zfilt").addClass("focused_table");
+            $(".notice_ctn_boxs").hide()
+            $(".notice_ctn_box").show()
             return $("#empty_narrow_all_mentioned");
         } else if (first_operand === "private") {
             // // You have no private messages.
             $("#zfilt").addClass("focused_table");
+            $(".notice_ctn_boxs").hide()
             return $("#empty_narrow_all_private_message");
         } else if (first_operand === "unread") {
             // You have no unread messages.
+            $(".notice_ctn_boxs").hide()
             $("#zfilt").addClass("focused_table");
             return $("#no_unread_narrow_message");
         } else if (first_operand === "management") {
             // $('#zfilt').hide()
+            $(".notice_ctn_boxs").hide()
             $("#zfilt").removeClass("focused_table");
-            // $("#compose").hide()
+            $("#compose").hide()
             return $("#management_ctn");
         }else if (first_operand === "supervise") {
             // $('#zfilt').hide()
             // $("#zfilt").removeClass("focused_table");
-            // $("#compose").hide()
+            $(".notice_ctn_boxs").hide()
+            $("#compose").hide()
             return $("#supervise_ctn");
         }
     } else if ((first_operator === "stream") && !stream_data.is_subscribed(first_operand)) {
         // You are narrowed to a stream which does not exist or is a private stream
         // in which you were never subscribed.
+       
         var stream_sub = stream_data.get_sub(narrow_state.stream());
         if (!stream_sub || stream_sub.invite_only) {
             return $("#nonsubbed_private_nonexistent_stream_narrow_message");

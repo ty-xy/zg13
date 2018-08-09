@@ -30,6 +30,7 @@ exports.render = function (name, arg) {
 // named arguments.  Arguments should alternate between strings which will be
 // used as the name and the associated value.
 Handlebars.registerHelper('partial', function (template_name) {
+    // console.log(template_name)
     var extra_data = {};
     var args_len = arguments.length;
     var i;
@@ -38,7 +39,7 @@ Handlebars.registerHelper('partial', function (template_name) {
         extra_data[arguments[i]] = arguments[i + 1];
     }
     var data = _.extend({}, this, extra_data);
-
+    // console.log(data)
     return new Handlebars.SafeString(exports.render(template_name, data));
 });
 
@@ -87,6 +88,19 @@ Handlebars.registerHelper('tt', function (timestamp) {
     // return options.inverse(this);
 });
 
+Handlebars.registerHelper('tf', function (timestamp) {
+    
+    var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        Y = date.getFullYear() + '-';
+        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+        D = date.getDate() + ' ';
+        h = date.getHours() + ':';
+        m = date.getMinutes();
+        s = date.getSeconds();
+    return h+m;
+    // return options.inverse(this);
+});
+
 Handlebars.registerHelper("tl", function(text) {
     text = Handlebars.Utils.escapeExpression(text);
     text = text.replace(/(\r\n|\n|\r)/gm, '<br>');
@@ -100,6 +114,14 @@ Handlebars.registerHelper("tj",function(str){
 Handlebars.registerHelper('addKey',function(index){  
     return index + 1;  
 }); 
+Handlebars.registerHelper('nfirst',function(name){  
+    return name.slice(0,1);  
+}); 
+Handlebars.registerHelper('nindex',function(index){  
+   if(index>4){
+        return true
+   }
+});
 Handlebars.registerHelper("tp",function(str){
     if(str == "day"){
         str = "日报"

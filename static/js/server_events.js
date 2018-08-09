@@ -166,6 +166,42 @@ function get_events(options) {
         idempotent: true,
         timeout:  page_params.poll_timeout,
         success: function (data) {
+            var type;
+            function tf(timestamp) {
+                var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                    Y = date.getFullYear() + '-';
+                    M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+                    D = date.getDate() + ' ';
+                    h = date.getHours() + ':';
+                    m = date.getMinutes();
+                    s = date.getSeconds();
+                return h+m;
+            }
+            for(var i = 0;i<data.events.length;i++){
+                type = data.events[0].type
+                if(type == "message"){
+                    var  deleteTag = function (tagStr) {
+                        var  regx = /<[^>]*>|<\/[^>]*>/gm;
+                        var  result = tagStr.replace(regx, '');
+                        return result;
+                        };
+                    var send_id = data.events[0].message.sender_id
+                    var name = data.events[0].message.sender_full_name
+                    var mes = deleteTag(data.events[0].message.content)
+                    var avatar = data.events[0].message.avatar_url
+                    var time = data.events[0].message.timestamp
+                    console.log($(".notice_ctn").attr("send_id"))
+                    if(send_id==$(".notice_ctn").attr("send_id")){
+                            $(".notice_bottom[name='"+$(".notice_ctn").attr("send_id")+"']").html(mes)
+                            $(".notice_top_time[name='"+$(".notice_ctn").attr("send_id")+"']").html(tf(time))
+                    }else{
+                        var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:send_id,time:time})
+                        $(".notice_ctn_box").prepend(notice_box)
+                    }
+                    
+                }
+            }
+            
             exports.suspect_offline = false;
             try {
                 get_events_xhr = undefined;

@@ -187,6 +187,7 @@ p.n-margin {
     width: 100%;
     /* border-bottom: 1px solid hsla(0, 0%, 0%, 0.2); */
     height: 60px;
+    display: none;
 }
 
 #panels {
@@ -265,6 +266,7 @@ p.n-margin {
     position: fixed;
     z-index: 98;
     left: 0px;
+    display: none;
 }
 
 /* .column-left, */
@@ -278,25 +280,36 @@ p.n-margin {
     position: absolute;
     left: 0px;
     top: 0px;
-    background: #2196F3;
+    /* background: #2196F3; */
 }
 
 .column-right {
     position: absolute;
     right: 0px;
     top: 0px;
+    display: none;
 }
-
+.column_two{
+    width: 360px;
+    height: 100%;
+    border-right: 1px solid #ddd;
+    float: left;
+    margin-left: 100px;
+    overflow-y: auto;
+    position: absolute;
+    z-index: 11;
+}
 .app-main .column-left .left-sidebar,
 .app-main .column-right .right-sidebar {
     position: fixed;
-    margin-top: 70px;
+    /* margin-top: 70px; */
     z-index: 100;
 }
 
 .app-main .column-left .left-sidebar {
-    width: 200px;
+    width: 100px;
     padding-left: 0px;
+    background: #F4F5F7;
 }
 
 .app-main .column-right .right-sidebar {
@@ -306,11 +319,12 @@ p.n-margin {
 
 .app-main .column-middle {
     min-height: 100%;
+    overflow-y: auto;
 }
 
 .column-middle {
-    margin-right: 250px;
-    margin-left: 200px;
+    /* margin-right: 250px; */
+    margin-left: 461px;
     position: relative;
     height: 25px;
 }
@@ -532,12 +546,18 @@ a:hover code {
     color: #A0ACBF;
     letter-spacing: 0.18px;
 }
-
+.setting_btn>li:hover{
+    background: #F1F6FD!important;
+    color: #000;
+}
 .tooltip.in {
     font-size: 12px;
     line-height: 1.3;
 
     opacity: 1;
+}
+.user_settings_btn{
+    margin-left: 112px;
 }
 
 .tooltip.in.left {
@@ -590,7 +610,7 @@ li.actual-dropdown-menu i {
 
 .message_area_padder {
     /* The height of the header and the tabbar plus a small gap */
-    margin-top: 75px;
+    /* margin-top: 75px; */
     /* This is needed for the floating recipient bar
        in Firefox only, for some reason;
        otherwise it gets a scrollbar */
@@ -1078,6 +1098,7 @@ td.pointer {
 
 .message-header-contents {
     /* border-right: 1px solid hsl(0, 0%, 88%); */
+    /* display: none; */
 }
 
 .mention .messagebox {
@@ -1093,7 +1114,7 @@ td.pointer {
 }
 
 .unread_marker {
-    display: block;
+    /* display: none; */
     position: absolute;
     left: 2px;
     top: 0px;
@@ -1151,7 +1172,7 @@ td.pointer {
                      -1px 1px 0px 0px hsl(215, 47%, 50%),
                       1px -1px 0px 0px hsl(215, 47%, 50%); */
     /* border: 2px solid #D8E7FF;*/
-    box-shadow: 0px 4px 5px #999;
+    /* box-shadow: 0px 4px 5px #999; */
 }
 
 .message_sender {
@@ -1164,9 +1185,10 @@ td.pointer {
     display: inline-block;
     font-weight: 700;
     vertical-align: top;
-    line-height: 12px;
+    line-height: 18px;
     font-size: 14px;
     margin-left: -3px;
+    /* display: none; */
 }
 
 .sender-status {
@@ -1307,6 +1329,7 @@ a.dark_background:hover,
 
 .include-sender .message_top_line {
     margin-top: 6px;
+    overflow: hidden;
 }
 
 .small {
@@ -1367,6 +1390,7 @@ div.focused_table {
     margin-left: 46px;
     display: block;
     position: relative;
+    float: left;
 }
 
 .message_content:empty {
@@ -1533,11 +1557,17 @@ blockquote p {
 
 .messagebox p:last-of-type {
     margin-bottom: 3px;
-    background: #F2F2F2;
-    border-radius: 10px;
+    background: #F4F5F7;
+    border-radius: 4px;
     padding: 10px 10px;
-    margin-top: 24px;
+    margin-top: 5px;
     max-width: 700px;
+    
+}
+.my_bubble>p{
+    background: #DDE9FF!important;
+    border-radius: 4px;
+    height: 17px;
 }
 
 .messagebox blockquote {
@@ -1727,8 +1757,13 @@ blockquote p {
     margin-top: 7px;
     display: inline-block;
     float: right;
+    position: absolute;
+    bottom: 100px;
+    left: 74px;
 }
-
+.dropdown-menu>li{
+    margin: 0!important;
+}
 #navbar-buttons ul.nav {
     margin: 0px;
 }
@@ -1776,15 +1811,15 @@ blockquote p {
 }
 
 .nav .dropdown-menu {
-    left: auto;
+    /* left: auto; */
     /* right: 0px;
     top: 30px; */
-    right: 10px;
-    top: 40px;
-    min-width: 180px;
-    -webkit-box-shadow: 0px 0px 5px hsla(0, 0%, 0%, 0.2);
+    left: -10px;
+    top: -105px;
+    min-width: 150px;
+    /* -webkit-box-shadow: 0px 0px 5px hsla(0, 0%, 0%, 0.2);
     -moz-box-shadow: 0px 0px 5px hsla(0, 0%, 0%, 0.2);
-    box-shadow: 0px 0px 5px hsla(0, 0%, 0%, 0.2);
+    box-shadow: 0px 0px 5px hsla(0, 0%, 0%, 0.2); */
 }
 
 .nav .dropdown-menu a,
@@ -1834,12 +1869,12 @@ blockquote p {
     position: absolute;
     width: 0px;
     height: 0px;
-    top: -7px;
-    right: 10px;
+    left: -7px;
+    bottom: 24px;
     display: inline-block;
-    border-right: 7px solid transparent;
-    border-bottom: 7px solid hsl(0, 0%, 66%);
-    border-left: 7px solid transparent;
+    border-top: 7px solid transparent;
+    border-right: 7px solid #fff;
+    border-bottom: 7px solid transparent;
     content: '';
     z-index: 10;
 }
@@ -1857,7 +1892,7 @@ blockquote p {
     -moz-box-shadow: inherit;
     display: block;
     position: absolute;
-    right: 20px;
+    right: 40px;
     top: 13px;
 }
 
@@ -2080,6 +2115,7 @@ div.floating_recipient {
     height: 464px!important;
     background: #fff;
     /* width: 899px; */
+    display: none;
 }
 
 .loading_indicator_spinner {
@@ -2912,6 +2948,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
 }
 #streams_list{
     margin-top: 50px;
+    display: block
 }
 #ppp{
     display: show;
@@ -3001,13 +3038,13 @@ div.topic_edit_spinner .loading_indicator_spinner {
     padding:3px;
     margin-bottom:5px;
 }
-.column-middle_shodowl{
+/* .column-middle_shodowl{
     width: 10px;
     background: #f2f2f2;
     position: absolute;
     left: 0;
     top: 0;
-    /* height: 6000px; */
+    height: 6000px;
 }
 .column-middle_shodowr{
     width: 10px;
@@ -3015,9 +3052,9 @@ div.topic_edit_spinner .loading_indicator_spinner {
     position: absolute;
     right: 0;
     top: 0;
-    /* height: 6000px; */
+    height: 6000px;
     z-index: 11;
-}
+} */
 .tip-top{
     margin-bottom:10px !important
 }
@@ -3088,15 +3125,14 @@ div.topic_edit_spinner .loading_indicator_spinner {
 }
 .management_titleB{
     overflow: hidden;
+    margin-left: 130px;
     margin-top: 20px;
-    margin-left: 20px;
-    margin-right: 20px;
 }
 .morn_managementtext{
     float: left;
-    font-size: 18px;
-    color: #333333;
-    letter-spacing: 0.22px;
+    font-size: 14px;
+    color: #888888;
+    letter-spacing: 0.16px;
 }
 .morn_management{
     list-style: none;
@@ -3111,16 +3147,41 @@ div.topic_edit_spinner .loading_indicator_spinner {
     background: #53c1ae;
 }
 .generate_log{
-    float: right;
+    /* float: right;
     font-size: 14px;
     color: #14A4FA;
     letter-spacing: 0.17px;
     margin-right: 40px;
-    cursor: pointer;
+    cursor: pointer; */
+    width: 360px;
+    height: 100px;
+    /* border: 1px solid #4584FF; */
+    border-radius: 4px;
+    font-size: 15px;
+    color: #4584FF;
+    letter-spacing: 0.18px;
+    text-align: center;
+    line-height: 40px;
+    position: fixed;
+    bottom: 0px;
+    background: #fff;
+    /* left: 65px; */
+}
+.generate_log>p{
+    width: 230px;
+    height: 40px;
+    margin-left: 65px;
+    border: 1px solid #4584FF;
+}
+.generate_log_title{
+    width: 230px;
+    height: 40px;
+    border: 1px solid #4584FF;
+    margin-left: 55px;
 }
 .new_task_box{
-    margin: 24px 8px;
-    height: 50px;
+    /* margin: 24px 8px;
+    height: 50px; */
 }
 .add_task{
     border: 1px solid #A0ACBF;
@@ -3137,15 +3198,16 @@ div.topic_edit_spinner .loading_indicator_spinner {
 .todo_box{
     /* height: 250px; */
     overflow: auto;
-    margin-left: -10px;
+    /* margin-left: -10px; */
+    height: calc(100% - 90px)
 }
 .todo_box>li{
     /* width: 876px; */
     min-width: 300px;
     height: 50px;
     margin: 10px auto;
-    background: #F7F7F7;
-    /* border: 1px solid #CCCCCC; */
+    /* background: #F7F7F7; */
+    border-bottom: 1px solid #bdbdbd;
     border-radius: 2px;
     list-style: none;
     overflow: hidden;
@@ -3157,7 +3219,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
 .todo_right{
     float: right;
     overflow: hidden;
-    width: 220px;
+    /* width: 220px; */
     margin-right: 10px;
     line-height: 50px;
 }
@@ -3175,16 +3237,19 @@ div.topic_edit_spinner .loading_indicator_spinner {
 .add_ctn{
     float: left;
     line-height: 50px;
-    font-size: 14px;
+    font-size: 16px;
     color: #333333;
     letter-spacing: 0.17px;
     text-overflow: ellipsis; 
     white-space: nowrap; 
     overflow: hidden; 
     /* width: 600px; */
-    min-width: 300px;
+    width: 155px;
     cursor: pointer;
     text-align: left;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 .note_icon{
     float: left;
@@ -3202,18 +3267,17 @@ div.topic_edit_spinner .loading_indicator_spinner {
 }
 .add_datatime{
     float: right;
-    font-size: 13px;
+    font-size: 14px;
     color: #999999;
     letter-spacing: 0.16px;
-    width: 67px;
+    /* width: 67px; */
 }
 .completed_box{
     overflow: auto;
-    margin-left: -10px;
+    /* margin-left: -10px; */
     display: none;
 }
 .completed_box>li{
-    /* width: 876px; */
     height: 50px;
     margin: 10px auto;
     margin-left: -10px;
@@ -3221,18 +3285,17 @@ div.topic_edit_spinner .loading_indicator_spinner {
     min-width: 300px;
     height: 50px;
     margin: 10px auto;
-    background: #F7F7F7;
-    /* border: 1px solid #CCCCCC; */
+    border-bottom: 1px solid #bdbdbd;
     border-radius: 2px;
     list-style: none;
     overflow: hidden;
     margin: 10px 20px;
 }
 .completed_box>li:hover{
-    background: #E7EBF0;
+    background: #F1F6FD;
 }
 .todo_box>li:hover{
-    background: #E7EBF0;
+    background: #F1F6FD;
 }
 .completed{
     overflow: hidden;
@@ -3251,7 +3314,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     white-space: nowrap; 
     overflow: hidden; 
     /* width: 600px; */
-    min-width: 300px;
+    min-width: 200px;
     text-align: left;
     color: #BBBBBB;
     text-decoration: line-through;
@@ -3283,9 +3346,15 @@ div.topic_edit_spinner .loading_indicator_spinner {
     margin-left: 10px;
     min-width: 300px;
     display: none;
-    height: 65px;
 }
-.new_add_task_plan,.new_add_task{
+.new_task_title_data{
+    float: left;
+    font-size: 16px;
+    color: #666666;
+    letter-spacing: 0.23px;
+    line-height: 40px;
+}
+.new_add_task_plan{
     width: 100px;
     height: 38px;
     border: 1px solid #A0ACBF;
@@ -3297,12 +3366,21 @@ div.topic_edit_spinner .loading_indicator_spinner {
     letter-spacing: 0.17px;
     cursor: pointer;
 }
+.new_add_task{
+    font-size: 16px;
+    color: #4584FF;
+    letter-spacing: 0.18px;
+    margin-left: 50px;
+}
 .new_task>input{
     float: left;
     
 }
 .tab-content {
-    overflow: hidden;
+    /* overflow: hidden; */
+    /* height: 774px; */
+    /* height: calc(100% - 232px); */
+    overflow-y: auto;
 }
 .new_task>input:focus,.new_plan>input:focus{
     box-shadow: none !important;
@@ -3310,8 +3388,8 @@ div.topic_edit_spinner .loading_indicator_spinner {
 }
 .new_task_title{
     /* border: 1px solid #A0ACBF!important; */
-    border-radius: 100px!important;
-    /* width: 400px; */
+    /* border-radius: 100px!important; */
+    width: 320px;
     min-width: 200px;
     height: 30px!important;
     text-indent: 20px;
@@ -3325,7 +3403,7 @@ input::-webkit-input-placeholder{
 .new_task_date{
     margin-left: 40px!important;
     /* margin-top: 5px!important; */
-    border-radius: 100px!important;
+    border-radius: 4px!important;
     height: 30px!important;
     text-indent: 10px;
     border-bottom-right-radius: 0px!important;
@@ -3361,7 +3439,8 @@ input::-webkit-input-placeholder{
     color: #A0ACBF;
 }
 .save_cancel{
-    float: right;
+    text-align: center;
+    margin-left: 84px;
 }
 /* 添加计划 */
 
@@ -3408,6 +3487,7 @@ input::-webkit-input-placeholder{
     margin-top: 5px;
     margin-left: 145px;
     cursor: pointer;
+    text-align: center;
 }
 .fix_plan_cancel,.new_plan_cancel{
     float: left;
@@ -3421,4 +3501,13 @@ input::-webkit-input-placeholder{
     margin-left: 20px;
     cursor: pointer;
     border: 1px solid #A0ACBF;
+    text-align: center;
+}
+.button-group{
+    position: absolute;
+    /* bottom: 20px; */
+    top: -6px;
+    right: 20px;
+    font-size: 12px;
+    padding: 10px;
 }

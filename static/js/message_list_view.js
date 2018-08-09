@@ -207,6 +207,11 @@ MessageListView.prototype = {
         _.each(message_containers, function (message_container) {
             var message_reactions = reactions.get_message_reactions(message_container.msg);
             message_container.msg.message_reactions = message_reactions;
+            if(message_container.msg.sender_full_name===page_params.full_name){
+                message_container.compare=true;
+            }else{
+                message_container.compare=false
+            }
             message_container.include_recipient = false;
             message_container.include_footer    = false;
 
@@ -508,11 +513,9 @@ MessageListView.prototype = {
         _.each(message_containers, function (message_container) {
             self.message_containers[message_container.msg.id] = message_container;
         });
-
         // Render new message groups on the top
         if (message_actions.prepend_groups.length > 0) {
             save_scroll_position();
-
             rendered_groups = $(templates.render('message_group', {
                 message_groups: message_actions.prepend_groups,
                 use_match_properties: self.list.filter.is_search(),
@@ -595,7 +598,6 @@ MessageListView.prototype = {
 
             dom_messages = rendered_groups.find('.message_row');
             new_dom_elements = new_dom_elements.concat(rendered_groups);
-
             self._post_process_dom_messages(dom_messages.get());
 
             // This next line is a workaround for a weird scrolling
@@ -611,7 +613,7 @@ MessageListView.prototype = {
             // the view).  During debugging, we found that this adding
             // this next line seems to prevent the Chrome bug from firing.
             message_viewport.scrollTop();
-
+            // console.log(rendered_groups,"rendered_groups")
             table.append(rendered_groups);
             condense.condense_and_collapse(dom_messages);
         }
@@ -645,7 +647,6 @@ MessageListView.prototype = {
                 var message_row = self.get_row(message_group.message_containers[0].msg.id);
                 return rows.get_message_recipient_row(message_row);
             };
-
             compose_fade.update_rendered_message_groups(new_message_groups, get_element);
         }
 

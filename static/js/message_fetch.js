@@ -97,7 +97,6 @@ exports.load_messages = function (opts) {
     if (opts.use_first_unread_anchor) {
         data.use_first_unread_anchor = true;
     }
-
     data.client_gravatar = true;
     // if(opts.msg_list.filter._operators[0].operand=== "management"){
     //     opts.msg_list.filter._operators[0].operand= "private"
@@ -142,26 +141,15 @@ exports.load_messages = function (opts) {
                     if(res.errno == 0){
                         $(".todo_box").children().remove();
                         var state = "";
-                        // for(var key in res.backlog_list){
-                        //     $(".todo_box").append("<li class='todo'>\
-                        //     <div class='todo_left'>\
-                        //             <input type='checkbox' class='add_checkbox' inputid = "+res.backlog_list[key].id+" state = "+res.backlog_list[key].state+">\
-                        //             <p class='add_ctn' over_time="+res.backlog_list[key].over_time+" task="+res.backlog_list[key].task+" taskid="+ res.backlog_list[key].id +" taskdetails="+res.backlog_list[key].task_details+">"+res.backlog_list[key].task+"</p>\
-                        //     </div>\
-                        //     <div class='todo_right'>\
-                        //             <i class='iconfont icon-beizhu note_icon'></i>\
-                        //             <i class='iconfont icon-fujian1 attachment_icon'></i>\
-                        //             <p class='add_datatime'>"+res.backlog_list[key].over_time+"</p>\
-                        //     </div>\
-                        // </li>")
-                        // }
                         var backlog_list = res.backlog_list
                         var past_due_list = res.past_due_list
                         var html_li = templates.render("todo_box_li",{backlog_list:backlog_list,past_due_list:past_due_list});
                         $(".todo_box").append(html_li)
                         var backlog_id;
                         $(".todo_box").on("click",".add_ctn",function(e){
+                            $(".move_ctn").children().remove();
                             $(".taskdetail_md").show();
+                            $("#management_ctn").hide();
                             $(".app").css("overflow-y","hidden");
                             // $(".taskdetail_list").html($(this).html());
                             // $(".taskdetail_list").html($(this).val());
@@ -207,7 +195,7 @@ exports.load_messages = function (opts) {
                                         update_backlog_list:update_backlog_list,
                                         accessory_dict:accessory_dict,
                                     })
-                                    $(".app").after(html)
+                                    $(".move_ctn").append(html)
                                     $(".taskdetail_md").show();
                                     var obj_backlog_details = {
                                         backlog_id:id,
@@ -399,8 +387,8 @@ exports.load_messages = function (opts) {
                                 //     }
                                 // })
                             //任务详情点击关闭
-                            $(".taskdetail_close").on("click",function(e){
-                                $(".taskdetail_md").hide();
+                            $(".taskdetail_box").on("click",function(e){
+                                // $(".taskdetail_md").hide();
                                 $(".app").css("overflow-y","scroll");
                                 function timestamp(str){
                                     str = str.replace(/-/g,'/');
@@ -548,6 +536,7 @@ exports.load_messages = function (opts) {
 
                                         
                                     $(".completed_box").on("click",".completed_ctn",function(e){
+                                        $(".move_ctn").children().remove();
                                         $(".app").css("overflow-y","hidden");
                                         // $(".taskdetail_list").html($(this).html());
                                         $(".taskdetail_md").remove();
@@ -594,7 +583,7 @@ exports.load_messages = function (opts) {
                                                     update_backlog_list:update_backlog_list,
                                                     accessory_dict:accessory_dict
                                                 })
-                                                $(".app").after(html)
+                                                $(".move_ctn").append(html)
                                                 $(".taskdetail_md").show();
                                                 var obj_backlog_details = {
                                                     backlog_id:id,
@@ -654,8 +643,8 @@ exports.load_messages = function (opts) {
                                             // e.preventDefault();
                                         })
                                         //任务详情点击关闭
-                                        $(".taskdetail_close").on("click",function(e){
-                                            $(".taskdetail_md").hide();
+                                        $(".taskdetail_box").on("click",function(e){
+                                            // $(".taskdetail_md").hide();
                                             $(".app").css("overflow-y","scroll")
                                             function timestamp(str){
                                                 str = str.replace(/-/g,'/');

@@ -18,7 +18,7 @@
     display: flex;
     margin-top:30px;
 }
-.common_img{
+/* .common_img{
     height:100px;
     width:140px;
     box-shadow: 2px 2px 25px 0 rgba(204,204,204,0.80);
@@ -26,7 +26,7 @@
     padding:20px;
     box-sizing: border-box;
     cursor: pointer;
-}
+} */
 .img_color{
     background: #FF7072;
 }
@@ -58,7 +58,7 @@
 }
 .attendance_ctn{
     padding:0 30px;
-    height:680px;
+    /* height:680px; */
     overflow-y: auto; 
     overflow-x: hidden;
 }
@@ -115,11 +115,11 @@
 }
 .attendance-new-detail{
     height:680px;
-    width:877px;
+    /* width:877px; */
     overflow-y: auto;
     background: #fff;
     background: #FFFFFF;
-    box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30);
+    /* box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30); */
     border-radius: 1px 1px 0 0;
     padding:22px 10px;
     position: relative;

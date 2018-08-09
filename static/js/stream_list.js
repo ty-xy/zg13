@@ -70,7 +70,6 @@ exports.create_initial_sidebar_rows = function () {
     // up list items and attaching them to the "sub" data
     // structures that are kept in stream_data.js.
     var subs = stream_data.subscribed_subs();
-
     _.each(subs, function (sub) {
         exports.create_sidebar_row(sub);
     });
@@ -123,8 +122,8 @@ exports.build_stream_list = function () {
     }
 
     _.each(stream_groups.dormant_streams, add_sidebar_li);
-
     parent.append(elems);
+    $("#stream_filter_s").append(elems)
 };
 
 exports.get_stream_li = function (stream_id) {
@@ -230,7 +229,6 @@ function build_stream_sidebar_li(sub) {
 function build_stream_sidebar_row(sub) {
     var self = {};
     var list_item = build_stream_sidebar_li(sub);
-
     self.update_whether_active = function () {
         if (stream_data.is_active(sub)) {
             list_item.removeClass('inactive_stream');
@@ -478,7 +476,7 @@ exports.initialize = function () {
         var sub = stream_data.get_sub_by_id(stream_id);
         popovers.hide_all();
         narrow.by('stream', sub.name, {select_first_unread: true, trigger: 'sidebar'});
-
+        $(".home-title span").html(sub.name)
         exports.clear_and_hide_search();
 
         e.preventDefault();

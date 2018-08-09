@@ -220,8 +220,8 @@ exports.stringify_time = function (time) {
 // this is for rendering absolute time based off the preferences for twenty-four
 // hour time in the format of "%mmm %d, %h:%m %p".
 exports.absolute_time = (function () {
-    var MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    var MONTHS = ["01", "02", "03", "04", "05", "06",
+                  "07", "08", "09", "10", "11", "12"];
 
     var fmt_time = function (date, H_24) {
         var payload = {

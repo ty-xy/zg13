@@ -85,9 +85,12 @@ var subscriptions_table_colorpicker_options = {
 
 exports.set_colorpicker_color = function (colorpicker, color) {
     colorpicker.spectrum(_.extend(subscriptions_table_colorpicker_options,
-                         {color: color, container: "#subscription_overlay .subscription_settings.show"}));
+                         {color: color, container: "#subscription_overlay .subscription_settings"}));
 };
-
+exports.set_colorpicker_colors = function (colorpicker, color) {
+    colorpicker.spectrum(_.extend(subscriptions_table_colorpicker_options,
+                         {color: color, container: ".group_setting .setting_body"}));
+};
 exports.update_stream_color = function (sub, color, opts) {
     opts = _.defaults({}, opts, {update_historical: false});
     sub.color = color;
@@ -95,9 +98,10 @@ exports.update_stream_color = function (sub, color, opts) {
     // The swatch in the subscription row header.
     $(".stream-row[data-stream-id='" + id + "'] .icon").css('background-color', color);
     // The swatch in the color picker.
-    exports.set_colorpicker_color($("#subscription_overlay .subscription_settings[data-stream-id='" + id + "'] .colorpicker"), color);
-    $("#subscription_overlay .subscription_settings[data-stream-id='" + id + "'] .large-icon").css("color", color);
-
+    // exports.set_colorpicker_color($("#subscription_overlay .subscription_settings[data-stream-id='" + id + "'] .colorpicker"), color);
+    // $("#subscription_overlay .subscription_settings[data-stream-id='" + id + "'] .large-icon").css("color", color);
+    exports.set_colorpicker_color($(".group_setting .setting_body[data-stream-id='" + id + "'] .colorpicker"), color);
+    $(".color-setting ").css("background-color", color);
     if (opts.update_historical) {
         update_historical_message_color(sub.name, color);
     }
@@ -106,6 +110,7 @@ exports.update_stream_color = function (sub, color, opts) {
 };
 
 function picker_do_change_color(color) {
+    console.log(color)
     var stream_id = $(this).attr('stream_id');
     var hex_color = color.toHexString();
     subs.set_color(stream_id, hex_color);

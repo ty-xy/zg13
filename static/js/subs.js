@@ -213,15 +213,15 @@ exports.add_sub_to_table = function (sub) {
         // stream-create events.
         return;
     }
-
-    var html = templates.render('subscription', sub);
-    var settings_html = templates.render('subscription_settings', sub);
-    if (stream_create.get_name() === sub.name) {
-        $(".streams-list").prepend(html).scrollTop(0);
-    } else {
-        $(".streams-list").append(html);
-    }
-    $(".subscriptions .settings").append($(settings_html));
+    console.log(sub,"sub12121")
+    // var html = templates.render('subscription', sub);
+    // var settings_html = templates.render('subscription_settings', sub);
+    // if (stream_create.get_name() === sub.name) {
+    //     $(".streams-list").prepend(html).scrollTop(0);
+    // } else {
+    //     $(".streams-list").append(html);
+    // }
+    // $(".subscriptions .settings").append($(settings_html));
 
     if (stream_create.get_name() === sub.name) {
         // This `stream_create.get_name()` check tells us whether the
@@ -427,7 +427,6 @@ function maybe_select_tab(tab_name) {
         blueslip.warn('We tried to go to a tab before setup completed: ' + tab_name);
         return;
     }
-
     exports.toggler.goto(tab_name);
 }
 
@@ -480,7 +479,7 @@ exports.setup_page = function (callback) {
 
     function _populate_and_fill() {
         var sub_rows = stream_data.get_streams_for_settings_page();
-
+        console.log(sub_rows,"sub_rows31231231")
         $('#subscriptions_table').empty();
 
         var template_data = {
@@ -729,6 +728,7 @@ function ajaxUnsubscribe(sub) {
         url: "/json/users/me/subscriptions",
         data: {subscriptions: JSON.stringify([sub.name]) },
         success: function () {
+           
             $(".stream_change_property_info").hide();
             // The rest of the work is done via the unsubscribe event we will get
         },
@@ -764,7 +764,7 @@ exports.sub_or_unsub = function (sub) {
 $(function () {
     stream_data.initialize_from_page_params();
     stream_list.create_initial_sidebar_rows();
-
+    console.log(stream_list.create_initial_sidebar_rows())
     // We build the stream_list now.  It may get re-built again very shortly
     // when new messages come in, but it's fairly quick.
     stream_list.build_stream_list();
@@ -788,7 +788,7 @@ $(function () {
             exports.show_subs_pane.nothing_selected();
         }
     });
-
+  
     $("body").on("mouseover", ".subscribed-button", function (e) {
         $(e.target).addClass("btn-danger").text(i18n.t("Unsubscribe"));
     }).on("mouseout", ".subscribed-button", function (e) {

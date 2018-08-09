@@ -580,7 +580,8 @@ exports.initialize = function () {
         // Refocus in the content box so you can continue typing or
         // press Enter to send.
         $("#compose-textarea").focus();
-
+        console.log("----------------------------------")
+        console.log(page_params.enter_sends)
         return channel.post({
             url: '/json/users/me/enter-sends',
             idempotent: true,

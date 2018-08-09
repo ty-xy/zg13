@@ -2,7 +2,18 @@
     <div class="bottom_sidebar">
         <ul id="global_filters" class="filters">
             {# Special-case this link so we don't actually go to page top. #}
-            <li data-name="home" class="global-filter active-filter home-link left_tab" title="{{ _('All messages') }} (Esc)">
+            <li data-name="starred" class="global-filter left_tab private_button" title="{{ _('Private messages') }} (P)">
+                    <a href="#narrow/is/starred" class="iconfont icon-xiaoxi news_icon left_blue_height">
+                        <span class="filter-icon">
+                            <!-- <i class="icon-vector-envelope left_tab_icon"></i> -->
+                        </span>
+                        <!-- <span class="hover-underline">{{ _('Private messages') }}</span> -->
+                        <span class="count">
+                            <span class="value"></span>
+                        </span>
+                    </a>
+            </li>
+            <!-- <li data-name="home" class="global-filter active-filter home-link left_tab" title="{{ _('All messages') }} (Esc)">
                 <a href="#">
                     <span class="filter-icon">
                         <i class="icon-vector-home left_tab_icon"></i>
@@ -13,38 +24,48 @@
                     </span>
                 </a>
                 <span class="arrow stream-sidebar-arrow"><i class="icon-vector-chevron-down"></i></span>
-                <i class="left_tab_line" style="display: none;"></i>
+            </li> -->
+            <!-- 联系人 -->
+            <li data-name="mentioned" class="global-filter left_tab contact">
+                    <a href="#narrow/is/mentioned" class="iconfont icon-tongxunlu address_book">
+                        <span class="filter-icon">
+                            <!-- <i class="fa fa-at left_tab_icon"></i> -->
+                        </span>
+                        <!-- <span class="hover-underline">{{ _('Mentions') }}</span> -->
+                        <span class="count">
+                            <span class="value"></span>
+                        </span>
+                    </a>
             </li>
+            <!-- 联系人 -->
             <!-- 添加代办事项start -->
-            <li data-name="management" class="global-filter left_tab" title="{{ _('management') }} (Esc)" id="management">
-                <a href="#narrow/is/management" id="management_refresh">
+            <li data-name="management" class="global-filter left_tab todo_list" title="{{ _('management') }} (Esc)" id="management">
+                <a href="#narrow/is/management" id="management_refresh" class="iconfont icon-daibanshixiang todo_icon">
                     <span class="filter-icon">
-                        <i class="iconfont icon-caidan left_tab_icon" style="font-size: 12px;"></i>
+                        <!-- <i class="iconfont icon-caidan left_tab_icon" style="font-size: 12px;"></i> -->
                     </span>
-                    <span class="hover-underline">{{ _('management') }}</span>
+                    <!-- <span class="hover-underline">{{ _('management') }}</span> -->
                     <span class="count">
                         <span class="value"></span>
                     </span>
                 </a>
                 <!-- <span class="arrow stream-sidebar-arrow"><i class="icon-vector-chevron-down"></i></span> -->
-                <i class="left_tab_line" style="display: none;"></i>
             </li>
             <!-- 添加管理 -->
-            <li data-name="supervise" class="global-filter left_tab" title="{{ _('supervise') }} (Esc)" id="management">
-                <a href="#narrow/is/supervise" id="supervise">
+            <li data-name="supervise" class="global-filter left_tab manage_group" title="{{ _('supervise') }} (Esc)" id="management">
+                <a href="#narrow/is/supervise" id="supervise" class="iconfont icon-guanli supervise_icon">
                     <span class="filter-icon">
-                        <i class="iconfont icon-caidan left_tab_icon" style="font-size: 12px;"></i>
+                        <!-- <i class="iconfont icon-caidan left_tab_icon" style="font-size: 12px;"></i> -->
                     </span>
-                    <span class="hover-underline">管理</span>
+                    <!-- <span class="hover-underline">管理</span> -->
                     <span class="count">
                         <span class="value"></span>
                     </span>
                 </a>
                 <!-- <span class="arrow stream-sidebar-arrow"><i class="icon-vector-chevron-down"></i></span> -->
-                <i class="left_tab_line" style="display: none;"></i>
             </li>
             <!-- 添加日志助手 -->
-            <li data-name="" class="global-filter left_tab log_assistant_btn" title="{{ _('Private messages') }} (P)" class="log_assistant">
+            <!-- <li data-name="" class="global-filter left_tab log_assistant_btn" title="{{ _('Private messages') }} (P)" class="log_assistant">
                 <a href="javascript:void(0)">
                     <span class="filter-icon">
                         <i class="iconfont icon-rizhizhushou left_tab_icon"></i>
@@ -55,21 +76,10 @@
                     </span>
                 </a>
                 <i class="left_tab_line" style="display: none;"></i>
-            </li>
+            </li> -->
              <!-- 添加日志助手 -->
-            <li data-name="private" class="global-filter left_tab" title="{{ _('Private messages') }} (P)">
-                <a href="#narrow/is/private">
-                    <span class="filter-icon">
-                        <i class="icon-vector-envelope left_tab_icon"></i>
-                    </span>
-                    <span class="hover-underline">{{ _('Private messages') }}</span>
-                    <span class="count">
-                        <span class="value"></span>
-                    </span>
-                </a>
-                <i class="left_tab_line" style="display: none;"></i>
-            </li>
-            <li data-name="starred" class="global-filter left_tab">
+            
+            <!-- <li data-name="starred" class="global-filter left_tab">
                 <a href="#narrow/is/starred">
                     <span class="filter-icon">
                         <i class="icon-vector-star left_tab_icon"></i>
@@ -89,11 +99,128 @@
                     </span>
                 </a>
                 <i class="left_tab_line" style="display: none;"></i>
-            </li>
+            </li> -->
+            
+            
         </ul>
-        <div id="streams_list" class="zoom-out">
+        <!-- 设置 -->
+        <div id="navbar-buttons" {%if embedded %} style="visibility: hidden"{% endif %}>
+                <ul class="nav" role="navigation">
+                    <li class="dropdown actual-dropdown-menu" id="gear-menu">
+                        <a id="settings-dropdown" href="#" role="button" class="dropdown-toggle" data-target="nada" data-toggle="dropdown" title="{{ _('Menu') }} (g)">
+                            <!-- <i class="iconfont icon-shezhi2"></i> -->
+                            <i class="iconfont icon-shezhi3" style="font-size: 30px"></i>
+                            <!-- <i class="icon-vector-caret-down settings-dropdown-caret"></i> -->
+                        </a>
+                        <ul class="dropdown-menu setting_btn" role="menu" aria-labelledby="settings-dropdown">
+                            {#
+                            It is quite ingrained in our frontend code that your Home
+                            view is a Bootstrap Nav tab, even though we don't show the tab
+                            anymore
+                            #}
+                            <li class="invisible" style="display:none;" role="presentation"><a href="#home" data-toggle="tab"></a></li>
+                            <li role="presentation" style="display: none">
+                                <a href="#streams" role="menuitem">
+                                    <img src="/static/img/tv@2x.png" class="img-setting img-settings"/> {{ _('Manage streams') }}
+                                </a>
+                            </li>
+                            <li role="presentation" id="show_setting">
+                                <a href="#settings" role="menuitem">
+                                    <i class="iconfont icon-shezhi img-settings"></i> {{ _('Settings') }}
+                                </a>
+                            </li>
+                            <li class="admin-menu-item" role="presentation" style="display: none;">
+                                <a href="#organization" role="menuitem">
+                                    <i class="iconfont icon-zhuye img-settings"></i> 
+                                    <span>{{ _('Manage organization') }}</span>
+                                </a>
+                            </li>
+                            <!-- <li class="divider"></li>
+                            <li role="presentation">
+                                <a href="/user_documentation" target="_blank" role="menuitem">
+                                    <i class="iconfont icon-yonghu img-settings"></i> {{ _('User documentation') }}
+                                </a>
+                            </li> -->
+                            <li role="presentation" style="display: none">
+                                <a tabindex="0" role="menuitem" data-overlay-trigger="keyboard-shortcuts">
+                                    <img src="/static/img/jianpan@2x.png" class="img-setting"/>{{ _('Keyboard shortcuts') }} <span class="hotkey-hint">(?)</span>
+                                </a>
+                            </li>
+                            <li role="presentation" style="display: none">
+                                <a tabindex="0" role="menuitem" data-overlay-trigger="markdown-help">
+                                    <i class="iconfont icon-bianji img-settings"></i> {{ _('Message formatting') }}
+                                </a>
+                            </li>
+                            <li role="presentation" style="display: none">
+                                <a tabindex="0" role="menuitem" data-overlay-trigger="search-operators">
+                                    <i class="iconfont icon-sousuo img-settings"></i> {{ _('Search operators') }}
+                                </a>
+                            </li>
+                            <!-- <li class="divider" role="presentation"></li>
+                            <li role="presentation">
+                                <a href="javascript:void(0)" target="_blank" role="menuitem">
+                                    <i class="iconfont icon-xianshi img-settings"></i> {{ _('Desktop & mobile apps') }}
+                                </a>
+                            </li>
+                            <li role="presentation">
+                                <a href="javascript:void(0)" target="_blank" role="menuitem">
+                                    <i class="iconfont icon-caidan img-settings"></i> {{ _('Integrations') }}
+                                </a>
+                            </li>
+                            <li role="presentation">
+                                <a href="javascript:void(0)" target="_blank" role="menuitem">
+                                    <img src="/static/img/zuzhi2@2x.png" class="img-setting"/> {{ _('API documentation') }}
+                                </a>
+                            </li> -->
+                            <li role="presentation">
+                                <a href="/stats" target="_blank" role="menuitem">
+                                    <i class="iconfont icon-tongji img-settings"></i>
+                                    <span>{{ _('Statistics') }}</span>
+                                </a>
+                            </li>
+                            <li class="divider border-bottom" role="presentation"></li>
+                            {% if enable_feedback %}
+                            <li role="presentation">
+                                <a href="#feedback" class="feedback" role="menuitem">
+                                    <i class="icon-vector-comment"></i> {{ _('Feedback') }}
+                                </a>
+                            </li>
+                            {% endif %}
+                            {% if show_invites %}
+                            <li role="presentation">
+                                <a href="#invite" role="menuitem">
+                                    <i class="iconfont icon-tianjia img-settings"></i> {{ _('Invite users') }}
+                                </a>
+                            </li>
+                            <li class="divider border-bottom" role="presentation"></li>
+                            {% endif %}
+                            {% if show_webathena %}
+                            <li title="{% trans %}Grant Zulip the Kerberos tickets needed to run your Zephyr mirror via Webathena{% endtrans %}" id="webathena_login_menu" role="presentation">
+                                <a href="#webathena" class="webathena_login" role="menuitem">
+                                    <i class="icon-vector-bolt"></i>{{ _('Link with Webathena') }}
+                                </a>
+                            </li>
+                            {% endif %}
+                            <li role="presentation">
+                                <a href="#logout" class="logout_button" role="menuitem">
+                                    <i class="icon-vector-off img-settings"></i> {{ _('Log out') }}
+                                </a>
+                            </li>
+                            {% if show_debug %}
+                            <li role="presentation">
+                                <a href="#debug" data-toggle="tab" role="menuitem">
+                                    <i class="iconfont icon-tianjia "></i> {{ _('Debug') }}
+                                </a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        <!-- 设置 -->
+        <div id="streams_list" class="zoom-out" style="display: none">
             <div id="streams_header" class="zoom-in-hide"><h4 class="sidebar-title" data-toggle="tooltip" title="{{ _('Subscribed streams') }}">{{ _('STREAMS') }}</h4>
-                <i id="streams_inline_jia" class='iconfont icon-tianjia3' data-toggle="" title="{{ _('添加频道') }} (q)"></i>
+                <i id="streams_inline_jia" class='iconfont icon-tianjia3 tianjia22' data-toggle="" title="{{ _('添加频道') }} (q)"></i>
                 <i id="streams_inline_cog" class='icon-vector-cog' data-toggle="tooltip" title="{{ _('Subscribe, add, or configure streams') }}"></i>
                 <i id="streams_filter_icon" class='icon-vector-search' data-toggle="tooltip" title="{{ _('Filter streams') }} (q)"></i>
             </div>
@@ -116,5 +243,7 @@
                 <ul id="stream_filters" class="filters"></ul>
             </div>
         </div>
+
+        
     </div>
 </div>

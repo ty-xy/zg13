@@ -1,0 +1,56 @@
+    <div class="home_gruop_title">
+        <div class="home_title_body">
+            <div>
+                <span class="already_sub high_light">已订阅</span>
+                <span class="all_group">全部群组</span>
+            </div>
+            <button class="new_setting">新建群组</button>
+        </div>
+    </div>
+    <div class="streams-list">
+        {{#each subscriptions}}
+        <div class="stream-row stream-list-row" data-stream-id="{{stream_id}}" data-stream-name="{{name}}">
+            {{!-- <div class="check {{#if subscribed }}checked{{/if}} sub_unsub_button">
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%" height="100%" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                    <path d="M448,71.9c-17.3-13.4-41.5-9.3-54.1,9.1L214,344.2l-99.1-107.3c-14.6-16.6-39.1-17.4-54.7-1.8 c-15.6,15.5-16.4,41.6-1.7,58.1c0,0,120.4,133.6,137.7,147c17.3,13.4,41.5,9.3,54.1-9.1l206.3-301.7 C469.2,110.9,465.3,85.2,448,71.9z"/>
+                </svg>
+            </div> --}}
+            {{!-- {{ partial "subscription_setting_icon" }} --}}
+            <span class="color-setting" style="background-color: {{color}} ">{{nfirst name}}</span>
+            <div class="sub-info-box">
+                {{#if invite_only}}
+                <div class="top-bar top-setting">
+                    <div class="stream-name stream-names">{{name}}</div>
+                    <div class="subscriber-count" data-toggle="tooltip" title="{{t 'Subscriber count' }}">
+                        <i class="subscriber-count-lock icon-vector-lock"></i>
+                    </div>
+                </div>
+                 {{else}}
+                   <div class="top-bar top-setting">
+                    <div class="stream-name stream-names">{{name}}</div>
+                    <div class="subscriber-count" data-toggle="tooltip" title="{{t 'Subscriber count' }}">
+                        {{partial "subscription_count"}}
+                    </div>
+                    <div class="swtich-button">
+                        {{partial "switch"}}
+                    </div>
+                </div>
+                {{/if}}
+                {{!-- <div class="bottom-bar">
+                    <div class="description" data-no-description="{{t 'No description.'}}">{{{rendered_description}}}</div>
+                    {{#if is_old_stream}}
+                    <div class="stream-message-count" data-toggle="tooltip" title="{{t 'Average messages per week' }}">
+                        <i class="fa fa-bar-chart"></i>
+                        <span class="stream-message-count-text">{{stream_weekly_traffic}}</span>
+                    </div>
+                    {{else}}
+                    <div class="stream-message-count" data-toggle="tooltip" title="{{t 'Stream created recently' }}">
+                        <span class="stream-message-count-text">{{t "New" }}</span>
+                    </div>
+                    {{/if}}
+                </div> --}}
+            </div>
+            
+        </div>
+        {{/each}}
+    </div>

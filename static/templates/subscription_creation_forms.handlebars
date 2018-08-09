@@ -1,0 +1,75 @@
+<div id="stream-creation" tabindex="-1" role="dialog"
+  aria-label="{{t 'Stream creation' }}">
+    <form id="stream_creation_forms" class="form-inline">
+        <div class="alert stream_create_info"></div>
+        <div id="stream_creating_indicator"></div>
+        <div class="stream-creation-body stream_creation_body">
+            <section class="block">
+                <div class="stream-title stream_group_title">
+                    群组名称
+                </div>
+                <input type="text" name="stream_name" id="create_stream_name" class="stream_group_name"
+                  placeholder="取个群名称方便以后搜索" value="" autocomplete="off" maxlength="12"/>
+                <div id="stream_name_error" class="stream_creation_error"></div>
+            </section>
+            <section class="block">
+                <div class="stream-title stream_group_title">
+                   群组描述
+                </div>
+                <textarea name="stream_description" id="create_stream_description"
+                  placeholder="简单介绍一下这个群组吧" value="" autocomplete="off"
+                  class="stream_description_team"></textarea>
+            </section>
+            <section class="block" id="make-invite-only">
+                <div class="stream-title stream_group_title">
+                    {{t "Stream accessibility" }}
+                </div>
+                {{!-- <div class="stream-creation-info">
+                    {{#tr this}}
+                    有关公共/私有流的更多信息，请查看我们的 <a target="_blank" href="/user_documentation">文档</a>.
+                    {{/tr}}
+                </div> --}}
+                <ul class="grey-box stream-box">
+                    <li>
+                        <label class="radio">
+                            <input type="radio" name="privacy" value="public" checked />
+                            {{#tr this}}
+                            <b>公有的:</b> 任何人都可以加入;任何人都可以在不加入的情况下查看完整的消息历史
+                            {{/tr}}
+                        </label>
+                    </li>
+                    <li>
+                        <label class="radio">
+                            <input type="radio" name="privacy" value="invite-only" />
+                            {{#tr this}}
+                            <b>私有的:</b> 必须由一名成员邀请;新成员只能看到他们加入后发送的消息;隐藏在非管理员用户
+                            {{/tr}}
+                        </label>
+                    </li>
+                </ul>
+                {{!-- <div id="announce-new-stream">
+                    <label class="checkbox">
+                        <input type="checkbox" name="announce" value="announce" checked />
+                        <span></span>
+                        <div class="fa fa-bullhorn" aria-hidden="true"></div>
+                        {{t "Announce stream" }}
+                    </label>
+                    <span class="fa fa-question-circle settings-info-icon" aria-hidden="true" id="announce-stream-docs"></span>
+                </div> --}}
+            </section>
+            <section class="block">
+                <label class="stream-title" for="people_to_add">
+                    添加群成员
+                </label>
+                <div id="stream_subscription_error" class="stream_creation_error"></div>
+                <div class="controls" id="people_to_add"></div>
+            </section>
+        </div>
+        <div class="modal-footer  modal-footers">
+            <button class="button small white rounded button-cancel" data-dismiss="modal">{{t "Cancel" }}</button>
+            <div class="button-confirm button-sure" >确定</div>
+            {{!-- <button class="button-confirm">确定</button> --}}
+            {{!-- <button class="button small sea-green rounded button-confirm" type="submit">{{t "Create" }}</button> --}}
+        </div>
+    </form>
+</div>

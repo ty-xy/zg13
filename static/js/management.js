@@ -139,7 +139,7 @@ var management = (function () {
                 overdue_list:data.overdue_list
             }));
             $('.generate_log_right').html(rendered);
-           
+            $(".generate_log_submit").css("background-color","#14A4FA")
             //高度随着变化而变化，
               // 1.已经完成
             $(".generate_log_finished_text").height($(".generate_log_finished_text")[0].scrollHeight-25);
@@ -152,7 +152,7 @@ var management = (function () {
                // 3.进行中
             textheight(".generate_log_pdfinished_text")
             //  $("#create_log_de").on("click",function(e){
-            $("#management_ctn").on("click",".create_generate_log",function(e){
+            $(".create_generate_log").on("click",function(e){
             // console.log("修改成功")
                  if(e.target.className==="create_generate_log"){
                      $(".create_generate_log").hide();
@@ -162,7 +162,7 @@ var management = (function () {
                     return 
                  }
              })
-            $("#management_ctn ").on("click",".generate_log_close",function(e){
+            $(".create_generate_log").on("click",function(e){
                 // $("#management_ctn .create_generate_log").hide();
                 $(".create_generate_log").hide();
               
@@ -288,6 +288,8 @@ var management = (function () {
                 var overdue = $(".generate_log_pdfinished_text").val().trim();
                 var list = []
                 updata();
+                $(this).attr("disabled",true)
+                $(this).css("background-color","#ccc")
                 $(".generate_log_plan_delete").each(function(){
                     var ids= Number($(this).attr('data_id'))
                     list.push(ids)
@@ -327,23 +329,31 @@ var management = (function () {
                         contentType:"application/json",
                         success:function(data){
                             if(data.errno===0){
+                               $(this).css("background-color","#14A4FA")
                                alert('提交成功','rgba(0,107,169,0.30)')
+                               $(this).attr("disabled",false)
                               $(".create_generate_log").delay(1000).hide(0)
-                            //    $(".create_generate_log").hide();
                             } else if(data.errno===1){
                                 alert('请完善必填内容','rgba(169,12,0,0.30)')
+                                $(this).attr("disabled",false)
+                                $(this).css("background-color","#14A4FA")
                             } else{
                                 alert('网络不稳定,请重新提交','rgba(169,12,0,0.30)')
+                                $(this).attr("disabled",false)
+                                $(this).css("background-color","#14A4FA")
                             }
                         }
                     })
                 }else{
                     if(accomplish.length===0){
                         alert('请添加已完成任务','rgba(169,12,0,0.30)')
+                        $(this).attr("disabled",false)
+                        $(this).css("background-color","#14A4FA")
                     }else if(send_list.length===0){
+                        
                         alert('请选择人员','rgba(169,12,0,0.30)')
-                    }else{
-                        alert('请添加已完成任务以及发送人员','rgba(169,12,0,0.30)')
+                        $(this).attr("disabled",false)
+                        $(this).css("background-color","#14A4FA")
                     }
                 }
             })
@@ -464,6 +474,7 @@ var management = (function () {
             upload.feature_check($("#up_files #attach_files"));
             $("#up_files").on("click", "#attach_files", function (e) {
                // e.preventDefault();
+               console.log("123123")
                $("#up_files #file_inputs").trigger("click");
            });
            var drop =function(file){
@@ -773,67 +784,68 @@ var management = (function () {
            })
         }
      
-        $(".generate_log").on("click",function(e){
-             $(".create_generate_log").show();
-             $("#try-log .day-report").addClass("high_light").siblings().removeClass("high_light");
-            channel.get({
-                url: "json/zg/creator/table?date_type=day",
-                idempotent: true,
-                success: function (data) {
-                if(data){
-                     data.date_type="day"
-                     console.log(data)
-                     logClick(data)
-                    }
-                },
-            });
-            $('.generate_log_left').on("click",".week-report",function(e){
-                $(this).addClass("high_light").siblings().removeClass("high_light");
-                channel.get({
-                    url: "json/zg/creator/table?date_type=week",
-                    idempotent: true,
-                    success: function (data) {
-                    if(data){
-                        data.date_type="week"
-                         logClick(data)
-                        }
-                    },
-                });
-            })
-            $('.generate_log_left').on("click",".day-report",function(e){
-                $(this).addClass("high_light").siblings().removeClass("high_light");
-                channel.get({
-                    url: "json/zg/creator/table?date_type=day",
-                    idempotent: true,
-                    success: function (data) {
-                    if(data){
-                        data.date_type="day"
-                         logClick(data)
-                        }
-                    },
-                });
-            })
-            $('.generate_log_left').on("click",".month-report",function(e){
-                $(this).addClass("high_light").siblings().removeClass("high_light");
-                channel.get({
-                    url: "json/zg/creator/table?date_type=month",
-                    idempotent: true,
-                    success: function (data) {
-                    if(data){
-                        data.date_type="month"
-                         logClick(data)
-                        }
-                    },
-                });
-            })
+        $(".generate_log").on("click",function(){
+            generate_log();
         })
-       
-        // $("#create_log_de").on("click",function(e){
-        //     // console.log("修改成功")
-        //     e.preventDefault();
-        //     e.stopPropagation();
-        //     console.log(1231321)
-        // })
+        exports.generate_log = function(e){
+            $(".create_generate_log").show();
+            $("#try-log .day-report").addClass("high_light").siblings().removeClass("high_light");
+           channel.get({
+               url: "json/zg/creator/table?date_type=day",
+               idempotent: true,
+               success: function (data) {
+               if(data){
+                    data.date_type="day"
+                    console.log(data)
+                    logClick(data)
+                   }
+               },
+           });
+           $('.generate_log_left').on("click",".week-report",function(e){
+               $(this).addClass("high_light").siblings().removeClass("high_light");
+               channel.get({
+                   url: "json/zg/creator/table?date_type=week",
+                   idempotent: true,
+                   success: function (data) {
+                   if(data){
+                       data.date_type="week"
+                        logClick(data)
+                       }
+                   },
+               });
+           })
+           $('.generate_log_left').on("click",".day-report",function(e){
+               $(this).addClass("high_light").siblings().removeClass("high_light");
+               channel.get({
+                   url: "json/zg/creator/table?date_type=day",
+                   idempotent: true,
+                   success: function (data) {
+                   if(data){
+                       data.date_type="day"
+                        logClick(data)
+                       }
+                   },
+               });
+           })
+           $('.generate_log_left').on("click",".month-report",function(e){
+               $(this).addClass("high_light").siblings().removeClass("high_light");
+               channel.get({
+                   url: "json/zg/creator/table?date_type=month",
+                   idempotent: true,
+                   success: function (data) {
+                   if(data){
+                       data.date_type="month"
+                        logClick(data)
+                       }
+                   },
+               });
+           })
+        }
+        $("#create_log_de").on("click",function(e){
+            // console.log("修改成功")
+            e.preventDefault();
+            e.stopPropagation();
+        })
        
         
        
@@ -881,6 +893,9 @@ var management = (function () {
         }
     
         $(".new_task_save").on("click",function(e){
+            new_task_save();
+        })
+        exports.new_task_save = function(){
             var inttitle = $(".create_tasttitle").val();
             var inttime = $("#daibandata").val();
             function timestamp(str){
@@ -937,10 +952,13 @@ var management = (function () {
                         var backlog_id;
                         $("#file_choose").on("click", "#file_inputs", function (e) {
                             // e.preventDefault();
-                            // $("#file-choose #file_inputs").trigger("click");
+                            $("#file-choose #file_inputs").trigger("click");
                         });
                         $(".add_ctn").on("click",function(e){
+                            $(".move_ctn").children().remove();
                             $(".taskdetail_md").show();
+                            $("#management_ctn").hide();
+                            $(".tab-content").css("height","100%");
                             // $(".app").css("overflow-y","hidden");
                             // $(".taskdetail_list").html($(this).html());
                             // $(".taskdetail_list").val($(this).val());
@@ -1031,8 +1049,7 @@ var management = (function () {
                     console.log(rej)
                 }
             })
-        })
-
+        }
         $(".new_task_cancel").on("click",function(e){
             $(".new_task_title").val("");
             $(".new_task_date").val("")
@@ -1043,6 +1060,16 @@ var management = (function () {
             $(".new_add_task").show();
             $(".new_task").hide();
         })
+        exports.new_task_cancel = function(){
+            $(".new_task_title").val("");
+            $(".new_task_date").val("")
+            $("#taskinput").css("border","1px solid #ccc");
+            $(".new_task_date").css("border","1px solid #ccc");
+            $("#taskdata").css("border","1px solid #ccc")
+            $(".error_tip").text("");
+            $(".new_add_task").show();
+            $(".new_task").hide();
+        }
         //点击收拉已完成任务
         $(".right_san").on("click",function(){
                 $(".completed_box").toggle();
@@ -1050,8 +1077,10 @@ var management = (function () {
         
         //点击待办事项文本内容展示详情弹窗
         $(".add_ctn").on("click",function(e){
-            console.log("dadasdasd")
+            $(".move_ctn").children().remove();
+            $("#management_ctn").hide();
             $(".taskdetail_md").show();
+            $(".tab-content").css("height","100%");
             // $(".app").css("overflow-y","hidden")
         })
         //点击任务详情模版关闭任务详情
@@ -1072,10 +1101,10 @@ var management = (function () {
             $(".app").css("overflow-y","scroll")
         })
         //日志弹窗关闭
-        // $("#management_ctn .generate_log_close").on("click",function(e){
-        //     console.log(1213)
-        //     $("#management_ctn .create_generate_log").hide();
-        // })
+        $(".generate_log_close").on("click",function(e){
+            console.log(1213)
+            $(".create_generate_log").hide();
+        })
         //任务详情弹窗内的文件展示 划入事件
         $(".taskdetail_attachment").on("mousemove",function(e){
             $(this).css("border","1px solid #A0ACBF")
@@ -1164,6 +1193,7 @@ var management = (function () {
             }); 
         //日志助手显示
             $(".log_assistant_btn").on("click",function(e){
+                $("#empty_star_narrow_message").remove();
                 e.stopPropagation();
                 e.preventDefault();
                 var window_high = window.screen.height;
@@ -1185,7 +1215,7 @@ var management = (function () {
                         $(".log_assistant_md").remove();
                         var receive_table_list = res.receive_table_list;
                         var html = templates.render("log_assistant_box",{receive_table_list:receive_table_list,page:page})
-                        $(".app").after(html)
+                        $(".move_ctn").append(html)
                         //点击下载附件图片
                         $(".download_fujian").on("click",function(){
                             window.open($(this).attr("href"))
@@ -1642,7 +1672,7 @@ var management = (function () {
     //     console.log(taskdetail_s)
     // })
     });
-
+    
     
     
     return exports;

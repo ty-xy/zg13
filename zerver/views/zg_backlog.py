@@ -228,6 +228,7 @@ def web_my_receive(request, user_profile):
         return JsonResponse({'errno': 1, 'message': "获取我收到的报表失败"})
 
     try:
+
         receive_table_list = []
         for statement_state in statement_state_list:
 
@@ -236,7 +237,9 @@ def web_my_receive(request, user_profile):
             statement_state.state = True
             statement_state.save()
 
-            user = UserProfile.objects.get(email=s.user)
+            user = UserProfile.objects.filter(email=s.user)
+            user=user[0]
+        
             web_my_receive_dict['avatarurl'] = avatar.absolute_avatar_url(user)
             web_my_receive_dict['fullname'] = user.full_name
             web_my_receive_dict['generate_time'] = statement_state.receive_time
@@ -841,7 +844,6 @@ def backlogs_view_pu(request, user_profile):
 
                 elif req['state'] == 2:
                     backlog.state = req['state']
-
         backlog.save()
     except Exception:
         return JsonResponse({'errno': 3, 'message': '保存数据失败'})
@@ -1071,3 +1073,19 @@ def accomplis_backlogs_view(request, user_profile):
         accomplis_backlogs_listss.append(a)
 
     return JsonResponse({'errno': 0, 'message': '成功', 'accomplis_backlog_list': accomplis_backlogs_listss})
+
+
+def users_view(request,user_profile):
+    users=UserProfile.objects.all()
+    user_list=list()
+    for user in users:
+        user_dict=dict()
+        user_dict['user_avatar'] = avatar.absolute_avatar_url(user)
+        user_dict['name']=user.full_name
+        user_dict['id'] = user.id
+        user_dict['email'] = user.email
+        user_dict['short_name'] = user.short_name
+        user_list.append(user_dict)
+    return JsonResponse({'errno':'0','message':'成功','user_list':user_list,'user_me':user_profile.full_name})
+
+        

@@ -464,11 +464,12 @@ $(function () {
 
 
     $('.compose_stream_button').click(function () {
+        console.log("是这吗？")
         compose_actions.start('stream', {trigger: 'new topic button'});
     });
-    $('.compose_private_button').click(function () {
-        compose_actions.start('private');
-    });
+    // $('.compose_private_button').click(function () {
+    //     compose_actions.start('private');
+    // });
     $('.compose_reply_button').click(function () {
         compose_actions.respond_to_message({trigger: 'reply button'});
     });

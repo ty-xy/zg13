@@ -1,11 +1,11 @@
 
        <div class="taskdetail_md">
             <div class="taskdetail_box">    
-                <div class="taskdetail_head">
+                {{!-- <div class="taskdetail_head">
                     <p class="taskdetail_title">任务详情</p>
                     <p class="taskdetail_deleteone">删除</p>
                     <i class="iconfont icon-guanbiUI taskdetail_close"></i>
-                </div>  
+                </div>   --}}
                 <div class="taskdetail_ctn">
                     {{#if state}}
                     <input type="checkbox" class="taskdetail_state" id="taskdetail_check"  name="{{id}}" value="{{state}}">
@@ -14,9 +14,10 @@
                    {{/if}}
                     {{!-- <p class="taskdetail_list">{{taskdetail_list}}</p> --}}
                     <input type="text" class="taskdetail_list" value="{{taskdetail_list}}">
+                    <p class="taskdetail_deleteone">删除</p>
                 </div>
-                <textarea name="{{id}}" id="taskdetail_addnote" cols="30" rows="10" placeholder="添加备注...">{{taskdetail_addnote}}</textarea>
-                <i class="taskdetail_lineA"></i>
+                <textarea name="{{id}}" id="taskdetail_addnote" cols="30" rows="10" placeholder="添加备注...（最多只能输入200字哦）" maxlength="200">{{taskdetail_addnote}}</textarea>
+                {{!-- <i class="taskdetail_lineA"></i> --}}
                 <div class="taskdetail_date_box">
                     <i class="iconfont icon-riqi set_date_icon"></i>
                     <p class="taskdetail_set">设定日期</p>
@@ -41,7 +42,7 @@
                         </div>
                     </div>
                 </div>
-                <i class="taskdetail_lineA"></i>
+                {{!-- <i class="taskdetail_lineA"></i> --}}
                 <div class="taskdetail_upfile_box">
                     <i class="iconfont icon-fujian1 upfile_icon"></i>
                     {{!-- <p class="taskdetail_addattachment">添加附件</p> --}}

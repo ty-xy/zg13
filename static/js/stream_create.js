@@ -112,6 +112,7 @@ function ajaxSubscribeForCreation(stream_name, description, principals, invite_o
             $("#create_stream_description").val("");
             ui_report.success(i18n.t("Stream successfully created!"), $(".stream_create_info"));
             loading.destroy_indicator($('#stream_creating_indicator'));
+            $("#new_steam_group").hide()
             // The rest of the work is done via the subscribe event we will get
         },
         error: function (xhr) {
@@ -131,7 +132,6 @@ function ajaxSubscribeForCreation(stream_name, description, principals, invite_o
 
 // Within the new stream modal...
 function update_announce_stream_state() {
-
     // If there is no notifications_stream, we simply hide the widget.
     if (!page_params.notifications_stream) {
         $('#announce-new-stream').hide();
@@ -164,7 +164,14 @@ function get_principals() {
         }
     );
 }
-
+function get_principal() {
+    return _.map(
+        $("#stream_creation_forms input:checkbox[name=user]:checked"),
+        function (elem) {
+            return $(elem).val();
+        }
+    );
+}
 function create_stream() {
     var stream_name = $.trim($("#create_stream_name").val());
     var description = $.trim($("#create_stream_description").val());
@@ -185,7 +192,26 @@ function create_stream() {
         announce
     );
 }
+function create_streams() {
+    var stream_name = $.trim($("#create_stream_name").val());
+    var description = $.trim($("#create_stream_description").val());
+    var is_invite_only = $('#stream_creation_form input[name=privacy]:checked').val() === "invite-only";
+    var principals = get_principal();
 
+    created_stream = stream_name;
+
+    var announce = (!!page_params.notifications_stream &&
+        $('#announce-new-stream input').prop('checked'));
+
+    loading.make_indicator($('#stream_creating_indicator'), {text: i18n.t('Creating stream...')});
+
+    ajaxSubscribeForCreation(stream_name,
+        description,
+        principals,
+        is_invite_only,
+        announce
+    );
+}
 exports.new_stream_clicked = function (stream_name) {
     // this changes the tab switcher (settings/preview) which isn't necessary
     // to a add new stream title.
@@ -224,7 +250,55 @@ function clear_error_display() {
     $(".stream_create_info").hide();
     stream_subscription_error.clear_errors();
 }
+exports.show_new_steam_modals = function (){
+    // $("#stream-creation").removeClass("hide");
+    // $(".right .settings").hide();
 
+    var all_users = people.get_rest_of_realm();
+    // Add current user on top of list
+    all_users.unshift(people.get_person_from_user_id(page_params.user_id));
+    var html = templates.render('new_stream_users', {
+        users: all_users,
+        streams: stream_data.get_streams_for_settings_page(),
+        is_admin: page_params.is_admin,
+    });
+
+    var container = $('#people_to_add');
+    container.html(html);
+    exports.create_handlers_for_users(container);
+
+    // Make the options default to the same each time:
+    // public, "announce stream" on.
+    $('#make-invite-only input:radio[value=public]').prop('checked', true);
+
+    if (page_params.notifications_stream) {
+        $('#announce-new-stream').show();
+        $('#announce-new-stream input').prop('disabled', false);
+        $('#announce-new-stream input').prop('checked', true);
+    } else {
+        $('#announce-new-stream').hide();
+    }
+    clear_error_display();
+
+    $("#stream-checkboxes label.checkbox").on('change', function (e) {
+        var elem = $(this);
+        var stream_id = elem.attr('data-stream-id');
+        var checked = elem.find('input').prop('checked');
+        var subscriber_ids = stream_data.get_sub_by_id(stream_id).subscribers;
+        console.log(subscriber_ids,"subscriber_ids")
+        $('#user-checkboxes label.checkbox').each(function () {
+            var user_elem = $(this);
+            var user_id = user_elem.attr('data-user-id');
+
+            if (subscriber_ids.has(user_id)) {
+                user_elem.find('input').prop('checked', checked);
+            }
+        });
+
+        update_announce_stream_state();
+        e.preventDefault();
+    });
+}
 exports.show_new_stream_modal = function () {
     $("#stream-creation").removeClass("hide");
     $(".right .settings").hide();
@@ -260,7 +334,7 @@ exports.show_new_stream_modal = function () {
         var stream_id = elem.attr('data-stream-id');
         var checked = elem.find('input').prop('checked');
         var subscriber_ids = stream_data.get_sub_by_id(stream_id).subscribers;
-
+        console.log(subscriber_ids,"subscriber_ids")
         $('#user-checkboxes label.checkbox').each(function () {
             var user_elem = $(this);
             var user_id = user_elem.attr('data-user-id');
@@ -277,11 +351,10 @@ exports.show_new_stream_modal = function () {
 
 exports.create_handlers_for_users = function (container) {
     // container should be $('#people_to_add')...see caller to verify
-    container.on('change', '#user-checkboxes input', update_announce_stream_state);
-
-    // 'Check all' and 'Uncheck all' visible users
+    container.on('change', '#user-checkboxes input', update_announce_stream_state); 
     container.on('click', '.subs_set_all_users', function (e) {
         $('#user-checkboxes .checkbox').each(function (idx, li) {
+            
             if  (li.style.display !== "none") {
                 $(li.firstElementChild).prop('checked', true);
             }
@@ -289,7 +362,35 @@ exports.create_handlers_for_users = function (container) {
         e.preventDefault();
         update_announce_stream_state();
     });
+    $(".new_display_content").on("click",".button-confirm", function (e) {
+        e.preventDefault();
+        clear_error_display();
+        var stream_name = $.trim($("#create_stream_name").val());
+        var name_ok = stream_name_error.validate_for_submit(stream_name);
+        console.log(name_ok,stream_name)
+        if (!name_ok) {
+            return;
+        }
+        var principals = get_principal();
+        console.log(principals)
+        if (principals.length === 0) {
+            stream_subscription_error.report_no_subs_to_stream();
+            return;
+        }
+        if (principals.indexOf(people.my_current_email()) < 0 && !page_params.is_admin) {
+            stream_subscription_error.cant_create_stream_without_susbscribing();
+            return;
+        }
 
+        if (principals.length >= 50) {
+            var invites_warning_modal = templates.render('subscription_invites_warning_modal',
+                                                         {stream_name: stream_name,
+                                                          count: principals.length});
+            $('#stream-creation').append(invites_warning_modal);
+        } else {
+            create_streams();
+        }
+    });
     container.on('click', '.subs_unset_all_users', function (e) {
         $('#user-checkboxes .checkbox').each(function (idx, li) {
             if (li.style.display !== "none") {
@@ -323,7 +424,7 @@ exports.create_handlers_for_users = function (container) {
 
         (function filter_user_checkboxes() {
             var user_labels = $("#user-checkboxes label.add-user-label");
-
+            
             if (search_term === '') {
                 user_labels.css({display: 'block'});
                 return;
@@ -356,20 +457,17 @@ exports.create_handlers_for_users = function (container) {
 
 exports.set_up_handlers = function () {
     var container = $('#stream-creation').expectOne();
-
+ 
     container.on('change', '#make-invite-only input', update_announce_stream_state);
-
     container.on("submit", "#stream_creation_form", function (e) {
         e.preventDefault();
         clear_error_display();
-
         var stream_name = $.trim($("#create_stream_name").val());
         var name_ok = stream_name_error.validate_for_submit(stream_name);
-
+        console.log(name_ok,stream_name)
         if (!name_ok) {
             return;
         }
-
         var principals = get_principals();
         if (principals.length === 0) {
             stream_subscription_error.report_no_subs_to_stream();
@@ -389,7 +487,7 @@ exports.set_up_handlers = function () {
             create_stream();
         }
     });
-
+  
     container.on("click", ".close-invites-warning-modal", function () {
         $("#invites-warning-overlay").remove();
     });
