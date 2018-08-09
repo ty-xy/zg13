@@ -24,7 +24,7 @@ function hide_box() {
     $('#private-message').hide();
     $(".new_message_textarea").css("min-height", "");
     compose_fade.clear_compose();
-    $('.message_comp').hide();
+    // $('.message_comp').hide();
     $("#compose_controls").show();
     compose.clear_preview_area();
 }
@@ -110,8 +110,8 @@ exports.autosize_message_content = function () {
 
 exports.expand_compose_box = function () {
     $("#compose_close").show();
-    $("#compose_controls").hide();
-    $('.message_comp').show();
+    $(".compose-content").hide()
+    $('.message_comp').show()
 };
 
 exports.complete_starting_tasks = function (msg_type, opts) {
@@ -189,11 +189,13 @@ exports.start = function (msg_type, opts) {
     if (reload.is_in_progress()) {
         return;
     }
+    console.log(opts)
     notifications.clear_compose_notifications();
     exports.expand_compose_box();
     
-    opts = fill_in_opts_from_current_narrowed_view('stream', {trigger: 'new topic button'});
-    // console.log(opts)
+    // opts = fill_in_opts_from_current_narrowed_view('stream', {trigger: 'new topic button'});
+    opts = fill_in_opts_from_current_narrowed_view(msg_type, opts);
+    console.log(opts)
     // If we are invoked by a compose hotkey (c or x) or new topic button
     // or sidebar stream actions (in stream popover), do not assume that we know what
     // the message's topic or PM recipient should be.
@@ -284,7 +286,7 @@ exports.respond_to_message = function (opts) {
         if (narrow_state.narrowed_by_pm_reply()) {
             msg_type = 'private';
         }
-
+        // console.log(msy_type,opts)
         var new_opts = fill_in_opts_from_current_narrowed_view(msg_type, opts);
         exports.start(new_opts.message_type, new_opts);
         return;
@@ -315,6 +317,7 @@ exports.respond_to_message = function (opts) {
     } else {
         msg_type = message.type;
     }
+    console.log(msg_type,opts)
     exports.start(msg_type, {stream: stream, subject: subject,
                              private_message_recipient: pm_recipient,
                              replying_to_message: message,
@@ -379,6 +382,7 @@ exports.quote_and_reply = function (opts) {
     var message_id = current_msg_list.selected_id();
 
     exports.respond_to_message(opts);
+    console.log(message_id)
     channel.get({
         url: '/json/messages/' + message_id,
         idempotent: true,

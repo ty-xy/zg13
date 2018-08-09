@@ -8,11 +8,13 @@ var message_group = (function () {
             var i = url.indexOf("/")
             var index = url.indexOf("/",i+1)
             var url_index = url.substr(0,url.indexOf("/",i+1))
+            var cindex = url.indexOf("-")
+            console.log(cindex)
             if (url_index=== "#narrow/stream"){
-                // var topic_names = topic_data.get_recent_names("15");
-                // console.log(topic_names)
-                // var li = templates.render('topic_list', {topiclist:topic_names});
-                // $(".topic-list").html(li)
+                var stream_id = Number(url.slice(index+1,cindex))
+                // var topic_names = topic_data.get_recent_names(stream_id);
+                // console.log(topic_names,stream_id)
+                common_topic(stream_id)
                 if(url.indexOf("/",index+1) != -1){
                     var j = url.slice(index+4,url.indexOf("/",index+1))
                     j= decodeURI(j)
@@ -150,7 +152,8 @@ var message_group = (function () {
         })
         $(".group_icon").on("click",function(e){
             // people.get_person_from_user_id(26)
-        
+            $(".move_ctn").hide()
+            
             $("#empty_narrow_all_mentioned").hide()
             $("#zhome").hide()
             $("#group_seeting_choose").show()
@@ -198,7 +201,7 @@ var message_group = (function () {
                 $("#compose").show()
                 $("#compose-container").show()
                 var nfirst= name.slice(0,1)
-                var  li = "<li class='group_list_index' data_steam_id="+index+" >\
+                var  li = "<li class='group_list_index' data_stream_id="+index+" >\
                              <span class='color-setting avatar_setting' style='background-color:"+color+"'>"+nfirst+"</span>\
                              <div class='list-setting-common'>\
                                <div class='list-right-setting'>\
@@ -210,6 +213,7 @@ var message_group = (function () {
                            </li>"
                 $(".notice_ctn_boxs").show()
                 $(".notice_ctn_box").hide()
+               
                 $(".group_icon").hide()
                 $(window).attr("location","#narrow/is/private")
                 $(".home-title").show()
@@ -228,11 +232,23 @@ var message_group = (function () {
                     $("#compose-container").on("click",".topic-item-list",function(){
                          var topic= $.trim($(this).text())
                         //  console.log(message_list.last())
+                        
+                        compose_actions.respond_to_message({trigger: 'message click'});
                          $(this).css("background","#4584FF").siblings().css("background","#fff")
                         $(window).attr("location","#narrow/stream/"+index+"-"+name+"/topic/"+topic+"")
                     })
                 // })
                       
+              })
+              //点击左边的
+              $(".column_two").on("click",".group_list_index",function(e){
+                // 获得stream_id
+                var stream_id = $(this).attr("data_stream_id")
+                // 获取群组的名字字
+                var name = stream_data.maybe_get_stream_name(stream_id)
+                var num_unread = unread.num_unread_for_topic(stream_id, "我爱中国");
+                console.log(num_unread)
+                $(window).attr("location","#narrow/stream/"+stream_id+"-"+name+"")
               })
               //新建群组
               $("#group_seeting_choose").on("click",".new_setting",function(){
