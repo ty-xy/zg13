@@ -679,6 +679,7 @@ ul{
     margin-top: 20px;
     cursor: pointer;
     position: relative;
+    text-align: center;
 }
 .generate_log_upfile_box{
     overflow: hidden;
@@ -790,12 +791,14 @@ ul{
     width: 20px;
     height: 20px;
     margin: 25px 0;
+    margin-left: 24px;
 }
 .generate_log_member_add{
     font-size: 15px;
     color: #666666;
     letter-spacing: 0.18px;
     margin-top: 10px;
+    text-align: center;
 }
 .generate_log_submit{
     width: 330px;
@@ -809,6 +812,7 @@ ul{
     line-height: 55px;
     margin-top: 20px;
     margin-bottom: 100px;
+    margin-left: 268px;
 }
 .set_date_icon{
     float: left;
@@ -1449,4 +1453,7 @@ ul{
     letter-spacing: 0.18px;
     margin-left: 20px;
     text-decoration: none;
+}
+.choose-check{
+    border: 1px solid #999999;
 }

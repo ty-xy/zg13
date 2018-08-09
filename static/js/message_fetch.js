@@ -387,8 +387,8 @@ exports.load_messages = function (opts) {
                                 //     }
                                 // })
                             //任务详情点击关闭
-                            $(".taskdetail_close").on("click",function(e){
-                                $(".taskdetail_md").hide();
+                            $(".taskdetail_box").on("click",function(e){
+                                // $(".taskdetail_md").hide();
                                 $(".app").css("overflow-y","scroll");
                                 function timestamp(str){
                                     str = str.replace(/-/g,'/');
@@ -643,8 +643,8 @@ exports.load_messages = function (opts) {
                                             // e.preventDefault();
                                         })
                                         //任务详情点击关闭
-                                        $(".taskdetail_close").on("click",function(e){
-                                            $(".taskdetail_md").hide();
+                                        $(".taskdetail_box").on("click",function(e){
+                                            // $(".taskdetail_md").hide();
                                             $(".app").css("overflow-y","scroll")
                                             function timestamp(str){
                                                 str = str.replace(/-/g,'/');

@@ -3481,6 +3481,7 @@ input::-webkit-input-placeholder{
     margin-top: 5px;
     margin-left: 145px;
     cursor: pointer;
+    text-align: center;
 }
 .fix_plan_cancel,.new_plan_cancel{
     float: left;
@@ -3494,6 +3495,7 @@ input::-webkit-input-placeholder{
     margin-left: 20px;
     cursor: pointer;
     border: 1px solid #A0ACBF;
+    text-align: center;
 }
 .button-group{
     position: absolute;
