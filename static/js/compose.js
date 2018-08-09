@@ -121,7 +121,7 @@ exports.abort_xhr = function () {
 };
 
 exports.empty_topic_placeholder = function () {
-    return i18n.t("(no topic)");
+    return i18n.t("大厅");
 };
 
 function create_message_object() {
@@ -130,7 +130,6 @@ function create_message_object() {
     if (subject === "") {
         subject = compose.empty_topic_placeholder();
     }
-
     var content = make_uploads_relative(compose_state.message_content());
 
     // Changes here must also be kept in sync with echo.try_deliver_locally
@@ -153,6 +152,7 @@ function create_message_object() {
         message.to_user_ids = people.email_list_to_user_ids_string(emails);
     } else {
         var stream_name = compose_state.stream_name();
+        // console.log(stream_name)
         message.to = stream_name;
         message.stream = stream_name;
         var sub = stream_data.get_sub(stream_name);
@@ -161,8 +161,8 @@ function create_message_object() {
         }
         message.subject = subject;
     }
-    return message;
-}
+    return message; 
+}  
 // Export for testing
 exports.create_message_object = create_message_object;
 
@@ -216,15 +216,15 @@ exports.send_message_success = function (local_id, message_id, locally_echoed) {
     if (!locally_echoed) {
         clear_compose_box();
     }
-
     echo.reify_message_id(local_id, message_id);
 };
 
 exports.send_message = function send_message(request) {
+    // console.log(request)
     if (request === undefined) {
         request = create_message_object();
     }
-
+    //  console.log(request)
     if (request.type === "private") {
         request.to = JSON.stringify(request.to);
     } else {

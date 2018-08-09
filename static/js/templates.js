@@ -114,6 +114,14 @@ Handlebars.registerHelper("tj",function(str){
 Handlebars.registerHelper('addKey',function(index){  
     return index + 1;  
 }); 
+Handlebars.registerHelper('nfirst',function(name){  
+    return name.slice(0,1);  
+}); 
+Handlebars.registerHelper('nindex',function(index){  
+   if(index>4){
+        return true
+   }
+});
 Handlebars.registerHelper("tp",function(str){
     if(str == "day"){
         str = "日报"
