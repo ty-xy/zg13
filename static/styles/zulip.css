@@ -546,12 +546,18 @@ a:hover code {
     color: #A0ACBF;
     letter-spacing: 0.18px;
 }
-
+.setting_btn>li:hover{
+    background: #F1F6FD!important;
+    color: #000;
+}
 .tooltip.in {
     font-size: 12px;
     line-height: 1.3;
 
     opacity: 1;
+}
+.user_settings_btn{
+    margin-left: 112px;
 }
 
 .tooltip.in.left {
@@ -1810,10 +1816,10 @@ blockquote p {
     top: 30px; */
     left: -10px;
     top: -105px;
-    min-width: 180px;
-    -webkit-box-shadow: 0px 0px 5px hsla(0, 0%, 0%, 0.2);
+    min-width: 150px;
+    /* -webkit-box-shadow: 0px 0px 5px hsla(0, 0%, 0%, 0.2);
     -moz-box-shadow: 0px 0px 5px hsla(0, 0%, 0%, 0.2);
-    box-shadow: 0px 0px 5px hsla(0, 0%, 0%, 0.2);
+    box-shadow: 0px 0px 5px hsla(0, 0%, 0%, 0.2); */
 }
 
 .nav .dropdown-menu a,
@@ -1867,7 +1873,7 @@ blockquote p {
     bottom: 24px;
     display: inline-block;
     border-top: 7px solid transparent;
-    border-right: 7px solid hsl(0, 0%, 66%);
+    border-right: 7px solid #fff;
     border-bottom: 7px solid transparent;
     content: '';
     z-index: 10;
@@ -3286,10 +3292,10 @@ div.topic_edit_spinner .loading_indicator_spinner {
     margin: 10px 20px;
 }
 .completed_box>li:hover{
-    background: #E7EBF0;
+    background: #F1F6FD;
 }
 .todo_box>li:hover{
-    background: #E7EBF0;
+    background: #F1F6FD;
 }
 .completed{
     overflow: hidden;
@@ -3481,6 +3487,7 @@ input::-webkit-input-placeholder{
     margin-top: 5px;
     margin-left: 145px;
     cursor: pointer;
+    text-align: center;
 }
 .fix_plan_cancel,.new_plan_cancel{
     float: left;
@@ -3494,6 +3501,7 @@ input::-webkit-input-placeholder{
     margin-left: 20px;
     cursor: pointer;
     border: 1px solid #A0ACBF;
+    text-align: center;
 }
 .button-group{
     position: absolute;

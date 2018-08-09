@@ -546,9 +546,10 @@ var contact = (function(){
             $(".right_san").on("click",function(){
                 $(".completed_box").toggle();
             })
-            // $(".generate_log").on("click",function(){
-            //     management.generate_log();
-            // })
+            $(".generate_log").on("click",function(){
+
+                management.generate_log();
+            })
             
         })
     })
