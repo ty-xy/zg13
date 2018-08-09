@@ -1,7 +1,7 @@
 var message_group = (function () {
 
     var exports = {};
-    
+    var iarr = []
     $(function(){
         function  changeUrl (){
             var url =window.location.hash
@@ -15,9 +15,11 @@ var message_group = (function () {
                 // $(".topic-list").html(li)
                 if(url.indexOf("/",index+1) != -1){
                     var j = url.slice(index+4,url.indexOf("/",index+1))
+                    j= decodeURI(j)
                     $(".home-title span").html(j)
                 }else{
-                    $(".home-title span").html(url.substr(index+4))             
+                    var title = decodeURI(url.substr(index+4))
+                    $(".home-title span").html(title)             
                 }
                 $(".home-title").show()
                 $(".compose-title").show()
@@ -30,6 +32,7 @@ var message_group = (function () {
         window.addEventListener('hashchange', function () {
                 changeUrl()
           })
+        
         // console.log(url.substr(0,url.lastIndexOf("/",1)))
         function common(subscriptions,contents){
             // if(contents===".all_group"){
@@ -57,6 +60,94 @@ var message_group = (function () {
              }
             return emails;
         };
+        function common_topic(index){
+            var topic_names = topic_data.get_recent_names(index);
+                    // if(topic_names.lenght===0){
+                        topic_names.unshift("大厅")
+                    // }
+                    var li = templates.render('topic_list', {topiclist:topic_names});
+                    $(".topic-list").html(li)
+                    console.log(topic_names)
+                    if(topic_names.length>5){
+                        var i = 5
+                        $(".icon-nexts").show()
+                        $(".icon-prevs").show()
+                        $(".icon-nexts").on("click",function(e){
+                              if(i<topic_names.length){
+                                ++ i
+                                var topic_name = topic_names.slice(i-5,i)
+                                console.log(topic_name)
+                                li = templates.render('topic_list', {topiclist:topic_name})
+                                $(".topic-list").html(li)
+                                if(i>5){
+                                    $(".icon-prevs i").css("color","#999999")
+                                    $(".icon-prevs").on("click",function(e){
+                                        if(i-5>0){
+                                            --i
+                                            var topic_name = topic_names.slice(i-5,i)
+                                            li = templates.render('topic_list', {topiclist:topic_name})
+                                            $(".topic-list").html(li)
+                                        }
+                                    })
+                                }else{
+                                    $(".icon-prevs i").css("color","rgba(153,153,153,0.50)")
+                                }
+                              }
+                        })
+                      
+                    }else{
+                        $(".icon-nexts").hide()
+                        $(".icon-prevs").hide()
+                        li = templates.render('topic_list', {topiclist:topic_names});
+                        $(".topic-list").html(li)
+                    }
+        }
+        function fill_in_opts_from_current_narrowed_view(msg_type, opts) {
+            var default_opts = {
+                message_type:     msg_type,
+                stream:           '',
+                subject:          '',
+                private_message_recipient: '',
+                trigger:          'unknown',
+            };
+        
+            // Set default parameters based on the current narrowed view.
+            var compose_opts = narrow_state.set_compose_defaults();
+            default_opts = _.extend(default_opts, compose_opts);
+            opts = _.extend(default_opts, opts);
+            return opts;
+        }
+        $(".create-topic").click(function(e){
+             $(".creare-topic-body").toggle()
+        })
+        $(".make-stream-cancel").on("click",function(e){
+            $(".creare-topic-body").hide()
+            $("#subjects").val("")
+        })
+        $(".make-stream-sure").on("click",function(e){
+            opts = fill_in_opts_from_current_narrowed_view('stream', {trigger: 'new topic button'});
+            compose_state.stream_name(opts.stream),
+            compose_state.subject(opts.subject)
+            var data = compose.create_message_object()
+            data.type="stream";
+            data.subject=compose_state.subjects();
+            data.content="欢迎来到 "+data.subject+""
+            compose.send_message(data)
+             
+            $("#subjects").val("")
+            var index = stream_data.get_stream_id (opts.stream)
+              common_topic(index)
+              $(window).attr("location","#narrow/stream/"+index+"-"+opts.stream+"/topic/"+data.subject+"")
+            // console.log(index)
+            $(".creare-topic-body").hide()
+        })
+        $("#subjects ").on("input",function(e){
+            if($(this).val()!== ""){
+                $(".make-stream-sure").removeAttr("disabled")
+            }else{
+                $(".make-stream-sure").attr("disabled",true);
+            }
+        })
         $(".group_icon").on("click",function(e){
             // people.get_person_from_user_id(26)
         
@@ -65,10 +156,11 @@ var message_group = (function () {
             $("#group_seeting_choose").show()
             $(".home-title").hide()
             $(".home_gruop_title").show()
+            $("#main_div").show();
             var streams = stream_data.subscribed_subs();
-            var sub=stream_data.get_subscribers()
+            var sub = stream_data.get_subscribers()
             var subscriptions = stream_data.get_streams_for_settings_page();
-           
+              
             // console.log(stream_edit,323111)
             // 渲染群组
            
@@ -94,9 +186,10 @@ var message_group = (function () {
                     $(this).attr("class",($(this).attr("class")=="close2")?"open2":"close2")
                   }
                })
+
             // })
             // 点击群组的事件
-            $(".streams-list").on("click",".stream-row",function(){
+            $("#group_seeting_choose").on("click",".stream-row",function(){
                  e.preventDefault()
                  e.stopPropagation()
                 var name =  $(this).attr("data-stream-name")
@@ -115,22 +208,24 @@ var message_group = (function () {
                                <p>请假申请发给你啦，通过一下…</p>\
                              </div>\
                            </li>"
-                $(".notice_ctn_box").empty()
+                $(".notice_ctn_boxs").show()
+                $(".notice_ctn_box").hide()
                 $(".group_icon").hide()
                 $(window).attr("location","#narrow/is/private")
                 $(".home-title").show()
+                if(iarr.indexOf(index)==-1){
+                    iarr.push(index)
+                   $(".notice_ctn_boxs").append(li)
+                }
                 $(".home-title span").html(name)
                 $(".home_gruop_title").hide()
                 $("#zfilt").hide()
-                $(".notice_ctn_box").append(li)
+               
                 // $(".group_list_index").on("click",function(){
                     $(window).attr("location","#narrow/stream/"+index+"-"+name+"")
                     $("#zfilt").show()
-                    var topic_names = topic_data.get_recent_names(index);
-                    console.log(index)
-                    var li = templates.render('topic_list', {topiclist:topic_names});
-                    $(".topic-list").html(li)
-                    $(".topic-item-list").on("click",function(){
+                    common_topic(index)
+                    $("#compose-container").on("click",".topic-item-list",function(){
                          var topic= $.trim($(this).text())
                         //  console.log(message_list.last())
                          $(this).css("background","#4584FF").siblings().css("background","#fff")
@@ -139,7 +234,41 @@ var message_group = (function () {
                 // })
                       
               })
-               
+              //新建群组
+              $("#group_seeting_choose").on("click",".new_setting",function(){
+                    $("#new_steam_group").show()
+                    var template = templates.render('new_group');
+                    $("#new_steam_group").html(template)
+                    var Height = $(window).height()
+                    $(".stream_creation_body").height(Height-215)
+                    // $("#stream-creation").height(Height-175)
+                    console.log(Height)
+                    $(".new_display_content").height(Height-60)
+                    $(".new_display_content").on("click",function(e){
+                        e.stopPropagation()
+                        // e.preventDefault()
+                    })
+                   $(".icon-close-guanbi").on("click",function(e){
+                       e.stopPropagation()
+                       e.preventDefault()
+                       $("#new_steam_group").hide()
+                   })
+                   stream_create.show_new_steam_modals()
+                   // 当任何没有选中的时候，点击取消，模态框消失
+                   $(".new_display_content").on("click","[data-dismiss]", function (e) {
+                        e.preventDefault();
+                        if (e.clientY !== 0) {
+                            $("#new_steam_group").hide()
+                        }
+                   });
+              })
+              $("#new_steam_group").on("click",function(e){
+                    // e.stopPropagation()
+                    // e.preventDefault()
+                    $(this).hide()
+              })
+             
+            
               $("#group_seeting_choose").on("click",".all_group",function(){
                 common(subscriptions,".all_group")
                 $(".swtich-button").show()
@@ -184,7 +313,29 @@ var message_group = (function () {
                 var color = stream_data.get_color(title);
                 stream_color.set_colorpicker_colors(colorpicker, color);
             // })
-
+            // 退订群组
+            $(".group_setting").on("click",".back-tuiding",function(e){
+                 var stream_id = Number($(this).closest(".setting_body").attr("data-stream-id"))
+                 var sub = stream_data.get_sub_by_id(stream_id);
+                // console.log(sub,"sub_es",e.target)
+                if(sub){
+                    channel.del({
+                        url: "/json/users/me/subscriptions",
+                        data: {subscriptions: JSON.stringify([sub.name]) },
+                        success: function () {
+                            $(".group_setting").hide();
+                            $(window).attr("location","#narrow/is/starred")
+                            // $(".stream_change_property_info").hide();
+                            // The rest of the work is done via the unsubscribe event we will get
+                        },
+                        error: function (xhr) {
+                            ui_report.error(i18n.t("Error removing subscription"), xhr,
+                                            $(".stream_change_property_info"));
+                        },
+                    });
+                }
+              
+            })
             //点击空白区域这个模态框消失
 
             if($(".group_setting").show()){

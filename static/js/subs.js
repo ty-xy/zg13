@@ -216,12 +216,12 @@ exports.add_sub_to_table = function (sub) {
     console.log(sub,"sub12121")
     // var html = templates.render('subscription', sub);
     // var settings_html = templates.render('subscription_settings', sub);
-    if (stream_create.get_name() === sub.name) {
-        $(".streams-list").prepend(html).scrollTop(0);
-    } else {
-        $(".streams-list").append(html);
-    }
-    $(".subscriptions .settings").append($(settings_html));
+    // if (stream_create.get_name() === sub.name) {
+    //     $(".streams-list").prepend(html).scrollTop(0);
+    // } else {
+    //     $(".streams-list").append(html);
+    // }
+    // $(".subscriptions .settings").append($(settings_html));
 
     if (stream_create.get_name() === sub.name) {
         // This `stream_create.get_name()` check tells us whether the
@@ -728,6 +728,7 @@ function ajaxUnsubscribe(sub) {
         url: "/json/users/me/subscriptions",
         data: {subscriptions: JSON.stringify([sub.name]) },
         success: function () {
+           
             $(".stream_change_property_info").hide();
             // The rest of the work is done via the unsubscribe event we will get
         },
@@ -787,7 +788,7 @@ $(function () {
             exports.show_subs_pane.nothing_selected();
         }
     });
-
+  
     $("body").on("mouseover", ".subscribed-button", function (e) {
         $(e.target).addClass("btn-danger").text(i18n.t("Unsubscribe"));
     }).on("mouseout", ".subscribed-button", function (e) {

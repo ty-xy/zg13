@@ -12,7 +12,7 @@
         </span>
     </div>
     <div>
-        <span>群组成员(21)</span>
+        <span>群组成员({{color/subscriber_count}})</span>
         <input type="text" placeholder="输入邮箱地址" />
         <span>取消</span>
     </div>
@@ -29,9 +29,15 @@
     <ul class="chat-setting">
         <li class="up-chat chat-common">
             <span>置顶聊天</span>
+            <div id="div1" class="close1">
+                <div id="div2" class="close2"></div>
+            </div>
         </li>
         <li class="chat-common new-message-setting">
             <span>新消息通知</span>
+            <div id="div1" class="close1">
+                <div id="div2" class="close2"></div>
+            </div>
         </li>
     </ul>
     <button class="back-tuiding">退订群组</button>

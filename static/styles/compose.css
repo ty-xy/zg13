@@ -627,9 +627,19 @@ a#undo_markdown_preview {
     font-size: 15px;
     color: #4584FF;
     letter-spacing: 0.22px;
+    cursor: pointer;
 }
 .topic-list{
-    display:flex
+    display:flex;
+    width:680px;
+    flex-wrap: wrap;
+    width: 680px;
+    height: 34px;
+    align-items: center;
+    overflow: hidden;
+    margin-left:5px;
+    padding-left:5px;
+    margin:0;
 }
 .topic-item-list{
     height:34px;
@@ -646,4 +656,76 @@ a#undo_markdown_preview {
 .compos-left-title{
    display: flex;
    align-items: center;
+   height:62px;
+}
+.creare-topic-body{
+    position: relative;
+}
+.creare-topic-body{
+    position: absolute;
+    background: #F1F6FD;
+    top:-190px;
+    right:50px;
+    box-shadow: 0 2px 4px 0 #E8ECF2;
+    border-radius: 4px 0 0 0 4px 4px 4px;
+    height:184px;
+    width:292px;
+    z-index:30000;
+    display: none;
+    padding:20px;
+    text-align: center;
+    box-sizing: border-box
+}
+.creare-topic-body>div:first-child{
+    font-family: PingFangSC-Medium;
+    font-size: 15px;
+    color: #666666;
+    letter-spacing: 0.18px;
+    margin-bottom:16px;
+}
+.creare-topic-body>div:nth-child(2)>span{
+    font-family: PingFangSC-Regular;
+    display:inline-block;
+    font-size: 15px;
+    color: #666666;
+    letter-spacing: 0.18px;
+    height:21px;
+    width:46px;
+}
+.creare-topic-body>div:nth-child(2)>input{
+    background: #FFFFFF;
+    border-radius: 4px;
+    border:none;
+    height:30px;
+    width:198px;
+    box-sizing: border-box
+}
+.creare-topic-body>div:nth-child(3){
+   margin-top:30px;
+   padding:0 4px;
+   display: flex;
+   justify-content: space-between
+}
+.creare-topic-body>div:nth-child(3)>button{
+   width:112px;
+   height:34px;
+}
+.creare-topic-body>div:nth-child(3)>button:first-child{
+    border: 1px solid #C5C5C5;
+    border-radius: 4px;
+}
+.creare-topic-body>div:nth-child(3)>button:last-child{
+    background: #4584FF;
+    border: 1px solid #4584FF;
+    border-radius: 4px;
+    color:#fff
+}
+.icon-prevs>i{
+    color: rgba(153,153,153,0.50)
+}
+.icon-nexts>i{
+    color:#999
+}
+.make-stream-sure:disabled{
+    opacity: 0.5;
 }
