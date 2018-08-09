@@ -396,7 +396,7 @@ exports.finish = function () {
     if (! compose.validate()) {
         return false;
     }
-
+     console.log(0900)
     var message_content = compose_state.message_content();
     if (is_deferred_delivery(message_content)) {
         exports.schedule_message();
@@ -697,7 +697,6 @@ exports.initialize = function () {
     $('#stream,#subject,#private_message_recipient').on('keyup', update_fade);
     $('#stream,#subject,#private_message_recipient').on('change', update_fade);
     $('#compose-textarea').on('keydown', exports.handle_keydown);
-
     $("#compose form").on("submit", function (e) {
        e.preventDefault();
        compose.finish();

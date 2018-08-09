@@ -263,7 +263,7 @@ exports.respond_to_message = function (opts) {
     drafts.update_draft();
 
     message = current_msg_list.selected_message();
-
+   console.log(message)
     if (message === undefined) { // empty narrow implementation
         if (!narrow_state.narrowed_by_pm_reply() &&
             !narrow_state.narrowed_by_stream_reply() &&
@@ -319,7 +319,7 @@ exports.respond_to_message = function (opts) {
     }
     console.log(msg_type,opts)
     exports.start(msg_type, {stream: stream, subject: subject,
-                             private_message_recipient: pm_recipient,
+                             private_message_recipient: "",
                              replying_to_message: message,
                              trigger: opts.trigger});
 

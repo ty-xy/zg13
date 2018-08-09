@@ -134,8 +134,8 @@ var message_group = (function () {
             data.type="stream";
             data.subject=compose_state.subjects();
             data.content="欢迎来到 "+data.subject+""
+
             compose.send_message(data)
-             
             $("#subjects").val("")
             var index = stream_data.get_stream_id (opts.stream)
               common_topic(index)
@@ -229,17 +229,32 @@ var message_group = (function () {
                     $(window).attr("location","#narrow/stream/"+index+"-"+name+"")
                     $("#zfilt").show()
                     common_topic(index)
-                    $("#compose-container").on("click",".topic-item-list",function(){
-                         var topic= $.trim($(this).text())
-                        //  console.log(message_list.last())
-                        
-                        compose_actions.respond_to_message({trigger: 'message click'});
-                         $(this).css("background","#4584FF").siblings().css("background","#fff")
-                        $(window).attr("location","#narrow/stream/"+index+"-"+name+"/topic/"+topic+"")
-                    })
+                  
+                  
                 // })
                       
               })
+              $("body").on("click",".topic-item-list",function(e){
+                // debugger
+                e.stopPropagation()
+                e.preventDefault()
+                 var topic= $.trim($(this).text())
+                 $('#private-message').hide();
+                $('#stream-message').show();
+                var name = $.trim($(".home-title").children().eq(0).text())
+                var index = stream_data.get_stream_id (name)
+                $("#stream_toggle").addClass("active");
+                $("#private_message_toggle").removeClass("active");
+                $(this).css("background","#4584FF !important").siblings().css("background","#fff")
+                 $(window).attr("location","#narrow/stream/"+index+"-"+name+"/topic/"+topic+"")
+                //  console.log(message_list.last())
+                $("#stream").val(name)
+                $("#subject").val(topic)
+                $(this).css("background","#4584FF").siblings().css("background","#fff")
+                console.log($(this))
+                compose_actions .respond_to_message({trigger: 'message click'});
+                $(this).css("background","#4584FF").siblings().css("background","#fff")
+            })
               //点击左边的
               $(".column_two").on("click",".group_list_index",function(e){
                 // 获得stream_id
