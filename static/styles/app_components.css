@@ -81,7 +81,6 @@
 }
 .new-style .button.rounded {
     border: 1px solid #999999;
-    border-radius: 100px; 
     box-sizing:border-box  
 }
 
@@ -231,7 +230,7 @@
 }
 
 .new-style .tab-switcher .ind-tab:not(.selected) {
-    border: 1px solid hsl(0, 0%, 80%);
+    /* border: 1px solid hsl(0, 0%, 80%); */
 }
 
 .new-style .tab-switcher .ind-tab.first {
@@ -251,11 +250,11 @@
 
 .new-style .tab-switcher .ind-tab.selected {
     position: relative;
-    background: hsl(0, 0%, 53%);
+    /* background: hsl(0, 0%, 53%);
     color: hsl(0, 0%, 100%);
     border: 1px solid hsl(0, 0%, 46%);
     z-index: 2;
-    background: #A0ACBF;
+    background: #A0ACBF; */
 }
 
 .new-style .tab-switcher .ind-tab.disabled {
