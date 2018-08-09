@@ -3292,10 +3292,10 @@ div.topic_edit_spinner .loading_indicator_spinner {
     margin: 10px 20px;
 }
 .completed_box>li:hover{
-    background: #E7EBF0;
+    background: #F1F6FD;
 }
 .todo_box>li:hover{
-    background: #E7EBF0;
+    background: #F1F6FD;
 }
 .completed{
     overflow: hidden;
