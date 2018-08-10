@@ -1,5 +1,5 @@
 {% if show_message_content %}
-    {% if group_pm %} Group PMs with {{ huddle_display_name }}
+    {% if group_pm %} 与{{ huddle_display_name }}的私聊
     {% elif at_mention %} {{ sender_str }} mentioned you
     {% elif private_message %} {{ sender_str }} 给你发送了信息
     {% endif %}

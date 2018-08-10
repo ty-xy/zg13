@@ -833,9 +833,12 @@ def send_welcome_bot_response(message: MutableMapping[str, Any]) -> None:
     if Message.objects.filter(sender=welcome_bot, recipient=human_recipient).count() < 2:
         internal_send_private_message(
             message['realm'], welcome_bot, message['message'].sender,
-            "Congratulations on your first reply! :tada:\n\n"
-            "Feel free to continue using this space to practice your new messaging "
-            "skills. Or, try clicking on some of the stream names to your left!")
+            # "Congratulations on your first reply! :tada:\n\n"
+            # "Feel free to continue using this space to practice your new messaging "
+            # "skills. Or, try clicking on some of the stream names to your left!"
+            "祝贺您的第一个回复! :tada:\n\n"
+            "您可能在这里联系发送新的信息"
+            "技巧. 或点击左边的频道发送消息!")
 
 def render_incoming_message(message: Message,
                             content: Text,
