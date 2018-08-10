@@ -190,15 +190,14 @@ function get_events(options) {
                     var mes = deleteTag(data.events[0].message.content)
                     var avatar = data.events[0].message.avatar_url
                     var time = data.events[0].message.timestamp
-                    console.log($(".notice_ctn").attr("send_id"))
                     if(send_id==$(".notice_ctn").attr("send_id")){
                             $(".notice_bottom[name='"+$(".notice_ctn").attr("send_id")+"']").html(mes)
                             $(".notice_top_time[name='"+$(".notice_ctn").attr("send_id")+"']").html(tf(time))
                     }else{
                         var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:send_id,time:time})
-                        $(".notice_ctn_box").prepend(notice_box)
+                        $(".persistent_data").prepend(notice_box)
+                        localStorage.setItem("p",notice_box)
                     }
-                    
                 }
             }
             

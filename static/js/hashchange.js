@@ -247,7 +247,6 @@ function hashchanged(from_reload, e) {
     }
 
     var base = get_main_hash(window.location.hash);
-    console.log(base)
     if (should_ignore(window.location.hash)) {
         // if the old has was a standard non-ignore hash OR the ignore hash
         // base has changed, something needs to run again.

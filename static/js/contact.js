@@ -55,7 +55,6 @@ var contact = (function(){
                             $(".address_book").removeClass("left_blue_height")
                             // var log_assistant_prompt = templates.render("log_assistant_prompt");
                             // $(".notice_ctn_box").append(log_assistant_prompt)
-                            console.log($(".news_icon"))
                         })
                     })
                 }

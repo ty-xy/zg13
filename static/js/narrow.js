@@ -563,20 +563,26 @@ function pick_empty_narrow_banner() {
             $("#zfilt").addClass("focused_table");
             $(".notice_ctn_boxs").hide()
             $("#compose").hide();
+            $(".persistent_data").show();
+            console.log(localStorage.getItem("p"))
+            $(".persistent_data").append(localStorage.getItem("p"))
             return $("#empty_star_narrow_message");
         } else if (first_operand === "mentioned") {
             $("#zfilt").addClass("focused_table");
             $(".notice_ctn_boxs").hide()
             $(".notice_ctn_box").show()
+            $(".persistent_data").hide();
             return $("#empty_narrow_all_mentioned");
         } else if (first_operand === "private") {
             // // You have no private messages.
             $("#zfilt").addClass("focused_table");
             $(".notice_ctn_boxs").hide()
+            $(".persistent_data").hide();
             return $("#empty_narrow_all_private_message");
         } else if (first_operand === "unread") {
             // You have no unread messages.
             $(".notice_ctn_boxs").hide()
+            $(".persistent_data").hide();
             $("#zfilt").addClass("focused_table");
             return $("#no_unread_narrow_message");
         } else if (first_operand === "management") {
@@ -584,12 +590,14 @@ function pick_empty_narrow_banner() {
             $(".notice_ctn_boxs").hide()
             $("#zfilt").removeClass("focused_table");
             $("#compose").hide()
+            $(".persistent_data").hide();
             return $("#management_ctn");
         }else if (first_operand === "supervise") {
             // $('#zfilt').hide()
             // $("#zfilt").removeClass("focused_table");
             $(".notice_ctn_boxs").hide()
             $("#compose").hide()
+            $(".persistent_data").hide();
             return $("#supervise_ctn");
         }
     } else if ((first_operator === "stream") && !stream_data.is_subscribed(first_operand)) {

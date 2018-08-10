@@ -191,8 +191,8 @@ exports.start = function (msg_type, opts) {
     }
     notifications.clear_compose_notifications();
     exports.expand_compose_box();
-    
-    opts = fill_in_opts_from_current_narrowed_view('stream', {trigger: 'new topic button'});
+    opts = fill_in_opts_from_current_narrowed_view(msg_type, opts);
+    // opts = fill_in_opts_from_current_narrowed_view('stream', {trigger: 'new topic button'});
     // console.log(opts)
     // If we are invoked by a compose hotkey (c or x) or new topic button
     // or sidebar stream actions (in stream popover), do not assume that we know what
