@@ -256,6 +256,7 @@ exports.cancel = function () {
 };
 
 exports.respond_to_message = function (opts) {
+    console.log(opts)
     var message;
     var msg_type;
     // Before initiating a reply to a message, if there's an
@@ -319,7 +320,7 @@ exports.respond_to_message = function (opts) {
     }
     console.log(msg_type,opts)
     exports.start(msg_type, {stream: stream, subject: subject,
-                             private_message_recipient: "",
+                             private_message_recipient: pm_recipient,
                              replying_to_message: message,
                              trigger: opts.trigger});
 

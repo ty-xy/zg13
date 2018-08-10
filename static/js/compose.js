@@ -220,9 +220,12 @@ exports.send_message_success = function (local_id, message_id, locally_echoed) {
 };
 
 exports.send_message = function send_message(request) {
-    // console.log(request)
+    console.log(request)
     if (request === undefined) {
         request = create_message_object();
+        if(request.subject==="大厅"){
+            request.type="stream"
+        }
     }
     //  console.log(request)
     if (request.type === "private") {
@@ -398,6 +401,7 @@ exports.finish = function () {
     }
      console.log(0900)
     var message_content = compose_state.message_content();
+    console.log(message_content)
     if (is_deferred_delivery(message_content)) {
         exports.schedule_message();
     } else {

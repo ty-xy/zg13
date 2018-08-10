@@ -3,6 +3,18 @@ var message_group = (function () {
     var exports = {};
     var iarr = []
     $(function(){
+        function unique(a) {
+            var res = [];
+           
+            for (var i = 0, len = a.length; i < len; i++) {
+              var item = a[i];
+           
+              (res.indexOf(item) === -1) && res.push(item);
+            }
+           
+            return res;
+          }
+          
         function  changeUrl (){
             var url =window.location.hash
             var i = url.indexOf("/")
@@ -67,6 +79,8 @@ var message_group = (function () {
                     // if(topic_names.lenght===0){
                         topic_names.unshift("大厅")
                     // }
+                    topic_names= unique(topic_names)
+                    console.log(topic_data.get_recent_names(34))
                     var li = templates.render('topic_list', {topiclist:topic_names});
                     $(".topic-list").html(li)
                     console.log(topic_names)
@@ -226,35 +240,43 @@ var message_group = (function () {
                 $("#zfilt").hide()
                
                 // $(".group_list_index").on("click",function(){
-                    $(window).attr("location","#narrow/stream/"+index+"-"+name+"")
+                    $(window).attr("location","#narrow/stream/"+index+"-"+name+"/topic/大厅")
                     $("#zfilt").show()
+                    // $(".topic-list").children().eq(0).addClass("backcolor")
                     common_topic(index)
-                  
-                  
-                // })
-                      
+                    // console.log($(".topic-list").children().eq(0))
+                    // $(".topic-list").children().eq(0).addClass("backcolor")
+                    // $(".topic-list .topic-item-list")[0].addClass("backcolor")
+                    $("#stream-message").show()
+                    $("#stream").val(name)
+                    $("#subject").val('大厅')
+                    $(".topic-list").on("click",".topic-item-list",function(e){
+                        // debugger
+                        e.stopPropagation()
+                        e.preventDefault()
+                         var topic= $.trim($(this).text())
+                         $('#private-message').hide();
+                        $('#stream-message').show();
+                        var name = $.trim($(".home-title").children().eq(0).text())
+                        var index = stream_data.get_stream_id (name)
+                        // $("#stream_toggle").addClass("active");
+                        // $("#private_message_toggle").removeClass("active");
+                         $(window).attr("location","#narrow/stream/"+index+"-"+name+"/topic/"+topic+"")
+                        //  console.log(message_list.last())
+                        $("#stream-message").show()
+                        $("#stream").val(name)
+                        $("#subject").val(topic)
+                        compose_actions.respond_to_message({trigger: 'message click'});
+                        console.log($(this),e.target,e)
+                        
+                            $(this).addClass("backcolor").siblings().removeClass("backcolor")
+                       
+                        // debugger
+                    })
+                    // compose_actions.respond_to_message({trigger: 'message click'});
+                    // $(".topic-list").children().eq(0).addClass("backcolor")
               })
-              $("body").on("click",".topic-item-list",function(e){
-                // debugger
-                e.stopPropagation()
-                e.preventDefault()
-                 var topic= $.trim($(this).text())
-                 $('#private-message').hide();
-                $('#stream-message').show();
-                var name = $.trim($(".home-title").children().eq(0).text())
-                var index = stream_data.get_stream_id (name)
-                $("#stream_toggle").addClass("active");
-                $("#private_message_toggle").removeClass("active");
-                $(this).css("background","#4584FF !important").siblings().css("background","#fff")
-                 $(window).attr("location","#narrow/stream/"+index+"-"+name+"/topic/"+topic+"")
-                //  console.log(message_list.last())
-                $("#stream").val(name)
-                $("#subject").val(topic)
-                $(this).css("background","#4584FF").siblings().css("background","#fff")
-                console.log($(this))
-                compose_actions .respond_to_message({trigger: 'message click'});
-                $(this).css("background","#4584FF").siblings().css("background","#fff")
-            })
+          
               //点击左边的
               $(".column_two").on("click",".group_list_index",function(e){
                 // 获得stream_id
