@@ -107,12 +107,33 @@ function ajaxSubscribeForCreation(stream_name, description, principals, invite_o
                invite_only: JSON.stringify(invite_only),
                announce: JSON.stringify(announce),
         },
-        success: function () {
+        success: function (data) {
             $("#create_stream_name").val("");
             $("#create_stream_description").val("");
             ui_report.success(i18n.t("Stream successfully created!"), $(".stream_create_info"));
             loading.destroy_indicator($('#stream_creating_indicator'));
             $("#new_steam_group").hide()
+            var index = stream_data.get_stream_id (stream_name)
+            var sub = stream_data.get_sub_by_id(index)
+            var nfirst= stream_name.slice(0,1)
+            $(".notice_ctn_boxs").show()
+            $(".notice_ctn_box").hide()
+            $(".group_icon").hide()
+            $("#zfilt").show()
+            $("#compose").show()
+            $("#compose-container").show()
+            $(window).attr("location","#narrow/stream/"+index+"-"+stream_name+"")
+            var  li = "<li class='group_list_index' data_steam_id="+index+" >\
+            <span class='color-setting avatar_setting' style='background-color:"+sub.color+"'>"+nfirst+"</span>\
+            <div class='list-setting-common'>\
+              <div class='list-right-setting'>\
+                 <span>"+name+"</span>\
+                 <span>12:15</span>\
+              </div>\
+              <p>请假申请发给你啦，通过一下…</p>\
+            </div>\
+          </li>"
+          $(".notice_ctn_boxs").append(li)
             // The rest of the work is done via the subscribe event we will get
         },
         error: function (xhr) {

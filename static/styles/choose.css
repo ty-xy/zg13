@@ -605,6 +605,7 @@ a.message-control-button {
 }
 .group_list_index{
     /* padding:0 20px; */
+    cursor:pointer
 }
 .group_list_index,.list-setting-commn{
     display:flex;
