@@ -608,7 +608,7 @@ li.show-more-private-messages a {
 }
 .notice_ctn{
     padding: 5px 20px;
-    width: 260px;
+    /* width: 260px; */
     height: 53px;
     cursor: pointer;
 }
