@@ -399,7 +399,7 @@ exports.finish = function () {
     if (! compose.validate()) {
         return false;
     }
-     console.log(0900)
+     // console.log(0900)
     var message_content = compose_state.message_content();
     console.log(message_content)
     if (is_deferred_delivery(message_content)) {
