@@ -122,8 +122,10 @@ Handlebars.registerHelper('nfirst',function(name){
 //         return true
 //    }
 // });
-Handlebars.registerHelper('contents',function(content){  
-    if(content === "大厅"){
+Handlebars.registerHelper('contents',function(content){ 
+    var str = window.location.hash.split(/\//).pop()
+    var string = decodeURIComponent(str.replace(/\./g, '%'));
+    if(content === string){
         return "backcolor"
     }
 });
