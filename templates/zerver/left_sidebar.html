@@ -2,7 +2,7 @@
     <div class="bottom_sidebar">
         <ul id="global_filters" class="filters">
             {# Special-case this link so we don't actually go to page top. #}
-            <li data-name="starred" class="global-filter left_tab private_button" title="{{ _('Private messages') }} (P)">
+            <li data-name="starred" class="global-filter left_tab private_button" title="{{ _('Private messages') }}">
                     <a href="#narrow/is/starred" class="iconfont icon-xiaoxi news_icon left_blue_height">
                         <span class="filter-icon">
                             <!-- <i class="icon-vector-envelope left_tab_icon"></i> -->
@@ -26,7 +26,7 @@
                 <span class="arrow stream-sidebar-arrow"><i class="icon-vector-chevron-down"></i></span>
             </li> -->
             <!-- 联系人 -->
-            <li data-name="mentioned" class="global-filter left_tab contact">
+            <li data-name="mentioned" class="global-filter left_tab contact" title="联系人">
                     <a href="#narrow/is/mentioned" class="iconfont icon-tongxunlu address_book">
                         <span class="filter-icon">
                             <!-- <i class="fa fa-at left_tab_icon"></i> -->
@@ -39,7 +39,7 @@
             </li>
             <!-- 联系人 -->
             <!-- 添加代办事项start -->
-            <li data-name="management" class="global-filter left_tab todo_list" title="{{ _('management') }} (Esc)" id="management">
+            <li data-name="management" class="global-filter left_tab todo_list" title="{{ _('management') }}" id="management">
                 <a href="#narrow/is/management" id="management_refresh" class="iconfont icon-daibanshixiang todo_icon">
                     <span class="filter-icon">
                         <!-- <i class="iconfont icon-caidan left_tab_icon" style="font-size: 12px;"></i> -->
@@ -52,7 +52,7 @@
                 <!-- <span class="arrow stream-sidebar-arrow"><i class="icon-vector-chevron-down"></i></span> -->
             </li>
             <!-- 添加管理 -->
-            <li data-name="supervise" class="global-filter left_tab manage_group" title="{{ _('supervise') }} (Esc)" id="management">
+            <li data-name="supervise" class="global-filter left_tab manage_group" title="管理" id="management">
                 <a href="#narrow/is/supervise" id="supervise" class="iconfont icon-guanli supervise_icon">
                     <span class="filter-icon">
                         <!-- <i class="iconfont icon-caidan left_tab_icon" style="font-size: 12px;"></i> -->

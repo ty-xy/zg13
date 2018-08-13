@@ -561,11 +561,14 @@ function pick_empty_narrow_banner() {
         if (first_operand === "starred") {
             // You have no starred messages.
             $("#zfilt").addClass("focused_table");
-            $(".notice_ctn_boxs").hide()
+            $(".notice_ctn_boxs").hide();
             $("#compose").hide();
             $(".persistent_data").show();
-            console.log(localStorage.getItem("p"))
             $(".persistent_data").append(localStorage.getItem("p"))
+            $(".persistent_data").on("click",".only_tip",function(){
+                $(".tab-content").css("height","calc(100% - 232px)")
+                $("#compose").show();
+            })
             return $("#empty_star_narrow_message");
         } else if (first_operand === "mentioned") {
             $("#zfilt").addClass("focused_table");

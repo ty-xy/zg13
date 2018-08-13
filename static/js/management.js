@@ -1206,7 +1206,6 @@ var management = (function () {
                     url:"json/zg/my/receive/web",
                     contentType:"application/json",
                     success:function(res){
-                        console.log(res)
                         var page = [];
                         for(var i= 2;i<=res.page;i++){
                             page.push(i)

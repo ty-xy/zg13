@@ -32,9 +32,9 @@
                 </div>
             </div>
         </div>
-        <!-- <div id="compose_controls" class="compose-content new-style" style="display: none">
-            <i class="compose_shadowl"></i>
-            <i class="compose_shadowr"></i>
+        <div id="compose_controls" class="compose-content new-style" style="display: none">
+            <!-- <i class="compose_shadowl"></i>
+            <i class="compose_shadowr"></i> -->
            
             <div id="nonexistent_stream_reply_error" class="alert-error">
                 <span class="compose-send-status-close">&times;</span>
@@ -68,16 +68,16 @@
                     </button>
                 </span>
                 {% endif %}
-                <span class="new_message_button">
+                <!-- <span class="new_message_button">
                     <button type="button" class="button small rounded compose_reply_button"
                       id="left_bar_compose_reply_button_big"
                       title="{{ _('Reply') }} (r)">
                         <span class="compose_reply_button_label">{{ _('Reply') }}</span>
                     </button>
-                </span>
+                </span> -->
             </div>
-        </div> -->
-        <div class="message_comp compose-content">
+        </div>
+        <div class="message_comp compose-content" style="display: block">
             <div class="alert" id="compose-send-status">
                 <span class="compose-send-status-close">&times;</span>
                 <span id="compose-error-msg"></span>
@@ -99,9 +99,8 @@
                                 <td class="ztable_comp_col2" />
                             </tr>
                             <tr id="stream-message">
-                                <td class=" ">
-                                </td>
-                                <!-- message_header_colorblock message_header_stream left_part -->
+                                <!-- <td class="message_header_colorblock message_header_stream left_part">
+                                </td> -->
                                 <td class="right_part">
                                     <span id="compose-lock-icon">
                                         <i class="icon-vector-lock" title="{{ _('This is an invite-only stream') }}"></i>
@@ -143,8 +142,8 @@
                                                 <input type="file" id="file_input" class="notvisible pull-left" multiple />
                                                 <a class="message-control-button iconfont icon-biaoqing1"
                                                   id="emoji_map" href="#" title="{{ _('Add emoji') }}" style="margin-left: 0"></a>
-                                                <!-- <a class="message-control-button icon-vector-font"
-                                                  title="{{ _('Formatting') }}" data-overlay-trigger="markdown-help"></a> -->
+                                                <a class="message-control-button iconfont icon-wenzi"
+                                                  title="{{ _('Formatting') }}" data-overlay-trigger="markdown-help"></a>
                                                 <a class="message-control-button iconfont icon-wenjian"
                                                   id="attach_files" href="#" title="{{ _('Attach files') }}"></a>
                                                 <!-- {% if jitsi_server_url %}

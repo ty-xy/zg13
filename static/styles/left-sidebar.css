@@ -595,6 +595,8 @@ li.show-more-private-messages a {
 /* zyc添加中部样式 */
 .persistent_data{
     margin-top: -100px;
+    z-index: 111;
+    position: relative;
 }
 #global_search{
     width: 320px;
