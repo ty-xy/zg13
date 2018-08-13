@@ -24,7 +24,7 @@ function hide_box() {
     $('#private-message').hide();
     $(".new_message_textarea").css("min-height", "");
     compose_fade.clear_compose();
-    $('.message_comp').hide();
+    // $('.message_comp').hide();
     $("#compose_controls").show();
     compose.clear_preview_area();
 }
@@ -51,7 +51,7 @@ exports._get_focus_area = get_focus_area;
 
 exports.set_focus = function (msg_type, opts) {
     var focus_area = get_focus_area(msg_type, opts);
-    // console.log(focus_area,opts)
+
     if (focus_area === undefined) {
         return;
     }
@@ -110,8 +110,8 @@ exports.autosize_message_content = function () {
 
 exports.expand_compose_box = function () {
     $("#compose_close").show();
-    $("#compose_controls").hide();
-    $('.message_comp').show();
+    $(".compose-content").hide()
+    $('.message_comp').show()
 };
 
 exports.complete_starting_tasks = function (msg_type, opts) {
@@ -123,7 +123,6 @@ exports.complete_starting_tasks = function (msg_type, opts) {
     ui_util.change_tab_to("#home");
     compose_fade.start_compose(msg_type);
     exports.decorate_stream_bar(opts.stream);
-    // console.log(opts,"compose_state.subject(opts.subject)")
     $(document).trigger($.Event('compose_started.zulip', opts));
     resize.resize_bottom_whitespace();
 };
@@ -261,7 +260,6 @@ exports.respond_to_message = function (opts) {
     drafts.update_draft();
 
     message = current_msg_list.selected_message();
-
     if (message === undefined) { // empty narrow implementation
         if (!narrow_state.narrowed_by_pm_reply() &&
             !narrow_state.narrowed_by_stream_reply() &&
@@ -284,7 +282,6 @@ exports.respond_to_message = function (opts) {
         if (narrow_state.narrowed_by_pm_reply()) {
             msg_type = 'private';
         }
-
         var new_opts = fill_in_opts_from_current_narrowed_view(msg_type, opts);
         exports.start(new_opts.message_type, new_opts);
         return;
@@ -315,6 +312,7 @@ exports.respond_to_message = function (opts) {
     } else {
         msg_type = message.type;
     }
+
     exports.start(msg_type, {stream: stream, subject: subject,
                              private_message_recipient: pm_recipient,
                              replying_to_message: message,

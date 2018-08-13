@@ -1,5 +1,5 @@
 {{#each topiclist}}
- <li class="topic-item-list">
+ <li class="topic-item-list {{#contents this}}{{/contents}}" name="{{this}}">
      {{this}}
  </li>
  {{/each}}

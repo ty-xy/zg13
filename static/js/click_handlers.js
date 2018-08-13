@@ -99,6 +99,7 @@ $(function () {
     }
 
     var select_message_function = function (e) {
+        console.log('select_message_function', e);
         if (is_clickable_message_element($(e.target))) {
             // If this click came from a hyperlink, don't trigger the
             // reply action.  The simple way of doing this is simply
@@ -134,7 +135,7 @@ $(function () {
             compose_actions.respond_to_message({trigger: 'message click'});
             e.stopPropagation();
             popovers.hide_all();
-        }
+        } 
     };
 
     // if on normal non-mobile experience, a `click` event should run the message
