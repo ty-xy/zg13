@@ -406,8 +406,8 @@ exports.update_stream_sidebar_for_narrow = function (filter) {
         return;
     }
 
-    var stream_li = exports.get_stream_li(stream_id);
-
+    // var stream_li = exports.get_stream_li(stream_id);
+    var stream_li = $(".subject-chooses")
     if (!stream_li) {
         // It should be the case then when we have a subscribed
         // stream, there will always be a stream list item
@@ -426,7 +426,7 @@ exports.update_stream_sidebar_for_narrow = function (filter) {
     if (stream_id !== topic_list.active_stream_id()) {
         clear_topics();
     }
-
+    console.log(stream_li,"stream_li")
     topic_list.rebuild(stream_li, stream_id);
 
     return stream_li;

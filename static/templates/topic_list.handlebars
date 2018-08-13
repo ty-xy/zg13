@@ -1,7 +1,9 @@
 {{#each topiclist}}
  <li class="topic-item-list {{#contents this}}{{/contents}}">
      {{this}}
-     <div class="count"><div class="value"></div></div>
+      <div class="topic-unread-count {{#if is_zero}}zero_count{{/if}}">
+            <div class="value">{{unread}}</div>
+      </div>
  </li>
  {{/each}}
  
