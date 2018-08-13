@@ -83,7 +83,8 @@ var contact = (function(){
             $(".tab-content").css("height","calc(100% - 232px)")
              //日志助手显示
              $(".log_assistant_btn").on("click",function(e){
-
+                //  console.log($("#zfilt"))
+                // $("#zfilt").hide();
                 $(".tab-content").css("height","100%")
                 $(".move_ctn").children().remove();
                 e.stopPropagation();

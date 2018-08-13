@@ -568,6 +568,7 @@ function pick_empty_narrow_banner() {
             $(".persistent_data").on("click",".only_tip",function(){
                 $(".tab-content").css("height","calc(100% - 232px)")
                 $("#compose").show();
+                $(".log_assistant_md").remove();
             })
             return $("#empty_star_narrow_message");
         } else if (first_operand === "mentioned") {
