@@ -81,19 +81,6 @@ var message_group = (function () {
                     topic_names= unique(topic_names)
                     // console.log(topic_data.get_recent_names(34))
                     var li = templates.render('topic_list', {topiclist:topic_names});
-                    _.each(topic_names, function (name, idx) {
-                        var num_unread = unread.num_unread_for_topic(index, name);
-                         console.log(num_unread)
-                        // if (!zoomed) {
-                        //     // Show the most recent topics, as well as any with unread messages
-                        //     var show_topic = (idx < max_topics) || (num_unread > 0) ||
-                        //                      (self.active_topic === topic_name.toLowerCase());
-            
-                        //     if (!show_topic) {
-                        //         return;
-                        //     }
-                        // }
-                    })
                     $(".topic-list").html(li)
                     if(topic_names.length>5){
                         var i = 5
@@ -151,6 +138,17 @@ var message_group = (function () {
             $(".creare-topic-body").hide()
             $("#subjects").val("")
         })
+        $("#compose-container").on("click",".topic-list-item",function(e){
+            
+            $("#stream-message").show()
+            var topic  = $(this).attr("data-topic-name")
+            var stream =$(this).closest(".topic-list").attr("data-stream")
+            $("#stream").val(stream)
+            $("#subject").val(topic)
+            // var topic= $.trim($(this).text())
+        })
+            
+        
         $(".make-stream-sure").on("click",function(e){
             opts = fill_in_opts_from_current_narrowed_view('stream', {trigger: 'new topic button'});
             compose_state.stream_name(opts.stream),
@@ -257,30 +255,31 @@ var message_group = (function () {
                     $("#stream-message").show()
                     $("#stream").val(name)
                     $("#subject").val('大厅')
-                    $(".topic-list").on("click",".topic-list-item",function(e){
-                        // debugger
-                        e.stopPropagation()
-                        e.preventDefault()
-                         var topic= $.trim($(this).text())
-                         $('#private-message').hide();
-                        $('#stream-message').show();
-                        var name = $.trim($(".home-title").children().eq(0).text())
-                        var index = stream_data.get_stream_id (name)
-                       
-                        $("#stream-message").show()
-                        $("#stream").val(name)
-                        $("#subject").val(topic)
-                        console.log($(this))
-                        // $(".compos-left-title").css("background","red")
-                        $(this).addClass("backcolor").siblings().removeClass("backcolor")
-                        // window.location.href= "#narrow/stream/"+index+"-"+name+"/topic/"+topic+""
-                        compose_actions.respond_to_message({trigger: 'message click'});
-                        // debugger
-                    })
+                  
                     // compose_actions.respond_to_message({trigger: 'message click'});
                     // $(".topic-list").children().eq(0).addClass("backcolor")
               })
-          
+              $(".topic-name").on("click",function(e){
+                //    e.stopPropagation()
+                   console.log(e)
+              })
+            //   $(".compos-left-title .topic-list").on("click",".topic-name",function(e){
+            //     // debugger
+            //     e.stopPropagation()
+            //     // e.preventDefault()
+            //      var topic= $.trim($(this).text())
+            //      $('#private-message').hide();
+            //     $('#stream-message').show();
+            //     var name = $.trim($(".home-title").children().eq(0).text())
+            //     var index = stream_data.get_stream_id (name)
+            //     console.log(name,topic)
+            //     $("#stream-message").show()
+            //     $("#stream").val(name)
+            //     $("#subject").val(topic)
+            //     console.log($(this))
+            //     compose_actions.respond_to_message({trigger: 'message click'});
+            //     // debugger
+            // })
               //点击左边的
               $(".column_two").on("click",".group_list_index",function(e){
                 // 获得stream_id

@@ -76,7 +76,7 @@ exports.widget = function (parent_elem, my_stream_id) {
             var num_unread = unread.num_unread_for_topic(my_stream_id, topic_name);
          
             if (!zoomed) {
-                console.log(idx)
+                // console.log(idx)
                 // Show the most recent topics, as well as any with unread messages
                 var show_topic = idx || (num_unread > -1) ||
                                  (self.active_topic === topic_name.toLowerCase());
