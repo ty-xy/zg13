@@ -187,12 +187,11 @@ function get_events(options) {
                     var send_id = data.events[0].message.sender_id
                     var name = data.events[0].message.sender_full_name
                     var mes = deleteTag(data.events[0].message.content)
-                    var avatar = data.events[0].message.avatar_url
+                    var avatar = people.stream_url_for_eamil(email)
                     var time = data.events[0].message.timestamp
                     var short_name = data.events[0].message.sender_short_name
                     var _href = "#narrow/pm-with/"+send_id+"-"+short_name
-
-                
+                    var email = data.events[0].message.sender_email
                     if(send_id==$(".only_tip").attr("send_id")){
                             $(".notice_bottom[name='"+$(".only_tip").attr("send_id")+"']").html(mes)
                             $(".notice_top_time[name='"+$(".only_tip").attr("send_id")+"']").html(tf(time))

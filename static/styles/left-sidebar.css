@@ -642,6 +642,10 @@ li.show-more-private-messages a {
     font-size: 16px;
     color: #333333;
     letter-spacing: 0.18px;
+    width: 150px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 .notice_top_time{
     float: right;

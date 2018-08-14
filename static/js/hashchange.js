@@ -30,6 +30,7 @@ function set_hash(hash) {
 }
 
 exports.changehash = function (newhash) {
+    console.log(newhash)
     if (changing_hash) {
         return;
     }
@@ -70,6 +71,12 @@ exports.save_narrow = function (operators) {
 };
 
 exports.parse_narrow = function (hash) {
+    console.log(hash)
+    if(hash[1] == 'pm-with'){
+        $(".tab-content").css("height","calc(100% - 232px)")
+        $(".persistent_data").children().remove();
+        $(".persistent_data").append(JSON.parse(localStorage.getItem("p")))
+    }
     var i;
     var operators = [];
     for (i=1; i<hash.length; i+=2) {
@@ -91,6 +98,7 @@ exports.parse_narrow = function (hash) {
             return;
         }
     }
+    console.log(operators)
     return operators;
 };
 
