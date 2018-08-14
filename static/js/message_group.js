@@ -28,10 +28,10 @@ var message_group = (function () {
                 common_topic(stream_id)
                 if(url.indexOf("/",index+1) != -1){
                     var j = url.slice(index+4,url.indexOf("/",index+1))
-                    j= decodeURI(j)
+                    j= hash_util.decodeHashComponent(j)
                     $(".home-title span").html(j)
                 }else{
-                    var title = decodeURI(url.substr(index+4))
+                    var title = hash_util.decodeHashComponent(url.substr(index+4))
                     $(".home-title span").html(title)             
                 }
                 $(".home-title").show()
@@ -145,6 +145,7 @@ var message_group = (function () {
             var stream =$(this).closest(".topic-list").attr("data-stream")
             $("#stream").val(stream)
             $("#subject").val(topic)
+            compose_actions.respond_to_message({trigger: 'message click'});
             // var topic= $.trim($(this).text())
         })
             
@@ -258,10 +259,6 @@ var message_group = (function () {
                   
                     // compose_actions.respond_to_message({trigger: 'message click'});
                     // $(".topic-list").children().eq(0).addClass("backcolor")
-              })
-              $(".topic-name").on("click",function(e){
-                //    e.stopPropagation()
-                   console.log(e)
               })
             //   $(".compos-left-title .topic-list").on("click",".topic-name",function(e){
             //     // debugger

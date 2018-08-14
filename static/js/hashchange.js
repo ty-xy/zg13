@@ -58,7 +58,7 @@ exports.operators_to_hash = function (operators) {
                   + '/' + hash_util.encode_operand(operator, operand);
         });
     }
-
+  
     return hash;
 };
 
@@ -71,7 +71,6 @@ exports.save_narrow = function (operators) {
 };
 
 exports.parse_narrow = function (hash) {
-    console.log(hash)
     var i;
     var operators = [];
     for (i=1; i<hash.length; i+=2) {
