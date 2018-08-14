@@ -612,6 +612,8 @@ a.message-control-button {
 }
 .list-setting-common{
     margin-left:10px;
+    flex:1;
+    margin-right:10px;
 }
 .avatar_setting{
    line-height:44px;

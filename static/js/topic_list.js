@@ -70,7 +70,6 @@ exports.widget = function (parent_elem, my_stream_id) {
         console.log(my_stream_name,topic_names)
         var ul = $('<ul class="topic-list">');
         ul.attr('data-stream', my_stream_name);
-
         _.each(topic_names, function (topic_name, idx) {
             // console.log(topic_name,idx)
             var num_unread = unread.num_unread_for_topic(my_stream_id, topic_name);
@@ -96,12 +95,19 @@ exports.widget = function (parent_elem, my_stream_id) {
             var li = $(templates.render('topic_list_item', topic_info));
             // console.log(li)
             self.topic_items.set(topic_name, li);
+            // console.log(active_widget.num_items())
             ul.append(li);
         });
-
+        if(topic_names.length>5){
+            $(".icon-nexts").show()
+            $(".icon-prevs").show()
+           
+        }else{
+            $(".icon-nexts").hide()
+            $(".icon-prevs").hide()
+        }
         var show_more = self.build_more_topics_section();
         ul.append(show_more);
-
         return ul;
     };
 
@@ -142,7 +148,6 @@ exports.widget = function (parent_elem, my_stream_id) {
         }
        
         var topic_li = self.topic_items.get(topic);
-        console.log(topic_li,self.topic_items)
         var unread_count_elem = topic_li.find('.topic-unread-count').expectOne();
 
         update_unread_count(unread_count_elem, count);
@@ -175,7 +180,6 @@ exports.widget = function (parent_elem, my_stream_id) {
             active_topic = active_topic.toLowerCase();
         }
         self.active_topic = active_topic;
-        console.log("lalallalal")
         self.dom = self.build_list();
         parent_elem.append(self.dom);
 
@@ -222,7 +226,6 @@ exports.need_to_show_no_more_topics = function (stream_id) {
 exports.rebuild = function (stream_li, stream_id) {
     var active_topic = narrow_state.topic();
     var no_more_topics = exports.need_to_show_no_more_topics(stream_id);
-     console.log("你好")
     exports.remove_expanded_topics();
     active_widget = exports.widget(stream_li, stream_id);
     active_widget.build(active_topic, no_more_topics);
@@ -257,7 +260,6 @@ exports.zoom_in = function () {
         }
 
         exports.rebuild(active_widget.get_parent(), stream_id);
-        console.log("hahhah")
         var after_count = active_widget.num_items();
 
         if (after_count === before_count) {

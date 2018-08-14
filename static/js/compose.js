@@ -226,6 +226,9 @@ exports.send_message = function send_message(request) {
         if(request.subject==="大厅"){
             request.type="stream"
         }
+        if($("#subject").val()!==""){
+            request.type="stream"
+        }
     }
     //  console.log(request)
     if (request.type === "private") {

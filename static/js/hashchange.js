@@ -45,7 +45,7 @@ exports.changehash = function (newhash) {
 // of the narrow URL
 exports.operators_to_hash = function (operators) {
     var hash = '#';
-
+    // console.log(operators)
     if (operators !== undefined) {
         hash = '#narrow';
         _.each(operators, function (elem) {
@@ -72,6 +72,7 @@ exports.save_narrow = function (operators) {
 
 exports.parse_narrow = function (hash) {
     var i;
+    console.log(hash)
     var operators = [];
     for (i=1; i<hash.length; i+=2) {
         // We don't construct URLs with an odd number of components,

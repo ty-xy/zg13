@@ -25,7 +25,7 @@ var message_group = (function () {
                 var stream_id = Number(url.slice(index+1,cindex))
                 // var topic_names = topic_data.get_recent_names(stream_id);
                 // console.log(topic_names,stream_id)
-                common_topic(stream_id)
+                // common_topic(stream_id)
                 if(url.indexOf("/",index+1) != -1){
                     var j = url.slice(index+4,url.indexOf("/",index+1))
                     j= hash_util.decodeHashComponent(j)
@@ -73,49 +73,9 @@ var message_group = (function () {
              }
             return emails;
         };
-        function common_topic(index){
-            var topic_names = topic_data.get_recent_names(index);
-                    // if(topic_names.lenght===0){
-                        topic_names.unshift("大厅")
-                    // }
-                    topic_names= unique(topic_names)
-                    // console.log(topic_data.get_recent_names(34))
-                    var li = templates.render('topic_list', {topiclist:topic_names});
-                    $(".topic-list").html(li)
-                    if(topic_names.length>5){
-                        var i = 5
-                        $(".icon-nexts").show()
-                        $(".icon-prevs").show()
-                        $(".icon-nexts").on("click",function(e){
-                              if(i<topic_names.length){
-                                ++ i
-                                var topic_name = topic_names.slice(i-5,i)
-                              
-                                li = templates.render('topic_list', {topiclist:topic_name})
-                                $(".topic-list").html(li)
-                                if(i>5){
-                                    $(".icon-prevs i").css("color","#999999")
-                                    $(".icon-prevs").on("click",function(e){
-                                        if(i-5>0){
-                                            --i
-                                            var topic_name = topic_names.slice(i-5,i)
-                                            li = templates.render('topic_list', {topiclist:topic_name})
-                                            $(".topic-list").html(li)
-                                        }
-                                    })
-                                }else{
-                                    $(".icon-prevs i").css("color","rgba(153,153,153,0.50)")
-                                }
-                              }
-                        })
-                      
-                    }else{
-                        $(".icon-nexts").hide()
-                        $(".icon-prevs").hide()
-                        li = templates.render('topic_list', {topiclist:topic_names});
-                        $(".topic-list").html(li)
-                    }
-        }
+        // function common_topic(index){
+       
+        // }
         function fill_in_opts_from_current_narrowed_view(msg_type, opts) {
             var default_opts = {
                 message_type:     msg_type,
@@ -138,6 +98,42 @@ var message_group = (function () {
             $(".creare-topic-body").hide()
             $("#subjects").val("")
         })
+        // var i = 0 
+        // $("#compose .icon-nexts").on("click",function(e){
+        //     var ul = $(".topic-list").children()
+        //     if(0<i<ul.length-5){
+        //         ul.eq(i).hide()
+        //         i++
+        //         if(i===ul.length-5){
+        //             $(".last-icon i").css("color","rgba(153,153,153,0.50)")
+        //             $(".last-icon i").attr("disabled",true);
+        //             // $(".first-icon i").removeAttr("disabled")
+        //             $(".first-icon i").css("color","#999")
+        //         }else{
+        //             $(".last-icon i").removeAttr("disabled")
+        //         }
+                
+        //     }
+           
+        //     console.log(i,ul.length)
+        // })
+        // $(".icon-prevs").on("click",function(e){
+        //     var ul = $(".topic-list").children()
+        //     if(i-1>-1){
+        //      ul.eq(i-1).show()
+        //      i--
+        //      if(i===5){
+        //          $(".first-icon i").attr("disabled",true);
+        //          $(".last-icon i").removeAttr("disabled")
+        //          $(".last-icon i").css("color","#999")
+        //          $(".first-icon i").css("color","rgba(153,153,153,0.50)")
+        //         }
+        //      console.log(i,ul.length)
+        //    }
+        // })         
+      
+        
+        //群组消息点
         $("#compose-container").on("click",".topic-list-item",function(e){
             
             $("#stream-message").show()
@@ -162,9 +158,10 @@ var message_group = (function () {
             compose.send_message(data)
             $("#subjects").val("")
             var index = stream_data.get_stream_id (opts.stream)
-              common_topic(index)
-              window.location.href="#narrow/stream/"+index+"-"+opts.stream+"/topic/"+data.subject+""
-            // console.log(index)
+            //   common_topic(index)
+              $("#stream").val(opts.stream)
+              $("#subject").val(data.subject)
+              window.location.href="#narrow/stream/"+index+"-"+opts.stream+"/subject/"+data.subject+""
             $(".creare-topic-body").hide()
         })
         $("#subjects ").on("input",function(e){
@@ -216,7 +213,7 @@ var message_group = (function () {
 
             // })
             // 点击群组的事件
-            $("#group_seeting_choose").on("click",".stream-row",function(){
+            $("#group_seeting_choose .stream-row").on("click",function(){
                  e.preventDefault()
                  e.stopPropagation()
                 var name =  $(this).attr("data-stream-name")
@@ -225,58 +222,92 @@ var message_group = (function () {
                 $("#compose").show()
                 $("#compose-container").show()
                 var nfirst= name.slice(0,1)
-                var  li = "<li class='group_list_index' data_stream_id="+index+" >\
+              
+                var data = {
+                        anchor: 773,
+                        num_before: 50,
+                        num_after: 50,
+                        narrow:JSON.stringify([{"negated":false,"operator":"stream","operand":name}])
+                    };
+                channel.get({
+                    url:  '/json/messages',
+                    data: data,
+                    idempotent: true,
+                    success:function(data){
+                      
+                        var lastData = data.messages.pop()
+                        console.log(lastData,data.messages)
+                       var time = timerender.tf(lastData.timestamp)
+
+                        var  li = "<li class='group_list_index' data_stream_id="+lastData.stream_id+" >\
                              <span class='color-setting avatar_setting' style='background-color:"+color+"'>"+nfirst+"</span>\
                              <div class='list-setting-common'>\
                                <div class='list-right-setting'>\
                                   <span>"+name+"</span>\
-                                  <span>12:15</span>\
+                                  <span>"+time+"</span>\
                                </div>\
-                               <p>请假申请发给你啦，通过一下…</p>\
+                               "+lastData.content+"\
                              </div>\
                            </li>"
-                $(".notice_ctn_boxs").show()
-                $(".notice_ctn_box").hide()
-               
-                $(".group_icon").hide()
-                // $(window).attr("location","#narrow/is/private")
-                $(".home-title").show()
-                if(iarr.indexOf(index)==-1){
-                    iarr.push(index)
-                   $(".notice_ctn_boxs").append(li)
-                }
+                        $(".notice_ctn_boxs").show()
+                        $(".notice_ctn_box").hide()
+                    
+                        $(".group_icon").hide()
+                        // $(window).attr("location","#narrow/is/private")
+                        $(".home-title").show()
+                        if(iarr.indexOf(index)==-1){
+                            iarr.push(index)
+                        $(".notice_ctn_boxs").append(li)
+                        }
+                    }
+                })
+                
                 $(".home-title span").html(name)
                 $(".home_gruop_title").hide()
                 $("#zfilt").hide()
-               
+                 
                 // $(".group_list_index").on("click",function(){
                     $(window).attr("location","#narrow/stream/"+index+"-"+name+"/topic/大厅")
                     $("#zfilt").show()
-                    common_topic(index)
+                    // common_topic(index)
                     $("#stream-message").show()
                     $("#stream").val(name)
                     $("#subject").val('大厅')
-                  
-                    // compose_actions.respond_to_message({trigger: 'message click'});
-                    // $(".topic-list").children().eq(0).addClass("backcolor")
+                    var i= 0
+                    $("#compose-container .icon-nexts").on("click",function(e){
+                        var ul = $(".topic-list").children()
+                        if(0<i<ul.length-5){
+                            ul.eq(i).hide()
+                            i++
+                            if(i===ul.length-5){
+                                $(".last-icon i").css("color","rgba(153,153,153,0.50)")
+                                $(".last-icon i").attr("disabled",true);
+                                // $(".first-icon i").removeAttr("disabled")
+                                $(".first-icon i").css("color","#999")
+                            }else{
+                                $(".last-icon i").removeAttr("disabled")
+                            }
+                            
+                        }
+                       
+                        console.log(i,ul.length)
+                    })
+                    $(".icon-prevs").on("click",function(e){
+                        var ul = $(".topic-list").children()
+                        if(i-1>-1){
+                         ul.eq(i-1).show()
+                         i--
+                         if(i===5){
+                             $(".first-icon i").attr("disabled",true);
+                             $(".last-icon i").removeAttr("disabled")
+                             $(".last-icon i").css("color","#999")
+                             $(".first-icon i").css("color","rgba(153,153,153,0.50)")
+                            }
+                         console.log(i,ul.length)
+                       }
+                    })   
               })
-            //   $(".compos-left-title .topic-list").on("click",".topic-name",function(e){
-            //     // debugger
-            //     e.stopPropagation()
-            //     // e.preventDefault()
-            //      var topic= $.trim($(this).text())
-            //      $('#private-message').hide();
-            //     $('#stream-message').show();
-            //     var name = $.trim($(".home-title").children().eq(0).text())
-            //     var index = stream_data.get_stream_id (name)
-            //     console.log(name,topic)
-            //     $("#stream-message").show()
-            //     $("#stream").val(name)
-            //     $("#subject").val(topic)
-            //     console.log($(this))
-            //     compose_actions.respond_to_message({trigger: 'message click'});
-            //     // debugger
-            // })
+          
               //点击左边的
               $(".column_two").on("click",".group_list_index",function(e){
                 // 获得stream_id
