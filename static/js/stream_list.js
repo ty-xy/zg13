@@ -153,7 +153,7 @@ function zoom_in(options) {
     popovers.hide_all();
     topic_list.zoom_in();
     $("#streams_list").expectOne().removeClass("zoom-out").addClass("zoom-in");
-
+    console.log(options)
     // Hide stream list titles and pinned stream splitter
     $(".stream-filters-label").each(function () {
         $(this).hide();

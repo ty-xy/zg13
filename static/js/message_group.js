@@ -257,7 +257,7 @@ var message_group = (function () {
                     $("#stream-message").show()
                     $("#stream").val(name)
                     $("#subject").val('大厅')
-                    $(".topic-list").on("click",".topic-item-list",function(e){
+                    $(".topic-list").on("click",".topic-list-item",function(e){
                         // debugger
                         e.stopPropagation()
                         e.preventDefault()
@@ -273,7 +273,7 @@ var message_group = (function () {
                         console.log($(this))
                         // $(".compos-left-title").css("background","red")
                         $(this).addClass("backcolor").siblings().removeClass("backcolor")
-                        window.location.href= "#narrow/stream/"+index+"-"+name+"/topic/"+topic+""
+                        // window.location.href= "#narrow/stream/"+index+"-"+name+"/topic/"+topic+""
                         compose_actions.respond_to_message({trigger: 'message click'});
                         // debugger
                     })

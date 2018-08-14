@@ -72,18 +72,20 @@ exports.widget = function (parent_elem, my_stream_id) {
         ul.attr('data-stream', my_stream_name);
 
         _.each(topic_names, function (topic_name, idx) {
+            // console.log(topic_name,idx)
             var num_unread = unread.num_unread_for_topic(my_stream_id, topic_name);
-
+         
             if (!zoomed) {
+                console.log(idx)
                 // Show the most recent topics, as well as any with unread messages
-                var show_topic = idx || (num_unread > 0) ||
+                var show_topic = idx || (num_unread > -1) ||
                                  (self.active_topic === topic_name.toLowerCase());
 
                 if (!show_topic) {
                     return;
                 }
             }
-
+            // console.log(topic_name)
             var topic_info = {
                 topic_name: topic_name,
                 unread: num_unread,
@@ -92,7 +94,7 @@ exports.widget = function (parent_elem, my_stream_id) {
                 url: narrow.by_stream_subject_uri(my_stream_name, topic_name),
             };
             var li = $(templates.render('topic_list_item', topic_info));
-            console.log(li)
+            // console.log(li)
             self.topic_items.set(topic_name, li);
             ul.append(li);
         });
