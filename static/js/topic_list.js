@@ -24,6 +24,7 @@ exports.close = function () {
 
 exports.zoom_out = function () {
     zoomed = false;
+    console.log("zgggg")
     exports.rebuild(active_widget.get_parent(), active_widget.get_stream_id());
 };
 
@@ -52,6 +53,7 @@ function update_unread_count(unread_count_elem, count) {
 
 exports.set_count = function (stream_id, topic, count) {
     if (active_widget && active_widget.is_for_stream(stream_id)) {
+        console.log(31231321)
         active_widget.set_count(topic, count);
     }
 };
@@ -65,23 +67,25 @@ exports.widget = function (parent_elem, my_stream_id) {
         var max_topics = 5;
         var topic_names = topic_data.get_recent_names(my_stream_id);
         var my_stream_name = stream_data.get_sub_by_id(my_stream_id).name;
-
+        console.log(my_stream_name,topic_names)
         var ul = $('<ul class="topic-list">');
         ul.attr('data-stream', my_stream_name);
 
         _.each(topic_names, function (topic_name, idx) {
+            // console.log(topic_name,idx)
             var num_unread = unread.num_unread_for_topic(my_stream_id, topic_name);
-
+         
             if (!zoomed) {
+                console.log(idx)
                 // Show the most recent topics, as well as any with unread messages
-                var show_topic = (idx < max_topics) || (num_unread > 0) ||
+                var show_topic = idx || (num_unread > -1) ||
                                  (self.active_topic === topic_name.toLowerCase());
 
                 if (!show_topic) {
                     return;
                 }
             }
-
+            // console.log(topic_name)
             var topic_info = {
                 topic_name: topic_name,
                 unread: num_unread,
@@ -90,6 +94,7 @@ exports.widget = function (parent_elem, my_stream_id) {
                 url: narrow.by_stream_subject_uri(my_stream_name, topic_name),
             };
             var li = $(templates.render('topic_list_item', topic_info));
+            // console.log(li)
             self.topic_items.set(topic_name, li);
             ul.append(li);
         });
@@ -135,7 +140,9 @@ exports.widget = function (parent_elem, my_stream_id) {
             // to warn about it.
             return;
         }
+       
         var topic_li = self.topic_items.get(topic);
+        console.log(topic_li,self.topic_items)
         var unread_count_elem = topic_li.find('.topic-unread-count').expectOne();
 
         update_unread_count(unread_count_elem, count);
@@ -168,7 +175,7 @@ exports.widget = function (parent_elem, my_stream_id) {
             active_topic = active_topic.toLowerCase();
         }
         self.active_topic = active_topic;
-
+        console.log("lalallalal")
         self.dom = self.build_list();
         parent_elem.append(self.dom);
 
@@ -215,7 +222,7 @@ exports.need_to_show_no_more_topics = function (stream_id) {
 exports.rebuild = function (stream_li, stream_id) {
     var active_topic = narrow_state.topic();
     var no_more_topics = exports.need_to_show_no_more_topics(stream_id);
-
+     console.log("你好")
     exports.remove_expanded_topics();
     active_widget = exports.widget(stream_li, stream_id);
     active_widget.build(active_topic, no_more_topics);
@@ -250,7 +257,7 @@ exports.zoom_in = function () {
         }
 
         exports.rebuild(active_widget.get_parent(), stream_id);
-
+        console.log("hahhah")
         var after_count = active_widget.num_items();
 
         if (after_count === before_count) {

@@ -122,7 +122,8 @@ function ajaxSubscribeForCreation(stream_name, description, principals, invite_o
             $("#zfilt").show()
             $("#compose").show()
             $("#compose-container").show()
-            $(window).attr("location","#narrow/stream/"+index+"-"+stream_name+"")
+            narrow.by_stream_subject_uri(stream_name,"大厅")
+            // $(window).attr("location","#narrow/stream/"+index+"-"+stream_name+"")
             var  li = "<li class='group_list_index' data_steam_id="+index+" >\
             <span class='color-setting avatar_setting' style='background-color:"+sub.color+"'>"+nfirst+"</span>\
             <div class='list-setting-common'>\

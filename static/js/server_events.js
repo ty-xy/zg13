@@ -56,6 +56,7 @@ function get_events_success(events) {
         switch (event.type) {
         case 'message':
             var msg = event.message;
+            console.log(msg)
             msg.flags = event.flags;
             if (event.local_message_id) {
                 msg.local_id = event.local_message_id;
@@ -69,6 +70,7 @@ function get_events_success(events) {
             break;
 
         case 'update_message':
+            console.log(90001)
             messages_to_update.push(event);
             break;
 
