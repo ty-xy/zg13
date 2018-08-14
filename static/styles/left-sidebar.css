@@ -597,6 +597,7 @@ li.show-more-private-messages a {
     margin-top: -100px;
     z-index: 111;
     position: relative;
+    margin-left: 0;
 }
 #global_search{
     width: 320px;

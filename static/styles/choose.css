@@ -622,7 +622,7 @@ a.message-control-button {
     justify-content: space-between
 }
 .topic-item-list{
-    
+    position: relative;
 }
 .inline-right{
     float:right

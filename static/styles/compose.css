@@ -646,7 +646,7 @@ a#undo_markdown_preview {
     padding-left:5px;
     margin:0;
 }
-.topic-item-list{
+li.topic-list-item,.topic-item-list{
     height:34px;
     width:124px;
     box-sizing: border-box;
@@ -658,6 +658,7 @@ a#undo_markdown_preview {
     line-height:34px;
     cursor: pointer;
 }
+
 .compos-left-title{
    display: flex;
    align-items: center;

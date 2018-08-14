@@ -51,18 +51,15 @@ exports.activate = function (raw_operators, opts) {
     // most users aren't going to send a bunch of a out-of-narrow messages
     // and expect to visit a list of narrows, so let's get these out of the way.
     notifications.clear_compose_notifications();
-
     if (raw_operators.length === 0) {
         return exports.deactivate();
     }
     var filter = new Filter(raw_operators);
     var operators = filter.operators();
-
     // Take the most detailed part of the narrow to use as the title.
     // If the operator is something other than "stream", "topic", or
     // "is", we shouldn't update the narrow title
     if (filter.has_operator("stream")) {
-         console.log(111111111111)
         if (filter.has_operator("topic")) {
             exports.narrow_title = filter.operands("topic")[0];
         } else {
@@ -96,7 +93,6 @@ exports.activate = function (raw_operators, opts) {
                                                  function (e) { return e.operator; }),
                                 trigger: opts ? opts.trigger : undefined,
                                 previous_id: current_msg_list.selected_id()});
-
     opts = _.defaults({}, opts, {
         then_select_id: home_msg_list.selected_id(),
         select_first_unread: false,
@@ -104,7 +100,6 @@ exports.activate = function (raw_operators, opts) {
         change_hash: true,
         trigger: 'unknown',
     });
-
     // These two narrowing operators specify what message should be
     // selected and should be the center of the narrow.
     if (filter.has_operator("near")) {
@@ -141,7 +136,6 @@ exports.activate = function (raw_operators, opts) {
     // muting_enabled.
     narrow_state.set_current_filter(filter);
     var muting_enabled = narrow_state.muting_enabled();
-
     // Save how far from the pointer the top of the message list was.
     if (current_msg_list.selected_id() !== -1) {
         if (current_msg_list.selected_row().length === 0) {
@@ -169,13 +163,11 @@ exports.activate = function (raw_operators, opts) {
         collapse_messages: ! narrow_state.get_current_filter().is_search(),
         muting_enabled: muting_enabled,
     };
-
     var msg_list = new message_list.MessageList(
         'zfilt',
         narrow_state.get_current_filter(),
         msg_list_opts
     );
-
     msg_list.start_time = start_time;
 
     // Show the new set of messages.  It is important to set current_msg_list to
@@ -281,14 +273,13 @@ exports.stream_topic = function () {
     // specifically care about, according (mostly) to the
     // currently selected message.
     var msg = current_msg_list.selected_message();
-
+    
     if (msg) {
         return {
              stream: msg.stream || undefined,
             topic: msg.subject || undefined,
         };
     }
-
     // We may be in an empty narrow.  In that case we use
     // our narrow parameters to return the stream/topic.
     return {
@@ -350,7 +341,7 @@ exports.narrow_to_next_topic = function () {
     if (!curr_info) {
         return;
     }
-
+    
     var next_narrow = topic_generator.get_next_topic(
         curr_info.stream,
         curr_info.topic
@@ -564,8 +555,12 @@ function pick_empty_narrow_banner() {
             $(".notice_ctn_boxs").hide();
             $("#compose").hide();
             $(".persistent_data").show();
-            $(".persistent_data").append(localStorage.getItem("p"))
+            $(".persistent_data").children().remove();
+            $(".persistent_data").append(JSON.parse(localStorage.getItem("p")))
             $(".persistent_data").on("click",".only_tip",function(){
+                console.log("难道问题出在这儿？")
+                $("#main_div").show();
+                $(".move_ctn").children().remove();
                 $(".tab-content").css("height","calc(100% - 232px)")
                 $("#compose").show();
                 $(".log_assistant_md").remove();

@@ -8,7 +8,6 @@ var changing_hash = false;
 
 function set_hash(hash) {
     var location = window.location;
-
     if (history.pushState) {
         if (hash === '' || hash.charAt(0) !== '#') {
             hash = '#' + hash;
@@ -34,6 +33,7 @@ exports.changehash = function (newhash) {
     if (changing_hash) {
         return;
     }
+   
     $(document).trigger($.Event('zuliphashchange.zulip'));
     set_hash(newhash);
     favicon.reset();
@@ -77,12 +77,15 @@ exports.parse_narrow = function (hash) {
         // but the user might write one.
         try {
             var operator = hash_util.decodeHashComponent(hash[i]);
+           
             var operand  = hash_util.decode_operand(operator, hash[i+1] || '');
+          
             var negated = false;
             if (operator[0] === '-') {
                 negated = true;
                 operator = operator.slice(1);
             }
+            
             operators.push({negated: negated, operator: operator, operand: operand});
         } catch (err) {
             return;
@@ -199,7 +202,6 @@ function get_main_hash(hash) {
 
 function get_hash_components() {
     var hash = window.location.hash.split(/\//);
-
     return {
         base: hash.shift(),
         arguments: hash,

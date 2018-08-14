@@ -158,7 +158,6 @@ function get_events(options) {
 
     get_events_params.client_gravatar = true;
 
-    // console.log(12)
     get_events_timeout = undefined;
     get_events_xhr = channel.get({
         url:      '/json/events',
@@ -192,13 +191,16 @@ function get_events(options) {
                     var time = data.events[0].message.timestamp
                     var short_name = data.events[0].message.sender_short_name
                     var _href = "#narrow/pm-with/"+send_id+"-"+short_name
+
+                
                     if(send_id==$(".only_tip").attr("send_id")){
                             $(".notice_bottom[name='"+$(".only_tip").attr("send_id")+"']").html(mes)
                             $(".notice_top_time[name='"+$(".only_tip").attr("send_id")+"']").html(tf(time))
+                            localStorage.setItem("p",JSON.stringify($('.persistent_data').html()))
                     }else{
                         var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:send_id,time:time,short_name:short_name,_href:_href})
                         $(".persistent_data").prepend(notice_box)
-                        localStorage.setItem("p",notice_box)
+                        localStorage.setItem("p",JSON.stringify($('.persistent_data').html()))
                     }
                 }
             }

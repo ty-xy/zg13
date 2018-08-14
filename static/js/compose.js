@@ -394,15 +394,11 @@ exports.finish = function () {
     exports.clear_invites();
     exports.clear_private_stream_alert();
     notifications.clear_compose_notifications();
-    console.log("123213123")
     
     function scrollToEnd(){//滚动到底部
         i += 800
         var h = 8000 + i;
         $(".tab-content").scrollTop(h);
-        console.log($(document).height())
-        console.log($(".tab-content"))
-        console.log(h)
     }
     scrollToEnd()
     if (! compose.validate()) {
