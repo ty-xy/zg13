@@ -569,6 +569,7 @@ function pick_empty_narrow_banner() {
                 setTimeout(function(){
                     $(".home-title").show();
                 },10)
+                console.log($(this).children().last().children().children().first())
                 $(".home-title button").hide();
                 $(".home-title span").html($(this).children().last().children().children().first());
             })
