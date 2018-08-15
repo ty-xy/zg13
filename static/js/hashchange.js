@@ -71,6 +71,12 @@ exports.save_narrow = function (operators) {
 };
 
 exports.parse_narrow = function (hash) {
+    console.log(hash)
+    if(hash[1] == 'pm-with'){
+        $(".tab-content").css("height","calc(100% - 232px)")
+        $(".persistent_data").children().remove();
+        $(".persistent_data").append(JSON.parse(localStorage.getItem("p")))
+    }
     var i;
     // console.log(hash)
     var operators = [];
@@ -252,7 +258,6 @@ function hashchanged(from_reload, e) {
     }
 
     var base = get_main_hash(window.location.hash);
-    // console.log(base)
     if (should_ignore(window.location.hash)) {
         // if the old has was a standard non-ignore hash OR the ignore hash
         // base has changed, something needs to run again.

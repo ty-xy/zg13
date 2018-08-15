@@ -40,7 +40,7 @@ var contact = (function(){
                         var avatar = $(this).children().first().children().attr("src")
                         var short_name = $(this).attr("short_name");
                         var _href = "#narrow/pm-with/"+user_id+"-"+short_name
-                        var user_detail_contact = templates.render("user_detail_contact",{user_name:user_name,user_id:user_id,email:email,avatar:avatar,_href:_href})
+                        var user_detail_contact = templates.render("user_detail_contact",{user_name:user_name,user_id:user_id,email:email,avatar:avatar,_href:_href,short_name:short_name})
                         $(".move_ctn").append(user_detail_contact)
                         //发送消息点击事件
                         $(".user_detail_send").on("click",function(){
@@ -48,14 +48,20 @@ var contact = (function(){
                             $("#main_div").show();
                             $("#compose").show();
                             $(".tab-content").css("height","calc(100% - 232px)")
+                            //上方显示聊天对面信息
                             
+                            
+                            setTimeout(function(){
+                                $(".home-title").show();
+                            },10)
+                            $(".home-title button").hide();
+                            $(".home-title span").html(user_name);
                             //做个切换到消息板块的假象试试
                             $(".notice_ctn_box").children().remove();
                             $(".news_icon").addClass("left_blue_height");
                             $(".address_book").removeClass("left_blue_height")
                             // var log_assistant_prompt = templates.render("log_assistant_prompt");
                             // $(".notice_ctn_box").append(log_assistant_prompt)
-                            console.log($(".news_icon"))
                         })
                     })
                 }
@@ -77,6 +83,8 @@ var contact = (function(){
             $(".tab-content").css("height","calc(100% - 232px)")
              //日志助手显示
              $(".log_assistant_btn").on("click",function(e){
+                //  console.log($("#zfilt"))
+                // $("#zfilt").hide();
                 $(".tab-content").css("height","100%")
                 $(".move_ctn").children().remove();
                 e.stopPropagation();

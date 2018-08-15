@@ -598,6 +598,12 @@ li.show-more-private-messages a {
     float: left;
 }
 /* zyc添加中部样式 */
+.persistent_data{
+    margin-top: -100px;
+    z-index: 111;
+    position: relative;
+    margin-left: 0;
+}
 #global_search{
     width: 320px;
     height: 40px;
@@ -613,7 +619,7 @@ li.show-more-private-messages a {
 }
 .notice_ctn{
     padding: 5px 20px;
-    width: 260px;
+    /* width: 260px; */
     height: 53px;
     cursor: pointer;
 }
@@ -641,6 +647,10 @@ li.show-more-private-messages a {
     font-size: 16px;
     color: #333333;
     letter-spacing: 0.18px;
+    width: 150px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 .notice_top_time{
     float: right;

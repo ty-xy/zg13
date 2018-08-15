@@ -56,7 +56,6 @@ function get_events_success(events) {
         switch (event.type) {
         case 'message':
             var msg = event.message;
-            console.log(msg)
             msg.flags = event.flags;
             if (event.local_message_id) {
                 msg.local_id = event.local_message_id;
@@ -70,7 +69,6 @@ function get_events_success(events) {
             break;
 
         case 'update_message':
-            console.log(90001)
             messages_to_update.push(event);
             break;
 
@@ -160,7 +158,6 @@ function get_events(options) {
 
     get_events_params.client_gravatar = true;
 
-    // console.log(12)
     get_events_timeout = undefined;
     get_events_xhr = channel.get({
         url:      '/json/events',
@@ -175,7 +172,7 @@ function get_events(options) {
                     M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
                     D = date.getDate() + ' ';
                     h = date.getHours() + ':';
-                    m = date.getMinutes();
+                    m = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
                     s = date.getSeconds();
                 return h+m;
             }
@@ -191,17 +188,20 @@ function get_events(options) {
                     var send_id = data.events[0].message.sender_id
                     var name = data.events[0].message.sender_full_name
                     var mes = deleteTag(data.events[0].message.content)
-                    var avatar = data.events[0].message.avatar_url
+                    var avatar = people.stream_url_for_eamil(email)
                     var time = data.events[0].message.timestamp
-                    console.log($(".notice_ctn").attr("send_id"))
-                    if(send_id==$(".notice_ctn").attr("send_id")){
-                            $(".notice_bottom[name='"+$(".notice_ctn").attr("send_id")+"']").html(mes)
-                            $(".notice_top_time[name='"+$(".notice_ctn").attr("send_id")+"']").html(tf(time))
+                    var short_name = data.events[0].message.sender_short_name
+                    var _href = "#narrow/pm-with/"+send_id+"-"+short_name
+                    var email = data.events[0].message.sender_email
+                    if(send_id==$(".only_tip").attr("send_id")){
+                            $(".notice_bottom[name='"+$(".only_tip").attr("send_id")+"']").html(mes)
+                            $(".notice_top_time[name='"+$(".only_tip").attr("send_id")+"']").html(tf(time))
+                            localStorage.setItem("p",JSON.stringify($('.persistent_data').html()))
                     }else{
-                        var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:send_id,time:time})
-                        $(".notice_ctn_box").prepend(notice_box)
+                        var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:send_id,time:time,short_name:short_name,_href:_href})
+                        $(".persistent_data").prepend(notice_box)
+                        localStorage.setItem("p",JSON.stringify($('.persistent_data').html()))
                     }
-                    
                 }
             }
             
