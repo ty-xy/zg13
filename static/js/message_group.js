@@ -53,7 +53,6 @@ var message_group = (function () {
             // }else{
             //     subscriptions.show_all=false
             // }
-            console.log(subscriptions)
             var content=  templates.render('show_group', {subscriptions:subscriptions});
             $("#group_seeting_choose").html(content)
             $(contents).addClass("high_light").siblings().removeClass("high_light");
@@ -83,7 +82,6 @@ var message_group = (function () {
                     var li = templates.render('topic_list', {topiclist:topic_names});
                     _.each(topic_names, function (name, idx) {
                         var num_unread = unread.num_unread_for_topic(index, name);
-                         console.log(num_unread)
                         // if (!zoomed) {
                         //     // Show the most recent topics, as well as any with unread messages
                         //     var show_topic = (idx < max_topics) || (num_unread > 0) ||
@@ -127,6 +125,25 @@ var message_group = (function () {
                         $(".icon-prevs").hide()
                         li = templates.render('topic_list', {topiclist:topic_names});
                         $(".topic-list").html(li)
+                        $(".topic-list").on("click",".topic-item-list",function(e){
+                            // debugger
+                            e.stopPropagation()
+                            e.preventDefault()
+                             var topic= $.trim($(this).text())
+                            $('#private-message').hide();
+                            $('#stream-message').show();
+                            var name = $.trim($(".home-title").children().eq(0).text())
+                            var index = stream_data.get_stream_id (name)
+                            // $("#stream_toggle").addClass("active");
+                            // $("#private_message_toggle").removeClass("active");
+                            $(window).attr("location","#narrow/stream/"+index+"-"+name+"/topic/"+topic+"")
+                            $("#stream-message").show()
+                            $("#stream").val(name)
+                            $("#subject").val(topic)
+                            compose_actions.respond_to_message({trigger: 'message click'});
+                            $(this).addClass("backcolor").siblings().removeClass("backcolor")
+                            // debugger
+                        })
                     }
         }
         function fill_in_opts_from_current_narrowed_view(msg_type, opts) {
@@ -192,7 +209,6 @@ var message_group = (function () {
             // console.log(stream_edit,323111)
             // 渲染群组
            
-            console.log(streams,subscriptions,sub)
             var content1 =  templates.render('show_group', {subscriptions:streams});
             $("#group_seeting_choose").html(content1)
             $(".swtich-button").hide()
@@ -299,7 +315,7 @@ var message_group = (function () {
                     var Height = $(window).height()
                     $(".stream_creation_body").height(Height-215)
                     // $("#stream-creation").height(Height-175)
-                    console.log(Height)
+
                     $(".new_display_content").height(Height-60)
                     $(".new_display_content").on("click",function(e){
                         e.stopPropagation()

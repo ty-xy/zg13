@@ -90,7 +90,6 @@ exports.options = function (config) {
             maybe_hide_upload_status();
         }
     };
-
     var uploadError = function (error_code, server_response, file) {
         var msg;
         send_status.addClass("alert-error")

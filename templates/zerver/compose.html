@@ -5,11 +5,8 @@
         <div class="compose-title">
             <div class="compos-left-title">
                 <span>话题:</span>
-                <div class="subject-chooses">
-                    
-                </div>
-                <!-- <ul class="topic-list">
-                </ul> -->
+                <ul class="topic-list">
+                </ul>
                 <!-- <span> -->
                 <div class="icon-prevs first-icon">
                   <i class="icon iconfont icon-xiayiji "></i>
@@ -35,10 +32,7 @@
                 </div>
             </div>
         </div>
-        <!-- <div id="compose_controls" class="compose-content new-style" style="display: none">
-            <i class="compose_shadowl"></i>
-            <i class="compose_shadowr"></i>
-           
+        <!-- <div id="compose_controls" class="compose-content new-style" style="display: none!important">
             <div id="nonexistent_stream_reply_error" class="alert-error">
                 <span class="compose-send-status-close">&times;</span>
                 <span id="compose-reply-error-msg"></span>
@@ -80,7 +74,7 @@
                 </span>
             </div>
         </div> -->
-        <div class="message_comp compose-content">
+        <div class="message_comp compose-content" style="display: block">
             <div class="alert" id="compose-send-status">
                 <span class="compose-send-status-close">&times;</span>
                 <span id="compose-error-msg"></span>
@@ -92,7 +86,7 @@
             <div id="compose_private_stream_alert" class="alert home-error-bar"></div>
             <div id="out-of-view-notification" class="notification-alert"></div>
             <div class="composition-area">
-                <!-- <button type="button" class="close" id='compose_close' title="{{ _('Cancel compose') }} (Esc)"><i class="iconfont icon-guanbiUI"></i></button> -->
+                <button type="button" class="close" id='compose_close' title="{{ _('Cancel compose') }} (Esc)"><i class="iconfont icon-guanbiUI"></i></button>
                 <form id="send_message_form" action="/json/messages" method="post">
                     {{ csrf_input }}
                     <table class="compose_table">
@@ -102,9 +96,8 @@
                                 <td class="ztable_comp_col2" />
                             </tr>
                             <tr id="stream-message">
-                                <td class=" ">
+                                <!-- <td class="message_header_colorblock message_header_stream left_part"> -->
                                 </td>
-                                <!-- message_header_colorblock message_header_stream left_part -->
                                 <td class="right_part">
                                     <span id="compose-lock-icon">
                                         <i class="icon-vector-lock" title="{{ _('This is an invite-only stream') }}"></i>
@@ -113,7 +106,6 @@
                                       maxlength="30"
                                       value="" placeholder="{{ _('Stream') }}" autocomplete="off" tabindex="0" aria-label="{{ _('Stream') }}"/>
                                     <i class="iconfont icon-xiangyou"></i>
-                                    <!-- icon-vector-narrow icon-vector-small -->
                                     <input type="text" class="recipient_box" name="subject" id="subject"
                                       maxlength="60"
                                       value="" placeholder="{{ _('Topic') }}" autocomplete="off" tabindex="0" aria-label="{{ _('Topic') }}" style="width: 16%;
@@ -128,7 +120,6 @@
                             </tr>
                             <tr id="private-message">
                                 <td class="to_text">
-                                    <!-- <span>{{ _('To') }}:</span> -->
                                 </td>
                                 <td class="right_part" style="display: none">
                                     <div class="pm_recipient">
@@ -146,8 +137,8 @@
                                                 <input type="file" id="file_input" class="notvisible pull-left" multiple />
                                                 <a class="message-control-button iconfont icon-biaoqing1"
                                                   id="emoji_map" href="#" title="{{ _('Add emoji') }}" style="margin-left: 0"></a>
-                                                <!-- <a class="message-control-button icon-vector-font"
-                                                  title="{{ _('Formatting') }}" data-overlay-trigger="markdown-help"></a> -->
+                                                <a class="message-control-button iconfont icon-wenzi"
+                                                  title="{{ _('Formatting') }}" data-overlay-trigger="markdown-help"></a>
                                                 <a class="message-control-button iconfont icon-wenjian"
                                                   id="attach_files" href="#" title="{{ _('Attach files') }}"></a>
                                                 <!-- {% if jitsi_server_url %}
@@ -162,8 +153,8 @@
                                                 <a class="message-control-button iconfont icon-huibao"
                                                    title="{{ _('Write') }}"></a>
                                                 <!-- <a id="markdown_preview" class="message-control-button icon-vector-eye-open"
-                                                  title="{{ _('Preview') }}"></a> -->
-                                                <!-- <a class="drafts-link" href="#drafts" title="{{ _('Drafts') }} (d)">{{ _('Drafts') }}</a>
+                                                  title="{{ _('Preview') }}"></a>
+                                                <a class="drafts-link" href="#drafts" title="{{ _('Drafts') }} (d)">{{ _('Drafts') }}</a>
                                                 <span id="sending-indicator"></span> -->
                                                
                                             </div>

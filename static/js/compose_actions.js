@@ -51,7 +51,7 @@ exports._get_focus_area = get_focus_area;
 
 exports.set_focus = function (msg_type, opts) {
     var focus_area = get_focus_area(msg_type, opts);
-    // console.log(focus_area,opts)
+
     if (focus_area === undefined) {
         return;
     }
@@ -123,7 +123,6 @@ exports.complete_starting_tasks = function (msg_type, opts) {
     ui_util.change_tab_to("#home");
     compose_fade.start_compose(msg_type);
     exports.decorate_stream_bar(opts.stream);
-    // console.log(opts,"compose_state.subject(opts.subject)")
     $(document).trigger($.Event('compose_started.zulip', opts));
     resize.resize_bottom_whitespace();
 };
@@ -189,13 +188,11 @@ exports.start = function (msg_type, opts) {
     if (reload.is_in_progress()) {
         return;
     }
-    console.log(opts)
     notifications.clear_compose_notifications();
     exports.expand_compose_box();
-    
-    // opts = fill_in_opts_from_current_narrowed_view('stream', {trigger: 'new topic button'});
     opts = fill_in_opts_from_current_narrowed_view(msg_type, opts);
-    console.log(opts)
+    // opts = fill_in_opts_from_current_narrowed_view('stream', {trigger: 'new topic button'});
+    // console.log(opts)
     // If we are invoked by a compose hotkey (c or x) or new topic button
     // or sidebar stream actions (in stream popover), do not assume that we know what
     // the message's topic or PM recipient should be.
@@ -256,7 +253,6 @@ exports.cancel = function () {
 };
 
 exports.respond_to_message = function (opts) {
-    console.log(opts)
     var message;
     var msg_type;
     // Before initiating a reply to a message, if there's an
@@ -264,7 +260,6 @@ exports.respond_to_message = function (opts) {
     drafts.update_draft();
 
     message = current_msg_list.selected_message();
-   console.log(message)
     if (message === undefined) { // empty narrow implementation
         if (!narrow_state.narrowed_by_pm_reply() &&
             !narrow_state.narrowed_by_stream_reply() &&
@@ -287,7 +282,6 @@ exports.respond_to_message = function (opts) {
         if (narrow_state.narrowed_by_pm_reply()) {
             msg_type = 'private';
         }
-        // console.log(msy_type,opts)
         var new_opts = fill_in_opts_from_current_narrowed_view(msg_type, opts);
         exports.start(new_opts.message_type, new_opts);
         return;
@@ -318,7 +312,7 @@ exports.respond_to_message = function (opts) {
     } else {
         msg_type = message.type;
     }
-    console.log(msg_type,opts)
+
     exports.start(msg_type, {stream: stream, subject: subject,
                              private_message_recipient: pm_recipient,
                              replying_to_message: message,
@@ -383,7 +377,6 @@ exports.quote_and_reply = function (opts) {
     var message_id = current_msg_list.selected_id();
 
     exports.respond_to_message(opts);
-    console.log(message_id)
     channel.get({
         url: '/json/messages/' + message_id,
         idempotent: true,

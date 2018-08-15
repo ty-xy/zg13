@@ -1,7 +1,8 @@
 {{!-- <div class="notice_box">
     <ul class="notice_ctn_box"> --}}
         {{!-- {{#each message}} --}}
-            <li class="notice_ctn log_assistant_box" send_id="{{send_id}}">
+        <a href="{{_href}}">
+            <li class="notice_ctn only_tip log_assistant_box" send_id="{{send_id}}" short_name="{{short_name}}">
                 <div class="notice_left fix">
                     <img src="{{avatar}}" alt="" class="notice_img">
                 </div>
@@ -15,6 +16,7 @@
                     </div>
                 </div>
             </li>
+        </a>
         {{!-- {{/each}} --}}
     {{!-- </ul>
 </div> --}}

@@ -1194,6 +1194,7 @@ var management = (function () {
         //日志助手显示
             $(".log_assistant_btn").on("click",function(e){
                 $("#empty_star_narrow_message").remove();
+                // $("#zfilt").hide();
                 e.stopPropagation();
                 e.preventDefault();
                 var window_high = window.screen.height;
@@ -1206,7 +1207,6 @@ var management = (function () {
                     url:"json/zg/my/receive/web",
                     contentType:"application/json",
                     success:function(res){
-                        console.log(res)
                         var page = [];
                         for(var i= 2;i<=res.page;i++){
                             page.push(i)
