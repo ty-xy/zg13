@@ -181,6 +181,7 @@ function get_events(options) {
             }
             for(var i = 0;i<data.events.length;i++){
                 type = data.events[0].type
+                console.log(type,data)
                 if(type == "message"){
                     var  deleteTag = function (tagStr) {
                         var  regx = /<[^>]*>|<\/[^>]*>/gm;

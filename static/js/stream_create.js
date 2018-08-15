@@ -108,6 +108,7 @@ function ajaxSubscribeForCreation(stream_name, description, principals, invite_o
                announce: JSON.stringify(announce),
         },
         success: function (data) {
+            console.log(data)
             $("#create_stream_name").val("");
             $("#create_stream_description").val("");
             ui_report.success(i18n.t("Stream successfully created!"), $(".stream_create_info"));
@@ -122,19 +123,23 @@ function ajaxSubscribeForCreation(stream_name, description, principals, invite_o
             $("#zfilt").show()
             $("#compose").show()
             $("#compose-container").show()
-            narrow.by_stream_subject_uri(stream_name,"大厅")
+              $("#stream").val(stream_name)
+              $("#subject").val("大厅")
+            window.location.hash = narrow.by_stream_subject_uri(stream_name,"大厅")
+
             // $(window).attr("location","#narrow/stream/"+index+"-"+stream_name+"")
             var  li = "<li class='group_list_index' data_steam_id="+index+" >\
             <span class='color-setting avatar_setting' style='background-color:"+sub.color+"'>"+nfirst+"</span>\
             <div class='list-setting-common'>\
               <div class='list-right-setting'>\
-                 <span>"+name+"</span>\
+                 <span>"+stream_name+"</span>\
                  <span>12:15</span>\
               </div>\
               <p>请假申请发给你啦，通过一下…</p>\
             </div>\
           </li>"
           $(".notice_ctn_boxs").append(li)
+
             // The rest of the work is done via the subscribe event we will get
         },
         error: function (xhr) {
@@ -275,7 +280,6 @@ function clear_error_display() {
 exports.show_new_steam_modals = function (){
     // $("#stream-creation").removeClass("hide");
     // $(".right .settings").hide();
-
     var all_users = people.get_rest_of_realm();
     // Add current user on top of list
     all_users.unshift(people.get_person_from_user_id(page_params.user_id));

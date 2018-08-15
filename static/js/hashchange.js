@@ -30,7 +30,7 @@ function set_hash(hash) {
 }
 
 exports.changehash = function (newhash) {
-    console.log(newhash)
+    // console.log(newhash)
     if (changing_hash) {
         return;
     }
@@ -72,7 +72,7 @@ exports.save_narrow = function (operators) {
 
 exports.parse_narrow = function (hash) {
     var i;
-    console.log(hash)
+    // console.log(hash)
     var operators = [];
     for (i=1; i<hash.length; i+=2) {
         // We don't construct URLs with an odd number of components,
@@ -93,7 +93,7 @@ exports.parse_narrow = function (hash) {
             return;
         }
     }
-    console.log(operators)
+    // console.log(operators)
     return operators;
 };
 
@@ -252,7 +252,7 @@ function hashchanged(from_reload, e) {
     }
 
     var base = get_main_hash(window.location.hash);
-    console.log(base)
+    // console.log(base)
     if (should_ignore(window.location.hash)) {
         // if the old has was a standard non-ignore hash OR the ignore hash
         // base has changed, something needs to run again.

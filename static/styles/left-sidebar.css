@@ -223,7 +223,7 @@ li.active-sub-filter {
 .topic-box>a{
     height: 28px;
     margin: 0!important;
-    line-height: 20px;
+    line-height: 28px;
     font-family: PingFangSC-Medium;
     font-size: 11px;
     color: #A0ACBF!important;
@@ -232,7 +232,7 @@ li.active-sub-filter {
 .topic-name {
     display: block;
     line-height: 1.1;
-    width: calc(100% - 5px);
+    /* width: calc(100% - 5px); */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -419,19 +419,24 @@ li.expanded_private_message a {
 }
 
 .pm-box,
-.topic-box {
+ {
     display: block;
     margin-right: 38px;
     padding-top: 1px;
     cursor: pointer;
 }
-
+.topic-box{
+    display: block;
+    /* margin-right: 38px; */
+    padding-top: 1px;
+    cursor: pointer;
+}
 .pm-box {
     line-height: 1;
 }
 
 .zero-subject-unreads .pm-box,
-.zero-subject-unreads .topic-box {
+.zero-subject-unreads{
     margin-right: 15px;
 }
 

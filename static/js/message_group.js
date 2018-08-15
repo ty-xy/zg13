@@ -326,7 +326,6 @@ var message_group = (function () {
                     var Height = $(window).height()
                     $(".stream_creation_body").height(Height-215)
                     // $("#stream-creation").height(Height-175)
-                    console.log(Height)
                     $(".new_display_content").height(Height-60)
                     $(".new_display_content").on("click",function(e){
                         e.stopPropagation()

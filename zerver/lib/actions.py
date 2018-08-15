@@ -1550,7 +1550,7 @@ def stream_welcome_message(stream: Stream) -> Text:
 def prep_stream_welcome_message(stream: Stream) -> Optional[Dict[str, Any]]:
     realm = stream.realm
     sender = get_system_bot(settings.WELCOME_BOT)
-    topic = _('hello')
+    topic = _('大厅')
     content = stream_welcome_message(stream)
 
     message = internal_prep_stream_message(
