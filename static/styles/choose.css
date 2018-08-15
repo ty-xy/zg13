@@ -604,8 +604,9 @@ a.message-control-button {
     color:#fff !important;
 }
 .group_list_index{
-    /* padding:0 20px; */
-    cursor:pointer
+    padding:0 20px;
+    cursor:pointer;
+    align-items:center
 }
 .group_list_index,.list-setting-commn{
     display:flex;
@@ -890,4 +891,10 @@ a.message-control-button {
     }
     .creare-topic-total>button{
           margin-top:20px;
+    }
+    .notice_ctn_boxs{
+     margin-left:0
+    }
+    .backgr{
+       background: #F1F6FD;
     }

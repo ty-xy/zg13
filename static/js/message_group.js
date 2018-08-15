@@ -236,7 +236,13 @@ var message_group = (function () {
                         var lastData = data.messages.pop()
                         console.log(lastData)
                         var time = timerender.tf(lastData.timestamp)
-                        var  li = "<li class='group_list_index' data_stream_id="+lastData.stream_id+" >\
+                        // console.log($(".group_list_index").find(".backgr"))
+                        // $(".group_list_index").find(".backgr").removeClass("backgr")
+                        var show = $(".notice_ctn_boxs").children().find(".backgr")
+                        if(show.prevObject.length>0){
+                             show.prevObject.removeClass("backgr")
+                        }
+                        var  li = "<li class='group_list_index backgr' data_stream_id="+lastData.stream_id+" >\
                              <span class='color-setting avatar_setting' style='background-color:"+color+"'>"+nfirst+"</span>\
                              <div class='list-setting-common'>\
                                <div class='list-right-setting'>\
@@ -255,6 +261,7 @@ var message_group = (function () {
                             iarr.push(index)
                         $(".notice_ctn_boxs").append(li)
                         }
+
                         $(".home-title span").html(name)
                         $(".home_gruop_title").hide()
                         $("#zfilt").hide()
@@ -307,6 +314,7 @@ var message_group = (function () {
                 // 获得stream_id
                 var stream_id = $(this).attr("data_stream_id")
                 var sub = stream_data.get_sub_by_id(stream_id);
+                $(this).addClass("backgr").siblings().removeClass("backgr")
                 var data = {
                     anchor: 773,
                     num_before: 50,
@@ -319,6 +327,8 @@ var message_group = (function () {
                     idempotent: true,
                     success:function(data){
                         var subject =  data.messages.pop().subject
+                        $("#stream").val(sub.name)
+                        $("#subject").val(subject)
                          window.location.href=narrow.by_stream_subject_uri(sub.name,subject)
                     }
                 }) 
