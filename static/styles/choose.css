@@ -648,7 +648,7 @@ a.message-control-button {
     width:100%;
     padding:0px;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: flex-start;
 }
 .more-detail{
     width:100%;

@@ -184,8 +184,6 @@ var message_group = (function () {
               
             // console.log(stream_edit,323111)
             // 渲染群组
-           
-            console.log(streams,subscriptions,sub)
             var content1 =  templates.render('show_group', {subscriptions:streams});
             $("#group_seeting_choose").html(content1)
             $(".swtich-button").hide()
@@ -355,7 +353,7 @@ var message_group = (function () {
             var get_sub_by_name =stream_data.get_sub_by_name(title)
             var emial =get_email_of_subscribers(get_sub_by_name.subscribers)
             // var avatar = people.stream_url_for_eamil(emial[0])
-            var avatar = []
+            var avatars = []
              emial.forEach(function(i,v){
                  
                  var avatarUrl= people.stream_url_for_eamil(i.email)
@@ -363,14 +361,25 @@ var message_group = (function () {
                     avatarUrl:avatarUrl,
                     name:i.index
                  }
-                 avatar.push(personnal)
+                 avatars.push(personnal)
              })
-            // console.log(title, $(this).siblings())
-            var html = templates.render("group_setting",{name:title,titlef:titlef,avatar:avatar,color:get_sub_by_name})
+             var show = emial.length>10?true:false
+             var avatar= avatars.length>10?avatars.slice(0,10):avatars
+            var html = templates.render("group_setting",
+                                        {name:title,
+                                        titlef:titlef,
+                                        avatar:avatar,
+                                        color:get_sub_by_name,
+                                        show:show})
             $(".group_setting").html(html)
             $(".group_setting").show()
              // 颜色的选择
-             
+            $(".more-detail").on("click",function(e){
+                e.stopPropagation()
+                var all_person = avatars
+                var html = templates.render("more_people",{all_person:all_person})
+                $(".list-avatar").html(html)
+            })
             //  var colorpicker = $(".group_setting .sub_setting_color").children().eq(0);
             // $(".group_setting").on("click",".sub_setting_color",function(){
                 var colorpicker = $(".group_setting").find(".colorpicker")
