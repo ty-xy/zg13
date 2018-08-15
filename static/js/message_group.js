@@ -45,15 +45,13 @@ var message_group = (function () {
         window.addEventListener('hashchange', function () {
                 changeUrl()
           })
-        
+        var hash = hashchange.parse_narrow(window.location.hash.split("/"))
+        if(hash.length===2&&hash[0].operator==="stream"&&hash[1].operator==="subject"){
+            $("#stream").val(hash[0].operand)
+            $("#subject").val(hash[1].operand)
+        }
         // console.log(url.substr(0,url.lastIndexOf("/",1)))
         function common(subscriptions,contents){
-            // if(contents===".all_group"){
-            //     subscriptions.show_all=true
-            // }else{
-            //     subscriptions.show_all=false
-            // }
-            console.log(subscriptions)
             var content=  templates.render('show_group', {subscriptions:subscriptions});
             $("#group_seeting_choose").html(content)
             $(contents).addClass("high_light").siblings().removeClass("high_light");

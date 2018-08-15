@@ -126,7 +126,10 @@ function ajaxSubscribeForCreation(stream_name, description, principals, invite_o
               $("#stream").val(stream_name)
               $("#subject").val("大厅")
             window.location.hash = narrow.by_stream_subject_uri(stream_name,"大厅")
-            $(".group_list_index").has(".backgr").removeClass("backgr") 
+            var show = $(".notice_ctn_boxs").children().find(".backgr")
+            if(show.prevObject.length>0){
+                 show.prevObject.removeClass("backgr")
+            }
             // $(window).attr("location","#narrow/stream/"+index+"-"+stream_name+"")
             var  li = "<li class='group_list_index backgr' data_steam_id="+index+" >\
             <span class='color-setting avatar_setting' style='background-color:"+sub.color+"'>"+nfirst+"</span>\
