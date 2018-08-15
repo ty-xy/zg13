@@ -96,39 +96,39 @@ var message_group = (function () {
             $(".creare-topic-body").hide()
             $("#subjects").val("")
         })
-        // var i = 0 
-        // $("#compose .icon-nexts").on("click",function(e){
-        //     var ul = $(".topic-list").children()
-        //     if(0<i<ul.length-5){
-        //         ul.eq(i).hide()
-        //         i++
-        //         if(i===ul.length-5){
-        //             $(".last-icon i").css("color","rgba(153,153,153,0.50)")
-        //             $(".last-icon i").attr("disabled",true);
-        //             // $(".first-icon i").removeAttr("disabled")
-        //             $(".first-icon i").css("color","#999")
-        //         }else{
-        //             $(".last-icon i").removeAttr("disabled")
-        //         }
+        var i = 0 
+        $("#compose .icon-nexts").on("click",function(e){
+            var ul = $(".topic-list").children()
+            if(0<i<ul.length-5){
+                ul.eq(i).hide()
+                i++
+                if(i===ul.length-5){
+                    $(".last-icon i").css("color","rgba(153,153,153,0.50)")
+                    $(".last-icon i").attr("disabled",true);
+                    // $(".first-icon i").removeAttr("disabled")
+                    $(".first-icon i").css("color","#999")
+                }else{
+                    $(".last-icon i").removeAttr("disabled")
+                }
                 
-        //     }
+            }
            
-        //     console.log(i,ul.length)
-        // })
-        // $(".icon-prevs").on("click",function(e){
-        //     var ul = $(".topic-list").children()
-        //     if(i-1>-1){
-        //      ul.eq(i-1).show()
-        //      i--
-        //      if(i===5){
-        //          $(".first-icon i").attr("disabled",true);
-        //          $(".last-icon i").removeAttr("disabled")
-        //          $(".last-icon i").css("color","#999")
-        //          $(".first-icon i").css("color","rgba(153,153,153,0.50)")
-        //         }
-        //      console.log(i,ul.length)
-        //    }
-        // })         
+            console.log(i,ul.length)
+        })
+        $(".icon-prevs").on("click",function(e){
+            var ul = $(".topic-list").children()
+            if(i-1>-1){
+             ul.eq(i-1).show()
+             i--
+             if(i===5){
+                 $(".first-icon i").attr("disabled",true);
+                 $(".last-icon i").removeAttr("disabled")
+                 $(".last-icon i").css("color","#999")
+                 $(".first-icon i").css("color","rgba(153,153,153,0.50)")
+                }
+             console.log(i,ul.length)
+           }
+        })         
       
         
         //群组消息点
@@ -270,40 +270,7 @@ var message_group = (function () {
                         $("#stream-message").show()
                         $("#stream").val(name)
                         $("#subject").val(lastData.subject)
-                        var i= 0
-                        $("#compose-container .icon-nexts").on("click",function(e){
-                            var ul = $(".topic-list").children()
-                            if(0<i<ul.length-5){
-                                ul.eq(i).hide()
-                                i++
-                                if(i===ul.length-5){
-                                    $(".last-icon i").css("color","rgba(153,153,153,0.50)")
-                                    $(".last-icon i").attr("disabled",true);
-                                    // $(".first-icon i").removeAttr("disabled")
-                                    $(".first-icon i").css("color","#999")
-                                }else{
-                                    $(".last-icon i").removeAttr("disabled")
-                                }
-                                
-                            }
-                            
-                            console.log(i,ul.length)
-                        })
-                        $(".icon-prevs").on("click",function(e){
-                            var ul = $(".topic-list").children()
-                            if(i-1>-1){
-                                ul.eq(i-1).show()
-                                i--
-                                if(i===5){
-                                    $(".first-icon i").attr("disabled",true);
-                                    $(".last-icon i").removeAttr("disabled")
-                                    $(".last-icon i").css("color","#999")
-                                    $(".first-icon i").css("color","rgba(153,153,153,0.50)")
-                                }
-                                console.log(i,ul.length)
-                            }
-                        }) 
-                     
+                        i= 0
                     }
                 })
             })

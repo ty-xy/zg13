@@ -276,7 +276,6 @@ function hashchanged(from_reload, e) {
             } else if (base === "invite") {
                 invite.initialize();
             }
-
             ignore.group = get_hash_group(base);
         } else {
             subs.change_state(get_hash_components());
