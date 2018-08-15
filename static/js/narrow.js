@@ -557,13 +557,38 @@ function pick_empty_narrow_banner() {
             $(".persistent_data").show();
             $(".persistent_data").children().remove();
             $(".persistent_data").append(JSON.parse(localStorage.getItem("p")))
-            $(".persistent_data").on("click",".only_tip",function(){
+            $(".persistent_data").on("click",".only_tip",function(e){
+                e.stopPropagation()
                 console.log("难道问题出在这儿？")
                 $("#main_div").show();
                 $(".move_ctn").children().remove();
                 $(".tab-content").css("height","calc(100% - 232px)")
                 $("#compose").show();
                 $(".log_assistant_md").remove();
+                //同步到聊天页面聊天对象
+                setTimeout(function(){
+                    $(".home-title").show();
+                },10)
+                $(".home-title button").hide();
+                $(".home-title span").html($(this).children().last().children().children().first());
+            })
+            //推送消息删除
+            $(".persistent_data").on("mouseover",".only_tip",function(){
+                $(this).children().last().children().last().show()
+                $(".notice_box_del").on("click",function(e){
+                    e.stopPropagation()
+                    e.preventDefault()
+                    var now_name = $(this).prev().prev().children().first().text()
+                    var pipei_name = $(".home-title").children().first().children().first().text()
+                    if(now_name == pipei_name){
+                        window.location.href = "#narrow/is/starred"
+                    }
+                    $(this).parent().parent().parent().remove();
+                    localStorage.setItem("p",JSON.stringify($('.persistent_data').html()))
+                })
+            })
+            $(".persistent_data").on("mouseout",".only_tip",function(){
+                $(this).children().last().children().last().hide()
             })
             return $("#empty_star_narrow_message");
         } else if (first_operand === "mentioned") {

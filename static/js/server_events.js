@@ -187,7 +187,7 @@ function get_events(options) {
                     var send_id = data.events[0].message.sender_id
                     var name = data.events[0].message.sender_full_name
                     var mes = deleteTag(data.events[0].message.content)
-                    var avatar = people.stream_url_for_eamil(email)
+                    var avatar = data.events[0].message.avatar
                     var time = data.events[0].message.timestamp
                     var short_name = data.events[0].message.sender_short_name
                     var _href = "#narrow/pm-with/"+send_id+"-"+short_name

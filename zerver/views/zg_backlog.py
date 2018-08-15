@@ -1079,6 +1079,8 @@ def users_view(request,user_profile):
     users=UserProfile.objects.all()
     user_list=list()
     for user in users:
+        if user == user_profile or user.full_name[-3:]== 'Bot':
+            continue
         user_dict=dict()
         user_dict['user_avatar'] = avatar.absolute_avatar_url(user)
         user_dict['name']=user.full_name
