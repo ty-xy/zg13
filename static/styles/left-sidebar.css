@@ -594,7 +594,7 @@ li.show-more-private-messages a {
 }
 /* zyc添加中部样式 */
 .persistent_data{
-    margin-top: -100px;
+    /* margin-top: -100px; */
     z-index: 111;
     position: relative;
     margin-left: 0;
@@ -610,7 +610,7 @@ li.show-more-private-messages a {
 .notice_ctn_box{
     margin: 0;
     position: relative;
-    padding-bottom: 100px;
+    /* padding-bottom: 100px; */
 }
 .notice_ctn{
     padding: 5px 20px;
@@ -660,6 +660,11 @@ li.show-more-private-messages a {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+    float: left;
+    width: 150px;
+}
+.notice_box_del{
+    display: none;
 }
 .address_book{
     text-align: center;
@@ -820,4 +825,9 @@ li.show-more-private-messages a {
     line-height: 38px;
     margin-left: 20px;
     text-decoration: none;
+}
+.notice_box_del{
+    font-size: 16px;
+    color: #cccccc;
+    float: right;
 }

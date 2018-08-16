@@ -127,7 +127,7 @@ function get_events_success(events) {
         }
     }
 }
-
+var arr = []
 function get_events(options) {
     options = _.extend({dont_block: false}, options);
 
@@ -157,7 +157,7 @@ function get_events(options) {
     }
 
     get_events_params.client_gravatar = true;
-
+    
     get_events_timeout = undefined;
     get_events_xhr = channel.get({
         url:      '/json/events',
@@ -167,7 +167,7 @@ function get_events(options) {
         success: function (data) {
             var type;
             function tf(timestamp) {
-                var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                var date = new Date(timestamp * 1000);
                     Y = date.getFullYear() + '-';
                     M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
                     D = date.getDate() + ' ';
@@ -176,40 +176,79 @@ function get_events(options) {
                     s = date.getSeconds();
                 return h+m;
             }
-            for(var i = 0;i<data.events.length;i++){
-                type = data.events[0].type
-                if(type == "message"){
-                    var  deleteTag = function (tagStr) {
-                        var  regx = /<[^>]*>|<\/[^>]*>/gm;
-                        var  result = tagStr.replace(regx, '');
-                        return result;
-                        };
-                    var send_id = data.events[0].message.sender_id
-                    var name = data.events[0].message.sender_full_name
-                    var mes = deleteTag(data.events[0].message.content)
-                    var avatar = people.stream_url_for_eamil(email)
-                    var time = data.events[0].message.timestamp
-                    var short_name = data.events[0].message.sender_short_name
-                    var _href = "#narrow/pm-with/"+send_id+"-"+short_name
-                    var email = data.events[0].message.sender_email
-                    if(send_id==$(".only_tip").attr("send_id")){
-                            $(".notice_bottom[name='"+$(".only_tip").attr("send_id")+"']").html(mes)
-                            $(".notice_top_time[name='"+$(".only_tip").attr("send_id")+"']").html(tf(time))
-                            localStorage.setItem("p",JSON.stringify($('.persistent_data').html()))
-                    }else{
-                        var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:send_id,time:time,short_name:short_name,_href:_href})
-                        $(".persistent_data").prepend(notice_box)
-                        localStorage.setItem("p",JSON.stringify($('.persistent_data').html()))
+            $.ajax({
+                url:"json/zg/user",
+                type:"GET",
+                success:function(res){
+                    var user_list = res.user_list
+                    var user_me = res.user_me
+                    var user_id = res.user_id
+                    get_my_avater = function(id,user_list) {
+                        for(var key in user_list){
+                            if(id == user_list[key].id){
+                                return user_list[key].user_avatar
+                            }
+                        }
+                    } 
+                    for(var i = 0;i<data.events.length;i++){
+                        type = data.events[0].type
+                        if(type == "message"){
+                            var  deleteTag = function (tagStr) {
+                                var  regx = /<[^>]*>|<\/[^>]*>/gm;
+                                var  result = tagStr.replace(regx, '');
+                                return result;
+                                };
+                            var send_id = data.events[0].message.sender_id
+                            var name = data.events[0].message.sender_full_name
+                            var mes = deleteTag(data.events[0].message.content)
+                            var avatar = get_my_avater(send_id,user_list)
+                            var time = data.events[0].message.timestamp
+                            var short_name = data.events[0].message.sender_short_name
+                            var _href = "#narrow/pm-with/"+send_id+"-"+short_name
+                            var email = data.events[0].message.sender_email
+                            
+                            arr.push({
+                                id:send_id,
+                                name:'123',
+                                avatar:'11',
+                                time:'123',
+                                contont:"222"
+                                })
+                            console.log(arr)
+                            if(send_id==$(".only_tip").attr("send_id")){
+                                if(user_me != name){
+                                    console.log($(".notice_bottom[name='"+$(".only_tip").attr("send_id")+"']"))
+                                    console.log($(".only_tip").attr("send_id"))
+                                    $(".notice_bottom[name='"+$(".only_tip").attr("send_id")+"']").html(mes)
+                                    $(".notice_top_time[name='"+$(".only_tip").attr("send_id")+"']").html(tf(time))
+                                    localStorage.removeItem("p")
+                                    localStorage.setItem("p",JSON.stringify($('.persistent_data').html()))
+                                }
+                            }else{
+                                if(user_me != name){
+                                var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:send_id,time:time,short_name:short_name,_href:_href})
+                                $(".persistent_data").prepend(notice_box)
+                                localStorage.removeItem("p")
+                                localStorage.setItem("p",JSON.stringify($('.persistent_data').html()))
+                                }
+                            }
+                            if(data.events[0].message.sender_id == user_id){
+                                console.log($(".notice_bottom[name='"+$(".only_tip").attr("send_id")+"']"))
+                                console.log($(".only_tip").attr("send_id"))
+                                $(".notice_bottom[name='"+$(".only_tip").attr("send_id")+"']").html(deleteTag(data.events[0].message.content))
+                                $(".notice_top_time[name='"+$(".only_tip").attr("send_id")+"']").html(tf(time))
+                                localStorage.removeItem("p")
+                                localStorage.setItem("p",JSON.stringify($('.persistent_data').html()))
+                            }
+                        }
                     }
                 }
-            }
-            
+            })
             exports.suspect_offline = false;
             try {
                 get_events_xhr = undefined;
                 get_events_failures = 0;
                 ui_report.hide_error($("#connection-error"));
-                // console.log(data.events)
                 get_events_success(data.events);
             } catch (ex) {
                 blueslip.error('Failed to handle get_events success\n' +

@@ -1079,6 +1079,8 @@ def users_view(request,user_profile):
     users=UserProfile.objects.all()
     user_list=list()
     for user in users:
+        if user == user_profile or user.full_name[-3:]== 'Bot':
+            continue
         user_dict=dict()
         user_dict['user_avatar'] = avatar.absolute_avatar_url(user)
         user_dict['name']=user.full_name
@@ -1086,6 +1088,6 @@ def users_view(request,user_profile):
         user_dict['email'] = user.email
         user_dict['short_name'] = user.short_name
         user_list.append(user_dict)
-    return JsonResponse({'errno':'0','message':'成功','user_list':user_list,'user_me':user_profile.full_name})
+    return JsonResponse({'errno':'0','message':'成功','user_list':user_list,'user_me':user_profile.full_name,'user_id':user_profile.id})
 
         

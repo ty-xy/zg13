@@ -396,8 +396,9 @@ exports.finish = function () {
     notifications.clear_compose_notifications();
     
     function scrollToEnd(){//滚动到底部
+        var x = $("#zfilt").height()
         i += 800
-        var h = 8000 + i;
+        var h = x+ i;
         $(".tab-content").scrollTop(h);
     }
     scrollToEnd()
