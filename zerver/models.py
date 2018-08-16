@@ -242,11 +242,10 @@ class Realm(models.Model):
                                    max_length=1)  # type: Text
     icon_version = models.PositiveSmallIntegerField(default=1)  # type: int
 
-#    DEFAULT_NOTIFICATION_STREAM_NAME = u'announce'
-#    INITIAL_PRIVATE_STREAM_NAME = u'core team'
+    #    DEFAULT_NOTIFICATION_STREAM_NAME = u'announce'
+    #    INITIAL_PRIVATE_STREAM_NAME = u'core team'
     DEFAULT_NOTIFICATION_STREAM_NAME = u'通知'
     INITIAL_PRIVATE_STREAM_NAME = u'核心团队'
-
 
     BOT_CREATION_POLICY_TYPES = [
         BOT_CREATION_EVERYONE,
@@ -2258,3 +2257,72 @@ class ZgReplyComment(models.Model):
     from_uid = models.PositiveIntegerField()
     # 回复时间
     reply_time = models.PositiveIntegerField()
+
+
+# ================================
+# 请假出差表
+class ZgLeave(models.Model):
+    # 用户
+    user = models.ForeignKey(UserProfile)
+    # 审批类型
+    # 出差，evection 请假leave
+    approval_type = models.CharField(max_length=20)
+    # 申请人，，请假人
+    content = models.CharField(max_length=20, null=True)
+    # 开始时间
+    start_time = models.DateField()
+    # 结束时间
+    end_time = models.DateField()
+    # 天数
+    count = models.CharField(max_length=10)
+    # 事由
+    cause = models.CharField(max_length=200)
+    # 图片
+    img_url = models.CharField(max_length=200, null=True)
+    # 状态
+    status = models.CharField(max_length=15, default='发起申请')
+    send_time = models.DateTimeField()
+
+
+# 报销审批
+class ZgReimburse(models.Model):
+    # 用户
+    user = models.ForeignKey(UserProfile)
+    # 金额
+    amount = models.IntegerField()
+    # 类别
+    category = models.CharField(max_length=40)
+    # 明细
+    detail = models.CharField(max_length=240, null=True)
+    # 图片
+    image_url = models.CharField(max_length=200, null=True)
+    # 状态
+    status = models.CharField(max_length=25, default='发起申请')
+
+    send_time = models.DateTimeField()
+
+
+# 抄送人审批人
+class ZgReview(models.Model):
+    # 发送用户
+    user = models.ForeignKey(UserProfile)
+    # 用户
+    send_user_id = models.CharField(max_length=10)
+    # 审批类型：请假(leave)，外出(evection)，报销(reimburse)
+    types = models.CharField(max_length=30)
+
+    table_id = models.PositiveIntegerField()
+    # 状态
+    status = models.CharField(max_length=15, default='审批中')
+    # 职责：（审批：approval  抄送：inform）
+    duties = models.CharField(max_length=30, default='approval')
+    send_time = models.DateTimeField()
+
+
+# 反馈
+class Feedback(models.Model):
+    user = models.ForeignKey(UserProfile)
+    types = models.CharField(max_length=20)
+    table_id = models.PositiveIntegerField()
+    content = models.CharField(max_length=120)
+    feedback_time = models.DateTimeField()

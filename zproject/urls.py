@@ -480,6 +480,47 @@ v1_api_and_json_patterns = [
     url(r'^zg/attendance/sign_in/outside/$', rest_dispatch,
         {'POST': 'zerver.views.zg_attendance.outside_sign_in'}),
 
+    # -----------------------------------------
+
+    # 添加出差请假审核
+    url(r'^zg/approval/leave/$', rest_dispatch,
+        {'POST': 'zerver.views.zg_zpproval.add_leave'}),
+
+    # 添加报销申请
+    url(r'^zg/approval/reimburse/$', rest_dispatch,
+        {'POST': 'zerver.views.zg_zpproval.reimburse_add'}),
+
+    # 审批详情
+    url(r'^zg/approval$', rest_dispatch,
+        {'GET': 'zerver.views.zg_zpproval.approval_details'}),
+
+    # 待审批列表
+    url(r'^zg/approval/list/expectation$', rest_dispatch,
+        {'GET': 'zerver.views.zg_zpproval.expectation_approval_list'}),
+
+    # 我发起的
+    url(r'^zg/approval/initiate/me$', rest_dispatch,
+        {'GET': 'zerver.views.zg_zpproval.approval_initiate_me'}),
+
+    # 抄送我的
+    url(r'^zg/approval/inform$', rest_dispatch,
+        {'GET': 'zerver.views.zg_zpproval.inform_approval'}),
+
+    # 已完成审批列表
+    url(r'^zg/approval/list/completed$', rest_dispatch,
+        {'GET': 'zerver.views.zg_zpproval.completed_approval_list'}),
+
+    # 状态更新
+    url(r'^zg/approval/table/state_update/', rest_dispatch,
+        {'PUT': 'zerver.views.zg_zpproval.state_update'}),
+
+    # 反馈
+    url(r'^zg/approval/table/feedback/', rest_dispatch,
+        {'POST': 'zerver.views.zg_zpproval.table_feedback'}),
+
+    # 测试发送消息
+    url(r'^zg/message/text', rest_dispatch,
+        {'GET': 'zerver.views.zg_zpproval.view_leave'}),
 
 ]
 
