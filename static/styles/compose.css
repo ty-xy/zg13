@@ -290,7 +290,7 @@ div[id^="message-edit-send-status"],
 #out-of-view-notification {
     position: relative;
     margin-bottom: 6px;
-
+    display: none;
     background: hsla(152, 51%, 63%, 0.25);
     border: 1px solid hsla(0, 0%, 0%, 0.1);
     border-radius: 4px;

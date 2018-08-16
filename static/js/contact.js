@@ -52,8 +52,36 @@ var contact = (function(){
                             $(".persistent_data").show()
                             $(".tab-content").css("height","calc(100% - 232px)")
                             //上方显示聊天对面信息
-                            
-                            
+                            //获取更新消息列表
+                            $(".persistent_data").show();
+                            $(".persistent_data").children().remove();
+                            $(".persistent_data").append(JSON.parse(localStorage.getItem("p")))
+                            var _time = new Date()
+                            var time = _time.getHours() +':'+_time.getMinutes()
+                            $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id}))
+                            localStorage.removeItem("p")
+                            localStorage.setItem("p",JSON.stringify($('.persistent_data').html()))
+                            //推送消息删除
+                            $(".persistent_data").on("mouseover",".only_tip",function(){
+                                $(this).children().last().children().last().show()
+                                $(".notice_box_del").unbind("click").bind("click",function(e){
+                                    e.stopPropagation()
+                                    e.preventDefault()
+                                    var now_name = $(this).prev().prev().children().first().text()
+                                    var pipei_name = $(".home-title").children().first().text()
+                                    if(now_name == pipei_name){
+                                        window.location.href = "#narrow/is/starred"
+                                    }
+                                    console.log(now_name)
+                                    console.log(pipei_name)
+                                    $(this).parent().parent().parent().remove();
+                                    localStorage.removeItem("p")
+                                    localStorage.setItem("p",JSON.stringify($('.persistent_data').html()))
+                                })
+                            })
+                            $(".persistent_data").on("mouseout",".only_tip",function(){
+                                $(this).children().last().children().last().hide()
+                            })
                             setTimeout(function(){
                                 $(".home-title").show();
                             },10)
@@ -84,6 +112,7 @@ var contact = (function(){
             var log_assistant_prompt = templates.render("log_assistant_prompt");
             $(".notice_ctn_box").append(log_assistant_prompt)
             $(".tab-content").css("height","calc(100% - 232px)")
+
              //日志助手显示
              $(".log_assistant_btn").on("click",function(e){
                 //  console.log($("#zfilt"))

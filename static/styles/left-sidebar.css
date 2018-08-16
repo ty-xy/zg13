@@ -665,6 +665,11 @@ li.show-more-private-messages a {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+    float: left;
+    width: 150px;
+}
+.notice_box_del{
+    display: none;
 }
 .address_book{
     text-align: center;
@@ -825,4 +830,9 @@ li.show-more-private-messages a {
     line-height: 38px;
     margin-left: 20px;
     text-decoration: none;
+}
+.notice_box_del{
+    font-size: 16px;
+    color: #cccccc;
+    float: right;
 }
