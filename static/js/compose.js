@@ -225,6 +225,9 @@ exports.send_message = function send_message(request) {
         if(request.subject==="大厅"){
             request.type="stream"
         }
+        if($("#subject").val()!==""){
+            request.type="stream"
+        }
     }
     //  console.log(request)
     if (request.type === "private") {
@@ -398,10 +401,12 @@ exports.finish = function () {
     function scrollToEnd(){//滚动到底部
         var x = $("#zfilt").height()
         i += 800
-        var h = x+ i;
-        $(".tab-content").scrollTop(h);
+        var h = 8000 + i;
+        // $(".tab-content").scrollTop(h);
+        var scrollHeight = $("#zfilt").prop("scrollHeight")
+        $("#zfilt").scrollTop(scrollHeight+h)
     }
-    scrollToEnd()
+    // console.log("gagagag")
     if (! compose.validate()) {
         return false;
     }
@@ -415,6 +420,7 @@ exports.finish = function () {
     // TODO: Do we want to fire the event even if the send failed due
     // to a server-side error?
     $(document).trigger($.Event('compose_finished.zulip'));
+    scrollToEnd()
     return true;
 };
 

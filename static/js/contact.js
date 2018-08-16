@@ -32,6 +32,7 @@ var contact = (function(){
                     $(".notice_ctn_box").on("click",".user_list_box",function(){
                         $("#zfilt").children().remove();
                         $(".move_ctn").children().remove();
+                        $(".move_ctn").show()
                         $("#main_div").hide();
                         $("#compose").hide();
                         var user_name = $(this).children().last().text();
@@ -47,6 +48,8 @@ var contact = (function(){
                             $(".move_ctn").children().remove();
                             $("#main_div").show();
                             $("#compose").show();
+                            $(".group_icon").hide();
+                            $(".persistent_data").show()
                             $(".tab-content").css("height","calc(100% - 232px)")
                             //上方显示聊天对面信息
                             //获取更新消息列表

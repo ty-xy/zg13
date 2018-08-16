@@ -426,7 +426,7 @@ exports.update_stream_sidebar_for_narrow = function (filter) {
     if (stream_id !== topic_list.active_stream_id()) {
         clear_topics();
     }
-    console.log(stream_li,"stream_li")
+    // console.log(stream_li,"stream_li")
     topic_list.rebuild(stream_li, stream_id);
 
     return stream_li;

@@ -30,7 +30,7 @@ function set_hash(hash) {
 }
 
 exports.changehash = function (newhash) {
-    console.log(newhash)
+    // console.log(newhash)
     if (changing_hash) {
         return;
     }
@@ -45,7 +45,7 @@ exports.changehash = function (newhash) {
 // of the narrow URL
 exports.operators_to_hash = function (operators) {
     var hash = '#';
-
+    // console.log(operators)
     if (operators !== undefined) {
         hash = '#narrow';
         _.each(operators, function (elem) {
@@ -58,7 +58,7 @@ exports.operators_to_hash = function (operators) {
                   + '/' + hash_util.encode_operand(operator, operand);
         });
     }
-
+  
     return hash;
 };
 
@@ -99,6 +99,7 @@ exports.parse_narrow = function (hash) {
         })
     }
     var i;
+    // console.log(hash)
     var operators = [];
     for (i=1; i<hash.length; i+=2) {
         // We don't construct URLs with an odd number of components,
@@ -119,7 +120,7 @@ exports.parse_narrow = function (hash) {
             return;
         }
     }
-    console.log(operators)
+    // console.log(operators)
     return operators;
 };
 
@@ -301,7 +302,6 @@ function hashchanged(from_reload, e) {
             } else if (base === "invite") {
                 invite.initialize();
             }
-
             ignore.group = get_hash_group(base);
         } else {
             subs.change_state(get_hash_components());

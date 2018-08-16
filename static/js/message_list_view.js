@@ -818,6 +818,7 @@ MessageListView.prototype = {
 
     set_message_offset: function (offset) {
         var msg = this.selected_row();
+        $("#zfilt").scrollTop(message_viewport.scrollTop() + msg.offset().top - offset)
         message_viewport.scrollTop(message_viewport.scrollTop() + msg.offset().top - offset);
     },
 
