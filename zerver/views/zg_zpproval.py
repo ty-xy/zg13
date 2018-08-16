@@ -301,7 +301,6 @@ def tools_approcal_details(types, ids, user_profile, table_obj):
 
     if review and approver_statu == True:
         for rev in review:
-
             if rev.status == '审批通过':
                 rev_dict = {}
                 user_obj = user_profile.get(id=rev.send_user_id)
@@ -341,8 +340,8 @@ def tools_approcal_details(types, ids, user_profile, table_obj):
     feedback_list = []
 
     if feedback_objs:
-        feedback_dict = {}
         for feedback_obj in feedback_objs:
+            feedback_dict = {}
             feedback_dict['user_avatar'] = avatar.absolute_avatar_url(feedback_obj.user)
             feedback_dict['user_name'] = feedback_obj.user.full_name
             feedback_dict['times'] = feedback_obj.feedback_time
