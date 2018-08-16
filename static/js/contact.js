@@ -48,6 +48,8 @@ var contact = (function(){
                             $(".move_ctn").children().remove();
                             $("#main_div").show();
                             $("#compose").show();
+                            $(".group_icon").hide();
+                            $(".persistent_data").show()
                             $(".tab-content").css("height","calc(100% - 232px)")
                             //上方显示聊天对面信息
                             

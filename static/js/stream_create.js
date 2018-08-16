@@ -117,7 +117,7 @@ function ajaxSubscribeForCreation(stream_name, description, principals, invite_o
             var index = stream_data.get_stream_id (stream_name)
             var sub = stream_data.get_sub_by_id(index)
             var nfirst= stream_name.slice(0,1)
-            $(".notice_ctn_boxs").show()
+            $(".persistent_data").show()
             $(".notice_ctn_box").hide()
             $(".group_icon").hide()
             $("#zfilt").show()
@@ -126,7 +126,7 @@ function ajaxSubscribeForCreation(stream_name, description, principals, invite_o
               $("#stream").val(stream_name)
               $("#subject").val("大厅")
             window.location.hash = narrow.by_stream_subject_uri(stream_name,"大厅")
-            var show = $(".notice_ctn_boxs").children().find(".backgr")
+            var show = $(".persistent_data").children().find(".backgr")
             if(show.prevObject.length>0){
                  show.prevObject.removeClass("backgr")
             }
@@ -141,7 +141,7 @@ function ajaxSubscribeForCreation(stream_name, description, principals, invite_o
               <p>请假申请发给你啦，通过一下…</p>\
             </div>\
           </li>"
-          $(".notice_ctn_boxs").append(li)
+          $(".persistent_data").append(li)
 
             // The rest of the work is done via the subscribe event we will get
         },

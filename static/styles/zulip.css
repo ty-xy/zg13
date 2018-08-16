@@ -296,7 +296,7 @@ p.n-margin {
     float: left;
     margin-left: 100px;
     overflow-y: auto;
-    overflow-x:auto;
+    /* overflow-x:auto; */
     position: absolute;
     z-index: 11;
 }
@@ -3381,7 +3381,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     /* overflow: hidden; */
     /* height: 774px; */
     /* height: calc(100% - 232px); */
-    overflow-y: auto;
+    /* overflow-y: auto; */
 }
 .new_task>input:focus,.new_plan>input:focus{
     box-shadow: none !important;

@@ -130,7 +130,7 @@ var message_group = (function () {
            }
         })         
         var Heights = $(window).height()
-        $("#zfilt").height(Heights-390)
+        $("#zfilt").height(Heights-350)
         //群组消息点
         $("#compose-container").on("click",".topic-list-item",function(e){
             
@@ -234,7 +234,7 @@ var message_group = (function () {
                         var time = timerender.tf(lastData.timestamp)
                         // console.log($(".group_list_index").find(".backgr"))
                         // $(".group_list_index").find(".backgr").removeClass("backgr")
-                        var show = $(".notice_ctn_boxs").children().find(".backgr")
+                        var show = $(".persistent_data").children().find(".backgr")
                         if(show.prevObject.length>0){
                              show.prevObject.removeClass("backgr")
                         }

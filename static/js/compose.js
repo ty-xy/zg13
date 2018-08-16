@@ -401,13 +401,11 @@ exports.finish = function () {
     function scrollToEnd(){//滚动到底部
         i += 800
         var h = 8000 + i;
-        $(".tab-content").scrollTop(h);
+        // $(".tab-content").scrollTop(h);
         var scrollHeight = $("#zfilt").prop("scrollHeight")
-        $("#zfilt").scrollTop(scrollHeight+i)
-      
+        $("#zfilt").scrollTop(scrollHeight+h)
     }
     // console.log("gagagag")
- 
     if (! compose.validate()) {
         return false;
     }

@@ -897,3 +897,8 @@ a.message-control-button {
     .backgr{
        background: #F1F6FD;
     }
+    #zfilt {
+        -ms-overflow-style:none;
+        overflow:-moz-scrollbars-none;
+        }
+    #zfilt::-webkit-scrollbar{width:0px}

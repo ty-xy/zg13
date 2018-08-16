@@ -2924,7 +2924,7 @@ button.close {
 }
 
 .tab-content {
-  overflow: auto;
+  /* overflow: auto; */
 }
 
 .tabs-below > .nav-tabs,
