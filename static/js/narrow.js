@@ -569,14 +569,13 @@ function pick_empty_narrow_banner() {
                 setTimeout(function(){
                     $(".home-title").show();
                 },10)
-                console.log($(this).children().last().children().children().first())
                 $(".home-title button").hide();
-                $(".home-title span").html($(this).children().last().children().children().first());
+                $(".home-title span").html($(this).children().last().children().children().first().text());
             })
             //推送消息删除
             $(".persistent_data").on("mouseover",".only_tip",function(){
                 $(this).children().last().children().last().show()
-                $(".notice_box_del").on("click",function(e){
+                $(".notice_box_del").unbind("click").bind("click",function(e){
                     e.stopPropagation()
                     e.preventDefault()
                     var now_name = $(this).prev().prev().children().first().text()
@@ -584,7 +583,10 @@ function pick_empty_narrow_banner() {
                     if(now_name == pipei_name){
                         window.location.href = "#narrow/is/starred"
                     }
+                    console.log(now_name)
+                    console.log(pipei_name)
                     $(this).parent().parent().parent().remove();
+                    localStorage.removeItem("p")
                     localStorage.setItem("p",JSON.stringify($('.persistent_data').html()))
                 })
             })

@@ -55,13 +55,13 @@ var contact = (function(){
                             $(".persistent_data").append(JSON.parse(localStorage.getItem("p")))
                             var _time = new Date()
                             var time = _time.getHours() +':'+_time.getMinutes()
-                            console.log(time)
-                            $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time}))
+                            $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id}))
+                            localStorage.removeItem("p")
                             localStorage.setItem("p",JSON.stringify($('.persistent_data').html()))
                             //推送消息删除
                             $(".persistent_data").on("mouseover",".only_tip",function(){
                                 $(this).children().last().children().last().show()
-                                $(".notice_box_del").on("click",function(e){
+                                $(".notice_box_del").unbind("click").bind("click",function(e){
                                     e.stopPropagation()
                                     e.preventDefault()
                                     var now_name = $(this).prev().prev().children().first().text()
@@ -69,7 +69,10 @@ var contact = (function(){
                                     if(now_name == pipei_name){
                                         window.location.href = "#narrow/is/starred"
                                     }
+                                    console.log(now_name)
+                                    console.log(pipei_name)
                                     $(this).parent().parent().parent().remove();
+                                    localStorage.removeItem("p")
                                     localStorage.setItem("p",JSON.stringify($('.persistent_data').html()))
                                 })
                             })
