@@ -32,6 +32,7 @@ var contact = (function(){
                     $(".notice_ctn_box").on("click",".user_list_box",function(){
                         $("#zfilt").children().remove();
                         $(".move_ctn").children().remove();
+                        $(".move_ctn").show()
                         $("#main_div").hide();
                         $("#compose").hide();
                         var user_name = $(this).children().last().text();

@@ -402,8 +402,12 @@ exports.finish = function () {
         i += 800
         var h = 8000 + i;
         $(".tab-content").scrollTop(h);
+        var scrollHeight = $("#zfilt").prop("scrollHeight")
+        $("#zfilt").scrollTop(scrollHeight+i)
+      
     }
-    scrollToEnd()
+    // console.log("gagagag")
+ 
     if (! compose.validate()) {
         return false;
     }
@@ -417,6 +421,7 @@ exports.finish = function () {
     // TODO: Do we want to fire the event even if the send failed due
     // to a server-side error?
     $(document).trigger($.Event('compose_finished.zulip'));
+    scrollToEnd()
     return true;
 };
 

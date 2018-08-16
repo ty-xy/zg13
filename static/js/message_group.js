@@ -129,8 +129,8 @@ var message_group = (function () {
              console.log(i,ul.length)
            }
         })         
-      
-        
+        var Heights = $(window).height()
+        $("#zfilt").height(Heights-390)
         //群组消息点
         $("#compose-container").on("click",".topic-list-item",function(e){
             
@@ -248,14 +248,16 @@ var message_group = (function () {
                                "+lastData.content+"\
                              </div>\
                            </li>"
-                        $(".notice_ctn_boxs").show()
+                        // $(".notice_ctn_boxs").show()
+                        $(".persistent_data").show()
                         $(".notice_ctn_box").hide()
                         $(".group_icon").hide()
                         // $(window).attr("location","#narrow/is/private")
                         $(".home-title").show()
                         if(iarr.indexOf(index)==-1){
                             iarr.push(index)
-                        $(".notice_ctn_boxs").append(li)
+                        $(".persistent_data").append(li)
+                        // $(".notice_ctn_boxs").append(li)
                         }
 
                         $(".home-title span").html(name)
