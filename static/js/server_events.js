@@ -239,6 +239,12 @@ function get_events(options) {
                                         localStorage.setItem("arr",JSON.stringify(arr))
                                     }
                                 }
+                                if(data_message.sender_id == user_id){
+                                    $(".notice_bottom[name='"+$(".only_tip").attr("send_id")+"']").html(server_events.deleteTag(data_message.content))
+                                    $(".notice_top_time[name='"+$(".only_tip").attr("send_id")+"']").html(server_events.tf(time))
+                                    arr[j].content = server_events.deleteTag(data_message.content)
+                                    localStorage.setItem("arr",JSON.stringify(arr))
+                                }
                             }
                             if(!flag){
                                 if(user_me!=name){
@@ -249,33 +255,7 @@ function get_events(options) {
                                 }
                             }  
                         }
-                        
-                        
-                        // if(send_id==$(".only_tip").attr("send_id")){
-                        //     if(user_me != name){
-                        //         console.log($(".notice_bottom[name='"+$(".only_tip").attr("send_id")+"']"))
-                        //         console.log($(".only_tip").attr("send_id"))
-                        //         $(".notice_bottom[name='"+$(".only_tip").attr("send_id")+"']").html(mes)
-                        //         $(".notice_top_time[name='"+$(".only_tip").attr("send_id")+"']").html(tf(time))
-                        //         localStorage.removeItem("p")
-                        //         localStorage.setItem("p",JSON.stringify($('.persistent_data').html()))
-                        //     }
-                        // }else{
-                        //     if(user_me != name){
-                        //     var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:send_id,time:time,short_name:short_name,_href:_href})
-                        //     $(".persistent_data").prepend(notice_box)
-                        //     localStorage.removeItem("p")
-                        //     localStorage.setItem("p",JSON.stringify($('.persistent_data').html()))
-                        //     }
-                        // }
-                        // if(data.events[0].message.sender_id == user_id){
-                        //     console.log($(".notice_bottom[name='"+$(".only_tip").attr("send_id")+"']"))
-                        //     console.log($(".only_tip").attr("send_id"))
-                        //     $(".notice_bottom[name='"+$(".only_tip").attr("send_id")+"']").html(deleteTag(data.events[0].message.content))
-                        //     $(".notice_top_time[name='"+$(".only_tip").attr("send_id")+"']").html(tf(time))
-                        //     localStorage.removeItem("p")
-                        //     localStorage.setItem("p",JSON.stringify($('.persistent_data').html()))
-                        }
+                    }
                 }
             })
             exports.suspect_offline = false;

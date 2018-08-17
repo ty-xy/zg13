@@ -91,9 +91,15 @@ var contact = (function(){
                                     console.log(now_name)
                                     console.log(pipei_name)
                                     $(this).parent().parent().parent().remove();
-                                    console.log($(this))
-                                    localStorage.removeItem("p")
-                                    localStorage.setItem("p",JSON.stringify($('.persistent_data').html()))
+                                    var send_id = $(this).parent().parent().attr("send_id")
+                                    arr = JSON.parse(localStorage.getItem("arr"))
+                                    for(var i=0;i<arr.length;i++){
+                                        if(arr[i].send_id == send_id){
+                                            arr.remove(i)
+                                        }
+                                    }
+                                    localStorage.setItem("arr",JSON.stringify(arr))
+                                    
                                 })
                             })
                             $(".persistent_data").on("mouseout",".only_tip",function(){
