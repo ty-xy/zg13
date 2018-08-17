@@ -164,6 +164,7 @@ exports.get_server_history = function (stream_id, on_success) {
         data: {},
         success:  function (data) {
             var server_history = data.topics;
+            // console.log(data,"data")
             exports.add_history(stream_id, server_history);
             on_success();
         },

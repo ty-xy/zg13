@@ -49,8 +49,8 @@ $(function () {
                                        width: (250 - sbWidth) + "px"});
 
     $("#compose").css("left", "-" + sbWidth + "px");
-    $(".compose-content").css({left: sbWidth + "px",
-                               "margin-right": (250 + sbWidth) + "px"});
+    $(".compose-content").css({left: sbWidth + "px"});
+    // "margin-right": (250 + sbWidth) + "px"}
     $("#compose-container").css("max-width", (1400 + sbWidth) + "px");
 
     $("head").append("<style> @media (max-width: 975px) { .compose-content, .header-main .column-middle { margin-right: " + (7 + sbWidth) + "px !important; } } " +
