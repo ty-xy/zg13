@@ -277,7 +277,7 @@ exports.stream_topic = function () {
     if (msg) {
         return {
              stream: msg.stream || undefined,
-            topic: msg.subject || undefined,
+             topic: msg.subject || undefined,
         };
     }
     // We may be in an empty narrow.  In that case we use

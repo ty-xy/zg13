@@ -192,6 +192,7 @@ function get_events(options) {
                     } 
                     for(var i = 0;i<data.events.length;i++){
                         type = data.events[0].type
+                        var message = data.events[0].message
                         if(type == "message"){
                             var  deleteTag = function (tagStr) {
                                 var  regx = /<[^>]*>|<\/[^>]*>/gm;
@@ -206,14 +207,18 @@ function get_events(options) {
                             var short_name = data.events[0].message.sender_short_name
                             var _href = "#narrow/pm-with/"+send_id+"-"+short_name
                             var email = data.events[0].message.sender_email
-                            
-                            arr.push({
-                                id:send_id,
-                                name:'123',
-                                avatar:'11',
-                                time:'123',
-                                contont:"222"
+                            if(message.type==="stream"){
+                               var color=stream_data.get_color(message.display_recipient)
+                                arr.push({
+                                    id:"",
+                                    stream_id:message.stream_id,
+                                    name:message.display_recipient,
+                                    avatar:color,
+                                    nfirst:message.display_recipient.slice(0,1),
+                                    time:tf(time),
+                                    contont:message.content
                                 })
+                            }
                             console.log(arr)
                             if(send_id==$(".only_tip").attr("send_id")){
                                 if(user_me != name){

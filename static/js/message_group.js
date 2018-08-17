@@ -54,6 +54,7 @@ var message_group = (function () {
         function common(subscriptions,contents){
             var content=  templates.render('show_group', {subscriptions:subscriptions});
             $("#group_seeting_choose").html(content)
+            $("#group_seeting_choose .streams-list").height($(window).height()-160)
             $(contents).addClass("high_light").siblings().removeClass("high_light");
         }
         function get_email_of_subscribers(subscribers){
@@ -292,6 +293,7 @@ var message_group = (function () {
                     idempotent: true,
                     success:function(data){
                         var subject =  data.messages.pop().subject
+                        // console.log(data.messages.first())
                         $("#stream").val(sub.name)
                         $("#subject").val(subject)
                          window.location.href=narrow.by_stream_subject_uri(sub.name,subject)
@@ -332,7 +334,7 @@ var message_group = (function () {
                     $(this).hide()
               })
              
-            
+              //已订阅
               $("#group_seeting_choose").on("click",".all_group",function(){
                 common(subscriptions,".all_group")
                 $(".swtich-button").show()
@@ -341,6 +343,8 @@ var message_group = (function () {
               $("#group_seeting_choose").on("click",".already_sub",function(){
                 var streams = stream_data.subscribed_subs();
                 common(streams,".already_sub")
+                
+               
                 $(".swtich-button").hide()
             })
         })
@@ -374,7 +378,27 @@ var message_group = (function () {
                                         color:get_sub_by_name,
                                         show:show})
             $(".group_setting").html(html)
+            
             $(".group_setting").show()
+            var url = '/json/users/me/' + get_sub_by_name.stream_id + '/topics';
+            var peopleId = people.my_current_user_id()
+            channel.get({
+                url: url,
+                data: {},
+                success: function (data) {
+                    var server_history = data.topics;
+                    var names = [];
+                    _.each(server_history, function (obj) {
+                        var message = home_msg_list.get(obj.min_id)
+                        if(message){
+                            userid = message.sender_id
+                            if(userid===peopleId){
+                                names.push(obj.name)
+                            }
+                        }
+                    });
+                },
+            })
              // 颜色的选择
             $(".more-detail").on("click",function(e){
                 e.stopPropagation()

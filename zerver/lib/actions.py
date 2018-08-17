@@ -208,7 +208,8 @@ def get_topic_history_for_stream(user_profile: UserProfile,
         query = '''
         SELECT
             "zerver_message"."subject" as topic,
-            max("zerver_message".id) as max_message_id
+            max("zerver_message".id) as max_message_id,
+            min("zerver_message".id) as min_message_id
         FROM "zerver_message"
         WHERE (
             "zerver_message"."recipient_id" = %s
@@ -223,7 +224,8 @@ def get_topic_history_for_stream(user_profile: UserProfile,
         query = '''
         SELECT
             "zerver_message"."subject" as topic,
-            max("zerver_message".id) as max_message_id
+            max("zerver_message".id) as max_message_id,
+            min("zerver_message".id) as min_message_id
         FROM "zerver_message"
         INNER JOIN "zerver_usermessage" ON (
             "zerver_usermessage"."message_id" = "zerver_message"."id"
@@ -243,7 +245,7 @@ def get_topic_history_for_stream(user_profile: UserProfile,
 
     canonical_topic_names = set()  # type: Set[str]
     history = []
-    for (topic_name, max_message_id) in rows:
+    for (topic_name, max_message_id,min_message_id) in rows:
         canonical_name = topic_name.lower()
         if canonical_name in canonical_topic_names:
             continue
@@ -251,8 +253,10 @@ def get_topic_history_for_stream(user_profile: UserProfile,
         canonical_topic_names.add(canonical_name)
         history.append(dict(
             name=topic_name,
-            max_id=max_message_id))
-
+            max_id=max_message_id,
+            min_id=min_message_id
+            ))
+        # print(history,"min_message_id")
     return history
 
 def send_signup_message(sender: UserProfile, admin_realm_signup_notifications_stream: Text,
