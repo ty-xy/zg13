@@ -1,7 +1,6 @@
-{{!-- <div class="notice_box">
-    <ul class="notice_ctn_box"> --}}
-        {{!-- {{#each message}} --}}
-        <a href="{{_href}}">
+        {{#if arr}}
+            {{#each arr}}
+            <a href="{{_href}}">
             <li class="notice_ctn only_tip" send_id="{{send_id}}" short_name="{{short_name}}">
                 <div class="notice_left fix">
                     <img src="{{avatar}}" alt="" class="notice_img">
@@ -19,7 +18,26 @@
                     </div>
                 </div>
             </li>
-        </a>
-        {{!-- {{/each}} --}}
-    {{!-- </ul>
-</div> --}}
+            </a>
+            {{/each}}
+            {{else}}
+                <a href="{{_href}}">
+                <li class="notice_ctn only_tip" send_id="{{send_id}}" short_name="{{short_name}}">
+                    <div class="notice_left fix">
+                        <img src="{{avatar}}" alt="" class="notice_img">
+                    </div>
+                    <div class="notice_right fix">
+                        <div class="notice_top fix">
+                            <p class="notice_top_name">{{name}}</p>
+                            <p class="notice_top_time" name="{{send_id}}">{{tf time}}</p>
+                        </div>
+                        <div class="notice_bottom" name="{{send_id}}">
+                            {{mes}}
+                        </div>
+                        <div class="notice_box_del">
+                            删除
+                        </div>
+                    </div>
+                </li>
+            </a>
+        {{/if}}

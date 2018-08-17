@@ -69,13 +69,19 @@ exports.save_narrow = function (operators) {
     var new_hash = exports.operators_to_hash(operators);
     exports.changehash(new_hash);
 };
-
+var arr;
 exports.parse_narrow = function (hash) {
     console.log(hash)
     if(hash[1] == 'pm-with'){
         $(".tab-content").css("height","calc(100% - 232px)")
-        $(".persistent_data").children().remove();
-        $(".persistent_data").append(JSON.parse(localStorage.getItem("p")))
+        arr = JSON.parse(localStorage.getItem("arr"))
+        if(arr != null){
+            $(".persistent_data").children().remove();
+            var notice_box = templates.render("notice_box",{arr:arr})
+            $(".persistent_data").prepend(notice_box)
+        }
+        // $(".persistent_data").children().remove();
+        // $(".persistent_data").append(JSON.parse(localStorage.getItem("p")))
         //推送消息删除
         $(".persistent_data").on("mouseover",".only_tip",function(){
             $(this).children().last().children().last().show()
