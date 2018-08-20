@@ -1,7 +1,5 @@
 var message_group = (function () {
-
     var exports = {};
-    var iarr = []
     $(function(){
         function unique(a) {
             var res = [];
@@ -14,7 +12,6 @@ var message_group = (function () {
            
             return res;
           }
-        //   console.log(window.location.hash.split(/\//))
         function  changeUrl (){
             var url =window.location.hash
             var i = url.indexOf("/")
@@ -213,12 +210,10 @@ var message_group = (function () {
                  e.preventDefault()
                  e.stopPropagation()
                 var name =  $(this).attr("data-stream-name")
-                var index = $(this).attr("data-stream-id")
-                var color = $(this).children().eq(0).css("background-color")
+                var stream_id = $(this).attr("data-stream-id")
+                var avatar = $(this).children().eq(0).css("background-color")
                 $("#compose").show()
                 $("#compose-container").show()
-                var nfirst= name.slice(0,1)
-              
                 var data = {
                         anchor: 773,
                         num_before: 50,
@@ -231,47 +226,48 @@ var message_group = (function () {
                     idempotent: true,
                     success:function(data){ 
                         var lastData = data.messages.pop()
-                        console.log(lastData)
                         var time = timerender.tf(lastData.timestamp)
-                        // console.log($(".group_list_index").find(".backgr"))
-                        // $(".group_list_index").find(".backgr").removeClass("backgr")
-                        var show = $(".persistent_data").children().find(".backgr")
-                        if(show.prevObject.length>0){
-                             show.prevObject.removeClass("backgr")
+                        _href=narrow.by_stream_subject_uris(name,lastData.subject)
+                        var  mes  = lastData.content
+                             mes = server_events.deleteTag(mes)
+                             console.log(lastData)
+                        var stream = lastData.type
+                        var arr = JSON.parse(localStorage.getItem("arr"))
+                        if(arr == null){
+                           arr =[]
+                           $(".persistent_data").show()
+                           $(".persistent_data").prepend(templates.render("notice_box",{name:name,avatar:avatar,_href:_href,time:time,send_id:stream_id,mes:mes,stream:stream}))
+                           arr.unshift(server_events.set_local_news('',stream_id,name,avatar,time,mes,_href,stream))
+                           localStorage.setItem("arr",JSON.stringify(arr))
+                        }else{
+                            var flag = false;
+                            $(".persistent_data").show()
+                            for(var i =0;i<arr.length;i++){
+                                if(arr[i].stream_id == stream_id){
+                                    flag = true;
+                                    arr[i].content = arr[i].content
+                                    localStorage.setItem("arr",JSON.stringify(arr))
+                                }
+                            }
+                            if(!flag){
+                                console.log(1111)
+                                $(".persistent_data").show()
+                                $(".persistent_data").prepend(templates.render("notice_box",{name:name,avatar:avatar,_href:_href,time:time,send_id:stream_id,mes:server_events.deleteTag(mes),stream:stream}))
+                                arr.unshift(server_events.set_local_news('',stream_id,name,avatar,time,mes,_href,stream))
+                                localStorage.setItem("arr",JSON.stringify(arr))
+                            }
                         }
-                        var  li = "<li class='group_list_index backgr' data_stream_id="+lastData.stream_id+" >\
-                             <span class='color-setting avatar_setting' style='background-color:"+color+"'>"+nfirst+"</span>\
-                             <div class='list-setting-common'>\
-                               <div class='list-right-setting'>\
-                                  <span>"+name+"</span>\
-                                  <span>"+time+"</span>\
-                               </div>\
-                               "+lastData.content+"\
-                             </div>\
-                           </li>"
-                        // $(".notice_ctn_boxs").show()
-                        $(".persistent_data").show()
                         $(".notice_ctn_box").hide()
                         $(".group_icon").hide()
-                        // $(window).attr("location","#narrow/is/private")
                         $(".home-title").show()
-                        if(iarr.indexOf(index)==-1){
-                            iarr.push(index)
-                        $(".persistent_data").append(li)
-                        // $(".notice_ctn_boxs").append(li)
-                        }
-
                         $(".home-title span").html(name)
                         $(".home_gruop_title").hide()
-                        $("#zfilt").hide()
-                        window.location.hash = narrow.by_stream_subject_uri(name,lastData.subject)
-                        // $(window).attr("location","#narrow/stream/"+index+"-"+name+"/topic/大厅")
                         $("#zfilt").show()
-                        // common_topic(index)
                         $("#stream-message").show()
                         $("#stream").val(name)
                         $("#subject").val(lastData.subject)
                         i= 0
+                        window.location.hash = narrow.by_stream_subject_uris(name,lastData.subject)
                     }
                 })
             })
@@ -280,25 +276,9 @@ var message_group = (function () {
                 // 获得stream_id
                 var stream_id = $(this).attr("data_stream_id")
                 var sub = stream_data.get_sub_by_id(stream_id);
-                $(this).addClass("backgr").siblings().removeClass("backgr")
-                var data = {
-                    anchor: 773,
-                    num_before: 50,
-                    num_after: 50,
-                    narrow:JSON.stringify([{"negated":false,"operator":"stream","operand":sub.name}])
-                };
-                channel.get({
-                    url:  '/json/messages',
-                    data: data,
-                    idempotent: true,
-                    success:function(data){
-                        var subject =  data.messages.pop().subject
-                        // console.log(data.messages.first())
-                        $("#stream").val(sub.name)
-                        $("#subject").val(subject)
-                         window.location.href=narrow.by_stream_subject_uri(sub.name,subject)
-                    }
-                }) 
+                $("#stream").val(sub.name)
+                $("#subject").val(subject)
+      
               })
            
               //新建群组

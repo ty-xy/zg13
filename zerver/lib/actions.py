@@ -139,6 +139,7 @@ import logging
 import itertools
 from collections import defaultdict
 from operator import itemgetter
+from zerver.models import Message
 
 # This will be used to type annotate parameters in a function if the function
 # works on both str and unicode in python 2 but in python 3 it only works on str.
@@ -251,10 +252,14 @@ def get_topic_history_for_stream(user_profile: UserProfile,
             continue
 
         canonical_topic_names.add(canonical_name)
+        send_ids=Message.objects.filter(id=min_message_id)
+        if send_ids:
+            send_ids=send_ids[0]
         history.append(dict(
             name=topic_name,
             max_id=max_message_id,
-            min_id=min_message_id
+            min_id=min_message_id,
+            sender_id=send_ids.sender_id
             ))
         # print(history,"min_message_id")
     return history

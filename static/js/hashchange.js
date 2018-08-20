@@ -69,13 +69,39 @@ exports.save_narrow = function (operators) {
     var new_hash = exports.operators_to_hash(operators);
     exports.changehash(new_hash);
 };
-
+var arr;
 exports.parse_narrow = function (hash) {
-    console.log(hash)
-    if(hash[1] == 'pm-with'){
+    if(hash[1] == 'pm-with'||hash[1]=="stream"){
         $(".tab-content").css("height","calc(100% - 232px)")
-        $(".persistent_data").children().remove();
-        $(".persistent_data").append(JSON.parse(localStorage.getItem("p")))
+        arr = JSON.parse(localStorage.getItem("arr"))
+        if(arr != null){
+            $(".persistent_data").children().remove();
+            var notice_box = templates.render("notice_box",{arr:arr})
+            $(".persistent_data").prepend(notice_box)
+            if(hash[1]=="stream"){
+                var stream= hash_util.decodeHashComponent(hash[2])
+                var index = stream.indexOf("-")
+                stream=stream.slice(index+1)
+                var subject =hash_util.decodeHashComponent(hash.pop())
+                $("#empty_narrow_message").hide()
+                $("#zfilt").show()
+                $("#stream").val(stream)
+                $("#subject").val(subject)
+            }
+            _.filter($(".persistent_data").children(),function(data){
+                var indexs = data.href
+                var index = indexs.indexOf('#')
+                var hashs = indexs.slice(index)
+                if(hashs=== window.location.hash){
+                    // var children= data.children
+                    var li = data.getElementsByClassName("notice_ctn")
+                    var $li = $(li)
+                    $li.addClass("backgr").parent().siblings().children().removeClass("backgr")
+                }
+            })
+        }
+        // $(".persistent_data").children().remove();
+        // $(".persistent_data").append(JSON.parse(localStorage.getItem("p")))
         //推送消息删除
         $(".persistent_data").on("mouseover",".only_tip",function(){
             $(this).children().last().children().last().show()
@@ -108,7 +134,6 @@ exports.parse_narrow = function (hash) {
             var operator = hash_util.decodeHashComponent(hash[i]);
            
             var operand  = hash_util.decode_operand(operator, hash[i+1] || '');
-          
             var negated = false;
             if (operator[0] === '-') {
                 negated = true;

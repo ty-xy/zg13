@@ -537,6 +537,7 @@ function pick_empty_narrow_banner() {
     var default_banner = $('#empty_narrow_message');
 
     var current_filter = narrow_state.get_current_filter();
+    console.log(current_filter)
     if (current_filter === undefined) {
         return default_banner;
     }
@@ -546,6 +547,7 @@ function pick_empty_narrow_banner() {
     var first_operand = first_term.operand;
     var num_operators = current_filter.operators().length;
     if (num_operators !== 1) {
+
         // For multi-operator narrows, we just use the default banner
         return default_banner;
     } else if (first_operator === "is") {
@@ -693,7 +695,10 @@ exports.by_stream_subject_uri = function (stream, subject) {
     return "#narrow/stream/" + hash_util.encode_stream_name(stream) +
            "/subject/" + hash_util.encodeHashComponent(subject);
 };
-
+exports.by_stream_subject_uris = function (stream, subject) {
+    return "#narrow/stream/" + hash_util.encode_stream_name(stream) +
+           "/topic/" + hash_util.encodeHashComponent(subject);
+};
 exports.by_message_uri = function (message_id) {
     return "#narrow/id/" + hash_util.encodeHashComponent(message_id);
 };

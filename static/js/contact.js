@@ -45,22 +45,38 @@ var contact = (function(){
                         $(".move_ctn").append(user_detail_contact)
                         //发送消息点击事件
                         $(".user_detail_send").on("click",function(){
-                            $(".move_ctn").children().remove();
                             $("#main_div").show();
                             $("#compose").show();
+                            $(".move_ctn").children().remove();
                             $(".group_icon").hide();
                             $(".persistent_data").show()
                             $(".tab-content").css("height","calc(100% - 232px)")
                             //上方显示聊天对面信息
                             //获取更新消息列表
                             $(".persistent_data").show();
-                            $(".persistent_data").children().remove();
-                            $(".persistent_data").append(JSON.parse(localStorage.getItem("p")))
                             var _time = new Date()
                             var time = _time.getHours() +':'+_time.getMinutes()
-                            $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id}))
-                            localStorage.removeItem("p")
-                            localStorage.setItem("p",JSON.stringify($('.persistent_data').html()))
+                            var arr = JSON.parse(localStorage.getItem("arr"))
+                            if(arr == null){
+                                arr = []
+                                $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id}))
+                                arr.push(server_events.set_local_news(user_id,'',user_name,avatar,time,'',_href))
+                                localStorage.setItem("arr",JSON.stringify(arr))
+                            }else{
+                                var flag = false;
+                                for(var i =0;i<arr.length;i++){
+                                    if(arr[i].send_id == user_id){
+                                        flag = true;
+                                        arr[i].content = arr[i].content
+                                        localStorage.setItem("arr",JSON.stringify(arr))
+                                    }
+                                }
+                                if(!flag){
+                                    $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id}))
+                                    arr.push(server_events.set_local_news(user_id,'',user_name,avatar,time,',',_href))
+                                    localStorage.setItem("arr",JSON.stringify(arr))
+                                }
+                            }
                             //推送消息删除
                             $(".persistent_data").on("mouseover",".only_tip",function(){
                                 $(this).children().last().children().last().show()
@@ -75,6 +91,7 @@ var contact = (function(){
                                     console.log(now_name)
                                     console.log(pipei_name)
                                     $(this).parent().parent().parent().remove();
+                                    console.log($(this))
                                     localStorage.removeItem("p")
                                     localStorage.setItem("p",JSON.stringify($('.persistent_data').html()))
                                 })
