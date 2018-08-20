@@ -99,7 +99,6 @@ var contact = (function(){
                                         }
                                     }
                                     localStorage.setItem("arr",JSON.stringify(arr))
-                                    
                                 })
                             })
                             $(".persistent_data").on("mouseout",".only_tip",function(){
