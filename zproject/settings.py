@@ -1184,7 +1184,8 @@ JS_SPECS = {
             'js/choose_file.js',
             'js/file.js',
             'js/attendance.js',
-            'js/contact.js'
+            'js/contact.js',
+            'js/message_body.js'
 
         ],
         'output_filename': 'min/app.js'

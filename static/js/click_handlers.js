@@ -99,6 +99,15 @@ $(function () {
     }
 
     var select_message_function = function (e) {
+        // $(".other_content p").off('mouseover').on('mouseover',function(){
+        //     $(this).next().show()
+        // })
+        // $(".additional_more_box").on("click",function(){
+        //     $(this).children().last().show();
+        // })
+        // $(".other_content").off('mouseleave').on('mouseleave',function(){
+        //     $(this).next().hide()
+        // })
         console.log('select_message_function', e);
         if (is_clickable_message_element($(e.target))) {
             // If this click came from a hyperlink, don't trigger the

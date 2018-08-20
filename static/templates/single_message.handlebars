@@ -5,7 +5,7 @@
       style="">
       {{!-- 去除阴影样式box-shadow: inset 2px 0px 0px 0px {{#if msg/is_stream}}{{background_color}}{{else}}#444444{{/if}}, -1px 0px 0px 0px {{#if msg/is_stream}}{{background_color}}{{else}}#444444{{/if}}; --}}
         <div class="messagebox-border">
-            <div class="messagebox-content">
+            <div class="messagebox-content my_content">
                 <div class="message_top_line">
                     <span class="message_sender{{^status_message}} sender_info_hover{{/status_message}} no-select">
                         {{#include_sender}}
@@ -68,22 +68,47 @@
 
                     </div> --}}
                 </div>
-                
                 {{#if compare}}
-                <div style="float:right;margin-right:46px;" class="my_bubble">
+                <div style="float:right;margin-right:46px;" class="my_bubble public_method">
                     {{#unless status_message}}
                         {{#if use_match_properties}}{{{msg/match_content}}}
                         {{else}}{{{msg/content}}}
                         {{/if}}
                     {{/unless}}
+                    <ul class="additional_box fix my_additional">
+                        <li class="additional_more_box">
+                            <i class="iconfont icon-gengduocaozuo"></i>
+                            <ul class="additional_more additional_more_my">
+                                <li><i class="iconfont icon-huifu"></i><span>回复</span></li>
+                                <li><i class="iconfont icon-fuzhi"></i><span>复制</span></li>
+                                <li><i class="iconfont icon-zhuanweidaiban"></i><span>转为待办</span></li>
+                            </ul>
+                        </li>
+                        <li><i class="iconfont icon-shoucang-moren"></i></li> 
+                        <li><i class="iconfont icon-biaoqing1"></i></li>
+                    </ul>
                 </div>
                 {{else}}
                 <div class="message_content">
-                {{#unless status_message}}
-                    {{#if use_match_properties}}{{{msg/match_content}}}
-                    {{else}}{{{msg/content}}}
-                    {{/if}}
-                {{/unless}}
+                    <div class="other_content public_method">
+                            {{#unless status_message}}
+                                {{#if use_match_properties}}{{{msg/match_content}}}
+                                {{else}}{{{msg/content}}}
+                                {{/if}}
+                            {{/unless}}
+                            <ul class="additional_box fix other_additional" style="float:right;margin-left:2px;">
+                                <li><i class="iconfont icon-biaoqing1"></i></li>
+                                <li><i class="iconfont icon-shoucang-moren"></i></li> 
+                                <li class="additional_more_box">
+                                    <i class="iconfont icon-gengduocaozuo"></i>
+                                    <ul class="additional_more additional_more_other">
+                                        <li><i class="iconfont icon-huifu"></i><span>回复</span></li>
+                                        <li><i class="iconfont icon-fuzhi"></i><span>复制</span></li>
+                                        <li><i class="iconfont icon-zhuanweidaiban"></i><span>转为待办</span></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                    </div>
                 </div>
                 {{/if}}
                 {{#if last_edit_timestr}}

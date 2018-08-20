@@ -1,7 +1,6 @@
 var contact = (function(){
     var exports = {};
     $("body").ready(function(){
-
         $("#global_filters li a").on("click",function(){
             $(this).addClass("left_blue_height").parent().siblings().children().removeClass("left_blue_height")
         })
@@ -115,6 +114,31 @@ var contact = (function(){
                             $(".address_book").removeClass("left_blue_height")
                             // var log_assistant_prompt = templates.render("log_assistant_prompt");
                             // $(".notice_ctn_box").append(log_assistant_prompt)
+                            console.log($(".other_content"))
+                            console.log($(".other_content p"))
+                            //聊天消息体方法
+                            // $(".other_content p").on('click',function(){
+                            //     alert(1233)
+                            //     console.log($(this))
+                            //     alert($(this))
+                            // })
+                            $("#main_div").on("click", ".messagebox",function(){
+                                //公共聊天信息显隐处理
+                                $(".public_method p").off('mouseover').on('mouseover',function(){
+                                    $(this).next().show()
+                                })
+                                $(".additional_more_box").on("click",function(){
+                                    $(this).children().last().show();
+                                })
+                                $(".other_content").off('mouseleave').on('mouseleave',function(){
+                                    $(this).children().last().hide()
+                                    $(this).children().last().children().children().last().hide();
+                                })
+                                $(".my_bubble").off('mouseleave').on('mouseleave',function(){
+                                    $(this).children().last().hide()
+                                    $(this).children().last().children().first().children().last().hide();
+                                })
+                            })
                         })
                     })
                 }

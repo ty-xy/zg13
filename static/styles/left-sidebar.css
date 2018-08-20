@@ -836,3 +836,69 @@ li.show-more-private-messages a {
     color: #cccccc;
     float: right;
 }
+/* 消息体样式 */
+.additional_box{
+    display: none;
+}
+.additional_box>li{
+    float: left;
+    width: 40px;
+    height: 40px;
+    background: #F4F5F7;
+    margin: 0 1px;
+}
+.additional_box>li>i{
+    margin: 12px;
+    line-height: 40px;
+}
+.my_additional{
+    float: left;
+    margin-right: 2px;
+    margin-top: 4px;
+    position: relative;
+}
+.other_additional{
+    float: right;
+    margin-left: 2px;
+    position: relative;
+}
+.my_bubble>p{
+    float: right;
+}
+.other_content>p{
+    float: left;
+}
+.other_content{
+    width: 100%;
+    height: 50px;
+}
+.additional_more{
+    width:140px;
+    height: 110px;
+    background: #FFFFFF;
+    box-shadow: 0 2px 4px 0 rgba(128,128,128,0.50);
+    border-radius: 4px;
+    position: absolute;
+    display: none;
+}
+.additional_more_box{
+    position: relative;
+}
+.additional_more>li{
+    padding: 8px 17px;
+    font-size: 15px;
+    color: #333333;
+    letter-spacing: 0.16px;
+}
+.additional_more>li>i{
+    color:#959595;
+}
+.additional_more>li>span{
+    margin-left: 10px;
+}
+.additional_more_my{
+    right: 0;
+}
+.additional_more_other{
+    left: -20px;
+}
