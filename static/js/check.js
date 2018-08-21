@@ -2,8 +2,10 @@ var check = (function () {
     var exports = {};
     $("body").ready(function(){
        $(".notice_box").on("click",".common_check",function(e){
-        $(".move_ctn").children().remove();
-        console.log(11111,e)
+            $(this).addClass("backgr").siblings().removeClass("backgr")
+            $(".move_ctn").children().remove();
+            var li = templates.render("tab")
+            $(".move_ctn").html(li)
         })
     })
     return exports;
