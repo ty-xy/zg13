@@ -308,6 +308,9 @@ def add_subscriptions_backend(
     # list_to_streams.
     existing_streams, created_streams = \
         list_to_streams(stream_dicts, user_profile, autocreate=True)
+    for ii in created_streams:
+        ii.create_user_id=user_profile.id
+        ii.save()
     authorized_streams, unauthorized_streams = \
         filter_stream_authorization(user_profile, existing_streams)
     if len(unauthorized_streams) > 0 and authorization_errors_fatal:

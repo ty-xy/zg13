@@ -1046,7 +1046,7 @@ class Stream(models.Model):
     email_token = models.CharField(
         max_length=32, default=generate_email_token_for_stream)  # type: str
     description = models.CharField(max_length=1024, default=u'')  # type: Text
-
+    create_user_id = models.PositiveIntegerField(default=0)
     date_created = models.DateTimeField(default=timezone_now)  # type: datetime.datetime
     deactivated = models.BooleanField(default=False)  # type: bool
 
