@@ -2326,3 +2326,11 @@ class Feedback(models.Model):
     table_id = models.PositiveIntegerField()
     content = models.CharField(max_length=120)
     feedback_time = models.DateTimeField()
+# 收藏
+# class ZgCollection(models.Model):
+#     user = models.ForeignKey(user)
+#     yuan_user=models.IntegerField()
+#     types=models.CharField(max_length=50)
+#     type_id = models.IntegerField()
+
+

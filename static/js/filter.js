@@ -63,6 +63,8 @@ function message_matches_search_term(message, operator, operand) {
             return unread.message_unread(message);
         } else if (operand==='supervise'){
             return message.supervise
+        } else if (operand==='collection'){
+            return message.collection
         }
         return true; // is:whatever returns true
 
@@ -529,6 +531,8 @@ function describe_unescaped(operators) {
                 return verb + 'supervise messages';
             } else if (operand === 'management') {
                 return verb + 'management messages';
+            }else if (operand === 'collection') {
+                return verb + 'collection messages';
             }
             return operand + ' messages';
         }

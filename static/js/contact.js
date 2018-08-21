@@ -4,146 +4,6 @@ var contact = (function(){
         $("#global_filters li a").on("click",function(){
             $(this).addClass("left_blue_height").parent().siblings().children().removeClass("left_blue_height")
         })
-        //联系人点击
-        $(".contact").on("click",function(){
-            //清空右侧添加内容
-            $(".move_ctn").children().remove();
-            //右侧填补空白页
-            $(".move_ctn").append(templates.render("right_blank_page"))
-            //清空列表
-            $(".notice_ctn_box").children().remove();
-            $(".group_icon").show()
-            $(".home-title").hide();
-            // $(".middle_ctn").children().hide();
-            $("#main_div").hide();
-            $("#compose").hide();
-            $.ajax({
-                url:"json/zg/user",
-                type:"GET",
-                success:function(res){
-                    $(".notice_ctn_box").children().remove();
-                    var user_list = res.user_list;
-                    var user_list_our = templates.render("user_list_our",{user_list:user_list})
-                    var user_me = res.user_me;
-                    $(".notice_ctn_box").append(user_list_our)
-                    $(".notice_ctn_box").append(templates.render("invited_users"))
-                    //点击联系人弹出右边页面
-                    $(".notice_ctn_box").on("click",".user_list_box",function(){
-                        $("#zfilt").children().remove();
-                        $(".move_ctn").children().remove();
-                        $(".move_ctn").show()
-                        $("#main_div").hide();
-                        $("#compose").hide();
-                        var user_name = $(this).children().last().text();
-                        var user_id = $(this).attr("user_id");
-                        var email = $(this).attr("email");
-                        var avatar = $(this).children().first().children().attr("src")
-                        var short_name = $(this).attr("short_name");
-                        var _href = "#narrow/pm-with/"+user_id+"-"+short_name
-                        var user_detail_contact = templates.render("user_detail_contact",{user_name:user_name,user_id:user_id,email:email,avatar:avatar,_href:_href,short_name:short_name})
-                        $(".move_ctn").append(user_detail_contact)
-                        //发送消息点击事件
-                        $(".user_detail_send").on("click",function(){
-                            $(".move_ctn").children().remove();
-                            $("#main_div").show();
-                            $("#compose").show();
-                            $(".group_icon").hide();
-                            $(".persistent_data").show()
-                            $(".tab-content").css("height","calc(100% - 232px)")
-                            //上方显示聊天对面信息
-                            //获取更新消息列表
-                            $(".persistent_data").show();
-                            var _time = new Date()
-                            var time = _time.getHours() +':'+_time.getMinutes()
-                            var arr = JSON.parse(localStorage.getItem("arr"))
-                            if(arr == null){
-                                arr = []
-                                $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id}))
-                                arr.push(server_events.set_local_news(user_id,'',user_name,avatar,time,'',_href))
-                                localStorage.setItem("arr",JSON.stringify(arr))
-                            }else{
-                                var flag = false;
-                                for(var i =0;i<arr.length;i++){
-                                    if(arr[i].send_id == user_id){
-                                        flag = true;
-                                        arr[i].content = arr[i].content
-                                        localStorage.setItem("arr",JSON.stringify(arr))
-                                    }
-                                }
-                                if(!flag){
-                                    $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id}))
-                                    arr.push(server_events.set_local_news(user_id,'',user_name,avatar,time,',',_href))
-                                    localStorage.setItem("arr",JSON.stringify(arr))
-                                }
-                            }
-                            //推送消息删除
-                            $(".persistent_data").on("mouseover",".only_tip",function(){
-                                $(this).children().last().children().last().show()
-                                $(".notice_box_del").unbind("click").bind("click",function(e){
-                                    e.stopPropagation()
-                                    e.preventDefault()
-                                    var now_name = $(this).prev().prev().children().first().text()
-                                    var pipei_name = $(".home-title").children().first().text()
-                                    if(now_name == pipei_name){
-                                        window.location.href = "#narrow/is/starred"
-                                    }
-                                    console.log(now_name)
-                                    console.log(pipei_name)
-                                    $(this).parent().parent().parent().remove();
-                                    var send_id = $(this).parent().parent().attr("send_id")
-                                    arr = JSON.parse(localStorage.getItem("arr"))
-                                    for(var i=0;i<arr.length;i++){
-                                        if(arr[i].send_id == send_id){
-                                            arr.remove(i)
-                                        }
-                                    }
-                                    localStorage.setItem("arr",JSON.stringify(arr))
-                                })
-                            })
-                            $(".persistent_data").on("mouseout",".only_tip",function(){
-                                $(this).children().last().children().last().hide()
-                            })
-                            setTimeout(function(){
-                                $(".home-title").show();
-                            },10)
-                            $(".home-title button").hide();
-                            $(".home-title span").html(user_name);
-                            //做个切换到消息板块的假象试试
-                            $(".notice_ctn_box").children().remove();
-                            $(".news_icon").addClass("left_blue_height");
-                            $(".address_book").removeClass("left_blue_height")
-                            // var log_assistant_prompt = templates.render("log_assistant_prompt");
-                            // $(".notice_ctn_box").append(log_assistant_prompt)
-                            console.log($(".other_content"))
-                            console.log($(".other_content p"))
-                            //聊天消息体方法
-                            // $(".other_content p").on('click',function(){
-                            //     alert(1233)
-                            //     console.log($(this))
-                            //     alert($(this))
-                            // })
-                            $("#main_div").on("click", ".messagebox",function(){
-                                //公共聊天信息显隐处理
-                                $(".public_method p").off('mouseover').on('mouseover',function(){
-                                    $(this).next().show()
-                                })
-                                $(".additional_more_box").on("click",function(){
-                                    $(this).children().last().show();
-                                })
-                                $(".other_content").off('mouseleave').on('mouseleave',function(){
-                                    $(this).children().last().hide()
-                                    $(this).children().last().children().children().last().hide();
-                                })
-                                $(".my_bubble").off('mouseleave').on('mouseleave',function(){
-                                    $(this).children().last().hide()
-                                    $(this).children().last().children().first().children().last().hide();
-                                })
-                            })
-                        })
-                    })
-                }
-            })
-        })
         //私聊点击
         $(".private_button").on("click",function(){
             //清空右侧添加内容
@@ -573,21 +433,143 @@ var contact = (function(){
                 // })
             })
         })
-        //管理组点击
-        $(".manage_group").on("click",function(){
+        //联系人点击
+        $(".contact").on("click",function(){
             //清空右侧添加内容
-            $(".group_icon").hide()
             $(".move_ctn").children().remove();
             //右侧填补空白页
             $(".move_ctn").append(templates.render("right_blank_page"))
             //清空列表
             $(".notice_ctn_box").children().remove();
-            var manage_group = templates.render("manage_groups")
-            $(".notice_ctn_box").append(manage_group)
-            $(".common_img").on("click",function(){
-                $(".move_ctn").children().remove();
-                attendance.attendance()
-                $(".tab-content").css("height","100%");
+            $(".group_icon").show()
+            $(".home-title").hide();
+            // $(".middle_ctn").children().hide();
+            $("#main_div").hide();
+            $("#compose").hide();
+            $.ajax({
+                url:"json/zg/user",
+                type:"GET",
+                success:function(res){
+                    $(".notice_ctn_box").children().remove();
+                    var user_list = res.user_list;
+                    var user_list_our = templates.render("user_list_our",{user_list:user_list})
+                    var user_me = res.user_me;
+                    $(".notice_ctn_box").append(user_list_our)
+                    $(".notice_ctn_box").append(templates.render("invited_users"))
+                    //点击联系人弹出右边页面
+                    $(".notice_ctn_box").on("click",".user_list_box",function(){
+                        $("#zfilt").children().remove();
+                        $(".move_ctn").children().remove();
+                        $(".move_ctn").show()
+                        $("#main_div").hide();
+                        $("#compose").hide();
+                        var user_name = $(this).children().last().text();
+                        var user_id = $(this).attr("user_id");
+                        var email = $(this).attr("email");
+                        var avatar = $(this).children().first().children().attr("src")
+                        var short_name = $(this).attr("short_name");
+                        var _href = "#narrow/pm-with/"+user_id+"-"+short_name
+                        var user_detail_contact = templates.render("user_detail_contact",{user_name:user_name,user_id:user_id,email:email,avatar:avatar,_href:_href,short_name:short_name})
+                        $(".move_ctn").append(user_detail_contact)
+                        //发送消息点击事件
+                        $(".user_detail_send").on("click",function(){
+                            $(".move_ctn").children().remove();
+                            $("#main_div").show();
+                            $("#compose").show();
+                            $(".group_icon").hide();
+                            $(".persistent_data").show()
+                            $(".tab-content").css("height","calc(100% - 232px)")
+                            //上方显示聊天对面信息
+                            //获取更新消息列表
+                            $(".persistent_data").show();
+                            var _time = new Date()
+                            var time = _time.getHours() +':'+_time.getMinutes()
+                            var arr = JSON.parse(localStorage.getItem("arr"))
+                            if(arr == null){
+                                arr = []
+                                $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id}))
+                                arr.push(server_events.set_local_news(user_id,'',user_name,avatar,time,'',_href))
+                                localStorage.setItem("arr",JSON.stringify(arr))
+                            }else{
+                                var flag = false;
+                                for(var i =0;i<arr.length;i++){
+                                    if(arr[i].send_id == user_id){
+                                        flag = true;
+                                        arr[i].content = arr[i].content
+                                        localStorage.setItem("arr",JSON.stringify(arr))
+                                    }
+                                }
+                                if(!flag){
+                                    $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id}))
+                                    arr.push(server_events.set_local_news(user_id,'',user_name,avatar,time,',',_href))
+                                    localStorage.setItem("arr",JSON.stringify(arr))
+                                }
+                            }
+                            //推送消息删除
+                            $(".persistent_data").on("mouseover",".only_tip",function(){
+                                $(this).children().last().children().last().show()
+                                $(".notice_box_del").unbind("click").bind("click",function(e){
+                                    e.stopPropagation()
+                                    e.preventDefault()
+                                    var now_name = $(this).prev().prev().children().first().text()
+                                    var pipei_name = $(".home-title").children().first().text()
+                                    if(now_name == pipei_name){
+                                        window.location.href = "#narrow/is/starred"
+                                    }
+                                    console.log(now_name)
+                                    console.log(pipei_name)
+                                    $(this).parent().parent().parent().remove();
+                                    var send_id = $(this).parent().parent().attr("send_id")
+                                    arr = JSON.parse(localStorage.getItem("arr"))
+                                    for(var i=0;i<arr.length;i++){
+                                        if(arr[i].send_id == send_id){
+                                            arr.remove(i)
+                                        }
+                                    }
+                                    localStorage.setItem("arr",JSON.stringify(arr))
+                                })
+                            })
+                            $(".persistent_data").on("mouseout",".only_tip",function(){
+                                $(this).children().last().children().last().hide()
+                            })
+                            setTimeout(function(){
+                                $(".home-title").show();
+                            },10)
+                            $(".home-title button").hide();
+                            $(".home-title span").html(user_name);
+                            //做个切换到消息板块的假象试试
+                            $(".notice_ctn_box").children().remove();
+                            $(".news_icon").addClass("left_blue_height");
+                            $(".address_book").removeClass("left_blue_height")
+                            // var log_assistant_prompt = templates.render("log_assistant_prompt");
+                            // $(".notice_ctn_box").append(log_assistant_prompt)
+
+                            //聊天消息体方法
+                            // $(".other_content p").on('click',function(){
+                            //     alert(1233)
+                            //     console.log($(this))
+                            //     alert($(this))
+                            // })
+                            $("#main_div").on("click", ".messagebox",function(){
+                                //公共聊天信息显隐处理
+                                $(".public_method p").off('mouseover').on('mouseover',function(){
+                                    $(this).next().show()
+                                })
+                                $(".additional_more_box").on("click",function(){
+                                    $(this).children().last().show();
+                                })
+                                $(".other_content").off('mouseleave').on('mouseleave',function(){
+                                    $(this).children().last().hide()
+                                    $(this).children().last().children().children().last().hide();
+                                })
+                                $(".my_bubble").off('mouseleave').on('mouseleave',function(){
+                                    $(this).children().last().hide()
+                                    $(this).children().last().children().first().children().last().hide();
+                                })
+                            })
+                        })
+                    })
+                }
             })
         })
         //待办点击
@@ -637,6 +619,40 @@ var contact = (function(){
                 management.generate_log();
             })
             
+        })
+        //管理组点击
+        $(".manage_group").on("click",function(){
+            //清空右侧添加内容
+            $(".group_icon").hide()
+            $(".move_ctn").children().remove();
+            //右侧填补空白页
+            $(".move_ctn").append(templates.render("right_blank_page"))
+            //清空列表
+            $(".notice_ctn_box").children().remove();
+            var manage_group = templates.render("manage_groups")
+            $(".notice_ctn_box").append(manage_group)
+            $(".common_img").on("click",function(){
+                $(".move_ctn").children().remove();
+                attendance.attendance()
+                $(".tab-content").css("height","100%");
+            })
+        })
+        //收藏点击
+        $(".collection").on("click",function(){
+            $(".group_icon").hide()
+            //清空右侧添加内容
+            $(".move_ctn").children().remove();
+            //右侧填补空白页
+            $(".move_ctn").append(templates.render("right_blank_page"))
+            //清空列表
+            $(".notice_ctn_box").children().remove();
+            var collection_tip_box = templates.render('collection_tip_box');
+            $(".notice_ctn_box").append(collection_tip_box)
+            $(".collection_tip").on("click",function(){
+                var collection_content_box = templates.render("collection_content_box")
+                $('.move_ctn').children().remove()
+                $('.move_ctn').append(collection_content_box)
+            })
         })
     })
     

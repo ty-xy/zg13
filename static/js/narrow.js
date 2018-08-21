@@ -645,6 +645,11 @@ function pick_empty_narrow_banner() {
             $("#compose").hide()
             $(".persistent_data").hide();
             return $("#supervise_ctn");
+        }else if (first_operand === "collection") {
+            $(".notice_ctn_boxs").hide()
+            $("#compose").hide()
+            $(".persistent_data").hide();
+            return $("#no_unread_narrow_message");
         }
     } else if ((first_operator === "stream") && !stream_data.is_subscribed(first_operand)) {
         // You are narrowed to a stream which does not exist or is a private stream

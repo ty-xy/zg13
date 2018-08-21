@@ -902,3 +902,71 @@ li.show-more-private-messages a {
 .additional_more_other{
     left: -20px;
 }
+.collection_tip{
+    padding: 5px 20px;
+    height: 53px;
+    cursor: pointer;
+}
+.collection_top_img_box{
+    float: left;
+}
+.collection_icon{
+    font-size: 28px;
+    color: #71D397;
+}
+.collection_top_title{
+    float: left;
+    font-size: 16px;
+    color: #333333;
+    letter-spacing: 0.18px;
+    margin-left: 10px;
+}
+.collection_content_box{
+    margin: 0;
+    margin-top: 88px;
+    border-top: 1px solid #dddddd;
+}
+.collection_content_title>p{
+    line-height: 70px;
+}
+.collection_content_avatar_box{
+    width: 38px;
+    height: 38px;
+    background: #71D397;
+    border-radius: 50%;
+    overflow: hidden;
+    float: left;
+    margin: 16px 10px 16px 20px;
+}
+.collection_content_name{
+    float: left;    
+    font-size: 14px;
+    color: #333333;
+    letter-spacing: 0.21px;
+}
+.collection_content_from{
+    float: left;
+    font-size: 15px;
+    color: #888888;
+    letter-spacing: 0.22px;
+    margin-left: 10px;
+}
+.collection_content_time{
+    float: right;
+    font-size: 14px;
+    color: #888888;
+    letter-spacing: 0.21px;
+}
+.collection_content_ctn{
+    font-size: 15px;
+    color: #333333;
+    letter-spacing: 0.22px;
+}
+.collection_content_ctn{
+    float: left;
+    margin-left: 20px;
+}
+.already_collected{
+    color: #FFD359;
+    float: right;
+}

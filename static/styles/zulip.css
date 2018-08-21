@@ -1545,7 +1545,10 @@ blockquote p {
     padding: 4px 10px 1px 10px;
     /* overflow: hidden; */
     background: #fff;
-    height: 200px;
+    float: left;
+    width: 100%;
+    position: relative;
+    /* height: 200px; */
 }
 
 .last_message .messagebox-content {
