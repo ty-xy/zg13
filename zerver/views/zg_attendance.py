@@ -15,6 +15,7 @@ import json
 
 
 # 个人单天月历考勤信息
+
 def attendance_day_solo(request, user_profile):
     user_date = request.GET.get("user_date")
     user_id = request.GET.get("user_id")
@@ -57,7 +58,7 @@ def attendance_day_solo(request, user_profile):
         sign_in_time = ''
         sign_off_time = ''
 
-    return JsonResponse({'errno': '0', 'message': '成功',
+    return JsonResponse({'errno': 0, 'message': '成功',
                          'sign_in_explain': sign_in_explain,
                          'sign_off_explain': sign_off_explain,
                          "sign_in_time": sign_in_time,
@@ -96,17 +97,17 @@ def month_attendance_tools(user_profile, year, months):
                                                        ).count()
 
     except Exception:
-        return ({'errno': '1', 'message': '获取打卡天数失败'})
+        return ({'errno': 1, 'message': '获取打卡天数失败'})
 
     try:
         outsidework_counts = ZgOutsideWork.objects.filter(user_name=user_profile, sign_in_time__year=year,
                                                           sign_in_time__month=months)
     except Exception:
-        return ({'errno': '2', 'message': '获取本月外勤天数失败'})
+        return ({'errno': 2, 'message': '获取本月外勤天数失败'})
 
     outsidework_dict = {}
-    for i in outsidework_counts:
-        outsidework_dict[i.sign_in_time__day] = 1
+    # for i in outsidework_counts:
+    #     outsidework_dict[i.sign_in_time] = 1
     outsidework_count = len(outsidework_dict)
 
     try:
@@ -116,7 +117,7 @@ def month_attendance_tools(user_profile, year, months):
                                                     sign_in_time__month=months,
                                                     sign_in_explain='迟到').count()
     except Exception:
-        return ({'errno': '3', 'message': '获取迟到天数失败'})
+        return ({'errno': 3, 'message': '获取迟到天数失败'})
 
     try:
         # 早退
@@ -125,14 +126,14 @@ def month_attendance_tools(user_profile, year, months):
                                                         sign_in_time__month=months,
                                                         sign_off_explain='早退').count()
     except Exception:
-        return ({'errno': '4', 'message': '获取早退天数失败'})
+        return ({'errno': 4, 'message': '获取早退天数失败'})
 
     try:
         leave_count = ZgAttendance.objects.filter(user_name=user_profile, sign_in_time__year=year,
                                                   sign_in_time__month=months,
                                                   sign_in_explain='请假').count()
     except Exception:
-        return ({'errno': '5', 'message': '获取请假天数失败'})
+        return ({'errno': 5, 'message': '获取请假天数失败'})
 
     try:
         # 缺卡天数
@@ -147,7 +148,7 @@ def month_attendance_tools(user_profile, year, months):
               sign_off_time__contains='1970-01-01 00:00:00+00')).count()
         print()
     except Exception:
-        return ({'errno': '6', 'message': '获取缺卡天数失败'})
+        return ({'errno': 6, 'message': '获取缺卡天数失败'})
 
     month = months
     monthRange = calendar.monthrange(int(year), months)
@@ -173,7 +174,8 @@ def month_attendance_tools(user_profile, year, months):
     for qutside_work_obj in outside_work_obj_list:
         qutside_work = str(qutside_work_obj.sign_in_time)[0:10]
         outside_work_dict[qutside_work] = 1
-    for k, y in outside_work_dict:
+    print(outside_work_dict)
+    for k, y in outside_work_dict.items():
         outside_work_list.append(k)
     # 不正常
     no_attendance_obj_list = ZgAttendance.objects.filter(~Q(sign_in_explain='正常') | ~Q(sign_off_explain='正常'),
@@ -181,8 +183,7 @@ def month_attendance_tools(user_profile, year, months):
                                                          user_name=user_profile)
     for no_attendance_obj in no_attendance_obj_list:
         normal = str(no_attendance_obj.sign_in_time)[0:10]
-        no_normal_list.append(int(normal))
-
+        no_normal_list.append(str(normal))
     return {'attendance_count': attendance_count, 'outsidework_count': outsidework_count,
             'overdue_count': overdue_count, 'leave_early_count': leave_early_count, 'leave_count': leave_count,
             'absenteeism_count': absenteeism_count, 'month': month, 'month_count': month_count,
@@ -190,7 +191,7 @@ def month_attendance_tools(user_profile, year, months):
             'normal_list': normal_list, 'outside_work_list': outside_work_list, 'no_normal_list': no_normal_list,
             'user_name': user_profile.full_name,
             'year': year, 'user_avatar': avatar.absolute_avatar_url(user_profile),
-            'user_atendance': user_profile.atendance.id}
+            'user_atendance': user_profile.atendance.id, 'errno': 0}
 
 
 # web个人月考勤统计（两月）
@@ -202,9 +203,9 @@ def solo_month_attendance_web(request, user_profile):
         try:
             user_profile = UserProfile.objects.get(id=user_id)
         except Exception:
-            return JsonResponse({'errno': '1', 'message': '用户id错误'})
+            return JsonResponse({'errno': 1, 'message': '用户id错误'})
     if not user_profile.atendance:
-        return JsonResponse({'errno': '223', 'message': '该用户不属于任何考勤组'})
+        return JsonResponse({'errno': 233, 'message': '该用户不属于任何考勤组'})
 
     if user_date != 'undefined':
         user_date = user_date + '-12-10'
@@ -231,8 +232,36 @@ def solo_month_attendance_web(request, user_profile):
     for months in month_list:
         month_attendance_list.append(month_attendance_tools(user_profile, year, months))
 
-    return JsonResponse({'errno': '0', 'message': '成功', 'super_user': user_profile.is_realm_admin,
+    return JsonResponse({'errno': 0, 'message': '成功', 'super_user': user_profile.is_realm_admin,
                          "month_attendance_list": month_attendance_list})
+
+
+# app个人月考勤统计
+def solo_month_attendance_app(request, user_profile):
+    user_id = request.GET.get('user_id')
+    user_date = request.GET.get("select_date")
+
+
+    if user_id:
+        try:
+            user_profile = UserProfile.objects.get(id=user_id)
+        except Exception:
+            return JsonResponse({'errno': 1, 'message': '用户id错误'})
+    if not user_profile.atendance:
+        return JsonResponse({'errno': 2, 'message': '该用户不属于任何考勤组'})
+
+    if user_date:
+        user_date += '-01'
+        stockpile_time = datetime.strptime(user_date, '%Y-%m-%d')
+        year = stockpile_time.year
+        month = stockpile_time.month
+    else:
+        stockpile_time = datetime.utcnow()
+        stockpile_time = stockpile_time.replace(tzinfo=timezone.utc)
+        year = stockpile_time.year
+        month = stockpile_time.month
+
+    return JsonResponse(month_attendance_tools(user_profile, year, month))
 
 
 # 团队管理考勤单天
@@ -294,7 +323,7 @@ def attendances_day(request, user_profile):
     # 应该到达
     should_arrival_count = len(user_obj_list)
 
-    return JsonResponse({'errno': '0', 'message': '成功', 'super_user': user_profile.is_realm_admin,
+    return JsonResponse({'errno': 0, 'message': '成功', 'super_user': user_profile.is_realm_admin,
                          'late': late, 'missing_card': missing_card,
                          'actual_arrival_count': actual_arrival_count,
                          'should_arrival_count': should_arrival_count,
@@ -306,9 +335,7 @@ def attendances_day(request, user_profile):
 # 添加考勤组
 def add_attendances(request, user_profile):
     req = request.body
-    print(req)
     req = req.decode()
-    print(req)
     req = json.loads(req)
     attendances_name = req.get('name')
 
@@ -330,7 +357,7 @@ def add_attendances(request, user_profile):
     if not all(
         [attendances_date, attendances_latitude, attendances_name, attendances_range, attendances_location,
          attendances_longitude, attendances_member_list, attendances_rest_time, attendances_jobs_time]):
-        return JsonResponse({'errno': '1', 'message': '缺少必要参数'})
+        return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
 
     try:
         attendances_obj = ZgDepartmentAttendance.objects.create(attendance_name=attendances_name,
@@ -347,9 +374,9 @@ def add_attendances(request, user_profile):
             user_obj.save()
 
     except Exception:
-        return JsonResponse({'errno': '2', 'message': '储存考勤组信息失败'})
+        return JsonResponse({'errno': 2, 'message': '储存考勤组信息失败'})
 
-    return JsonResponse({'errno': '0', 'message': '创建考勤组成功'})
+    return JsonResponse({'errno': 0, 'message': '创建考勤组成功'})
 
 
 # 更新考勤组
@@ -377,7 +404,7 @@ def update_attendances(request, user_profile):
     try:
         attendances_obj = ZgDepartmentAttendance.objects.get(id=attendances_id)
     except Exception:
-        return JsonResponse({'errno': '1', 'message': '考勤组id错误'})
+        return JsonResponse({'errno': 1, 'message': '考勤组id错误'})
     if attendances_name:
         attendances_obj.attendance_name = attendances_name
         attendances_obj.save()
@@ -388,7 +415,7 @@ def update_attendances(request, user_profile):
                 user_obj.atendance = attendances_obj
                 user_obj.save()
             except Exception:
-                return JsonResponse({'errno': '2', 'message': '用户id错误'})
+                return JsonResponse({'errno': 2, 'message': '用户id错误'})
     if attendances_jobs_time:
         attendances_obj.jobs_time = attendances_jobs_time
     if attendances_rest_time:
@@ -404,7 +431,7 @@ def update_attendances(request, user_profile):
     if attendances_range:
         attendances_obj.default_distance = attendances_range
     attendances_obj.save()
-    return JsonResponse({'errno': '0', 'message': '修改成功'})
+    return JsonResponse({'errno': 3, 'message': '修改成功'})
 
 
 # 删除考勤组
@@ -420,8 +447,8 @@ def del_attendances(request, user_profile):
             user_obj.save()
         ZgDepartmentAttendance.objects.get(id=attendances_id).delete()
     except Exception:
-        return JsonResponse({'errno': '1', 'message': '删除失败'})
-    return JsonResponse({'errno': '0', 'message': '删除成功'})
+        return JsonResponse({'errno': 1, 'message': '删除失败'})
+    return JsonResponse({'errno': 0, 'message': '删除成功'})
 
 
 # 获取单个考勤组
@@ -429,7 +456,7 @@ def get_attendances(request, user_profile):
     attendances_id = request.GET.get('attendances_id')
 
     if not attendances_id:
-        return JsonResponse({'errno': '1', 'message': '缺少id'})
+        return JsonResponse({'errno': 1, 'message': '缺少id'})
     attendance_dates = {'1': '一', '2': '二', '3': '三', '4': '四', '5': '五', '6': '六', '7': '日'}
 
     attendances_obj = ZgDepartmentAttendance.objects.filter(id=attendances_id)
@@ -460,7 +487,7 @@ def get_attendances(request, user_profile):
     range = attendances_obj.default_distance
 
     return JsonResponse(
-        {'errno': '0', 'message': '获取成功', 'name': name, 'member_list': member_list, 'jobs_time': jobs_time,
+        {'errno': 0, 'message': '获取成功', 'name': name, 'member_list': member_list, 'jobs_time': jobs_time,
          'rest_time': rest_time, 'attendance_time_list': attendance_time_list, 'longitude': longitude,
          'latitude': latitude, 'location': site,
          'range': range})
@@ -470,7 +497,7 @@ def get_attendances(request, user_profile):
 def attendances_management(request, user_profile):
     attendances_obj_list = ZgDepartmentAttendance.objects.all()
     if attendances_obj_list:
-        JsonResponse({'errno': '1', 'message': '暂无用户组哦'})
+        JsonResponse({'errno': 1, 'message': '暂无用户组哦'})
 
     # 用户组信息
     attendances_list = list()
@@ -493,7 +520,7 @@ def attendances_management(request, user_profile):
         attendances_dict['rest_time'] = attendances_obj.rest_time
         attendances_dict['attendances_location'] = attendances_obj.site
         attendances_list.append(attendances_dict)
-    return JsonResponse({'errno': '0', 'message': '成功', 'attendances_list': attendances_list})
+    return JsonResponse({'errno': 0, 'message': '成功', 'attendances_list': attendances_list})
 
 
 # 考勤补卡
@@ -513,13 +540,13 @@ def sign_in_view(request, user_profile):
     staff = user_profile.atendance
     if not staff:
         if user_profile.is_realm_admin:
-            return JsonResponse({'errno': '05', 'message': '暂无考勤组，请设置考勤组'})
-        return JsonResponse({'errno': '06', 'message': '暂无考勤组，请联系管理员设置考勤组'})
+            return JsonResponse({'errno': 0, 'message': 7})
+        return JsonResponse({'errno': 0, 'message': 7})
     # 获取经纬度
     my_longitude = request.GET.get('longitude')
     my_latitude = request.GET.get('latitude')
     if not all([my_longitude, my_latitude]):
-        return JsonResponse({'errno': '1', 'message': '地理位置错误'})
+        return JsonResponse({'errno': 1, 'message': '地理位置错误'})
     # 获取当前datetime
     stockpile_time = datetime.utcnow()
     stockpile_time = stockpile_time.replace(tzinfo=timezone.utc)
@@ -535,19 +562,20 @@ def sign_in_view(request, user_profile):
                                                   sign_in_time__month=month,
                                                   sign_in_time__day=day)
     attendance_site = user_profile.atendance.site
+    if attendance_time:
 
-    if str(attendance_time[0].sign_in_time) != '1970-01-01 00:00:00+00:00' and str(
-        attendance_time[0].sign_off_time) != '1970-01-01 00:00:00+00:00':
-        work = dict()
-        work['time'] = attendance_time[0].sign_in_time
-        work['site'] = attendance_site
-        work['status'] = attendance_time[0].sign_in_explain
+        if str(attendance_time[0].sign_in_time) != '1970-01-01 00:00:00+00:00' and str(
+            attendance_time[0].sign_off_time) != '1970-01-01 00:00:00+00:00':
+            work = dict()
+            work['time'] = attendance_time[0].sign_in_time
+            work['site'] = attendance_site
+            work['status'] = attendance_time[0].sign_in_explain
 
-        off_work = dict()
-        off_work['time'] = attendance_time[0].sign_off_time
-        off_work['site'] = attendance_site
-        off_work['status'] = attendance_time[0].sign_off_explain
-        return JsonResponse({'errno': '0', 'message': '1', 'work': work, 'off_work': off_work})
+            off_work = dict()
+            off_work['time'] = attendance_time[0].sign_off_time
+            off_work['site'] = attendance_site
+            off_work['status'] = attendance_time[0].sign_off_explain
+            return JsonResponse({'errno': 0, 'message': 1, 'work': work, 'off_work': off_work})
 
     # 获取设置地点
     longitude = staff.longitude
@@ -560,9 +588,14 @@ def sign_in_view(request, user_profile):
     distance = haversine(longitude, latitude, my_longitude, my_latitude)
     # 默认距离
     default_distance = staff.default_distance
-
     if distance > default_distance:
-        return JsonResponse({'errno': '0', 'message': '2'})
+        if len(attendance_time) == 1:
+            work = dict()
+            work['time'] = attendance_time[0].sign_in_time
+            work['site'] = attendance_site
+            work['status'] = attendance_time[0].sign_in_explain
+            return JsonResponse({'errno': 0, 'message': 10,'work':work})
+        return JsonResponse({'errno': 0, 'message': 2})
 
     # 获取规定的上下班时间呢
 
@@ -575,19 +608,19 @@ def sign_in_view(request, user_profile):
             work['time'] = attendance_time[0].sign_in_time
             work['site'] = attendance_site
             work['status'] = attendance_time[0].sign_in_explain
-            return JsonResponse({'errno': '0', 'message': '4', 'work': work})
+            return JsonResponse({'errno': 0, 'message': 4, 'work': work})
         elif len(attendance_time) == 0:
             try:
                 # 储存打卡时间
                 ZgAttendance.objects.create(sign_in_time=stockpile_time, user_name=user_profile,
                                             sign_in_explain='正常')
             except Exception:
-                return JsonResponse({'errno': '1', 'message': '打卡失败'})
+                return JsonResponse({'errno': 1, 'message': '打卡失败'})
             work = dict()
             work['time'] = stockpile_time
             work['site'] = attendance_site
             work['status'] = '正常'
-            return JsonResponse({'errno': '0', 'message': '3', 'work': work})
+            return JsonResponse({'errno': 0, 'message': 3, 'work': work})
 
 
     elif afternoon_rest_time > nowTime > morning_working_time:
@@ -596,7 +629,8 @@ def sign_in_view(request, user_profile):
             work['time'] = attendance_time[0].sign_in_time
             work['site'] = attendance_site
             work['status'] = attendance_time[0].sign_in_explain
-            return JsonResponse({'errno': '0', 'message': '4', 'work': work})
+
+            return JsonResponse({'errno': 0, 'message': 4, 'work': work})
 
         elif len(attendance_time) == 0:
             try:
@@ -604,13 +638,13 @@ def sign_in_view(request, user_profile):
                 ZgAttendance.objects.create(sign_in_time=stockpile_time, user_name=user_profile,
                                             sign_in_explain='迟到')
             except Exception:
-                return JsonResponse({'errno': '2', 'message': '打卡失败'})
+                return JsonResponse({'errno': 2, 'message': '打卡失败'})
             work = dict()
             work['time'] = stockpile_time
             work['site'] = attendance_site
             work['status'] = '迟到'
 
-            return JsonResponse({'errno': '0', 'message': '3', 'work': work})
+            return JsonResponse({'errno': 0, 'message': 3, 'work': work})
 
 
     elif nowTime >= afternoon_rest_time:
@@ -619,19 +653,20 @@ def sign_in_view(request, user_profile):
             work['time'] = attendance_time[0].sign_in_time
             work['site'] = attendance_site
             work['status'] = attendance_time[0].sign_in_explain
-            return JsonResponse({'errno': '0', 'message': '4', 'work': work})
+
+            return JsonResponse({'errno': 0, 'message': 4, 'work': work})
         elif len(attendance_time) == 0:
             try:
                 # 储存打卡时间
                 ZgAttendance.objects.create(sign_in_time=stockpile_time, user_name=user_profile,
                                             sign_in_explain='迟到')
             except Exception:
-                return JsonResponse({'errno': '3', 'message': '打卡失败'})
+                return JsonResponse({'errno': 3, 'message': '打卡失败'})
             work = dict()
             work['time'] = stockpile_time
             work['site'] = attendance_site
             work['status'] = '迟到'
-            return JsonResponse({'errno': '0', 'message': '3', 'work': work})
+            return JsonResponse({'errno': 0, 'message': 3, 'work': work})
 
 
 # 打卡球post打卡
@@ -647,13 +682,13 @@ def sign_in_post(request, user_profile):
     my_longitude = req.get('longitude')
     my_latitude = req.get('latitude')
     if not all([my_longitude, my_latitude]):
-        return JsonResponse({'errno': '1', 'message': '地理位置错误'})
+        return JsonResponse({'errno': 1, 'message': '地理位置错误'})
 
     try:
         jobs_time = user_profile.atendance.jobs_time
         rest_time = user_profile.atendance.rest_time
     except Exception:
-        return JsonResponse({'errno': '05', 'message': '获取考勤组失败，请联系管理员设置考勤组'})
+        return JsonResponse({'errno': 0, 'message': 7})
     longitude = user_profile.atendance.longitude
     latitude = user_profile.atendance.latitude
     my_longitude = float(my_longitude)
@@ -665,9 +700,6 @@ def sign_in_post(request, user_profile):
     # 默认距离
     default_distance = user_profile.atendance.default_distance
 
-    if distance > default_distance:
-        return JsonResponse({'errno': '02', 'message': '未进入考勤范围，请选择外勤'})
-
     stockpile_time = datetime.utcnow()
     stockpile_time = stockpile_time.replace(tzinfo=timezone.utc)
     year = stockpile_time.year
@@ -675,7 +707,7 @@ def sign_in_post(request, user_profile):
     day = stockpile_time.day
     nowtime = stockpile_time.time()
     tzutc_8 = timezone(timedelta(hours=8))
-    stockpile_time = stockpile_time.astimezone(tzutc_8) + timedelta(hours=8)
+    stockpile_time = stockpile_time.astimezone(tzutc_8)
 
     # stockpile_time = datetime.strptime(aaa, '%Y-%m-%d %H:%M:%S')
     # year = stockpile_time.year
@@ -688,9 +720,18 @@ def sign_in_post(request, user_profile):
                                                   sign_in_time__day=str(day))
     attendance_site = user_profile.atendance.site
 
+    if distance > default_distance:
+        if len(attendance_time) == 1:
+            work = dict()
+            work['time'] = attendance_time[0].sign_in_time
+            work['site'] = attendance_site
+            work['status'] = attendance_time[0].sign_in_explain
+            return JsonResponse({'errno': 0, 'message': 10,'work':work})
+        return JsonResponse({'errno': 0, 'message': 2})
+
     if str(attendance_time[0].sign_in_time) != '1970-01-01 00:00:00+00:00' and str(
         attendance_time[0].sign_off_time) != '1970-01-01 00:00:00+00:00':
-        return JsonResponse({'errno': '01', 'message': '今日已打卡'})
+        return JsonResponse({'errno': 0, 'message': 1})
 
     if jobs_time >= nowtime:
         if len(attendance_time) == 1:
@@ -702,15 +743,16 @@ def sign_in_post(request, user_profile):
             work['site'] = attendance_site
             work['status'] = '早退'
 
-            return JsonResponse({'errno': '04', 'message': '下班打卡成功', 'work': work})
+
+            return JsonResponse({'errno': 0, 'message': 8, 'work': work})
 
         elif len(attendance_time) == 0:
             try:
                 # 储存打卡时间
                 ZgAttendance.objects.create(sign_in_time=stockpile_time, user_name=user_profile, sign_in_explain='正常')
             except Exception:
-                return JsonResponse({'errno': '3', 'message': '打卡失败'})
-            return JsonResponse({'errno': '03', 'message': '上班打卡成功'})
+                return JsonResponse({'errno': 3, 'message': '打卡失败'})
+            return JsonResponse({'errno': 0, 'message': 3})
 
     elif rest_time > nowtime > jobs_time:
 
@@ -722,14 +764,14 @@ def sign_in_post(request, user_profile):
             work['time'] = stockpile_time
             work['site'] = attendance_site
             work['status'] = '早退'
-            return JsonResponse({'errno': '04', 'message': '打卡成功,您已早退', 'work': work})
+            return JsonResponse({'errno': 0, 'message': 8, 'work': work})
         elif len(attendance_time) == 0:
             try:
                 # 储存打卡时间
                 ZgAttendance.objects.create(sign_in_time=stockpile_time, user_name=user_profile, sign_in_explain='迟到')
             except Exception:
-                return JsonResponse({'errno': '4', 'message': '打卡失败'})
-            return JsonResponse({'errno': '03', 'message': '打卡成功,您已迟到,下次早点来哦'})
+                return JsonResponse({'errno': 4, 'message': '打卡失败'})
+            return JsonResponse({'errno': 0, 'message': 9})
 
     elif nowtime >= rest_time:
         if len(attendance_time) == 1:
@@ -741,15 +783,15 @@ def sign_in_post(request, user_profile):
             work['site'] = attendance_site
             work['status'] = '正常'
 
-            return JsonResponse({'errno': '04', 'message': '下班打卡成功', 'work': work})
+            return JsonResponse({'errno': 0, 'message': 4, 'work': work})
 
         elif len(attendance_time) == 0:
             try:
                 # 储存打卡时间
                 ZgAttendance.objects.create(sign_in_time=stockpile_time, user_name=user_profile, sign_in_explain='迟到')
             except Exception:
-                return JsonResponse({'errno': '5', 'message': '打卡失败'})
-            return JsonResponse({'errno': '03', 'message': '打卡成功,您已迟到,下次早点来哦'})
+                return JsonResponse({'errno': 0, 'message': 5})
+            return JsonResponse({'errno': 0, 'message': 9})
 
 
 # 打卡页考勤信息
@@ -761,7 +803,7 @@ def attendance_data(request, user_profile):
     try:
         a = user_profile.atendance.jobs_time
     except Exception:
-        return JsonResponse({'errno': '4', 'message': '暂无考勤组，请联系管理员设置考勤组'})
+        return JsonResponse({'errno': 4, 'message': '暂无考勤组，请联系管理员设置考勤组'})
 
     try:
         attendance_count = ZgAttendance.objects.filter(user_name=user_profile, sign_in_time__year=year,
@@ -772,7 +814,7 @@ def attendance_data(request, user_profile):
                                                        sign_off_explain='正常'
                                                        ).count()
     except Exception:
-        return JsonResponse({'errno': '2', 'message': '获取本月外勤天数失败'})
+        return JsonResponse({'errno': 2, 'message': '获取本月外勤天数失败'})
 
     try:
         # 迟到
@@ -781,7 +823,7 @@ def attendance_data(request, user_profile):
                                                     sign_in_time__month=month,
                                                     sign_in_explain='迟到').count()
     except Exception:
-        return JsonResponse({'errno': '3', 'message': '获取迟到天数失败'})
+        return JsonResponse({'errno': 3, 'message': '获取迟到天数失败'})
 
     # 缺卡天数
     absenteeism_count = ZgAttendance.objects.filter(
@@ -802,11 +844,12 @@ def attendance_data(request, user_profile):
     default_distance = user_profile.atendance.default_distance
 
     return JsonResponse(
-        {'errno': '0', 'message': '成功', 'default_distance': default_distance, 'latitude': latitude,
+        {'errno': 0, 'message': '成功', 'default_distance': default_distance, 'latitude': latitude,
          'longitude': longitude, 'rest_time': rest_time,
          'jobs_time': jobs_time, 'attendance_name': attendance_name,
          'attendance_count': attendance_count, 'overdue_count': overdue_count,
          'absenteeism_count': absenteeism_count})
+
 
 # 重新定位
 def attendance_location(request, user_profile):
@@ -824,9 +867,9 @@ def attendance_location(request, user_profile):
     default_distance = user_profile.atendance.default_distance
 
     if distance > default_distance:
-        return JsonResponse({'errno': '0', 'message': '1'})
+        return JsonResponse({'errno': 0, 'message': 1})
     else:
-        return JsonResponse({'errno': '0', 'message': '2'})
+        return JsonResponse({'errno': 0, 'message': 2})
 
 
 # 外勤页面
@@ -845,7 +888,7 @@ def outside_sign_in_view(request, user_profile):
     default_distance = user_profile.atendance.default_distance
 
     if distance < default_distance:
-        return JsonResponse({'errno': '1', 'message': '您当前在考勤范围内'})
+        return JsonResponse({'errno': 1, 'message': '您当前不在考勤范围内'})
 
     stockpile_time = datetime.utcnow()
     stockpile_time = stockpile_time.replace(tzinfo=timezone.utc)
@@ -868,7 +911,8 @@ def outside_sign_in_view(request, user_profile):
         outside_dict['type'] = outside.outsidework_notes
         outside_list.append(outside_dict)
 
-    return JsonResponse({'errno': '0', 'message': '成功', 'outside_list': outside_list})
+    return JsonResponse({'errno': 0, 'message': '成功', 'outside_list': outside_list})
+
 
 # 外勤打卡
 def outside_sign_in(request, user_profile):
@@ -887,14 +931,20 @@ def outside_sign_in(request, user_profile):
     stockpile_time = stockpile_time.replace(tzinfo=timezone.utc)
 
     if not all([type, longitude, latitude, site]):
-        return JsonResponse({'errno': '1', 'message': '缺少必要参数'})
+        return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
     # try:
     ZgOutsideWork.objects.create(outsidework_notes=type, longitude=longitude, latitude=latitude, site=site,
-                                     notes=notes,user_name=user_profile,
-                                     img_url=img_url, sign_in_time=stockpile_time)
+                                 notes=notes, user_name=user_profile,
+                                 img_url=img_url, sign_in_time=stockpile_time)
     # except Exception:
     #     return JsonResponse({'errno': '2', 'message': '外勤打卡失败'})
 
     return JsonResponse(
-        {'errno': '0', 'message': '成功', 'type': type, 'longitude': longitude, 'latitude': latitude, 'site': site,
+        {'errno': 0, 'message': '成功', 'type': type, 'longitude': longitude, 'latitude': latitude, 'site': site,
          'notes': notes, 'img_url': img_url, 'stockpile_time': stockpile_time})
+
+
+def delete_att(request, user_profile):
+    ids = request.GET.get('id')
+    ZgAttendance.objects.get(id=ids).delete()
+    return JsonResponse({'errno': 1})

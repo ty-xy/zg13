@@ -348,6 +348,9 @@ v1_api_and_json_patterns = [
 
     url(r'^zg/person/$', rest_dispatch,
         {'POST': 'zerver.views.zg_backlog.person_list'}),
+    # 删除聊天主题
+    url(r'^zg/subject/$', rest_dispatch,
+        {'DELETE': 'zerver.views.zg_restful_apl.del_subject'}),
 
     # 用户列表
     url(r'^zg/user$', rest_dispatch,
@@ -424,6 +427,9 @@ v1_api_and_json_patterns = [
     # web个人月历
     url(r'^zg/attendance/month/solo/web$', rest_dispatch,
         {'GET': 'zerver.views.zg_attendance.solo_month_attendance_web'}),
+
+    url(r'^zg/attendance/month/solo/app', rest_dispatch,
+        {'GET': 'zerver.views.zg_attendance.solo_month_attendance_app'}),
 
     # 考勤组列表
     url(r'^zg/attendances/management$', rest_dispatch,
@@ -521,6 +527,11 @@ v1_api_and_json_patterns = [
     # 测试发送消息
     url(r'^zg/message/text', rest_dispatch,
         {'GET': 'zerver.views.zg_zpproval.view_leave'}),
+    # 删除考勤信息
+    url(r'^zg/del/attssss', rest_dispatch,
+        {'GET': 'zerver.views.zg_attendance.delete_att'}),
+
+
 
 ]
 
