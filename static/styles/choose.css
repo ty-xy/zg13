@@ -521,7 +521,9 @@ a.message-control-button {
     display:none
 }
 .setting_body{
-    padding:20px
+    padding:20px;
+   
+    
 }
 .setting_body>h1{
     font-family: PingFangSC-Medium;
@@ -650,7 +652,7 @@ a.message-control-button {
     flex-wrap: wrap;
     justify-content: flex-start;
 }
-.more-detail{
+.more-topic,.more-detail{
     width:100%;
     text-align:center;
     font-family: PingFangSC-Regular;
@@ -902,3 +904,20 @@ a.message-control-button {
         overflow:-moz-scrollbars-none;
         }
     #zfilt::-webkit-scrollbar{width:0px}
+    .topiclist-group{
+        display:flex;
+        justify-content: space-between;
+        align-items: center;
+        width:inherit;
+    }
+    .shan-chu{
+        font-family: PingFangSC-Regular;
+        font-size: 14px;
+        color: #F76969;
+        letter-spacing: 0.16px;
+        cursor: pointer;
+    }
+    .names-item{
+        max-height:100px;
+        overflow-y:auto;
+    }

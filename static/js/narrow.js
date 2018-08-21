@@ -537,7 +537,7 @@ function pick_empty_narrow_banner() {
     var default_banner = $('#empty_narrow_message');
 
     var current_filter = narrow_state.get_current_filter();
-    console.log(current_filter)
+    // console.log(current_filter)
     if (current_filter === undefined) {
         return default_banner;
     }
@@ -561,7 +561,7 @@ function pick_empty_narrow_banner() {
             $(".persistent_data").append(JSON.parse(localStorage.getItem("p")))
             $(".persistent_data").on("click",".only_tip",function(e){
                 e.stopPropagation()
-                console.log("难道问题出在这儿？")
+                // console.log("难道问题出在这儿？")
                 $("#main_div").show();
                 $(".move_ctn").children().remove();
                 $(".tab-content").css("height","calc(100% - 232px)")
@@ -622,7 +622,7 @@ function pick_empty_narrow_banner() {
             $(".persistent_data").hide();
             return $("#management_ctn");
         }else if (first_operand === "supervise") {
-            // $('#zfilt').hide()
+            $('#zfilt').hide()
             // $("#zfilt").removeClass("focused_table");
             $(".notice_ctn_boxs").hide()
             $("#compose").hide()

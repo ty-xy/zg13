@@ -38,6 +38,7 @@ var message_group = (function () {
                 $(".compose-title").hide()
             }
         }
+       
         changeUrl()
         window.addEventListener('hashchange', function () {
                 changeUrl()
@@ -131,7 +132,6 @@ var message_group = (function () {
         $("#zfilt").height(Heights-350)
         //群组消息点
         $("#compose-container").on("click",".topic-list-item",function(e){
-            
             $("#stream-message").show()
             var topic  = $(this).attr("data-topic-name")
             var stream =$(this).closest(".topic-list").attr("data-stream")
@@ -278,7 +278,6 @@ var message_group = (function () {
                 var sub = stream_data.get_sub_by_id(stream_id);
                 $("#stream").val(sub.name)
                 $("#subject").val(subject)
-      
               })
            
               //新建群组
@@ -351,13 +350,7 @@ var message_group = (function () {
              })
              var show = emial.length>10?true:false
              var avatar= avatars.length>10?avatars.slice(0,10):avatars
-            var html = templates.render("group_setting",
-                                        {name:title,
-                                        titlef:titlef,
-                                        avatar:avatar,
-                                        color:get_sub_by_name,
-                                        show:show})
-            $(".group_setting").html(html)
+          
             
             $(".group_setting").show()
             var url = '/json/users/me/' + get_sub_by_name.stream_id + '/topics';
@@ -377,6 +370,28 @@ var message_group = (function () {
                             }
                         }
                     });
+                    
+                    var showTopic = names.length>2?true:false
+                    var html = templates.render("group_setting",
+                    {name:title,
+                    titlef:titlef,
+                    avatar:avatar,
+                    color:get_sub_by_name,
+                    show:show,
+                    showTopic:showTopic,
+                    topiclength:names.length,
+                    names:names.length>0?names.slice(0,2):''
+                    })
+                    $(".group_setting").html(html)
+                    var colorpicker = $(".group_setting").find(".colorpicker")
+                    var color = stream_data.get_color(title);
+                    stream_color.set_colorpicker_colors(colorpicker, color);
+                    $(".more-topic").on("click",function(e){
+                        e.stopPropagation()
+                        var html = templates.render("more_topic",{names:names})
+                        $(".names-item").html(html)
+                        $(".more-topic").hide()
+                    })
                 },
             })
              // 颜色的选择
@@ -388,9 +403,7 @@ var message_group = (function () {
             })
             //  var colorpicker = $(".group_setting .sub_setting_color").children().eq(0);
             // $(".group_setting").on("click",".sub_setting_color",function(){
-                var colorpicker = $(".group_setting").find(".colorpicker")
-                var color = stream_data.get_color(title);
-                stream_color.set_colorpicker_colors(colorpicker, color);
+              
             // })
             // 退订群组
             $(".group_setting").on("click",".back-tuiding",function(e){

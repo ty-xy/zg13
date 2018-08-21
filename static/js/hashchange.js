@@ -71,23 +71,14 @@ exports.save_narrow = function (operators) {
 };
 var arr;
 exports.parse_narrow = function (hash) {
-    if(hash[1] == 'pm-with'||hash[1]=="stream"){
+    // console.log(hash)
+    if(hash[1] == 'pm-with'||hash.length===5){
         $(".tab-content").css("height","calc(100% - 232px)")
         arr = JSON.parse(localStorage.getItem("arr"))
         if(arr != null){
             $(".persistent_data").children().remove();
             var notice_box = templates.render("notice_box",{arr:arr})
             $(".persistent_data").prepend(notice_box)
-            if(hash[1]=="stream"){
-                var stream= hash_util.decodeHashComponent(hash[2])
-                var index = stream.indexOf("-")
-                stream=stream.slice(index+1)
-                var subject =hash_util.decodeHashComponent(hash.pop())
-                $("#empty_narrow_message").hide()
-                $("#zfilt").show()
-                $("#stream").val(stream)
-                $("#subject").val(subject)
-            }
             _.filter($(".persistent_data").children(),function(data){
                 var indexs = data.href
                 var index = indexs.indexOf('#')
