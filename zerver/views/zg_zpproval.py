@@ -14,12 +14,8 @@ from zerver.tornado.event_queue import send_event
 def nuw_time():
     stockpile_time = datetime.utcnow()
     stockpile_time = stockpile_time.replace(tzinfo=timezone.utc)
-    year = stockpile_time.year
-    month = stockpile_time.month
-    day = stockpile_time.day
-    nowtime = stockpile_time.time()
     tzutc_8 = timezone(timedelta(hours=8))
-    stockpile_time = stockpile_time.astimezone(tzutc_8) + timedelta(hours=8)
+    stockpile_time = stockpile_time.astimezone(tzutc_8)
     return stockpile_time
 
 
@@ -29,8 +25,9 @@ def view_leave(request, user_profile):
     aa = request.GET.get('aa')
     a = UserProfile.objects.get(id=26)
     b = UserProfile.objects.get(id=22)
-
-    send_event({'type': 'message', 'rendered_content': '<p>%s</p>' % aa}, [a, b])
+    sasa = [a, b]
+    # user=
+    send_event({'type': 'message', 'rendered_content': '<p>%s</p>' % aa}, sasa)
 
     return JsonResponse({'errno': 1})
 
@@ -122,10 +119,6 @@ def reimburse_add(request, user_profile):
 
 # 待审批列表
 def expectation_approval_list(request, user_profile):
-    # types = request.GET.get('types')
-    # ids = request.GET.get('id')
-    # if not all([types, ids]):
-    #     return JsonResponse({'errno': 1, 'message': '缺少参数'})
     iaitiate_list = []
     review_objs = ZgReview.objects.filter(status='审批中', send_user_id=user_profile.id)
     if review_objs:
@@ -142,8 +135,9 @@ def expectation_approval_list(request, user_profile):
             aa['name'] = review_obj.user.full_name + name
             aa['user_avatar'] = avatar.absolute_avatar_url(review_obj.user)
             aa['type'] = review_obj.types
-            aa['id'] = review_obj.id
+            aa['id'] = review_obj.table_id
             aa['status'] = review_obj.status
+            aa['send_time'] = review_obj.send_time
             iaitiate_list.append(aa)
 
     return JsonResponse({'errno': 0, 'message': '成功', 'iaitiate_list': iaitiate_list})
@@ -152,7 +146,7 @@ def expectation_approval_list(request, user_profile):
 # 已完成审批列表
 def completed_approval_list(request, user_profile):
     completed_list = []
-    review_objs = ZgReview.objects.filter(~Q(status='审批中'), send_user_id=user_profile.id)
+    review_objs = ZgReview.objects.filter(status='已完成')
 
     if review_objs:
         for review_obj in review_objs:
@@ -168,8 +162,9 @@ def completed_approval_list(request, user_profile):
             aa['name'] = review_obj.user.full_name + name
             aa['user_avatar'] = avatar.absolute_avatar_url(review_obj.user)
             aa['type'] = review_obj.types
-            aa['id'] = review_obj.id
+            aa['id'] = review_obj.table_id
             aa['status'] = review_obj.status
+            aa['send_time'] = review_obj.send_time
             completed_list.append(aa)
 
     return JsonResponse({'errno': 0, 'message': '成功', 'completed_list': completed_list})
@@ -234,7 +229,7 @@ def inform_approval(request, user_profile):
             aa['name'] = inform.user.full_name + name
             aa['user_avatar'] = avatar.absolute_avatar_url(inform.user)
             aa['type'] = inform.types
-            aa['id'] = inform.id
+            aa['id'] = inform.table_id
             bb = ZgReview.objects.filter(types=aa['type'], table_id=aa['id'],
                                          status='审批未通过').count()
             cc = ZgReview.objects.filter(types=aa['type'], table_id=aa['id'],
@@ -272,11 +267,14 @@ def tools_approcal_details(types, ids, user_profile, table_obj):
 
     if user_profile.id == table_obj.user.id and table_obj.status == '发起申请':
         data['button_status'] = 1
-    elif ZgReview.objects.filter(id=ids, types=types, send_user_id=user_profile.id, status='审批中'):
+    elif ZgReview.objects.filter(id=ids, types=types, send_user_id=user_profile.id, status='审批中',duties='approval'):
         data['button_status'] = 2
-    elif ZgReview.objects.filter(~Q(status='审批中') | ~Q(duties='inform'), id=ids, types=types,
-                                 send_user_id=user_profile.id):
+    elif ZgReview.objects.filter(Q(~Q(status='审批中')&~Q(status='已撤销'),id=ids, types=types,
+                                    send_user_id=user_profile.id)|
+                                  Q(duties='inform', id=ids, types=types,
+                                    send_user_id=user_profile.id)):
         data['button_status'] = 3
+
     elif table_obj.status == '已撤销' and table_obj.user != user_profile:
         data['button_status'] = 4
     elif table_obj.status == '已撤销' and table_obj.user == user_profile:
@@ -361,11 +359,11 @@ def approval_details(request, user_profile):
         return JsonResponse({'errno': 1, 'message': '缺少参数'})
     data = {}
     if types == 'reimburse':
+        reimburse = ZgReimburse.objects.filter(id=ids)
 
-        reimburse = ZgReimburse.objects.get(id=ids)
         if not reimburse:
             return JsonResponse({'errno': 2, 'message': '无效数据'})
-
+        reimburse = reimburse[0]
         data['amount'] = reimburse.amount
         data['category'] = reimburse.category
         data['detail'] = reimburse.detail
@@ -434,6 +432,10 @@ def state_update(request, user_profile):
             return JsonResponse({'errno': 3, 'message': '无此条信息'})
         table_objs[0].status = states
         table_objs[0].save()
+        review_objs = ZgReview.objects.filter(types=types, table_id=ids)
+        for review_obj in review_objs:
+            review_obj.status = '审批中'
+            review_obj.save()
     elif states == '已撤销':
         if not table_objs:
             return JsonResponse({'errno': 3, 'message': '无此条信息'})

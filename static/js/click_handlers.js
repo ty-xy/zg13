@@ -723,7 +723,6 @@ $(function () {
 
         // Comment below to disable marking hotspots as read in production
         hotspots.post_hotspot_as_read(hotspot_name);
-
         overlays.close_overlay(overlay_name);
         $('#hotspot_' + hotspot_name + '_icon').remove();
     });

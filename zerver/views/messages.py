@@ -1421,6 +1421,7 @@ def delete_message_backend(request: HttpRequest, user_profile: UserProfile,
 def json_fetch_raw_message(request: HttpRequest, user_profile: UserProfile,
                            message_id: int = REQ(converter=to_non_negative_int)) -> HttpResponse:
     (message, user_message) = access_message(user_profile, message_id)
+
     return json_success({"raw_content": message.content, 'last_edit_time': message.last_edit_time,
                          'pud_date': message.pub_date, 'subject': message.subject,
                          'rendered_content': message.rendered_content, 'edit_history': message.edit_history,

@@ -71,14 +71,25 @@ exports.save_narrow = function (operators) {
 };
 var arr;
 exports.parse_narrow = function (hash) {
-    console.log(hash)
-    if(hash[1] == 'pm-with'){
+    // console.log(hash)
+    if(hash[1] == 'pm-with'||hash.length===5){
         $(".tab-content").css("height","calc(100% - 232px)")
         arr = JSON.parse(localStorage.getItem("arr"))
         if(arr != null){
             $(".persistent_data").children().remove();
             var notice_box = templates.render("notice_box",{arr:arr})
             $(".persistent_data").prepend(notice_box)
+            _.filter($(".persistent_data").children(),function(data){
+                var indexs = data.href
+                var index = indexs.indexOf('#')
+                var hashs = indexs.slice(index)
+                if(hashs=== window.location.hash){
+                    // var children= data.children
+                    var li = data.getElementsByClassName("notice_ctn")
+                    var $li = $(li)
+                    $li.addClass("backgr").parent().siblings().children().removeClass("backgr")
+                }
+            })
         }
         // $(".persistent_data").children().remove();
         // $(".persistent_data").append(JSON.parse(localStorage.getItem("p")))
@@ -120,7 +131,6 @@ exports.parse_narrow = function (hash) {
             var operator = hash_util.decodeHashComponent(hash[i]);
            
             var operand  = hash_util.decode_operand(operator, hash[i+1] || '');
-          
             var negated = false;
             if (operator[0] === '-') {
                 negated = true;

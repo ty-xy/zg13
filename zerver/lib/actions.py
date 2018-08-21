@@ -139,6 +139,7 @@ import logging
 import itertools
 from collections import defaultdict
 from operator import itemgetter
+from zerver.models import Message
 
 # This will be used to type annotate parameters in a function if the function
 # works on both str and unicode in python 2 but in python 3 it only works on str.
@@ -208,7 +209,8 @@ def get_topic_history_for_stream(user_profile: UserProfile,
         query = '''
         SELECT
             "zerver_message"."subject" as topic,
-            max("zerver_message".id) as max_message_id
+            max("zerver_message".id) as max_message_id,
+            min("zerver_message".id) as min_message_id
         FROM "zerver_message"
         WHERE (
             "zerver_message"."recipient_id" = %s
@@ -223,8 +225,13 @@ def get_topic_history_for_stream(user_profile: UserProfile,
         query = '''
         SELECT
             "zerver_message"."subject" as topic,
-            max("zerver_message".id) as max_message_id
+            max("zerver_message".id) as max_message_id,
+<<<<<<< HEAD
+=======
+            min("zerver_message".id) as min_message_id
+>>>>>>> 32f100de529f79e5e8c7460369661b7a964fe5f6
         FROM "zerver_message"
+        
         INNER JOIN "zerver_usermessage" ON (
             "zerver_usermessage"."message_id" = "zerver_message"."id"
         )
@@ -236,6 +243,7 @@ def get_topic_history_for_stream(user_profile: UserProfile,
             "zerver_message"."subject"
         )
         ORDER BY max("zerver_message".id) DESC
+        
         '''
         cursor.execute(query, [user_profile.id, recipient.id])
     rows = cursor.fetchall()
@@ -243,16 +251,22 @@ def get_topic_history_for_stream(user_profile: UserProfile,
 
     canonical_topic_names = set()  # type: Set[str]
     history = []
-    for (topic_name, max_message_id) in rows:
+    for (topic_name, max_message_id,min_message_id) in rows:
         canonical_name = topic_name.lower()
         if canonical_name in canonical_topic_names:
             continue
 
         canonical_topic_names.add(canonical_name)
+        send_ids=Message.objects.filter(id=min_message_id)
+        if send_ids:
+            send_ids=send_ids[0]
         history.append(dict(
             name=topic_name,
-            max_id=max_message_id))
-
+            max_id=max_message_id,
+            min_id=min_message_id,
+            sender_id=send_ids.sender_id
+            ))
+        # print(history,"min_message_id")
     return history
 
 def send_signup_message(sender: UserProfile, admin_realm_signup_notifications_stream: Text,

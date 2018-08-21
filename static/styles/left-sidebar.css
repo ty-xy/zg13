@@ -802,6 +802,8 @@ li.show-more-private-messages a {
     color: #333333;
     letter-spacing: 0.18px;
     line-height: 64px;
+    box-sizing: border-box;
+    height: 54px;
 }
 .manage_groups_list:hover{
     background: #F1F6FD;

@@ -50,14 +50,14 @@ function message_matches_search_term(message, operator, operand) {
     case 'is':
         if (operand === 'private') {
             return (message.type === 'private');
-            console.log(message)
+            // console.log(message)
         } else if (operand === 'starred') {
             return message.starred;
-            console.log(message)
+            // console.log(message)
         } else if (operand === 'mentioned') {
             return message.mentioned;
         } else if (operand === 'alerted') {
-            console.log(message)
+            // console.log(message)
             return message.alerted;
         } else if (operand === 'unread') {
             return unread.message_unread(message);

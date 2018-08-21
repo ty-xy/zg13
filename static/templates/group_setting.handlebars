@@ -28,6 +28,20 @@
         <li class="more-detail">查看更多</li>
         {{/if}}
     </ul>
+    <div>
+        <div>群组话题({{topiclength}})</div>
+        <ul class="names-item">
+            {{#each names }}
+           <li class="topiclist-group">
+               <span>{{this}}</span>
+               <span class="shan-chu">删除</span>
+           </li>
+            {{/each}}
+        </ul>
+         {{#if showTopic}}
+        <div class="more-topic">查看更多</div>
+        {{/if}}
+    </div>
     <ul class="chat-setting">
         <li class="up-chat chat-common">
             <span>置顶聊天</span>
