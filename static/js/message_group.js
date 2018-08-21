@@ -392,17 +392,15 @@ var message_group = (function () {
                         $(".names-item").html(html)
                         $(".more-topic").hide()
                     })
-                    $(".topiclist-group").on("click",function(e){
+                    $(".names-item").on("click",".topiclist-group",function(e){
                        var  del_subject = $(this).attr("data-name")
+                       var that = $(this)
                        channel.del({
                         url: 'json/zg/subject/',
                         idempotent: true,
-                        data:{subject:del_subject},
+                        data:JSON.stringify({subject:del_subject}),
                         success:function(data){
-                           if(data.errno===0){
-                            // var li  = "."+(that.parent().parent()).attr("class")
-                            console.log(data)
-                           }
+                            that.remove()
                         }
                     })
                     })
