@@ -16,11 +16,9 @@ exports.topic_history = function () {
     self.add_or_update = function (opts) {
         var name = opts.name;
         var message_id = opts.message_id || 0;
-
         message_id = parseInt(message_id, 10);
-
         var existing = topics.get(name);
-
+        
         if (!existing) {
             topics.set(opts.name, {
                 message_id: message_id,
@@ -67,13 +65,10 @@ exports.topic_history = function () {
         // This method populates historical topics from the
         // server.  We have less data about these than the
         // client can maintain for newer topics.
-
         _.each(server_history, function (obj) {
             var name = obj.name;
             var message_id = obj.max_id;
-
             var existing = topics.get(name);
-
             if (existing) {
                 if (!existing.historical) {
                     // Trust out local data more, since it
@@ -96,7 +91,7 @@ exports.topic_history = function () {
 
     self.get_recent_names = function () {
         var recents = topics.values();
-
+        var message = current_msg_list.get(1017);
         recents.sort(function (a, b) {
             return b.message_id - a.message_id;
         });
@@ -129,12 +124,12 @@ exports.remove_message = function (opts) {
 
 exports.find_or_create = function (stream_id) {
     var history = stream_dict.get(stream_id);
-
     if (!history) {
         history = exports.topic_history();
         stream_dict.set(stream_id, history);
     }
     // console.log(history,"history")
+
     return history;
 };
 
@@ -142,9 +137,7 @@ exports.add_message = function (opts) {
     var stream_id = opts.stream_id;
     var message_id = opts.message_id;
     var name = opts.topic_name;
-
     var history = exports.find_or_create(stream_id);
-    // console.log(history,"history")
     history.add_or_update({
         name: name,
         message_id: message_id,
@@ -164,7 +157,6 @@ exports.get_server_history = function (stream_id, on_success) {
         data: {},
         success:  function (data) {
             var server_history = data.topics;
-            // console.log(data,"data")
             exports.add_history(stream_id, server_history);
             on_success();
         },
@@ -173,7 +165,6 @@ exports.get_server_history = function (stream_id, on_success) {
 
 exports.get_recent_names = function (stream_id) {
     var history = stream_dict.get(stream_id);
-
     if (!history) {
         return [];
     }

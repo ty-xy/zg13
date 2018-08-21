@@ -1,9 +1,13 @@
         {{#if arr}}
             {{#each arr}}
             <a href="{{_href}}">
-            <li class="notice_ctn only_tip" send_id="{{send_id}}" short_name="{{short_name}}">
+            <li class="notice_ctn only_tip " send_id="{{send_id}}"  {{#unless stream}}stream_id="{{stream_id}}" short_name="{{short_name}}"{{/unless}}>
                 <div class="notice_left fix">
-                    <img src="{{avatar}}" alt="" class="notice_img">
+                    {{#unless stream}}
+                        <img src="{{avatar}}" alt="" class="notice_img">
+                       {{else}}
+                       <span class='color-setting avatar_setting' style="background-color:{{avatar}}">{{nfirst name}}</span>
+                    {{/unless}}
                 </div>
                 <div class="notice_right fix">
                     <div class="notice_top fix">
@@ -22,9 +26,13 @@
             {{/each}}
             {{else}}
                 <a href="{{_href}}">
-                <li class="notice_ctn only_tip" send_id="{{send_id}}" short_name="{{short_name}}">
+                <li class="notice_ctn only_tip backgr" send_id="{{send_id}}"  {{#unless type}}short_name="{{short_name}}"  stream_id="{{stream_id}}"{{/unless}}>
                     <div class="notice_left fix">
+                    {{#unless stream}}
                         <img src="{{avatar}}" alt="" class="notice_img">
+                       {{else}}
+                       <span class='color-setting avatar_setting' style="background-color:{{avatar}}">{{nfirst name}}</span>
+                    {{/unless}}
                     </div>
                     <div class="notice_right fix">
                         <div class="notice_top fix">

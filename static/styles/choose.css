@@ -521,7 +521,9 @@ a.message-control-button {
     display:none
 }
 .setting_body{
-    padding:20px
+    padding:20px;
+   
+    
 }
 .setting_body>h1{
     font-family: PingFangSC-Medium;
@@ -650,7 +652,7 @@ a.message-control-button {
     flex-wrap: wrap;
     justify-content: flex-start;
 }
-.more-detail{
+.more-topic,.more-detail{
     width:100%;
     text-align:center;
     font-family: PingFangSC-Regular;
@@ -902,3 +904,63 @@ a.message-control-button {
         overflow:-moz-scrollbars-none;
         }
     #zfilt::-webkit-scrollbar{width:0px}
+    .topiclist-group{
+        display:flex;
+        justify-content: space-between;
+        align-items: center;
+        width:inherit;
+    }
+    .shan-chu{
+        font-family: PingFangSC-Regular;
+        font-size: 14px;
+        color: #F76969;
+        letter-spacing: 0.16px;
+        cursor: pointer;
+    }
+    .names-item{
+        max-height:100px;
+        overflow-y:auto;
+    }
+    .nav-bars{
+        height:88.5px;
+        
+    }
+    .nav-bars>li{
+       margin-right:38px
+    }
+    .nav-bars > .active > a,.nav-bars>.active>a:hover{
+        border:1px solid transparent;
+        border-bottom-color:#4584FF;
+        color: #4584FF;
+    }
+    .nav-tabs > li > a{
+        color: #333333;
+        font-size: 18px;
+        letter-spacing: 0.2px;
+        height:71px;
+        line-height:100px;
+    }
+    .send-check{
+        display:flex;
+        margin-left:0
+    }
+    .send-check>li{
+        opacity: 0.5;
+        border: 1px solid #DDDDDD;
+        width: 200px;
+        height:246px;
+        margin-right:10px
+    }
+    .shenpi{
+        background: #48D2A0;
+    }
+    .zhiliao{
+        background: #FFB755;
+        border-radius: 100px;
+    }
+    .renwu{
+        background: #FF9595;
+    }
+    .gonggao{
+        background: #FF836A;
+    }

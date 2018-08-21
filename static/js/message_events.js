@@ -18,7 +18,7 @@ function maybe_add_narrowed_messages(messages, msg_list, messages_are_new) {
                 // We unnarrowed in the mean time
                 return;
             }
-            console.log(data)
+            // console.log(data)
             var new_messages = [];
             var elsewhere_messages = [];
             _.each(messages, function (elem) {
