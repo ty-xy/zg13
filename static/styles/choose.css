@@ -942,14 +942,16 @@ a.message-control-button {
     }
     .send-check{
         display:flex;
-        margin-left:0
+        margin-left:10px
     }
     .send-check>li{
-        opacity: 0.5;
+        /* opacity: 0.5; */
         border: 1px solid #DDDDDD;
         width: 200px;
         height:246px;
-        margin-right:10px
+        margin-right:10px;
+        cursor: pointer;
+        position: relative;
     }
     .shenpi{
         background: #48D2A0;
@@ -964,3 +966,149 @@ a.message-control-button {
     .gonggao{
         background: #FF836A;
     }
+    .leave-icon{
+      font-size:55px;
+     
+    }
+    .send-check>li>div>p{
+        font-family: PingFangSC-Regular;
+        font-size: 15px;
+        color: #333333;
+        letter-spacing: 0.17px;
+    }
+    .send-check>li>div>i{
+        color:#7BB0FF;
+    }
+    .send-check>li>div{
+        /* margin-bottom:60px; */
+        position: absolute;
+        width:100%;
+        bottom:70px;
+        text-align:center;
+    }
+    .ask_for_leave>div>p{
+        margin-top:22px;
+    }
+    .business-trip{
+        font-size:59px;
+    }
+    .reimburse{
+        height:57.4px;
+        width:67px;
+        font-size:57.4px;
+    }
+    .progress-icon{
+        width:60.2px;
+        height:67px;
+        font-size:60.2px;
+    }
+    .on_business_trip>div>p{
+        margin-top:20px;
+    }
+    .reimburse-moneny>div>p{
+        margin-top:20.6px
+    }
+    .progress-percent>div>p{
+       margin-top:18px
+    }
+    .ask-for-leave-title{
+        height:88.5px;
+        border-bottom:1px solid #ddd;
+        line-height:120px
+    }
+    .ask-for-leave-title>span{
+        font-family: PingFangSC-Medium;
+        font-size: 18px;
+        color: #333333;
+        letter-spacing: 0.2px;
+        display: inline-block
+    }
+    .ask-for-leave-title>span.first-icon{
+        margin-left:30px;
+        margin-right:10px;
+        color: #999999;
+    }
+    #form-test .control-labels{
+        width:96px !important;
+        margin-right:30px;
+    }
+    .form-group-common{
+        margin-top:20px
+    }
+    .form-people{
+        width:778px;
+        height:36px !important;
+        box-sizing: border-box
+    }
+    .new-leave-date{
+        width:300px !important;
+        margin-left:0 !important;
+        border-right:1px solid transparent !important;
+    }
+    .icon-riqis{
+        line-height:30px !important;
+    }
+    .select-icons{
+        padding:2px 10px 2px 0 !important;
+
+        border-left:1px solid transparent;
+    }
+    .form-reason{
+        height:100px !important;
+    }
+    .form-group-img{
+        display:flex;
+    }
+    .img-border{
+        height:48px;
+        width:48px;
+        border:1px solid #ddd;
+        line-height:48px;
+        text-align:center;
+        /* margin-left:px; */
+    }
+    .control-img{
+        text-align:right;
+        line-height:48px;
+    }
+    .btn-submit{
+        background: #4584FF;
+        border-radius: 4px;
+        width:296px;
+        height:50px;
+        margin-left:127px;
+    }
+    .generate_log_member_addlogos{
+        height:48px;
+        width:48px;
+        border: 1px solid #ccc;
+        /* box-shadow: 2px 2px 25px 0 rgba(204,204,204,0.80); */
+        border-radius: 50%;
+        /* margin-top: 20px; */
+        cursor: pointer;
+        text-align: center;
+        line-height: 48px;
+        box-sizing: border-box
+    }
+
+    .add-img-people{
+        font-size: 24px;
+        color:#ddd;
+    }
+    .shenpi-person{
+        margin-left:30px;
+       
+    }
+    .shenpi-person>li{
+        height:65px;
+
+    }
+    .generate_log_member_adds{
+        font-family: PingFangSC-Regular;
+        font-size: 12px;
+        color: #666666;
+        letter-spacing: 0.13px;
+    }
+    /* .icon-position{
+
+    } */
