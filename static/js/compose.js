@@ -240,6 +240,7 @@ exports.send_message = function send_message(request) {
     var locally_echoed;
 
     local_id = echo.try_deliver_locally(request);
+  
     if (local_id) {
         // We are rendering this message locally with an id
         // like 92l99.01 that corresponds to a reasonable

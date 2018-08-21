@@ -145,15 +145,16 @@ exports.tf = function(timestamp) {
     return h+m;
 }
 var arr = []
-exports.set_local_news = function(send_id,stream_id,name,avatar,time,content,_href){
+exports.set_local_news = function(send_id,stream_id,name,avatar,time,mes,_href,stream){
     obj = {
         send_id:send_id,
         stream_id:stream_id ? stream_id:'',
         name:name,
         avatar:avatar,
         time:time,
-        content:content,
-        _href:_href
+        mes:mes,
+        _href:_href,
+        stream:stream ? stream: ''
     }
     return obj
 }
@@ -201,6 +202,7 @@ function get_events(options) {
         success: function (data) {
             var type;
             var data_message;
+            console.log(data)
             $.ajax({
                 url:"json/zg/user",
                 type:"GET",
@@ -218,20 +220,32 @@ function get_events(options) {
                         var mes = server_events.deleteTag(data_message.content)
                         var avatar = server_events.get_my_avater(send_id,user_list)
                         var time = data_message.timestamp
+                        var stream_id = data_message.stream_id
                         var short_name = data_message.sender_short_name
                         var _href = data_message.pm_with_url 
+                        var sub= stream_data.get_sub_by_id(stream_id)
                         arr = JSON.parse(localStorage.getItem("arr"))
                         if(arr == null){
                             arr = []
-                            arr.push(server_events.set_local_news(send_id,'',name,avatar,time,mes,_href))
-                            var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:send_id,time:time,short_name:short_name,_href:_href})
-                            $(".persistent_data").prepend(notice_box)
+                            if(data_message.type==="private"){
+                                arr.push(server_events.set_local_news(send_id,'',name,avatar,time,mes,_href))
+                                var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:send_id,time:time,short_name:short_name,_href:_href})
+                                $(".persistent_data").prepend(notice_box)
+                            }else if(data_message.type==="stream"){
+                                var avatar = sub.color
+                                var name = sub.name
+                                var stream = data_message.type
+                                var _href= narrow.by_stream_subject_uris(name,data_message.subject)
+                                arr.unshift(server_events.set_local_news('',stream_id,name,avatar,time,mes,_href,stream))
+                                var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:stream_id,time:time,_href:_href,stream:stream})
+                                $(".persistent_data").prepend(notice_box)
+                            }
                             localStorage.setItem("arr",JSON.stringify(arr))
                         }else{
                             var flag = false;
                             for(var j =0 ;j<arr.length;j++){
                                 if(user_me!=name){
-                                    if(arr[j].send_id == send_id){
+                                    if(arr[j].send_id == send_id||arr[j].stream_id==stream_id){
                                         flag = true;
                                         $(".notice_bottom[name='"+$(".only_tip").attr("send_id")+"']").html(mes)
                                         $(".notice_top_time[name='"+$(".only_tip").attr("send_id")+"']").html(server_events.tf(time))
@@ -242,9 +256,19 @@ function get_events(options) {
                             }
                             if(!flag){
                                 if(user_me!=name){
-                                    arr.push(server_events.set_local_news(send_id,'',name,avatar,time,mes,_href))
-                                    var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:send_id,time:time,short_name:short_name,_href:_href})
-                                    $(".persistent_data").prepend(notice_box)
+                                    if(data_message.type==="private"){
+                                        arr.push(server_events.set_local_news(send_id,'',name,avatar,time,mes,_href))
+                                        var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:send_id,time:time,short_name:short_name,_href:_href})
+                                        $(".persistent_data").prepend(notice_box)
+                                    }else if(data_message.type==="stream"){
+                                        var avatar = sub.color
+                                        var name = sub.name
+                                        var stream = data_message.type
+                                        var _href= narrow.by_stream_subject_uris(name,data_message.subject)
+                                        arr.unshift(server_events.set_local_news('',stream_id,name,avatar,time,mes,_href,stream))
+                                        var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:stream_id,time:time,_href:_href,stream:stream})
+                                        $(".persistent_data").prepend(notice_box)
+                                    }
                                     localStorage.setItem("arr",JSON.stringify(arr))
                                 }
                             }  

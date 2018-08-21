@@ -90,7 +90,7 @@ exports.widget = function (parent_elem, my_stream_id) {
                 unread: num_unread,
                 is_zero: num_unread === 0,
                 is_muted: muting.is_topic_muted(my_stream_name, topic_name),
-                url: narrow.by_stream_subject_uri(my_stream_name, topic_name),
+                url: narrow.by_stream_subject_uris(my_stream_name, topic_name),
             };
             var li = $(templates.render('topic_list_item', topic_info));
             // console.log(li)

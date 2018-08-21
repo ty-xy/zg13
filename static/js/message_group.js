@@ -1,7 +1,5 @@
 var message_group = (function () {
-
     var exports = {};
-    var iarr = []
     $(function(){
         function unique(a) {
             var res = [];
@@ -14,7 +12,6 @@ var message_group = (function () {
            
             return res;
           }
-        //   console.log(window.location.hash.split(/\//))
         function  changeUrl (){
             var url =window.location.hash
             var i = url.indexOf("/")
@@ -41,6 +38,7 @@ var message_group = (function () {
                 $(".compose-title").hide()
             }
         }
+       
         changeUrl()
         window.addEventListener('hashchange', function () {
                 changeUrl()
@@ -54,6 +52,7 @@ var message_group = (function () {
         function common(subscriptions,contents){
             var content=  templates.render('show_group', {subscriptions:subscriptions});
             $("#group_seeting_choose").html(content)
+            $("#group_seeting_choose .streams-list").height($(window).height()-160)
             $(contents).addClass("high_light").siblings().removeClass("high_light");
         }
         function get_email_of_subscribers(subscribers){
@@ -133,7 +132,6 @@ var message_group = (function () {
         $("#zfilt").height(Heights-350)
         //群组消息点
         $("#compose-container").on("click",".topic-list-item",function(e){
-            
             $("#stream-message").show()
             var topic  = $(this).attr("data-topic-name")
             var stream =$(this).closest(".topic-list").attr("data-stream")
@@ -212,12 +210,10 @@ var message_group = (function () {
                  e.preventDefault()
                  e.stopPropagation()
                 var name =  $(this).attr("data-stream-name")
-                var index = $(this).attr("data-stream-id")
-                var color = $(this).children().eq(0).css("background-color")
+                var stream_id = $(this).attr("data-stream-id")
+                var avatar = $(this).children().eq(0).css("background-color")
                 $("#compose").show()
                 $("#compose-container").show()
-                var nfirst= name.slice(0,1)
-              
                 var data = {
                         anchor: 773,
                         num_before: 50,
@@ -230,47 +226,48 @@ var message_group = (function () {
                     idempotent: true,
                     success:function(data){ 
                         var lastData = data.messages.pop()
-                        console.log(lastData)
                         var time = timerender.tf(lastData.timestamp)
-                        // console.log($(".group_list_index").find(".backgr"))
-                        // $(".group_list_index").find(".backgr").removeClass("backgr")
-                        var show = $(".persistent_data").children().find(".backgr")
-                        if(show.prevObject.length>0){
-                             show.prevObject.removeClass("backgr")
+                        _href=narrow.by_stream_subject_uris(name,lastData.subject)
+                        var  mes  = lastData.content
+                             mes = server_events.deleteTag(mes)
+                             console.log(lastData)
+                        var stream = lastData.type
+                        var arr = JSON.parse(localStorage.getItem("arr"))
+                        if(arr == null){
+                           arr =[]
+                           $(".persistent_data").show()
+                           $(".persistent_data").prepend(templates.render("notice_box",{name:name,avatar:avatar,_href:_href,time:time,send_id:stream_id,mes:mes,stream:stream}))
+                           arr.unshift(server_events.set_local_news('',stream_id,name,avatar,time,mes,_href,stream))
+                           localStorage.setItem("arr",JSON.stringify(arr))
+                        }else{
+                            var flag = false;
+                            $(".persistent_data").show()
+                            for(var i =0;i<arr.length;i++){
+                                if(arr[i].stream_id == stream_id){
+                                    flag = true;
+                                    arr[i].content = arr[i].content
+                                    localStorage.setItem("arr",JSON.stringify(arr))
+                                }
+                            }
+                            if(!flag){
+                                console.log(1111)
+                                $(".persistent_data").show()
+                                $(".persistent_data").prepend(templates.render("notice_box",{name:name,avatar:avatar,_href:_href,time:time,send_id:stream_id,mes:server_events.deleteTag(mes),stream:stream}))
+                                arr.unshift(server_events.set_local_news('',stream_id,name,avatar,time,mes,_href,stream))
+                                localStorage.setItem("arr",JSON.stringify(arr))
+                            }
                         }
-                        var  li = "<li class='group_list_index backgr' data_stream_id="+lastData.stream_id+" >\
-                             <span class='color-setting avatar_setting' style='background-color:"+color+"'>"+nfirst+"</span>\
-                             <div class='list-setting-common'>\
-                               <div class='list-right-setting'>\
-                                  <span>"+name+"</span>\
-                                  <span>"+time+"</span>\
-                               </div>\
-                               "+lastData.content+"\
-                             </div>\
-                           </li>"
-                        // $(".notice_ctn_boxs").show()
-                        $(".persistent_data").show()
                         $(".notice_ctn_box").hide()
                         $(".group_icon").hide()
-                        // $(window).attr("location","#narrow/is/private")
                         $(".home-title").show()
-                        if(iarr.indexOf(index)==-1){
-                            iarr.push(index)
-                        $(".persistent_data").append(li)
-                        // $(".notice_ctn_boxs").append(li)
-                        }
-
                         $(".home-title span").html(name)
                         $(".home_gruop_title").hide()
-                        $("#zfilt").hide()
-                        window.location.hash = narrow.by_stream_subject_uri(name,lastData.subject)
-                        // $(window).attr("location","#narrow/stream/"+index+"-"+name+"/topic/大厅")
                         $("#zfilt").show()
-                        // common_topic(index)
                         $("#stream-message").show()
                         $("#stream").val(name)
                         $("#subject").val(lastData.subject)
                         i= 0
+                        window.location.hash = narrow.by_stream_subject_uris(name,lastData.subject)
                     }
                 })
             })
@@ -279,24 +276,8 @@ var message_group = (function () {
                 // 获得stream_id
                 var stream_id = $(this).attr("data_stream_id")
                 var sub = stream_data.get_sub_by_id(stream_id);
-                $(this).addClass("backgr").siblings().removeClass("backgr")
-                var data = {
-                    anchor: 773,
-                    num_before: 50,
-                    num_after: 50,
-                    narrow:JSON.stringify([{"negated":false,"operator":"stream","operand":sub.name}])
-                };
-                channel.get({
-                    url:  '/json/messages',
-                    data: data,
-                    idempotent: true,
-                    success:function(data){
-                        var subject =  data.messages.pop().subject
-                        $("#stream").val(sub.name)
-                        $("#subject").val(subject)
-                         window.location.href=narrow.by_stream_subject_uri(sub.name,subject)
-                    }
-                }) 
+                $("#stream").val(sub.name)
+                $("#subject").val(subject)
               })
            
               //新建群组
@@ -332,7 +313,7 @@ var message_group = (function () {
                     $(this).hide()
               })
              
-            
+              //已订阅
               $("#group_seeting_choose").on("click",".all_group",function(){
                 common(subscriptions,".all_group")
                 $(".swtich-button").show()
@@ -341,6 +322,8 @@ var message_group = (function () {
               $("#group_seeting_choose").on("click",".already_sub",function(){
                 var streams = stream_data.subscribed_subs();
                 common(streams,".already_sub")
+                
+               
                 $(".swtich-button").hide()
             })
         })
@@ -367,14 +350,50 @@ var message_group = (function () {
              })
              var show = emial.length>10?true:false
              var avatar= avatars.length>10?avatars.slice(0,10):avatars
-            var html = templates.render("group_setting",
-                                        {name:title,
-                                        titlef:titlef,
-                                        avatar:avatar,
-                                        color:get_sub_by_name,
-                                        show:show})
-            $(".group_setting").html(html)
+          
+            
             $(".group_setting").show()
+            var url = '/json/users/me/' + get_sub_by_name.stream_id + '/topics';
+            var peopleId = people.my_current_user_id()
+            channel.get({
+                url: url,
+                data: {},
+                success: function (data) {
+                    var server_history = data.topics;
+                    var names = [];
+                    _.each(server_history, function (obj) {
+                        var message = home_msg_list.get(obj.min_id)
+                        if(message){
+                            userid = message.sender_id
+                            if(userid===peopleId){
+                                names.push(obj.name)
+                            }
+                        }
+                    });
+                    
+                    var showTopic = names.length>2?true:false
+                    var html = templates.render("group_setting",
+                    {name:title,
+                    titlef:titlef,
+                    avatar:avatar,
+                    color:get_sub_by_name,
+                    show:show,
+                    showTopic:showTopic,
+                    topiclength:names.length,
+                    names:names.length>0?names.slice(0,2):''
+                    })
+                    $(".group_setting").html(html)
+                    var colorpicker = $(".group_setting").find(".colorpicker")
+                    var color = stream_data.get_color(title);
+                    stream_color.set_colorpicker_colors(colorpicker, color);
+                    $(".more-topic").on("click",function(e){
+                        e.stopPropagation()
+                        var html = templates.render("more_topic",{names:names})
+                        $(".names-item").html(html)
+                        $(".more-topic").hide()
+                    })
+                },
+            })
              // 颜色的选择
             $(".more-detail").on("click",function(e){
                 e.stopPropagation()
@@ -384,9 +403,7 @@ var message_group = (function () {
             })
             //  var colorpicker = $(".group_setting .sub_setting_color").children().eq(0);
             // $(".group_setting").on("click",".sub_setting_color",function(){
-                var colorpicker = $(".group_setting").find(".colorpicker")
-                var color = stream_data.get_color(title);
-                stream_color.set_colorpicker_colors(colorpicker, color);
+              
             // })
             // 退订群组
             $(".group_setting").on("click",".back-tuiding",function(e){

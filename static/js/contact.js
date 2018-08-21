@@ -45,9 +45,9 @@ var contact = (function(){
                         $(".move_ctn").append(user_detail_contact)
                         //发送消息点击事件
                         $(".user_detail_send").on("click",function(){
-                            $(".move_ctn").children().remove();
                             $("#main_div").show();
                             $("#compose").show();
+                            $(".move_ctn").children().remove();
                             $(".group_icon").hide();
                             $(".persistent_data").show()
                             $(".tab-content").css("height","calc(100% - 232px)")
