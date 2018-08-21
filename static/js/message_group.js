@@ -327,7 +327,7 @@ var message_group = (function () {
                 $(".swtich-button").hide()
             })
         })
-        
+        //群组设置
         $(".home-title").on("click","button",function(e){
             // e.preventDefault()
             //组织冒泡
@@ -392,6 +392,20 @@ var message_group = (function () {
                         $(".names-item").html(html)
                         $(".more-topic").hide()
                     })
+                    $(".topiclist-group").on("click",function(e){
+                       var  del_subject = $(this).attr("data-name")
+                       channel.del({
+                        url: 'json/zg/subject/',
+                        idempotent: true,
+                        data:{subject:del_subject},
+                        success:function(data){
+                           if(data.errno===0){
+                            // var li  = "."+(that.parent().parent()).attr("class")
+                            console.log(data)
+                           }
+                        }
+                    })
+                    })
                 },
             })
              // 颜色的选择
@@ -401,6 +415,7 @@ var message_group = (function () {
                 var html = templates.render("more_people",{all_person:all_person})
                 $(".list-avatar").html(html)
             })
+            
             //  var colorpicker = $(".group_setting .sub_setting_color").children().eq(0);
             // $(".group_setting").on("click",".sub_setting_color",function(){
               
