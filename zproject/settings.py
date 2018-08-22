@@ -1186,7 +1186,8 @@ JS_SPECS = {
             'js/check.js',
             'js/attendance.js',
             'js/contact.js',
-            'js/message_body.js'
+            'js/message_body.js',
+            'js/clipboard.min.js'
 
         ],
         'output_filename': 'min/app.js'

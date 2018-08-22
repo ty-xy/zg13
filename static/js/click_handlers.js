@@ -99,15 +99,42 @@ $(function () {
     }
 
     var select_message_function = function (e) {
-        // $(".other_content p").off('mouseover').on('mouseover',function(){
-        //     $(this).next().show()
-        // })
-        // $(".additional_more_box").on("click",function(){
-        //     $(this).children().last().show();
-        // })
-        // $(".other_content").off('mouseleave').on('mouseleave',function(){
-        //     $(this).next().hide()
-        // })
+
+            //公共聊天信息显隐处理
+            $(".public_method p").off('mouseover').on('mouseover',function(){
+                $(this).next().show()
+            })
+            $(".additional_more_box").on("click",function(){
+                $(this).children().last().show();
+            })
+            $(".other_content").off('mouseleave').on('mouseleave',function(){
+                $(this).children().last().hide()
+                $(this).children().last().children().children().last().hide();
+            })
+            $(".my_bubble").off('mouseleave').on('mouseleave',function(){
+                $(this).children().last().hide()
+                $(this).children().last().children().first().children().last().hide();
+            })
+
+            // $(".additional_copy").on("click",function(){
+                
+            // })
+            var clipboard = new ClipboardJS('.btn', {
+                target: function(e) {
+                    console.log(e)
+                    console.log($(".icon-huifu"))
+                    return document.querySelector('.icon-huifu');
+                }
+            });
+
+            clipboard.on('success', function(e) {
+                console.log(1111);
+            });
+
+            clipboard.on('error', function(e) {
+                console.log(22222);
+            });
+
         console.log('select_message_function', e);
         if (is_clickable_message_element($(e.target))) {
             // If this click came from a hyperlink, don't trigger the
