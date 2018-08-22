@@ -1,0 +1,30 @@
+<div class="transfer_md">
+    <div class="transfer_box">
+        <div class="transfer_head fix">
+            <p>转为待办</p>
+            <i class="iconfont icon-guanbiUI transfer_box_close"></i>
+        </div>
+        <div class="transfer_title_box fix">
+            <p class="transfer_title">代办标题:{{s}}</p>
+            <input type="text" class="transfer_content" value="{{task_title}}">
+        </div>
+        <div class="transfer_end_box">
+            <div class="input-append date" id="transfer_datetimepicker" data-date="" data-date-format="yyyy-mm-dd">  
+                    <span class="transfer_stop_data">截止日期:</span>
+                    <input class="new_task_date create_taskdate" id="transfer_input" size="16" type="text" value="" readonly placeholder="请选择...">
+                    <span class="add-on select_date_icon" id="transferdata">
+                        <i data-date-icon="icon-calendar" class="icon-calendar iconfont icon-riqi"></i>
+                    </span>  
+                    <p class="error_tip"></p>  
+            </div>
+        </div>
+        <div class="transfer_btn_box fix">
+            <div class="transfer_btn_cancel">
+                取消
+            </div>
+            <div class="transfer_btn_close">
+                完成并关闭
+            </div>
+        </div>
+    </div>
+</div>

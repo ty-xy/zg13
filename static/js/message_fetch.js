@@ -135,6 +135,7 @@ exports.load_messages = function (opts) {
         success: function (data) {
             get_messages_success(data, opts);
             if(data.result == "success"){
+            // $(".app").append(templates.render("transfer_todo"))
             $.ajax({
                 type:"GET",
                 url:"json/zg/backlog/gets",
