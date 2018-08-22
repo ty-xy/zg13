@@ -1,104 +1,124 @@
 var check = (function () {
     var exports = {};
+    function  moveContent (){
+        $(".move_ctn").children().remove();
+        var li = templates.render("tab")
+        $(".move_ctn").html(li)
+    }
     $("body").ready(function(){
        $(".notice_box").on("click",".common_check",function(e){
             $(this).addClass("backgr").siblings().removeClass("backgr")
-            $(".move_ctn").children().remove();
-            var li = templates.render("tab")
-            $(".move_ctn").html(li)
-            
+            moveContent()
         })
+        function common_choose(){
+            var arrlist =[]
+            var peopleList = []
+            $('#create_log_de .generate_log_member_box').children().not($(".add_log_people")).each(function(){
+                
+                var index = Number($(this).attr('data_id'))
+                peopleList.push(index)
+            })
+            $(".box-right-list").children().each(function () { 
+                var id = Number($(this).attr("key-data"));
+                var avatar = $(this).attr("avatarurl")
+                var name = $(this).children().find('.name-list').text()
+                var peppleList = {
+                    id:id,
+                    avatar:avatar,
+                    name:name,
+                    namel:name.slice(0,4)+"....",
+                    small:true
+                }
+                if(peopleList.indexOf(peppleList.id)===-1){
+                    console.log(peopleList)
+                    arrlist.push(peppleList)
+                }
+            })
+           
+            // console.log($(".add_log_people").siblings().length)
+            var li = $(templates.render('send_people',{
+               peoplelist:arrlist
+           }));
+           return li 
+        }
         //请假
+        function confirm(){
+            //点击确定
+            $(".choose-right-list").on('click','.button-confirm',function(e){
+               var li = common_choose()
+               $(".add_log_people").before(li)
+               $('.generate_log_member').mouseenter(function(){
+                  $(this).children().eq(2).show()
+                  $(this).on('click',".dust-delete",function(e){
+                      $(this).parent().parent().remove()
+                  })
+               })
+               $('.generate_log_member').mouseleave(function(){
+                 $('.avatar-overs').hide()
+              })
+               
+               $('.box-right-list').remove()
+               $(".modal-log").hide()
+               //清除里面所有的元素，模态框消失。
+               $(".modal-log-content").empty()
+        
+            })
+        }
         $(".move_ctn").on("click",".ask_for_leave",function(e){
             $(".move_ctn").children().remove();
             var li = templates.render("ask-for-leave")
             $(".move_ctn").html(li)
+            $('#newplan_datetimepicker2').datetimepicker({  
+                language:"zh-CN",  
+                todayHighlight: true,  
+                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                weekStart:1  
+            }); 
+            $('#newplan_datetimepicker1').datetimepicker({  
+                language:"zh-CN",  
+                todayHighlight: true,  
+                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                weekStart:1  
+            });
+            $(".add_log_people").on("click",function(e){
+                attendance.peopleChoose(confirm)
+            })
+            $("#btn-test").on("click",function(e){
+                 e.preventDefault()
+                 var content = $.trim($("#username").val())
+                // 开始时间
+                  var start_time =$(".start_times").val()
+                  var end_time = $(".end_times").val()
+                  var count = Number($("#email").val())
+                  var cause = $("#text").val()
+                  var send_list =[]
+                $(".check-people").children().not($(".add_log_people")).each(function(){
+                    var ids= Number($(this).attr('data_id'))
+                    send_list.push(ids)
+                })
+                console.log(send_list)
+                var  data = {
+                    approval_type:"leave",
+                    approver_list:send_list,
+                    content:content,
+                    start_time:start_time,
+                    end_time:end_time,
+                    count:count,
+                    cause:cause
+                }
+                 channel.post({
+                     url:"/json/zg/approval/leave/",
+                     data:JSON.stringify(data),
+                     contentType:"application/json",
+                     success:function(data){
+                         if(data.errno===0){
+                            moveContent()
+                         }
+                     }
+                 })
+            })
         })
-    //     $("#form-test").bootstrapValidator({
-    //         live: 'enabled',//验证时机，enabled是内容有变化就验证（默认），disabled和submitted是提交再验证
-    //         excluded: [':disabled', ':hidden', ':not(:visible)'],//排除无需验证的控件，比如被禁用的或者被隐藏的
-    //         submitButtons: '#btn-test',//指定提交按钮，如果验证失败则变成disabled，但我没试成功，反而加了这句话非submit按钮也会提交到action指定页面
-    //         message: '通用的验证失败消息',//好像从来没出现过
-    //         feedbackIcons: {//根据验证结果显示的各种图标
-    //             valid: 'glyphicon glyphicon-ok',
-    //             invalid: 'glyphicon glyphicon-remove',
-    //             validating: 'glyphicon glyphicon-refresh'
-    //         },
-    //         fields: {
-    //             email: {
-    //                 validators: {
-    //                     emailAddress: {//验证email地址
-    //                         message: '不是正确的email地址'
-    //                     },
-    //                     notEmpty: {//检测非空
-    //                         message: '请输入邮箱'
-    //                     },
-    //                 }
-    //             },
-    //             password: {
-    //                 validators: {
-    //                     notEmpty: {//检测非空
-    //                         message: '请输入密码'
-    //                     },
-    //                 }
-    //             },
-    //             repassword: {
-    //                 validators: {
-    //                     notEmpty: {//检测非空
-    //                         message: '请输入确认密码'
-    //                     },
-    //                     identical: {//与指定控件内容比较是否相同，比如两次密码不一致
-    //                         field: 'password',//指定控件name
-    //                         message: '两次输入的密码不同'
-    //                     },
-    //                 }
-    //             },
-    //             username: {
-    //                 validators: {
-    //                     notEmpty: {//检测非空,radio也可用
-    //                         message: '请输入用户名'
-    //                     },
-    //                     stringLength: {//检测长度
-    //                         min: 3,
-    //                         max: 10,
-    //                         message: '长度必须在3-10之间'
-    //                     },
-    //                     regexp: {//正则验证
-    //                         regexp: /^[a-zA-Z0-9_\.]+$/,
-    //                         message: '所输入的字符不符要求'
-    //                     },
-    //                 }
-    //             }
-    //         }
-    //     });
- 
-    //     function showToast(msg,shortCutFunction)
-    //     {
-    //         toastr.options = {
-    //             "closeButton": true,
-    //             "debug": false,
-    //             "progressBar": true,
-    //             "positionClass": "toast-bottom-right",
-    //             "onclick": null,
-    //             "showDuration": "400",
-    //             "hideDuration": "1000",
-    //             "timeOut": "7000",
-    //             "extendedTimeOut": "1000",
-    //             "showEasing": "swing",
-    //             "hideEasing": "linear",
-    //             "showMethod": "fadeIn",
-    //             "hideMethod": "fadeOut"
-    //         }
-    //         toastr[shortCutFunction](msg,"提示");
-    //     }
- 
-    //     $("#btn-test").click(function () {//非submit按钮点击后进行验证，如果是submit则无需此句直接验证
-    //         $("#form-test").bootstrapValidator('validate');//提交验证
-    //         if ($("#form-test").data('bootstrapValidator').isValid()) {//获取验证结果，如果成功，执行下面代码
-    //             showToast("2345678","error");
-    //             alert("yes");//验证成功后的操作，如ajax
-    //         }
-    //     });
+        
     })
     return exports;
 }());

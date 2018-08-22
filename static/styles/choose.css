@@ -363,6 +363,17 @@ a.message-control-button {
     line-height:70px;
     display:none;
 }
+.avatar-overs{
+    height:48px;
+    width:48px;
+    background: rgba(0,0,0,0.40);
+    border-radius: 100px;
+    z-index:1000;
+    position:absolute;
+    top:0px;
+    line-height:40px;
+    display:none;
+}
 .dust-delete{
     font-size: 27px;
     color: #fff;
@@ -1088,7 +1099,7 @@ a.message-control-button {
         /* margin-top: 20px; */
         cursor: pointer;
         text-align: center;
-        line-height: 48px;
+        line-height: 40px;
         box-sizing: border-box
     }
 
