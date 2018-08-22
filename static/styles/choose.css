@@ -895,6 +895,7 @@ a.message-control-button {
         right:20px;
     }
     .first-icon{
+        cursor: pointer;
         transform:rotate(180deg) !important;
         -ms-transform:rotate(180deg); 	/* IE 9 */
         -moz-transform:rotate(180deg); 	/* Firefox */
@@ -1121,6 +1122,61 @@ a.message-control-button {
         color: #666666;
         letter-spacing: 0.13px;
     }
+    .container-control{
+        overflow: auto;
+    }
+    #myTab>li{
+       cursor: pointer;
+    }
+    .beijing-bakc{
+        background: #F4F5F7;
+        height:50px;
+        display:flex;
+       justify-content: space-around;
+       align-items: center
+    }
+    .table-container{
+       width:864px;
+       margin-left:40px;
+       margin-top:40px;
+    }
+   .check-shenpi-detail{
+     display:flex;
+     height:38px;
+     justify-content: space-around;
+     align-items: center;
+     margin-top:10px;
+     cursor: pointer;
+   }
+   .avatar-imgs-shenpi{
+     height:38px;
+     width:38px;
+     border-radius:50%;
+   }
+   .beijing-bakc>li:first-child{
+       width:175px;
+   }
+   .name-check-first{
+       width:175px;
+       /* margin-left:18px; */
+   }
+   .common-flex{
+       display: flex
+   }
+   .check-detail-flex{
+      margin-left:30px;
+      margin-top:30px 
+   }
+   .application_people{
+      margin-left:10px 
+   }
+   .line-height-hr{
+       margin:5px;
+   }
+   .check-detail-total>p{
+      margin-right:120px;
+      margin-top:10px;
+   }
     /* .icon-position{
 
     } */

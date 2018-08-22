@@ -10,6 +10,9 @@ var check = (function () {
             moveContent()
         })
     }
+    function height(){
+        $(".container-control").height($(window).height()-90)
+    }
     function commonContent(type) {
         var content = $.trim($("#username").val())
         // 开始时间
@@ -18,10 +21,15 @@ var check = (function () {
           var count = Number($("#email").val())
           var cause = $("#text").val()
           var send_list =[]
-        $(".check-people").children().not($(".add_log_people")).each(function(){
+          $(".check-people").children().not($(".add_log_people")).each(function(){
             var ids= Number($(this).attr('data_id'))
             send_list.push(ids)
-        })
+          })
+          var resend_list =[]
+          $(".send-check-people").children().not($(".add_log_peoples")).each(function(){
+            var ids= Number($(this).attr('data_id'))
+              resend_list.push(ids)
+          })
         var  data = {
             approval_type:type,
             approver_list:send_list,
@@ -29,12 +37,13 @@ var check = (function () {
             start_time:start_time,
             end_time:end_time,
             count:count,
-            cause:cause
+            cause:cause,
+            observer_list:resend_list
         }
         return data
     }
     $("body").ready(function(){
-       $(".notice_box").on("click",".common_check",function(e){
+       $("body").on("click",".common_check",function(e){
             $(this).addClass("backgr").siblings().removeClass("backgr")
             moveContent()
         })
@@ -92,10 +101,31 @@ var check = (function () {
         
             })
         }
+        function confirms(){
+            $(".choose-right-list").on('click','.button-confirm',function(e){
+                var li = common_choose()
+                $(".add_log_peoples").before(li)
+                $('.generate_log_member').mouseenter(function(){
+                   $(this).children().eq(2).show()
+                   $(this).on('click',".dust-delete",function(e){
+                       $(this).parent().parent().remove()
+                   })
+                })
+                $('.generate_log_member').mouseleave(function(){
+                  $('.avatar-overs').hide()
+               })
+                
+                $('.box-right-list').remove()
+                $(".modal-log").hide()
+                //清除里面所有的元素，模态框消失。
+                $(".modal-log-content").empty()
+             })
+        }
         $(".move_ctn").on("click",".ask_for_leave",function(e){
             $(".move_ctn").children().remove();
             var li = templates.render("ask-for-leave")
             $(".move_ctn").html(li)
+            height()
             $('#newplan_datetimepicker2').datetimepicker({  
                 language:"zh-CN",  
                 todayHighlight: true,  
@@ -110,6 +140,9 @@ var check = (function () {
             });
             $(".add_log_people").on("click",function(e){
                 attendance.peopleChoose(confirm)
+            })
+            $(".add_log_peoples").on("click",function(e){
+                attendance.peopleChoose(confirms)
             })
             $("#btn-test").on("click",function(e){
                  e.preventDefault()
@@ -130,7 +163,8 @@ var check = (function () {
         $(".move_ctn").on("click",".on_business_trip",function(e){
             $(".move_ctn").children().remove();
             var li = templates.render("ask-for-leave",{show:true})
-            $(".move_ctn").html(li) 
+            $(".move_ctn").html(li)
+            height()
             backIcon()
             $('#newplan_datetimepicker2').datetimepicker({  
                 language:"zh-CN",  
@@ -147,6 +181,9 @@ var check = (function () {
             $(".add_log_people").on("click",function(e){
                 attendance.peopleChoose(confirm)
             })
+            $(".add_log_peoples").on("click",function(e){
+                attendance.peopleChoose(confirms)
+            })
             $("#btn-test").on("click",function(e){
                  e.preventDefault()
                  var data = commonContent("evection")
@@ -162,6 +199,112 @@ var check = (function () {
                  })
             })
         })
+        $(".move_ctn").on("click",".reimburse-moneny",function(e){
+            $(".move_ctn").children().remove();
+            var li = templates.render("ask-for-leave",{showdate:true})
+            $(".move_ctn").html(li)
+            $(".add_log_people").on("click",function(e){
+                attendance.peopleChoose(confirm)
+            })
+            height()
+            backIcon()
+            $("#btn-test").on("click",function(e){
+                // amount：报销金额
+                // category：报销类别
+                // approver_list(审批人id列表)
+                e.preventDefault()
+                var amount = $("#username").val()
+                var category = $("#email").val()
+                var send_list =[]
+                $(".check-people").children().not($(".add_log_people")).each(function(){
+                    var ids= Number($(this).attr('data_id'))
+                    send_list.push(ids)
+                })
+                var data ={
+                    amount:amount,
+                    category:category,
+                    approver_list:send_list
+                }
+                channel.post({
+                    url:'/json/zg/approval/reimburse/',
+                    data:JSON.stringify(data),
+                    contentType:"application/json",
+                     success:function(data){
+                         if(data.errno===0){
+                            moveContent()
+                         }
+                     }
+                })
+            })
+        })
+        $('.move_ctn').on("click",".progress-percent",function(e){
+            $(".move_ctn").children().remove();
+            var li = templates.render("project_progress")
+            $(".move_ctn").html(li)
+            height()
+            backIcon()
+        })
+        $("body").on("click",".expect-check",function(e){
+            channel.get({
+                url:"/json/zg/approval/list/expectation",
+                success:function(data){
+                   if(data.errno===0){
+                        var  data = data.iaitiate_list
+                        var html = templates.render("table",{data:data})
+                        $("#ios").html(html)
+                        $(".check-shenpi-detail").on("click",function(e){
+                            // types:审批类型
+                            // id   ：审批报表id
+                            var types = $(this).children().eq(1).attr("data_type")
+                            var id = $(this).attr("data_id")
+                            var data = {
+                                types:types,
+                                id:id
+                            }
+                            channel.get({
+                                url:"/json/zg/approval",
+                                data:data,
+                                success:function(datalist){
+                                    var data =datalist.data
+                                    console.log(data)
+                                    $(".move_ctn").children().remove();
+                                    var li = templates.render("check_detail",data)
+                                    $(".move_ctn").html(li)
+                                }
+                            })
+                        })
+                   }
+                }
+            })
+        })
+        // 我发起的审批
+        $("body").on("click",".send_apply",function(e){
+            channel.get({
+                url:"/json/zg/approval/initiate/me",
+                success:function(data){
+                   if(data.errno===0){
+                       var  data = data.initiate_list
+                    var html = templates.render("table",{data:data})
+                    $("#originator").html(html)
+                   }
+                }
+            })
+        })
+        $("body").on("click",".copy_myown",function(e){
+            channel.get({
+                url:"/json/zg/approval/inform",
+                success:function(data){
+                   if(data.errno===0){
+                       var  data = data.inform_list
+                    var html = templates.render("table",{data:data})
+                    $("#make_copy").html(html)
+                   }
+                }
+            })
+        })
+        // $("").click(function(){
+        //     console.log(2121212121)
+        // })
     })
     return exports;
 }());

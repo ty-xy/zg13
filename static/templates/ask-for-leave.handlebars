@@ -3,24 +3,33 @@
   {{#if show}}
    <span>出差申请</span>
    {{else}}
-   <span>请假申请</span>
+      {{#if showdate}}
+       <span>报销申请</span>
+       {{else}}
+       <span>请假申请</span>
+       {{/if}}
   {{/if}}
  
 </div>
-<div class="container">
+<div class="container container-control">
     <br>
         <form class="form-horizontal" role="form" id="form-test">
             <div class="form-group form-group-common ">
                 {{#if show}}
                 <label for="username" class="col-sm-1 control-label control-labels">申请人:</label>
                 {{else}}
-                <label for="username" class="col-sm-1 control-label control-labels">请假人:</label>
+                    {{#if showdate}}
+                    <label for="username" class="col-sm-1 control-label control-labels">报销金额:</label>
+                    {{else}}
+                    <label for="username" class="col-sm-1 control-label control-labels">请假人:</label>
+                    {{/if}}
                 {{/if}}
                  
                 <div class="col-md-12">
                     <input type="text" class="form-control form-people" id="username" name="username" placeholder="请输入...">
                 </div>
             </div>
+            {{#unless showdate}}
             <div class="form-group form-group-common">
                 <label for="newplan_datetimepicker1" class="col-sm-1 control-label control-labels">开始日期:</label>
                  <div class="input-append date" id="newplan_datetimepicker1" data-date="" data-date-format="yyyy-mm-dd">  
@@ -39,11 +48,16 @@
                             </span>  
                   </div> 
             </div>
+            {{/unless}}
             <div class="form-group form-group-common">
                 {{#if show}}
                 <label for="email" class="col-sm-1 control-label control-labels">出差天数:</label>
                 {{else}}
-                <label for="email" class="col-sm-1 control-label control-labels">请假天数:</label>
+                     {{#if showdate}}
+                     <label for="email" class="col-sm-1 control-label control-labels">报销类别:</label>
+                     {{else}}
+                     <label for="email" class="col-sm-1 control-label control-labels">请假天数:</label>
+                     {{/if}}
                 {{/if}}
                 
                 <div class="col-sm-10">
@@ -54,7 +68,11 @@
                  {{#if show}}
                 <label for="text" class="col-sm-1 control-label control-labels ">出差事由:</label>
                 {{else}}
-                 <label for="text" class="col-sm-1 control-label control-labels ">请假事由:</label>
+                    {{#if showdate}}
+                    <label for="text" class="col-sm-1 control-label control-labels ">费用明细:</label>
+                    {{else}}
+                    <label for="text" class="col-sm-1 control-label control-labels ">请假事由:</label>
+                    {{/if}}
                 {{/if}}
                
                 <div class="col-sm-10">
