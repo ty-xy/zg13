@@ -274,7 +274,6 @@ def tools_approcal_details(types, ids, user_profile, table_obj):
                                   Q(duties='inform', id=ids, types=types,
                                     send_user_id=user_profile.id)):
         data['button_status'] = 3
-
     elif table_obj.status == '已撤销' and table_obj.user != user_profile:
         data['button_status'] = 4
     elif table_obj.status == '已撤销' and table_obj.user == user_profile:
@@ -425,6 +424,14 @@ def state_update(request, user_profile):
         review_objs = ZgReview.objects.filter(send_user_id=user_profile.id, types=types, table_id=ids)
         if not review_objs:
             return JsonResponse({'errno': 2, 'message': '无此条信息'})
+        if types=='leave' or 'evection':
+            leave=ZgLeave.objects.filter(send_user_id=user_profile.id, types=types, table_id=ids)
+            leave[0].status=states
+            leave[0].save()
+        elif types == 'reimburse':
+            reimburse=ZgReimburse.objects.filter(send_user_id=user_profile.id, types=types, table_id=ids)
+            reimburse[0].status=states
+            reimburse[0].save()
         review_objs[0].status = states
         review_objs[0].save()
     elif states == '发起申请':
