@@ -109,6 +109,8 @@ function make_tab_data() {
         }else if(filter.has_operand("is", "supervise")){
             tabs.push(make_tab("管理", '#narrow/is/supervise',
             undefined, 'supervise'));
+        }else if(filter.has_operand("is","collection")){
+            tabs.push(make_tab("管理","#narrow/is/collection",undefined,'collection'))
         }
 
         // Third breadcrumb item for stream-subject naarrows

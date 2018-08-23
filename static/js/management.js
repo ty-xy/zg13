@@ -1,6 +1,12 @@
 var management = (function () {
     var exports = {};
-  
+    exports.toTimestamp = function (str){
+        str = str.replace(/-/g,'/');
+        var date = new Date(str); 
+        var time = date.getTime();
+        var n = time/1000;
+        return n;
+    }
     $("body").ready(function () {
         //点击一键生成日志 出现日志弹窗
         // $(".create_generate_log").hide();

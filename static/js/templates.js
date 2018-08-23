@@ -102,7 +102,11 @@ Handlebars.registerHelper('tf', function (timestamp) {
     return h+m;
     // return options.inverse(this);
 });
-
+Handlebars.registerHelper("deleteTag",function(tagStr){
+        var regx = /<[^>]*>|<\/[^>]*>/gm;
+        var result = tagStr.replace(regx, '');
+        return result;
+})
 Handlebars.registerHelper("tl", function(text) {
     text = Handlebars.Utils.escapeExpression(text);
     text = text.replace(/(\r\n|\n|\r)/gm, '<br>');

@@ -5,7 +5,7 @@
       style="">
       {{!-- 去除阴影样式box-shadow: inset 2px 0px 0px 0px {{#if msg/is_stream}}{{background_color}}{{else}}#444444{{/if}}, -1px 0px 0px 0px {{#if msg/is_stream}}{{background_color}}{{else}}#444444{{/if}}; --}}
         <div class="messagebox-border">
-            <div class="messagebox-content">
+            <div class="messagebox-content my_content">
                 <div class="message_top_line">
                     <span class="message_sender{{^status_message}} sender_info_hover{{/status_message}} no-select">
                         {{#include_sender}}
@@ -41,7 +41,8 @@
                         <div class="message_edit_notice" title="{{#tr this}}Edited (__last_edit_timestr__){{/tr}}">{{t "EDITED" }}</div>
                         {{/unless}}
                     {{/if_and}}
-                    {{!-- <div class="message_controls{{#status_message}} sender-status-controls{{/status_message}} no-select">
+                    {{! 附加功能}}
+                    <div class="message_controls{{#status_message}} sender-status-controls{{/status_message}} no-select">
                         {{#if msg/sent_by_me}}
                         <div class="edit_content"></div>
                         {{else}}
@@ -65,25 +66,50 @@
                         <div class="star {{#if msg/starred}}icon-vector-star{{else}}icon-vector-star-empty{{/if}} {{#if msg/starred}}{{else}}empty-star{{/if}}" title="{{#tr this.msg}}__starred_status__ this message{{/tr}} (*)">
                         </div>
                         {{/unless}}
-
-                    </div> --}}
+                    </div>
+                    {{! 附加功能}}
                 </div>
-                
                 {{#if compare}}
-                <div style="float:right;margin-right:46px;" class="my_bubble">
+                <div style="float:right;margin-right:46px;" class="my_bubble public_method">
                     {{#unless status_message}}
                         {{#if use_match_properties}}{{{msg/match_content}}}
                         {{else}}{{{msg/content}}}
                         {{/if}}
                     {{/unless}}
+                    <ul class="additional_box fix my_additional">
+                        <li class="additional_more_box">
+                            <i class="iconfont icon-gengduocaozuo"></i>
+                            <ul class="additional_more additional_more_my">
+                                <li><i class="iconfont icon-huifu"></i><span>回复</span></li>
+                                <li class="additional_copy" data-clipboard-text="{{#unless status_message}}{{#if use_match_properties}}{{{deleteTag msg/match_content}}}{{else}}{{{deleteTag msg/content}}}{{/if}}{{/unless}}"><i class="iconfont icon-fuzhi"></i><span>复制</span></li>
+                                <li class="additional_todo"><i class="iconfont icon-zhuanweidaiban"></i><span>转为待办</span></li>
+                            </ul>
+                        </li>
+                        <li><i class="iconfont icon-shoucang-moren"></i></li> 
+                        <li><i class="iconfont icon-biaoqing1 reaction_button"></i></li>
+                    </ul>
                 </div>
                 {{else}}
                 <div class="message_content">
-                {{#unless status_message}}
-                    {{#if use_match_properties}}{{{msg/match_content}}}
-                    {{else}}{{{msg/content}}}
-                    {{/if}}
-                {{/unless}}
+                    <div class="other_content public_method">
+                            {{#unless status_message}}
+                                {{#if use_match_properties}}{{{msg/match_content}}}
+                                {{else}}{{{msg/content}}}
+                                {{/if}}
+                            {{/unless}}
+                            <ul class="additional_box fix other_additional" style="float:right;margin-left:2px;">
+                                <li><i class="iconfont icon-biaoqing1 reaction_button"></i></li>
+                                <li><i class="iconfont icon-shoucang-moren"></i></li> 
+                                <li class="additional_more_box">
+                                    <i class="iconfont icon-gengduocaozuo"></i>
+                                    <ul class="additional_more additional_more_other">
+                                        <li class="respond_button" data-message-id="{{message.id}}"><i class="iconfont icon-huifu"></i><span>回复</span></li>
+                                        <li class="additional_copy" data-clipboard-text="{{#unless status_message}}{{#if use_match_properties}}{{{deleteTag msg/match_content}}}{{else}}{{{deleteTag msg/content}}}{{/if}}{{/unless}}"><i class="iconfont icon-fuzhi"></i><span>复制</span></li>
+                                        <li class="additional_todo"><i class="iconfont icon-zhuanweidaiban"></i><span>转为待办</span></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                    </div>
                 </div>
                 {{/if}}
                 {{#if last_edit_timestr}}
@@ -96,7 +122,11 @@
                 </div>
                 <div class="message_expander message_length_controller" title="{{t 'See the rest of this message' }}">{{t "[More...]" }}</div>
                 <div class="message_condenser message_length_controller" title="{{t 'Make this message take up less space on the screen' }}">{{t "[Condense this message]" }}</div>
-                <div class="message_reactions">{{ partial "message_reactions" }}</div>
+                {{#if compare}}
+                <div class="message_reactions message_reactions_my">{{ partial "message_reactions" }}</div>
+                {{else}}
+                <div class="message_reactions message_reactions_other">{{ partial "message_reactions" }}</div>
+                {{/if}}
             </div>
         </div>
     </div>
