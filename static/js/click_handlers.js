@@ -158,7 +158,6 @@ $(function () {
                     $(".transfer_content").css("border","1px solid #ccc");
                 }
                 if(over_time==""){
-                    alert("213123123")
                     $("#transfer_input").css("border","1px solid #EF5350");
                     $("#transfer_input").css("border-right","none");
                     $("#transferdata").css("border","1px solid #EF5350")
@@ -183,27 +182,27 @@ $(function () {
                         }
                     }
                 })
+            })  
+            //复制到粘贴板
+            var copynum = 0;
+            $(".recipient_row").off("click").on("click", '.additional_copy', function(e){
+                var btn = $(this)[0]
+                console.log(btn)
+                var clipboard = new ClipboardJS(btn);
+                console.log(clipboard)
+                clipboard.on('success', function(e) {
+                    console.log(e);
+                    copynum++;
+                    if(copynum >= 1){
+                        clipboard.destroy();
+                        clipboard = new ClipboardJS(btn);
+                    };
+                });
+                clipboard.on('error', function(e) {
+                    console.log(e);
+                });
             })
-            // $(".additional_copy").on("click",function(){
-                
-            // })
-            var clipboard = new ClipboardJS('.btn', {
-                target: function(e) {
-                    console.log(e)
-                    console.log($(".icon-huifu"))
-                    return document.querySelector('.icon-huifu');
-                }
-            });
-
-            clipboard.on('success', function(e) {
-                console.log(1111);
-            });
-
-            clipboard.on('error', function(e) {
-                console.log(22222);
-            });
-
-        console.log('select_message_function', e);
+            
         if (is_clickable_message_element($(e.target))) {
             // If this click came from a hyperlink, don't trigger the
             // reply action.  The simple way of doing this is simply
