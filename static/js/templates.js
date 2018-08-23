@@ -46,7 +46,18 @@ Handlebars.registerHelper('partial', function (template_name) {
 Handlebars.registerHelper('plural', function (condition, one, other) {
     return (condition === 1) ? one : other;
 });
-
+Handlebars.registerHelper('sliceName', function (str) {
+     var index = str.indexOf("的")
+     var name = str.slice(0,index)
+     return name 
+});
+Handlebars.registerHelper('types', function (str) {
+     if (str==="leave"){
+        return "请假"
+     }else{
+        return "出差"
+     }
+});
 Handlebars.registerHelper('if_and', function () {
     // Execute the conditional code if all conditions are true.
     // Example usage:
@@ -135,6 +146,22 @@ Handlebars.registerHelper('contents',function(content){
         return "backcolor"
     }
 });
+// Handlebars.registerHelper('buttonStatus',function(content){ 
+//     if(content===1){
+//         contents  =["催办",'撤销']
+//     }else if(content === 2 ){
+//         contents =  ['不同意','同意']
+//     }else if(content ===3 ){
+//         contents  =  ['反馈']            
+//     }
+//     else if(content ===4 ){
+//         contents  =  ['已撤销']              
+//     }
+//     else if(content ===5){
+//         contents  =  ['再次提交']              
+//     }
+//     return contents
+// });
 Handlebars.registerHelper("tp",function(str){
     if(str == "day"){
         str = "日报"
