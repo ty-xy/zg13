@@ -142,6 +142,22 @@ Handlebars.registerHelper('contents',function(content){
         return "backcolor"
     }
 });
+// Handlebars.registerHelper('buttonStatus',function(content){ 
+//     if(content===1){
+//         contents  =["催办",'撤销']
+//     }else if(content === 2 ){
+//         contents =  ['不同意','同意']
+//     }else if(content ===3 ){
+//         contents  =  ['反馈']            
+//     }
+//     else if(content ===4 ){
+//         contents  =  ['已撤销']              
+//     }
+//     else if(content ===5){
+//         contents  =  ['再次提交']              
+//     }
+//     return contents
+// });
 Handlebars.registerHelper("tp",function(str){
     if(str == "day"){
         str = "日报"

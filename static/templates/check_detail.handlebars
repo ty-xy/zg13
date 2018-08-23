@@ -40,19 +40,46 @@
      <hr class="line-height-hr"/>
     <div>
         <p>抄送人</p>
+       <ul class="common-flex  common-margin">
+         {{#each inform_list}}
+           <li class="chaosong-people">
+               <img src ={{user_avatar}} class="avatar-imgs-shenpi-detail">
+               <p>{{user_name}}</p>
+           </li>
+         {{/each}}
+       </ul>
     </div>
     <div>
         {{#each approver_list}}
-        <div class="common-flex">
+        <div class="common-flex common-flex-border">
             <div class="common-flex">
                 <img src={{user_avatar}} class="avatar-imgs-shenpi"/>
-                <div>
-                    <span>{{sliceName user_name}}</span>
-                    <span>{{status}}</span>
+                <div class="application_people">
+                    <p>{{sliceName user_name}}</p>
+                    <p>{{status}}</p>
                 </div>
             </div>
             <div>{{substrYear times}}</div>
         </div>
         {{/each}}
+    </div>
+    <div class="common-flex">
+        {{#compare  button_status '==' 1}}
+            <button class="button-detail-common reminder">催办</button>
+            <button class="button-detail-common revoke">撤销</button>
+        {{/compare}}
+         {{#compare  button_status '==' 2}}
+            <button class="button-detail-common  no_agree">不同意</button>
+            <button class="button-detail-common agree">同意</button>
+        {{/compare}}
+        {{#compare  button_status '==' 3}}
+            <button class="button-detail-common feedBack">反馈</button>
+        {{/compare}}
+        {{#compare  button_status '==' 4}}
+            <button class="button-detail-common reminder">已撤销</button>
+        {{/compare}}
+        {{#compare  button_status '==' 5}}
+            <button class="button-detail-common reminder">再次提交</button> 
+        {{/compare}}
     </div>
 </div>

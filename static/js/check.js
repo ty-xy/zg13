@@ -244,36 +244,71 @@ var check = (function () {
             height()
             backIcon()
         })
+        // 待我审批
         $("body").on("click",".expect-check",function(e){
             channel.get({
                 url:"/json/zg/approval/list/expectation",
                 success:function(data){
                    if(data.errno===0){
                         var  data = data.iaitiate_list
-                        var html = templates.render("table",{data:data})
-                        $("#ios").html(html)
-                        $(".check-shenpi-detail").on("click",function(e){
-                            // types:审批类型
-                            // id   ：审批报表id
-                            var types = $(this).children().eq(1).attr("data_type")
-                            var id = $(this).attr("data_id")
-                            var data = {
-                                types:types,
-                                id:id
-                            }
-                            channel.get({
-                                url:"/json/zg/approval",
-                                data:data,
-                                success:function(datalist){
-                                    var data =datalist.data
-                                    console.log(data)
-                                    $(".move_ctn").children().remove();
-                                    var li = templates.render("check_detail",data)
-                                    $(".move_ctn").html(li)
+                        if(data.length===0){
+                            var html = templates.render("empty")
+                            $("#ios").html(html)
+                            $(".tabs-contents").height($(window).height()-120)
+                        }else{
+                           var html = templates.render("table",{data:data})
+                            $("#ios").html(html)
+                            $(".check-shenpi-detail").on("click",function(e){
+                                var types = $(this).children().eq(1).attr("data_type")
+                                var id = $(this).attr("data_id")
+                                var data = {
+                                    types:types,
+                                    id:id
                                 }
+                                channel.get({
+                                    url:"/json/zg/approval",
+                                    data:data,
+                                    success:function(datalist){
+                                        var data =datalist.data
+                                        console.log(data)
+                                        $(".move_ctn").children().remove();
+                                        var li = templates.render("check_detail",data)
+                                        $(".move_ctn").html(li)
+                                        $(".no_agree").on("click",function(e){
+                                            datalist = {
+                                                types:types,
+                                                id:id,
+                                                state:"审批未通过"
+                                            }
+                                            channel.put({
+                                                url:'/json/zg/approval/table/state_update/',
+                                                data:JSON.stringify(datalist),
+                                                contentType:"application/json",
+                                                success:function(datas){
+                                                    console.log(datas,1111)
+                                                }
+                                            })
+                                        })
+                                        $(".agree").on("click",function(e){
+                                            var datalist = {
+                                                types:types,
+                                                id:id,
+                                                state:"审批通过"
+                                            }
+                                            channel.put({
+                                                url:'/json/zg/approval/table/state_update/',
+                                                data:JSON.stringify(datalist),
+                                                contentType:"application/json",
+                                                success:function(datas){
+                                                    console.log(datas,1111)
+                                                }
+                                            })
+                                        })
+                                    }
+                                })
                             })
-                        })
-                   }
+                        }
+                    }
                 }
             })
         })
@@ -286,10 +321,45 @@ var check = (function () {
                        var  data = data.initiate_list
                     var html = templates.render("table",{data:data})
                     $("#originator").html(html)
+                    $(".check-shenpi-detail").on("click",function(e){
+                        var types = $(this).children().eq(1).attr("data_type")
+                        var id = $(this).attr("data_id")
+                        var data = {
+                            types:types,
+                            id:id
+                        }
+                        channel.get({
+                            url:"/json/zg/approval",
+                            data:data,
+                            success:function(datalist){
+                                var data =datalist.data
+                                console.log(data)
+                                $(".move_ctn").children().remove();
+                                var li = templates.render("check_detail",data)
+                                $(".move_ctn").html(li)
+                                // $(".revoke").on("click",function(e){
+                                //     datalist = {
+                                //         types:types,
+                                //         id:id,
+                                //         state:"已撤销"
+                                //     }
+                                //     channel.put({
+                                //         url:'/json/zg/approval/table/state_update/',
+                                //         data:JSON.stringify(datalist),
+                                //         contentType:"application/json",
+                                //         success:function(datas){
+                                //             console.log(datas,1111)
+                                //         }
+                                //     })
+                                // })
+                            }
+                        })
+                    })
                    }
                 }
             })
         })
+        // 抄送我的
         $("body").on("click",".copy_myown",function(e){
             channel.get({
                 url:"/json/zg/approval/inform",
@@ -298,7 +368,82 @@ var check = (function () {
                        var  data = data.inform_list
                     var html = templates.render("table",{data:data})
                     $("#make_copy").html(html)
+                    $(".check-shenpi-detail").on("click",function(e){
+                        var types = $(this).children().eq(1).attr("data_type")
+                        var id = $(this).attr("data_id")
+                        var data = {
+                            types:types,
+                            id:id
+                        }
+                        channel.get({
+                            url:"/json/zg/approval",
+                            data:data,
+                            success:function(datalist){
+                                var data =datalist.data
+                                console.log(data)
+                                $(".move_ctn").children().remove();
+                                var li = templates.render("check_detail",data)
+                                $(".move_ctn").html(li)
+                                // $(".revoke").on("click",function(e){
+                                //     datalist = {
+                                //         types:types,
+                                //         id:id,
+                                //         state:"已撤销"
+                                //     }
+                                //     channel.put({
+                                //         url:'/json/zg/approval/table/state_update/',
+                                //         data:JSON.stringify(datalist),
+                                //         contentType:"application/json",
+                                //         success:function(datas){
+                                //             console.log(datas,1111)
+                                //         }
+                                //     })
+                                // })
+                            }
+                        })
+                    })
                    }
+                }
+            })
+        })
+        $(".modal-logs").on("click",function(e){
+            $(".modal-logs").hide()
+        })
+        // 我已经审批
+        $("body").on("click",".already_checked",function(e){
+            channel.get({
+                url:"/json/zg/approval/list/completed",
+                success:function(data){
+                    if(data.errno===0){
+                        var  data = data.completed_list
+                     var html = templates.render("table",{data:data})
+                     $("#already_check").html(html)
+                     $(".check-shenpi-detail").on("click",function(e){
+                        var types = $(this).children().eq(1).attr("data_type")
+                        var id = $(this).attr("data_id")
+                        var data = {
+                            types:types,
+                            id:id
+                        }
+                        channel.get({
+                            url:"/json/zg/approval",
+                            data:data,
+                            success:function(datalist){
+                                var data =datalist.data
+                                console.log(data)
+                                $(".move_ctn").children().remove();
+                                var li = templates.render("check_detail",data)
+                                $(".move_ctn").html(li)
+                                $(".feedBack").on("click",function(e){
+                                    console.log("rerere")
+                                    var rendered = templates.render("feed_back_content")
+                                    $(".modal-logs").html(rendered)
+                                    $(".modal-logs").show()
+                                })
+                            }
+                        })
+                      })
+                    }
                 }
             })
         })
