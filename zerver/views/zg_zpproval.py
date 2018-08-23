@@ -146,7 +146,7 @@ def expectation_approval_list(request, user_profile):
 # 已完成审批列表
 def completed_approval_list(request, user_profile):
     completed_list = []
-    review_objs = ZgReview.objects.filter(status='已完成')
+    review_objs = ZgReview.objects.filter(status='审批通过',send_user_id=user_profile.id)
 
     if review_objs:
         for review_obj in review_objs:
@@ -267,18 +267,22 @@ def tools_approcal_details(types, ids, user_profile, table_obj):
 
     if user_profile.id == table_obj.user.id and table_obj.status == '发起申请':
         data['button_status'] = 1
-    elif ZgReview.objects.filter(id=ids, types=types, send_user_id=user_profile.id, status='审批中',duties='approval'):
+    elif ZgReview.objects.filter(table_id=ids, types=types, send_user_id=user_profile.id, status='审批中',duties='approval'):
         data['button_status'] = 2
-    elif ZgReview.objects.filter(Q(~Q(status='审批中')&~Q(status='已撤销'),id=ids, types=types,
+    elif ZgReview.objects.filter(Q(~Q(status='审批中') & ~Q(status='已撤销'),table_id=ids, types=types,
                                     send_user_id=user_profile.id)|
-                                  Q(duties='inform', id=ids, types=types,
+                                  Q(duties='inform', table_id=ids, types=types,
                                     send_user_id=user_profile.id)):
         data['button_status'] = 3
     elif table_obj.status == '已撤销' and table_obj.user != user_profile:
         data['button_status'] = 4
     elif table_obj.status == '已撤销' and table_obj.user == user_profile:
         data['button_status'] = 5
+    # else:
+    #     data['button_status'] =2
+
     approver_statu = True
+    # print(data['button_status'],'--------------------------=-=-=-')
     if data['button_status'] == 5:
         approver_statu = False
 
@@ -300,7 +304,7 @@ def tools_approcal_details(types, ids, user_profile, table_obj):
         for rev in review:
             if rev.status == '审批通过':
                 rev_dict = {}
-                user_obj = user_profile.get(id=rev.send_user_id)
+                user_obj = UserProfile.objects.get(id=rev.send_user_id)
                 rev_dict['user_avatar'] = avatar.absolute_avatar_url(user_obj)
                 rev_dict["user_name"] = user_obj.full_name
                 rev_dict['times'] = rev.send_time

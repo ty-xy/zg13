@@ -1,0 +1,85 @@
+<div class="ask-for-leave-title">
+  <span class="first-icon"><i class="iconfont icon-xiayiji "></i></span>
+   <span>{{head_name}}</span>
+</div>
+<div class="check-detail-flex">
+    <div class="common-flex top_header_flex">
+        <img src={{head_avatar}}  class="avatar-imgs-shenpi"/>
+        <div class="application_people">
+            <p>{{head_name}}</p>
+            <p>{{head_status}}</p>
+        </div>
+    </div>
+    <hr class="line-height-hr"/>
+    <div>
+        <div class="common-flex check-detail-total">
+               <p>
+                <span>审批类型:</span>
+                <span>{{types approval_type}}</span>
+                </p>
+                <p>
+                <span>开始时间:</span>
+                <span>{{start_time}}</span>
+                </p>
+                <p>
+                <span>结束日期:</span>
+                <span>{{end_time}}</span>
+            </p>
+        </div>
+        <div class="common-flex check-detail-total">
+                <p>
+                    <span>请假天数:</span>
+                    <span>{{count}}天</span>
+                </p>
+                <p>
+                    <span>请假事由:</span>
+                    <span>{{cause}}</span>
+                </p>
+        </div>
+    </div>
+     <hr class="line-height-hr"/>
+    <div>
+        <p>抄送人</p>
+       <ul class="common-flex  common-margin">
+         {{#each inform_list}}
+           <li class="chaosong-people">
+               <img src ={{user_avatar}} class="avatar-imgs-shenpi-detail">
+               <p>{{user_name}}</p>
+           </li>
+         {{/each}}
+       </ul>
+    </div>
+    <div>
+        {{#each approver_list}}
+        <div class="common-flex common-flex-border">
+            <div class="common-flex">
+                <img src={{user_avatar}} class="avatar-imgs-shenpi"/>
+                <div class="application_people">
+                    <p>{{sliceName user_name}}</p>
+                    <p>{{status}}</p>
+                </div>
+            </div>
+            <div>{{substrYear times}}</div>
+        </div>
+        {{/each}}
+    </div>
+    <div class="common-flex">
+        {{#compare  button_status '==' 1}}
+            <button class="button-detail-common reminder">催办</button>
+            <button class="button-detail-common revoke">撤销</button>
+        {{/compare}}
+         {{#compare  button_status '==' 2}}
+            <button class="button-detail-common  no_agree">不同意</button>
+            <button class="button-detail-common agree">同意</button>
+        {{/compare}}
+        {{#compare  button_status '==' 3}}
+            <button class="button-detail-common feedBack">反馈</button>
+        {{/compare}}
+        {{#compare  button_status '==' 4}}
+            <button class="button-detail-common reminder">已撤销</button>
+        {{/compare}}
+        {{#compare  button_status '==' 5}}
+            <button class="button-detail-common reminder">再次提交</button> 
+        {{/compare}}
+    </div>
+</div>

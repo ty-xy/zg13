@@ -1,0 +1,24 @@
+<div class="table-container">
+    
+    <ul class="beijing-bakc">
+        <li>标题</li>
+        <li>类型</li>
+        <li>发起人</li>
+        <li>发起时间</li>
+        <li>状态</li>
+    </ul>
+    <ul class="check-shenpi-content">
+        {{#each data}}
+        <li class="check-shenpi-detail" data_id={{id}}>
+            <div class="name-check-first">
+                <img src={{user_avatar}} class="avatar-imgs-shenpi"/>
+                <span>{{name}}</span>
+            </div>
+            <div data_type={{type}}>{{types type}}</div>
+            <div>{{sliceName name}}</div>
+            <div>{{substrYear send_time}}</div>
+            <div>{{status}}</div>   
+        </li>
+        {{/each}}
+    </ul>
+</table>

@@ -92,7 +92,7 @@ exports.open_modal = function (name) {
         blueslip.error('Undefined name was passed into open_modal');
         return;
     }
-
+   
     if (exports.is_modal_open()) {
         blueslip.error('open_modal() was called while ' + exports.active_modal() +
             ' modal was open.');
@@ -100,7 +100,7 @@ exports.open_modal = function (name) {
     }
 
     blueslip.debug('open modal: ' + name);
-
+    console.log(name)
     $("#" + name).modal("show").attr("aria-hidden", false);
     // Remove previous alert messsages from modal, if exists.
     $("#" + name).find(".alert").hide();
