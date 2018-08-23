@@ -225,7 +225,10 @@ var server_events = (function () {
                         var stream_id = data_message.stream_id
                         var short_name = data_message.sender_short_name
                         var _href = data_message.pm_with_url 
-                        var sub= stream_data.get_sub_by_id(stream_id)
+                        var sub;
+                        if(stream_id){
+                          sub  = stream_data.get_sub_by_id(stream_id)
+                        }
                         arr = JSON.parse(localStorage.getItem("arr"))
                         if(arr == null){
                             arr = []
@@ -234,6 +237,7 @@ var server_events = (function () {
                                 var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:send_id,time:time,short_name:short_name,_href:_href})
                                 $(".persistent_data").prepend(notice_box)
                             }else if(data_message.type==="stream"){
+                                console.log(sub)
                                 var avatar = sub.color
                                 var name = sub.name
                                 var stream = data_message.type
