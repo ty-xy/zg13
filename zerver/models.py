@@ -179,6 +179,7 @@ class Realm(models.Model):
     DEFAULT_COMMUNITY_TOPIC_EDITING_LIMIT_SECONDS = 86400
     allow_community_topic_editing = models.BooleanField(default=False)  # type: bool
     default_twenty_four_hour_time = models.BooleanField(default=False)  # type: bool
+    # zg--------------------
 
     # Valid org_types are {CORPORATE, COMMUNITY}
     CORPORATE = 1
@@ -610,6 +611,12 @@ class ZgDepartmentAttendance(models.Model):
     default_distance = models.IntegerField(default=300, verbose_name="默认距离")
     attendance_time = models.CharField(max_length=15, default='12345')
 
+# 部门
+class ZgDepartment(models.Model):
+    name = models.CharField(max_length=30)
+    realm = models.ForeignKey(Realm)
+
+
 
 class UserProfile(AbstractBaseUser, PermissionsMixin):
     DEFAULT_BOT = 1
@@ -653,8 +660,15 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     is_mirror_dummy = models.BooleanField(default=False)  # type: bool
     bot_owner = models.ForeignKey('self', null=True, on_delete=models.SET_NULL)  # type: Optional[UserProfile]
     long_term_idle = models.BooleanField(default=False, db_index=True)  # type: bool
+    # zg-------------
 
     atendance = models.ForeignKey(ZgDepartmentAttendance, null=True)
+    # 权限
+    zg_permission = models.IntegerField(null=True)
+    # 部门
+    department = models.ForeignKey(ZgDepartment,null=True)
+
+
 
     USERNAME_FIELD = 'email'
     MAX_NAME_LENGTH = 100
@@ -1046,7 +1060,7 @@ class Stream(models.Model):
     email_token = models.CharField(
         max_length=32, default=generate_email_token_for_stream)  # type: str
     description = models.CharField(max_length=1024, default=u'')  # type: Text
-
+    create_user_id = models.PositiveIntegerField(default=0)
     date_created = models.DateTimeField(default=timezone_now)  # type: datetime.datetime
     deactivated = models.BooleanField(default=False)  # type: bool
 
@@ -2326,3 +2340,8 @@ class Feedback(models.Model):
     table_id = models.PositiveIntegerField()
     content = models.CharField(max_length=120)
     feedback_time = models.DateTimeField()
+
+
+
+
+

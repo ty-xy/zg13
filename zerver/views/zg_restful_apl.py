@@ -15,4 +15,4 @@ def del_subject(request,user_profile):
     if not subject:
         return JsonResponse({'errno':2,'message':'缺少必要参数'})
     Message.objects.filter(subject=subject).delete()
-    return JsonResponse({'errno': 4, 'message': '删除成功'})
+    return JsonResponse({'errno': 0, 'message': '删除成功'})

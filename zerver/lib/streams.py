@@ -16,13 +16,15 @@ def access_stream_for_delete_or_update(user_profile: UserProfile, stream_id: int
     # to delete or update all streams on their realm, even private streams
     # to which they are not subscribed.  We do an assert here, because
     # all callers should have the require_realm_admin decorator.
-    assert(user_profile.is_realm_admin)
+    # assert(user_profile.is_realm_admin)
 
     error = _("无效频道 id")
     try:
         stream = Stream.objects.get(id=stream_id)
     except Stream.DoesNotExist:
         raise JsonableError(error)
+    # zg
+    assert(stream.create_user_id == UserProfile.id or user_profile.is_realm_admin)
 
     if stream.realm_id != user_profile.realm_id:
         raise JsonableError(error)
