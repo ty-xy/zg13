@@ -856,13 +856,14 @@ li.show-more-private-messages a {
 .my_additional{
     float: left;
     margin-right: 2px;
-    margin-top: 4px;
+    margin-top: 12px;
     position: relative;
 }
 .other_additional{
     float: right;
     margin-left: 2px;
     position: relative;
+    margin-top: 12px!important;
 }
 .my_bubble>p{
     float: right;
@@ -903,6 +904,7 @@ li.show-more-private-messages a {
 }
 .additional_more_other{
     left: -20px;
+    margin-top: 0px!important;
 }
 .collection_tip{
     padding: 5px 20px;

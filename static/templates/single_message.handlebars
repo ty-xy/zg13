@@ -103,7 +103,7 @@
                                 <li class="additional_more_box">
                                     <i class="iconfont icon-gengduocaozuo"></i>
                                     <ul class="additional_more additional_more_other">
-                                        <li><i class="iconfont icon-huifu"></i><span>回复</span></li>
+                                        <li class="respond_button" data-message-id="{{message.id}}"><i class="iconfont icon-huifu"></i><span>回复</span></li>
                                         <li class="additional_copy" data-clipboard-text="{{#unless status_message}}{{#if use_match_properties}}{{{deleteTag msg/match_content}}}{{else}}{{{deleteTag msg/content}}}{{/if}}{{/unless}}"><i class="iconfont icon-fuzhi"></i><span>复制</span></li>
                                         <li class="additional_todo"><i class="iconfont icon-zhuanweidaiban"></i><span>转为待办</span></li>
                                     </ul>
@@ -125,7 +125,7 @@
                 {{#if compare}}
                 <div class="message_reactions message_reactions_my">{{ partial "message_reactions" }}</div>
                 {{else}}
-                <div class="message_reactions">{{ partial "message_reactions" }}</div>
+                <div class="message_reactions message_reactions_other">{{ partial "message_reactions" }}</div>
                 {{/if}}
             </div>
         </div>
