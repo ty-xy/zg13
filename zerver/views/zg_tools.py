@@ -1,4 +1,6 @@
 from math import radians, cos, sin, asin, sqrt
+from zerver.lib import avatar
+from zerver.models import UserProfile
 
 
 def haversine(lon1, lat1, lon2, lat2):  # 经度1，纬度1，经度2，纬度2 （十进制度数）
@@ -16,3 +18,12 @@ def haversine(lon1, lat1, lon2, lat2):  # 经度1，纬度1，经度2，纬度2 
     c = 2 * asin(sqrt(a))
     r = 6371  # 地球平均半径，单位为公里
     return c * r * 1000
+
+def zg_user_info(ids):
+    user_obj=UserProfile.objects.filter(id=ids)
+    avatars=avatar.absolute_avatar_url(user_obj[0])
+    name = user_obj.full_name
+    ids=user_obj.id
+
+    return {'avatar':avatars,'name':name,'id':ids}
+
