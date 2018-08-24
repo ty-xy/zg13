@@ -204,7 +204,6 @@ var server_events = (function () {
         success: function (data) {
             var type;
             var data_message;
-            console.log(data)
             $.ajax({
                 url:"json/zg/user",
                 type:"GET",
@@ -258,6 +257,12 @@ var server_events = (function () {
                                         arr[j].content = mes
                                         localStorage.setItem("arr",JSON.stringify(arr))
                                     }
+                                }
+                                if(user_me == name){
+                                    $(".notice_bottom[name='"+$(".only_tip").attr("send_id")+"']").html(mes)
+                                    $(".notice_top_time[name='"+$(".only_tip").attr("send_id")+"']").html(server_events.tf(time))
+                                    arr[j].content = mes
+                                    localStorage.setItem("arr",JSON.stringify(arr))
                                 }
                             }
                             if(!flag){
