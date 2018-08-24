@@ -101,8 +101,8 @@ $(function () {
     var select_message_function = function (e) {
 
             //公共聊天信息显隐处理
-            $(".public_method p").off('mouseover').on('mouseover',function(){
-                $(this).next().show()
+            $(".our_news_box p").off('mouseover').on('mouseover',function(){
+                $(this).parent().next().show()
             })
             $(".additional_more_box").on("click",function(){
                 $(this).children().last().show();
@@ -187,7 +187,6 @@ $(function () {
             var copynum = 0;
             $(".recipient_row").off("click").on("click", '.additional_copy', function(e){
                 var btn = $(this)[0]
-                console.log(btn)
                 var clipboard = new ClipboardJS(btn);
                 console.log(clipboard)
                 clipboard.on('success', function(e) {
@@ -202,7 +201,12 @@ $(function () {
                     console.log(e);
                 });
             })
-            
+            $(".additional_reply").off("click").on("click",function(){
+                var id = Number($(this).parent().parent().parent().parent().parent().parent().parent().parent().parent().attr("zid"))
+                console.log(id)
+                console.log(current_msg_list.get(id));
+                compose_actions.quote_and_reply({trigger: 'popover respond'});
+            })
         if (is_clickable_message_element($(e.target))) {
             // If this click came from a hyperlink, don't trigger the
             // reply action.  The simple way of doing this is simply

@@ -865,6 +865,12 @@ li.show-more-private-messages a {
     position: relative;
     margin-top: 12px!important;
 }
+.other_news_box{
+    float: left;
+}
+.my_news_box{
+    float: right;
+}
 .my_bubble>p{
     float: right;
 }

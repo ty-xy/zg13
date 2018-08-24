@@ -375,7 +375,6 @@ exports.on_topic_narrow = function () {
 exports.quote_and_reply = function (opts) {
     var textarea = $("#compose-textarea");
     var message_id = current_msg_list.selected_id();
-
     exports.respond_to_message(opts);
     channel.get({
         url: '/json/messages/' + message_id,
