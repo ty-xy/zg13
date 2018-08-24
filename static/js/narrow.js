@@ -571,10 +571,11 @@ function pick_empty_narrow_banner() {
             $("#compose").hide();
             $(".persistent_data").show();
             $(".persistent_data").children().remove();
-            $(".persistent_data").append(JSON.parse(localStorage.getItem("p")))
+            var arr = JSON.parse(localStorage.getItem("arr"))
+            var notice_box = templates.render("notice_box",{arr:arr})
+            $(".persistent_data").append(notice_box)
             $(".persistent_data").on("click",".only_tip",function(e){
                 e.stopPropagation()
-                // console.log("难道问题出在这儿？")
                 $("#main_div").show();
                 $(".move_ctn").children().remove();
                 $(".tab-content").css("height","calc(100% - 232px)")

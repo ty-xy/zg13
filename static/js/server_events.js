@@ -236,7 +236,6 @@ var server_events = (function () {
                                 var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:send_id,time:time,short_name:short_name,_href:_href})
                                 $(".persistent_data").prepend(notice_box)
                             }else if(data_message.type==="stream"){
-                                console.log(sub)
                                 var avatar = sub.color
                                 var name = sub.name
                                 var stream = data_message.type
@@ -255,6 +254,7 @@ var server_events = (function () {
                                         $(".notice_bottom[name='"+$(".only_tip").attr("send_id")+"']").html(mes)
                                         $(".notice_top_time[name='"+$(".only_tip").attr("send_id")+"']").html(server_events.tf(time))
                                         arr[j].content = mes
+                                        console.log('对面',mes)
                                         localStorage.setItem("arr",JSON.stringify(arr))
                                     }
                                 }
@@ -262,6 +262,7 @@ var server_events = (function () {
                                     $(".notice_bottom[name='"+$(".only_tip").attr("send_id")+"']").html(mes)
                                     $(".notice_top_time[name='"+$(".only_tip").attr("send_id")+"']").html(server_events.tf(time))
                                     arr[j].content = mes
+                                    console.log('自己',mes)
                                     localStorage.setItem("arr",JSON.stringify(arr))
                                 }
                             }

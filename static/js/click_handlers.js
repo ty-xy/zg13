@@ -203,8 +203,6 @@ $(function () {
             })
             $(".additional_reply").off("click").on("click",function(){
                 var id = Number($(this).parent().parent().parent().parent().parent().parent().parent().parent().parent().attr("zid"))
-                console.log(id)
-                console.log(current_msg_list.get(id));
                 compose_actions.quote_and_reply({trigger: 'popover respond'});
             })
         if (is_clickable_message_element($(e.target))) {
