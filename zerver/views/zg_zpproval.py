@@ -27,7 +27,28 @@ def view_leave(request, user_profile):
     b = UserProfile.objects.get(id=22)
     sasa = [a, b]
     # user=
-    send_event({'type': 'message', 'rendered_content': '<p>%s</p>' % aa}, sasa)
+    send_event({'local_id': 203.01, 'message': 205, 'sender_queue_id': '1535093357:0',
+                'message_dict': {'sender_realm_id': 2, 'sender_full_name': 'Iago', 'sender_id': 26,
+                                 'sender_email': 'iago@zulip.com',
+                                 'sender_is_mirror_dummy': False, 'sender_avatar_source': 'G', 'recipient_type': 1,
+                                 'id': 205,
+                                 'rendered_content': '<p>锅盖123</p>', 'reactions': [],
+                                 'raw_display_recipient': [
+                                     {'full_name': 'aaron', 'short_name': 'aaron', 'id': 22, 'email': 'AARON@zulip.com',
+                                      'is_mirror_dummy': False}],
+                                 'subject_links': [], 'sender_realm_str': 'zulip', 'timestamp': 1535093445,
+                                 'content': '锅盖123', 'client': 'website',
+                                 'subject': '', 'sender_short_name': 'iago', 'sender_avatar_version': 1,
+                                 'recipient_id': 39,
+                                 'display_recipient': [
+                                     {'full_name': 'aaron', 'short_name': 'aaron', 'id': 22, 'email': 'AARON@zulip.com',
+                                      'is_mirror_dummy': False},
+                                     {'full_name': 'Iago', 'short_name': 'iago', 'id': 26, 'email': 'iago@zulip.com',
+                                      'is_mirror_dummy': False}],
+                                 'type': 'private', 'is_me_message': False, 'recipient_type_id': 22},
+                'type': 'message', 'presence_idle_user_ids': [22]},
+               [{'always_push_notify': False, 'id': 26, 'stream_push_notify': False, 'flags': ['read']},
+                {'always_push_notify': False, 'id': 22, 'stream_push_notify': False, 'flags': []}])
 
     return JsonResponse({'errno': 1})
 
@@ -267,12 +288,21 @@ def tools_approcal_details(types, ids, user_profile, table_obj):
 
     if user_profile.id == table_obj.user.id and table_obj.status == '发起申请':
         data['button_status'] = 1
+<<<<<<< HEAD
+    elif ZgReview.objects.filter(id=ids, types=types, send_user_id=user_profile.id, status='审批中', duties='approval'):
+        data['button_status'] = 2
+    elif ZgReview.objects.filter(Q(~Q(status='审批中') & ~Q(status='已撤销'), id=ids, types=types,
+                                   send_user_id=user_profile.id) |
+                                 Q(duties='inform', id=ids, types=types,
+                                   send_user_id=user_profile.id)):
+=======
     elif ZgReview.objects.filter(table_id=ids, types=types, send_user_id=user_profile.id, status='审批中',duties='approval'):
         data['button_status'] = 2
     elif ZgReview.objects.filter(Q(~Q(status='审批中') & ~Q(status='已撤销'),table_id=ids, types=types,
                                     send_user_id=user_profile.id)|
                                   Q(duties='inform', table_id=ids, types=types,
                                     send_user_id=user_profile.id)):
+>>>>>>> 88a7acc62640ecec92dc3426901e06ff243e289c
         data['button_status'] = 3
     elif table_obj.status == '已撤销' and table_obj.user != user_profile:
         data['button_status'] = 4
@@ -428,13 +458,13 @@ def state_update(request, user_profile):
         review_objs = ZgReview.objects.filter(send_user_id=user_profile.id, types=types, table_id=ids)
         if not review_objs:
             return JsonResponse({'errno': 2, 'message': '无此条信息'})
-        if types=='leave' or 'evection':
-            leave=ZgLeave.objects.filter(send_user_id=user_profile.id, types=types, table_id=ids)
-            leave[0].status=states
+        if types == 'leave' or 'evection':
+            leave = ZgLeave.objects.filter(send_user_id=user_profile.id, types=types, table_id=ids)
+            leave[0].status = states
             leave[0].save()
         elif types == 'reimburse':
-            reimburse=ZgReimburse.objects.filter(send_user_id=user_profile.id, types=types, table_id=ids)
-            reimburse[0].status=states
+            reimburse = ZgReimburse.objects.filter(send_user_id=user_profile.id, types=types, table_id=ids)
+            reimburse[0].status = states
             reimburse[0].save()
         review_objs[0].status = states
         review_objs[0].save()

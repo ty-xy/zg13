@@ -194,7 +194,7 @@ var server_events = (function () {
         }
 
     get_events_params.client_gravatar = true;
-    
+
     get_events_timeout = undefined;
     get_events_xhr = channel.get({
         url:      '/json/events',
@@ -223,11 +223,16 @@ var server_events = (function () {
                         var time = data_message.timestamp
                         var stream_id = data_message.stream_id
                         var short_name = data_message.sender_short_name
+<<<<<<< HEAD
+                        var _href = data_message.pm_with_url
+                        // var sub= stream_data.get_sub_by_id(stream_id)
+=======
                         var _href = data_message.pm_with_url 
                         var sub;
                         if(stream_id){
                           sub  = stream_data.get_sub_by_id(stream_id)
                         }
+>>>>>>> 88a7acc62640ecec92dc3426901e06ff243e289c
                         arr = JSON.parse(localStorage.getItem("arr"))
                         if(arr == null){
                             arr = []
@@ -284,6 +289,36 @@ var server_events = (function () {
                                     localStorage.setItem("arr",JSON.stringify(arr))
                                 }
                             }
+<<<<<<< HEAD
+                        }
+
+
+                        // if(send_id==$(".only_tip").attr("send_id")){
+                        //     if(user_me != name){
+                        //         console.log($(".notice_bottom[name='"+$(".only_tip").attr("send_id")+"']"))
+                        //         console.log($(".only_tip").attr("send_id"))
+                        //         $(".notice_bottom[name='"+$(".only_tip").attr("send_id")+"']").html(mes)
+                        //         $(".notice_top_time[name='"+$(".only_tip").attr("send_id")+"']").html(tf(time))
+                        //         localStorage.removeItem("p")
+                        //         localStorage.setItem("p",JSON.stringify($('.persistent_data').html()))
+                        //     }
+                        // }else{
+                        //     if(user_me != name){
+                        //     var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:send_id,time:time,short_name:short_name,_href:_href})
+                        //     $(".persistent_data").prepend(notice_box)
+                        //     localStorage.removeItem("p")
+                        //     localStorage.setItem("p",JSON.stringify($('.persistent_data').html()))
+                        //     }
+                        // }
+                        // if(data.events[0].message.sender_id == user_id){
+                        //     console.log($(".notice_bottom[name='"+$(".only_tip").attr("send_id")+"']"))
+                        //     console.log($(".only_tip").attr("send_id"))
+                        //     $(".notice_bottom[name='"+$(".only_tip").attr("send_id")+"']").html(deleteTag(data.events[0].message.content))
+                        //     $(".notice_top_time[name='"+$(".only_tip").attr("send_id")+"']").html(tf(time))
+                        //     localStorage.removeItem("p")
+                        //     localStorage.setItem("p",JSON.stringify($('.persistent_data').html()))
+=======
+>>>>>>> 88a7acc62640ecec92dc3426901e06ff243e289c
                         }
                     }
                 }})
