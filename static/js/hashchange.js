@@ -77,6 +77,7 @@ exports.parse_narrow = function (hash) {
         arr = JSON.parse(localStorage.getItem("arr"))
         if(arr != null){
             $(".persistent_data").children().remove();
+            console.log('获取本地数组',arr)
             var notice_box = templates.render("notice_box",{arr:arr})
             $(".persistent_data").prepend(notice_box)
             _.filter($(".persistent_data").children(),function(data){

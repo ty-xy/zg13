@@ -185,6 +185,7 @@ def login_or_register_remote_user(request: HttpRequest, remote_username: Optiona
     do_login(request, user_profile)
 
     redirect_to = get_safe_redirect_to(redirect_to, user_profile.realm.uri)
+    redirect_to+='#narrow/is/starred'
     return HttpResponseRedirect(redirect_to)
 
 @log_view_func
@@ -608,7 +609,6 @@ def dev_direct_login(request: HttpRequest, **kwargs: Any) -> HttpResponse:
         # an enabled DevAuthBackend.
         return HttpResponseRedirect(reverse('dev_not_supported'))
     email = request.POST['direct_email']
-    print(email)
     subdomain = get_subdomain(request)
     realm = get_realm(subdomain)
     user_profile = authenticate(dev_auth_username=email, realm=realm)
