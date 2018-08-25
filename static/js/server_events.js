@@ -194,7 +194,7 @@ var server_events = (function () {
         }
 
     get_events_params.client_gravatar = true;
-    
+
     get_events_timeout = undefined;
     get_events_xhr = channel.get({
         url:      '/json/events',
