@@ -526,15 +526,8 @@ var contact = (function(){
                             $(".notice_ctn_box").children().remove();
                             $(".news_icon").addClass("left_blue_height");
                             $(".address_book").removeClass("left_blue_height")
-                            // var log_assistant_prompt = templates.render("log_assistant_prompt");
-                            // $(".notice_ctn_box").append(log_assistant_prompt)
 
                             //聊天消息体方法
-                            // $(".other_content p").on('click',function(){
-                            //     alert(1233)
-                            //     console.log($(this))
-                            //     alert($(this))
-                            // })
                         })
                     })
                 }
