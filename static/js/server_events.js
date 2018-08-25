@@ -192,7 +192,7 @@ function get_events(options) {
     }
 
     get_events_params.client_gravatar = true;
-    
+
     get_events_timeout = undefined;
     get_events_xhr = channel.get({
         url:      '/json/events',
@@ -222,8 +222,8 @@ function get_events(options) {
                         var time = data_message.timestamp
                         var stream_id = data_message.stream_id
                         var short_name = data_message.sender_short_name
-                        var _href = data_message.pm_with_url 
-                        var sub= stream_data.get_sub_by_id(stream_id)
+                        var _href = data_message.pm_with_url
+                        // var sub= stream_data.get_sub_by_id(stream_id)
                         arr = JSON.parse(localStorage.getItem("arr"))
                         if(arr == null){
                             arr = []
@@ -271,10 +271,10 @@ function get_events(options) {
                                     }
                                     localStorage.setItem("arr",JSON.stringify(arr))
                                 }
-                            }  
+                            }
                         }
-                        
-                        
+
+
                         // if(send_id==$(".only_tip").attr("send_id")){
                         //     if(user_me != name){
                         //         console.log($(".notice_bottom[name='"+$(".only_tip").attr("send_id")+"']"))

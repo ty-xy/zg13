@@ -470,7 +470,7 @@ v1_api_and_json_patterns = [
     url(r'^zg/attendance/sign_in_view$', rest_dispatch,
         {'GET': 'zerver.views.zg_attendance.sign_in_view'}),
     # 定位
-    url(r'^zg/attendance/location', rest_dispatch,
+    url(r'^zg/attendance/location$', rest_dispatch,
         {'GET': 'zerver.views.zg_attendance.attendance_location'}),
     # 打卡
     url(r'^zg/attendance/sign_in/$', rest_dispatch,
@@ -517,20 +517,60 @@ v1_api_and_json_patterns = [
         {'GET': 'zerver.views.zg_zpproval.completed_approval_list'}),
 
     # 状态更新
-    url(r'^zg/approval/table/state_update/', rest_dispatch,
+    url(r'^zg/approval/table/state_update/$', rest_dispatch,
         {'PUT': 'zerver.views.zg_zpproval.state_update'}),
 
     # 反馈
-    url(r'^zg/approval/table/feedback/', rest_dispatch,
+    url(r'^zg/approval/table/feedback/$', rest_dispatch,
         {'POST': 'zerver.views.zg_zpproval.table_feedback'}),
 
     # 测试发送消息
-    url(r'^zg/message/text', rest_dispatch,
+    url(r'^zg/message/text$', rest_dispatch,
         {'GET': 'zerver.views.zg_zpproval.view_leave'}),
     # 删除考勤信息
-    url(r'^zg/del/attssss', rest_dispatch,
+    url(r'^zg/del/attssss$', rest_dispatch,
         {'GET': 'zerver.views.zg_attendance.delete_att'}),
 
+    # --------组织结构
+    # 通讯哭部门列表
+    url(r'^zg/department/list$', rest_dispatch,
+        {'GET': 'zerver.views.zg_organization.department_list'}),
+    # 没有部门成员、
+    url(r'^zg/not/department/user$', rest_dispatch,
+        {'GET': 'zerver.views.zg_organization.not_department_user'}),
+    # 组织基本信息
+    url(r'^zg/organization/information$', rest_dispatch,
+        {'GET': 'zerver.views.zg_organization.organization_information'}),
+    # 更改组织基本信息
+    url(r'^zg/organization/information/updata/$', rest_dispatch,
+        {'PUT': 'zerver.views.zg_organization.put_organization_information'}),
+    # 更换管理员
+    url(r'^zg/admin/updata/$', rest_dispatch,
+        {'PUT': 'zerver.views.zg_organization.put_admin'}),
+    # 查看子管理员
+    url(r'^zg/admin/child$', rest_dispatch,
+        {'GET': 'zerver.views.zg_organization.child_admin'}),
+    # 更改子管理员
+    url(r'^zg/admin/child/updata/$', rest_dispatch,
+        {'PUT': 'zerver.views.zg_organization.up_child_admin'}),
+    # 添加部门
+    url(r'^zg/department/add/$', rest_dispatch,
+        {'POST': 'zerver.views.zg_organization.add_department'}),
+    # 批量移动
+    url(r'^zg/user/mobile_batch/$', rest_dispatch,
+        {'PUT': 'zerver.views.zg_organization.user_mobile_batch'}),
+    # 人员详情信息
+    url(r'^zg/user/details$', rest_dispatch,
+        {'PUT': 'zerver.views.zg_organization.user_mobile_batch'}),
+    # 解散部门
+    url(r'^zg/department/del/$', rest_dispatch,
+        {'PUT': 'zerver.views.zg_organization.department_del'}),
+
+    # 收藏
+    url(r'^zg/collection/$', rest_dispatch,
+        {'PUT': 'zerver.views.zg_restful_api.zg_collection'}),
+    url(r'^zg/collection/list$', rest_dispatch,
+        {'GET': 'zerver.views.zg_restful_api.zg_collection_list'}),
 
 
 ]
