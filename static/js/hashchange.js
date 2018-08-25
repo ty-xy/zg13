@@ -73,6 +73,7 @@ var arr;
 exports.parse_narrow = function (hash) {
     // console.log(hash)
     if(hash[1] == 'pm-with'||hash.length===5){
+        $(".keep_exist").show();
         $(".tab-content").css("height","calc(100% - 232px)")
         arr = JSON.parse(localStorage.getItem("arr"))
         if(arr != null){
@@ -92,8 +93,6 @@ exports.parse_narrow = function (hash) {
                 }
             })
         }
-        // $(".persistent_data").children().remove();
-        // $(".persistent_data").append(JSON.parse(localStorage.getItem("p")))
         //推送消息删除
         $(".persistent_data").on("mouseover",".only_tip",function(){
             $(this).children().last().children().last().show()

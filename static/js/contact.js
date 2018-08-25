@@ -15,14 +15,13 @@ var contact = (function(){
             $(".notice_ctn_box").children().remove();
             $("#main_div").hide();
             $("#compose").hide();
-            var log_assistant_prompt = templates.render("log_assistant_prompt");
-            $(".notice_ctn_box").append(log_assistant_prompt)
+            // var log_assistant_prompt = templates.render("log_assistant_prompt");
+            // $(".notice_ctn_box").append(log_assistant_prompt)
             $(".tab-content").css("height","calc(100% - 232px)")
 
              //日志助手显示
-             $(".log_assistant_btn").on("click",function(e){
-                //  console.log($("#zfilt"))
-                // $("#zfilt").hide();
+             $("body").on("click",'.log_assistant_btn',function(e){
+                window.location.href = "#narrow/is/starred"
                 $(".tab-content").css("height","100%")
                 $(".move_ctn").children().remove();
                 e.stopPropagation();
@@ -36,7 +35,6 @@ var contact = (function(){
                     url:"json/zg/my/receive/web",
                     contentType:"application/json",
                     success:function(res){
-                        console.log(res)
                         var page = [];
                         for(var i= 2;i<=res.page;i++){
                             page.push(i)
@@ -418,22 +416,6 @@ var contact = (function(){
                 $(".choose_team_close").on("click",function(e){
                     $("#people-choose").hide();
                 })
-                //日志助手拖拽
-                // $(".log_assistant_box").on("mousedown",function(e){
-                //     var x =parseInt(e.pageX - $(".log_assistant_box").offset().left);
-                //     var y =parseInt(e.pageY - $(".log_assistant_box").offset().top); 
-                //     $(".log_assistant_box").bind("mousemove",function(ev){
-                //         var ox = ev.pageX - x;
-                //         var oy = ev.pageY-y;
-                //         $(".log_assistant_box").css({
-                //             left:ox+"px",
-                //             top:oy+"px"
-                //         })
-                //     })
-                //     $(".log_assistant_box").on("mouseup",function(e){
-                //         $(this).unbind("mousemove");
-                //     })
-                // })
             })
         })
         //联系人点击

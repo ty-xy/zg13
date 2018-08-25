@@ -1198,7 +1198,7 @@ var management = (function () {
                 weekStart:1  
             }); 
         //日志助手显示
-            $(".log_assistant_btn").on("click",function(e){
+            $("body").on("click",".log_assistant_btn",function(e){
                 $("#empty_star_narrow_message").remove();
                 // $("#zfilt").hide();
                 e.stopPropagation();

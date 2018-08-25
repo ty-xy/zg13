@@ -622,6 +622,7 @@ li.show-more-private-messages a {
     /* width: 260px; */
     height: 53px;
     cursor: pointer;
+    list-style: none;
 }
 .notice_left{
     float: left;
