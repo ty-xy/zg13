@@ -1,13 +1,25 @@
 .message_reactions {
     padding-left: 46px;
     overflow: hidden;
-
+    position: absolute;
+    
+    z-index: 11;
+   
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
 }
-
+.message_reactions_my{
+   float: right; 
+   right: 14px;
+   top: 56px;
+}
+.message_reactions_other{
+    float: left;
+    left: 8px;
+    top: 56px;
+}
 .message_reactions .message_reaction {
     float: left;
     margin: 0.15em;

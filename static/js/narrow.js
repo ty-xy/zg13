@@ -3,7 +3,20 @@ var narrow = (function () {
 var exports = {};
 
 var unnarrow_times;
-
+Array.prototype.remove=function(obj){
+    for(var i =0;i <this.length;i++){
+        var temp = this[i];
+        if(!isNaN(obj)){
+            temp=i;
+        }
+        if(temp == obj){
+        for(var j = i;j <this.length;j++){
+            this[j]=this[j+1];
+            }
+            this.length = this.length-1;
+        }
+    }
+}
 function report_narrow_time(initial_core_time, initial_free_time, network_time) {
     channel.post({
         url: '/json/report/narrow_times',
@@ -558,10 +571,11 @@ function pick_empty_narrow_banner() {
             $("#compose").hide();
             $(".persistent_data").show();
             $(".persistent_data").children().remove();
-            $(".persistent_data").append(JSON.parse(localStorage.getItem("p")))
+            var arr = JSON.parse(localStorage.getItem("arr"))
+            var notice_box = templates.render("notice_box",{arr:arr})
+            $(".persistent_data").append(notice_box)
             $(".persistent_data").on("click",".only_tip",function(e){
                 e.stopPropagation()
-                // console.log("难道问题出在这儿？")
                 $("#main_div").show();
                 $(".move_ctn").children().remove();
                 $(".tab-content").css("height","calc(100% - 232px)")
@@ -588,8 +602,14 @@ function pick_empty_narrow_banner() {
                     console.log(now_name)
                     console.log(pipei_name)
                     $(this).parent().parent().parent().remove();
-                    localStorage.removeItem("p")
-                    localStorage.setItem("p",JSON.stringify($('.persistent_data').html()))
+                    var send_id = $(this).parent().parent().attr("send_id")
+                    arr = JSON.parse(localStorage.getItem("arr"))
+                    for(var i=0;i<arr.length;i++){
+                        if(arr[i].send_id == send_id){
+                            arr.remove(i)
+                        }
+                    }
+                    localStorage.setItem("arr",JSON.stringify(arr))
                 })
             })
             $(".persistent_data").on("mouseout",".only_tip",function(){
@@ -627,6 +647,12 @@ function pick_empty_narrow_banner() {
             $(".notice_ctn_boxs").hide()
             $("#compose").hide()
             $(".persistent_data").hide();
+            return $("#supervise_ctn");
+        }else if (first_operand === "collection") {
+            $(".notice_ctn_boxs").hide()
+            $("#compose").hide()
+            $(".persistent_data").hide();
+            $("#zfilt").removeClass("focused_table");
             return $("#supervise_ctn");
         }
     } else if ((first_operator === "stream") && !stream_data.is_subscribed(first_operand)) {

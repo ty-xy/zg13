@@ -1342,7 +1342,7 @@ ul{
     font-size: 20px;
     cursor: pointer;
 }
-.modal-log{
+.modal-log,.modal-logs{
     width: 100%;
     height: 100%;
     /* background: rgba(0,0,0,0.30); */
@@ -1352,6 +1352,9 @@ ul{
     z-index: 1000;
     /* height: 1080px; */
     overflow: auto;
+}
+.modal-logs{
+    background: rgba(0,0,0,0.30);
 }
 .modal-log-content{
     width: inherit;

@@ -77,6 +77,7 @@ exports.parse_narrow = function (hash) {
         arr = JSON.parse(localStorage.getItem("arr"))
         if(arr != null){
             $(".persistent_data").children().remove();
+            console.log('获取本地数组',arr)
             var notice_box = templates.render("notice_box",{arr:arr})
             $(".persistent_data").prepend(notice_box)
             _.filter($(".persistent_data").children(),function(data){
@@ -107,8 +108,14 @@ exports.parse_narrow = function (hash) {
                 console.log(now_name)
                 console.log(pipei_name)
                 $(this).parent().parent().parent().remove();
-                localStorage.removeItem("p")
-                localStorage.setItem("p",JSON.stringify($('.persistent_data').html()))
+                var send_id = $(this).parent().parent().attr("send_id")
+                arr = JSON.parse(localStorage.getItem("arr"))
+                for(var i=0;i<arr.length;i++){
+                    if(arr[i].send_id == send_id){
+                        arr.remove(i)
+                    }
+                }
+                localStorage.setItem("arr",JSON.stringify(arr))
             })
         })
         $(".persistent_data").on("mouseout",".only_tip",function(){

@@ -226,10 +226,7 @@ def get_topic_history_for_stream(user_profile: UserProfile,
         SELECT
             "zerver_message"."subject" as topic,
             max("zerver_message".id) as max_message_id,
-<<<<<<< HEAD
-=======
             min("zerver_message".id) as min_message_id
->>>>>>> 32f100de529f79e5e8c7460369661b7a964fe5f6
         FROM "zerver_message"
         
         INNER JOIN "zerver_usermessage" ON (

@@ -1,11 +1,21 @@
 {{#each peoplelist}}
 <li class="generate_log_member" data_id={{id}}>
-        <div class="generate_log_member_avatar" title={{name}}>
+       {{#if small}}
+        <div class="generate_log_member_addlogos" title={{name}}>
             <img src={{avatar}} alt="" class="avatar-img">
         </div>
-        <p class="generate_log_member_name">{{namel}}</p>
-        <div class="avatar-over">
+         <p class=" generate_log_member_adds">{{namel}}</p>
+          <div class="avatar-overs">
             <i class="iconfont icon-shanchu dust-delete"></i>
+         </div>
+        {{else}}
+         <div class="generate_log_member_avatar " title={{name}}>
+            <img src={{avatar}} alt="" class="avatar-img">
         </div>
+         <p class="generate_log_member_name">{{namel}}</p>
+          <div class="avatar-over">
+            <i class="iconfont icon-shanchu dust-delete"></i>
+         </div>
+        {{/if}}
 </li>
 {{/each}}

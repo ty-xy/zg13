@@ -99,7 +99,112 @@ $(function () {
     }
 
     var select_message_function = function (e) {
-        console.log('select_message_function', e);
+
+            //公共聊天信息显隐处理
+            $(".our_news_box p").off('mouseover').on('mouseover',function(){
+                $(this).parent().next().show()
+            })
+            $(".additional_more_box").on("click",function(){
+                $(this).children().last().show();
+            })
+            $(".other_content").off('mouseleave').on('mouseleave',function(){
+                $(this).children().last().hide()
+                $(this).children().last().children().children().last().hide();
+            })
+            $(".my_bubble").off('mouseleave').on('mouseleave',function(){
+                $(this).children().last().hide()
+                $(this).children().last().children().first().children().last().hide();
+            })
+            //转为待办
+            $(".additional_box").off("click").on("click",".additional_todo",function(){
+                $(".transfer_md").remove();
+                var task_title = $(this).parent().parent().parent().prev().text()
+                var transfer_todo =templates.render(("transfer_todo"),{task_title:task_title})
+                $(".app").append(transfer_todo)
+                //初始化 转为待办 结束时间日历
+                $('#transfer_datetimepicker').datetimepicker({  
+                    language:"zh-CN",  
+                    todayHighlight: true,  
+                    minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                    weekStart:1  
+                }); 
+
+            })
+            //可点击模版s
+            $(".transfer_box").on("click",function(e){
+                e.stopPropagation();
+            })
+            //点击关闭
+            $(".transfer_md").on("click",function(){
+                $(".transfer_md").hide();
+            })
+            $(".transfer_box_close").on("click",function(){
+                $(".transfer_md").hide();
+            })
+            //取消
+            $(".transfer_btn_cancel").on("click",function(){
+                $(".transfer_content").val("")
+                $("#transfer_input").val("")
+            })
+            //完成并关闭
+            $(".transfer_btn_close").on("click",function(){
+                var task = $(".transfer_content").val()
+                var over_time = $("#transfer_input").val()
+                if(task==""){
+                    $(".transfer_content").css("border","1px solid #EF5350");
+                    return;
+                }
+                if(task!=""){
+                    $(".transfer_content").css("border","1px solid #ccc");
+                }
+                if(over_time==""){
+                    $("#transfer_input").css("border","1px solid #EF5350");
+                    $("#transfer_input").css("border-right","none");
+                    $("#transferdata").css("border","1px solid #EF5350")
+                    return;
+                }
+                if(over_time!=""){
+                    $("#transfer_input").css("border","none");
+                    $("#transferdata").css("border","1px solid #ccc")
+                }
+                var obj = {
+                    task:task,
+                    over_time:management.toTimestamp(over_time)+86399
+                }
+                $.ajax({
+                    type:"POST",
+                    contentType:"application/json",
+                    url:"json/zg/backlog/",
+                    data:JSON.stringify(obj),
+                    success:function(res){
+                        if(res.errno == 0){
+                            $(".transfer_md").hide();
+                        }
+                    }
+                })
+            })  
+            //复制到粘贴板
+            var copynum = 0;
+            $(".recipient_row").off("click").on("click", '.additional_copy', function(e){
+                var btn = $(this)[0]
+                var clipboard = new ClipboardJS(btn);
+                console.log(clipboard)
+                clipboard.on('success', function(e) {
+                    console.log(e);
+                    copynum++;
+                    if(copynum >= 1){
+                        clipboard.destroy();
+                        clipboard = new ClipboardJS(btn);
+                    };
+                });
+                clipboard.on('error', function(e) {
+                    console.log(e);
+                });
+            })
+            $(".additional_reply").off("click").on("click",function(){
+                var id = Number($(this).parent().parent().parent().parent().parent().parent().parent().parent().parent().attr("zid"))
+                compose_actions.quote_and_reply({trigger: 'popover respond'});
+            })
         if (is_clickable_message_element($(e.target))) {
             // If this click came from a hyperlink, don't trigger the
             // reply action.  The simple way of doing this is simply
