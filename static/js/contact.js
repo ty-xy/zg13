@@ -390,6 +390,9 @@ var contact = (function(){
                                         $(".already_read").show();
                                         $(".unread").hide();
                                     })
+                                    $(".log_assistant_unread div").on("click",function(){
+                                        $(this).css("color","#333333").siblings().css("color","#999999")
+                                    })
                                     //附件图片显示原图
                                     $(".thumbnail").on("click",function(){
                                         console.log($(this))

@@ -956,10 +956,12 @@ ul{
     font-size: 12px;
     height: 16px;
     cursor: pointer;
+    display: none;
 }
 .log_assistant_ctn_box{
     /* background: #f5f5f5; */
     overflow: auto;
+    height: 900px;
 }
 .log_assistant_prompt_box{
     width: 937px;

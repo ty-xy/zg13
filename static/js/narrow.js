@@ -642,8 +642,8 @@ function pick_empty_narrow_banner() {
             $(".persistent_data").hide();
             return $("#management_ctn");
         }else if (first_operand === "supervise") {
-            $('#zfilt').hide()
-            // $("#zfilt").removeClass("focused_table");
+            // $('#zfilt').hide()
+            $("#zfilt").removeClass("focused_table");
             $(".notice_ctn_boxs").hide()
             $("#compose").hide()
             $(".persistent_data").hide();
