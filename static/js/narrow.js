@@ -566,10 +566,12 @@ function pick_empty_narrow_banner() {
     } else if (first_operator === "is") {
         if (first_operand === "starred") {
             // You have no starred messages.
-            $("#zfilt").addClass("focused_table");
+            // $("#zfilt").addClass("focused_table");
+            $("#zfilt").removeClass("focused_table")
             $(".notice_ctn_boxs").hide();
             $("#compose").hide();
             $(".persistent_data").show();
+            $(".keep_exist").show();
             $(".persistent_data").children().remove();
             var arr = JSON.parse(localStorage.getItem("arr"))
             var notice_box = templates.render("notice_box",{arr:arr})
@@ -621,18 +623,21 @@ function pick_empty_narrow_banner() {
             $(".notice_ctn_boxs").hide()
             $(".notice_ctn_box").show()
             $(".persistent_data").hide();
+            $(".keep_exist").hide();
             return $("#empty_narrow_all_mentioned");
         } else if (first_operand === "private") {
             // // You have no private messages.
             $("#zfilt").addClass("focused_table");
             $(".notice_ctn_boxs").hide()
             $(".persistent_data").hide();
+            $(".keep_exist").hide();
             return $("#empty_narrow_all_private_message");
         } else if (first_operand === "unread") {
             // You have no unread messages.
             $(".notice_ctn_boxs").hide()
             $(".persistent_data").hide();
             $("#zfilt").addClass("focused_table");
+            $(".keep_exist").hide();
             return $("#no_unread_narrow_message");
         } else if (first_operand === "management") {
             // $('#zfilt').hide()
@@ -640,18 +645,21 @@ function pick_empty_narrow_banner() {
             $("#zfilt").removeClass("focused_table");
             $("#compose").hide()
             $(".persistent_data").hide();
+            $(".keep_exist").hide();
             return $("#management_ctn");
         }else if (first_operand === "supervise") {
-            $('#zfilt').hide()
-            // $("#zfilt").removeClass("focused_table");
+            // $('#zfilt').hide()
+            $("#zfilt").removeClass("focused_table");
             $(".notice_ctn_boxs").hide()
             $("#compose").hide()
             $(".persistent_data").hide();
+            $(".keep_exist").hide();
             return $("#supervise_ctn");
         }else if (first_operand === "collection") {
             $(".notice_ctn_boxs").hide()
             $("#compose").hide()
             $(".persistent_data").hide();
+            $(".keep_exist").hide();
             $("#zfilt").removeClass("focused_table");
             return $("#supervise_ctn");
         }

@@ -71,13 +71,12 @@ exports.save_narrow = function (operators) {
 };
 var arr;
 exports.parse_narrow = function (hash) {
-    // console.log(hash)
     if(hash[1] == 'pm-with'||hash.length===5){
+        $(".keep_exist").show();
         $(".tab-content").css("height","calc(100% - 232px)")
         arr = JSON.parse(localStorage.getItem("arr"))
         if(arr != null){
             $(".persistent_data").children().remove();
-            console.log('获取本地数组',arr)
             var notice_box = templates.render("notice_box",{arr:arr})
             $(".persistent_data").prepend(notice_box)
             _.filter($(".persistent_data").children(),function(data){
@@ -92,8 +91,6 @@ exports.parse_narrow = function (hash) {
                 }
             })
         }
-        // $(".persistent_data").children().remove();
-        // $(".persistent_data").append(JSON.parse(localStorage.getItem("p")))
         //推送消息删除
         $(".persistent_data").on("mouseover",".only_tip",function(){
             $(this).children().last().children().last().show()

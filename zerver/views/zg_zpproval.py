@@ -288,21 +288,12 @@ def tools_approcal_details(types, ids, user_profile, table_obj):
 
     if user_profile.id == table_obj.user.id and table_obj.status == '发起申请':
         data['button_status'] = 1
-<<<<<<< HEAD
-    elif ZgReview.objects.filter(id=ids, types=types, send_user_id=user_profile.id, status='审批中', duties='approval'):
-        data['button_status'] = 2
-    elif ZgReview.objects.filter(Q(~Q(status='审批中') & ~Q(status='已撤销'), id=ids, types=types,
-                                   send_user_id=user_profile.id) |
-                                 Q(duties='inform', id=ids, types=types,
-                                   send_user_id=user_profile.id)):
-=======
     elif ZgReview.objects.filter(table_id=ids, types=types, send_user_id=user_profile.id, status='审批中',duties='approval'):
         data['button_status'] = 2
     elif ZgReview.objects.filter(Q(~Q(status='审批中') & ~Q(status='已撤销'),table_id=ids, types=types,
                                     send_user_id=user_profile.id)|
                                   Q(duties='inform', table_id=ids, types=types,
                                     send_user_id=user_profile.id)):
->>>>>>> 88a7acc62640ecec92dc3426901e06ff243e289c
         data['button_status'] = 3
     elif table_obj.status == '已撤销' and table_obj.user != user_profile:
         data['button_status'] = 4
