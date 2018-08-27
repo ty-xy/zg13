@@ -49,7 +49,9 @@ var check = (function () {
             var ids= Number($(this).attr('data_id'))
             send_list.push(ids)
           })
+          console.log($(".check-people").children().not($(".add_log_people")).length)
           if(send_list.length===0){
+              console.log(15)
               alert()
               return
           }
@@ -77,8 +79,7 @@ var check = (function () {
         function common_choose(){
             var arrlist =[]
             var peopleList = []
-            $('#create_log_de .generate_log_member_box').children().not($(".add_log_people")).each(function(){
-                
+            $('.generate_log_member_box').children().not($(".add_log_people")).each(function(){
                 var index = Number($(this).attr('data_id'))
                 peopleList.push(index)
             })
@@ -93,9 +94,10 @@ var check = (function () {
                     namel:name.slice(0,4)+"....",
                     small:true
                 }
+                console.log(peppleList)
                 if(peopleList.indexOf(peppleList.id)===-1){
-                    console.log(peopleList)
                     arrlist.push(peppleList)
+                    console.log(arrlist)
                 }
             })
            
