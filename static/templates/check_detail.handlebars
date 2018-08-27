@@ -51,18 +51,44 @@
     </div>
     <div>
         {{#each approver_list}}
-        <div class="common-flex common-flex-border">
-            <div class="common-flex">
-                <img src={{user_avatar}} class="avatar-imgs-shenpi"/>
-                <div class="application_people">
-                    <p>{{sliceName user_name}}</p>
-                    <p>{{status}}</p>
-                </div>
+        <div class="common-flex">
+            <div class="common-flex-links">
+                <i class="iconfont icon-shenpitongguo"></i>
+                <hr class="connect-line"/>
             </div>
-            <div>{{substrYear times}}</div>
+            <div class="common-flex common-flex-border">
+                <div class="arrow"/>
+                <div class="common-flex">
+                    <img src={{user_avatar}} class="avatar-imgs-shenpi"/>
+                    <div class="application_people">
+                        <p>{{sliceName user_name}}</p>
+                        <p>{{status}}</p>
+                    </div>
+                </div>
+                <div>{{substrYear times}}</div>
+            </div>
         </div>
         {{/each}}
     </div>
+    {{#if shown}}
+    <div class="feed_back-content">
+        <span>反馈:</span>
+        <ul>
+            {{#each feedback_list}}
+            <li class="common-flex feedback-content-back">
+                 <div class="common-flex">
+                    <img src={{user_avatar}} class="avatar-imgs-shenpi"/>
+                    <div class="application_people feed-back-people">
+                        <p>{{user_name}}</p>
+                        <p>{{content}}</p>
+                    </div>
+                 </div>
+                 <div>{{substrYear times}}</div>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+    {{/if}}
     <div class="common-flex">
         {{#compare  button_status '==' 1}}
             <button class="button-detail-common reminder">催办</button>
