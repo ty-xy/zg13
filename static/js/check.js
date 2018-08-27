@@ -45,11 +45,11 @@ var check = (function () {
               return 
           }
           var send_list =[]
-          $(".check-people").children().not($(".add_log_people")).each(function(){
+          $(".shenpi-persons").children().not($(".add_log_people")).each(function(){
             var ids= Number($(this).attr('data_id'))
             send_list.push(ids)
           })
-          console.log($(".check-people").children().not($(".add_log_people")).length)
+          console.log($(".shenpi-person").children())
           if(send_list.length===0){
               console.log(15)
               alert()
