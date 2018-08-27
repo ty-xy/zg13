@@ -228,9 +228,6 @@ var check = (function () {
             height()
             backIcon()
             $("#btn-test").on("click",function(e){
-                // amount：报销金额
-                // category：报销类别
-                // approver_list(审批人id列表)
                 e.preventDefault()
                 var amount = $("#username").val()
                 var category = $("#email").val()
