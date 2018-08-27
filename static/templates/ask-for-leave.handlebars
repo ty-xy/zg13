@@ -14,21 +14,21 @@
 <div class="container container-control">
     <br>
         <form class="form-horizontal" role="form" id="form-test">
+             {{#if showdate}}
             <div class="form-group form-group-common ">
-                {{#if show}}
+                {{!-- {{#if show}}
                 <label for="username" class="col-sm-1 control-label control-labels">申请人:</label>
-                {{else}}
-                    {{#if showdate}}
+                {{else}} --}}
+                   
                     <label for="username" class="col-sm-1 control-label control-labels">报销金额:</label>
-                    {{else}}
+                    {{!-- {{else}}
                     <label for="username" class="col-sm-1 control-label control-labels">请假人:</label>
-                    {{/if}}
-                {{/if}}
-                 
-                <div class="col-md-12">
-                    <input type="text" class="form-control form-people" id="username" name="username" placeholder="请输入...">
-                </div>
+                    {{!-- {{/if}} --}}
+                    <div class="col-md-12">
+                        <input type="text" class="form-control form-people" id="username" name="username" placeholder="请输入...">
+                    </div>
             </div>
+              {{/if}}
             {{#unless showdate}}
             <div class="form-group form-group-common">
                  <span style="color:red" class="require-content">*</span>

@@ -1368,3 +1368,9 @@ a.message-control-button {
        margin-left:12px;
        text-align:center;
    }
+   .feadback-send-sure{
+       background: #4584FF;
+   }
+   .feedback-back-tooTip{
+       height:262px !important;
+   }

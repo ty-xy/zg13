@@ -13,18 +13,46 @@ var check = (function () {
     function height(){
         $(".container-control").height($(window).height()-90)
     }
+    function alert () {
+        var rendered = templates.render("feed_back_content",{tooTip:true})
+        $(".modal-logs").html(rendered)
+        $(".modal-logs").show()
+        $(".feadback-send-sure").on("click",function(e){
+            $(".modal-logs").hide()
+        })
+    }
     function commonContent(type) {
-        var content = $.trim($("#username").val())
+        // var content = $.trim($("#username").val())
         // 开始时间
           var start_time =$(".start_times").val()
+          if(start_time===""){
+              alert()
+              return
+          }
           var end_time = $(".end_times").val()
+          if(end_time===""){
+             alert()
+              return 
+          }
           var count = Number($("#email").val())
+          if(count===""){
+              alert()
+              return 
+          }
           var cause = $("#text").val()
+          if(cause===""){
+             alert()
+              return 
+          }
           var send_list =[]
           $(".check-people").children().not($(".add_log_people")).each(function(){
             var ids= Number($(this).attr('data_id'))
             send_list.push(ids)
           })
+          if(send_list.length===0){
+              alert()
+              return
+          }
           var resend_list =[]
           $(".send-check-people").children().not($(".add_log_peoples")).each(function(){
             var ids= Number($(this).attr('data_id'))
@@ -33,7 +61,6 @@ var check = (function () {
         var  data = {
             approval_type:type,
             approver_list:send_list,
-            content:content,
             start_time:start_time,
             end_time:end_time,
             count:count,
