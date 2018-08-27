@@ -1198,7 +1198,7 @@ var management = (function () {
                 weekStart:1  
             }); 
         //日志助手显示
-            $(".log_assistant_btn").on("click",function(e){
+            $("body").on("click",".log_assistant_btn",function(e){
                 $("#empty_star_narrow_message").remove();
                 // $("#zfilt").hide();
                 e.stopPropagation();
@@ -1565,6 +1565,9 @@ var management = (function () {
                                     $(".log_assistant_unread").on("click",".log_assistant_readperson",function(){
                                         $(".already_read").show();
                                         $(".unread").hide();
+                                    })
+                                    $(".log_assistant_unread div").on("click",function(){
+                                        $(this).css("color","#333333").siblings().css("color","#999999")
                                     })
                                     //附件图片显示原图
                                     $(".thumbnail").on("click",function(){

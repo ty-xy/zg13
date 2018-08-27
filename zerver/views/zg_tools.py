@@ -1,6 +1,8 @@
 from math import radians, cos, sin, asin, sqrt
 from zerver.lib import avatar
 from zerver.models import UserProfile
+from django.http import JsonResponse
+import json
 
 
 def haversine(lon1, lat1, lon2, lat2):  # 经度1，纬度1，经度2，纬度2 （十进制度数）
@@ -27,3 +29,11 @@ def zg_user_info(ids):
 
     return {'avatar':avatars,'name':name,'id':ids}
 
+def req_tools(request):
+    req = request.body
+    req = req.decode()
+    req = json.loads(req)
+    return req
+
+# def zg_ok()
+#     return JsonResponse({})

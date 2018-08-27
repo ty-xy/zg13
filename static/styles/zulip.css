@@ -1571,7 +1571,7 @@ blockquote p {
     max-width: 700px;
     margin: 13px 0;
 }
-.my_bubble>p{
+.my_news_box>p{
     background: #DDE9FF!important;
     border-radius: 4px;
     height: 17px;

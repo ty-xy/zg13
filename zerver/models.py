@@ -2342,6 +2342,9 @@ class Feedback(models.Model):
     feedback_time = models.DateTimeField()
 
 
-
-
-
+# 收藏
+class ZgCollection(models.Model):
+    user=models.ForeignKey(UserProfile)
+    types = models.CharField(max_length=30)
+    type_id = models.IntegerField()
+    collection_time = models.DateTimeField
