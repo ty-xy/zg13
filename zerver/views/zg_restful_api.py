@@ -52,7 +52,7 @@ def zg_collection(request, user_profile):
             return JsonResponse({'errno': 1, 'message': '消息ID错误'})
 
         msgs = UserMessage.objects.filter(user_profile=user_profile,
-                                          message__id__in=type_id)
+                                          message=type_id)
 
         if status == 'add':
 
@@ -61,19 +61,21 @@ def zg_collection(request, user_profile):
                 ZgCollection.objects.create(user=user_profile, types=types, type_id=type_id, collection_time=nuw_time())
             except Exception:
                 return JsonResponse({'errno': 3, 'message': '收藏失败'})
+            return JsonResponse({'errno': 0, 'message': '收藏成功'})
         elif status == 'remove':
             try:
                 msgs.update(flags=F('flags').bitand(~flagattr))
                 ZgCollection.objects.filter(types=types, type_id=type_id).delete()
             except Exception:
                 return JsonResponse({'errno': 3, 'message': '删除失败'})
+            return JsonResponse({'errno': 0, 'message': '取消收藏成功'})
         else:
             raise AssertionError("Invalid message flags operation")
 
     else:
         return JsonResponse({'errno': 2, 'message': '类型错误'})
 
-    return JsonResponse({'errno': 0, 'message': '收藏成功'})
+    
 
 
 # 收藏列表
@@ -86,11 +88,13 @@ def zg_collection_list(request, user_profile):
 
         if collection_obj.types == 'message':
             message_obj = Message.objects.filter(id=collection_obj.type_id)
-            collection_dict['user_name'] = message_obj.sender.full_name
-            collection_dict['user_avatars'] = avatar.absolute_avatar_url(message_obj.sender)
-            collection_dict['subject'] = '来自于:' + message_obj.subject
-            collection_dict['content'] = message_obj.content
-            collection_dict['collection_time'] = collection_obj.collection_time
-            collection_list.append(collection_dict)
+            if message_obj:
+                collection_dict['user_name'] = message_obj[0].sender.full_name
+                collection_dict['user_avatars'] = avatar.absolute_avatar_url(message_obj[0].sender)
+                collection_dict['subject'] = '来自于:' + message_obj[0].subject
+                collection_dict['content'] = message_obj[0].content
+                collection_dict['collection_time'] = collection_obj.collection_time
+                collection_dict['message_id'] = message_obj[0].id
+                collection_list.append(collection_dict)
 
     return JsonResponse({'errno': 0, 'message': '成功', 'collection_list': collection_list})

@@ -202,8 +202,36 @@ $(function () {
                 });
             })
             $(".additional_reply").off("click").on("click",function(){
-                var id = Number($(this).parent().parent().parent().parent().parent().parent().parent().parent().parent().attr("zid"))
                 compose_actions.quote_and_reply({trigger: 'popover respond'});
+            })
+
+            $(".additional_collection").off("click").on("click",function(){
+                var id = Number($(this).parent().parent().parent().parent().parent().parent().attr("zid"))
+                var flag = $(this).parent().prev().attr("star")
+                var status;
+                if(flag == "false"){
+                    status = "add"
+                    flag = "true"
+                }else{
+                    status = "remove"
+                    flag = "false"
+                }
+                console.log("这是状态",flag)
+                console.log("这是参数",status)
+                var obj = {
+                    type:"message",
+                    type_id:id,
+                    status:status
+                }
+                $.ajax({
+                    type:"PUT",
+                    url:"json/zg/collection/",
+                    contentType:"appliction/json",
+                    data:JSON.stringify(obj),
+                    success:function(res){
+                        console.log(res)
+                    }
+                })
             })
         if (is_clickable_message_element($(e.target))) {
             // If this click came from a hyperlink, don't trigger the

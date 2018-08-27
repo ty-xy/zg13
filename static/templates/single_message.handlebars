@@ -71,13 +71,14 @@
                 </div>
                 {{#if compare}}
                 <div style="float:right;margin-right:46px;" class="my_bubble public_method">
-                    <div class="our_news_box my_news_box">
                     {{#unless status_message}}
+                    <div class="our_news_box my_news_box" star="{{msg.starred}}">
+                        <i class="iconfont icon-shoucang-xuanzhong collection_content_star"></i>
                         {{#if use_match_properties}}{{{msg/match_content}}}
                         {{else}}{{{msg/content}}}
                         {{/if}}
-                    {{/unless}}
                     </div>
+                    {{/unless}}
                     <ul class="additional_box fix my_additional">
                         <li class="additional_more_box">
                             <i class="iconfont icon-gengduocaozuo"></i>
@@ -87,23 +88,24 @@
                                 <li class="additional_todo"><i class="iconfont icon-zhuanweidaiban"></i><span>转为待办</span></li>
                             </ul>
                         </li>
-                        <li><i class="iconfont icon-shoucang-moren"></i></li> 
+                        <li class="additional_collection"><i class="iconfont icon-shoucang-moren"></i></li> 
                         <li><i class="iconfont icon-biaoqing1 reaction_button"></i></li>
                     </ul>
                 </div>
                 {{else}}
                 <div class="message_content">
                     <div class="other_content public_method">
-                            <div class="our_news_box other_news_box" data-message-id="{{message.id}}">
-                                {{#unless status_message}}
-                                    {{#if use_match_properties}}{{{msg/match_content}}}
-                                    {{else}}{{{msg/content}}}
-                                    {{/if}}
-                                {{/unless}}
+                            {{#unless status_message}}  
+                            <div class="our_news_box other_news_box" data-message-id="{{message.id}}" star="{{msg.starred}}">
+                                <i class="iconfont icon-shoucang-xuanzhong collection_content_star"></i>
+                                {{#if use_match_properties}}{{{msg/match_content}}}
+                                {{else}}{{{msg/content}}}
+                                {{/if}}
                             </div>
+                            {{/unless}}
                             <ul class="additional_box fix other_additional" style="float:right;margin-left:2px;">
                                 <li><i class="iconfont icon-biaoqing1 reaction_button"></i></li>
-                                <li><i class="iconfont icon-shoucang-moren"></i></li> 
+                                <li class="additional_collection"><i class="iconfont icon-shoucang-moren"></i></li> 
                                 <li class="additional_more_box">
                                     <i class="iconfont icon-gengduocaozuo"></i>
                                     <ul class="additional_more additional_more_other">

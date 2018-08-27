@@ -509,7 +509,6 @@ MessageListView.prototype = {
         var dom_messages;
         var last_message_row;
         var last_group_row;
-
         _.each(message_containers, function (message_container) {
             self.message_containers[message_container.msg.id] = message_container;
         });
@@ -521,7 +520,7 @@ MessageListView.prototype = {
                 use_match_properties: self.list.filter.is_search(),
                 table_name: self.table_name,
             }));
-
+            
             dom_messages = rendered_groups.find('.message_row');
             new_dom_elements = new_dom_elements.concat(rendered_groups);
 
@@ -589,7 +588,8 @@ MessageListView.prototype = {
         if (message_actions.append_groups.length > 0) {
             // Remove the trailing bookend; it'll be re-added after we do our rendering
             self.clear_trailing_bookend();
-
+            console.log(message_actions.append_groups)
+            console.log(self.list.filter.is_search())
             rendered_groups = $(templates.render('message_group', {
                 message_groups: message_actions.append_groups,
                 use_match_properties: self.list.filter.is_search(),

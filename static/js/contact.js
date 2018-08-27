@@ -610,9 +610,33 @@ var contact = (function(){
             var collection_tip_box = templates.render('collection_tip_box');
             $(".notice_ctn_box").append(collection_tip_box)
             $(".collection_tip").on("click",function(){
-                var collection_content_box = templates.render("collection_content_box")
+                
                 $('.move_ctn').children().remove()
-                $('.move_ctn').append(collection_content_box)
+                $.ajax({
+                    type:"GET",
+                    url:"json/zg/collection/list",
+                    success:function(res){
+                        console.log(res.collection_list)
+                        collection_list = res.collection_list
+                        var collection_content_box = templates.render("collection_content_box",{collection_list:collection_list})
+                        $('.move_ctn').append(collection_content_box)
+                        $(".collection_content_star").on("click",function(){
+                            var message_id = $(this).attr("message_id")
+                            $(this).parent().parent().remove()
+                            var obj = {
+                                type:"message",
+                                type_id:message_id,
+                                status:"remove"
+                            }
+                            $.ajax({
+                                type:"PUT",
+                                url:"json/zg/collection/",
+                                contentType:"appliction/json",
+                                data:JSON.stringify(obj)
+                            })
+                        })
+                    }
+                })
             })
         })
     })

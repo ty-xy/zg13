@@ -180,6 +180,15 @@ Handlebars.registerHelper("substrYear",function(str){
     var s = str.substring(0,10);
     return s;
 })
+Handlebars.registerHelper("toNorm",function(str){
+    var regx = /[a-zA-Z]/gm
+    var str = str.replace(regx,'')
+    str = str.replace(/-/g,'/')
+    var left = str.substring(0,9)
+    var right = str.substring(10,15)
+    var middle = "\r\n"
+    return left+middle+right
+})
 //文件类型判断
 Handlebars.registerHelper("isJpg",function(str){
     if(str == "jpg"){
