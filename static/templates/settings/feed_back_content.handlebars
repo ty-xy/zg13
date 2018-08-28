@@ -1,25 +1,33 @@
-<div id="feed-back-content"  class="feed-back-show {{#if tooTip}}feedback-back-tooTip {{/if}}">
+<div id="feed-back-content"  class="feed-back-show {{#if tooTip}}feedback-back-tooTip {{/if}} {{#if revolke_tip}}feedback-back-tooTip{{/if}}">
     <div class="headback-title">
-        {{#if tooTip}}
-        <h1>提示</h1>
-        {{else}}
+        {{#unless  tooTip}}
         <h1>反馈</h1>
-        {{/if}}
+        {{else}}
+         <h1>提示</h1>
+        {{/unless}}
         <i class="iconfont icon-guanbiUI icon-close-guanbi"></i>
     </div>
     <div class="type-area">
         {{#if tooTip}}
         <p>抱歉，您有必填项未填，请完善信息</p>
         {{else}}
-        <textarea  class="textarea-type" placeholder="请输入反馈内容...."></textarea>
+           {{#if revolke_tip}}
+           <p>你确定撤销申请吗？</p>
+           {{else}}
+           <textarea  class="textarea-type" placeholder="请输入反馈内容...."></textarea>
+           {{/if}}
         {{/if}}
     </div>
     <div class="feedback-back">
         {{#if tooTip}}
          <button class="feadback-send-sure feedback-button-common">确定</button>
         {{else}}
-        <button class="feadback-cancel feedback-button-common">取消</button>
-        <button class="feadback-send feedback-button-common">发送</button>
+          <button class="feadback-cancel feedback-button-common">取消</button>
+           {{#if revolke_tip}}
+           <button class="feadback-revoke feedback-button-common">确定</button>
+           {{else}}
+           <button class="feadback-send feedback-button-common">发送</button>
+           {{/if}}
         {{/if}}
     </div>
 </div>
