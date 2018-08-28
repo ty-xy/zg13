@@ -118,7 +118,7 @@ $(function () {
             //转为待办
             $(".additional_box").off("click").on("click",".additional_todo",function(){
                 $(".transfer_md").remove();
-                var task_title = $(this).parent().parent().parent().prev().text()
+                var task_title = $(this).parent().parent().parent().prev().text().trim()
                 var transfer_todo =templates.render(("transfer_todo"),{task_title:task_title})
                 $(".app").append(transfer_todo)
                 //初始化 转为待办 结束时间日历

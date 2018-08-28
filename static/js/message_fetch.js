@@ -135,6 +135,8 @@ exports.load_messages = function (opts) {
         success: function (data) {
             get_messages_success(data, opts);
             if(data.result == "success"){
+                // var invite_members_md = templates.render("invite_members_md")
+                // $(".app").append(invite_members_md)
             // $(".app").append(templates.render("transfer_todo"))
             $.ajax({
                 type:"GET",

@@ -418,7 +418,7 @@
 }
 .organization_team_btn>li{
     width: 100px;
-    height: 40px;
+    height: 38px;
     font-size: 15px;
     letter-spacing: 0.18px;
     float: left;
@@ -426,6 +426,7 @@
     line-height: 40px;
     text-align: center;
     cursor: pointer;
+    font-weight: 200;
 }
 .organization_team_btn .management_team{
     border: 1px solid #4584FF;
@@ -434,6 +435,7 @@
 }
 .organization_team_btn .invite_members{
     background: #4584FF;
+    border: 1px solid #4584FF;
     border-radius: 4px;
     color: #fff;
 }
@@ -445,6 +447,7 @@
     font-size: 15px;
     color: #333333;
     letter-spacing: 0.16px;
+    cursor: pointer;
 }
 .organization_team_single_box{
     padding: 20px;
@@ -464,4 +467,83 @@
     font-size: 16px;
     color: #333333;
     letter-spacing: 0.18px;
+}
+.invite_members_md{
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.30);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 111;
+}
+.invite_members_box{
+    width: 320px;
+    height: 444px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    background: #fff;
+    padding: 20px 40px;
+}
+.invite_members_close{
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    cursor: pointer;
+}
+.invite_members_search_box{
+    width: 320px;
+    height: 40px;
+    background: #F4F5F7;
+    margin-top: 38px;
+    border-radius: 6px;
+}
+.invite_members_icon{
+    line-height: 40px;
+    color: #999;
+    margin: 10px;
+}
+.invite_members_title{
+    margin: 30px 0 10px 0;
+    font-size: 16px;
+    color: #333333;
+    letter-spacing: 1.33px;
+}
+.invite_members_search{
+    width: 266px;
+    height: 29px!important;
+    background: #F4F5F7!important;
+    border: none;
+    outline: none;
+    -webkit-appearance: none;
+    border-radius: 0;
+}
+.invite_members_url_input{
+    float: left;
+    width: 220px;
+    height: 28px!important;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+}
+.invite_members_url_btn{
+    float: right;
+    height: 36px;
+    font-size: 14px;
+    color: #FFFFFF;
+    line-height: 36px;
+    padding: 0 10px;
+    letter-spacing: 0.18px;
+    text-align: center;
+    background: #4584FF;
+    border-radius: 4px;
+}
+.invite_members_qrtitle{
+    font-size: 16px;
+    color: #333333;
+    letter-spacing: 1.33px;
+    margin: 30px 0 10px 0;
 }

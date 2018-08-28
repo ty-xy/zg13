@@ -657,6 +657,24 @@ var contact = (function(){
             $(".move_ctn").append(organization_team_dept)
             var organization_team_single = templates.render("organization_team_single")
             $(".move_ctn").append(organization_team_single)
+
+            //邀请成员点击
+            $(".invite_members").on("click",function(){
+                var invite_members_md = templates.render("invite_members_md")
+                $(".app").append(invite_members_md)
+                //阻止时间冒泡
+                $(".invite_members_box").on("click",function(e){
+                    e.stopPropagation();
+                })
+                //点击x关闭
+                $(".invite_members_close").on("click",function(){
+                    $(".invite_members_md").hide()
+                })
+                //点击模版关闭
+                $(".invite_members_md").on("click",function(){
+                    $(".invite_members_md").hide()
+                })
+            })
         })
     })
     
