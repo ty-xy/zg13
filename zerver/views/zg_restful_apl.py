@@ -1,4 +1,4 @@
-from zerver.models import Message, UserMessage, ZgCollection
+from zerver.models import Message, UserMessage, ZgCollection, Stream
 from django.http import JsonResponse
 from zerver.decorator import zulip_login_required
 from zerver.tornado.event_queue import send_event
@@ -94,3 +94,15 @@ def zg_collection_list(request, user_profile):
             collection_list.append(collection_dict)
 
     return JsonResponse({'errno': 0, 'message': '成功', 'collection_list': collection_list})
+
+# 频道权限认证
+def zg_stream_permissions(request, user_profile):
+    stream_id = request.GET.get('stream_id')
+    try:
+        stream = Stream.objects.get(id=stream_id)
+    except Exception:
+        return JsonResponse({'errno': 1, 'message': 'id错误'})
+    stream_permissions = False
+    if stream.create_user_id == user_profile.id or user_profile.is_realm_admin:
+        stream_permissions = True
+    return JsonResponse({'errno': 0, 'message': 'id错误', 'stream_permissions': stream_permissions})

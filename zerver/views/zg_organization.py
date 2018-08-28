@@ -186,3 +186,41 @@ def department_del(request, user_profile):
         user_obj.save()
 
     return JsonResponse({'errno': 0, 'message': '成功'})
+
+
+# 修改部门名称
+
+def department_up(request, user_profile):
+    req = req_tools(request)
+    department_id = req.get('department_id')
+
+    department_name = req.get('department_name')
+
+    if user_profile.is_realm_admin == False or user_profile.zg_permission !=1:
+        return JsonResponse({'errno': 1, 'message': '无权限'})
+
+    aa=ZgDepartment.objects.filter(id=department_id)
+    aa[0].name=department_name
+    aa[0].save()
+    user_profile.save()
+
+    return JsonResponse({'errno': 0, 'message': '修改成功'})
+
+
+# 部门人员
+def department_user_list(request, user_profile):
+
+    department_id=request.GET.get('department_id')
+
+    if not department_id:
+        return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
+    user_list=[]
+
+    user_objs=UserProfile.objects.filter(department=department_id)
+    for i in  user_objs:
+        user_dict = {}
+        user_dict['name'] = i.full_name
+        user_dict['avatar'] = avatar.absolute_avatar_url(i)
+        user_dict['id'] = i.id
+        user_list.append(user_dict)
+    return JsonResponse({'errno': 0, 'message': '成功','user_list':user_list})
