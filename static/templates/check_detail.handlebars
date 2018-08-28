@@ -89,7 +89,7 @@
         </ul>
     </div>
     {{/if}}
-    <div class="common-flex">
+    <div class="common-flex button-show">
         {{#compare  button_status '==' 1}}
             <button class="button-detail-common reminder">催办</button>
             <button class="button-detail-common revoke">撤销</button>
@@ -104,8 +104,8 @@
         {{#compare  button_status '==' 4}}
             <button class="button-detail-common reminder">已撤销</button>
         {{/compare}}
-        {{#compare  button_status '==' 5}}
+        {{!-- {{#compare  button_status '==' 5}}
             <button class="button-detail-common reminder">再次提交</button> 
-        {{/compare}}
+        {{/compare}} --}}
     </div>
 </div>

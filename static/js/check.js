@@ -49,9 +49,7 @@ var check = (function () {
             var ids= Number($(this).attr('data_id'))
             send_list.push(ids)
           })
-          console.log($(".shenpi-person").children())
           if(send_list.length===0){
-              console.log(15)
               alert()
               return
           }
@@ -165,7 +163,10 @@ var check = (function () {
                         $(".move_ctn").children().remove();
                         var li = templates.render("check_detail",data)
                         $(".move_ctn").html(li)
-                        feedBack(datas.types,datas.id)
+                        // console.log(data,"get_data(data)")
+                        if(data.button_status!==5){
+                            feedBack(datas.types,datas.id)
+                        }
                     }
                 })
         }
@@ -331,22 +332,35 @@ var check = (function () {
                                                 data:JSON.stringify(datalist),
                                                 contentType:"application/json",
                                                 success:function(datas){
-                                                    console.log(datas,1111)
+                                                    var html ='<button class="button-detail-common feedBack">反馈</button>'
+                                                    $(".button-show").html(html)
+                                                    var data = {
+                                                        types:types,
+                                                        id:id,
+                                                    }
+                                                    get_data(data)
                                                 }
                                             })
                                         })
                                         $(".agree").on("click",function(e){
+                                            console.log(types)
                                             var datalist = {
                                                 types:types,
                                                 id:id,
-                                                state:"审批通过"
+                                                state:"同意"
                                             }
                                             channel.put({
                                                 url:'/json/zg/approval/table/state_update/',
                                                 data:JSON.stringify(datalist),
                                                 contentType:"application/json",
                                                 success:function(datas){
-                                                    console.log(datas,1111)
+                                                    var html ='<button class="button-detail-common feedBack">反馈</button>'
+                                                    $(".button-show").html(html)
+                                                    var data = {
+                                                        types:types,
+                                                        id:id,
+                                                    }
+                                                    get_data(data)
                                                 }
                                             })
                                         })
@@ -383,21 +397,29 @@ var check = (function () {
                                 $(".move_ctn").children().remove();
                                 var li = templates.render("check_detail",data)
                                 $(".move_ctn").html(li)
-                                // $(".revoke").on("click",function(e){
-                                //     datalist = {
-                                //         types:types,
-                                //         id:id,
-                                //         state:"已撤销"
-                                //     }
-                                //     channel.put({
-                                //         url:'/json/zg/approval/table/state_update/',
-                                //         data:JSON.stringify(datalist),
-                                //         contentType:"application/json",
-                                //         success:function(datas){
-                                //             console.log(datas,1111)
-                                //         }
-                                //     })
-                                // })
+                                $(".revoke").on("click",function(e){
+                                    // console.log("fadfasdf")
+                                    datalist = {
+                                        types:types,
+                                        id:id,
+                                        state:"撤销"
+                                    }
+                                    channel.put({
+                                        url:'/json/zg/approval/table/state_update/',
+                                        data:JSON.stringify(datalist),
+                                        contentType:"application/json",
+                                        success:function(datas){
+                                            // console.log(data)
+                                            // var html ='<button class="button-detail-common feedBack">反馈</button>'
+                                            // $(".button-show").html(html)
+                                            var data = {
+                                                types:types,
+                                                id:id,
+                                            }
+                                            get_data(data)
+                                        }
+                                    })
+                                })
                             }
                         })
                     })
@@ -435,21 +457,11 @@ var check = (function () {
                                     $(".move_ctn").children().remove();
                                     var li = templates.render("check_detail",data)
                                     $(".move_ctn").html(li)
-                                    // $(".revoke").on("click",function(e){
-                                    //     datalist = {
-                                    //         types:types,
-                                    //         id:id,
-                                    //         state:"已撤销"
-                                    //     }
-                                    //     channel.put({
-                                    //         url:'/json/zg/approval/table/state_update/',
-                                    //         data:JSON.stringify(datalist),
-                                    //         contentType:"application/json",
-                                    //         success:function(datas){
-                                    //             console.log(datas,1111)
-                                    //         }
-                                    //     })
-                                    // })
+                                    var data ={
+                                        types:types,
+                                        id:id
+                                    }
+                                    get_data(data)
                                 }
                             })
                         })
@@ -476,6 +488,7 @@ var check = (function () {
                         id:id,
                         content:content
                     }
+                    console.log(111111)
                     channel.post({
                         url:"json/zg/approval/table/feedback/",
                         data:JSON.stringify(data),
