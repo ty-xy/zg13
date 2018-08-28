@@ -70,34 +70,38 @@
                     {{! 附加功能}}
                 </div>
                 {{#if compare}}
-                <div style="float:right;margin-right:46px;" class="my_bubble public_method">
-                    {{#unless status_message}}
-                    <div class="our_news_box my_news_box" star="{{msg.starred}}">
-                        <i class="iconfont icon-shoucang-xuanzhong collection_content_star"></i>
-                        {{#if use_match_properties}}{{{msg/match_content}}}
-                        {{else}}{{{msg/content}}}
-                        {{/if}}
+                <div>
+                    <div style="float:right;margin-right:46px;" class="my_bubble public_method">
+                        {{#unless status_message}}
+                        <div class="our_news_box my_news_box" star="{{msg.starred}}">
+                            <i class="iconfont icon-shoucang-xuanzhong our_news_box_star my_news_box_star {{#if msg.starred}}show{{/if}}"></i>
+                            {{!-- {{#if msg.starred}}<i class="iconfont icon-shoucang-xuanzhong our_news_box_star my_news_box_star"></i>{{/if}} --}}
+                            {{#if use_match_properties}}{{{msg/match_content}}}
+                            {{else}}{{{msg/content}}}
+                            {{/if}}
+                        </div>
+                        {{/unless}}
+                        <ul class="additional_box fix my_additional">
+                            <li class="additional_more_box">
+                                <i class="iconfont icon-gengduocaozuo"></i>
+                                <ul class="additional_more additional_more_my">
+                                    <li class="additional_reply"><i class="iconfont icon-huifu"></i><span>回复</span></li>
+                                    <li class="additional_copy" data-clipboard-text="{{#unless status_message}}{{#if use_match_properties}}{{{deleteTag msg/match_content}}}{{else}}{{{deleteTag msg/content}}}{{/if}}{{/unless}}"><i class="iconfont icon-fuzhi"></i><span>复制</span></li>
+                                    <li class="additional_todo"><i class="iconfont icon-zhuanweidaiban"></i><span>转为待办</span></li>
+                                </ul>
+                            </li>
+                            <li class="additional_collection"><i class="iconfont icon-shoucang-moren"></i></li> 
+                            <li><i class="iconfont icon-biaoqing1 reaction_button"></i></li>
+                        </ul>
                     </div>
-                    {{/unless}}
-                    <ul class="additional_box fix my_additional">
-                        <li class="additional_more_box">
-                            <i class="iconfont icon-gengduocaozuo"></i>
-                            <ul class="additional_more additional_more_my">
-                                <li class="additional_reply"><i class="iconfont icon-huifu"></i><span>回复</span></li>
-                                <li class="additional_copy" data-clipboard-text="{{#unless status_message}}{{#if use_match_properties}}{{{deleteTag msg/match_content}}}{{else}}{{{deleteTag msg/content}}}{{/if}}{{/unless}}"><i class="iconfont icon-fuzhi"></i><span>复制</span></li>
-                                <li class="additional_todo"><i class="iconfont icon-zhuanweidaiban"></i><span>转为待办</span></li>
-                            </ul>
-                        </li>
-                        <li class="additional_collection"><i class="iconfont icon-shoucang-moren"></i></li> 
-                        <li><i class="iconfont icon-biaoqing1 reaction_button"></i></li>
-                    </ul>
                 </div>
                 {{else}}
                 <div class="message_content">
                     <div class="other_content public_method">
                             {{#unless status_message}}  
                             <div class="our_news_box other_news_box" data-message-id="{{message.id}}" star="{{msg.starred}}">
-                                <i class="iconfont icon-shoucang-xuanzhong collection_content_star"></i>
+                                <i class="iconfont icon-shoucang-xuanzhong our_news_box_star other_news_box_star {{#if msg.starred}}show{{/if}}"></i>
+                                {{!-- {{#if msg.starred}}<i class="iconfont icon-shoucang-xuanzhong our_news_box_star other_news_box_star"></i>{{/if}} --}}
                                 {{#if use_match_properties}}{{{msg/match_content}}}
                                 {{else}}{{{msg/content}}}
                                 {{/if}}

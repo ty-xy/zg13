@@ -206,8 +206,11 @@ $(function () {
             })
 
             $(".additional_collection").off("click").on("click",function(){
-                var id = Number($(this).parent().parent().parent().parent().parent().parent().attr("zid"))
-                var flag = $(this).parent().prev().attr("star")
+                var id = Number($(this).parent().parent().parent().parent().parent().parent().parent().attr("zid"))
+                flag = $(this).parent().prev().attr("star")
+                star = $(this).parent().prev().children().first()
+                
+                console.log("这是状态",flag)
                 var status;
                 if(flag == "false"){
                     status = "add"
@@ -216,8 +219,7 @@ $(function () {
                     status = "remove"
                     flag = "false"
                 }
-                console.log("这是状态",flag)
-                console.log("这是参数",status)
+                console.log("这是我的id",id)
                 var obj = {
                     type:"message",
                     type_id:id,
@@ -230,6 +232,11 @@ $(function () {
                     data:JSON.stringify(obj),
                     success:function(res){
                         console.log(res)
+                        if(res.message == '收藏成功'){
+                            star.show()
+                        }else if(res.message == "取消收藏成功"){
+                            star.hide()
+                        }
                     }
                 })
             })
