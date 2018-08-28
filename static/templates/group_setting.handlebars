@@ -56,6 +56,9 @@
             </div>
         </li>
     </ul>
-    <button class="back-tuiding">退订群组</button>
-    
+    {{#if stream_permissions}}
+     <button class="back-tuiding-release">解散群组</button>
+    {{else}}
+     <button class="back-tuiding">退订群组</button>
+    {{/if}}
 </div>
