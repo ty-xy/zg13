@@ -576,6 +576,14 @@ a.message-control-button {
     cursor: pointer;
     display:none;
 }
+.organization_team{
+    height:50px;
+    position: relative;
+    padding:0 20px;
+    line-height: 50px;
+    cursor: pointer;
+    display:none;
+}
 .icon_qunzu{
     display: inline-block;
     height:38px;

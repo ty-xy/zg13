@@ -1,18 +1,19 @@
 <ul class="collection_content_box">
-
-    <li class="collection_content">
-        <div class="collection_content_title fix">
-            <div class="collection_content_avatar_box">
-                <img src="" alt="" class="collection_content_avatar">
+    {{#each collection_list}}
+        <li class="collection_content">
+            <div class="collection_content_title fix">
+                <div class="collection_content_avatar_box">
+                    <img src="{{user_avatars}}" alt="" class="collection_content_avatar">
+                </div>
+                <p class="collection_content_name">{{user_name}}</p>
+                <p class="collection_content_from">{{subject}}</p>
+                <p class="collection_content_time">{{toNorm collection_time}}</p>
+                <i class="iconfont icon-shoucang-xuanzhong collection_content_star" message_id="{{message_id}}" alt="取消收藏"></i>
             </div>
-            <p class="collection_content_name">找二萌</p>
-            <p class="collection_content_from">来自世界尽头</p>
-            <p class="collection_content_time">2015/4/4 19:00</p>
-        </div>
-        <div class="collection_content_body fix">
-            <p class="collection_content_ctn">Uki，小行星，壹二，平行世界等内容App的体验以及架构分析</p>
-            <i class="iconfont icon-shoucang1 already_collected"></i>
-        </div>
-    </li>
-
+            <div class="collection_content_body fix">
+                <p class="collection_content_ctn">{{content}}</p>
+                <i class="iconfont icon-shoucang1 already_collected"></i>
+            </div>
+        </li>
+    {{/each}}
 </ul>

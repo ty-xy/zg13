@@ -71,6 +71,16 @@ exports.save_narrow = function (operators) {
 };
 var arr;
 exports.parse_narrow = function (hash) {
+    console.log('完蛋了',hash)
+    if(hash[2] == "starred"){
+        console.log("123123123123")
+        $("#zfilt").removeClass("focused_table")
+        $(".compose-content").hide()
+        $(".move_ctn").children().remove();
+        $(".group_icon").hide()
+        //添加默认空白
+        $(".move_ctn").append(templates.render("right_blank_page"))
+    }
     if(hash[1] == 'pm-with'||hash.length===5){
         $(".keep_exist").show();
         $(".tab-content").css("height","calc(100% - 232px)")

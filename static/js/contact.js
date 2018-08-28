@@ -6,6 +6,7 @@ var contact = (function(){
         })
         //私聊点击
         $(".private_button").on("click",function(){
+            $(".organization_team").hide()
             //清空右侧添加内容
             $(".move_ctn").children().remove();
             $(".group_icon").hide()
@@ -420,6 +421,7 @@ var contact = (function(){
         })
         //联系人点击
         $(".contact").on("click",function(){
+            $(".organization_team").show()
             //清空右侧添加内容
             $(".move_ctn").children().remove();
             //右侧填补空白页
@@ -532,9 +534,11 @@ var contact = (function(){
                     })
                 }
             })
+
         })
         //待办点击
         $(".todo_list").on("click",function(){
+            $(".organization_team").hide()
             $(".group_icon").hide()
             //清空右侧添加内容
             $(".move_ctn").children().remove();
@@ -583,6 +587,7 @@ var contact = (function(){
         })
         //管理组点击
         $(".manage_group").on("click",function(){
+            $(".organization_team").hide()
             //清空右侧添加内容
             $(".group_icon").hide()
             $(".move_ctn").children().remove();
@@ -600,6 +605,7 @@ var contact = (function(){
         })
         //收藏点击
         $(".collection").on("click",function(){
+            $(".organization_team").hide()
             $(".group_icon").hide()
             //清空右侧添加内容
             $(".move_ctn").children().remove();
@@ -610,10 +616,47 @@ var contact = (function(){
             var collection_tip_box = templates.render('collection_tip_box');
             $(".notice_ctn_box").append(collection_tip_box)
             $(".collection_tip").on("click",function(){
-                var collection_content_box = templates.render("collection_content_box")
+                
                 $('.move_ctn').children().remove()
-                $('.move_ctn').append(collection_content_box)
+                $.ajax({
+                    type:"GET",
+                    url:"json/zg/collection/list",
+                    success:function(res){
+                        console.log(res.collection_list)
+                        collection_list = res.collection_list
+                        var collection_content_box = templates.render("collection_content_box",{collection_list:collection_list})
+                        $('.move_ctn').append(collection_content_box)
+                        $(".collection_content_star").on("click",function(){
+                            var message_id = $(this).attr("message_id")
+                            $(this).parent().parent().remove()
+                            var obj = {
+                                type:"message",
+                                type_id:message_id,
+                                status:"remove"
+                            }
+                            $.ajax({
+                                type:"PUT",
+                                url:"json/zg/collection/",
+                                contentType:"appliction/json",
+                                data:JSON.stringify(obj)
+                            })
+                        })
+                    }
+                })
             })
+        })
+
+        //团队组织方法
+        $(".organization_team").on("click",function(){
+            $("#group_seeting_choose").hide();
+            //清空右侧添加内容
+            $(".move_ctn").children().remove();
+            var organization_team_box = templates.render("organization_team_box")
+            $(".move_ctn").append(organization_team_box)
+            var organization_team_dept = templates.render("organization_team_dept")
+            $(".move_ctn").append(organization_team_dept)
+            var organization_team_single = templates.render("organization_team_single")
+            $(".move_ctn").append(organization_team_single)
         })
     })
     

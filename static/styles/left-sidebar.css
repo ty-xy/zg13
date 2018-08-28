@@ -936,6 +936,41 @@ li.show-more-private-messages a {
     margin: 0;
     margin-top: 88px;
     border-top: 1px solid #dddddd;
+    height: 900px;
+    overflow-y: auto;
+}
+.collection_content{
+    padding: 20px 20px 0 20px;
+}
+.collection_content_body{
+    border-bottom: 1px solid #ddd;
+}
+.collection_content_title{
+    position: relative;
+}
+.collection_content_star{
+    position: absolute;
+    right: 0;
+    top: 80px;
+    color: #FFD359;
+    cursor: pointer;
+}
+.our_news_box_star{
+    color: #FFD359;
+    cursor: pointer;
+    display: none;
+}
+.other_news_box_star{
+    float: right;
+}
+.my_news_box_star{
+    float: left;
+}
+.hide{
+    display: none;
+}
+.show{
+    display: block;
 }
 .collection_content_title>p{
     line-height: 70px;
