@@ -24,7 +24,7 @@ def access_stream_for_delete_or_update(user_profile: UserProfile, stream_id: int
     except Stream.DoesNotExist:
         raise JsonableError(error)
     # zg
-    assert(stream.create_user_id == UserProfile.id or user_profile.is_realm_admin)
+    assert(stream.create_user_id == user_profile.id or user_profile.is_realm_admin)
 
     if stream.realm_id != user_profile.realm_id:
         raise JsonableError(error)

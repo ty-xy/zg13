@@ -2347,4 +2347,4 @@ class ZgCollection(models.Model):
     user=models.ForeignKey(UserProfile)
     types = models.CharField(max_length=30)
     type_id = models.IntegerField()
-    collection_time = models.DateTimeField
+    collection_time = models.DateTimeField()
