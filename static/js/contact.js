@@ -6,6 +6,7 @@ var contact = (function(){
         })
         //私聊点击
         $(".private_button").on("click",function(){
+            $(".organization_team").hide()
             //清空右侧添加内容
             $(".move_ctn").children().remove();
             $(".group_icon").hide()
@@ -420,6 +421,7 @@ var contact = (function(){
         })
         //联系人点击
         $(".contact").on("click",function(){
+            $(".organization_team").show()
             //清空右侧添加内容
             $(".move_ctn").children().remove();
             //右侧填补空白页
@@ -532,9 +534,11 @@ var contact = (function(){
                     })
                 }
             })
+
         })
         //待办点击
         $(".todo_list").on("click",function(){
+            $(".organization_team").hide()
             $(".group_icon").hide()
             //清空右侧添加内容
             $(".move_ctn").children().remove();
@@ -583,6 +587,7 @@ var contact = (function(){
         })
         //管理组点击
         $(".manage_group").on("click",function(){
+            $(".organization_team").hide()
             //清空右侧添加内容
             $(".group_icon").hide()
             $(".move_ctn").children().remove();
@@ -600,6 +605,7 @@ var contact = (function(){
         })
         //收藏点击
         $(".collection").on("click",function(){
+            $(".organization_team").hide()
             $(".group_icon").hide()
             //清空右侧添加内容
             $(".move_ctn").children().remove();
@@ -638,6 +644,19 @@ var contact = (function(){
                     }
                 })
             })
+        })
+
+        //团队组织方法
+        $(".organization_team").on("click",function(){
+            $("#group_seeting_choose").hide();
+            //清空右侧添加内容
+            $(".move_ctn").children().remove();
+            var organization_team_box = templates.render("organization_team_box")
+            $(".move_ctn").append(organization_team_box)
+            var organization_team_dept = templates.render("organization_team_dept")
+            $(".move_ctn").append(organization_team_dept)
+            var organization_team_single = templates.render("organization_team_single")
+            $(".move_ctn").append(organization_team_single)
         })
     })
     

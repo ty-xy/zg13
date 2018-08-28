@@ -399,3 +399,69 @@
 #myPageTop {
    top:180px;
 }
+
+
+.organization_team_box{
+    height: 90px;
+    border-bottom: 1px solid #ddd;
+}
+.organization_team_head>p{
+    font-size: 18px;
+    color: #333333;
+    letter-spacing: 0.2px;
+    float: left;
+    padding: 44px 20px 20px 20px;
+}
+.organization_team_btn{
+    float: right;
+    margin: 30px 44px 20px 20px;
+}
+.organization_team_btn>li{
+    width: 100px;
+    height: 40px;
+    font-size: 15px;
+    letter-spacing: 0.18px;
+    float: left;
+    margin: 0 10px;
+    line-height: 40px;
+    text-align: center;
+    cursor: pointer;
+}
+.organization_team_btn .management_team{
+    border: 1px solid #4584FF;
+    border-radius: 4px;
+    color: #4584FF;
+}
+.organization_team_btn .invite_members{
+    background: #4584FF;
+    border-radius: 4px;
+    color: #fff;
+}
+.organization_team_dept_box{
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+}
+.organization_team_dept_ctn{
+    font-size: 15px;
+    color: #333333;
+    letter-spacing: 0.16px;
+}
+.organization_team_single_box{
+    padding: 20px;
+}   
+.organization_team_single_img_box{
+    float: left;
+    height: 38px;
+    width:38px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #14A4FA;
+}
+.organization_team_single_name{
+    float: left;
+    margin-left: 10px;
+    line-height: 38px;
+    font-size: 16px;
+    color: #333333;
+    letter-spacing: 0.18px;
+}
