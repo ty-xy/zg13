@@ -202,6 +202,7 @@ var server_events = (function () {
         idempotent: true,
         timeout:  page_params.poll_timeout,
         success: function (data) {
+            console.log("你要的",data)
             var type;
             var data_message;
             $.ajax({
@@ -223,7 +224,7 @@ var server_events = (function () {
                         var time = data_message.timestamp
                         var stream_id = data_message.stream_id
                         var short_name = data_message.sender_short_name
-                        var _href = data_message.pm_with_url 
+                        var _href = data_message.pm_with_url
                         var sub;
                         if(stream_id){
                           sub  = stream_data.get_sub_by_id(stream_id)

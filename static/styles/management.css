@@ -1462,3 +1462,18 @@ ul{
 .choose-check{
     border: 1px solid #999999;
 }
+.feedback-button-common{
+    width:140px; 
+    height:40px;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    margin-left:20px;
+}
+.feedback-back{
+    text-align:right;
+    margin-right:30px;
+}
+.feadback-send{
+    background: #4584FF;
+    border-radius: 4px;
+}
