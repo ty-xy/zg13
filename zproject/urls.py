@@ -350,7 +350,7 @@ v1_api_and_json_patterns = [
         {'POST': 'zerver.views.zg_backlog.person_list'}),
     # 删除聊天主题
     url(r'^zg/subject/$', rest_dispatch,
-        {'DELETE': 'zerver.views.zg_restful_apl.del_subject'}),
+        {'DELETE': 'zerver.views.zg_restful_api.del_subject'}),
 
     # 用户列表
     url(r'^zg/user$', rest_dispatch,
@@ -561,17 +561,25 @@ v1_api_and_json_patterns = [
         {'PUT': 'zerver.views.zg_organization.user_mobile_batch'}),
     # 人员详情信息
     url(r'^zg/user/details$', rest_dispatch,
-        {'PUT': 'zerver.views.zg_organization.user_mobile_batch'}),
+        {'GET': 'zerver.views.zg_organization.user_details'}),
     # 解散部门
     url(r'^zg/department/del/$', rest_dispatch,
         {'PUT': 'zerver.views.zg_organization.department_del'}),
-
+    # 修改部门名称
+    url(r'^zg/department/up/$', rest_dispatch,
+        {'PUT': 'zerver.views.zg_organization.department_up'}),
+    # 部门人员
+    url(r'^zg/department/user/list$', rest_dispatch,
+        {'GET': 'zerver.views.zg_organization.department_user_list'}),
+    # zg_restful-------------
     # 收藏
     url(r'^zg/collection/$', rest_dispatch,
         {'PUT': 'zerver.views.zg_restful_api.zg_collection'}),
     url(r'^zg/collection/list$', rest_dispatch,
         {'GET': 'zerver.views.zg_restful_api.zg_collection_list'}),
-
+    # 频道权限认证
+    url(r'^zg/stream/permissions$', rest_dispatch,
+        {'GET': 'zerver.views.zg_restful_api.zg_stream_permissions'}),
 
 ]
 
