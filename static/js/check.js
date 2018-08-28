@@ -222,10 +222,11 @@ var check = (function () {
                         }else{
                             data.shown=true
                         }
+                        var lis = $(".move_ctn").children()
                         $(".move_ctn").children().remove();
                         var li = templates.render("check_detail",data)
                         $(".move_ctn").html(li)
-                        // console.log(data,"get_data(data)")
+                        backIcons(lis)
                         if(data.button_status!==5){
                             feedBack(datas.types,datas.id)
                         }
@@ -368,7 +369,7 @@ var check = (function () {
                         }else{
                            var html = templates.render("table",{data:data})
                             $("#ios").html(html)
-                            $(".check-shenpi-detail").on("click",function(e){
+                            $("move_ctn ").on("click",".check-shenpi-detail",function(e){
                                 var types = $(this).children().eq(1).attr("data_type")
                                 var id = $(this).attr("data_id")
                                 var data = {
@@ -380,10 +381,11 @@ var check = (function () {
                                     data:data,
                                     success:function(datalist){
                                         var data =datalist.data
+                                        var  lis = $(".move_ctn").children()
                                         $(".move_ctn").children().remove();
                                         var li = templates.render("check_detail",data)
                                         $(".move_ctn").html(li)
-                                        
+                                        backIcons(lis)
                                         $(".no_agree").on("click",function(e){
                                             datalist = {
                                                 types:types,
@@ -453,7 +455,7 @@ var check = (function () {
                      } else {
                         var html = templates.render("table",{data:data})
                         $("#make_copy").html(html)
-                        $(".check-shenpi-detail").on("click",function(e){
+                        $(".move_ctn").on("click",".check-shenpi-detail",function(e){
                             var types = $(this).children().eq(1).attr("data_type")
                             var id = $(this).attr("data_id")
                             var data = {
@@ -461,22 +463,6 @@ var check = (function () {
                                 id:id
                             }
                             get_data(data)
-                            // channel.get({
-                            //     url:"/json/zg/approval",
-                            //     data:data,
-                            //     success:function(datalist){
-                            //         var data =datalist.data
-                            //         console.log(data)
-                            //         $(".move_ctn").children().remove();
-                            //         var li = templates.render("check_detail",data)
-                            //         $(".move_ctn").html(li)
-                            //         var data ={
-                            //             types:types,
-                            //             id:id
-                            //         }
-                                   
-                            //     }
-                            // })
                         })
                       }
                    }
