@@ -451,11 +451,13 @@ def state_update(request, user_profile):
             return JsonResponse({'errno': 2, 'message': '无此条信息'})
         if types == 'leave' or 'evection':
             reimburse = ZgLeave.objects.filter(id=ids)
-            
         elif types == 'reimburse':
             reimburse = ZgReimburse.objects.filter(id=ids)
+        print(reimburse[0].status)
         reimburse[0].status = states
+        print(reimburse[0].status)
         reimburse[0].save()
+        print(reimburse[0].status)
         review_objs[0].status = states
         review_objs[0].save()
     elif states == '发起申请':

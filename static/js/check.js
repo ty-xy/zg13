@@ -10,6 +10,11 @@ var check = (function () {
             moveContent()
         })
     }
+    function backIcons(){
+         $(".first-icon").on("click",function(e){
+             
+         })
+    }
     function height(){
         $(".container-control").height($(window).height()-90)
     }
@@ -170,6 +175,7 @@ var check = (function () {
                     }
                 })
         }
+        //请假
         $(".move_ctn").on("click",".ask_for_leave",function(e){
             $(".move_ctn").children().remove();
             var li = templates.render("ask-for-leave")
@@ -209,6 +215,7 @@ var check = (function () {
             })
             backIcon()
         })
+        //出差
         $(".move_ctn").on("click",".on_business_trip",function(e){
             $(".move_ctn").children().remove();
             var li = templates.render("ask-for-leave",{show:true})
@@ -297,7 +304,6 @@ var check = (function () {
                 success:function(data){
                    if(data.errno===0){
                         var  data = data.iaitiate_list
-                        console.log(data)
                         if(data.length===0){
                             var html = templates.render("empty")
                             $("#ios").html(html)
@@ -317,7 +323,6 @@ var check = (function () {
                                     data:data,
                                     success:function(datalist){
                                         var data =datalist.data
-                                        console.log(data)
                                         $(".move_ctn").children().remove();
                                         var li = templates.render("check_detail",data)
                                         $(".move_ctn").html(li)
@@ -343,7 +348,6 @@ var check = (function () {
                                             })
                                         })
                                         $(".agree").on("click",function(e){
-                                            console.log(types)
                                             var datalist = {
                                                 types:types,
                                                 id:id,
@@ -353,7 +357,7 @@ var check = (function () {
                                                 url:'/json/zg/approval/table/state_update/',
                                                 data:JSON.stringify(datalist),
                                                 contentType:"application/json",
-                                                success:function(datas){
+                                                success:function(){
                                                     var html ='<button class="button-detail-common feedBack">反馈</button>'
                                                     $(".button-show").html(html)
                                                     var data = {
@@ -378,52 +382,54 @@ var check = (function () {
                 url:"/json/zg/approval/initiate/me",
                 success:function(data){
                    if(data.errno===0){
-                       var  data = data.initiate_list
-                    var html = templates.render("table",{data:data})
-                    $("#originator").html(html)
-                    $(".check-shenpi-detail").on("click",function(e){
-                        var types = $(this).children().eq(1).attr("data_type")
-                        var id = $(this).attr("data_id")
-                        var data = {
-                            types:types,
-                            id:id
-                        }
-                        channel.get({
-                            url:"/json/zg/approval",
-                            data:data,
-                            success:function(datalist){
-                                var data =datalist.data
-                                console.log(data)
-                                $(".move_ctn").children().remove();
-                                var li = templates.render("check_detail",data)
-                                $(".move_ctn").html(li)
-                                $(".revoke").on("click",function(e){
-                                    // console.log("fadfasdf")
-                                    datalist = {
-                                        types:types,
-                                        id:id,
-                                        state:"撤销"
-                                    }
-                                    channel.put({
-                                        url:'/json/zg/approval/table/state_update/',
-                                        data:JSON.stringify(datalist),
-                                        contentType:"application/json",
-                                        success:function(datas){
-                                            // console.log(data)
-                                            // var html ='<button class="button-detail-common feedBack">反馈</button>'
-                                            // $(".button-show").html(html)
-                                            var data = {
-                                                types:types,
-                                                id:id,
-                                            }
-                                            get_data(data)
-                                        }
-                                    })
-                                })
+                    var  data = data.initiate_list
+                    if(data.length===0){
+                        var html = templates.render("empty")
+                        $("#originator").html(html)
+                        $(".tabs-contents").height($(window).height()-120)
+                    }else{
+                        var html = templates.render("table",{data:data})
+                        $("#originator").html(html)
+                        $(".check-shenpi-detail").on("click",function(e){
+                            var types = $(this).children().eq(1).attr("data_type")
+                            var id = $(this).attr("data_id")
+                            var data = {
+                                types:types,
+                                id:id
                             }
-                        })
-                    })
-                   }
+                            channel.get({
+                                url:"/json/zg/approval",
+                                data:data,
+                                success:function(datalist){
+                                    var data =datalist.data
+                                    console.log(data)
+                                    $(".move_ctn").children().remove();
+                                    var li = templates.render("check_detail",data)
+                                    $(".move_ctn").html(li)
+                                    $(".revoke").on("click",function(e){
+                                        datalist = {
+                                            types:types,
+                                            id:id,
+                                            state:"撤销"
+                                        }
+                                        channel.put({
+                                            url:'/json/zg/approval/table/state_update/',
+                                            data:JSON.stringify(datalist),
+                                            contentType:"application/json",
+                                            success:function(datas){
+                                                    var data = {
+                                                        types:types,
+                                                        id:id,
+                                                    }
+                                                    get_data(data)
+                                                }
+                                           })
+                                       })
+                                    }
+                               })
+                           })
+                        }
+                    }
                 }
             })
         })
@@ -465,7 +471,7 @@ var check = (function () {
                                 }
                             })
                         })
-                     }
+                      }
                   
                    }
                 }
