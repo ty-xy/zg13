@@ -405,6 +405,7 @@ var check = (function () {
                         }else{
                            var html = templates.render("table",{data:data})
                             $("#ios").html(html)
+                             var  lis = $(".move_ctn").children()
                             $(".move_ctn").on("click",".check-shenpi-detail",function(e){
                                 var types = $(this).children().eq(1).attr("data_type")
                                 var id = $(this).attr("data_id")
@@ -417,7 +418,7 @@ var check = (function () {
                                     data:data,
                                     success:function(datalist){
                                         var data =datalist.data
-                                        var  lis = $(".move_ctn").children()
+                                       
                                         $(".move_ctn").children().remove();
                                         var li = templates.render("check_detail",data)
                                         $(".move_ctn").html(li)
