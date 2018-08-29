@@ -272,6 +272,7 @@
         width: 56px;
         right: -10px;
         top: 0px;
+        display: none;
     }
 
     .message_hovered .message_controls {
