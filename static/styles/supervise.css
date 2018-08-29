@@ -588,6 +588,9 @@
     font-size: 16px;
     color: #333333;
     letter-spacing: 0.18px;
+    cursor: pointer;
+    position: relative;
+    padding-bottom: 20px;
 }
 .organization_chart_group{
     margin-left: 50px;
@@ -670,6 +673,7 @@
     letter-spacing: 0.27px;
     line-height: 50px;
     margin: 100px 82px 0 82px;
+    cursor: pointer;
 }
 
 .organization_chart_ctn_master_box{
@@ -714,6 +718,7 @@
     text-align: center;
     line-height: 36px;
     margin-left: 10px;
+    cursor: pointer;
 }
 .organization_chart_ctn_master_qd>p{
     margin: 5px 20px 0 51px;
@@ -748,6 +753,7 @@
     letter-spacing: 0.27px;
     line-height: 50px;
     margin: 100px 82px 0 82px;
+    cursor: pointer;
 }
 .organization_chart_ctn_child_box{
     float: left;
@@ -792,4 +798,20 @@
     text-align: center;
     line-height: 40px;
     margin: 30px 0 30px 20px;
+    cursor: pointer;
+}
+.organization_chart_change_box{
+    overflow: hidden;
+}
+.color_li{
+    background: #F1F6FD;
+}
+.color_icon{
+    color: #4584FF!important;
+}
+.color_text{
+    color: #4584FF!important;
+}
+.bottom_line{
+    border-bottom: 2px solid #4584FF;
 }

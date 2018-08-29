@@ -676,6 +676,55 @@ var contact = (function(){
                     $(".invite_members_md").hide()
                 })
             })
+            //团队设置点击
+            $(".management_team").on("click",function(){
+                var organization_chart_md = templates.render("organization_chart_md")
+                $(".app").append(organization_chart_md)
+                var organization_chart_ctn_basic=templates.render("organization_chart_ctn_basic")
+                $(".organization_chart_change_box").append(organization_chart_ctn_basic)
+                //点击关闭键关闭
+                $(".organization_chart_close").on("click",function(){
+                    $(".organization_chart_md").hide()
+                })
+                //点击模版关闭
+                $(".organization_chart_md").on("click",function(){
+                    $(".organization_chart_md").hide()
+                })
+                //阻止事件冒泡
+                $(".organization_chart_box").on("click",function(e){
+                    e.stopPropagation()
+                })
+                //点击基本信息
+                $(".organization_chart_basic_btn").on("click",function(){
+                    $(".organization_chart_change_box").children().remove();
+                    var organization_chart_ctn_basic=templates.render("organization_chart_ctn_basic")
+                    $(".organization_chart_change_box").append(organization_chart_ctn_basic)
+                    //样式切换变化
+                    $(this).addClass("color_li").siblings().removeClass("color_li")
+                    $(this).children().first().addClass("color_icon").parent().siblings().children().removeClass("color_icon")
+                    $(this).children().last().addClass("color_text").parent().siblings().children().removeClass("color_text")
+                })
+                //点击更换管理员
+                $(".organization_chart_master_btn").on("click",function(){
+                    $(".organization_chart_change_box").children().remove();
+                    var organization_chart_ctn_master=templates.render("organization_chart_ctn_master")
+                    $(".organization_chart_change_box").append(organization_chart_ctn_master)
+                    //样式切换变化
+                    $(this).addClass("color_li").siblings().removeClass("color_li")
+                    $(this).children().first().addClass("color_icon").parent().siblings().children().removeClass("color_icon")
+                    $(this).children().last().addClass("color_text").parent().siblings().children().removeClass("color_text")
+                })
+                //点击更换子管理员
+                $(".organization_chart_child_btn").on("click",function(){
+                    $(".organization_chart_change_box").children().remove();
+                    var organization_chart_ctn_child=templates.render("organization_chart_ctn_child")
+                    $(".organization_chart_change_box").append(organization_chart_ctn_child)
+                    //样式切换变化
+                    $(this).addClass("color_li").siblings().removeClass("color_li")
+                    $(this).children().first().addClass("color_icon").parent().siblings().children().removeClass("color_icon")
+                    $(this).children().last().addClass("color_text").parent().siblings().children().removeClass("color_text")
+                })
+            })
         })
     })
     
