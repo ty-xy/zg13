@@ -103,10 +103,10 @@ def zg_collection_list(request, user_profile):
 def zg_stream_permissions(request, user_profile):
     stream_id = request.GET.get('stream_id')
     try:
-        stream = Stream.objects.get(id=stream_id)
+        stream = Stream.objects.get(id=int(stream_id))
     except Exception:
         return JsonResponse({'errno': 1, 'message': 'id错误'})
     stream_permissions = False
     if stream.create_user_id == user_profile.id or user_profile.is_realm_admin:
         stream_permissions = True
-    return JsonResponse({'errno': 0, 'message': 'id错误', 'stream_permissions': stream_permissions})
+    return JsonResponse({'errno': 0, 'message': '成功', 'stream_permissions': stream_permissions})
