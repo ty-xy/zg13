@@ -320,8 +320,8 @@ var management = (function () {
                 })
                  var paramas ={
                     accomplish:accomplish,
-                    underway:$.trim(underway),
-                    overdue:overdue,
+                    underway:overdue,
+                    overdue:$.trim(underway),
                     backlog_list:list,
                     send_list:send_list,
                     statement_accessory_list:statement_accessory_list,

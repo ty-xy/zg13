@@ -465,14 +465,18 @@ var message_group = (function () {
                 }
            })
             //点击空白区域这个模态框消失
-
             if($(".group_setting").show()){
-                $('body').bind('click', function (e) {
-                    var o = e.target;
-                    if($(o).closest('.group_setting').length==0)//不是特定区域
+                   $(".group_setting").click(function(e){
+                        $(this).show();
+                        e.stopPropagation();//阻止冒泡
+                   });
+                    $("body").click(function(){
                         $(".group_setting").hide();
-                });
-            }
+                    })
+                    $(".recipient_row").click(function(e){
+                        $(".group_setting").hide();
+                    })
+             }
         })
     })
     

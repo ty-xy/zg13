@@ -886,6 +886,7 @@ a.message-control-button {
     .modal-footers>.button-confirm{
         width:180px;
         height:40px;
+        line-height: 40px;
         background: #4584FF;
         border: 1px solid #4584FF;
         border-radius: 4px;
