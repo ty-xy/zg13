@@ -480,7 +480,6 @@ var management = (function () {
             upload.feature_check($("#up_files #attach_files"));
             $("#up_files").on("click", "#attach_files", function (e) {
                // e.preventDefault();
-               console.log("123123")
                $("#up_files #file_inputs").trigger("click");
            });
            var drop =function(file){
@@ -498,13 +497,13 @@ var management = (function () {
                 }, 1000);
             }
            };
-           function make_upload_absolute(uri) {
+           exports.make_upload_absolute =  function(uri) {
             if (uri.indexOf(compose.uploads_path) === 0) {
                 // Rewrite the URI to a usable link
                 return compose.uploads_domain + uri;
             }
             return uri;
-        }
+         }
         var uploadError = function (error_code, server_response, file) {
             var msg;
             $('.process-bar-parent').hide()
@@ -547,7 +546,7 @@ var management = (function () {
             var filename = split_uri[split_uri.length - 1];
             var type = file.type.split("/")
                 typeName= type[type.length-1]
-            var uri = make_upload_absolute(response.uri);
+            var uri = exports.make_upload_absolute(response.uri);
             var size = (file.size/1024/1024).toFixed(2)
             if(i != -1){
                 $('.uploading-img').hide()

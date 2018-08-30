@@ -85,6 +85,7 @@ var check = (function () {
                 }else{
                     var html = templates.render("table",{data:data})
                     $("#originator").html(html)
+                    $(".check-shenpi-content").height($(window).height()-244)
                     var lis = $(".move_ctn").children()
                     $(".move_ctn ").on("click",".check-shenpi-detail",function(e){
                         var types = $(this).children().eq(1).attr("data_type")
@@ -97,6 +98,7 @@ var check = (function () {
                             url:"/json/zg/approval",
                             data:datater,
                             success:function(datalist){
+                                console.log(datalist)
                                 var data =datalist.data
                                 var li = templates.render("check_detail",data)
                                 $(".move_ctn").html(li)
@@ -178,6 +180,9 @@ var check = (function () {
             var ids= Number($(this).attr('data_id'))
               resend_list.push(ids)
           })
+          
+          var img_url = $(".img-none-border").attr("data-url")
+          
         var  data = {
             approval_type:type,
             approver_list:send_list,
@@ -185,15 +190,29 @@ var check = (function () {
             end_time:end_time,
             count:count,
             cause:cause,
-            observer_list:resend_list
+            observer_list:resend_list,
+            img_url:img_url
         }
         return data
     }
+    upload.feature_check($("#img-border #attach_file"));
+    $("#img-border").on("click", "#attach_file", function (e) {
+       // e.preventDefault();
+       $("#img-border #file_inputs").trigger("click");
+   });
+    function make_upload_absolute(uri) {
+    if (uri.indexOf(compose.uploads_path) === 0) {
+        // Rewrite the URI to a usable link
+        return compose.uploads_domain + uri;
+    }
+    return uri;
+ }
     $("body").ready(function(){
        $("body").on("click",".common_check",function(e){
             $(this).addClass("backgr").siblings().removeClass("backgr")
             moveContent()
         })
+      
         function common_choose(){
             var arrlist =[]
             var peopleList = []
@@ -247,7 +266,7 @@ var check = (function () {
                $(".modal-log-content").empty()
         
             })
-        }
+        }  
         function confirms(){
             $(".choose-right-list").on('click','.button-confirm',function(e){
                 var li = common_choose()
@@ -268,7 +287,38 @@ var check = (function () {
                 $(".modal-log-content").empty()
              })
         }
-     
+        var uploadFinished =function(i, file, response){
+        if (response.uri === undefined) {
+            return;
+            }
+            var split_uri = response.uri.split("/");
+            var filename = split_uri[split_uri.length - 1];
+            var type = file.type.split("/")
+                typeName= type[type.length-1]
+            var uri = make_upload_absolute(response.uri);
+            console.log(i,uri)
+            if(i!==-1){
+                var div  = '<div class ="img-border img-none-border" data-url= '+uri+'>\
+                              <img src='+uri+'  />\
+                            </div>'
+                $(".add-imgs-control").after(div)
+            }
+         }
+         function uploadFile (){
+            $("#img-border").filedrop({
+                url: "/json/user_uploads",
+                fallback_id: 'file_inputs',  // Target for standard file dialog
+                paramname: "file",
+                maxfilesize: page_params.maxfilesize,
+                data: {
+                    csrfmiddlewaretoken: csrf_token,
+                },
+                uploadFinished: uploadFinished,
+                afterAll:function(contents){
+                    console.log(contents,321312)
+                }
+            })
+         }
         //请假
         $(".move_ctn").on("click",".ask_for_leave",function(e){
             $(".move_ctn").children().remove();
@@ -293,6 +343,7 @@ var check = (function () {
             $(".add_log_peoples").on("click",function(e){
                 attendance.peopleChoose(confirms)
             })
+            uploadFile()
             $("#btn-test").on("click",function(e){
                  e.preventDefault()
                  var data = commonContent('leave')
@@ -315,7 +366,8 @@ var check = (function () {
             var li = templates.render("ask-for-leave",{show:true})
             $(".move_ctn").html(li)
             height()
-            backIcon()
+            backIcon($("#img-border"))
+            uploadFile()
             $('#newplan_datetimepicker2').datetimepicker({  
                 language:"zh-CN",  
                 todayHighlight: true,  
@@ -346,9 +398,10 @@ var check = (function () {
                             moveContent()
                          }
                      }
-                 })
+                 }) 
             })
         })
+        //差旅费
         $(".move_ctn").on("click",".reimburse-moneny",function(e){
             $(".move_ctn").children().remove();
             var li = templates.render("ask-for-leave",{showdate:true})
@@ -356,21 +409,45 @@ var check = (function () {
             $(".add_log_people").on("click",function(e){
                 attendance.peopleChoose(confirm)
             })
+            $(".add_log_peoples").on("click",function(e){
+                attendance.peopleChoose(confirms)
+            })
             height()
             backIcon()
+            uploadFile()
             $("#btn-test").on("click",function(e){
                 e.preventDefault()
                 var amount = $("#username").val()
+                if(amount===""){
+                    alert()
+                    return
+                }
                 var category = $("#email").val()
+                if(category===""){
+                    alert()
+                    return
+                }
                 var send_list =[]
-                $(".check-people").children().not($(".add_log_people")).each(function(){
+                $(".shenpi-persons").children().not($(".add_log_people")).each(function(){
                     var ids= Number($(this).attr('data_id'))
                     send_list.push(ids)
                 })
+                if(send_list.length===0){
+                    alert()
+                    return
+                }
+                var resend_list =[]
+                $(".send-check-people").children().not($(".add_log_peoples")).each(function(){
+                    var ids= Number($(this).attr('data_id'))
+                    resend_list.push(ids)
+                })
+                var img_url = $(".img-none-border").attr("data-url")
                 var data ={
                     amount:amount,
                     category:category,
-                    approver_list:send_list
+                    approver_list:send_list,
+                    observer_list:resend_list,
+                    img_url:img_url
                 }
                 channel.post({
                     url:'/json/zg/approval/reimburse/',
@@ -405,6 +482,7 @@ var check = (function () {
                         }else{
                            var html = templates.render("table",{data:data})
                             $("#ios").html(html)
+                            $(".check-shenpi-content").height($(window).height()-244)
                              var  lis = $(".move_ctn").children()
                             $(".move_ctn").on("click",".check-shenpi-detail",function(e){
                                 var types = $(this).children().eq(1).attr("data_type")
@@ -492,6 +570,7 @@ var check = (function () {
                      } else {
                         var html = templates.render("table",{data:data})
                         $("#make_copy").html(html)
+                        $(".check-shenpi-content").height($(window).height()-244)
                         $(".move_ctn").on("click",".check-shenpi-detail",function(e){
                             var types = $(this).children().eq(1).attr("data_type")
                             var id = $(this).attr("data_id")
@@ -541,6 +620,7 @@ var check = (function () {
                      } else {
                         var html = templates.render("table",{data:data})
                         $("#already_check").html(html)
+                        $(".check-shenpi-content").height($(window).height()-244)
                         $(".check-shenpi-detail").on("click",function(e){
                             var types = $(this).children().eq(1).attr("data_type")
                             var id = $(this).attr("data_id")

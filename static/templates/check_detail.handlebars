@@ -17,24 +17,44 @@
                 <span>审批类型:</span>
                 <span>{{types approval_type}}</span>
                 </p>
-                <p>
-                <span>开始时间:</span>
-                <span>{{start_time}}</span>
-                </p>
-                <p>
-                <span>结束日期:</span>
-                <span>{{end_time}}</span>
-            </p>
+                {{#unless amount}}
+                    <p>
+                    <span>开始时间:</span>
+                    <span>{{start_time}}</span>
+                    </p>
+                    <p>
+                    <span>结束日期:</span>
+                    <span>{{end_time}}</span>
+                    </p>
+                    {{else}}
+                    <p>
+                    <span>报销类别</span>
+                    <span>{{category}}</span>
+                    </p>
+                    <p>
+                    <span>报销金额</span>
+                    <span>{{amount}}</span>
+                    </p>
+                 {{/unless}}
         </div>
         <div class="common-flex check-detail-total">
+              {{#unless amount}}
                 <p>
                     <span>请假天数:</span>
-                    <span>{{count}}天</span>
+                    <span class="total-day">{{count}}天</span>
                 </p>
                 <p>
                     <span>请假事由:</span>
                     <span>{{cause}}</span>
                 </p>
+                {{else}}
+                   {{#if detail}}
+                  <p>
+                    <span>费用明细</span>
+                    <span>{{count}}天</span>
+                 </p>
+                  {{/if}}
+             {{/unless}}
         </div>
     </div>
      <hr class="line-height-hr"/>
@@ -54,7 +74,7 @@
         <div class="common-flex">
             <div class="common-flex-links">
                 <i class="iconfont icon-shenpitongguo icon-back-color"></i>
-                <hr class="connect-line"/>
+                <i class="connect-line"/>
             </div>
             <div class="common-flex common-flex-border">
                 <div class="arrow"/>
