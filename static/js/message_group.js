@@ -3,13 +3,10 @@ var message_group = (function () {
     $(function(){
         function unique(a) {
             var res = [];
-           
             for (var i = 0, len = a.length; i < len; i++) {
               var item = a[i];
-           
               (res.indexOf(item) === -1) && res.push(item);
             }
-           
             return res;
           }
         function  changeUrl (){
@@ -20,9 +17,6 @@ var message_group = (function () {
             var cindex = url.indexOf("-")
             if (url_index=== "#narrow/stream"){
                 var stream_id = Number(url.slice(index+1,cindex))
-                // var topic_names = topic_data.get_recent_names(stream_id);
-                // console.log(topic_names,stream_id)
-                // common_topic(stream_id)
                 if(url.indexOf("/",index+1) != -1){
                     var j = url.slice(index+4,url.indexOf("/",index+1))
                     j= hash_util.decodeHashComponent(j)
@@ -32,6 +26,7 @@ var message_group = (function () {
                     $(".home-title span").html(title)             
                 }
                 $(".home-title").show()
+                $(".home-title button").show();
                 $(".compose-title").show()
             }else{
                 $(".home-title").hide()
@@ -48,7 +43,6 @@ var message_group = (function () {
             $("#stream").val(hash[0].operand)
             $("#subject").val(hash[1].operand)
         }
-        // console.log(url.substr(0,url.lastIndexOf("/",1)))
         function common(subscriptions,contents){
             var content=  templates.render('show_group', {subscriptions:subscriptions});
             $("#group_seeting_choose").html(content)
@@ -185,11 +179,7 @@ var message_group = (function () {
             var content1 =  templates.render('show_group', {subscriptions:streams});
             $("#group_seeting_choose").html(content1)
             $(".swtich-button").hide()
-              //已订阅的群组
-            // $("#div1").on("click",function(e){
-            //     e.preventDefault()
-            //     e.stopPropagation()
-            //     console.log(6)
+
             // 开关按钮暂定状态，稍后优化
                 $("#group_seeting_choose").on("click","#div2",function(e){ 
                     if($(this).closest($(this).parent()).length!=0){
@@ -260,6 +250,7 @@ var message_group = (function () {
                         $(".notice_ctn_box").hide()
                         $(".group_icon").hide()
                         $(".home-title").show()
+                        $(".home-title button").show();
                         $(".home-title span").html(name)
                         $(".home_gruop_title").hide()
                         $("#zfilt").show()
@@ -340,7 +331,6 @@ var message_group = (function () {
             // var avatar = people.stream_url_for_eamil(emial[0])
             var avatars = []
              emial.forEach(function(i,v){
-                 
                  var avatarUrl= people.stream_url_for_eamil(i.email)
                  var personnal = {
                     avatarUrl:avatarUrl,
@@ -370,39 +360,48 @@ var message_group = (function () {
                             }
                         }
                     });
-                    
-                    var showTopic = names.length>2?true:false
-                    var html = templates.render("group_setting",
-                    {name:title,
-                    titlef:titlef,
-                    avatar:avatar,
-                    color:get_sub_by_name,
-                    show:show,
-                    showTopic:showTopic,
-                    topiclength:names.length,
-                    names:names.length>0?names.slice(0,2):''
-                    })
-                    $(".group_setting").html(html)
-                    var colorpicker = $(".group_setting").find(".colorpicker")
-                    var color = stream_data.get_color(title);
-                    stream_color.set_colorpicker_colors(colorpicker, color);
-                    $(".more-topic").on("click",function(e){
-                        e.stopPropagation()
-                        var html = templates.render("more_topic",{names:names})
-                        $(".names-item").html(html)
-                        $(".more-topic").hide()
-                    })
-                    $(".names-item").on("click",".topiclist-group",function(e){
-                       var  del_subject = $(this).attr("data-name")
-                       var that = $(this)
-                       channel.del({
-                        url: 'json/zg/subject/',
+                    channel.get({
+                        url:"/json/zg/stream/permissions",
+                        data:{stream_id:get_sub_by_name.stream_id},
                         idempotent: true,
-                        data:JSON.stringify({subject:del_subject}),
                         success:function(data){
-                            that.remove()
+                            if(data.errno===0){
+                                var showTopic = names.length>2?true:false
+                                var html = templates.render("group_setting",
+                                {name:title,
+                                titlef:titlef,
+                                avatar:avatar,
+                                color:get_sub_by_name,
+                                show:show,
+                                showTopic:showTopic,
+                                topiclength:names.length,
+                                stream_permissions:data.stream_permissions,
+                                names:names.length>0?names.slice(0,2):''
+                                })
+                                $(".group_setting").html(html)
+                                var colorpicker = $(".group_setting").find(".colorpicker")
+                                var color = stream_data.get_color(title);
+                                stream_color.set_colorpicker_colors(colorpicker, color);
+                                $(".more-topic").on("click",function(e){
+                                    e.stopPropagation()
+                                    var html = templates.render("more_topic",{names:names})
+                                    $(".names-item").html(html)
+                                    $(".more-topic").hide()
+                                })
+                                $(".names-item").on("click",".topiclist-group",function(e){
+                                   var  del_subject = $(this).attr("data-name")
+                                   var that = $(this)
+                                   channel.del({
+                                    url: 'json/zg/subject/',
+                                    idempotent: true,
+                                    data:JSON.stringify({subject:del_subject}),
+                                    success:function(data){
+                                        that.remove()
+                                    }
+                                })
+                              })
+                            }
                         }
-                    })
                     })
                 },
             })
@@ -430,8 +429,6 @@ var message_group = (function () {
                         success: function () {
                             $(".group_setting").hide();
                             $(window).attr("location","#narrow/is/starred")
-                            // $(".stream_change_property_info").hide();
-                            // The rest of the work is done via the unsubscribe event we will get
                         },
                         error: function (xhr) {
                             ui_report.error(i18n.t("Error removing subscription"), xhr,
@@ -439,17 +436,47 @@ var message_group = (function () {
                         },
                     });
                 }
-              
             })
+            // 解散群组
+            $(".group_setting").on("click",".back-tuiding-release",function(e){
+                var stream_id = Number($(this).closest(".setting_body").attr("data-stream-id"))
+                var sub = stream_data.get_sub_by_id(stream_id);
+               // console.log(sub,"sub_es",e.target)
+               if(sub){
+                    channel.del({
+                        url: '/json/streams/' + stream_id,
+                        error: function (xhr) {
+                            ui_report.error(i18n.t("Failed"), xhr, alert_element);
+                        },
+                        success: function (data) {
+                            if(data.result==="success"){
+                                $(".group_setting").hide();
+                                arr = JSON.parse(localStorage.getItem("arr"))
+                                for(var i=0;i<arr.length;i++){
+                                    if(arr[i].stream_id == stream_id){
+                                        arr.remove(i)
+                                    }
+                                }
+                                localStorage.setItem("arr",JSON.stringify(arr))
+                                $(window).attr("location","#narrow/is/starred")
+                            }
+                        },
+                    });
+                }
+           })
             //点击空白区域这个模态框消失
-
             if($(".group_setting").show()){
-                $('body').bind('click', function (e) {
-                    var o = e.target;
-                    if($(o).closest('.group_setting').length==0)//不是特定区域
+                   $(".group_setting").click(function(e){
+                        $(this).show();
+                        e.stopPropagation();//阻止冒泡
+                   });
+                    $("body").click(function(){
                         $(".group_setting").hide();
-                });
-            }
+                    })
+                    $(".recipient_row").click(function(e){
+                        $(".group_setting").hide();
+                    })
+             }
         })
     })
     

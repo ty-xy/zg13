@@ -1574,7 +1574,7 @@ blockquote p {
 .my_news_box>p{
     background: #DDE9FF!important;
     border-radius: 4px;
-    height: 17px;
+    min-height: 17px;
 }
 
 .messagebox blockquote {

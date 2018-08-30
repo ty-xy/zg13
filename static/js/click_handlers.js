@@ -118,7 +118,7 @@ $(function () {
             //转为待办
             $(".additional_box").off("click").on("click",".additional_todo",function(){
                 $(".transfer_md").remove();
-                var task_title = $(this).parent().parent().parent().prev().text()
+                var task_title = $(this).parent().parent().parent().prev().text().trim()
                 var transfer_todo =templates.render(("transfer_todo"),{task_title:task_title})
                 $(".app").append(transfer_todo)
                 //初始化 转为待办 结束时间日历
@@ -202,8 +202,39 @@ $(function () {
                 });
             })
             $(".additional_reply").off("click").on("click",function(){
-                var id = Number($(this).parent().parent().parent().parent().parent().parent().parent().parent().parent().attr("zid"))
                 compose_actions.quote_and_reply({trigger: 'popover respond'});
+            })
+            //收藏消息
+            $(".additional_collection").off("click").on("click",function(){
+                var id = Number($(this).parent().parent().parent().parent().parent().parent().parent().attr("zid"))
+                flag = $(this).parent().prev().attr("star")
+                star = $(this).parent().prev().children().first()
+                var status;
+                if(flag == "false"){
+                    status = "add"
+                    $(this).parent().prev().attr("star","true")
+                }else{
+                    status = "remove"
+                    $(this).parent().prev().attr("star","false")
+                }
+                var obj = {
+                    type:"message",
+                    type_id:id,
+                    status:status
+                }
+                $.ajax({
+                    type:"PUT",
+                    url:"json/zg/collection/",
+                    contentType:"appliction/json",
+                    data:JSON.stringify(obj),
+                    success:function(res){
+                        if(res.message == '收藏成功'){
+                            star.show()
+                        }else if(res.message == "取消收藏成功"){
+                            star.hide()
+                        }
+                    }
+                })
             })
         if (is_clickable_message_element($(e.target))) {
             // If this click came from a hyperlink, don't trigger the

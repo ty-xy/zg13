@@ -135,6 +135,10 @@ exports.load_messages = function (opts) {
         success: function (data) {
             get_messages_success(data, opts);
             if(data.result == "success"){
+                // var organization_chart_md = templates.render("organization_chart_md")
+                // $(".app").append(organization_chart_md)
+                // var organization_chart_group_detail=templates.render("organization_chart_group_detail")
+                // $(".organization_chart_change_box").append(organization_chart_group_detail)
             // $(".app").append(templates.render("transfer_todo"))
             $.ajax({
                 type:"GET",

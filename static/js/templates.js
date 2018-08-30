@@ -54,9 +54,12 @@ Handlebars.registerHelper('sliceName', function (str) {
 Handlebars.registerHelper('types', function (str) {
      if (str==="leave"){
         return "请假"
-     }else{
+     }else if(str==="evection"){
         return "出差"
+     }else{
+        return "报销"
      }
+
 });
 Handlebars.registerHelper('if_and', function () {
     // Execute the conditional code if all conditions are true.
@@ -179,6 +182,15 @@ Handlebars.registerHelper("substrMonth",function(str){
 Handlebars.registerHelper("substrYear",function(str){
     var s = str.substring(0,10);
     return s;
+})
+Handlebars.registerHelper("toNorm",function(str){
+    var regx = /[a-zA-Z]/gm
+    var str = str.replace(regx,'')
+    str = str.replace(/-/g,'/')
+    var left = str.substring(0,9)
+    var right = str.substring(10,15)
+    var middle = "\r\n"
+    return left+middle+right
 })
 //文件类型判断
 Handlebars.registerHelper("isJpg",function(str){

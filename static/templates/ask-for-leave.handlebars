@@ -14,24 +14,25 @@
 <div class="container container-control">
     <br>
         <form class="form-horizontal" role="form" id="form-test">
+             {{#if showdate}}
             <div class="form-group form-group-common ">
-                {{#if show}}
+                {{!-- {{#if show}}
                 <label for="username" class="col-sm-1 control-label control-labels">申请人:</label>
-                {{else}}
-                    {{#if showdate}}
+                {{else}} --}}
+                   <span style="color:red" class="require-content">*</span>
                     <label for="username" class="col-sm-1 control-label control-labels">报销金额:</label>
-                    {{else}}
+                    {{!-- {{else}}
                     <label for="username" class="col-sm-1 control-label control-labels">请假人:</label>
-                    {{/if}}
-                {{/if}}
-                 
-                <div class="col-md-12">
-                    <input type="text" class="form-control form-people" id="username" name="username" placeholder="请输入...">
-                </div>
+                    {{!-- {{/if}} --}}
+                    <div class="col-md-12">
+                        <input type="text" class="form-control form-people" id="username" name="username" placeholder="请输入...">
+                    </div>
             </div>
+              {{/if}}
             {{#unless showdate}}
             <div class="form-group form-group-common">
-                <label for="newplan_datetimepicker1" class="col-sm-1 control-label control-labels">开始日期:</label>
+                 <span style="color:red" class="require-content">*</span>
+                 <label for="newplan_datetimepicker1" class="col-sm-1 control-label control-labels">开始日期:</label>
                  <div class="input-append date" id="newplan_datetimepicker1" data-date="" data-date-format="yyyy-mm-dd">  
                             <input class="new_task_date create_taskdate form-people new-leave-date start_times" size="16" type="text" value="" readonly placeholder="请选择日期...">  
                             <span class="add-on select_date_icon select-icons">
@@ -40,6 +41,7 @@
                   </div> 
             </div>
             <div class="form-group  form-group-common">
+                <span style="color:red" class="require-content">*</span>
                 <label for="newplan_datetimepicker2" class="col-sm-1 control-label control-labels">结束日期:</label>
                   <div class="input-append date" id="newplan_datetimepicker2" data-date="" data-date-format="yyyy-mm-dd">  
                             <input class="new_task_date create_taskdate form-people new-leave-date end_times" size="16" type="text" value="" readonly placeholder="请选择日期...">  
@@ -50,6 +52,7 @@
             </div>
             {{/unless}}
             <div class="form-group form-group-common">
+                <span style="color:red" class="require-content">*</span>
                 {{#if show}}
                 <label for="email" class="col-sm-1 control-label control-labels">出差天数:</label>
                 {{else}}
@@ -65,6 +68,7 @@
                 </div>
             </div>
              <div class="form-group form-group-common">
+                 <span style="color:red" class="require-content">*</span>
                  {{#if show}}
                 <label for="text" class="col-sm-1 control-label control-labels ">出差事由:</label>
                 {{else}}
@@ -80,14 +84,19 @@
                 </div>
             </div> 
            <div class="form-group form-group-common form-group-img">
-               <div class="control-labels control-img">添加图片:</div>
-               <div class="img-border">
-                   <i class="iconfont icon-tianjia3 add-img-people"></i>
+               <div class="control-labels control-img add-imgs-control">添加图片:</div>
+               <div class="img-border" id="img-border">
+                    <i class="iconfont icon-tianjia3 add-img-people" ></i>
+                    <a id="attach_file"/>
+                     {{!-- <a id="attach_file">上传附件</a> --}}
+                    <input type="file" id="file_inputs" class="test-image-file"/>
                </div>
+            
            </div>
            <div class="form-group form-group-common">
-                <div class="control-labels control-img">审批人:</div>
-                <ul class="generate_log_member_box shenpi-person check-people">
+               <span style="color:red" class="require-content">*</span>
+                <div class="control-labels control-img check-people">审批人:</div>
+                <ul class="generate_log_member_box shenpi-person shenpi-persons ">
                     <li class="add_log_people">
                         <div class="generate_log_member_addlogos">
                            <i class="iconfont icon-tianjia3 add-img-people icon-position"></i>
@@ -97,7 +106,7 @@
                 </ul>
            </div>
             <div class="form-group form-group-common">
-                <div class="control-labels control-img">抄送人:</div>
+                <div class="control-labels control-img check-people">抄送人:</div>
                 <ul class="generate_log_member_box shenpi-person send-check-people">
                     <li class="add_log_peoples">
                         <div class="generate_log_member_addlogos">

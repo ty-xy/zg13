@@ -651,6 +651,7 @@ function pick_empty_narrow_banner() {
             // $('#zfilt').hide()
             $("#zfilt").removeClass("focused_table");
             $(".notice_ctn_boxs").hide()
+            $(".notice_ctn_box").show()
             $("#compose").hide()
             $(".persistent_data").hide();
             $(".keep_exist").hide();

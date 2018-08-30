@@ -152,7 +152,7 @@ var server_events = (function () {
         return h + m;
     }
     var arr = []
-    exports.set_local_news = function (send_id, stream_id, name, avatar, time, content, _href) {
+    exports.set_local_news = function (send_id, stream_id, name, avatar, time, content, _href,stream) {
         obj = {
             send_id: send_id,
             stream_id: stream_id ? stream_id : '',
@@ -160,7 +160,8 @@ var server_events = (function () {
             avatar: avatar,
             time: time,
             content: content,
-            _href: _href
+            _href: _href,
+            stream:stream?stream:""
         }
         return obj
     }
@@ -202,7 +203,6 @@ var server_events = (function () {
         idempotent: true,
         timeout:  page_params.poll_timeout,
         success: function (data) {
-            console.log("你要的",data)
             var type;
             var data_message;
             $.ajax({

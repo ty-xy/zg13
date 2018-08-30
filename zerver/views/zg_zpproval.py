@@ -150,7 +150,7 @@ def reimburse_add(request, user_profile):
 # 待审批列表
 def expectation_approval_list(request, user_profile):
     iaitiate_list = []
-    review_objs = ZgReview.objects.filter(status='审批中', send_user_id=user_profile.id)
+    review_objs = ZgReview.objects.filter(status='审批中', send_user_id=user_profile.id,duties='approval')
     if review_objs:
         for review_obj in review_objs:
             aa = {}
@@ -460,13 +460,14 @@ def state_update(request, user_profile):
         if not review_objs:
             return JsonResponse({'errno': 2, 'message': '无此条信息'})
         if types == 'leave' or 'evection':
-            leave = ZgLeave.objects.filter(send_user_id=user_profile.id, types=types, table_id=ids)
-            leave[0].status = states
-            leave[0].save()
+            reimburse = ZgLeave.objects.filter(id=ids)
         elif types == 'reimburse':
-            reimburse = ZgReimburse.objects.filter(send_user_id=user_profile.id, types=types, table_id=ids)
-            reimburse[0].status = states
-            reimburse[0].save()
+            reimburse = ZgReimburse.objects.filter(id=ids)
+        print(reimburse[0].status)
+        reimburse[0].status = states
+        print(reimburse[0].status)
+        reimburse[0].save()
+        print(reimburse[0].status)
         review_objs[0].status = states
         review_objs[0].save()
     elif states == '发起申请':

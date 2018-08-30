@@ -20,7 +20,7 @@ var upload_widget = (function () {
     }
 
     exports.build_widget = function (
-         get_file_input, // function returns a jQuery file input object
+        get_file_input, // function returns a jQuery file input object
         file_name_field, // jQuery object to show file name
         input_error, // jQuery object for error text
         clear_button, // jQuery button to clear last upload choice
