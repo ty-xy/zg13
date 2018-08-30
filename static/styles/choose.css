@@ -372,15 +372,19 @@ a.message-control-button {
     z-index:1000;
     position:absolute;
     top:0px;
-    line-height:40px;
+    text-align: center;
+    line-height:46px;
     display:none;
 }
 .dust-delete{
     font-size: 27px;
     color: #fff;
 }
-.avatar-img{
-    border-radius: 100px;
+.avatar-img-color{
+    border-radius:50% !important;
+    height:48px;
+    width:48px;
+    margin-top:-4px;
 }
 .modal-ul-choose{
    z-index:2000;
@@ -698,7 +702,7 @@ a.message-control-button {
     border-bottom:1px solid #ddd;
     margin-top:6px;
 }
-.back-tuiding{
+.back-tuiding-release,.back-tuiding{
     border: 1px solid #4584FF;
     border-radius: 4px;
     height:40px;
@@ -1055,7 +1059,8 @@ a.message-control-button {
         margin-right:30px;
     }
     .form-group-common{
-        margin-top:20px
+        margin-top:20px;
+        position: relative;
     }
     .form-people{
         width:778px;
@@ -1109,7 +1114,7 @@ a.message-control-button {
         /* margin-top: 20px; */
         cursor: pointer;
         text-align: center;
-        line-height: 40px;
+        line-height: 46px;
         box-sizing: border-box
     }
 
@@ -1362,4 +1367,22 @@ a.message-control-button {
        flex-direction: column;
        margin-top: 29px;
        /* height:80px; */
+   }
+   .require-content{
+       position: absolute;
+       top:8px;
+       left:24px;
+   }
+   .check-people{
+       margin-left:12px;
+       text-align:center;
+   }
+   .feadback-send-sure{
+       background: #4584FF;
+   }
+   .feedback-back-tooTip{
+       height:262px !important;
+   }
+   .icon-back-color{
+      color:#39D1A9;
    }
