@@ -418,7 +418,7 @@
 }
 .organization_team_btn>li{
     width: 100px;
-    height: 40px;
+    height: 38px;
     font-size: 15px;
     letter-spacing: 0.18px;
     float: left;
@@ -426,6 +426,7 @@
     line-height: 40px;
     text-align: center;
     cursor: pointer;
+    font-weight: 200;
 }
 .organization_team_btn .management_team{
     border: 1px solid #4584FF;
@@ -434,21 +435,28 @@
 }
 .organization_team_btn .invite_members{
     background: #4584FF;
+    border: 1px solid #4584FF;
     border-radius: 4px;
     color: #fff;
 }
 .organization_team_dept_box{
     padding: 20px;
     border-bottom: 1px solid #ddd;
+    margin: 0;
 }
 .organization_team_dept_ctn{
     font-size: 15px;
     color: #333333;
     letter-spacing: 0.16px;
+    cursor: pointer;
 }
 .organization_team_single_box{
     padding: 20px;
+    margin: 0;
 }   
+.organization_team_single_box>li{
+    cursor: pointer;
+}
 .organization_team_single_img_box{
     float: left;
     height: 38px;
@@ -464,4 +472,477 @@
     font-size: 16px;
     color: #333333;
     letter-spacing: 0.18px;
+}
+.invite_members_md{
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.30);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 111;
+}
+.invite_members_box{
+    width: 320px;
+    height: 444px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    background: #fff;
+    padding: 20px 40px;
+}
+.invite_members_close{
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    cursor: pointer;
+}
+.invite_members_search_box{
+    width: 320px;
+    height: 40px;
+    background: #F4F5F7;
+    margin-top: 38px;
+    border-radius: 6px;
+}
+.invite_members_icon{
+    line-height: 40px;
+    color: #999;
+    margin: 10px;
+}
+.invite_members_title{
+    margin: 30px 0 10px 0;
+    font-size: 16px;
+    color: #333333;
+    letter-spacing: 1.33px;
+}
+.invite_members_search{
+    width: 266px;
+    height: 29px!important;
+    background: #F4F5F7!important;
+    border: none;
+    outline: none;
+    -webkit-appearance: none;
+    border-radius: 0;
+}
+.invite_members_url_input{
+    float: left;
+    width: 220px;
+    height: 28px!important;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+}
+.invite_members_url_btn{
+    float: right;
+    height: 36px;
+    font-size: 14px;
+    color: #FFFFFF;
+    line-height: 36px;
+    padding: 0 10px;
+    letter-spacing: 0.18px;
+    text-align: center;
+    background: #4584FF;
+    border-radius: 4px;
+}
+.invite_members_qrtitle{
+    font-size: 16px;
+    color: #333333;
+    letter-spacing: 1.33px;
+    margin: 30px 0 10px 0;
+}
+.organization_chart_md{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background: rgba(0,0,0,0.30);
+    left: 0;
+    top: 0;
+    z-index: 111;
+}
+.organization_chart_box{
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 660px;
+    height: 100%;
+    background: #fff;
+}
+.organization_chart_head{
+    height: 88px;
+    border-bottom: 1px solid #ddd;
+    padding: 0 10px 0 20px;
+    position: relative;
+    overflow: hidden;
+}
+.organization_chart_close{
+    position: absolute;
+    right: 30px;
+    top: 30px;
+}
+.organization_chart_head_tab{
+    margin: 0;
+    margin-top: 46px;
+}
+.organization_chart_head_tab > li{
+    float: left;
+    font-size: 16px;
+    letter-spacing: 0.18px;
+    text-align: center; 
+    font-size: 16px;
+    color: #333333;
+    letter-spacing: 0.18px;
+    cursor: pointer;
+    position: relative;
+    padding-bottom: 20px;
+}
+.organization_chart_group{
+    margin-left: 50px;
+}
+.organization_chart_body{
+    height: 100%;
+}
+.organization_chart_tab{
+    margin: 0;
+    width: 200px;
+    float: left;
+    height: 100%;
+    border-right: 1px solid #d8d8d8;
+}
+.organization_chart_tab > li{
+    overflow: hidden;
+    cursor: pointer;
+}
+.organization_chart_tab > li>i{
+    float: left;
+    margin: 16px 12px 16px 41px;
+    color: #959595
+} 
+.organization_chart_tab > li>p{
+    float: left;
+    font-size: 16px;
+    color: #333333;
+    letter-spacing: 0.18px;
+    margin-top: 16px;
+} 
+.organization_chart_ctn_basic_box{
+    float: left;
+    width: 459px;
+    margin: 0;
+}
+.organization_chart_ctn_basic{
+    margin: 0;
+}
+.organization_chart_ctn_basic>li{
+    /* padding: 20px 20px; */
+}
+.organization_chart_ctn_basic_title>p{
+    float: left;
+    margin: 38px 21px 20px 52px;
+    font-size: 15px;
+    color: #333333;
+    letter-spacing: 0.18px;
+}
+.organization_chart_ctn_basic_title>input{
+    float: left;
+    background: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    margin: 30px 8px 20px 0;
+    width: 282px;
+}
+.organization_chart_ctn_basic_case>p{
+    font-size: 15px;
+    color: #333333;
+    letter-spacing: 0.18px;
+    margin: 5px 21px 0px 20px;
+    float: left;
+}
+.organization_chart_ctn_basic_case>textarea{
+    width: 285px;
+    height: 100px;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    resize:none;
+    float: left;
+}
+.organization_chart_ctn_basic_save{
+    width: 296px;
+    height: 50px;
+    background: #4584FF;
+    border-radius: 4px;
+    color: #fff;
+    text-align: center;
+    font-size: 17px;
+    letter-spacing: 0.27px;
+    line-height: 50px;
+    margin: 100px 82px 0 82px;
+    cursor: pointer;
+}
+
+.organization_chart_ctn_master_box{
+    float: left;
+    width: 459px;
+    margin: 0;
+}
+.organization_chart_ctn_master{
+    margin: 0;
+    margin-top: 38px;
+}
+.organization_chart_ctn_master>li{
+    overflow: hidden;
+    margin: 10px 0;
+}
+.organization_chart_ctn_master>li>p{
+    float: left;
+    font-size: 15px;
+    color: #333333;
+    letter-spacing: 0.18px;
+}
+.organization_chart_ctn_master_name>p:nth-of-type(1){
+    margin: 0 30px 0 21px;
+}
+.organization_chart_ctn_master_tel>p{
+    margin: 5px 20px 0 51px;
+}
+.organization_chart_ctn_master_tel>input{
+    float: left;
+    width: 175px;
+    height: 26px;
+}
+.organization_chart_ctn_master_tel>div{
+    float: left;
+    background: #4584FF;
+    border-radius: 4px;
+    width:100px;
+    height: 36px;
+    font-size: 15px;
+    color: #FFFFFF;
+    letter-spacing: 0.18px;
+    text-align: center;
+    line-height: 36px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+.organization_chart_ctn_master_qd>p{
+    margin: 5px 20px 0 51px;
+}
+.organization_chart_ctn_master_qd>input{
+    float: left;
+    width: 285px;
+    height: 26px;
+    background: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+}
+.organization_chart_ctn_master_change>p{
+    margin: 5px 20px 0 51px;
+}
+.organization_chart_ctn_master_change>input{
+    float: left;
+    width: 285px;
+    height: 26px;
+    background: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+}
+.organization_chart_ctn_master_save{
+    width: 296px;
+    height: 50px;
+    background: #4584FF;
+    border-radius: 4px;
+    color: #fff;
+    text-align: center;
+    font-size: 17px;
+    letter-spacing: 0.27px;
+    line-height: 50px;
+    margin: 100px 82px 0 82px;
+    cursor: pointer;
+}
+.organization_chart_ctn_child_box{
+    float: left;
+    width: 459px;
+    margin: 0;
+}   
+.organization_chart_ctn_child{
+    margin: 0;
+}
+.organization_chart_ctn_child>li>div{
+    width: 38px;
+    height: 38px;
+    overflow: hidden;
+    border-radius: 50%;
+    background: #14A4FA;
+    float: left;
+    margin: 0 10px 0 20px;
+}
+.organization_chart_ctn_child>li>p:nth-of-type(1){
+    float: left;
+    font-size: 16px;
+    color: #333333;
+    letter-spacing: 0.18px;
+    line-height: 40px;
+}
+.organization_chart_ctn_child>li>p:nth-of-type(2){
+    float: right;
+    font-size: 16px;
+    color: #FB7474;
+    letter-spacing: 0.18px;
+    line-height: 40px;
+    margin-right: 30px;
+}
+.organization_chart_ctn_child_add{
+    background: #4584FF;
+    border-radius: 4px;
+    width: 140px;
+    height: 40px;
+    font-size: 15px;
+    color: #FFFFFF;
+    letter-spacing: 0.18px;
+    text-align: center;
+    line-height: 40px;
+    margin: 30px 0 30px 20px;
+    cursor: pointer;
+}
+.organization_chart_change_box{
+    overflow: hidden;
+}
+.color_li{
+    background: #F1F6FD;
+}
+.color_icon{
+    color: #4584FF!important;
+}
+.color_text{
+    color: #4584FF!important;
+}
+.bottom_line{
+    border-bottom: 2px solid #4584FF;
+}
+
+.organization_chart_group_list_box{
+    margin: 0;
+    width: 200px;
+    float: left;
+    height: 100%;
+    border-right: 1px solid #d8d8d8;
+}
+.organization_chart_group_add{
+    width: 140px;
+    height: 40px;
+    border: 1px solid #4584FF;
+    border-radius: 4px;
+    font-size: 15px;
+    color: #4584FF;
+    letter-spacing: 0.18px;
+    line-height: 40px;
+    text-align: center;
+    margin: 30px 30px 20px 30px;
+    cursor: pointer;
+}
+.organization_chart_group_list{
+    margin: 0;
+}
+.organization_chart_group_list>li{
+    width: 200px;
+    height: 50px;
+    text-align: center;
+    line-height: 40px;
+    font-size: 15px;
+    color: #333333;
+    letter-spacing: 0.17px;
+    cursor: pointer;
+}
+.organization_chart_group_detail_box{
+    float: left;
+    width: 459px;
+    margin: 0;
+}
+.new_group_name{
+    float: left;
+    width: 200px;
+    height: 26px!important;
+    margin-top: 30px;
+    margin-left: 20px;
+}
+.new_group_cancle{
+    float: left;
+    border: 1px solid #4584FF;
+    border-radius: 100px;
+    width: 76px;
+    height: 28px;
+    font-size: 15px;
+    color: #4584FF;
+    letter-spacing: 0.14px;
+    text-align: center;
+    margin-left: 20px;
+    margin-top: 34px;
+    line-height: 30px;
+    cursor: pointer;
+}
+.new_group_save{
+    float: left;
+    border: 1px solid #4584FF;
+    border-radius: 100px;
+    width: 76px;
+    height: 28px;
+    font-size: 15px;
+    color: #FFFFFF;
+    letter-spacing: 0.14px;
+    margin-left: 20px;
+    margin-top: 34px;
+    background: #4584FF;
+    line-height: 30px;
+    text-align: center;
+    cursor: pointer;
+}
+.invite_new_member,.adjust_department,.batch_delete{
+    width: 100px;
+    height: 36px;
+    font-size: 15px;
+    color: #FFFFFF;
+    letter-spacing: 0.18px;
+    text-align: center;
+    line-height: 36px;
+    margin: 26px;
+    float: left;
+    background: #4584FF;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.new_group_box{
+    margin: 0;
+}
+.new_group_box>li:nth-of-type(1){
+    font-size: 16px;
+    color: #333333;
+    letter-spacing: 0.23px;
+    padding-left: 60px;
+    font-weight: 500;
+}
+.new_group_box>li:nth-of-type(1)>p{
+    float: left;
+}
+.new_group_box>li{
+    margin: 10px 0;
+}
+.new_group_box>li>input{
+    margin: 0 20px;
+    float: left;
+}
+.new_group_box>li>p{
+    font-size: 16px;
+    color: #333333;
+    letter-spacing: 0.23px;
+    float: left;
+}
+.new_group_box>li>p:nth-of-type(1){
+    width: 136px;
+}
+.new_group_box>li>p:nth-of-type(2){
+    width: 110px;
+}
+.new_group_ctn{
+    display: none;
 }
