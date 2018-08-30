@@ -680,6 +680,8 @@ var contact = (function(){
             $(".management_team").on("click",function(){
                 var organization_chart_md = templates.render("organization_chart_md")
                 $(".app").append(organization_chart_md)
+                var organization_chart_tab = templates.render("organization_chart_tab")
+                $(".organization_chart_body").prepend(organization_chart_tab)
                 var organization_chart_ctn_basic=templates.render("organization_chart_ctn_basic")
                 $(".organization_chart_change_box").append(organization_chart_ctn_basic)
                 //点击关闭键关闭
@@ -695,7 +697,7 @@ var contact = (function(){
                     e.stopPropagation()
                 })
                 //点击基本信息
-                $(".organization_chart_basic_btn").on("click",function(){
+                $(".organization_chart_box").on("click",".organization_chart_basic_btn",function(){
                     $(".organization_chart_change_box").children().remove();
                     var organization_chart_ctn_basic=templates.render("organization_chart_ctn_basic")
                     $(".organization_chart_change_box").append(organization_chart_ctn_basic)
@@ -705,7 +707,7 @@ var contact = (function(){
                     $(this).children().last().addClass("color_text").parent().siblings().children().removeClass("color_text")
                 })
                 //点击更换管理员
-                $(".organization_chart_master_btn").on("click",function(){
+                $(".organization_chart_box").on("click",".organization_chart_master_btn",function(){
                     $(".organization_chart_change_box").children().remove();
                     var organization_chart_ctn_master=templates.render("organization_chart_ctn_master")
                     $(".organization_chart_change_box").append(organization_chart_ctn_master)
@@ -715,7 +717,7 @@ var contact = (function(){
                     $(this).children().last().addClass("color_text").parent().siblings().children().removeClass("color_text")
                 })
                 //点击更换子管理员
-                $(".organization_chart_child_btn").on("click",function(){
+                $(".organization_chart_box").on("click",".organization_chart_child_btn",function(){
                     $(".organization_chart_change_box").children().remove();
                     var organization_chart_ctn_child=templates.render("organization_chart_ctn_child")
                     $(".organization_chart_change_box").append(organization_chart_ctn_child)
@@ -723,6 +725,28 @@ var contact = (function(){
                     $(this).addClass("color_li").siblings().removeClass("color_li")
                     $(this).children().first().addClass("color_icon").parent().siblings().children().removeClass("color_icon")
                     $(this).children().last().addClass("color_text").parent().siblings().children().removeClass("color_text")
+                })
+                //团队设置切换
+                $(".organization_chart_setting").on("click",function(){
+                    //ui切换效果
+                    $(this).addClass("bottom_line color_text").siblings().removeClass("bottom_line color_text")
+                    $(".organization_chart_group_list_box").remove()
+                    $(".organization_chart_change_box").children().remove()
+                    var organization_chart_tab = templates.render("organization_chart_tab")
+                    $(".organization_chart_body").prepend(organization_chart_tab)
+                    var organization_chart_ctn_basic=templates.render("organization_chart_ctn_basic")
+                    $(".organization_chart_change_box").append(organization_chart_ctn_basic)
+                })
+                //组织结构切换
+                $(".organization_chart_group").on("click",function(){
+                    //ui切换效果
+                    $(this).addClass("bottom_line color_text").siblings().removeClass("bottom_line color_text")
+                    $(".organization_chart_tab").remove()
+                    $(".organization_chart_change_box").children().remove()
+                    var organization_chart_group_list = templates.render("organization_chart_group_list")
+                    $(".organization_chart_body").prepend(organization_chart_group_list)
+                    var organization_chart_group_detail = templates.render("organization_chart_group_detail")
+                    $(".organization_chart_change_box").append(organization_chart_group_detail)
                 })
             })
         })
