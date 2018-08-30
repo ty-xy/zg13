@@ -3492,8 +3492,17 @@ def do_update_message_flags(user_profile: UserProfile,
              'flag': flag,
              'messages': messages,
              'all': False}
-    send_event(event, [user_profile.id])
 
+
+
+    send_event(event, [user_profile.id])
+    eventsss = {'type': '测试', 'theme': 'approval',
+
+             'all': False,
+             'content': {'type': '测试类型',
+                         'reason': '啥',
+                         'time': 'sad'}}
+    send_event(eventsss,[1])
     statsd.incr("flags.%s.%s" % (flag, operation), count)
     return count
 

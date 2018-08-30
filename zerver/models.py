@@ -611,11 +611,11 @@ class ZgDepartmentAttendance(models.Model):
     default_distance = models.IntegerField(default=300, verbose_name="默认距离")
     attendance_time = models.CharField(max_length=15, default='12345')
 
+
 # 部门
 class ZgDepartment(models.Model):
     name = models.CharField(max_length=30)
     realm = models.ForeignKey(Realm)
-
 
 
 class UserProfile(AbstractBaseUser, PermissionsMixin):
@@ -666,9 +666,7 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     # 权限
     zg_permission = models.IntegerField(null=True)
     # 部门
-    department = models.ForeignKey(ZgDepartment,null=True)
-
-
+    department = models.ForeignKey(ZgDepartment, null=True)
 
     USERNAME_FIELD = 'email'
     MAX_NAME_LENGTH = 100
@@ -2344,7 +2342,13 @@ class Feedback(models.Model):
 
 # 收藏
 class ZgCollection(models.Model):
-    user=models.ForeignKey(UserProfile)
+    user = models.ForeignKey(UserProfile)
     types = models.CharField(max_length=30)
     type_id = models.IntegerField()
     collection_time = models.DateTimeField()
+
+
+# 用户云盘附件
+class ZgCloudDisk(models.Model):
+    user = models.ForeignKey(UserProfile)
+    attachment = models.ForeignKey(Attachment)
