@@ -1,4 +1,4 @@
-from zerver.models import Message, UserMessage, ZgCollection, Stream
+from zerver.models import Message, UserMessage, ZgCollection, Stream, Attachment, ZgCloudDisk
 from django.http import JsonResponse
 from zerver.decorator import zulip_login_required
 from zerver.tornado.event_queue import send_event
@@ -99,6 +99,7 @@ def zg_collection_list(request, user_profile):
 
     return JsonResponse({'errno': 0, 'message': '成功', 'collection_list': collection_list})
 
+
 # 频道权限认证
 def zg_stream_permissions(request, user_profile):
     stream_id = request.GET.get('stream_id')
@@ -109,4 +110,47 @@ def zg_stream_permissions(request, user_profile):
     stream_permissions = False
     if stream.create_user_id == user_profile.id or user_profile.is_realm_admin:
         stream_permissions = True
+<<<<<<< HEAD:zerver/views/zg_restful_apl.py
+    return JsonResponse({'errno': 0, 'message': 'id错误', 'stream_permissions': stream_permissions})
+
+
+# 添加用户云盘
+def zg_abb_clouddisk(request, user_profile):
+    req = req_tools(request)
+    path_id = req.get('path_id')
+    if not path_id:
+        return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
+    attachment = Attachment.objects.filter(path_id=path_id)
+    if not attachment:
+        return JsonResponse({'errno': 2, 'message': 'path_id错误'})
+    try:
+        ZgCloudDisk.objects.create(attachment=attachment[0], user=user_profile)
+    except Exception:
+        return JsonResponse({'errno': 3, 'message': '添加云盘失败'})
+
+    return JsonResponse({'errno': 0, 'message': '添加云盘成功'})
+
+
+# 查看云盘列表
+def user_clouddisk(request, user_profile):
+    clouddisk_list = []
+    cloud_disk_objs = ZgCloudDisk.objects.filter(user=user_profile.id)
+
+    for cloud_disk_obj in cloud_disk_objs:
+        clouddisk_dict = dict()
+
+        if cloud_disk_obj.sizi/1024/1024>1:
+            clouddisk_dict['size'] = str(cloud_disk_obj.size/1024/1024)+'M'
+        elif cloud_disk_obj.size / 1024 > 1:
+            clouddisk_dict['size'] = str(cloud_disk_obj.size/1024)+'KB'
+        else:
+            clouddisk_dict['size'] =cloud_disk_obj.size
+        clouddisk_dict['name'] = cloud_disk_obj.file_name
+        clouddisk_dict['url'] = cloud_disk_obj.path_id
+        clouddisk_dict['create_time'] = cloud_disk_obj.create_time
+        clouddisk_list.append(clouddisk_dict)
+    return JsonResponse({'errno': 0, 'message': '成功','clouddisk_list':clouddisk_list})
+
+=======
     return JsonResponse({'errno': 0, 'message': '成功', 'stream_permissions': stream_permissions})
+>>>>>>> c3941406bce1b3e384294508212f4f17071c6bd6:zerver/views/zg_restful_api.py
