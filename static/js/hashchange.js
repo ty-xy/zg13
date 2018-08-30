@@ -71,9 +71,7 @@ exports.save_narrow = function (operators) {
 };
 var arr;
 exports.parse_narrow = function (hash) {
-    console.log('完蛋了',hash)
     if(hash[2] == "starred"){
-        console.log("123123123123")
         $("#zfilt").removeClass("focused_table")
         $(".compose-content").hide()
         $(".move_ctn").children().remove();

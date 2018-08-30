@@ -202,7 +202,6 @@ var server_events = (function () {
         idempotent: true,
         timeout:  page_params.poll_timeout,
         success: function (data) {
-            console.log("你要的",data)
             var type;
             var data_message;
             $.ajax({

@@ -3,21 +3,10 @@
         新增部门
     </div>
     <ul class="organization_chart_group_list">
+        {{#each department_lists}}
         <li>
-            <span>
-                董事办
-            </span>
-            <span>
-                (2人)
-            </span>
+            {{name}}
         </li>
-        <li>
-            <span>
-                设计部
-            </span>
-            <span>
-                (5人)
-            </span>
-        </li>
+        {{/each}}
     </ul>
 </div>

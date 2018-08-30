@@ -442,6 +442,7 @@
 .organization_team_dept_box{
     padding: 20px;
     border-bottom: 1px solid #ddd;
+    margin: 0;
 }
 .organization_team_dept_ctn{
     font-size: 15px;
@@ -451,7 +452,11 @@
 }
 .organization_team_single_box{
     padding: 20px;
+    margin: 0;
 }   
+.organization_team_single_box>li{
+    cursor: pointer;
+}
 .organization_team_single_img_box{
     float: left;
     height: 38px;
@@ -938,4 +943,6 @@
 .new_group_box>li>p:nth-of-type(2){
     width: 110px;
 }
-
+.new_group_ctn{
+    display: none;
+}
