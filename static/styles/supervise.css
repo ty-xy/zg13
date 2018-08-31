@@ -440,15 +440,21 @@
     color: #fff;
 }
 .organization_team_dept_box{
-    padding: 20px;
+    padding: 20px 0;
     border-bottom: 1px solid #ddd;
     margin: 0;
+}
+.organization_team_dept_box>li{
+    height: 50px;
+    padding: 0 20px;
 }
 .organization_team_dept_ctn{
     font-size: 15px;
     color: #333333;
     letter-spacing: 0.16px;
     cursor: pointer;
+    line-height: 50px;
+    margin: 0;
 }
 .organization_team_single_box{
     padding: 20px;
@@ -945,4 +951,69 @@
 }
 .new_group_ctn{
     display: none;
+}
+.organization_add_group_popover{
+    width: 252px;
+    height: 144px;
+    background: #fff;
+    padding: 20px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    box-shadow: 0 2px 4px 0 rgba(128,128,128,0.50);
+    border-radius: 4px 0 0 0 4px 4px 4px;
+}
+.organization_add_group_title{
+    font-size: 15px;
+    color: #333333;
+    letter-spacing: 0.18px;
+    margin: 0 95px;
+}
+.organization_add_group_name{
+    float: left;
+    font-size: 15px;
+    color: #333333;
+    letter-spacing: 0.18px;
+    margin-top: 18px;
+}
+.organization_add_group_input{
+    background: #F3F3F3;
+    border-radius: 4px;
+    width: 158px;
+    height: 26px!important;
+    float: left;
+    margin-left: 15px;
+    margin-top: 10px;
+}
+.organization_add_group_cancel{
+    border: 1px solid #C5C5C5;
+    border-radius: 4px;
+    width: 110px;
+    height: 32px;
+    font-size: 15px;
+    color: #333333;
+    letter-spacing: 0.18px;
+    text-align: center;
+    line-height: 32px;
+    cursor: pointer;
+    float: left;
+}
+.organization_add_group_finish{
+    background: #4584FF;
+    border: 1px solid #4584FF;
+    border-radius: 4px;
+    width: 110px;
+    height: 32px;
+    color: #fff;
+    text-align: center;
+    line-height: 32px;
+    cursor: pointer;
+    float: left;
+    margin-left: 25px;
+}
+.organization_add_group_bottom{
+    margin-top: 24px;
 }
