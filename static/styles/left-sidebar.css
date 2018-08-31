@@ -171,6 +171,7 @@ li.active-sub-filter {
 
 #global_filters .global-filter a {
     display: block;
+    font-weight: 200;
 }
 
 .left-sidebar li a.conversation-partners:hover {

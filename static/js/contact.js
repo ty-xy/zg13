@@ -7,6 +7,7 @@ var contact = (function(){
         //私聊点击
         $(".private_button").on("click",function(){
             $(".organization_team").hide()
+            $(".keep_exist").show()
             //清空右侧添加内容
             $(".move_ctn").children().remove();
             $(".group_icon").hide()
@@ -653,10 +654,190 @@ var contact = (function(){
             $(".move_ctn").children().remove();
             var organization_team_box = templates.render("organization_team_box")
             $(".move_ctn").append(organization_team_box)
-            var organization_team_dept = templates.render("organization_team_dept")
-            $(".move_ctn").append(organization_team_dept)
-            var organization_team_single = templates.render("organization_team_single")
-            $(".move_ctn").append(organization_team_single)
+            //获取部门列表
+            $.ajax({
+                type:"GET",
+                url:"json/zg/department/list",
+                success:function(res){
+                    var department_lists = res.department_lists
+                    var organization_team_dept = templates.render("organization_team_dept",{department_lists:department_lists})
+                    $(".move_ctn").append(organization_team_dept)
+                }
+            })
+            //获取无部门人员
+            $.ajax({
+                type:"GET",
+                url:"json/zg/not/department/user",
+                success:function(res){
+                    var not_department_list = res.not_department_list
+                    var organization_team_single = templates.render("organization_team_single",{not_department_list:not_department_list})
+                    $(".move_ctn").append(organization_team_single)
+                }
+            })
+            //邀请成员点击
+            $(".invite_members").on("click",function(){
+                var invite_members_md = templates.render("invite_members_md")
+                $(".app").append(invite_members_md)
+                //阻止时间冒泡
+                $(".invite_members_box").on("click",function(e){
+                    e.stopPropagation();
+                })
+                //点击x关闭
+                $(".invite_members_close").on("click",function(){
+                    $(".invite_members_md").hide()
+                })
+                //点击模版关闭
+                $(".invite_members_md").on("click",function(){
+                    $(".invite_members_md").hide()
+                })
+            })
+            //团队设置点击
+            $(".management_team").on("click",function(){
+                var organization_chart_md = templates.render("organization_chart_md")
+                $(".app").append(organization_chart_md)
+                var organization_chart_tab = templates.render("organization_chart_tab")
+                $(".organization_chart_body").prepend(organization_chart_tab)
+                //组织基本信息数据获取
+                $.ajax({
+                    type:"GET",
+                    url:"json/zg/organization/information",
+                    success:function(res){
+                        var data = res.data
+                        var organization_chart_ctn_basic=templates.render("organization_chart_ctn_basic",{data:data})
+                        $(".organization_chart_change_box").append(organization_chart_ctn_basic)
+                    }
+                })
+                //组织基本信息数据修改
+                $(".organization_chart_box").on("click",".organization_chart_ctn_basic_save",function(){
+                    var name = $(".item_name").val()
+                    var description = $(".construction_description").text()
+                    var obj = {
+                        name:name,
+                        description:description
+                    } 
+            
+                    $.ajax({
+                        type:"PUT",
+                        contentType:"application/json",
+                        url:"json/zg/organization/information/updata/",
+                        data:JSON.stringify(obj),
+                        success:function(res){
+                            console.log(res)
+                        }
+                    })
+                })
+                //点击关闭键关闭
+                $(".organization_chart_close").on("click",function(){
+                    $(".organization_chart_md").hide()
+                })
+                //点击模版关闭
+                $(".organization_chart_md").on("click",function(){
+                    $(".organization_chart_md").hide()
+                })
+                //阻止事件冒泡
+                $(".organization_chart_box").on("click",function(e){
+                    e.stopPropagation()
+                })
+                //点击基本信息
+                $(".organization_chart_box").on("click",".organization_chart_basic_btn",function(){
+                    $(".organization_chart_change_box").children().remove();
+                    //组织基本信息数据获取
+                    $.ajax({
+                        type:"GET",
+                        url:"json/zg/organization/information",
+                        success:function(res){
+                            var data = res.data
+                            var organization_chart_ctn_basic=templates.render("organization_chart_ctn_basic",{data:data})
+                            $(".organization_chart_change_box").append(organization_chart_ctn_basic)
+                        }
+                    })
+                    //样式切换变化
+                    $(this).addClass("color_li").siblings().removeClass("color_li")
+                    $(this).children().first().addClass("color_icon").parent().siblings().children().removeClass("color_icon")
+                    $(this).children().last().addClass("color_text").parent().siblings().children().removeClass("color_text")
+                })
+                //点击更换管理员
+                $(".organization_chart_box").on("click",".organization_chart_master_btn",function(){
+                    $(".organization_chart_change_box").children().remove();
+                    var organization_chart_ctn_master=templates.render("organization_chart_ctn_master")
+                    $(".organization_chart_change_box").append(organization_chart_ctn_master)
+                    //样式切换变化
+                    $(this).addClass("color_li").siblings().removeClass("color_li")
+                    $(this).children().first().addClass("color_icon").parent().siblings().children().removeClass("color_icon")
+                    $(this).children().last().addClass("color_text").parent().siblings().children().removeClass("color_text")
+                })
+                //点击更换子管理员
+                $(".organization_chart_box").on("click",".organization_chart_child_btn",function(){
+                    $(".organization_chart_change_box").children().remove();
+                    var organization_chart_ctn_child=templates.render("organization_chart_ctn_child")
+                    $(".organization_chart_change_box").append(organization_chart_ctn_child)
+                    //样式切换变化
+                    $(this).addClass("color_li").siblings().removeClass("color_li")
+                    $(this).children().first().addClass("color_icon").parent().siblings().children().removeClass("color_icon")
+                    $(this).children().last().addClass("color_text").parent().siblings().children().removeClass("color_text")
+                })
+                //团队设置切换
+                $(".organization_chart_setting").on("click",function(){
+                    //ui切换效果
+                    $(this).addClass("bottom_line color_text").siblings().removeClass("bottom_line color_text")
+                    $(".organization_chart_group_list_box").remove()
+                    $(".organization_chart_change_box").children().remove()
+                    var organization_chart_tab = templates.render("organization_chart_tab")
+                    $(".organization_chart_body").prepend(organization_chart_tab)
+                    $.ajax({
+                        type:"GET",
+                        url:"json/zg/organization/information",
+                        success:function(res){
+                            var data = res.data
+                            var organization_chart_ctn_basic=templates.render("organization_chart_ctn_basic",{data:data})
+                            $(".organization_chart_change_box").append(organization_chart_ctn_basic)
+                        }
+                    })
+                })
+                //组织结构切换
+                $(".organization_chart_group").on("click",function(){
+                    //ui切换效果
+                    $(this).addClass("bottom_line color_text").siblings().removeClass("bottom_line color_text")
+                    $(".organization_chart_tab").remove()
+                    $(".organization_chart_change_box").children().remove()
+                    //获取部门列表
+                    $.ajax({
+                        type:"GET",
+                        url:"json/zg/department/list",
+                        success:function(res){
+                            var department_lists = res.department_lists
+                            var organization_chart_group_list = templates.render("organization_chart_group_list",{department_lists:department_lists})
+                            $(".organization_chart_body").prepend(organization_chart_group_list)
+                        }
+                    })
+                    var organization_chart_group_detail = templates.render("organization_chart_group_detail")
+                    $(".organization_chart_change_box").append(organization_chart_group_detail)
+                    //新增部门
+                    $(".organization_chart_box").on("click",".organization_chart_group_add",function(){
+                        $(".new_group_ctn").show()
+                        //保存按钮
+                        $(".new_group_save").on("click",function(){
+                            var name = $(".new_group_name").val()
+                            var obj = {
+                                name:name
+                            }
+                            $.ajax({
+                                type:"POST",
+                                contentType:"application/json",
+                                url:"json/zg/department/add/",
+                                data:JSON.stringify(obj),
+                                success:function(res){
+                                    console.log("返回信息",res)
+                                }
+                            })
+                        })
+                        //取消按钮
+                        $(".new_group_cancle").on("click",function(){
+                            $(".new_group_ctn").hide()
+                        })
+                    })
+                })
+            })
         })
     })
     

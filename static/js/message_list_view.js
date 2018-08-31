@@ -588,8 +588,6 @@ MessageListView.prototype = {
         if (message_actions.append_groups.length > 0) {
             // Remove the trailing bookend; it'll be re-added after we do our rendering
             self.clear_trailing_bookend();
-            console.log(message_actions.append_groups)
-            console.log(self.list.filter.is_search())
             rendered_groups = $(templates.render('message_group', {
                 message_groups: message_actions.append_groups,
                 use_match_properties: self.list.filter.is_search(),
@@ -613,7 +611,6 @@ MessageListView.prototype = {
             // the view).  During debugging, we found that this adding
             // this next line seems to prevent the Chrome bug from firing.
             message_viewport.scrollTop();
-            // console.log(rendered_groups,"rendered_groups")
             table.append(rendered_groups);
             condense.condense_and_collapse(dom_messages);
         }

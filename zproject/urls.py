@@ -581,6 +581,16 @@ v1_api_and_json_patterns = [
     url(r'^zg/stream/permissions$', rest_dispatch,
         {'GET': 'zerver.views.zg_restful_api.zg_stream_permissions'}),
 
+    # 添加云盘
+    url(r'^zg/clouddisk/add$', rest_dispatch,
+        {'POST': 'zerver.views.zg_restful_api.zg_abb_clouddisk'}),
+
+    # 查看云盘
+    url(r'^zg/clouddisk/user', rest_dispatch,
+        {'GET': 'zerver.views.zg_restful_api.user_clouddisk'}),
+
+
+
 ]
 
 # These views serve pages (HTML). As such, their internationalization

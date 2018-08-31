@@ -3,10 +3,20 @@ from zerver.models import Backlog, BacklogAccessory, UpdateBacklog, Statement, S
 from django.http import JsonResponse, HttpResponse, HttpRequest
 import datetime, time, json, calendar
 from zerver.lib import avatar
+from datetime import datetime, timezone, timedelta
 
 import re, math
 
 from zerver.lib.actions import get_user_ids_for_streams
+from zerver.tornado.event_queue import send_event
+
+
+def nuw_time():
+    stockpile_time = datetime.utcnow()
+    stockpile_time = stockpile_time.replace(tzinfo=timezone.utc)
+    tzutc_8 = timezone(timedelta(hours=8))
+    stockpile_time = stockpile_time.astimezone(tzutc_8)
+    return stockpile_time
 
 
 # 查看日志评论
@@ -238,8 +248,8 @@ def web_my_receive(request, user_profile):
             statement_state.save()
 
             user = UserProfile.objects.filter(email=s.user)
-            user=user[0]
-        
+            user = user[0]
+
             web_my_receive_dict['avatarurl'] = avatar.absolute_avatar_url(user)
             web_my_receive_dict['fullname'] = user.full_name
             web_my_receive_dict['generate_time'] = statement_state.receive_time
@@ -551,12 +561,15 @@ def table_view(request, user_profile):
                                                   accessory_size=statement_accessory_dict['size'],
                                                   accessory_name=statement_accessory_dict['name'],
                                                   statement_id=a)
-
         if send:
             b = time.time()
             for staff in send:
                 StatementState.objects.create(statement_id=a, staff=staff, receive_time=b)
-
+            event = {'type': 'JobsNotice', 'theme': 'approval',
+                     'content': {'type': 'DailyReport',
+                                 'theme': user_profile.full_name + '的日志'
+                                 }}
+            send_event(event, send)
     except Exception:
         return JsonResponse({'errno': 2, 'message': "储存周报失败"})
 
@@ -1075,19 +1088,18 @@ def accomplis_backlogs_view(request, user_profile):
     return JsonResponse({'errno': 0, 'message': '成功', 'accomplis_backlog_list': accomplis_backlogs_listss})
 
 
-def users_view(request,user_profile):
-    users=UserProfile.objects.all()
-    user_list=list()
+def users_view(request, user_profile):
+    users = UserProfile.objects.all()
+    user_list = list()
     for user in users:
-        if user == user_profile or user.full_name[-3:]== 'Bot':
+        if user == user_profile or user.full_name[-3:] == 'Bot':
             continue
-        user_dict=dict()
+        user_dict = dict()
         user_dict['user_avatar'] = avatar.absolute_avatar_url(user)
-        user_dict['name']=user.full_name
+        user_dict['name'] = user.full_name
         user_dict['id'] = user.id
         user_dict['email'] = user.email
         user_dict['short_name'] = user.short_name
         user_list.append(user_dict)
-    return JsonResponse({'errno':'0','message':'成功','user_list':user_list,'user_me':user_profile.full_name,'user_id':user_profile.id})
-
-        
+    return JsonResponse({'errno': '0', 'message': '成功', 'user_list': user_list, 'user_me': user_profile.full_name,
+                         'user_id': user_profile.id})

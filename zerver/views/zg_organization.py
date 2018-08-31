@@ -92,7 +92,7 @@ def child_admin(request, user_profile):
         user_dict['name'] = child_admin_obj.full_name
         user_dict['avatar'] = avatar.absolute_avatar_url(child_admin_obj)
         user_dict['id'] = child_admin_obj.id
-
+        user_list.append(user_dict)
     return JsonResponse({'errno': 0, 'message': '成功', 'user_list': user_list})
 
 
@@ -101,16 +101,19 @@ def up_child_admin(request, user_profile):
     req = req_tools(request)
     types = req.get('type')
     ids = req.get('id_list')
-
+    print(types, ids)
     if not all([types, ids]):
         return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
 
     for i in ids:
         user_obj = UserProfile.objects.filter(id=i)
         if types == 'add':
-            user_obj.zg_permission = 1
+            user_obj.update(zg_permission=1)
+
         elif types == 'del':
-            user_obj.zg_permission = ''
+            user_obj.update(zg_permission=0)
+
+        print(user_obj[0].zg_permission)
     return JsonResponse({'errno': 0, 'message': '成功'})
 
 
@@ -196,11 +199,11 @@ def department_up(request, user_profile):
 
     department_name = req.get('department_name')
 
-    if user_profile.is_realm_admin == False or user_profile.zg_permission !=1:
+    if user_profile.is_realm_admin == False or user_profile.zg_permission != 1:
         return JsonResponse({'errno': 1, 'message': '无权限'})
 
-    aa=ZgDepartment.objects.filter(id=department_id)
-    aa[0].name=department_name
+    aa = ZgDepartment.objects.filter(id=department_id)
+    aa[0].name = department_name
     aa[0].save()
     user_profile.save()
 
@@ -209,18 +212,17 @@ def department_up(request, user_profile):
 
 # 部门人员
 def department_user_list(request, user_profile):
-
-    department_id=request.GET.get('department_id')
+    department_id = request.GET.get('department_id')
 
     if not department_id:
         return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
-    user_list=[]
+    user_list = []
 
-    user_objs=UserProfile.objects.filter(department=department_id)
-    for i in  user_objs:
+    user_objs = UserProfile.objects.filter(department=department_id)
+    for i in user_objs:
         user_dict = {}
         user_dict['name'] = i.full_name
         user_dict['avatar'] = avatar.absolute_avatar_url(i)
         user_dict['id'] = i.id
         user_list.append(user_dict)
-    return JsonResponse({'errno': 0, 'message': '成功','user_list':user_list})
+    return JsonResponse({'errno': 0, 'message': '成功', 'user_list': user_list})

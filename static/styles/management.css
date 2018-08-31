@@ -253,7 +253,7 @@ ul{
     outline: none;
 }
 #taskdetail_addnote{
-    width: 100%;
+    width: 95%;
     height: 128px;
     margin: 0 auto;
     background: #F7F7F7;
@@ -1450,7 +1450,7 @@ ul{
 
 }
 .left_blue_height{
-    color: #14A4FA!important;
+    color: #4584FF!important;
 }
 .invite_users{
     font-size: 16px;
