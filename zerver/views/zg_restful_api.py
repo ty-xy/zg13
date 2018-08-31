@@ -75,7 +75,7 @@ def zg_collection(request, user_profile):
     else:
         return JsonResponse({'errno': 2, 'message': '类型错误'})
 
-    
+
 
 
 # 收藏列表
@@ -110,7 +110,6 @@ def zg_stream_permissions(request, user_profile):
     stream_permissions = False
     if stream.create_user_id == user_profile.id or user_profile.is_realm_admin:
         stream_permissions = True
-<<<<<<< HEAD:zerver/views/zg_restful_apl.py
     return JsonResponse({'errno': 0, 'message': 'id错误', 'stream_permissions': stream_permissions})
 
 
@@ -150,7 +149,3 @@ def user_clouddisk(request, user_profile):
         clouddisk_dict['create_time'] = cloud_disk_obj.create_time
         clouddisk_list.append(clouddisk_dict)
     return JsonResponse({'errno': 0, 'message': '成功','clouddisk_list':clouddisk_list})
-
-=======
-    return JsonResponse({'errno': 0, 'message': '成功', 'stream_permissions': stream_permissions})
->>>>>>> c3941406bce1b3e384294508212f4f17071c6bd6:zerver/views/zg_restful_api.py
