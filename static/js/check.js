@@ -13,7 +13,7 @@ var check = (function () {
     function backIcons1 (){
         $(".first-icon").unbind("click").on("click",function(e){
             moveContent()
-            console.log("我已经审批")
+            // console.log("我已经审批")
             $(".already_checked").addClass("active").siblings().removeClass("active")
             $("#already_check").addClass("in active").siblings().removeClass("in active")
             channel.get({
@@ -66,7 +66,7 @@ var check = (function () {
     function backIcons4(){
         $(".first-icon").unbind("click").on("click",function(e){
             moveContent()
-            console.log("抄送我的")
+            // console.log("抄送我的")
              $(".copy_myown").addClass("active").siblings().removeClass("active")
              $("#make_copy").addClass("in active").siblings().removeClass("in active")
              channel.get({
@@ -124,7 +124,7 @@ var check = (function () {
                     data:JSON.stringify(data),
                     contentType:"application/json",
                     success:function(dataList){
-                        console.log("gafdgagfa",dataList)
+                        // console.log("gafdgagfa",dataList)
                        if(dataList.errno===0){
                             $(".modal-logs").hide()
                             var data = {
@@ -143,7 +143,7 @@ var check = (function () {
         channel.get({
             url:content,
             success:function(data){
-                console.log(data)
+                // console.log(data)
                if(data.errno===0){
                 var  data = data.initiate_list
                 
@@ -166,7 +166,7 @@ var check = (function () {
                             url:"/json/zg/approval",
                             data:datater,
                             success:function(datalist){
-                                console.log(datalist)
+                                // console.log(datalist)
                                 var data =datalist.data
                                 if(data.feedback_list.length===0){
                                     data.shown=false
@@ -304,10 +304,10 @@ var check = (function () {
                     namel:name.slice(0,4)+"....",
                     small:true
                 }
-                console.log(peppleList)
+                // console.log(peppleList)
                 if(peopleList.indexOf(peppleList.id)===-1){
                     arrlist.push(peppleList)
-                    console.log(arrlist)
+                    // console.log(arrlist)
                 }
             })
            
@@ -369,7 +369,7 @@ var check = (function () {
             var type = file.type.split("/")
                 typeName= type[type.length-1]
             var uri = make_upload_absolute(response.uri);
-            console.log(i,uri)
+            // console.log(i,uri)
             if(i!==-1){
                 var div  = '<div class ="img-border img-none-border" data-url= '+uri+'>\
                               <img src='+uri+'  />\
@@ -388,7 +388,7 @@ var check = (function () {
                 },
                 uploadFinished: uploadFinished,
                 afterAll:function(contents){
-                    console.log(contents,321312)
+                    // console.log(contents,321312)
                 }
             })
          }
@@ -554,7 +554,7 @@ var check = (function () {
                             $("#ios").html(html)
                             $(".tabs-contents").height($(window).height()-120)
                         }else{
-                            console.log(data)
+                            // console.log(data)
                            var html = templates.render("table",{data:data,showClass:"expectation"})
                             $("#ios").html(html)
                             $(".check-shenpi-content").height($(window).height()-244)
@@ -571,7 +571,7 @@ var check = (function () {
                                     success:function(datalist){
                                         var data =datalist.data
 
-                                        console.log("返回待我审批1")
+                                        // console.log("返回待我审批1")
                                         $(".move_ctn").children().remove();
                                         var li = templates.render("check_detail",data)
                                         $(".move_ctn").html(li)
@@ -663,7 +663,7 @@ var check = (function () {
                                 data:datas,
                                     success:function(datalist){
                                         var data =datalist.data
-                                       console.log("抄送我的1")
+                                    //    console.log("抄送我的1")
                                         if(data.feedback_list.length===0){
                                             data.shown=false
                                         }else{
@@ -735,7 +735,7 @@ var check = (function () {
                                 url:"/json/zg/approval",
                                 data:datas,
                                     success:function(datalist){
-                                        console.log(datalist)
+                                        // console.log(datalist)
                                         var data =datalist.data
                                         if(data.feedback_list.length===0){
                                             data.shown=false
