@@ -843,7 +843,6 @@ var contact = (function(){
                                 url:"json/zg/department/add/",
                                 data:JSON.stringify(obj),
                                 success:function(res){
-                                    console.log("返回信息",res)
                                     if(res.errno == 0){
                                         $.ajax({
                                             type:"GET",
@@ -863,6 +862,39 @@ var contact = (function(){
                         //取消按钮
                         $(".organization_add_group_cancel").on("click",function(){
                             $(".organization_add_group_popover").hide()
+                        })
+                    })
+                    //部门设置
+                    $(".organization_chart_box").on("click",".branch_icon",function(e){
+                        e.stopPropagation()
+                        $(".branch_ctn").show();
+                    })
+                    //内容点击阻止冒泡
+                    $(".organization_chart_box").on("click",".branch_ctn",function(e){
+                        e.stopPropagation()
+                    })
+                    //点击空白取消
+                    $(".organization_chart_box").on("click",function(e){
+                        e.stopPropagation()
+                        $(".branch_ctn").hide();
+                    })
+                    //修改部门名称
+                    $(".branch_change_name").on("click",function(){
+
+                    })
+                    //删除部门
+                    $(".organization_chart_box").on("click",".branch_delete_group",function(){
+                        var organization_chart_group_delete = templates.render("organization_chart_group_delete")
+                        $(".organization_chart_md").append(organization_chart_group_delete)
+
+                        //删除框点击
+                        $(".organization_chart_group_delete_box").on("click",function(e){
+                            e.stopPropagation()
+
+                        })
+                        //取消点击
+                        $(".organization_chart_group_delete_cancel,.organization_chart_group_delete_close").on("click",function(){
+                            $(".organization_chart_group_delete_box").hide();
                         })
                     })
                 })

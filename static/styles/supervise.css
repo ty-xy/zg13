@@ -950,7 +950,7 @@
     width: 110px;
 }
 .new_group_ctn{
-    display: none;
+    /* display: none; */
 }
 .organization_add_group_popover{
     width: 252px;
@@ -1016,4 +1016,115 @@
 }
 .organization_add_group_bottom{
     margin-top: 24px;
+}
+
+.branch_box{
+    margin: 30px 20px 0;
+    position: relative;
+}
+.branch_name{
+    font-size: 16px;
+    color: #333333;
+    letter-spacing: 0.18px;
+    float: left;
+}
+.branch_icon{
+    color: #666;
+    float: right;
+    font-size: 18px;
+    cursor: pointer;
+}
+.branch_ctn{
+    background: #FFFFFF;
+    box-shadow: 0 2px 4px 0 rgba(128,128,128,0.50);
+    border-radius: 3px;
+    width: 120px;
+    height: 100px;
+    position: absolute;
+    right: 0;
+    top: 20px;
+    display: none;
+}
+.branch_ctn>div{
+    font-size: 15px;
+    color: #333333;
+    letter-spacing: 0.16px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    cursor: pointer;
+}
+.branch_change_name{
+    border-bottom: 1px solid #F3F3F3;
+}
+.branch_operation{
+    display: none;
+}
+.organization_chart_group_delete_box{
+    width: 540px;
+    height: 262px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    background: #FFFFFF;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px 0 rgba(128,128,128,0.50);
+}
+.organization_chart_group_delete_head{
+    background: #F4F5F7;
+    height: 60px;
+}
+.organization_chart_group_delete_head>p{
+    font-size: 18px;
+    color: #333333;
+    letter-spacing: 0.22px;
+    float: left;
+    margin-top: 18px;
+    margin-left: 251px;
+}
+.organization_chart_group_delete_close{
+    float: right;
+    color: #999999;
+    margin-right: 25px;
+    margin-top: 18px;
+}
+.organization_chart_group_delete_ctn{
+    font-size: 16px;
+    color: #333333;
+    letter-spacing: 0.19px;
+    margin: 40px 20px 60px 20px;
+}
+.organization_chart_group_delete_bottom{
+    margin-left: 210px;
+}
+.organization_chart_group_delete_cancel{
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    width: 138px;
+    height: 38px;
+    font-size: 15px;
+    color: #333333;
+    letter-spacing: 0.18px;
+    text-align: center;
+    line-height: 38px;
+    float: left;
+    cursor: pointer;
+}
+.organization_chart_group_delete_ensure{
+    border: 1px solid #4584FF;
+    border-radius: 4px;
+    background:  #4584FF;
+    width: 138px;
+    height: 38px;
+    font-size: 15px;
+    color: #fff;
+    letter-spacing: 0.18px;
+    text-align: center;
+    line-height: 38px;
+    margin-left: 20px;
+    float: left;
+    cursor: pointer;
 }
