@@ -8,17 +8,63 @@
         <li>状态</li>
     </ul>
     <ul class="check-shenpi-content">
-        {{#each data}}
-        <li class="check-shenpi-detail" data_id={{id}}>
+       
+        {{#compare  showClass '==' "initiate"}}
+          {{#each data}}
+          <li class="check-shenpi-detail check-shenpi-detail-initiate" data_id={{id}}>
             <div class="name-check-first">
-                <img src={{user_avatar}} class="avatar-imgs-shenpi"/>
-                <span>{{name}}</span>
-            </div>
-            <div data_type={{type}}>{{types type}}</div>
-            <div>{{sliceName name}}</div>
-            <div>{{substrYear send_time}}</div>
-            <div>{{status}}</div>   
-        </li>
-        {{/each}}
+                        <img src={{user_avatar}} class="avatar-imgs-shenpi"/>
+                        <span>{{name}}</span>
+                    </div>
+                    <div data_type={{type}}>{{types type}}</div>
+                    <div>{{sliceName name}}</div>
+                    <div>{{substrYear send_time}}</div>
+                    <div>{{status}}</div>   
+                </li>
+         {{/each}}
+        {{/compare }}
+        {{#compare  showClass '==' "expectation"}}
+         {{#each data}}
+        <li class="check-shenpi-detail check-shenpi-detail-expectation" data_id={{id}}>
+            <div class="name-check-first">
+                        <img src={{user_avatar}} class="avatar-imgs-shenpi"/>
+                        <span>{{name}}</span>
+                    </div>
+                    <div data_type={{type}}>{{types type}}</div>
+                    <div>{{sliceName name}}</div>
+                    <div>{{substrYear send_time}}</div>
+                    <div>{{status}}</div>   
+                </li>
+         {{/each}}
+        {{/compare }}
+        {{#compare  showClass '==' "inform"}}
+         {{#each data}}
+        <li class="check-shenpi-detail check-shenpi-detail-inform" data_id={{id}}>
+            <div class="name-check-first">
+                        <img src={{user_avatar}} class="avatar-imgs-shenpi"/>
+                        <span>{{name}}</span>
+                    </div>
+                    <div data_type={{type}}>{{types type}}</div>
+                    <div>{{sliceName name}}</div>
+                    <div>{{substrYear send_time}}</div>
+                    <div>{{status}}</div>   
+                </li>
+         {{/each}}
+        {{/compare }}
+        {{#compare  showClass '==' "completed"}}
+         {{#each data}}
+        <li class="check-shenpi-detail check-shenpi-detail-completed" data_id={{id}}>
+            <div class="name-check-first">
+                        <img src={{user_avatar}} class="avatar-imgs-shenpi"/>
+                        <span>{{name}}</span>
+                    </div>
+                    <div data_type={{type}}>{{types type}}</div>
+                    <div>{{sliceName name}}</div>
+                    <div>{{substrYear send_time}}</div>
+                    <div>{{status}}</div>   
+                </li>
+         {{/each}}
+        {{/compare }}
+       
     </ul>
 </table>

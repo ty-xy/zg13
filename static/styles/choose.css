@@ -887,6 +887,7 @@ a.message-control-button {
     .modal-footers>.button-confirm{
         width:180px;
         height:40px;
+        line-height: 40px;
         background: #4584FF;
         border: 1px solid #4584FF;
         border-radius: 4px;
@@ -1089,10 +1090,14 @@ a.message-control-button {
     .img-border{
         height:48px;
         width:48px;
-        border:1px solid #ddd;
+        border:1px solid rgba(221,221,221,0.5);
         line-height:48px;
         text-align:center;
         /* margin-left:px; */
+    }
+    .img-none-border{
+        border:none;
+        margin-right:10px;
     }
     .control-img{
         text-align:right;
@@ -1162,24 +1167,43 @@ a.message-control-button {
      margin-top:10px;
      cursor: pointer;
    }
+   
    .avatar-imgs-shenpi{
      height:38px;
      width:38px;
      border-radius:50%;
    }
    .beijing-bakc>li:first-child{
-       width:175px;
+        width:235px;
+        text-align:left;
+        margin-left:54px;
+       /* margin-left:54px; */
    }
-   .name-check-first{
+   .beijing-bakc>li{
+        width:175px;
+        box-sizing:border-box;
+        /* border:1px solid red; */
+        text-align: center;
+   }
+   .check-shenpi-detail>div.name-check-first{
+       width:280px;
+       text-align:left;
+       margin-left:20px;
+   }
+   .check-shenpi-detail>div{
        width:175px;
-       /* margin-left:18px; */
+       box-sizing:border-box;
+       /* border:1px solid red; */
+       text-align: center;
    }
    .common-flex{
        display: flex
    }
    .check-detail-flex{
       margin-left:30px;
-      margin-top:30px 
+      margin-top:30px ;
+      overflow-y: auto;
+      overflow-x: hidden
    }
    .application_people{
       margin-left:10px 
@@ -1357,10 +1381,16 @@ a.message-control-button {
        border-right: 10px dashed #fff;
    }
    .connect-line{
-       transform:rotate(-90deg);
+       /* transform:rotate(-90deg); */
        /* width:86.5px; */
        opacity: 0.5;
        border: 1px solid #DDDDDD;
+       height:73px;
+       width:0;
+       margin-top:-3px;
+       margin-left:6px;
+       margin-bottom:-35px;
+       display: inline-block;
    }
    .common-flex-links{
        display: flex;
@@ -1386,3 +1416,68 @@ a.message-control-button {
    .icon-back-color{
       color:#39D1A9;
    }
+   .check-shenpi-content{
+       overflow-y:auto;
+       overflow-x: hidden;
+   }
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300);
+
+/* body {
+  background: #f1f1f1;
+  font-family: 'Roboto', sans-serif;
+} */
+
+.loading-bro {
+  margin: 50px auto;
+  width: 150px;
+  
+}
+.loading-bro > h1 {
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 1em;
+    font-weight: 300;
+    color: #8E8E8E;
+  }
+  #load {
+		width: 150px;
+    animation: loading 3s linear infinite;
+  
+    }
+    #loading-inner {
+		
+        animation: loading-circle 2s linear infinite;
+        stroke: #51BBA7;
+        fill: transparent;
+      }
+    /* #loading-inner   {
+        stroke: {
+            dashoffset: 0;
+            dasharray: 300;
+            width: 10;
+            miterlimit: 10;
+            linecap: round;
+          }
+      } */
+@keyframes loading {
+		0% { 
+      transform: rotate(0); 
+    }
+		100% { 
+      transform: rotate(360deg);
+    }
+}
+@keyframes loading-circle {
+		0% { 
+      stroke-dashoffset: 0
+    }
+		100% { 
+      stroke-dashoffset: -600;
+    }
+}
+.common-flex:last-child>.common-flex-links>.connect-line{
+    display:none
+}
+.total-day{
+    margin-left:6px;
+}

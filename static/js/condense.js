@@ -189,6 +189,7 @@ $(function () {
         // Expanding a message can mean either uncollapsing or
         // uncondensing it.
         var row = $(this).closest(".message_row");
+       
         var message = current_msg_list.get(rows.id(row));
         var content = row.find(".message_content");
         if (message.collapsed) {

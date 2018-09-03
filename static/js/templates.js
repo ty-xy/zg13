@@ -54,9 +54,12 @@ Handlebars.registerHelper('sliceName', function (str) {
 Handlebars.registerHelper('types', function (str) {
      if (str==="leave"){
         return "请假"
-     }else{
+     }else if(str==="evection"){
         return "出差"
+     }else{
+        return "报销"
      }
+
 });
 Handlebars.registerHelper('if_and', function () {
     // Execute the conditional code if all conditions are true.

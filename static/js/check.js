@@ -10,14 +10,87 @@ var check = (function () {
             moveContent()
         })
     }
-    function get_data(datas){
-        var lis = $(".move_ctn").children()
+    function backIcons1 (){
+        $(".first-icon").unbind("click").on("click",function(e){
+            moveContent()
+            // console.log("我已经审批")
+            $(".already_checked").addClass("active").siblings().removeClass("active")
+            $("#already_check").addClass("in active").siblings().removeClass("in active")
+            channel.get({
+                url:"/json/zg/approval/list/completed",
+                success:function(dataF){
+                    var  data = dataF.completed_list
+                    var html = templates.render("table",{data:data,showClass:"completed"})
+                    $("#already_check").html(html)
+                    $(".check-shenpi-content").height($(window).height()-244)
+                }
+            })
+        })
+    }
+    function backIcons2(){
+        $(".first-icon").unbind("click").on("click",function(e){
+            moveContent()
+            console.log("返回待我审批")
+             $(".expect-check").addClass("active").siblings().removeClass("active")
+             $("#ios").addClass("in active").siblings().removeClass("in active")
+             channel.get({
+                url:"/json/zg/approval/list/expectation",
+                success:function(dataF){
+                    var  data = dataF.iaitiate_list
+                   
+                    var  html = templates.render("table",{data:data, showClass:"expectation"})
+                    $("#ios").html(html)
+                    $(".check-shenpi-content").height($(window).height()-244)
+                }
+            })
+        })
+    }
+    function backIcons3(){
+        $(".first-icon").unbind("click").on("click",function(e){
+            moveContent()
+            console.log("我发送的")
+             $(".send_apply").addClass("active").siblings().removeClass("active")
+             $("#originator").addClass("in active").siblings().removeClass("in active")
+             channel.get({
+                url:"/json/zg/approval/initiate/me",
+                success:function(dataF){
+                    var  data = dataF.initiate_list
+                    
+                    var  html = templates.render("table",{data:data,showClass:"initiate"})
+                    $("#originator").html(html)
+                    $(".check-shenpi-content").height($(window).height()-244)
+                }
+            })
+        })
+    }
+    function backIcons4(){
+        $(".first-icon").unbind("click").on("click",function(e){
+            moveContent()
+            // console.log("抄送我的")
+             $(".copy_myown").addClass("active").siblings().removeClass("active")
+             $("#make_copy").addClass("in active").siblings().removeClass("in active")
+             channel.get({
+                url:"/json/zg/approval/inform",
+                success:function(dataF){
+                    var  data = dataF.inform_list
+                    var html = templates.render("table",{data:data,showClass:"inform"})
+                    $("#make_copy").html(html)
+                    $(".check-shenpi-content").height($(window).height()-244)
+                }
+            })
+        })
+    }
+    function get_data(datalis,func){
+        // var lis = $(".move_ctn").children()
+         var datas= {
+                types:datalis.types,
+                id:datalis.id
+            }
         channel.get({
             url:"/json/zg/approval",
             data:datas,
                 success:function(datalist){
                     var data =datalist.data
-                    console.log(datalist)
                     if(data.feedback_list.length===0){
                         data.shown=false
                     }else{
@@ -26,20 +99,15 @@ var check = (function () {
                     $(".move_ctn").children().remove();
                     var li = templates.render("check_detail",data)
                     $(".move_ctn").html(li)
-                    backIcons(lis)
+                    func()
+                    $(".check-detail-flex").height($(window).height()-244)
                     if(data.button_status!==5){
-                        feedBack(datas.types,datas.id)
+                        feedBack(datas.types,datas.id,func)
                     }
                 }
             })
     }
-    function backIcons(lis){
-        $(".first-icon").on("click",function(e){
-            $(".move_ctn").html(lis)
-        })
-    }
-     //反馈
-     function feedBack (types,id) {
+     function feedBack (types,id,func) {
         $("body").on("click",".feedBack",function(e){
             var rendered = templates.render("feed_back_content")
             $(".modal-logs").html(rendered)
@@ -56,14 +124,14 @@ var check = (function () {
                     data:JSON.stringify(data),
                     contentType:"application/json",
                     success:function(dataList){
-                        console.log("gafdgagfa",dataList)
+                        // console.log("gafdgagfa",dataList)
                        if(dataList.errno===0){
                             $(".modal-logs").hide()
                             var data = {
                                 types:types,
                                 id:id,
                             }
-                            get_data(data)
+                            get_data(data,func)
                        }
                     }
                 })
@@ -75,18 +143,19 @@ var check = (function () {
         channel.get({
             url:content,
             success:function(data){
-                console.log(data)
+                // console.log(data)
                if(data.errno===0){
                 var  data = data.initiate_list
+                
                 if(data.length===0){
                     var html = templates.render("empty")
                     $("#originator").html(html)
                     $(".tabs-contents").height($(window).height()-120)
                 }else{
-                    var html = templates.render("table",{data:data})
+                    var html = templates.render("table",{data:data,showClass:"initiate"})
                     $("#originator").html(html)
-                    var lis = $(".move_ctn").children()
-                    $(".move_ctn ").on("click",".check-shenpi-detail",function(e){
+                    $(".check-shenpi-content").height($(window).height()-244)
+                    $(".move_ctn").on("click",".check-shenpi-detail-initiate",function(e){
                         var types = $(this).children().eq(1).attr("data_type")
                         var id = $(this).attr("data_id")
                         var datater = {
@@ -97,10 +166,16 @@ var check = (function () {
                             url:"/json/zg/approval",
                             data:datater,
                             success:function(datalist){
+                                // console.log(datalist)
                                 var data =datalist.data
+                                if(data.feedback_list.length===0){
+                                    data.shown=false
+                                }else{
+                                    data.shown=true
+                                }
                                 var li = templates.render("check_detail",data)
                                 $(".move_ctn").html(li)
-                                backIcons(lis)
+                                backIcons3()
                                 $(".revoke").on("click",function(e){
                                     var rendered = templates.render("feed_back_content",{revolke_tip:true})
                                     $(".modal-logs").html(rendered)
@@ -117,7 +192,7 @@ var check = (function () {
                                         contentType:"application/json",
                                         success:function(datas){
                                                  $(".modal-logs").hide()
-                                                get_data(datater)
+                                                get_data(datater,backIcons3)
                                             }
                                         })
                                     })
@@ -178,6 +253,9 @@ var check = (function () {
             var ids= Number($(this).attr('data_id'))
               resend_list.push(ids)
           })
+          
+          var img_url = $(".img-none-border").attr("data-url")
+          
         var  data = {
             approval_type:type,
             approver_list:send_list,
@@ -185,15 +263,29 @@ var check = (function () {
             end_time:end_time,
             count:count,
             cause:cause,
-            observer_list:resend_list
+            observer_list:resend_list,
+            img_url:img_url
         }
         return data
     }
+    upload.feature_check($("#img-border #attach_file"));
+    $("#img-border").on("click", "#attach_file", function (e) {
+       // e.preventDefault();
+       $("#img-border #file_inputs").trigger("click");
+   });
+    function make_upload_absolute(uri) {
+    if (uri.indexOf(compose.uploads_path) === 0) {
+        // Rewrite the URI to a usable link
+        return compose.uploads_domain + uri;
+    }
+    return uri;
+ }
     $("body").ready(function(){
        $("body").on("click",".common_check",function(e){
             $(this).addClass("backgr").siblings().removeClass("backgr")
             moveContent()
         })
+      
         function common_choose(){
             var arrlist =[]
             var peopleList = []
@@ -212,10 +304,10 @@ var check = (function () {
                     namel:name.slice(0,4)+"....",
                     small:true
                 }
-                console.log(peppleList)
+                // console.log(peppleList)
                 if(peopleList.indexOf(peppleList.id)===-1){
                     arrlist.push(peppleList)
-                    console.log(arrlist)
+                    // console.log(arrlist)
                 }
             })
            
@@ -247,7 +339,7 @@ var check = (function () {
                $(".modal-log-content").empty()
         
             })
-        }
+        }  
         function confirms(){
             $(".choose-right-list").on('click','.button-confirm',function(e){
                 var li = common_choose()
@@ -268,7 +360,38 @@ var check = (function () {
                 $(".modal-log-content").empty()
              })
         }
-     
+        var uploadFinished =function(i, file, response){
+        if (response.uri === undefined) {
+            return;
+            }
+            var split_uri = response.uri.split("/");
+            var filename = split_uri[split_uri.length - 1];
+            var type = file.type.split("/")
+                typeName= type[type.length-1]
+            var uri = make_upload_absolute(response.uri);
+            // console.log(i,uri)
+            if(i!==-1){
+                var div  = '<div class ="img-border img-none-border" data-url= '+uri+'>\
+                              <img src='+uri+'  />\
+                            </div>'
+                $(".add-imgs-control").after(div)
+            }
+         }
+         function uploadFile (){
+            $("#img-border").filedrop({
+                url: "/json/user_uploads",
+                fallback_id: 'file_inputs',  // Target for standard file dialog
+                paramname: "file",
+                maxfilesize: page_params.maxfilesize,
+                data: {
+                    csrfmiddlewaretoken: csrf_token,
+                },
+                uploadFinished: uploadFinished,
+                afterAll:function(contents){
+                    // console.log(contents,321312)
+                }
+            })
+         }
         //请假
         $(".move_ctn").on("click",".ask_for_leave",function(e){
             $(".move_ctn").children().remove();
@@ -293,6 +416,7 @@ var check = (function () {
             $(".add_log_peoples").on("click",function(e){
                 attendance.peopleChoose(confirms)
             })
+            uploadFile()
             $("#btn-test").on("click",function(e){
                  e.preventDefault()
                  var data = commonContent('leave')
@@ -315,7 +439,8 @@ var check = (function () {
             var li = templates.render("ask-for-leave",{show:true})
             $(".move_ctn").html(li)
             height()
-            backIcon()
+            backIcon($("#img-border"))
+            uploadFile()
             $('#newplan_datetimepicker2').datetimepicker({  
                 language:"zh-CN",  
                 todayHighlight: true,  
@@ -346,9 +471,10 @@ var check = (function () {
                             moveContent()
                          }
                      }
-                 })
+                 }) 
             })
         })
+        //差旅费
         $(".move_ctn").on("click",".reimburse-moneny",function(e){
             $(".move_ctn").children().remove();
             var li = templates.render("ask-for-leave",{showdate:true})
@@ -356,21 +482,45 @@ var check = (function () {
             $(".add_log_people").on("click",function(e){
                 attendance.peopleChoose(confirm)
             })
+            $(".add_log_peoples").on("click",function(e){
+                attendance.peopleChoose(confirms)
+            })
             height()
             backIcon()
+            uploadFile()
             $("#btn-test").on("click",function(e){
                 e.preventDefault()
                 var amount = $("#username").val()
+                if(amount===""){
+                    alert()
+                    return
+                }
                 var category = $("#email").val()
+                if(category===""){
+                    alert()
+                    return
+                }
                 var send_list =[]
-                $(".check-people").children().not($(".add_log_people")).each(function(){
+                $(".shenpi-persons").children().not($(".add_log_people")).each(function(){
                     var ids= Number($(this).attr('data_id'))
                     send_list.push(ids)
                 })
+                if(send_list.length===0){
+                    alert()
+                    return
+                }
+                var resend_list =[]
+                $(".send-check-people").children().not($(".add_log_peoples")).each(function(){
+                    var ids= Number($(this).attr('data_id'))
+                    resend_list.push(ids)
+                })
+                var img_url = $(".img-none-border").attr("data-url")
                 var data ={
                     amount:amount,
                     category:category,
-                    approver_list:send_list
+                    approver_list:send_list,
+                    observer_list:resend_list,
+                    img_url:img_url
                 }
                 channel.post({
                     url:'/json/zg/approval/reimburse/',
@@ -397,16 +547,18 @@ var check = (function () {
                 url:"/json/zg/approval/list/expectation",
                 success:function(data){
                    if(data.errno===0){
-                        var  data = data.iaitiate_list
+                        var data = data.iaitiate_list
+                        //    data.showClass = "expectation"
                         if(data.length===0){
                             var html = templates.render("empty")
                             $("#ios").html(html)
                             $(".tabs-contents").height($(window).height()-120)
                         }else{
-                           var html = templates.render("table",{data:data})
+                            // console.log(data)
+                           var html = templates.render("table",{data:data,showClass:"expectation"})
                             $("#ios").html(html)
-                             var  lis = $(".move_ctn").children()
-                            $(".move_ctn").on("click",".check-shenpi-detail",function(e){
+                            $(".check-shenpi-content").height($(window).height()-244)
+                            $(".move_ctn ").on("click",".check-shenpi-detail-expectation",function(e){
                                 var types = $(this).children().eq(1).attr("data_type")
                                 var id = $(this).attr("data_id")
                                 var data = {
@@ -418,11 +570,13 @@ var check = (function () {
                                     data:data,
                                     success:function(datalist){
                                         var data =datalist.data
-                                       
+
+                                        // console.log("返回待我审批1")
                                         $(".move_ctn").children().remove();
                                         var li = templates.render("check_detail",data)
                                         $(".move_ctn").html(li)
-                                        backIcons(lis)
+                                      
+                                        backIcons2()
                                         $(".no_agree").on("click",function(e){
                                             datalist = {
                                                 types:types,
@@ -440,7 +594,7 @@ var check = (function () {
                                                         types:types,
                                                         id:id,
                                                     }
-                                                    get_data(data)
+                                                    get_data(data,backIcons2)
                                                 }
                                             })
                                         })
@@ -461,7 +615,7 @@ var check = (function () {
                                                         types:types,
                                                         id:id,
                                                     }
-                                                    get_data(data)
+                                                    get_data(data,backIcons2)
                                                 }
                                             })
                                         })
@@ -480,26 +634,54 @@ var check = (function () {
         })
         // 抄送我的
         $("body").on("click",".copy_myown",function(e){
+            //    var that = $(this).attr("class")
+            //    var index = that.indexOf("active")
             channel.get({
                 url:"/json/zg/approval/inform",
                 success:function(data){
-                   if(data.errno===0){
+                    if(data.errno===0){
                     var  data = data.inform_list
+                    
                     if (data.length===0){
                         var html = templates.render("empty")
                         $("#make_copy").html(html)
                         $(".tabs-contents").height($(window).height()-120)
-                     } else {
-                        var html = templates.render("table",{data:data})
+                     } else {                   
+                        var html = templates.render("table",{data:data,showClass :"inform"})
                         $("#make_copy").html(html)
-                        $(".move_ctn").on("click",".check-shenpi-detail",function(e){
+                        $(".check-shenpi-content").height($(window).height()-244)
+                        $(".move_ctn").on("click",".check-shenpi-detail-inform",function(e){
                             var types = $(this).children().eq(1).attr("data_type")
                             var id = $(this).attr("data_id")
-                            var data = {
+                            var datas = {
                                 types:types,
-                                id:id
+                                id:id,
+                                // dataClass:that
                             }
-                            get_data(data)
+                            channel.get({
+                                url:"/json/zg/approval",
+                                data:datas,
+                                    success:function(datalist){
+                                        var data =datalist.data
+                                    //    console.log("抄送我的1")
+                                        if(data.feedback_list.length===0){
+                                            data.shown=false
+                                        }else{
+                                            data.shown=true
+                                        }
+                                        $(".move_ctn").children().remove();
+                                        var li = templates.render("check_detail",data)
+                                        $(".move_ctn").html(li)
+                                        // backIcons(lis)
+                                        backIcons4()
+                                       
+                                        $(".check-detail-flex").height($(window).height()-244)
+                                        if(data.button_status!==5){
+                                            feedBack(datas.types,datas.id,backIcons4)
+                                        }
+                                    }
+                                })
+                          
                         })
                       }
                    }
@@ -539,17 +721,40 @@ var check = (function () {
                         $("#already_check").html(html)
                         $(".tabs-contents").height($(window).height()-120)
                      } else {
-                        var html = templates.render("table",{data:data})
+                        var html = templates.render("table",{data:data,showClass:"completed"})
                         $("#already_check").html(html)
-                        $(".check-shenpi-detail").on("click",function(e){
+                        $(".check-shenpi-content").height($(window).height()-244)
+                        $(".move_ctn").on("click",".check-shenpi-detail-completed",function(e){
                             var types = $(this).children().eq(1).attr("data_type")
                             var id = $(this).attr("data_id")
-                            var data = {
+                            var datas= {
                                 types:types,
                                 id:id
                             }
-                            get_data(data)
-                            })
+                            channel.get({
+                                url:"/json/zg/approval",
+                                data:datas,
+                                    success:function(datalist){
+                                        // console.log(datalist)
+                                        var data =datalist.data
+                                        if(data.feedback_list.length===0){
+                                            data.shown=false
+                                        }else{
+                                            data.shown=true
+                                        }
+                                        $(".move_ctn").children().remove();
+                                        var li = templates.render("check_detail",data)
+                                        $(".move_ctn").html(li)
+                                        backIcons1()
+                                        // backIcons(lis)
+                                        $(".check-detail-flex").height($(window).height()-244)
+                                        if(data.button_status!==5){
+                                            feedBack(datas.types,datas.id,backIcons1)
+                                        }
+                                    }
+                                })
+                               
+                           })
                         }
                     }
                 }
