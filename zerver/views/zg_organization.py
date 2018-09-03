@@ -22,9 +22,10 @@ def department_list(request, user_profile):
             department['name'] = name
             department['id'] = department_obj.id
             department['num'] = user_count
-
             department_lists.append(department)
-    return JsonResponse({'errno': 0, 'message': '成功', 'department_lists': department_lists})
+            not_department_count = UserProfile.objects.filter(department=None, realm=user_profile.realm.id).count()
+
+    return JsonResponse({'errno': 0, 'message': '成功', 'department_lists': department_lists,'not_department_count':not_department_count})
 
 
 # 没有部门成员
@@ -148,14 +149,14 @@ def user_mobile_batch(request, user_profile):
                 return JsonResponse({'errno': 2, 'message': '移动成员失败'})
             user_objs[0].department = department_objs[0]
             user_objs[0].save()
-            return JsonResponse({'errno': 0, 'message': '移动成功'})
+        
         elif types == 'del':
             # try:
             print(user_id)
             UserProfile.objects.get(id=user_id).delete()
             # except Exception:
             #     return JsonResponse({'errno': 3, 'message': '删除失败'})
-            return JsonResponse({'errno': 0, 'message': '删除成功'})
+    return JsonResponse({'errno': 0, 'message': '成功'})
 
 
 # 人员详情信息
@@ -219,3 +220,4 @@ def department_user_list(request, user_profile):
         user_dict['id'] = i.id
         user_list.append(user_dict)
     return JsonResponse({'errno': 0, 'message': '成功', 'user_list': user_list})
+ 

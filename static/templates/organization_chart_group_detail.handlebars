@@ -44,10 +44,12 @@
                 账户
             </p>
         </li>
-        <li class="fix">
+        {{#each user_list}}
+        <li class="fix" user_id="{{id}}">
             <input type="checkbox">
-            <p>马晓建</p>
+            <p>{{name}}</p>
             <p>18888888888</p>
         </li>
+        {{/each}}
     </ul>
 </div>
