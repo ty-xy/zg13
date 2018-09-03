@@ -19,9 +19,9 @@ def department_list(request, user_profile):
             department = {}
             name = department_obj.name
             user_count = UserProfile.objects.filter(department=department_obj.id, realm=user_profile.realm.id).count()
-            name += '(' + str(user_count) + '人)'
             department['name'] = name
             department['id'] = department_obj.id
+            department['num'] = user_count
 
             department_lists.append(department)
     return JsonResponse({'errno': 0, 'message': '成功', 'department_lists': department_lists})
@@ -182,12 +182,7 @@ def department_del(request, user_profile):
 
     if not user_profile.is_realm_admin:
         return JsonResponse({'errno': 1, 'message': '无权限'})
-    user_objs = UserProfile.objects.filter(department=department_id)
-
-    for user_obj in user_objs:
-        user_obj.department = ''
-        user_obj.save()
-
+    user_objs = ZgDepartment.objects.filter(id=department_id).delete()
     return JsonResponse({'errno': 0, 'message': '成功'})
 
 
@@ -199,13 +194,11 @@ def department_up(request, user_profile):
 
     department_name = req.get('department_name')
 
-    if user_profile.is_realm_admin == False or user_profile.zg_permission != 1:
+    if user_profile.is_realm_admin == 'f' and user_profile.zg_permission != 1:
         return JsonResponse({'errno': 1, 'message': '无权限'})
 
     aa = ZgDepartment.objects.filter(id=department_id)
-    aa[0].name = department_name
-    aa[0].save()
-    user_profile.save()
+    aa.update(name = department_name)
 
     return JsonResponse({'errno': 0, 'message': '修改成功'})
 

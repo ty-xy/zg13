@@ -617,7 +617,7 @@ function pick_empty_narrow_banner() {
             $(".persistent_data").on("mouseout",".only_tip",function(){
                 $(this).children().last().children().last().hide()
             })
-            return $("#empty_star_narrow_message");
+            return $("#supervise_ctn");
         } else if (first_operand === "mentioned") {
             $("#zfilt").addClass("focused_table");
             $(".notice_ctn_boxs").hide()
