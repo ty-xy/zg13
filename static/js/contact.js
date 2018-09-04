@@ -661,7 +661,7 @@ var contact = (function(){
                 success:function(res){
                     var department_lists = res.department_lists
                     var organization_team_dept = templates.render("organization_team_dept",{department_lists:department_lists})
-                    $(".organization_team_bottom_box").append(organization_team_dept)
+                    $(".organization_team_bottom_box").prepend(organization_team_dept)
                 }
             })
             //获取无部门人员
@@ -993,8 +993,49 @@ var contact = (function(){
             //部门列表点击
             $(".move_ctn").on("click",".organization_team_dept_name",function(){
                 $(this).addClass("color_li").siblings().removeClass("color_li")
+                $(".organization_team_bottom_box").children().remove()
+                var id = $(this).attr("department_id")
+                var department_name = $(this).children().children().first().text()
+                $.ajax({
+                    type:"GET",
+                    url:"json/zg/department/user/list",
+                    data:{department_id:id},
+                    contentType:"application/json",
+                    success:function(res){
+                        $(".organization_team_bottom_box").children().remove()
+                        var user_list = res.user_list
+                        var organization_chart_department_detail = templates.render("organization_chart_department_detail",{user_list:user_list,department_name:department_name})
+                        $(".organization_team_bottom_box").append(organization_chart_department_detail)
+                        //返回上一级
+                        $(".organization_team_bottom_box").on("click",".back_up",function(){
+                            $(".organization_team_bottom_box").children().remove()
+                            $(".organization_chart_department_box").remove()
+                            //获取部门列表
+                            $.ajax({
+                                type:"GET",
+                                url:"json/zg/department/list",
+                                success:function(res){
+                                    $(".organization_team_dept_box").remove()
+                                    var department_lists = res.department_lists
+                                    var organization_team_dept = templates.render("organization_team_dept",{department_lists:department_lists})
+                                    $(".organization_team_bottom_box").prepend(organization_team_dept)
+                                }
+                            })
+                            //获取无部门人员
+                            $.ajax({
+                                type:"GET",
+                                url:"json/zg/not/department/user",
+                                success:function(res){
+                                    $(".organization_team_single_box").remove()
+                                    var not_department_list = res.not_department_list
+                                    var organization_team_single = templates.render("organization_team_single",{not_department_list:not_department_list})
+                                    $(".organization_team_bottom_box").append(organization_team_single)
+                                }
+                            })
+                        })
+                    }
+                })
             })
-
         })
     })
 function updataList(){

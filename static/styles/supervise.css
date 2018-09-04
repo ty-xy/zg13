@@ -1137,3 +1137,45 @@
     width: 941px;
     text-align: left;
 }
+.organization_chart_department_name{
+    font-size: 16px;
+    color: #333333;
+    letter-spacing: 0.15px;
+    width: 100px;
+    cursor: pointer;
+}
+.organization_chart_department_box{
+    margin: 0;
+}
+.organization_chart_department_box>li{
+    margin: 20px 0;
+}
+.organization_chart_department_img_box{
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 10px;
+    background: #14A4FA;
+    float: left;
+}
+.organization_chart_department_people{
+    font-size: 16px;
+    color: #333333;
+    letter-spacing: 0.18px;
+    float: left;
+    line-height: 38px;
+    margin: 0;
+}
+.organization_chart_department_detail{
+    margin: 4px 20px;
+}
+.organization_chart_department_name{
+    margin-left: 10px;
+    margin-top: 30px;
+}
+.back_up{
+    display: block;
+    transform: rotate(180deg);
+    float: left;
+}
