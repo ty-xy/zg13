@@ -575,6 +575,7 @@ v1_api_and_json_patterns = [
     # 收藏
     url(r'^zg/collection/$', rest_dispatch,
         {'PUT': 'zerver.views.zg_restful_api.zg_collection'}),
+    # 收藏列表
     url(r'^zg/collection/list$', rest_dispatch,
         {'GET': 'zerver.views.zg_restful_api.zg_collection_list'}),
     # 频道权限认证
@@ -582,12 +583,15 @@ v1_api_and_json_patterns = [
         {'GET': 'zerver.views.zg_restful_api.zg_stream_permissions'}),
 
     # 添加云盘
-    url(r'^zg/clouddisk/add$', rest_dispatch,
+    url(r'^zg/clouddisk/add/$', rest_dispatch,
         {'POST': 'zerver.views.zg_restful_api.zg_abb_clouddisk'}),
 
-    # 查看云盘
-    url(r'^zg/clouddisk/user', rest_dispatch,
+    # 查看云盘列表
+    url(r'^zg/clouddisk/user$', rest_dispatch,
         {'GET': 'zerver.views.zg_restful_api.user_clouddisk'}),
+
+    url(r'^zg/file/details$', rest_dispatch,
+        {'GET': 'zerver.views.zg_restful_api.file_details'}),
 
 
 

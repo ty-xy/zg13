@@ -56,6 +56,7 @@ MAX_QUEUE_TIMEOUT_SECS = 7 * 24 * 60 * 60
 # wireless routers that kill "inactive" http connections.
 HEARTBEAT_MIN_FREQ_SECS = 45
 
+
 class ClientDescriptor:
     def __init__(self,
                  user_profile_id: int,
@@ -63,11 +64,11 @@ class ClientDescriptor:
                  realm_id: int, event_queue: 'EventQueue',
                  event_types: Optional[Sequence[str]],
                  client_type_name: Text,
-                 apply_markdown: bool=True,
-                 client_gravatar: bool=True,
-                 all_public_streams: bool=False,
-                 lifespan_secs: int=0,
-                 narrow: Iterable[Sequence[str]]=[]) -> None:
+                 apply_markdown: bool = True,
+                 client_gravatar: bool = True,
+                 all_public_streams: bool = False,
+                 lifespan_secs: int = 0,
+                 narrow: Iterable[Sequence[str]] = []) -> None:
         # These objects are serialized on shutdown and restored on restart.
         # If fields are added or semantics are changed, temporary code must be
         # added to load_event_queues() to update the restored objects.
@@ -195,12 +196,13 @@ class ClientDescriptor:
             self._timeout_handle = None
             # All clients get heartbeat events
             self.add_event(dict(type='heartbeat'))
+
         ioloop = tornado.ioloop.IOLoop.instance()
         interval = HEARTBEAT_MIN_FREQ_SECS + random.randint(0, 10)
         if self.client_type_name != 'API: heartbeat test':
             self._timeout_handle = ioloop.call_later(interval, timeout_callback)
 
-    def disconnect_handler(self, client_closed: bool=False) -> None:
+    def disconnect_handler(self, client_closed: bool = False) -> None:
         if self.current_handler_id:
             clear_descriptor_by_handler_id(self.current_handler_id, None)
             clear_handler_by_id(self.current_handler_id)
@@ -226,6 +228,7 @@ class ClientDescriptor:
         do_gc_event_queues({self.event_queue.id}, {self.user_profile_id},
                            {self.realm_id})
 
+
 def compute_full_event_type(event: Mapping[str, Any]) -> str:
     if event["type"] == "update_message_flags":
         if event["all"]:
@@ -233,6 +236,7 @@ def compute_full_event_type(event: Mapping[str, Any]) -> str:
             return "all_flags/%s/%s" % (event["flag"], event["operation"])
         return "flags/%s/%s" % (event["operation"], event["flag"])
     return event["type"]
+
 
 class EventQueue:
     def __init__(self, id: str) -> None:
@@ -263,7 +267,7 @@ class EventQueue:
         self.next_event_id += 1
         full_event_type = compute_full_event_type(event)
         if (full_event_type in ["pointer", "restart"] or
-                full_event_type.startswith("flags/")):
+            full_event_type.startswith("flags/")):
             if full_event_type not in self.virtual_events:
                 self.virtual_events[full_event_type] = copy.deepcopy(event)
                 return
@@ -318,6 +322,7 @@ class EventQueue:
         self.queue = deque(contents)
         return contents
 
+
 # maps queue ids to client descriptors
 clients = {}  # type: Dict[str, ClientDescriptor]
 # maps user id to list of client descriptors
@@ -334,8 +339,9 @@ gc_hooks = []  # type: List[Callable[[int, ClientDescriptor, bool], None]]
 
 next_queue_id = 0
 
+
 def clear_client_event_queues_for_testing() -> None:
-    assert(settings.TEST_SUITE)
+    assert (settings.TEST_SUITE)
     clients.clear()
     user_clients.clear()
     realm_clients_all_streams.clear()
@@ -343,22 +349,28 @@ def clear_client_event_queues_for_testing() -> None:
     global next_queue_id
     next_queue_id = 0
 
+
 def add_client_gc_hook(hook: Callable[[int, ClientDescriptor, bool], None]) -> None:
     gc_hooks.append(hook)
+
 
 def get_client_descriptor(queue_id: str) -> ClientDescriptor:
     return clients.get(queue_id)
 
+
 def get_client_descriptors_for_user(user_profile_id: int) -> List[ClientDescriptor]:
     return user_clients.get(user_profile_id, [])
 
+
 def get_client_descriptors_for_realm_all_streams(realm_id: int) -> List[ClientDescriptor]:
     return realm_clients_all_streams.get(realm_id, [])
+
 
 def add_to_client_dicts(client: ClientDescriptor) -> None:
     user_clients.setdefault(client.user_profile_id, []).append(client)
     if client.all_public_streams or client.narrow != []:
         realm_clients_all_streams.setdefault(client.realm_id, []).append(client)
+
 
 def allocate_client_descriptor(new_queue_data: MutableMapping[str, Any]) -> ClientDescriptor:
     global next_queue_id
@@ -369,6 +381,7 @@ def allocate_client_descriptor(new_queue_data: MutableMapping[str, Any]) -> Clie
     clients[queue_id] = client
     add_to_client_dicts(client)
     return client
+
 
 def do_gc_event_queues(to_remove: AbstractSet[str], affected_users: AbstractSet[int],
                        affected_realms: AbstractSet[int]) -> None:
@@ -392,6 +405,7 @@ def do_gc_event_queues(to_remove: AbstractSet[str], affected_users: AbstractSet[
         for cb in gc_hooks:
             cb(clients[id].user_profile_id, clients[id], clients[id].user_profile_id not in user_clients)
         del clients[id]
+
 
 def gc_event_queues() -> None:
     start = time.time()
@@ -417,6 +431,7 @@ def gc_event_queues() -> None:
     statsd.gauge('tornado.active_queues', len(clients))
     statsd.gauge('tornado.active_users', len(user_clients))
 
+
 def dump_event_queues() -> None:
     start = time.time()
 
@@ -426,6 +441,7 @@ def dump_event_queues() -> None:
 
     logging.info('Tornado dumped %d event queues in %.3fs'
                  % (len(clients), time.time() - start))
+
 
 def load_event_queues() -> None:
     global clients
@@ -453,13 +469,15 @@ def load_event_queues() -> None:
     logging.info('Tornado loaded %d event queues in %.3fs'
                  % (len(clients), time.time() - start))
 
-def send_restart_events(immediate: bool=False) -> None:
+
+def send_restart_events(immediate: bool = False) -> None:
     event = dict(type='restart', server_generation=settings.SERVER_GENERATION)  # type: Dict[str, Any]
     if immediate:
         event['immediate'] = True
     for client in clients.values():
         if client.accepts_event(event):
             client.add_event(event.copy())
+
 
 def setup_event_queue() -> None:
     if not settings.TEST_SUITE:
@@ -481,6 +499,7 @@ def setup_event_queue() -> None:
     pc.start()
 
     send_restart_events(immediate=settings.DEVELOPMENT)
+
 
 def fetch_events(query: Mapping[str, Any]) -> Dict[str, Any]:
     queue_id = query["queue_id"]  # type: str
@@ -538,22 +557,26 @@ def fetch_events(query: Mapping[str, Any]) -> Dict[str, Any]:
     client.connect_handler(handler_id, client_type_name)
     return dict(type="async")
 
+
 # The following functions are called from Django
 
 # Workaround to support the Python-requests 1.0 transition of .json
 # from a property to a function
 requests_json_is_function = callable(requests.Response.json)
+
+
 def extract_json_response(resp: requests.Response) -> Dict[str, Any]:
     if requests_json_is_function:
         return resp.json()
     else:
         return resp.json  # type: ignore # mypy trusts the stub, not the runtime type checking of this fn
 
+
 def request_event_queue(user_profile: UserProfile, user_client: Client, apply_markdown: bool,
                         client_gravatar: bool, queue_lifespan_secs: int,
-                        event_types: Optional[Iterable[str]]=None,
-                        all_public_streams: bool=False,
-                        narrow: Iterable[Sequence[Text]]=[]) -> Optional[str]:
+                        event_types: Optional[Iterable[str]] = None,
+                        all_public_streams: bool = False,
+                        narrow: Iterable[Sequence[Text]] = []) -> Optional[str]:
     if settings.TORNADO_SERVER:
         req = {'dont_block': 'true',
                'apply_markdown': ujson.dumps(apply_markdown),
@@ -585,6 +608,7 @@ def request_event_queue(user_profile: UserProfile, user_client: Client, apply_ma
 
     return None
 
+
 def get_user_events(user_profile: UserProfile, queue_id: str, last_event_id: int) -> List[Dict[Any, Any]]:
     if settings.TORNADO_SERVER:
         resp = requests_client.get(settings.TORNADO_SERVER + '/api/v1/events',
@@ -600,13 +624,17 @@ def get_user_events(user_profile: UserProfile, queue_id: str, last_event_id: int
         return extract_json_response(resp)['events']
     return []
 
+
 # Send email notifications to idle users
 # after they are idle for 1 hour
 NOTIFY_AFTER_IDLE_HOURS = 1
+
+
 def build_offline_notification(user_profile_id: int, message_id: int) -> Dict[str, Any]:
     return {"user_profile_id": user_profile_id,
             "message_id": message_id,
             "timestamp": time.time()}
+
 
 def missedmessage_hook(user_profile_id: int, client: ClientDescriptor, last_for_client: bool) -> None:
     """The receiver_is_off_zulip logic used to determine whether a user
@@ -658,12 +686,13 @@ def missedmessage_hook(user_profile_id: int, client: ClientDescriptor, last_for_
         message_id = event['message']['id']
         # Pass on the information on whether a push or email notification was already sent.
         already_notified = dict(
-            push_notified = event.get("push_notified", False),
-            email_notified = event.get("email_notified", False),
+            push_notified=event.get("push_notified", False),
+            email_notified=event.get("email_notified", False),
         )
         maybe_enqueue_notifications(user_profile_id, message_id, private_message, mentioned,
                                     stream_push_notify, stream_name, always_push_notify, idle,
                                     already_notified)
+
 
 def receiver_is_off_zulip(user_profile_id: int) -> bool:
     # If a user has no message-receiving event queues, they've got no open zulip
@@ -672,6 +701,7 @@ def receiver_is_off_zulip(user_profile_id: int) -> bool:
     message_event_queues = [client for client in all_client_descriptors if client.accepts_messages()]
     off_zulip = len(message_event_queues) == 0
     return off_zulip
+
 
 def maybe_enqueue_notifications(user_profile_id: int, message_id: int, private_message: bool,
                                 mentioned: bool, stream_push_notify: bool, stream_name: Optional[str],
@@ -710,15 +740,16 @@ def maybe_enqueue_notifications(user_profile_id: int, message_id: int, private_m
 
     return notified
 
+
 ClientInfo = TypedDict('ClientInfo', {
     'client': ClientDescriptor,
     'flags': Optional[Iterable[str]],
     'is_sender': bool,
 })
 
+
 def get_client_info_for_message_event(event_template: Mapping[str, Any],
                                       users: Iterable[Mapping[str, Any]]) -> Dict[str, ClientInfo]:
-
     '''
     Return client info for all the clients interested in a message.
     This basically includes clients for users who are recipients
@@ -833,15 +864,17 @@ def process_message_event(event_template: Mapping[str, Any], users: Iterable[Map
 
         # The below prevents (Zephyr) mirroring loops.
         if ('mirror' in sending_client and
-                sending_client.lower() == client.client_type_name.lower()):
+            sending_client.lower() == client.client_type_name.lower()):
             continue
         client.add_event(user_event)
+
 
 def process_event(event: Mapping[str, Any], users: Iterable[int]) -> None:
     for user_profile_id in users:
         for client in get_client_descriptors_for_user(user_profile_id):
             if client.accepts_event(event):
                 client.add_event(dict(event))
+
 
 def process_userdata_event(event_template: Mapping[str, Any], users: Iterable[Mapping[str, Any]]) -> None:
     for user_data in users:
@@ -854,6 +887,7 @@ def process_userdata_event(event_template: Mapping[str, Any], users: Iterable[Ma
         for client in get_client_descriptors_for_user(user_profile_id):
             if client.accepts_event(user_event):
                 client.add_event(user_event)
+
 
 def process_message_update_event(event_template: Mapping[str, Any],
                                  users: Iterable[Mapping[str, Any]]) -> None:
@@ -887,6 +921,7 @@ def process_message_update_event(event_template: Mapping[str, Any],
         for client in get_client_descriptors_for_user(user_profile_id):
             if client.accepts_event(user_event):
                 client.add_event(user_event)
+
 
 def maybe_enqueue_notifications_for_message_update(user_profile_id: UserProfile,
                                                    message_id: int,
@@ -925,7 +960,7 @@ def maybe_enqueue_notifications_for_message_update(user_profile_id: UserProfile,
     always_push_notify = user_profile_id in push_notify_user_ids
 
     idle = (user_profile_id in presence_idle_user_ids) or \
-        receiver_is_off_zulip(user_profile_id)
+           receiver_is_off_zulip(user_profile_id)
 
     maybe_enqueue_notifications(
         user_profile_id=user_profile_id,
@@ -938,6 +973,7 @@ def maybe_enqueue_notifications_for_message_update(user_profile_id: UserProfile,
         idle=idle,
         already_notified={},
     )
+
 
 def process_notification(notice: Mapping[str, Any]) -> None:
     event = notice['event']  # type: Mapping[str, Any]
@@ -954,6 +990,7 @@ def process_notification(notice: Mapping[str, Any]) -> None:
     logging.debug("Tornado: Event %s for %s users took %sms" % (
         event['type'], len(users), int(1000 * (time.time() - start_time))))
 
+
 # Runs in the Django process to send a notification to Tornado.
 #
 # We use JSON rather than bare form parameters, so that we can represent
@@ -962,13 +999,15 @@ def process_notification(notice: Mapping[str, Any]) -> None:
 def send_notification_http(data: Mapping[str, Any]) -> None:
     if settings.TORNADO_SERVER and not settings.RUNNING_INSIDE_TORNADO:
         requests_client.post(settings.TORNADO_SERVER + '/notify_tornado', data=dict(
-            data   = ujson.dumps(data),
-            secret = settings.SHARED_SECRET))
+            data=ujson.dumps(data),
+            secret=settings.SHARED_SECRET))
     else:
         process_notification(data)
 
+
 def send_notification(data: Dict[str, Any]) -> None:
     queue_json_publish("notify_tornado", data, send_notification_http)
+
 
 def send_event(event: Mapping[str, Any],
                users: Union[Iterable[int], Iterable[Mapping[str, Any]]]) -> None:
