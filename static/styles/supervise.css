@@ -1047,6 +1047,7 @@
     right: 0;
     top: 20px;
     display: none;
+    z-index: 11;
 }
 .branch_ctn>div{
     font-size: 15px;
@@ -1178,4 +1179,7 @@
     display: block;
     transform: rotate(180deg);
     float: left;
+}
+.opacity_li{
+    opacity: 0.5;
 }

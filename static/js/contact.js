@@ -865,7 +865,6 @@ var contact = (function(){
                             $(".organization_chart_change_box").append(organization_chart_group_detail)
                         }
                     })
-
                     //新增部门
                     $(".organization_chart_box").on("click",".organization_chart_group_add",function(){
                         var organization_add_group_popover = templates.render("organization_add_group_popover")
@@ -987,6 +986,45 @@ var contact = (function(){
                                 }
                             }
                         })
+                    })
+                    //批量删除
+                    
+                    $(".organization_chart_box").on("click",".new_group_box input",function(){
+                        if($(".new_group_box input").is(":checked")){
+                            $(".batch_delete").removeClass("opacity_li")
+                        }else{
+                            $(".batch_delete").addClass("opacity_li")
+                            
+                        }   
+                    })
+                    // console.log(user_list)
+                    $(".organization_chart_box").on("click",".batch_delete",function(){
+                        console.log($(this).is(".opacity_li"))
+                        if($(this).is(".opacity_li")){
+                            return;
+                        }else{
+                            var user_list = []
+                            var arr = $(".new_group_box input:checked").parent()
+                            for(var i=0;i<arr.length;i++){
+                                user_list.push(Number(arr[i].getAttribute("user_id")))
+                            }
+                            var obj = {
+                                user_list:user_list,
+                                type:"del"
+                            }
+                            $.ajax({
+                                type:"PUT",
+                                contentType:"application/json",
+                                url:"json/zg/user/mobile_batch/",
+                                data:JSON.stringify(obj),
+                                success:function(res){
+                                    console.log(res)
+                                    if(res.errno == 0){
+                                        updataList()
+                                    }
+                                }
+                            })
+                        }
                     })
                 })
             })

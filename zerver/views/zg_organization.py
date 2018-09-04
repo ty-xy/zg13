@@ -153,7 +153,9 @@ def user_mobile_batch(request, user_profile):
         elif types == 'del':
             # try:
             print(user_id)
-            UserProfile.objects.get(id=user_id).delete()
+            user_obj=UserProfile.objects.get(id=user_id)
+            user_obj.department=None
+            user_obj.save()
             # except Exception:
             #     return JsonResponse({'errno': 3, 'message': '删除失败'})
     return JsonResponse({'errno': 0, 'message': '成功'})
