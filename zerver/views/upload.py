@@ -15,11 +15,14 @@ from django.conf import settings
 from sendfile import sendfile
 from mimetypes import guess_type
 
+
 def serve_s3(request: HttpRequest, url_path: str) -> HttpResponse:
     uri = get_signed_upload_url(url_path)
     return redirect(uri)
 
+
 def serve_local(request: HttpRequest, path_id: str) -> HttpResponse:
+
     local_path = get_local_file_path(path_id)
     if local_path is None:
         return HttpResponseNotFound('<p>File not found</p>')
@@ -46,22 +49,45 @@ def serve_local(request: HttpRequest, path_id: str) -> HttpResponse:
                                   file_type == "application/pdf"):
         attachment = False
 
+    # if path_id[-3:] == 'aac':
+    #     print('=-2' * 30)
+    #     attachment = True
     return sendfile(request, local_path, attachment=attachment)
+
+
+# def zg_serve_local(request: HttpRequest, path_id: str, zg_types) -> HttpResponse:
+#     local_path = get_local_file_path(path_id)
+#     print('4=' * 30)
+#     if local_path is None:
+#         return HttpResponseNotFound('<p>File not found</p>')
+#
+#     attachment = True
+#     file_type = guess_type(local_path)[0]
+#     if file_type is not None and (file_type.startswith("image/") or
+#                                   file_type == "application/pdf"):
+#         attachment = False
+#     print('5=' * 30)
+#     return sendfile(request, local_path, attachment=attachment,mimetype=zg_types)
+#
 
 @has_request_variables
 def serve_file_backend(request: HttpRequest, user_profile: UserProfile,
                        realm_id_str: str, filename: str) -> HttpResponse:
     path_id = "%s/%s" % (realm_id_str, filename)
     is_authorized = validate_attachment_request(user_profile, path_id)
-
     if is_authorized is None:
         return HttpResponseNotFound(_("<p>File not found.</p>"))
+
     # if not is_authorized  :
-    #     return HttpResponseForbidden(_("<p>You are not authorized to view this file.</p>"))
+    #     return HttpResponse1Forbidden(_("<p>You are not authorized to view this file.</p>"))
     if settings.LOCAL_UPLOADS_DIR is not None:
+        if path_id[-3:] == 'aac':
+            response = HttpResponse(serve_local(request, path_id), content_type='audio/aac')
+            return response
         return serve_local(request, path_id)
 
     return serve_s3(request, path_id)
+
 
 def upload_file_backend(request: HttpRequest, user_profile: UserProfile) -> HttpResponse:
     if len(request.FILES) == 0:

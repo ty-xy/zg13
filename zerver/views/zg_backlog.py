@@ -565,10 +565,10 @@ def table_view(request, user_profile):
             b = time.time()
             for staff in send:
                 StatementState.objects.create(statement_id=a, staff=staff, receive_time=b)
-            event = {'type': 'JobsNotice', 'theme': 'approval',
-                     'content': {'type': 'DailyReport',
-                                 'theme': user_profile.full_name + '的日志'
-                                 }}
+            event = {'type': 'JobsNotice',
+                     'theme': user_profile.full_name + '的日志',
+                     'time':nuw_time()
+                     }
             send_event(event, send)
     except Exception:
         return JsonResponse({'errno': 2, 'message': "储存周报失败"})
