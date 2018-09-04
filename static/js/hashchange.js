@@ -82,6 +82,7 @@ exports.parse_narrow = function (hash) {
     if(hash[1] == 'pm-with'||hash.length===5){
         $(".keep_exist").show();
         $(".tab-content").css("height","calc(100% - 232px)")
+        $(".organization_team").hide()
         arr = JSON.parse(localStorage.getItem("arr"))
         if(arr != null){
             $(".persistent_data").children().remove();

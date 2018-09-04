@@ -1,0 +1,16 @@
+<div class="organization_chart_department_detail">
+    <div class="organization_chart_department_name">
+        <i class="iconfont icon-xiayiji back_up"></i>
+        <span>{{department_name}}</span>
+    </div>
+    <ul class="organization_chart_department_box">
+        {{#each user_list}}
+        <li class="fix" user_id="{{id}}">
+            <div class="organization_chart_department_img_box">
+                <img src="{{avatar}}" alt="">
+            </div>
+            <p class="organization_chart_department_people">{{name}}</p>
+        </li>
+        {{/each}}
+    </ul>
+</div>

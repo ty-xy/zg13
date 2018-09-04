@@ -1,8 +1,8 @@
 <div class="organization_chart_group_detail_box">
     <div class="new_group_ctn">
         <div class="branch_box fix">
-            <p class="branch_name">
-                董事办
+            <p class="branch_name" department_id="{{init_group.id}}">
+                {{init_group.name}}
             </p>
             <i class="iconfont icon-shezhi3 branch_icon"></i>
             <div class="branch_ctn">
@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="fix branch_operation">
-            <input type="text" class="new_group_name">
+            <input type="text" class="new_group_name" value="">
             <div class="new_group_cancle">
                 取消
             </div>
@@ -27,10 +27,10 @@
             <div class="invite_new_member">
                 邀请成员
             </div>
-            <div class="adjust_department">
+            <div class="adjust_department opacity_li">
                 调整部门
             </div>
-            <div class="batch_delete">
+            <div class="batch_delete opacity_li">
                 批量删除
             </div>
         </div>
@@ -44,10 +44,12 @@
                 账户
             </p>
         </li>
-        <li class="fix">
+        {{#each user_list}}
+        <li class="fix" user_id="{{id}}">
             <input type="checkbox">
-            <p>马晓建</p>
+            <p>{{name}}</p>
             <p>18888888888</p>
         </li>
+        {{/each}}
     </ul>
 </div>
