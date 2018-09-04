@@ -1,15 +1,10 @@
 from zerver.models import Message, UserMessage, ZgCollection, Stream, Attachment, ZgCloudDisk
 from django.http import JsonResponse
-from zerver.decorator import zulip_login_required
-from zerver.tornado.event_queue import send_event
 import json
 from datetime import datetime, timezone, timedelta
-from zerver.tornado.event_queue import request_event_queue
-from zerver.lib.actions import do_send_messages
 from zerver.lib import avatar
 from django.db.models import Q, F
 from zerver.tornado.event_queue import send_event
-from zerver.views.zg_tools import zg_user_info
 
 from zerver.views.zg_tools import req_tools
 
@@ -23,7 +18,7 @@ def nuw_time():
 
 
 # 删除主题
-def del_subject(request, user_profile):
+def del_subject(request,user_profile):
     req = request.body
     if not req:
         return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
@@ -76,10 +71,8 @@ def zg_collection(request, user_profile):
         return JsonResponse({'errno': 2, 'message': '类型错误'})
 
 
-
-
 # 收藏列表
-def zg_collection_list(request, user_profile):
+def zg_collection_list(request,user_profile):
     collection_objs = ZgCollection.objects.filter(user=user_profile).order_by()
 
     collection_list = list()
@@ -116,12 +109,12 @@ def zg_stream_permissions(request, user_profile):
 # 添加用户云盘
 def zg_abb_clouddisk(request, user_profile):
     req = req_tools(request)
-    path_id = req.get('path_id')
-    if not path_id:
+    file_name = req.get('name')
+    if not file_name:
         return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
-    attachment = Attachment.objects.filter(path_id=path_id)
+    attachment = Attachment.objects.filter(file_name=file_name)
     if not attachment:
-        return JsonResponse({'errno': 2, 'message': 'path_id错误'})
+        return JsonResponse({'errno': 2, 'message': 'name错误'})
     try:
         ZgCloudDisk.objects.create(attachment=attachment[0], user=user_profile)
     except Exception:
@@ -131,21 +124,44 @@ def zg_abb_clouddisk(request, user_profile):
 
 
 # 查看云盘列表
-def user_clouddisk(request, user_profile):
+def user_clouddisk(request,user_profile):
     clouddisk_list = []
     cloud_disk_objs = ZgCloudDisk.objects.filter(user=user_profile.id)
 
     for cloud_disk_obj in cloud_disk_objs:
+        cloud_disk_obj = cloud_disk_obj.attachment
         clouddisk_dict = dict()
 
-        if cloud_disk_obj.sizi/1024/1024>1:
-            clouddisk_dict['size'] = str(cloud_disk_obj.size/1024/1024)+'M'
+        if cloud_disk_obj.size / 1024 / 1024 > 1:
+            clouddisk_dict['size'] = str(cloud_disk_obj.size / 1024 / 1024) + 'M'
         elif cloud_disk_obj.size / 1024 > 1:
-            clouddisk_dict['size'] = str(cloud_disk_obj.size/1024)+'KB'
+            clouddisk_dict['size'] = str(cloud_disk_obj.size / 1024) + 'KB'
         else:
-            clouddisk_dict['size'] =cloud_disk_obj.size
+            clouddisk_dict['size'] = cloud_disk_obj.size
         clouddisk_dict['name'] = cloud_disk_obj.file_name
-        clouddisk_dict['url'] = cloud_disk_obj.path_id
+        clouddisk_dict['path'] = cloud_disk_obj.path_id
         clouddisk_dict['create_time'] = cloud_disk_obj.create_time
         clouddisk_list.append(clouddisk_dict)
-    return JsonResponse({'errno': 0, 'message': '成功','clouddisk_list':clouddisk_list})
+    return JsonResponse({'errno': 0, 'message': '成功', 'clouddisk_list': clouddisk_list})
+
+
+# 查看文件详情
+def file_details(request,user_profile):
+    file_name = request.GET.get('name')
+    if not file_name:
+        return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
+    attachment = Attachment.objects.filter(file_name=file_name)
+    if not attachment:
+        return JsonResponse({'errno': 2, 'message': 'name错误'})
+    file_dict = dict()
+    attachment = attachment[0]
+    if attachment.size / 1024 / 1024 > 1:
+        file_dict['size'] = str(attachment.size / 1024 / 1024) + 'M'
+    elif attachment.size / 1024 > 1:
+        file_dict['size'] = str(attachment.size / 1024) + 'KB'
+    else:
+        file_dict['size'] = str(attachment.size)+'b'
+    file_dict['name'] = attachment.file_name
+    file_dict['url'] = attachment.path_id
+    file_dict['create_time'] = attachment.create_time
+    return JsonResponse({'errno': 0, 'message': '成功', 'file_dict': file_dict})

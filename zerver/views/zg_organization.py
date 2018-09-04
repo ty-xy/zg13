@@ -226,3 +226,12 @@ def department_user_list(request, user_profile):
         user_dict['id'] = i.id
         user_list.append(user_dict)
     return JsonResponse({'errno': 0, 'message': '成功', 'user_list': user_list})
+
+# 判断权限
+def zg_user_permissions(request, user_profile):
+
+    if user_profile.is_realm_admin == 'f' or user_profile.zg_permission is None:
+        return JsonResponse({'errno': 0, 'message': False})
+
+    else:
+        return JsonResponse({'errno': 0, 'message': True})
