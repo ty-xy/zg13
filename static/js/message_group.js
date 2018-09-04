@@ -43,8 +43,8 @@ var message_group = (function () {
             $("#stream").val(hash[0].operand)
             $("#subject").val(hash[1].operand)
         }
-        function common(subscriptions,contents){
-            var content=  templates.render('show_group', {subscriptions:subscriptions});
+        function common(subscriptions,contents,shows){
+            var content=  templates.render('show_group', {subscriptions:subscriptions,showList:shows});
             $("#group_seeting_choose").html(content)
             $("#group_seeting_choose .streams-list").height($(window).height()-160)
             $(contents).addClass("high_light").siblings().removeClass("high_light");
@@ -173,30 +173,16 @@ var message_group = (function () {
             var streams = stream_data.subscribed_subs();
             var sub = stream_data.get_subscribers()
             var subscriptions = stream_data.get_streams_for_settings_page();
-              
             // console.log(stream_edit,323111)
             // 渲染群组
-            var content1 =  templates.render('show_group', {subscriptions:streams});
+            var content1 =  templates.render('show_group', {subscriptions:streams,showList:false});
             $("#group_seeting_choose").html(content1)
+            $("#group_seeting_choose .streams-list").height($(window).height()-160)
             $(".swtich-button").hide()
-
-            // 开关按钮暂定状态，稍后优化
-                $("#group_seeting_choose").on("click","#div2",function(e){ 
-                    if($(this).closest($(this).parent()).length!=0){
-                        e.preventDefault()
-                        e.stopPropagation()
-                    var stream_id = Number($(this).closest(".stream-list-row").attr("data-stream-id"))
-                    var sub = stream_data.get_sub_by_id(stream_id)
-                    subs.sub_or_unsub(sub);
-                    // var x = $(this).parents(".stream-list-row")
-                    $(this).parent().attr("class",($(this).parent().attr("class")=="close1")?"open1":"close1")
-                    $(this).attr("class",($(this).attr("class")=="close2")?"open2":"close2")
-                  }
-               })
 
             // })
             // 点击群组的事件
-            $("#group_seeting_choose .stream-row").on("click",function(){
+            $("#group_seeting_choose").on("click",".stream-list-rows",function(){
                  e.preventDefault()
                  e.stopPropagation()
                 var name =  $(this).attr("data-stream-name")
@@ -303,17 +289,35 @@ var message_group = (function () {
                     // e.preventDefault()
                     $(this).hide()
               })
-             
-              //已订阅
+               //全部群组
               $("#group_seeting_choose").on("click",".all_group",function(){
-                common(subscriptions,".all_group")
+                common(subscriptions,".all_group",true)
                 $(".swtich-button").show()
+                $(".streams-list").on("click","#div2",function(e){
+                    console.log($(this))
+                    e.stopPropagation()
+                    e.preventDefault()
+                    if($(this).closest($(this).parent()).length!=0){
+                        e.preventDefault()
+                        e.stopPropagation()
+                    var stream_id = Number($(this).closest(".stream-list-row").attr("data-stream-id"))
+                    var sub = stream_data.get_sub_by_id(stream_id)
+                    subs.sub_or_unsub(sub);
+                    console.log($(this))
+                    console.log(";;fasdfsadfasfd")
+                    // var x = $(this).parents(".stream-list-row")
+                    var that = $(this).parent()
+                    $(this).parent().attr("class",(that.attr("class")=="close1")?"open1":"close1")
+                    $(this).attr("class",($(this).attr("class")=="close2")?"open2":"close2")
+                  }
+               })
               })
-              //全部群组
+               //已订阅
               $("#group_seeting_choose").on("click",".already_sub",function(){
                 var streams = stream_data.subscribed_subs();
-                common(streams,".already_sub")
-                
+                common(streams,".already_sub",false)
+                     // 开关按钮暂定状态，稍后优化
+               
                
                 $(".swtich-button").hide()
             })

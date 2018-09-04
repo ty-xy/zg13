@@ -1201,7 +1201,9 @@ a.message-control-button {
    }
    .check-detail-flex{
       margin-left:30px;
-      margin-top:30px 
+      margin-top:30px ;
+      overflow-y: auto;
+      overflow-x: hidden
    }
    .application_people{
       margin-left:10px 

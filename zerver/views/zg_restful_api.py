@@ -145,6 +145,7 @@ def user_clouddisk(request,user_profile):
     return JsonResponse({'errno': 0, 'message': '成功', 'clouddisk_list': clouddisk_list})
 
 
+
 # 查看文件详情
 def file_details(request,user_profile):
     file_name = request.GET.get('name')
