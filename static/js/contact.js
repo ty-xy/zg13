@@ -581,7 +581,6 @@ var contact = (function(){
                 $(".completed_box").toggle();
             })
             $(".generate_log").on("click",function(){
-
                 management.generate_log();
             })
             
@@ -646,10 +645,10 @@ var contact = (function(){
                 })
             })
         })
-
         //团队组织方法
         $(".organization_team").on("click",function(){
             $("#group_seeting_choose").hide();
+            $("#zfilt").removeClass("focused_table")
             //清空右侧添加内容
             $(".move_ctn").children().remove();
             var organization_team_box = templates.render("organization_team_box")
