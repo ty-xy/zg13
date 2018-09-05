@@ -859,6 +859,19 @@
     color: #333333;
     letter-spacing: 0.17px;
     cursor: pointer;
+    text-align: left;
+}
+.organization_chart_group_list>li>span:nth-of-type(1){
+    float: left;
+    margin-left: 45px;
+    width: 62px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.organization_chart_group_list>li>span:nth-of-type(2){
+    float: left;
+    margin-left: 10px;
 }
 .organization_chart_group_detail_box{
     float: left;
@@ -1142,8 +1155,10 @@
     font-size: 16px;
     color: #333333;
     letter-spacing: 0.15px;
-    width: 100px;
     cursor: pointer;
+}
+.organization_chart_department_name>span{
+    margin-left: 10px;
 }
 .organization_chart_department_box{
     margin: 0;
@@ -1172,7 +1187,7 @@
     margin: 4px 20px;
 }
 .organization_chart_department_name{
-    margin-left: 10px;
+    /* margin-left: 10px; */
     margin-top: 30px;
 }
 .back_up{
@@ -1182,4 +1197,9 @@
 }
 .opacity_li{
     opacity: 0.5;
+}
+.quit_team{
+    font-size: 15px;
+    color: #4584FF;
+    letter-spacing: 0.18px;
 }
