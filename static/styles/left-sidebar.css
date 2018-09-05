@@ -624,6 +624,7 @@ li.show-more-private-messages a {
     height: 53px;
     cursor: pointer;
     list-style: none;
+    position: relative;
 }
 .notice_left{
     float: left;
@@ -836,9 +837,12 @@ li.show-more-private-messages a {
     text-decoration: none;
 }
 .notice_box_del{
-    font-size: 16px;
+    font-size: 13px;
     color: #cccccc;
     float: right;
+    position: absolute;
+    left: 7px;
+    top: 24px;
 }
 /* 消息体样式 */
 .additional_box{

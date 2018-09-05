@@ -23,6 +23,8 @@ var contact = (function(){
 
              //日志助手显示
              $("body").on("click",'.log_assistant_btn',function(e){
+                $(".move_ctn").children().remove();
+                // console.log("这是全局点击111")
                 window.location.href = "#narrow/is/starred"
                 $(".tab-content").css("height","100%")
                 $(".move_ctn").children().remove();
