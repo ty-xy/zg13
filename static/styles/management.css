@@ -182,9 +182,9 @@ ul{
     top: 50%;
     margin-left: -270px;
     margin-top: -295px; */
-    overflow: auto;
     border-radius: 3px;
     overflow-x: hidden;
+    overflow-y: auto;
 }
 .taskdetail_head{
     background: #FFFFFF;
@@ -372,6 +372,7 @@ ul{
     border: 1px solid #fff;
     border-radius: 3px;
     overflow: hidden;
+    position: relative;
 }
 .taskdetail_attachment_left{
     float: left;
