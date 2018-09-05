@@ -780,8 +780,9 @@ var contact = (function(){
                     var organization_chart_ctn_child=templates.render("organization_chart_ctn_child")
                     $(".organization_chart_change_box").append(organization_chart_ctn_child)
                     //添加子管理员
-                    $(".organization_chart_box").on("click",".organization_chart_ctn_child_add",function(){
-
+                    $(".organization_chart_box").on("click",".organization_chart_ctn_child_add",function(e){
+                        console.log(23)
+                        chooseFile.choosePeople()
                     })
                     //样式切换变化
                     $(this).addClass("color_li").siblings().removeClass("color_li")

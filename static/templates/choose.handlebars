@@ -19,7 +19,7 @@
             </div>
             <ul class="box-left-list box-left-button">
                 {{#each data}}
-                 <li class="input-box-list">
+                 <li class="input-box-list box-start-list" input-key={{@key}}>
                     <div class="box-list-left">
                         <input type="checkbox"  inputid={{@key}} class="choose-check"/>
                         <span>{{@key}}</span>
@@ -27,7 +27,6 @@
                     <button class="button-right next-right" button-key={{@key}}>下级</button>
                 </li>
                  {{/each}}
-              
             </ul>
         </div>
         <div class="choose-right-list">
