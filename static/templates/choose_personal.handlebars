@@ -1,12 +1,11 @@
+    {{#each data}}
     <li 
         class="input-box-list box-list-right box_list_right " 
-        data_id={{did}}
-        avatarurl={{avatarurl}}
         key-data={{id}}>
                 <div class="box-list-left">
-                    {{!-- <input type="checkbox" checked/> --}}
                     <span class="name-list"
-                    >{{fullname}}</span>
+                    >{{name}}</span>
                 </div>
                 <button class="button-right-delete">删除</button>
     </li>
+    {{/each}}

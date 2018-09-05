@@ -14,15 +14,14 @@
                 <input placeholder="搜索" class="search-icon"/>
             </div>
             <div class="input-box">
-               <input type="checkbox" class="checkbox-input"/>
-               <span>全选</span>
+               <label><input type="checkbox" class="checkbox-input"/>全选</label>
+               {{!-- <span>全选</span> --}}
             </div>
             <ul class="box-left-list box-left-button">
                 {{#each data}}
                  <li class="input-box-list box-start-list" input-key={{@key}}>
                     <div class="box-list-left">
-                        <input type="checkbox"  inputid={{@key}} class="choose-check"/>
-                        <span>{{@key}}</span>
+                        <label><input type="checkbox"  inputid={{@key}} class="choose-check"/>{{@key}}</label>
                     </div>
                     <button class="button-right next-right" button-key={{@key}}>下级</button>
                 </li>
