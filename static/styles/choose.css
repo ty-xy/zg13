@@ -108,6 +108,7 @@ input[type="checkbox"]{
     border-radius: 50%;
     width: 20px;
     height: 20px;
+    box-sizing: border-box;
     color: #fff;
     border: 1px solid #ccc;
     }
@@ -115,9 +116,10 @@ input[type="checkbox"]:checked{
     vertical-align: middle;
     -webkit-appearance: none;
     border-radius: 50%;
-    width: 21px;
-    height: 21px;
-    background: url("../img/Group-2.png") no-repeat;
+    width: 20px;
+    box-sizing: border-box;
+    height: 20px;
+    background: url("../img/Group-2.png") no-repeat center center;
     }
 .input-box-list{
     width:229px;
@@ -125,6 +127,7 @@ input[type="checkbox"]:checked{
     display:flex;
     padding-left:8px;
     justify-content: space-between;
+    cursor: pointer;
 }
 .button-right,.button-right-clear,.button-right-delete{
     border:none;
@@ -179,7 +182,8 @@ input[type="checkbox"]:checked{
 .box-left-list{
     margin:0;
     height: 270px;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden
 }
 #file_choose{
     float:left;

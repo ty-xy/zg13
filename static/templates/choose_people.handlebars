@@ -22,9 +22,13 @@
             </div>
             <ul class="box-left-list box-choose-lefts">
                 {{#each datalists}}
-                 <li class="input-box-list" avatar={{avatarurl}}>
+                 <li class="input-box-list input-detail-box" avatar={{avatarurl}}>
                     <div class="box-list-left">
-                        <input type="checkbox" data-key={{id}} class="choose-list-box " />
+                        <input 
+                        type="checkbox" 
+                        data-key={{id}} 
+                        {{#if checked}}checked="checked"{{/if}}
+                        class="choose-list-box"/>
                         <span>{{fullname}}</span>
                 </li>
                  {{/each}}
