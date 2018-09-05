@@ -795,11 +795,11 @@ var contact = (function(){
                     //添加子管理员
                     $(".organization_chart_box").on("click",".organization_chart_ctn_child_add",function(e){
                         //选择部门
-                        // function xy (content){
-                        //     console.log(content)
-                        // }
+                        function xy (content){
+                            console.log(content)
+                        }
                         // chooseFile.chooseTeam(xy);
-                        chooseFile.chooseTeamMember()
+                        chooseFile.chooseTeamMember(xy)
                         // function xy (content){
                         //     console.log(content)
                         // }

@@ -26,17 +26,56 @@ var chooseFile = (function () {
             var text = "选中"+"("+length+")"
             $(".already-choose").html(text)
         }
-        // function no_team (){
-        //     var no_team_data;
-        //     channel.get({
-        //         url:"/json/zg/not/department/user",
-        //         success:function(data){
-        //            no_team_data = data 
-                  
-        //         }
-        //     })
-        //     return no_team_data
-        // }
+        function common_content(value,obj,name){
+            var o1 = {}
+            value.forEach(function(val,index,arr){
+                val.did=name
+                o1[val.id] = val 
+            })
+            obj = $.extend(obj,o1)
+            o1={}
+            var html =$(templates.render("choose_person",{datalist:obj}))
+            $(".box-right-list").html(html)
+            length()
+        }
+        function next_common(choose_list,name,obj,lid) {
+            choose_list.forEach(function(val,i){
+                if(obj[val.id] !== undefined){
+                    val.checked = true
+                }else{
+                    val.checked = false
+                }
+            })
+            var li = $(templates.render('choose_people',{
+                datalists:choose_list,
+                channels:name
+            }));
+            $(".choose-nav-left").html(li)
+            //点击下级全选
+            $(".checkbox-inputs").on("click",function(e){
+                    var datalists= choose_list.reduce((prev, cur) => {prev[cur.id] = cur; return prev;}, {});
+                    if($(this).is(":checked")){
+                      $(".box-choose-lefts").find("input").prop("checked",true)
+                      obj = $.extend(obj,datalists)
+                      var html = templates.render("choose_person",{datalist:obj})
+                       $(".box-right-list").html(html)
+                    }else{
+                      $(".box-choose-lefts").find("input").prop("checked",false)
+                      choose_list.forEach(function(val,i){
+                          if(obj[val.id] !== undefined){
+                             delete(obj[val.id])
+                          }
+                          var html = templates.render("choose_person",{datalist:obj})
+                          $(".box-right-list").html(html)
+                      })
+                  }
+            })
+                    //点击选择人员
+            $(".choose-nav-left").on("click",".back-choose",function(e){
+                $(".choose-nav-left").children().remove()
+                $(".choose-nav-left").html(lid)
+            }) 
+        }
         //选择发送人
         exports.choosePeople = function(func){
             $(".modal-log").show()
@@ -80,7 +119,7 @@ var chooseFile = (function () {
                             $(".already-choose").html(text)
                        }
                   })
-                  //右边删除
+                  //点击右边删除
                   $(".box-right-list").on("click",".box_list_right",function(e){
                         var data_id = $(this).attr("data_id")
                         var key_data = $(this).attr("key-data")
@@ -190,12 +229,12 @@ var chooseFile = (function () {
                                 $(".already-choose").html(text)
                            }
                        })
-                         //点击选择热人员
+                         //点击选择人员
                         $(".choose-nav-left").on("click",".back-choose",function(e){
                             $(".choose-nav-left").children().remove()
                             $(".choose-nav-left").html(lid)
                         }) 
-                       // 点击下级的全选
+                       // 点击下级全选
                        $(".checkbox-inputs").on("click",function(e){
                               var datalists= choose_list.reduce((prev, cur) => {prev[cur.id] = cur; return prev;}, {});
                               if($(this).is(":checked")){
@@ -293,7 +332,7 @@ var chooseFile = (function () {
            })
         }
         //选择成员
-        exports.chooseTeamMember = function(){
+        exports.chooseTeamMember = function(func){
             // var obj = {}
             $(".modal-log").show()
             channel.get({
@@ -305,6 +344,7 @@ var chooseFile = (function () {
                   datalist["未分组"]={id:"none",name:"未分组",num:data.not_department_count}
                   var li = $(templates.render("choose",{data:datalist}));
                   $(".modal-log-content").html(li)
+                  var lid = $(".choose-nav-left").children()
                   person_dict = new Dict({fold_case: true});
                   //点击左边右边出现人
                   $(".choose-nav-left").on("click",".choose-check",function(e){
@@ -312,23 +352,141 @@ var chooseFile = (function () {
                       var id = datalist[name].id
                       var has = person_dict.has(name)
                       if(!has&&id!=="none"){
-                          channel.get({
+                        channel.get({
                             url:"/json/zg/department/user/list",
                             data:{department_id:id},
                             success:function(data){
-                                console.log(data)
+                                if(data.errno==0){
+                                    person_dict.set(name,data.not_department_list)
+                                    var value = data.user_list
+                                    common_content(value,obj,name)
+                                }
                             }
                         })
                       }else if (!has&&id=="none"){
-                          channel.get({
+                        channel.get({
                             url:"/json/zg/not/department/user",
                             success:function(data){
-                                console.log(data)
+                                if(data.errno==0){
+                                    person_dict.set("未分组",data.not_department_list)
+                                    var value = data.not_department_list
+                                    common_content(value,obj,name)
+                                    console.log(1)
+                                }
                             } 
-                          })
+                        })
+                      }else{
+                        value = person_dict.get(name)
+                        common_content(value,obj,name)
+                        console.log(2)
                       }
                   })
+                  // 点击清空
+                  $(".choose-right-list").on("click",".button-right-clear",function(e){
+                    $(".box-right-list").empty()
+                    $(".input-box-list").find("input").prop("checked",false)
+                    var text = "选中(0)"
+                    $(".already-choose").html(text)
+                    $(".checkbox-input").prop("checked",false)
+                    $(".checkbox-inputs").prop("checked",false)
+                    obj={}
+                 })
+                  //点击下级
+                  $(".choose-nav-left").on("click",".next-right",function(e){
+                       var name = $(this).attr('button-key')
+                       var has  = person_dict.has(name)
+                       var id = datalist[name].id
+                       if(has){
+                            var choose_list  = person_dict.get(name)
+                            next_common(choose_list,name,obj,lid)
+                       }else if(!has&&name=="未分组"){
+                            channel.get({
+                                url:"/json/zg/not/department/user",
+                                success:function(data){
+                                    if(data.errno==0){
+                                        person_dict.set("未分组",data.not_department_list)
+                                        var choose_list = data.not_department_list
+                                        next_common(choose_list,name,obj,lid)
+                                    }
+                                } 
+                            })
+                        }else {
+                            channel.get({
+                                url:"/json/zg/department/user/list",
+                                data:{department_id:id},
+                                success:function(data){
+                                    var choose_list = data.user_list
+                                    next_common(choose_list,name,obj,lid)
+                                }
+                            })
+                      }
+                  })
+                 //点击右边删除
+                 $(".box-right-list").on("click",".box_list_right",function(e){
+                    var data_id = $(this).attr("data_id")
+                    var key_data = $(this).attr("key-data")
+                    $(this).remove()
+                    var length = $(".box-right-list").children().length
+                    var text = "选中"+"("+length+")"
+                    $(".already-choose").html(text)
+                    $(".checkbox-input").prop("checked",false)
+                    var checkbox;
+                    if($(".box-start-list").length>0&&$(".box-start-list[input-key="+data_id+"]").length!==0){
+                        checkbox = $(".box-start-list[input-key="+data_id+"]").find("input")
+                        delete(obj[key_data])
+                    }else{
+                        checkbox = $(".choose-list-box[data-key="+key_data+"]")
+                        delete(obj[key_data])
+                    }
+                    if(checkbox.is(":checked")){
+                        checkbox.prop("checked",false)
+                        $(".checkbox-inputs").prop("checked",false)
+                    }
+                  })
+                 //点击全选
+                 $(".choose-nav-left").on("click",".checkbox-input",function(e){
+                    var that = $(this)
+                    channel.get({
+                        url:"json/zg/stream/recipient/data",
+                        success:function(data){
+                            var datakeylist = data.streams_dict
+                            if(that.is(":checked")){
+                                $(".input-box-list").find("input").prop("checked",true)
+                                var arr = [];
+                                for(var i in datakeylist){ 
+                                   arr=arr.concat(datakeylist[i]);
+                                }
+                                var objs= {};
+                                // console.log(arr)
+                                arr = arr.reduce(function(item,next){
+                                    objs[next.id] ? '' : objs[next.id] = next && item.push(next);
+                                    return item;
+                                },[])
+                                _.each(arr,function(val,key){
+                                    objs[val.id] = val
+                                    val.did=1
+                                })
+                                obj = $.extend(obj,objs)
+                                var html = templates.render("choose_person",{datalist:obj})
+                                $(".box-right-list").html(html)
+                                var text = "选中"+"("+arr.length+")"
+                                $(".already-choose").html(text)
+                            }else{
+                                $(".input-box-list").find("input").prop("checked",false)
+                                $(".box-right-list").empty()
+                                obj={}
+                                var text = "选中(0)"
+                                $(".already-choose").html(text)
+                            }
+                        }
+                    })
+                })
                   cancel()
+                  $(".button-sure").on("click",function(e){
+                    func(obj)
+                    $(".modal-log").hide()
+                    $(".modal-log-content").empty()
+                })
                 }
             })
         }
