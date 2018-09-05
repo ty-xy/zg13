@@ -4,9 +4,25 @@
     </div>
     <ul class="organization_chart_group_list">
         {{#each department_lists}}
-        <li>
-            {{name}}
+        {{#compare @index '==' 0}}
+        <li class="color_li" department_id="{{id}}">
+            <span>{{name}}</span>
+            <span>({{num}}人)</span>
         </li>
+        {{else}}
+        <li department_id="{{id}}">
+            <span>{{name}}</span>
+            <span>({{num}}人)</span>
+        </li>
+        {{/compare}}
         {{/each}}
+        <li>
+            <span>
+                未分配
+            </span>
+            <span>
+                ({{not_department_count}}人)
+            </span>
+        </li>
     </ul>
 </div>

@@ -1,8 +1,9 @@
 <ul class="organization_team_dept_box">
     {{#each department_lists}}
-    <li class="organization_team_dept_name">
+    <li class="organization_team_dept_name" department_id="{{id}}">
         <p class="organization_team_dept_ctn">
             <span>{{name}}</span>
+            <span>({{num}}人)</span>
         </p>
     </li>
     {{/each}}
