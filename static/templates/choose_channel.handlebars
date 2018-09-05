@@ -1,20 +1,43 @@
-<div class="icon-sousuo-search">
+
+<div id="people-choose" class="choose-teams choose-people-teams">
+    <div class="choose-header">
+        选择部门
+    </div>
+    <div class="choose-nav">
+        <div class="choose-nav-left">
+             <ul class="modal-ul-choose">
+                 <li>11</li>
+             </ul>
+             <div class="icon-sousuo-search">
                 <i class="iconfont icon-sousuo icon-search-choose"></i>
                 <input placeholder="搜索" class="search-icon"/>
             </div>
             <div class="input-box">
-               <input type="checkbox" class="checkbox-input"/>
-               <span>全选</span>
+               <label><input type="checkbox" class="checkbox-input"/>全选</label>
+               {{!-- <span>全选</span> --}}
             </div>
-            <ul class="box-left-list">
+            <ul class="box-left-list box-left-button">
                 {{#each data}}
-                 <li class="input-box-list">
+                 <li class="input-box-list box-start-list" input-key={{id}}>
                     <div class="box-list-left">
-                        <input type="checkbox"  inputid={{@key}} class="choose-check"/>
-                        <span>{{@key}}</span>
+                        <label><input type="checkbox"  inputid={{id}} class="choose-check"/>{{name}}</label>
                     </div>
-                    <button class="button-right next-right" button-key={{@key}}>下级</button>
                 </li>
                  {{/each}}
+            </ul>
+        </div>
+        <div class="choose-right-list">
+            <div class="icon-sousuo-search choose-right">
+                <div class="already-choose">选中(0)</div>
+                <button class="button-right-clear">清空</button>
+            </div>
+            <ul class="box-left-list box-right-list">
               
-</ul>
+            </ul>
+           <div class="button-bottom">
+               <button class="button-anniu button-cancel">取消</button>
+               <button class="button-anniu button-confirm button-sure">确定</button>
+           </div>
+        </div>
+    </div>
+</div>

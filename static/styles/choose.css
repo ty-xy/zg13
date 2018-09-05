@@ -121,7 +121,7 @@ input[type="checkbox"]:checked{
     height: 20px;
     background: url("../img/Group-2.png") no-repeat center center;
     }
-.input-box-list{
+    .input-detail-box,.input-box-list{
     width:229px;
     margin-top:15px;
     display:flex;

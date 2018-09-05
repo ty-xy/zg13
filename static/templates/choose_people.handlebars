@@ -17,12 +17,12 @@
                </div>
             </div>
             <div class="input-box">
-               <input type="checkbox" class="checkbox-inputs"/>
-               <span>全选</span>
+               <label><input type="checkbox" class="checkbox-inputs"/>全选</label>
+               {{!-- <span>全选</span> --}}
             </div>
             <ul class="box-left-list box-choose-lefts">
                 {{#each datalists}}
-                 <li class="input-box-list input-detail-box" avatar={{avatarurl}}>
+                 <li class="input-box-list input-detail-box" input-key ="1" avatar={{avatarurl}}>
                     <div class="box-list-left">
                         <input 
                         type="checkbox" 
