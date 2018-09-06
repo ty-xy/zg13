@@ -205,6 +205,7 @@ var server_events = (function () {
         success: function (data) {
             var type;
             var data_message;
+            // console.log(data)
             $.ajax({
                 url:"json/zg/user",
                 type:"GET",
@@ -226,8 +227,11 @@ var server_events = (function () {
                         var short_name = data_message.sender_short_name
                         var _href = data_message.pm_with_url
                         var sub;
+                        var recipient = data_message.display_recipient[0].id
+                        var stream_name;
                         if(stream_id){
                           sub  = stream_data.get_sub_by_id(stream_id)
+                        
                         }
                         arr = JSON.parse(localStorage.getItem("arr"))
                         if(arr == null){
@@ -249,8 +253,9 @@ var server_events = (function () {
                         }else{
                             var flag = false;
                             for(var j =0 ;j<arr.length;j++){
+                                console.log(user_me,name)
                                 if(user_me!=name){
-                                    if(arr[j].send_id == send_id||arr[j].stream_id==stream_id){
+                                    if(arr[j].send_id == send_id){
                                         flag = true;
                                         $(".notice_bottom[name='"+$(".only_tip").attr("send_id")+"']").html(mes)
                                         $(".notice_top_time[name='"+$(".only_tip").attr("send_id")+"']").html(server_events.tf(time))
@@ -259,11 +264,18 @@ var server_events = (function () {
                                         localStorage.setItem("arr",JSON.stringify(arr))
                                     }
                                 }
-                                if(user_me == name){
-                                    $(".notice_bottom[name='"+$(".only_tip").attr("send_id")+"']").html(mes)
+                                if(user_me == name&&arr[j].name!==name&&arr[j].stream==""){
+                                    $(".notice_bottom[name="+recipient+"]").html(mes)
                                     $(".notice_top_time[name='"+$(".only_tip").attr("send_id")+"']").html(server_events.tf(time))
+                                    // $(".notice_bottom[name="+send_id+"]").html(mes)
+                                    // $(".notice_top_time[name='"+send_id+"']").html(server_events.tf(time))
                                     arr[j].content = mes
-                                    console.log('自己',mes)
+                                    localStorage.setItem("arr",JSON.stringify(arr))
+                                }
+                                if(arr[j].stream_id==stream_id&&arr[j].name==sub.name ){
+                                    $(".notice_bottom[name="+stream_id+"]").html(mes)
+                                    $(".notice_top_time[name="+stream_id+"]").html(server_events.tf(time))
+                                    arr[j].content = mes
                                     localStorage.setItem("arr",JSON.stringify(arr))
                                 }
                             }
