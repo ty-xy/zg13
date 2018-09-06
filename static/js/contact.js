@@ -1071,17 +1071,34 @@ var contact = (function(){
                                     return
                                 }else{
                                     var user_list = []
+                                    var department_list = []
                                     var arr = $(".new_group_box input:checked").parent()
                                     for(var i=0;i<arr.length;i++){
                                         user_list.push(Number(arr[i].getAttribute("user_id")))
                                     }
+                                    chooseFile.chooseTeam(xy);
                                     function xy (content){
-                                        console.log(content)
                                         for(var key in content){
-                                            console.log(content[key].id)
+                                            department_list.push(content[key].id)
                                         }
                                     }
-                                    chooseFile.chooseTeam(xy);
+                                    var obj = {
+                                        user_list:user_list,
+                                        type:"mobile",
+                                        department_id:department_list
+                                    }
+                                    $.ajax({
+                                        type:"PUT",
+                                        contentType:"application/json",
+                                        url:"json/zg/user/mobile_batch/",
+                                        data:JSON.stringify(obj),
+                                        success:function(res){
+                                            if(res.errno == 0){
+                                                updataList()
+                                            }
+                                        }
+                                    })
+                                    // console.log(obj)
                                 }
                             })
                         })
