@@ -797,6 +797,7 @@
     letter-spacing: 0.18px;
     line-height: 40px;
     margin-right: 30px;
+    cursor: pointer;
 }
 .organization_chart_ctn_child_add{
     background: #4584FF;
