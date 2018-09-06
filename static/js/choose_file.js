@@ -40,6 +40,17 @@ var chooseFile = (function () {
                 length()
             }
         }
+        function search_box (total,obj,object){
+            $(".search-people-name").on("click",function(e){
+                var value  = $(this).text() 
+                var content =  total[value]
+                object[content.id] = content 
+                obj=$.extend(obj,object)
+                var html =$(templates.render("choose_person",{datalist:obj}))
+                $(".box-right-list").html(html)
+                length()
+            })
+        }
         function next_common(choose_list,name,obj,lid) {
             if(choose_list&&choose_list.length>0){
                 choose_list.forEach(function(val,i){
@@ -346,7 +357,6 @@ var chooseFile = (function () {
                 success:function(data){
                   var obj = {}
                   var total ={}
-               
                   var tatal_arr = []
                   var dataer= data.department_lists
                   var  datalist= dataer.reduce(function(prev, cur){prev[cur.name] = cur; return prev;}, {});
@@ -392,20 +402,26 @@ var chooseFile = (function () {
                       }
                   })
                   //搜索
-                  if($(".modal-ul-choose").show()){
+                  function showName (){
+                    if($(".modal-ul-choose").is(':visible')){
+                        console.log(111)
                         $(".modal-ul-choose").click(function(e){
-                            $(this).hide();
-                            e.stopPropagation();//阻止冒泡
+                            $(".modal-ul-choose").hide();
+                            $(".search-icon").val("")
+                            // e.stopPropagation();//阻止冒泡
                         });
                         $("body").click(function(){
                             $(".modal-ul-choose").hide();
+                            $(".search-icon").val("")
                         })
-                    }
+                     }     
+                  }
+            
                   
                   $(".choose-nav-left").on("input",".search-icon",function(e){
                      var that = $(this)
                      var search_value = that.val()
-                    
+                     var object = {}
                      if(tatal_arr.length===0&&search_value!==""){
                         channel.get({
                             url:"json/zg/stream/recipient/data",
@@ -434,15 +450,14 @@ var chooseFile = (function () {
                                 var li = $(templates.render('search_li',{search_arr:search_arr}));
                                 $(".modal-ul-choose").html(li)
                                 $(".modal-ul-choose").show()
+                                showName()
                                 search_arr =[]             
-                                $(".search-people-name").on("click",function(e){
-                                    var value  = $(this).text() 
-                                    console.log(value)
-                                })
+                                search_box(total,obj,object)
                             }
                         })
                      }else{
                         if(search_value!==""){
+                            console.log(11)
                             var search_arr =[]
                             tatal_arr.forEach(function(val,index){
                                 if(val.indexOf(search_value)!==-1){
@@ -451,11 +466,10 @@ var chooseFile = (function () {
                             })
                             var li = templates.render("search_li",{search_arr:search_arr})
                             $(".modal-ul-choose").html(li)
+                            $(".modal-ul-choose").show()
+                            showName()
                             search_arr =[]
-                            $(".search-people-name").on("click",function(e){
-                                var value  = $(this).text() 
-                                console.log(value)
-                            })
+                            search_box(total,obj,object)
                         }
                      }
                   })
