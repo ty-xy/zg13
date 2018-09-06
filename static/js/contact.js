@@ -908,6 +908,21 @@ var contact = (function(){
                                             }
                                         })
                                     })
+                                    //未分配人员列表更新
+                                    $(".organization_chart_box").on("click",".undistributed",function(){
+                                        //获取无部门人员
+                                        $.ajax({
+                                            type:"GET",
+                                            url:"json/zg/not/department/user",
+                                            success:function(res){
+                                                $(".organization_chart_group_detail_box").remove()
+                                                console.log(res)
+                                                var user_list = res.not_department_list
+                                                var organization_chart_group_detail = templates.render("organization_chart_group_detail",{user_list:user_list})
+                                                $(".organization_chart_change_box").append(organization_chart_group_detail)
+                                            }
+                                        })
+                                    })
                                 }
                             })
                             //新增部门
@@ -920,6 +935,7 @@ var contact = (function(){
                                 //保存按钮
                                 $(".organization_add_group_finish").on("click",function(){
                                     var name = $(".organization_add_group_input").val()
+                                    console.log(name)
                                     var obj = {
                                         name:name
                                     }
@@ -1017,15 +1033,13 @@ var contact = (function(){
                             //批量删除
                             $(".organization_chart_box").on("click",".new_group_box input",function(){
                                 if($(".new_group_box input").is(":checked")){
-                                    $(".batch_delete").removeClass("opacity_li")
+                                    $(".batch_delete,.adjust_department").removeClass("opacity_li")
                                 }else{
-                                    $(".batch_delete").addClass("opacity_li")
-                                    
+                                    $(".batch_delete,.adjust_department").addClass("opacity_li")
                                 }   
                             })
-                            // console.log(user_list)
+                            //批量删除
                             $(".organization_chart_box").on("click",".batch_delete",function(){
-                                console.log($(this).is(".opacity_li"))
                                 if($(this).is(".opacity_li")){
                                     return;
                                 }else{
@@ -1044,12 +1058,28 @@ var contact = (function(){
                                         url:"json/zg/user/mobile_batch/",
                                         data:JSON.stringify(obj),
                                         success:function(res){
-                                            console.log(res)
                                             if(res.errno == 0){
                                                 updataList()
                                             }
                                         }
                                     })
+                                }
+                            })
+                            //调整部门
+                            $(".organization_chart_box").on("click",".adjust_department",function(){
+                                if($(this).is(".opacity_li")){
+                                    return
+                                }else{
+                                    var user_list = []
+                                    var arr = $(".new_group_box input:checked").parent()
+                                    for(var i=0;i<arr.length;i++){
+                                        user_list.push(Number(arr[i].getAttribute("user_id")))
+                                    }
+                                    console.log(user_list)
+                                    function xy (content){
+                                        console.log(content)
+                                    }
+                                    chooseFile.chooseTeam(xy);
                                 }
                             })
                         })
