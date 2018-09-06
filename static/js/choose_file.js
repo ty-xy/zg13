@@ -155,7 +155,7 @@ var chooseFile = (function () {
                             var objs= {};
                             // console.log(arr)
                             arr = arr.reduce(function(item,next){
-                                objs[next.id] ? '' : objs[next.id] = next && item.push(next);
+                                objs[next.id] ? "" : objs[next.id] = next && item.push(next);
                                 return item;
                             },[])
                             _.each(arr,function(val,key){
@@ -459,7 +459,7 @@ var chooseFile = (function () {
                                 var objs= {};
                                 // console.log(arr)
                                 arr = arr.reduce(function(item,next){
-                                    objs[next.id] ? '' : objs[next.id] = next && item.push(next);
+                                    objs[next.id] ? "" : objs[next.id] = next && item.push(next);
                                     return item;
                                 },[])
                                 _.each(arr,function(val,key){
