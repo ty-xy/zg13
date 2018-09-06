@@ -211,8 +211,7 @@ var management = (function () {
                                 editor()
                                 $('.new_plan').hide()
                                 $('.new_add_task_plan').show()
-                            }else{
-                                
+                            }else{  
                                 alert(data.message,'rgba(169,12,0,0.30)')
                             }
                         },
@@ -497,7 +496,7 @@ var management = (function () {
                 }, 1000);
             }
            };
-           exports.make_upload_absolute =  function(uri) {
+           function make_upload_absolute  (uri) {
             if (uri.indexOf(compose.uploads_path) === 0) {
                 // Rewrite the URI to a usable link
                 return compose.uploads_domain + uri;
@@ -546,7 +545,7 @@ var management = (function () {
             var filename = split_uri[split_uri.length - 1];
             var type = file.type.split("/")
                 typeName= type[type.length-1]
-            var uri = exports.make_upload_absolute(response.uri);
+            var uri =make_upload_absolute(response.uri);
             var size = (file.size/1024/1024).toFixed(2)
             if(i != -1){
                 $('.uploading-img').hide()
@@ -791,6 +790,7 @@ var management = (function () {
      
         $(".generate_log").on("click",function(){
             generate_log();
+            console.log(1111)
         })
         exports.generate_log = function(e){
             $(".create_generate_log").show();
@@ -851,9 +851,6 @@ var management = (function () {
             e.preventDefault();
             e.stopPropagation();
         })
-       
-        
-       
         $(".create_daily").on("click",function(e){
             $(this).addClass("default_border").parent().siblings().children().removeClass("default_border");
         })
