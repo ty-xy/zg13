@@ -1075,9 +1075,11 @@ var contact = (function(){
                                     for(var i=0;i<arr.length;i++){
                                         user_list.push(Number(arr[i].getAttribute("user_id")))
                                     }
-                                    console.log(user_list)
                                     function xy (content){
                                         console.log(content)
+                                        for(var key in content){
+                                            console.log(content[key].id)
+                                        }
                                     }
                                     chooseFile.chooseTeam(xy);
                                 }
