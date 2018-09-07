@@ -574,8 +574,14 @@ v1_api_and_json_patterns = [
     # 部门人员
     url(r'^zg/department/user/list$', rest_dispatch,
         {'GET': 'zerver.views.zg_organization.department_user_list'}),
+<<<<<<< HEAD
 
 
+=======
+    # 权限认证
+    url(r'^zg/user/permissions$', rest_dispatch,
+        {'GET': 'zerver.views.zg_organization.zg_user_permissions'}),
+>>>>>>> 88a990d51bf57eda85e0ff39227575596d8f3426
     # zg_restful-------------
     # 收藏
     url(r'^zg/collection/$', rest_dispatch,
@@ -594,6 +600,7 @@ v1_api_and_json_patterns = [
     # 查看云盘列表
     url(r'^zg/clouddisk/user$', rest_dispatch,
         {'GET': 'zerver.views.zg_restful_api.user_clouddisk'}),
+<<<<<<< HEAD
 
     # 删除考勤信息
     url(r'^zg/del/attssss$', rest_dispatch,
@@ -608,6 +615,12 @@ v1_api_and_json_patterns = [
         {'DELETE': 'zerver.views.zg_restful_api.file_details'}),
 
 
+=======
+    # 文件详情
+    url(r'^zg/file/details$', rest_dispatch,
+        {'GET': 'zerver.views.zg_restful_api.file_details'}),
+   
+>>>>>>> 88a990d51bf57eda85e0ff39227575596d8f3426
 
 
 ]

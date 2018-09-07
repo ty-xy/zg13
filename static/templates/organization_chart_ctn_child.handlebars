@@ -3,19 +3,21 @@
         添加子管理员
     </div>
     <ul class="organization_chart_ctn_child">
+        {{#each user_list}}
         <li class="fix">
+            <div>
+                <img src="{{avatar}}" alt="">
+            </div>
+            <p>{{name}}</p>
+            <p class="child_administrator_del" user_id="{{id}}">删除</p>
+        </li>
+        {{/each}}
+        {{!-- <li class="fix">
             <div>
                 <img src="" alt="">
             </div>
             <p>远哥</p>
             <p>删除</p>
-        </li>
-        <li class="fix">
-            <div>
-                <img src="" alt="">
-            </div>
-            <p>远哥</p>
-            <p>删除</p>
-        </li>
+        </li> --}}
     </ul>
 </div>

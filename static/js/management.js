@@ -1195,15 +1195,16 @@ var management = (function () {
             }); 
         //日志助手显示
             $("body").on("click",".log_assistant_btn",function(e){
+                // console.log("这是其他的点击事件")
+                $(".tab-content").css("height","100%")
+                $(".move_ctn").children().remove();
                 $("#empty_star_narrow_message").remove();
-                // $("#zfilt").hide();
                 e.stopPropagation();
                 e.preventDefault();
                 var window_high = window.screen.height;
                 $(".log_assistant_md").css("height",window_high);
                 $(".log_assistant_md").css("overflow","auto");
                 $(".log_assistant_md").show();
-                // $(".app").css("overflow-y","hidden");
                 $.ajax({
                     type:"GET",
                     url:"json/zg/my/receive/web",

@@ -2,7 +2,7 @@
     <div class="new_group_ctn">
         <div class="branch_box fix">
             <p class="branch_name" department_id="{{init_group.id}}">
-                {{init_group.name}}
+                {{init_group.fullname}}
             </p>
             <i class="iconfont icon-shezhi3 branch_icon"></i>
             <div class="branch_ctn">
@@ -47,7 +47,7 @@
         {{#each user_list}}
         <li class="fix" user_id="{{id}}">
             <input type="checkbox">
-            <p>{{name}}</p>
+            <p>{{fullname}}</p>
             <p>18888888888</p>
         </li>
         {{/each}}
