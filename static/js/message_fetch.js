@@ -17,7 +17,7 @@ var consts = {
 
 function process_result(data, opts) {
     var messages = data.messages;
-    // console.log(data,"data")
+    console.log(data,"data")
     $('#connection-error').removeClass("show");
        if(opts.msg_list.filter._operators[0].operand=== "management"){
         narrow.show_empty_narrow_message();
