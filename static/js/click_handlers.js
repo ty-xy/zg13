@@ -206,9 +206,11 @@ $(function () {
             })
             //收藏消息
             $(".additional_collection").off("click").on("click",function(){
+                console.log(23)
                 var id = Number($(this).parent().parent().parent().parent().parent().parent().parent().attr("zid"))
                 flag = $(this).parent().prev().attr("star")
                 star = $(this).parent().prev().children().first()
+                
                 var status;
                 if(flag == "false"){
                     status = "add"

@@ -190,6 +190,8 @@ var message_group = (function () {
                 var avatar = $(this).children().eq(0).css("background-color")
                 $("#compose").show()
                 $("#compose-container").show()
+                $(".compose-content").show()
+                
                 var data = {
                         anchor: 773,
                         num_before: 50,
@@ -243,6 +245,8 @@ var message_group = (function () {
                         $("#stream-message").show()
                         $("#stream").val(name)
                         $("#subject").val(lastData.subject)
+                        $(".news_icon").addClass("left_blue_height");
+                        $(".address_book").removeClass("left_blue_height")
                         i= 0
                         window.location.hash = narrow.by_stream_subject_uris(name,lastData.subject)
                     }

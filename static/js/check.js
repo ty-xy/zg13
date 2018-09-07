@@ -11,7 +11,7 @@ var check = (function () {
         })
     }
     function backIcons1 (){
-        $(".first-icon").unbind("click").on("click",function(e){
+        $(".first-icon").off("click").on("click",function(e){
             moveContent()
             // console.log("我已经审批")
             $(".already_checked").addClass("active").siblings().removeClass("active")
@@ -28,7 +28,7 @@ var check = (function () {
         })
     }
     function backIcons2(){
-        $(".first-icon").unbind("click").on("click",function(e){
+        $(".first-icon").off("click").on("click",function(e){
             moveContent()
             console.log("返回待我审批")
              $(".expect-check").addClass("active").siblings().removeClass("active")
@@ -46,7 +46,7 @@ var check = (function () {
         })
     }
     function backIcons3(){
-        $(".first-icon").unbind("click").on("click",function(e){
+        $(".first-icon").off("click").on("click",function(e){
             moveContent()
             console.log("我发送的")
              $(".send_apply").addClass("active").siblings().removeClass("active")
@@ -64,7 +64,7 @@ var check = (function () {
         })
     }
     function backIcons4(){
-        $(".first-icon").unbind("click").on("click",function(e){
+        $(".first-icon").off("click").on("click",function(e){
             moveContent()
             // console.log("抄送我的")
              $(".copy_myown").addClass("active").siblings().removeClass("active")
