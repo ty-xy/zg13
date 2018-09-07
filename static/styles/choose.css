@@ -398,8 +398,15 @@ a.message-control-button {
     width: 195px;
    background: #FFFFFF;
    margin-left:20px;
+   padding-left:26px;
   box-shadow: 0 2px 4px 0 rgba(226,226,226,0.50);
+  overflow: auto;
+  box-sizing: border-box;
   display:none
+}
+.modal-ul-choose>li{
+    margin-top:5px;
+    cursor: pointer;
 }
 .toast-alert,.toast-alert-button{
     height:34px;

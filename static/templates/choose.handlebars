@@ -7,7 +7,6 @@
     <div class="choose-nav">
         <div class="choose-nav-left">
              <ul class="modal-ul-choose">
-                 <li>11</li>
              </ul>
              <div class="icon-sousuo-search">
                 <i class="iconfont icon-sousuo icon-search-choose"></i>
@@ -18,14 +17,30 @@
                {{!-- <span>全选</span> --}}
             </div>
             <ul class="box-left-list box-left-button">
+                {{#if show}}
                 {{#each data}}
                  <li class="input-box-list box-start-list" input-key={{@key}}>
                     <div class="box-list-left">
                         <label><input type="checkbox"  inputid={{@key}} class="choose-check"/>{{@key}}</label>
                     </div>
-                    <button class="button-right next-right" button-key={{@key}}>下级</button>
-                </li>
+                        {{#compare num "=="0}}
+                        <button class="button-right next-right" style="color:#ccc" button-key={{@key}}>下级</button>
+                        {{/compare}}
+                        {{#compare num "!=="0}}
+                        <button class="button-right next-right" button-key={{@key}}>下级</button>
+                        {{/compare}}
+                 </li>
                  {{/each}}
+                 {{else}}
+                  {{#each data}}
+                    <li class="input-box-list box-start-list" input-key={{@key}}>
+                        <div class="box-list-left">
+                            <label><input type="checkbox"  inputid={{@key}} class="choose-check"/>{{@key}}</label>
+                        </div>
+                        <button class="button-right next-right" button-key={{@key}}>下级</button>
+                   </li>
+                   {{/each}}
+                 {{/if}}
             </ul>
         </div>
         <div class="choose-right-list">

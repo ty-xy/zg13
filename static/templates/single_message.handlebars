@@ -78,8 +78,8 @@
                         <div class="our_news_box my_news_box" star="{{msg.starred}}">
                             <i class="iconfont icon-shoucang-xuanzhong our_news_box_star my_news_box_star {{#if msg.starred}}show{{/if}}"></i>
                             {{!-- {{#if msg.starred}}<i class="iconfont icon-shoucang-xuanzhong our_news_box_star my_news_box_star"></i>{{/if}} --}}
-                            {{#if use_match_properties}}{{{msg/match_content}}}
-                            {{else}}{{{msg/content}}}
+                            {{#if use_match_properties}}{{{replaceTag msg/match_content}}}
+                            {{else}}{{{replaceTag msg/content}}}
                             {{/if}}
                         </div>
                         {{/unless}}
@@ -104,8 +104,8 @@
                             <div class="our_news_box other_news_box" data-message-id="{{message.id}}" star="{{msg.starred}}">
                                 <i class="iconfont icon-shoucang-xuanzhong our_news_box_star other_news_box_star {{#if msg.starred}}show{{/if}}"></i>
                                 {{!-- {{#if msg.starred}}<i class="iconfont icon-shoucang-xuanzhong our_news_box_star other_news_box_star"></i>{{/if}} --}}
-                                {{#if use_match_properties}}{{{msg/match_content}}}
-                                {{else}}{{{msg/content}}}
+                                {{#if use_match_properties}}{{{replaceTag msg/match_content}}}
+                                {{else}}{{{replaceTag msg/content}}}
                                 {{/if}}
                             </div>
                             {{/unless}}

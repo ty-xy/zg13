@@ -121,6 +121,26 @@ Handlebars.registerHelper("deleteTag",function(tagStr){
         var result = tagStr.replace(regx, '');
         return result;
 })
+Handlebars.registerHelper("replaceTag",function(repStr){
+    var $repStr = $(repStr)
+    var content = $repStr.text()
+    var lastContent = content.substr(-4)
+    var tagA = $repStr.find("a").length
+    if(tagA===1&&lastContent==".aac"){
+        var li = '<p>\
+                    <audio controls="controls" autoplay="autoplay">\
+                    <source src='+content+' type="audio/ogg"/>\
+                    Your browser does not support the audio element\
+                    </audio>\
+                </p>'
+             repStr = li 
+            return  repStr
+    }else{
+        return repStr
+    }
+   
+
+})
 Handlebars.registerHelper("tl", function(text) {
     text = Handlebars.Utils.escapeExpression(text);
     text = text.replace(/(\r\n|\n|\r)/gm, '<br>');

@@ -598,7 +598,6 @@ v1_api_and_json_patterns = [
     url(r'^zg/clouddisk/user$', rest_dispatch,
         {'GET': 'zerver.views.zg_restful_api.user_clouddisk'}),
 
-
     # 删除考勤信息
     url(r'^zg/del/attssss$', rest_dispatch,
         {'GET': 'zerver.views.zg_attendance.delete_att'}),
@@ -611,12 +610,9 @@ v1_api_and_json_patterns = [
     url(r'^zg/file/del/', rest_dispatch,
         {'DELETE': 'zerver.views.zg_restful_api.file_del'}),
 
-
     # 文件详情
     url(r'^zg/file/details$', rest_dispatch,
         {'GET': 'zerver.views.zg_restful_api.file_details'}),
-
-
 
 ]
 

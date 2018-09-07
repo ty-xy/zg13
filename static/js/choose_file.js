@@ -28,53 +28,69 @@ var chooseFile = (function () {
         }
         function common_content(value,obj,name){
             var o1 = {}
-            value.forEach(function(val,index,arr){
-                val.did=name
-                o1[val.id] = val 
+            if(value&&value.length>0){
+                value.forEach(function(val,index,arr){
+                    val.did=name
+                    o1[val.id] = val 
+                })
+                obj = $.extend(obj,o1)
+                o1={}
+                var html =$(templates.render("choose_person",{datalist:obj}))
+                $(".box-right-list").html(html)
+                length()
+            }
+        }
+        function search_box (total,obj,object){
+            $(".search-people-name").on("click",function(e){
+                var value  = $(this).text() 
+                var content =  total[value]
+                object[content.id] = content 
+                obj=$.extend(obj,object)
+                var html =$(templates.render("choose_person",{datalist:obj}))
+                $(".box-right-list").html(html)
+                length()
             })
-            obj = $.extend(obj,o1)
-            o1={}
-            var html =$(templates.render("choose_person",{datalist:obj}))
-            $(".box-right-list").html(html)
-            length()
         }
         function next_common(choose_list,name,obj,lid) {
-            choose_list.forEach(function(val,i){
-                if(obj[val.id] !== undefined){
-                    val.checked = true
-                }else{
-                    val.checked = false
-                }
-            })
-            var li = $(templates.render('choose_people',{
-                datalists:choose_list,
-                channels:name
-            }));
-            $(".choose-nav-left").html(li)
-            //点击下级全选
-            $(".checkbox-inputs").on("click",function(e){
-                    var datalists= choose_list.reduce(function(prev, cur){prev[cur.id] = cur; return prev;}, {});
-                    if($(this).is(":checked")){
-                      $(".box-choose-lefts").find("input").prop("checked",true)
-                      obj = $.extend(obj,datalists)
-                      var html = templates.render("choose_person",{datalist:obj})
-                       $(".box-right-list").html(html)
+            if(choose_list&&choose_list.length>0){
+                choose_list.forEach(function(val,i){
+                    if(obj[val.id] !== undefined){
+                        val.checked = true
                     }else{
-                      $(".box-choose-lefts").find("input").prop("checked",false)
-                      choose_list.forEach(function(val,i){
-                          if(obj[val.id] !== undefined){
-                             delete(obj[val.id])
-                          }
+                        val.checked = false
+                    }
+                })
+                var li = $(templates.render('choose_people',{
+                    datalists:choose_list,
+                    channels:name
+                }));
+                $(".choose-nav-left").html(li)
+                //点击下级全选
+                $(".checkbox-inputs").on("click",function(e){
+                        var datalists= choose_list.reduce(function(prev, cur) {prev[cur.id] = cur; return prev;}, {});
+                        if($(this).is(":checked")){
+                          $(".box-choose-lefts").find("input").prop("checked",true)
+                          obj = $.extend(obj,datalists)
                           var html = templates.render("choose_person",{datalist:obj})
-                          $(".box-right-list").html(html)
-                      })
-                  }
-            })
-                    //点击选择人员
-            $(".choose-nav-left").on("click",".back-choose",function(e){
-                $(".choose-nav-left").children().remove()
-                $(".choose-nav-left").html(lid)
-            }) 
+                           $(".box-right-list").html(html)
+                        }else{
+                          $(".box-choose-lefts").find("input").prop("checked",false)
+                          choose_list.forEach(function(val,i){
+                              if(obj[val.id] !== undefined){
+                                 delete(obj[val.id])
+                              }
+                              var html = templates.render("choose_person",{datalist:obj})
+                              $(".box-right-list").html(html)
+                          })
+                      }
+                })
+                        //点击选择人员
+                $(".choose-nav-left").on("click",".back-choose",function(e){
+                    $(".choose-nav-left").children().remove()
+                    $(".choose-nav-left").html(lid)
+                }) 
+            }
+           
         }
         //选择发送人
         exports.choosePeople = function(func){
@@ -236,7 +252,7 @@ var chooseFile = (function () {
                         }) 
                        // 点击下级全选
                        $(".checkbox-inputs").on("click",function(e){
-                              var datalists= choose_list.reduce(function(prev, cur) {prev[cur.id] = cur; return prev;}, {});
+                              var datalists= choose_list.reduce(function(prev, cur){prev[cur.id] = cur; return prev;}, {});
                               if($(this).is(":checked")){
                                 $(".box-choose-lefts").find("input").prop("checked",true)
                                 obj = $.extend(obj,datalists)
@@ -335,15 +351,19 @@ var chooseFile = (function () {
         exports.chooseTeamMember = function(func){
             // var obj = {}
             $(".modal-log").show()
+           
             channel.get({
                 url:"json/zg/department/list",
                 success:function(data){
                   var obj = {}
+                  var total ={}
+                  var tatal_arr = []
                   var dataer= data.department_lists
-                  var  datalist= dataer.reduce(function(prev, cur) {prev[cur.name] = cur; return prev;}, {});
+                  var  datalist= dataer.reduce(function(prev, cur){prev[cur.name] = cur; return prev;}, {});
                   datalist["未分组"]={id:"none",name:"未分组",num:data.not_department_count}
-                  var li = $(templates.render("choose",{data:datalist}));
+                  var li = $(templates.render("choose",{data:datalist,show:true}));
                   $(".modal-log-content").html(li)
+                  $(".modal-ul-choose").hide()
                   var lid = $(".choose-nav-left").children()
                   person_dict = new Dict({fold_case: true});
                   //点击左边右边出现人
@@ -380,6 +400,78 @@ var chooseFile = (function () {
                         common_content(value,obj,name)
                         console.log(2)
                       }
+                  })
+                  //搜索
+                  function showName (){
+                    if($(".modal-ul-choose").is(':visible')){
+                        console.log(111)
+                        $(".modal-ul-choose").click(function(e){
+                            $(".modal-ul-choose").hide();
+                            $(".search-icon").val("")
+                            // e.stopPropagation();//阻止冒泡
+                        });
+                        $("body").click(function(){
+                            $(".modal-ul-choose").hide();
+                            $(".search-icon").val("")
+                        })
+                     }     
+                  }
+            
+                  
+                  $(".choose-nav-left").on("input",".search-icon",function(e){
+                     var that = $(this)
+                     var search_value = that.val()
+                     var object = {}
+                     if(tatal_arr.length===0&&search_value!==""){
+                        channel.get({
+                            url:"json/zg/stream/recipient/data",
+                            success:function(data){
+                                var datakeylist = data.streams_dict
+                                var arr = [];
+                                for(var i in datakeylist){ 
+                                   arr=arr.concat(datakeylist[i]);
+                                }
+                                var objs= {};
+                                // console.log(arr)
+                                arr= arr.reduce(function(item,next){
+                                    objs[next.id] ? +'' : objs[next.id] = next && item.push(next);
+                                    return item;
+                                },[])
+                                console.log(arr)
+                                var search_arr =[]
+                                arr.forEach(function(val,index){
+                                    var value_lowerCase = val.fullname.toLowerCase()
+                                    if(value_lowerCase.indexOf(search_value)!==-1){
+                                        search_arr.push(value_lowerCase)
+                                    }
+                                    tatal_arr.push(value_lowerCase)
+                                })
+                                total = arr.reduce(function(prev, cur){prev[cur.fullname.toLowerCase()] = cur; return prev;}, {});
+                                var li = $(templates.render('search_li',{search_arr:search_arr}));
+                                $(".modal-ul-choose").html(li)
+                                $(".modal-ul-choose").show()
+                                showName()
+                                search_arr =[]             
+                                search_box(total,obj,object)
+                            }
+                        })
+                     }else{
+                        if(search_value!==""){
+                            console.log(11)
+                            var search_arr =[]
+                            tatal_arr.forEach(function(val,index){
+                                if(val.indexOf(search_value)!==-1){
+                                    search_arr.push(val)
+                                }
+                            })
+                            var li = templates.render("search_li",{search_arr:search_arr})
+                            $(".modal-ul-choose").html(li)
+                            $(".modal-ul-choose").show()
+                            showName()
+                            search_arr =[]
+                            search_box(total,obj,object)
+                        }
+                     }
                   })
                   // 点击清空
                   $(".choose-right-list").on("click",".button-right-clear",function(e){
