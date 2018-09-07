@@ -128,7 +128,7 @@ Handlebars.registerHelper("replaceTag",function(repStr){
     var tagA = $repStr.find("a").length
     if(tagA===1&&lastContent==".aac"){
         var li = '<p>\
-                    <audio controls="controls" autoplay="autoplay">\
+                    <audio controls="controls">\
                     <source src='+content+' type="audio/ogg"/>\
                     Your browser does not support the audio element\
                     </audio>\
