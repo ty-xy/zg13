@@ -203,7 +203,15 @@ var server_events = (function () {
         idempotent: true,
         timeout:  page_params.poll_timeout,
         success: function (data) {
-            console.log(data)
+            console.log("今天天气不错",data)
+            for(var i = 0;i<data.events.length;i++){
+                type = data.events[0].zg_type
+                push_data = data.events[0]
+            }
+            if(type == 'DailyReport'){
+                $(".keep_exist .notice_bottom").html(push_data.theme)
+                $(".keep_exist .notice_top_time").html(server_events.tf(push_data.time))
+            }
             var type;
             var data_message;
             $.ajax({

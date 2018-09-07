@@ -899,7 +899,6 @@ var contact = (function(){
                                 $(".organization_add_group_popover").on("click",function(e){
                                     e.stopPropagation();
                                 })  
-                                console.log("123123")
                                 //保存按钮
                                 $(".organization_add_group_finish").on("click",function(){
                                     var name = $(".organization_add_group_input").val()
