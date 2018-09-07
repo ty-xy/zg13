@@ -299,6 +299,7 @@ p.n-margin {
     /* overflow-x:auto; */
     position: absolute;
     z-index: 11;
+    overflow-x: hidden;
 }
 .app-main .column-left .left-sidebar,
 .app-main .column-right .right-sidebar {

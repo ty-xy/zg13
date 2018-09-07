@@ -202,6 +202,8 @@ exports.load_messages = function (opts) {
                                         accessory_dict:accessory_dict,
                                     })
                                     $(".move_ctn").append(html)
+                                    var window_high = window.screen.height;
+                                    $(".taskdetail_box").css("height",window_high)
                                     $(".taskdetail_md").show();
                                     var obj_backlog_details = {
                                         backlog_id:id,

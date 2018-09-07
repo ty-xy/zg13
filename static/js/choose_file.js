@@ -53,7 +53,7 @@ var chooseFile = (function () {
             $(".choose-nav-left").html(li)
             //点击下级全选
             $(".checkbox-inputs").on("click",function(e){
-                    var datalists= choose_list.reduce((prev, cur) => {prev[cur.id] = cur; return prev;}, {});
+                    var datalists= choose_list.reduce(function(prev, cur){prev[cur.id] = cur; return prev;}, {});
                     if($(this).is(":checked")){
                       $(".box-choose-lefts").find("input").prop("checked",true)
                       obj = $.extend(obj,datalists)
@@ -155,7 +155,7 @@ var chooseFile = (function () {
                             var objs= {};
                             // console.log(arr)
                             arr = arr.reduce(function(item,next){
-                                objs[next.id] ? '' : objs[next.id] = next && item.push(next);
+                                objs[next.id] ? +'' : objs[next.id] = next && item.push(next);
                                 return item;
                             },[])
                             _.each(arr,function(val,key){
@@ -236,7 +236,7 @@ var chooseFile = (function () {
                         }) 
                        // 点击下级全选
                        $(".checkbox-inputs").on("click",function(e){
-                              var datalists= choose_list.reduce((prev, cur) => {prev[cur.id] = cur; return prev;}, {});
+                              var datalists= choose_list.reduce(function(prev, cur) {prev[cur.id] = cur; return prev;}, {});
                               if($(this).is(":checked")){
                                 $(".box-choose-lefts").find("input").prop("checked",true)
                                 obj = $.extend(obj,datalists)
@@ -272,7 +272,7 @@ var chooseFile = (function () {
               success:function(data){
                   var obj = {}
                   var data= data.department_lists
-                  var  datalist= data.reduce((prev, cur) => {prev[cur.id] = cur; return prev;}, {});
+                  var  datalist= data.reduce(function(prev, cur){prev[cur.id] = cur; return prev;}, {});
                   var li = $(templates.render("choose_channel",{data:datalist}));
                   $(".modal-log-content").html(li)
                   //点击左边右边显示
@@ -340,7 +340,7 @@ var chooseFile = (function () {
                 success:function(data){
                   var obj = {}
                   var dataer= data.department_lists
-                  var  datalist= dataer.reduce((prev, cur) => {prev[cur.name] = cur; return prev;}, {});
+                  var  datalist= dataer.reduce(function(prev, cur) {prev[cur.name] = cur; return prev;}, {});
                   datalist["未分组"]={id:"none",name:"未分组",num:data.not_department_count}
                   var li = $(templates.render("choose",{data:datalist}));
                   $(".modal-log-content").html(li)
@@ -459,7 +459,7 @@ var chooseFile = (function () {
                                 var objs= {};
                                 // console.log(arr)
                                 arr = arr.reduce(function(item,next){
-                                    objs[next.id] ? '' : objs[next.id] = next && item.push(next);
+                                    objs[next.id] ? +'' : objs[next.id] = next && item.push(next);
                                     return item;
                                 },[])
                                 _.each(arr,function(val,key){

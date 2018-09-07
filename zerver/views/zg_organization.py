@@ -14,6 +14,8 @@ import json
 def department_list(request, user_profile):
     department_lists = []
     department_objs = ZgDepartment.objects.filter(realm=user_profile.realm)
+    not_department_count = UserProfile.objects.filter(department=None, realm=user_profile.realm.id).count()
+
     if department_objs:
         for department_obj in department_objs:
             department = {}
@@ -22,9 +24,7 @@ def department_list(request, user_profile):
             department['name'] = name
             department['id'] = department_obj.id
             department['num'] = user_count
-            department_lists.append(department)
-            not_department_count = UserProfile.objects.filter(department=None, realm=user_profile.realm.id).count()
-
+            department_lists.append(department)         
     return JsonResponse({'errno': 0, 'message': '成功', 'department_lists': department_lists,'not_department_count':not_department_count})
 
 
@@ -183,9 +183,16 @@ def department_del(request, user_profile):
     req = req_tools(request)
     department_id = req.get('department_id')
 
+    if not department_id:
+        return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
+
     if not user_profile.is_realm_admin:
-        return JsonResponse({'errno': 1, 'message': '无权限'})
-    user_objs = ZgDepartment.objects.filter(id=department_id).delete()
+        return JsonResponse({'errno': 2, 'message': '无权限'})
+    
+    user_objs=UserProfile.objects.filter(department=department_id)
+    user_objs.update(department=None)
+    ZgDepartment.objects.filter(id=department_id).delete()
+
     return JsonResponse({'errno': 0, 'message': '成功'})
 
 
@@ -226,8 +233,8 @@ def department_user_list(request, user_profile):
 # 判断权限
 def zg_user_permissions(request, user_profile):
 
-    if user_profile.is_realm_admin == 'f' or user_profile.zg_permission is None:
-        return JsonResponse({'errno': 0, 'message': False})
+    if user_profile.is_realm_admin == True or user_profile.zg_permission != None:
+        return JsonResponse({'errno': 0, 'message': True})
 
     else:
-        return JsonResponse({'errno': 0, 'message': True})
+        return JsonResponse({'errno': 0, 'message': False})
