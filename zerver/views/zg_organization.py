@@ -39,8 +39,8 @@ def not_department_user(request, user_profile):
             user_dict = {}
             avatars = avatar.absolute_avatar_url(user)
             name = user.full_name
-            user_dict['avatar'] = avatars
-            user_dict['name'] = name
+            user_dict['avatarurl'] = avatars
+            user_dict['fullname'] = name
             user_dict['id'] = user.id
             not_department_list.append(user_dict)
     return JsonResponse({'errno': 0, 'message': '成功', 'not_department_list': not_department_list})
@@ -173,8 +173,8 @@ def user_details(request, user_profile):
     user_obj = UserProfile.objects.filter(id=user_id)
 
     data = {}
-    data['avatar'] = avatar.absolute_avatar_url(user_obj[0])
-    data['name'] = user_obj[0].full_name
+    data['avatarurl'] = avatar.absolute_avatar_url(user_obj[0])
+    data['fullname'] = user_obj[0].full_name
     data['id'] = user_obj[0].id
     data['email'] = user_obj[0].email
     data['department'] = user_obj[0].department
@@ -220,8 +220,8 @@ def department_user_list(request, user_profile):
     user_objs = UserProfile.objects.filter(department=department_id)
     for i in user_objs:
         user_dict = {}
-        user_dict['name'] = i.full_name
-        user_dict['avatar'] = avatar.absolute_avatar_url(i)
+        user_dict['fullname'] = i.full_name
+        user_dict['avatarurl'] = avatar.absolute_avatar_url(i)
         user_dict['id'] = i.id
         user_list.append(user_dict)
     return JsonResponse({'errno': 0, 'message': '成功', 'user_list': user_list})

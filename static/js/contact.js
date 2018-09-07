@@ -793,8 +793,18 @@ var contact = (function(){
                     var organization_chart_ctn_child=templates.render("organization_chart_ctn_child")
                     $(".organization_chart_change_box").append(organization_chart_ctn_child)
                     //添加子管理员
-                    $(".organization_chart_box").on("click",".organization_chart_ctn_child_add",function(){
-
+                    $(".organization_chart_box").on("click",".organization_chart_ctn_child_add",function(e){
+                        //选择部门
+                        function xy (content){
+                            console.log(content)
+                        }
+                        // chooseFile.chooseTeam(xy);
+                        chooseFile.chooseTeamMember(xy)
+                        // function xy (content){
+                        //     console.log(content)
+                        // }
+                        // // 传个函数进去就可以了
+                        //  chooseFile.choosePeople(xy);
                     })
                     //样式切换变化
                     $(this).addClass("color_li").siblings().removeClass("color_li")
