@@ -1,4 +1,3 @@
-
 from collections import defaultdict
 import logging
 import random
@@ -17,6 +16,7 @@ from zerver.lib.utils import statsd
 
 MAX_REQUEST_RETRIES = 3
 Consumer = Callable[[BlockingChannel, Basic.Deliver, pika.BasicProperties, str], None]
+
 
 # This simple queuing library doesn't expose much of the power of
 # rabbitmq/pika's queuing system; its purpose is to just provide an
@@ -37,7 +37,7 @@ class SimpleQueueClient:
     def _connect(self) -> None:
         start = time.time()
         self.connection = pika.BlockingConnection(self._get_parameters())
-        self.channel    = self.connection.channel()
+        self.channel = self.connection.channel()
         self.log.info('SimpleQueueClient connected (connecting took %.3fs)' % (time.time() - start,))
 
     def _reconnect(self) -> None:
@@ -85,6 +85,7 @@ class SimpleQueueClient:
         if queue_name not in self.queues:
             self.channel.queue_declare(queue=queue_name, durable=True)
             self.queues.add(queue_name)
+
         callback()
 
     def publish(self, queue_name: str, body: str) -> None:
@@ -95,7 +96,9 @@ class SimpleQueueClient:
                 properties=pika.BasicProperties(delivery_mode=2),
                 body=body)
 
+
             statsd.incr("rabbitmq.publish.%s" % (queue_name,))
+
 
         self.ensure_queue(queue_name, do_publish)
 
@@ -106,7 +109,6 @@ class SimpleQueueClient:
             return
         except pika.exceptions.AMQPConnectionError:
             self.log.warning("Failed to send to rabbitmq, trying to reconnect and send again")
-
         self._reconnect()
         self.publish(queue_name, ujson.dumps(body))
 
@@ -134,9 +136,10 @@ class SimpleQueueClient:
                              properties: pika.BasicProperties,
                              body: str) -> None:
             callback(ujson.loads(body))
+
         self.register_consumer(queue_name, wrapped_callback)
 
-    def drain_queue(self, queue_name: str, json: bool=False) -> List[Dict[str, Any]]:
+    def drain_queue(self, queue_name: str, json: bool = False) -> List[Dict[str, Any]]:
         "Returns all messages in the desired queue"
         messages = []
 
@@ -160,6 +163,7 @@ class SimpleQueueClient:
 
     def stop_consuming(self) -> None:
         self.channel.stop_consuming()
+
 
 # Patch pika.adapters.TornadoConnection so that a socket error doesn't
 # throw an exception and disconnect the tornado process from the rabbitmq
@@ -189,9 +193,9 @@ class TornadoQueueClient(SimpleQueueClient):
         self.log.info("Beginning TornadoQueueClient connection")
         self.connection = ExceptionFreeTornadoConnection(
             self._get_parameters(),
-            on_open_callback = self._on_open,
-            on_open_error_callback = self._on_connection_open_error,
-            on_close_callback = self._on_connection_closed,
+            on_open_callback=self._on_open,
+            on_open_error_callback=self._on_connection_open_error,
+            on_close_callback=self._on_connection_closed,
         )
 
     def _reconnect(self) -> None:
@@ -216,7 +220,7 @@ class TornadoQueueClient(SimpleQueueClient):
     CONNECTION_FAILURES_BEFORE_NOTIFY = 10
 
     def _on_connection_open_error(self, connection: pika.connection.Connection,
-                                  message: Optional[str]=None) -> None:
+                                  message: Optional[str] = None) -> None:
         self._connection_failure_count += 1
         retry_secs = self.CONNECTION_RETRY_SECS
         message = ("TornadoQueueClient couldn't connect to RabbitMQ, retrying in %d secs..."
@@ -239,7 +243,7 @@ class TornadoQueueClient(SimpleQueueClient):
         self._connection_failure_count = 0
         try:
             self.connection.channel(
-                on_open_callback = self._on_channel_open)
+                on_open_callback=self._on_channel_open)
         except pika.exceptions.ConnectionClosed:
             # The connection didn't stay open long enough for this code to get to it.
             # Let _on_connection_closed deal with trying again.
@@ -285,7 +289,10 @@ class TornadoQueueClient(SimpleQueueClient):
                           lambda: self.channel.basic_consume(wrapped_consumer, queue=queue_name,
                                                              consumer_tag=self._generate_ctag(queue_name)))
 
+
 queue_client = None  # type: Optional[SimpleQueueClient]
+
+
 def get_queue_client() -> SimpleQueueClient:
     global queue_client
     if queue_client is None:
@@ -296,6 +303,7 @@ def get_queue_client() -> SimpleQueueClient:
 
     return queue_client
 
+
 # We using a simple lock to prevent multiple RabbitMQ messages being
 # sent to the SimpleQueueClient at the same time; this is a workaround
 # for an issue with the pika BlockingConnection where using
@@ -303,9 +311,10 @@ def get_queue_client() -> SimpleQueueClient:
 # randomly close.
 queue_lock = threading.RLock()
 
+
 def queue_json_publish(queue_name: str,
                        event: Union[Dict[str, Any], str],
-                       processor: Callable[[Any], None]=None) -> None:
+                       processor: Callable[[Any], None] = None) -> None:
     # most events are dicts, but zerver.middleware.write_log_line uses a str
     with queue_lock:
         if settings.USING_RABBITMQ:
@@ -316,6 +325,7 @@ def queue_json_publish(queue_name: str,
             # Must be imported here: A top section import leads to obscure not-defined-ish errors.
             from zerver.worker.queue_processors import get_worker
             get_worker(queue_name).consume_wrapper(event)
+
 
 def retry_event(queue_name: str,
                 event: Dict[str, Any],

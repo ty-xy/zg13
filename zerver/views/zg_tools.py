@@ -3,6 +3,9 @@ from zerver.lib import avatar
 from zerver.models import UserProfile
 from django.http import JsonResponse
 import json
+import time
+# from apscheduler.schedulers.background import BackgroundScheduler
+# from django_apscheduler.jobstores import DjangoJobStore, register_events, register_job
 
 
 def haversine(lon1, lat1, lon2, lat2):  # 经度1，纬度1，经度2，纬度2 （十进制度数）
@@ -21,13 +24,15 @@ def haversine(lon1, lat1, lon2, lat2):  # 经度1，纬度1，经度2，纬度2 
     r = 6371  # 地球平均半径，单位为公里
     return c * r * 1000
 
-def zg_user_info(ids):
-    user_obj=UserProfile.objects.filter(id=ids)
-    avatars=avatar.absolute_avatar_url(user_obj[0])
-    name = user_obj.full_name
-    ids=user_obj.id
 
-    return {'avatar':avatars,'name':name,'id':ids}
+def zg_user_info(ids):
+    user_obj = UserProfile.objects.filter(id=ids)
+    avatars = avatar.absolute_avatar_url(user_obj[0])
+    name = user_obj.full_name
+    ids = user_obj.id
+
+    return {'avatar': avatars, 'name': name, 'id': ids}
+
 
 def req_tools(request):
     req = request.body
@@ -35,5 +40,39 @@ def req_tools(request):
     req = json.loads(req)
     return req
 
-# def zg_ok()
-#     return JsonResponse({})
+
+def zg_send_tools(zg_dict):
+    event = {'type': 'update_message_flags',
+             'operation': 'add',
+             'flag': 'starred',
+             'messages': [1],
+             'all': False}
+    for k, v in zg_dict.items():
+        event[k] = v
+    return event
+
+
+#
+# try:
+#     # 实例化调度器
+#     schedulers = BackgroundScheduler()
+#     # 调度器使用DjangoJobStore()
+#     schedulers.add_jobstore(DjangoJobStore(), "default")
+#
+#
+#     # 'cron'方式循环，周一到周五，每天9:30:10执行,id为工作ID作为标记
+#     # ('scheduler',"interval", seconds=1)  #用interval方式循环，每一秒执行一次
+#     @register_job(schedulers, 'cron', day_of_week='mon-fri', hour='14', minute='43', id='task_time')
+#     def test_job():
+#         t_now = time.localtime()
+#         print(t_now)
+#         print(12321321321321)
+#
+#
+#     # 监控任务
+#     register_events(schedulers)
+#     # 调度器开始
+#     schedulers.start()
+# except Exception as e:
+#     print(e)
+# # 报错则调度器停止执行
