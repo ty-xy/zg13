@@ -76,6 +76,13 @@ exports.parse_narrow = function (hash) {
         $(".compose-content").hide()
         $(".move_ctn").children().remove();
         $(".group_icon").hide()
+        arr = JSON.parse(localStorage.getItem("arr"))
+        if(arr !=null){
+            $(".persistent_data").show()
+            $(".persistent_data").children().remove();
+            var notice_box = templates.render("notice_box",{arr:arr})
+            $(".persistent_data").prepend(notice_box)
+        }
         //添加默认空白
         $(".move_ctn").append(templates.render("right_blank_page"))
     }
@@ -107,7 +114,7 @@ exports.parse_narrow = function (hash) {
                 e.stopPropagation()
                 e.preventDefault()
                 var now_name = $(this).prev().prev().children().first().text()
-                var pipei_name = $(".home-title").children().eq(0).text()
+                var pipei_name = $(".home-title").children().eq(0).text() 
                 if(now_name == pipei_name){
                     window.location.href = "#narrow/is/starred"
                 }
@@ -115,9 +122,10 @@ exports.parse_narrow = function (hash) {
                 console.log(pipei_name)
                 $(this).parent().parent().parent().remove();
                 var send_id = $(this).parent().parent().attr("send_id")
+                var stream_id = $(this).closest(".only_tip").attr("stream_id")
                 arr = JSON.parse(localStorage.getItem("arr"))
                 for(var i=0;i<arr.length;i++){
-                    if(arr[i].send_id == send_id){
+                    if(arr[i].send_id == send_id||arr[i].stream_id == stream_id){
                         arr.remove(i)
                     }
                 }
