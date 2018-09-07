@@ -4,6 +4,7 @@ from django.http import JsonResponse, HttpResponse, HttpRequest
 import datetime, time, json, calendar
 from zerver.lib import avatar
 from datetime import datetime, timezone, timedelta
+from zerver.views.zg_tools import zg_send_tools
 
 import re, math
 
@@ -565,11 +566,12 @@ def table_view(request, user_profile):
             b = time.time()
             for staff in send:
                 StatementState.objects.create(statement_id=a, staff=staff, receive_time=b)
-            event = {'type': 'JobsNotice',
-                     'theme': user_profile.full_name + '的日志',
-                     'time':nuw_time()
-                     }
-            send_event(event, send)
+            even = {'zg_type': 'DailyReport',
+                    'theme': user_profile.full_name + '的日志',
+                    'time': nuw_time()
+                    }
+            send_event(zg_send_tools(even), send)
+
     except Exception:
         return JsonResponse({'errno': 2, 'message': "储存周报失败"})
 

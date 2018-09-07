@@ -49,9 +49,6 @@ def serve_local(request: HttpRequest, path_id: str) -> HttpResponse:
                                   file_type == "application/pdf"):
         attachment = False
 
-    # if path_id[-3:] == 'aac':
-    #     print('=-2' * 30)
-    #     attachment = True
     return sendfile(request, local_path, attachment=attachment)
 
 
@@ -78,14 +75,16 @@ def serve_file_backend(request: HttpRequest, user_profile: UserProfile,
     if is_authorized is None:
         return HttpResponseNotFound(_("<p>File not found.</p>"))
 
+    # 文件权限
     # if not is_authorized  :
     #     return HttpResponse1Forbidden(_("<p>You are not authorized to view this file.</p>"))
+
     if settings.LOCAL_UPLOADS_DIR is not None:
         if path_id[-3:] == 'aac':
             response = HttpResponse(serve_local(request, path_id), content_type='audio/aac')
+
             return response
         return serve_local(request, path_id)
-
     return serve_s3(request, path_id)
 
 

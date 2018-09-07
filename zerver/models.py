@@ -2350,5 +2350,5 @@ class ZgCollection(models.Model):
 
 # 用户云盘附件
 class ZgCloudDisk(models.Model):
-    user = models.ForeignKey(UserProfile)
-    attachment = models.ForeignKey(Attachment)
+    user = models.ForeignKey(UserProfile, null=True, on_delete=models.SET_NULL)
+    attachment = models.ForeignKey(Attachment, null=True, on_delete=models.SET_NULL)
