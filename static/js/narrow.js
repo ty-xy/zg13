@@ -624,6 +624,7 @@ function pick_empty_narrow_banner() {
             $(".notice_ctn_box").show()
             $(".persistent_data").hide();
             $(".keep_exist").hide();
+            $(".work_order").hide();
             return $("#empty_narrow_all_mentioned");
         } else if (first_operand === "private") {
             // // You have no private messages.
@@ -631,6 +632,7 @@ function pick_empty_narrow_banner() {
             $(".notice_ctn_boxs").hide()
             $(".persistent_data").hide();
             $(".keep_exist").hide();
+            $(".work_order").hide();
             return $("#empty_narrow_all_private_message");
         } else if (first_operand === "unread") {
             // You have no unread messages.
@@ -638,6 +640,7 @@ function pick_empty_narrow_banner() {
             $(".persistent_data").hide();
             $("#zfilt").addClass("focused_table");
             $(".keep_exist").hide();
+            $(".work_order").hide();
             return $("#no_unread_narrow_message");
         } else if (first_operand === "management") {
             // $('#zfilt').hide()
@@ -646,6 +649,7 @@ function pick_empty_narrow_banner() {
             $("#compose").hide()
             $(".persistent_data").hide();
             $(".keep_exist").hide();
+            $(".work_order").hide();
             return $("#management_ctn");
         }else if (first_operand === "supervise") {
             // $('#zfilt').hide()
@@ -655,6 +659,7 @@ function pick_empty_narrow_banner() {
             $("#compose").hide()
             $(".persistent_data").hide();
             $(".keep_exist").hide();
+            $(".work_order").hide();
             return $("#supervise_ctn");
         }else if (first_operand === "collection") {
             $(".notice_ctn_boxs").hide()
@@ -662,6 +667,7 @@ function pick_empty_narrow_banner() {
             $(".persistent_data").hide();
             $(".keep_exist").hide();
             $("#zfilt").removeClass("focused_table");
+            $(".work_order").hide();
             return $("#supervise_ctn");
         }
     } else if ((first_operator === "stream") && !stream_data.is_subscribed(first_operand)) {

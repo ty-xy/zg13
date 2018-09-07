@@ -1288,3 +1288,6 @@
     letter-spacing: 0.17px;
     line-height: 21px;
 }
+.work_order{
+    display: none;
+}

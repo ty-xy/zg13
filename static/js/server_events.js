@@ -209,12 +209,18 @@ var server_events = (function () {
                 push_data = data.events[0]
             }
             if(type == 'DailyReport'){
+                $(".work_order").show()
+                localStorage.setItem("pushData",JSON.stringify(push_data))
                 $(".keep_exist .notice_bottom").html(push_data.theme)
                 $(".keep_exist .notice_top_time").html(server_events.tf(push_data.time))
+            }else if(type == 'JobsNotice'){
+                $(".work_order").show()
+                localStorage.setItem("pushData",JSON.stringify(push_data))
+                $(".work_order .notice_bottom").html(push_data.theme)
+                $(".work_order .notice_top_time").html(server_events.tf(push_data.time))
             }
             var type;
             var data_message;
-            // console.log(data)
             $.ajax({
                 url:"json/zg/user",
                 type:"GET",
