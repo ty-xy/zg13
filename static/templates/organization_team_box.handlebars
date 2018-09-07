@@ -2,7 +2,11 @@
     <div class="organization_team_head">
         <p>知工网络科技有限公司</p>
         <ul class="organization_team_btn">
+            {{#if identity}}
             <li class="management_team">团队管理</li>
+            {{else}}
+            <li class="quit_team">退出团队</li>
+            {{/if}}
             <li class="invite_members">邀请成员</li>
         </ul>
     </div>

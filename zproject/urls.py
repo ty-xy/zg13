@@ -571,6 +571,9 @@ v1_api_and_json_patterns = [
     # 部门人员
     url(r'^zg/department/user/list$', rest_dispatch,
         {'GET': 'zerver.views.zg_organization.department_user_list'}),
+    # 权限认证
+    url(r'^zg/user/permissions$', rest_dispatch,
+        {'GET': 'zerver.views.zg_organization.zg_user_permissions'}),
     # zg_restful-------------
     # 收藏
     url(r'^zg/collection/$', rest_dispatch,
@@ -589,10 +592,10 @@ v1_api_and_json_patterns = [
     # 查看云盘列表
     url(r'^zg/clouddisk/user$', rest_dispatch,
         {'GET': 'zerver.views.zg_restful_api.user_clouddisk'}),
-
+    # 文件详情
     url(r'^zg/file/details$', rest_dispatch,
         {'GET': 'zerver.views.zg_restful_api.file_details'}),
-
+   
 
 
 ]
