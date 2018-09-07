@@ -3631,7 +3631,7 @@ def do_update_message_flags(user_profile: UserProfile,
              'messages': messages,
              'all': False}
 
-    send_event(event, [1,user_profile.id])
+    send_event(event, [user_profile.id])
     # eventsss = {'type': '测试', 'theme': 'approval',
     #             'all': False,
     #             'content': {'type': '测试类型',

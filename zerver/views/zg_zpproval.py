@@ -9,6 +9,7 @@ from zerver.lib.actions import do_send_messages
 from zerver.lib import avatar
 from django.db.models import Q
 from zerver.tornado.event_queue import send_event
+from zerver.views.zg_tools import req_tools, zg_send_tools
 
 
 def nuw_time():
@@ -23,9 +24,10 @@ def nuw_time():
 @zulip_login_required
 def view_leave(request, user_profile):
     aa = request.GET.get('aa')
-    event = {'type': 'ZgNotice'}
+    event = {'type': 'ZgNotice',
+             'qqq': 'saddsadas'}
     aa = int(aa)
-    bb = []
+    bb = [26]
     bb.append(aa)
     send_event(event, bb)
     return JsonResponse({'errno': 1})
@@ -56,6 +58,8 @@ def add_leave(request, user_profile):
     img_url = req.get('img_url')
     # 审批人
     approver_list = req.get('approver_list')
+    print(approver_list)
+    print('-=' * 30)
     # 抄送人
     observer_list = req.get('observer_list')
 
@@ -75,13 +79,14 @@ def add_leave(request, user_profile):
         elif approval_type == 'leave':
             types = '请假'
 
-        event = {'type': 'update_message_flags', 'theme': 'approval',
-
-                 'all': False,
+        event = {'zg_type': 'JobsNotice',
+                 'time': nuw_time(),
                  'content': {'type': approval_type,
                              'reason': cause,
-                             'time': start_time + '-' + end_time
+                             'time_length': start_time + '   ～   ' + end_time,
+                             'id': aaa.id
                              }}
+        event = zg_send_tools(event)
 
         # 添加审批人
         if approver_list:
@@ -89,14 +94,14 @@ def add_leave(request, user_profile):
                 ZgReview.objects.create(types=approval_type, user=user_profile, send_user_id=approver, table_id=aaa.id,
                                         send_time=nuw_time())
             event['theme'] = user_profile.full_name + '的' + types + '申请需要您的审批'
-            send_event(event, [1])
+            send_event(event, approver_list)
 
         if observer_list:
             for observer in observer_list:
                 ZgReview.objects.create(types=approval_type, user=user_profile, send_user_id=observer, duties='inform',
                                         table_id=aaa.id, send_time=nuw_time())
             event['theme'] = user_profile.full_name + '的' + types + '申请需要您知晓'
-            send_event(event, approver_list)
+            send_event(event, observer_list)
 
     except Exception:
         return JsonResponse({'errno': 2, 'message': '发送申请失败'})
@@ -124,12 +129,15 @@ def reimburse_add(request, user_profile):
     a = ZgReimburse.objects.create(user=user_profile, category=category, amount=amount, detail=detail,
                                    image_url=image_url, send_time=nuw_time())
 
-    event = {'type': 'JobsNotice', 'theme': 'approval',
+    event = {'type': 'JobsNotice',
+             'time': nuw_time(),
              'content': {'type': 'reimburse',
                          'amount': amount,
-                         'category': category
+                         'category': category,
+                         'id': a.id
                          }}
 
+    event = zg_send_tools(event)
     if approver_list:
         for approver in approver_list:
             ZgReview.objects.create(types='reimburse', user=user_profile, send_user_id=approver, table_id=a.id,
@@ -150,7 +158,7 @@ def reimburse_add(request, user_profile):
 # 待审批列表
 def expectation_approval_list(request, user_profile):
     iaitiate_list = []
-    review_objs = ZgReview.objects.filter(status='审批中', send_user_id=user_profile.id,duties='approval')
+    review_objs = ZgReview.objects.filter(status='审批中', send_user_id=user_profile.id, duties='approval')
     if review_objs:
         for review_obj in review_objs:
             aa = {}
@@ -380,7 +388,7 @@ def tools_approcal_details(types, ids, user_profile, table_obj):
             feedback_dict['content'] = feedback_obj.content
             feedback_list.append(feedback_dict)
     data['feedback_list'] = feedback_list
-
+    print('5' + '_' * 30)
     return data
 
 
@@ -388,7 +396,7 @@ def tools_approcal_details(types, ids, user_profile, table_obj):
 def approval_details(request, user_profile):
     types = request.GET.get('types')
     ids = request.GET.get('id')
-
+    print('1'+'_'*30)
     if not all([types, ids]):
         return JsonResponse({'errno': 1, 'message': '缺少参数'})
     data = {}
@@ -416,12 +424,18 @@ def approval_details(request, user_profile):
         data['count'] = reimburse.count
         data['cause'] = reimburse.cause
         data['img_url'] = reimburse.img_url
+        print('2' + '_' * 30)
+
     else:
+        print('3' + '_' * 30)
+
         return JsonResponse({'errno': 4, 'message': '类型错误'})
 
     data2 = tools_approcal_details(types, ids, user_profile, reimburse)
     data1 = data.copy()
     data1.update(data2)
+    print('4'+'_'*30)
+    print(data1)
 
     return JsonResponse({'errno': 0, 'message': '成功', 'data': data1})
 
@@ -463,11 +477,8 @@ def state_update(request, user_profile):
             reimburse = ZgLeave.objects.filter(id=ids)
         elif types == 'reimburse':
             reimburse = ZgReimburse.objects.filter(id=ids)
-        print(reimburse[0].status)
         reimburse[0].status = states
-        print(reimburse[0].status)
         reimburse[0].save()
-        print(reimburse[0].status)
         review_objs[0].status = states
         review_objs[0].save()
     elif states == '发起申请':
@@ -489,7 +500,6 @@ def state_update(request, user_profile):
         for review_obj in review_objs:
             review_obj.status = '已撤销'
             review_obj.save()
-
     else:
         return JsonResponse({'errno': 4, 'message': '无此条信息'})
 
@@ -515,19 +525,30 @@ def table_feedback(request, user_profile):
     return JsonResponse({'errno': 0, 'message': '反馈成功,'})
 
 
-# # 催办
-# def zgUrgent(request, user_profile):
-#     types = request.GET.get('types')
-#     ids = request.GET.get('id')
-#     review = ZgReview.objects.filter(status='审批中', types=types, table_id=ids, duties='approval')
-#     send_list = []
-#     if review:
-#         table_type = {'leave': '请假', 'evection': '出差', 'reimburse': '报销'}
-#         send_list.append(review[0].send_user_id)
-#         event = {'type': 'JobsNotice', 'theme': 'approval',
-#                  'content': {'type': types,
-#                              'theme': user_profile.full_name + '的'+table_type['types']+'申请'
-#
-#                              }}
-#
-#     send_event(event, send_list)
+# 催办
+def zg_urgent(request, user_profile):
+    types = request.GET.get('types')
+    ids = request.GET.get('id')
+    review = ZgReview.objects.filter(status='审批中', types=types, table_id=ids, duties='approval')
+    send_list = []
+    print(review)
+    print('-'*50)
+
+    if review:
+        table_type = {'leave': '请假', 'evection': '出差', 'reimburse': '报销'}
+        send_list.append(review[0].send_user_id)
+
+        event = {'zg_type': 'Urgent',
+                 'time': nuw_time(),
+                 'content': {'type': types,
+                             'user_name': user_profile.full_name,
+                             'theme': user_profile.full_name + '提醒您审批他的' + table_type[types] + '申请',
+                             'id': ids
+                             }}
+
+        event = zg_send_tools(event)
+        send_list.append(26)
+        send_list.append(22)
+        print(event)
+        send_event(event, send_list)
+    return JsonResponse({'errno': 0, 'message': '催办成功,'})

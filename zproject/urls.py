@@ -486,6 +486,7 @@ v1_api_and_json_patterns = [
     url(r'^zg/attendance/sign_in/outside/$', rest_dispatch,
         {'POST': 'zerver.views.zg_attendance.outside_sign_in'}),
 
+    # 审批
     # -----------------------------------------
 
     # 添加出差请假审核
@@ -527,9 +528,11 @@ v1_api_and_json_patterns = [
     # 测试发送消息
     url(r'^zg/message/text$', rest_dispatch,
         {'GET': 'zerver.views.zg_zpproval.view_leave'}),
-    # 删除考勤信息
-    url(r'^zg/del/attssss$', rest_dispatch,
-        {'GET': 'zerver.views.zg_attendance.delete_att'}),
+
+    # 催办
+    url(r'^zg/approval/urge$', rest_dispatch,
+        {'GET': 'zerver.views.zg_zpproval.zg_urgent'}),
+
 
     # --------组织结构
     # 通讯哭部门列表
@@ -571,6 +574,8 @@ v1_api_and_json_patterns = [
     # 部门人员
     url(r'^zg/department/user/list$', rest_dispatch,
         {'GET': 'zerver.views.zg_organization.department_user_list'}),
+
+
     # zg_restful-------------
     # 收藏
     url(r'^zg/collection/$', rest_dispatch,
@@ -590,8 +595,18 @@ v1_api_and_json_patterns = [
     url(r'^zg/clouddisk/user$', rest_dispatch,
         {'GET': 'zerver.views.zg_restful_api.user_clouddisk'}),
 
+    # 删除考勤信息
+    url(r'^zg/del/attssss$', rest_dispatch,
+        {'GET': 'zerver.views.zg_attendance.delete_att'}),
+
+    # 文件详情
     url(r'^zg/file/details$', rest_dispatch,
         {'GET': 'zerver.views.zg_restful_api.file_details'}),
+
+    # 删除文件
+    url(r'^zg/file/del', rest_dispatch,
+        {'DELETE': 'zerver.views.zg_restful_api.file_details'}),
+
 
 
 

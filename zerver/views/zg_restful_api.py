@@ -18,7 +18,7 @@ def nuw_time():
 
 
 # 删除主题
-def del_subject(request,user_profile):
+def del_subject(request, user_profile):
     req = request.body
     if not req:
         return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
@@ -54,14 +54,16 @@ def zg_collection(request, user_profile):
             try:
                 msgs.update(flags=F('flags').bitor(flagattr))
                 ZgCollection.objects.create(user=user_profile, types=types, type_id=type_id, collection_time=nuw_time())
-            except Exception:
+            except Exception as e:
+                print(e)
                 return JsonResponse({'errno': 3, 'message': '收藏失败'})
             return JsonResponse({'errno': 0, 'message': '收藏成功'})
         elif status == 'remove':
             try:
                 msgs.update(flags=F('flags').bitand(~flagattr))
                 ZgCollection.objects.filter(types=types, type_id=type_id).delete()
-            except Exception:
+            except Exception as e:
+                print(e)
                 return JsonResponse({'errno': 3, 'message': '删除失败'})
             return JsonResponse({'errno': 0, 'message': '取消收藏成功'})
         else:
@@ -72,7 +74,7 @@ def zg_collection(request, user_profile):
 
 
 # 收藏列表
-def zg_collection_list(request,user_profile):
+def zg_collection_list(request, user_profile):
     collection_objs = ZgCollection.objects.filter(user=user_profile).order_by()
 
     collection_list = list()
@@ -98,7 +100,8 @@ def zg_stream_permissions(request, user_profile):
     stream_id = request.GET.get('stream_id')
     try:
         stream = Stream.objects.get(id=int(stream_id))
-    except Exception:
+    except Exception as e:
+        print(e)
         return JsonResponse({'errno': 1, 'message': 'id错误'})
     stream_permissions = False
     if stream.create_user_id == user_profile.id or user_profile.is_realm_admin:
@@ -117,14 +120,15 @@ def zg_abb_clouddisk(request, user_profile):
         return JsonResponse({'errno': 2, 'message': 'name错误'})
     try:
         ZgCloudDisk.objects.create(attachment=attachment[0], user=user_profile)
-    except Exception:
+    except Exception as e:
+        print(e)
         return JsonResponse({'errno': 3, 'message': '添加云盘失败'})
 
     return JsonResponse({'errno': 0, 'message': '添加云盘成功'})
 
 
 # 查看云盘列表
-def user_clouddisk(request,user_profile):
+def user_clouddisk(request, user_profile):
     clouddisk_list = []
     cloud_disk_objs = ZgCloudDisk.objects.filter(user=user_profile.id)
 
@@ -141,13 +145,13 @@ def user_clouddisk(request,user_profile):
         clouddisk_dict['name'] = cloud_disk_obj.file_name
         clouddisk_dict['path'] = cloud_disk_obj.path_id
         clouddisk_dict['create_time'] = cloud_disk_obj.create_time
+        clouddisk_dict['id'] = cloud_disk_obj.id
         clouddisk_list.append(clouddisk_dict)
     return JsonResponse({'errno': 0, 'message': '成功', 'clouddisk_list': clouddisk_list})
 
 
-
 # 查看文件详情
-def file_details(request,user_profile):
+def file_details(request, user_profile):
     file_name = request.GET.get('name')
     if not file_name:
         return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
@@ -161,8 +165,21 @@ def file_details(request,user_profile):
     elif attachment.size / 1024 > 1:
         file_dict['size'] = str(attachment.size / 1024) + 'KB'
     else:
-        file_dict['size'] = str(attachment.size)+'b'
+        file_dict['size'] = str(attachment.size) + 'b'
     file_dict['name'] = attachment.file_name
     file_dict['url'] = attachment.path_id
     file_dict['create_time'] = attachment.create_time
     return JsonResponse({'errno': 0, 'message': '成功', 'file_dict': file_dict})
+
+
+# 删除文件
+def file_del(request, user_profile):
+    req = req_tools(request)
+    del_id = req.get('id')
+    try:
+        ZgCloudDisk.objects.filter(id=del_id).delete()
+    except Exception as e:
+        print(e)
+        return JsonResponse({'errno': 0, 'message': '删除失败'})
+
+    return JsonResponse({'errno': 0, 'message': '删除成功'})

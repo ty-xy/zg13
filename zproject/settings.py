@@ -526,7 +526,10 @@ INSTALLED_APPS = [
     'webpack_loader',
     'zerver',
     'social_django',
+    'django_apscheduler',
+
 ]
+
 if USING_PGROONGA:
     INSTALLED_APPS += ['pgroonga']
 if TWO_FACTOR_AUTHENTICATION_ENABLED:

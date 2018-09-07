@@ -1014,6 +1014,7 @@ def send_event(event: Mapping[str, Any],
     """`users` is a list of user IDs, or in the case of `message` type
     events, a list of dicts describing the users and metadata about
     the user/message pair."""
+
     queue_json_publish("notify_tornado",
                        dict(event=event, users=users),
                        send_notification_http)
