@@ -540,7 +540,6 @@ def add_dev_login_context(realm: Realm, context: Dict[str, Any]) -> None:
     users = get_dev_users(realm)
     context['current_realm'] = realm
     context['all_realms'] = Realm.objects.all()
-
     context['direct_admins'] = [u for u in users if u.is_realm_admin]
     context['direct_users'] = [u for u in users if not u.is_realm_admin]
 def dex_page(request):
