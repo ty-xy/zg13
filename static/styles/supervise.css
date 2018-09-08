@@ -1293,3 +1293,28 @@
 .work_order{
     display: none;
 }
+.operating_hints_box{
+    background: #FFFFFF;
+    box-shadow: 0 0 10px 0 rgba(221,221,221,0.50);
+    border-radius: 8px;
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    display: none;
+}
+.operating_hints_img{
+    width: 80px;
+    height: 80px;
+    margin: 42px 60px;
+}
+.operating_hints_ctn{
+    font-size: 14px;
+    color: #888888;
+    letter-spacing: 0.11px;
+    text-align:center;
+}
