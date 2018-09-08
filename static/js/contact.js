@@ -17,14 +17,10 @@ var contact = (function(){
             $(".notice_ctn_box").children().remove();
             $("#main_div").hide();
             $("#compose").hide();
-            // var log_assistant_prompt = templates.render("log_assistant_prompt");
-            // $(".notice_ctn_box").append(log_assistant_prompt)
             $(".tab-content").css("height","calc(100% - 232px)")
-
              //日志助手显示
              $("body").on("click",'.log_assistant_btn',function(e){
                 $(".move_ctn").children().remove();
-                // console.log("这是全局点击111")
                 window.location.href = "#narrow/is/starred"
                 $(".tab-content").css("height","100%")
                 $(".move_ctn").children().remove();
@@ -899,7 +895,6 @@ var contact = (function(){
                                 $(".organization_add_group_popover").on("click",function(e){
                                     e.stopPropagation();
                                 })  
-                                console.log("123123")
                                 //保存按钮
                                 $(".organization_add_group_finish").on("click",function(){
                                     var name = $(".organization_add_group_input").val()
@@ -1102,6 +1097,15 @@ var contact = (function(){
                     })
                 }
             })
+        })
+        //工作通知
+        $("body").on("click",".work_order",function(){
+            $(".move_ctn").children().remove();
+            var pushData = JSON.parse(localStorage.getItem("pushData"))
+            var work_order_head = templates.render("work_order_head")
+            $(".move_ctn").append(work_order_head)
+            var work_order_body = templates.render("work_order_body",{pushData:pushData})
+            $(".work_order_box").append(work_order_body)
         })
     })
 //组织基本信息获取

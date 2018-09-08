@@ -1,0 +1,20 @@
+<ul class="work_order_ctn_box fix">
+    {{#each pushData}}
+    <li class="work_order_ctn">
+        <p class="work_order_state">[审批]</p>
+        <p class="work_order_title">{{theme}}</p>
+        <p class="work_order_reason">
+            <span>请假原因:</span>
+            <span>{{content.reason}}</span>
+        </p>
+        <p class="work_order_time">
+            <span>
+                请假日期:
+            </span>
+            <span>
+                {{content.time_length}}
+            </span>
+        </p>
+    </li>
+    {{/each}}
+</ul>

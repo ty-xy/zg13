@@ -237,6 +237,5 @@ def zg_user_permissions(request, user_profile):
     if user_profile.is_realm_admin == True or user_profile.zg_permission != None:
         return JsonResponse({'errno': 0, 'message': True})
 
-
     else:
         return JsonResponse({'errno': 0, 'message': False})
