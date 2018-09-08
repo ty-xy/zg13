@@ -1,4 +1,5 @@
 <ul class="work_order_ctn_box fix">
+    {{#each pushData}}
     <li class="work_order_ctn">
         <p class="work_order_state">[审批]</p>
         <p class="work_order_title">{{theme}}</p>
@@ -15,4 +16,5 @@
             </span>
         </p>
     </li>
+    {{/each}}
 </ul>

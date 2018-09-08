@@ -1102,10 +1102,9 @@ var contact = (function(){
         $("body").on("click",".work_order",function(){
             $(".move_ctn").children().remove();
             var pushData = JSON.parse(localStorage.getItem("pushData"))
-            console.log(pushData)
             var work_order_head = templates.render("work_order_head")
             $(".move_ctn").append(work_order_head)
-            var work_order_body = templates.render("work_order_body",pushData)
+            var work_order_body = templates.render("work_order_body",{pushData:pushData})
             $(".work_order_box").append(work_order_body)
         })
     })
