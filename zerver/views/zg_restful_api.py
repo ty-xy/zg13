@@ -177,7 +177,7 @@ def file_del(request, user_profile):
     req = req_tools(request)
     del_id = req.get('id')
     try:
-        ZgCloudDisk.objects.filter(id=del_id).delete()
+        ZgCloudDisk.objects.get(id=del_id).delete()
     except Exception as e:
         print(e)
         return JsonResponse({'errno': 0, 'message': '删除失败'})
