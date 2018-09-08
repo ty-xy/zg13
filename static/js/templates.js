@@ -405,6 +405,14 @@ Handlebars.registerHelper("cut_list",function(list){
 Handlebars.registerHelper("cut_time",function(str){
     return str.substring(11,19)
 })
+//显示名字
+Handlebars.registerHelper("short_name",function(str){
+    if(str.length>4){
+        str = str.slice(0,4)+"..."
+       return str
+    }
+    return str
+})
 Handlebars.registerHelper('if_or', function () {
     // Execute the conditional code if any of the conditions are true.
     // Example usage:

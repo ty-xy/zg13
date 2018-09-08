@@ -232,14 +232,9 @@ def department_user_list(request, user_profile):
 
 # 判断权限
 def zg_user_permissions(request, user_profile):
-<<<<<<< HEAD
-    if user_profile.is_realm_admin == 'f' and user_profile.zg_permission is None:
-        return JsonResponse({'errno': 0, 'message': False})
-=======
 
     if user_profile.is_realm_admin == True or user_profile.zg_permission != None:
         return JsonResponse({'errno': 0, 'message': True})
->>>>>>> 88a990d51bf57eda85e0ff39227575596d8f3426
 
     else:
         return JsonResponse({'errno': 0, 'message': False})

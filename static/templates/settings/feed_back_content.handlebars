@@ -1,10 +1,15 @@
-<div id="feed-back-content"  class="feed-back-show {{#if tooTip}}feedback-back-tooTip {{/if}} {{#if revolke_tip}}feedback-back-tooTip{{/if}}">
+<div id="feed-back-content"  
+class="feed-back-show 
+{{#if tooTip}}feedback-back-tooTip {{/if}} 
+{{#if tooTip}}feedback-back-tooTip {{/if}} 
+{{#if reminder_tip}}feedback-back-tooTip{{/if}}">
     <div class="headback-title">
-        {{#unless  tooTip}}
-        <h1>反馈</h1>
-        {{else}}
-         <h1>提示</h1>
-        {{/unless}}
+        {{#if revolke_tips}}
+            <h1>反馈</h1>
+            {{else}}
+            <h1>提示</h1> 
+                
+        {{/if}}
         <i class="iconfont icon-guanbiUI icon-close-guanbi"></i>
     </div>
     <div class="type-area">
@@ -14,7 +19,11 @@
            {{#if revolke_tip}}
            <p>你确定撤销申请吗？</p>
            {{else}}
-           <textarea  class="textarea-type" placeholder="请输入反馈内容...."></textarea>
+             {{#if reminder_tip}}
+              <p>催办成功</p>
+             {{else}}
+             <textarea  class="textarea-type" placeholder="请输入反馈内容...."></textarea>
+             {{/if}}
            {{/if}}
         {{/if}}
     </div>
@@ -26,7 +35,11 @@
            {{#if revolke_tip}}
            <button class="feadback-revoke feedback-button-common">确定</button>
            {{else}}
-           <button class="feadback-send feedback-button-common">发送</button>
+            {{#if reminder_tip }}
+             <button class="feadback-remind feedback-button-common">确定</button>
+             {{else}}
+             <button class="feadback-send feedback-button-common">发送</button>
+            {{/if}}
            {{/if}}
         {{/if}}
     </div>
