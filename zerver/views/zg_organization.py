@@ -23,7 +23,8 @@ def department_list(request, user_profile):
             department['name'] = name
             department['id'] = department_obj.id
             department['num'] = user_count
-            department_lists.append(department)         
+            department_lists.append(department)
+
     return JsonResponse({'errno': 0, 'message': '成功', 'department_lists': department_lists,'not_department_count':not_department_count})
 
 
@@ -188,7 +189,7 @@ def department_del(request, user_profile):
 
     if not user_profile.is_realm_admin:
         return JsonResponse({'errno': 2, 'message': '无权限'})
-    
+
     user_objs=UserProfile.objects.filter(department=department_id)
     user_objs.update(department=None)
     ZgDepartment.objects.filter(id=department_id).delete()
@@ -232,14 +233,10 @@ def department_user_list(request, user_profile):
 
 # 判断权限
 def zg_user_permissions(request, user_profile):
-<<<<<<< HEAD
-    if user_profile.is_realm_admin == 'f' and user_profile.zg_permission is None:
-        return JsonResponse({'errno': 0, 'message': False})
-=======
 
     if user_profile.is_realm_admin == True or user_profile.zg_permission != None:
         return JsonResponse({'errno': 0, 'message': True})
->>>>>>> 88a990d51bf57eda85e0ff39227575596d8f3426
+
 
     else:
         return JsonResponse({'errno': 0, 'message': False})
