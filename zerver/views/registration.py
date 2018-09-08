@@ -401,6 +401,10 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
     if request.method == 'POST':
         form = HomepageForm(request.POST, realm=realm, from_multiuse_invite=from_multiuse_invite)
         if form.is_valid():
+
+            print(form.cleaned_data['email'])
+
+
             email = form.cleaned_data['email']
             activation_url = prepare_activation_url(email, request, streams=streams_to_subscribe)
             try:
