@@ -546,7 +546,7 @@ var management = (function () {
             var type = file.type.split("/")
                 typeName= type[type.length-1]
             var uri =make_upload_absolute(response.uri);
-            var size = (file.size/1024/1024).toFixed(2)
+            var size = file.size
             if(i != -1){
                 $('.uploading-img').hide()
                 var img = fileType.type_indicator(typeName.toString())

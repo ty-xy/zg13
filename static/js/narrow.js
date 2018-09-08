@@ -572,6 +572,7 @@ function pick_empty_narrow_banner() {
             $("#compose").hide();
             $(".persistent_data").show();
             $(".keep_exist").show();
+            $(".work_order").show();
             $(".persistent_data").children().remove();
             var arr = JSON.parse(localStorage.getItem("arr"))
             var notice_box = templates.render("notice_box",{arr:arr})
