@@ -170,7 +170,7 @@ var server_events = (function () {
         var result = tagStr.replace(regx, '');
         return result;
     };
-
+    push_data = []
     function get_events(options) {
         options = _.extend({
             dont_block: false
@@ -193,20 +193,37 @@ var server_events = (function () {
             get_events_params.queue_id = page_params.queue_id;
             get_events_params.last_event_id = page_params.last_event_id;
         }
-
     get_events_params.client_gravatar = true;
-
     get_events_timeout = undefined;
     get_events_xhr = channel.get({
         url:      '/json/events',
         data:     get_events_params,
         idempotent: true,
         timeout:  page_params.poll_timeout,
-        success: function (data) {
-            // console.log(data)
+        success: function (data) {            
+            for(var i = 0;i<data.events.length;i++){
+                type = data.events[0].zg_type
+                push_one = data.events[0]
+            }
+            if(type == 'DailyReport'){
+                $(".work_order").show()
+                push_data.push(push_one)
+                localStorage.setItem("pushData",JSON.stringify(push_data))
+                $(".keep_exist .notice_bottom").html(push_one.theme)
+                $(".keep_exist .notice_top_time").html(server_events.tf(push_one.time))
+                server_events.showNotify("nbasdgaiosdvoavsdu",push_one.theme)
+            }else if(type == 'JobsNotice'){
+                console.log("工作通知")
+                $(".work_order").show()
+                push_data.push(push_one)
+                console.log(push_one)
+                localStorage.setItem("pushData",JSON.stringify(push_data))
+                $(".work_order .notice_bottom").html(push_one.theme)
+                $(".work_order .notice_top_time").html(server_events.tf(push_one.time))
+                server_events.showNotify("nbasdgaiosdvoavsdu",push_one.theme)
+            }
             var type;
             var data_message;
-            // console.log(data)
             $.ajax({
                 url:"json/zg/user",
                 type:"GET",
@@ -254,14 +271,12 @@ var server_events = (function () {
                         }else{
                             var flag = false;
                             for(var j =0 ;j<arr.length;j++){
-                                console.log(user_me,name)
                                 if(user_me!=name){
                                     if(arr[j].send_id == send_id){
                                         flag = true;
                                         $(".notice_bottom[name='"+$(".only_tip").attr("send_id")+"']").html(mes)
                                         $(".notice_top_time[name='"+$(".only_tip").attr("send_id")+"']").html(server_events.tf(time))
                                         arr[j].content = mes
-                                        console.log('对面',mes)
                                         localStorage.setItem("arr",JSON.stringify(arr))
                                     }
                                 }
@@ -426,7 +441,48 @@ var server_events = (function () {
             },
         });
     };
-
+    //自定义推送
+    exports.showNotify =function (title,msg){
+        var Notification = window.Notification || window.mozNotification || window.webkitNotification;
+        if(Notification){
+            Notification.requestPermission(function(status){
+                if(status != "granted"){
+                    return;
+                }else{
+                    var tag = "sds"+Math.random();
+                    Notification.body=msg;
+                    //notifyObj属于Notification构造方法的实例对象
+                    var notifyObj = new Notification(
+                        title,
+                        {
+                            dir:'auto',
+                            lang:'zh-CN',
+                            tag:tag,//实例化的notification的id
+                            icon:'images/img/u02.png',	//icon的值显示通知图片的URL
+                            body:msg
+                        }
+                    );
+                    notifyObj.onclick=function(){
+                        //如果通知消息被点击,通知窗口将被激活
+                        window.focus();
+                    },
+                    notifyObj.onerror = function () {
+                        console.log("HTML5桌面消息出错！！！");
+                    };
+                    notifyObj.onshow = function () {
+                        setTimeout(function(){
+                            notifyObj.close();
+                        },3000)
+                    };
+                    notifyObj.onclose = function () {
+                        console.log("HTML5桌面消息关闭！");
+                    };
+                }
+            });
+        }else{
+            console.log("您的浏览器不支持桌面消息!");
+        }
+    };
     window.addEventListener("beforeunload", function () {
         exports.cleanup_event_queue();
     });
