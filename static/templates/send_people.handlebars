@@ -1,21 +1,25 @@
-{{#each peoplelist}}
-<li class="generate_log_member" data_id={{id}}>
-       {{#if small}}
-        <div class="generate_log_member_addlogos" title={{name}}>
-            <img src={{avatar}} alt="" class="avatar-img-color">
+{{#if small}}
+    {{#each peoplelist}}
+        <li class="generate_log_member" data_id={{id}}>
+                <div class="generate_log_member_addlogos" title={{fullname}}>
+                    <img src={{avatarurl}} alt="" class="avatar-img-color">
+                </div>
+                <p class=" generate_log_member_adds">{{short_name fullname}}</p>
+                <div class="avatar-overs">
+                    <i class="iconfont icon-shanchu dust-delete"></i>
+                </div>
+        </li>
+    {{/each}}
+ {{else}}
+      {{#each peoplelist}}
+        <li class="generate_log_member" data_id={{id}}>
+         <div class="generate_log_member_avatar " title={{fullname}}>
+            <img src={{avatarurl}} alt="" class="avatar-img-color">
         </div>
-         <p class=" generate_log_member_adds">{{namel}}</p>
-          <div class="avatar-overs">
-            <i class="iconfont icon-shanchu dust-delete"></i>
-         </div>
-        {{else}}
-         <div class="generate_log_member_avatar " title={{name}}>
-            <img src={{avatar}} alt="" class="avatar-img-color">
-        </div>
-         <p class="generate_log_member_name">{{namel}}</p>
+         <p class="generate_log_member_name">{{short_name fullname}}</p>
           <div class="avatar-over">
             <i class="iconfont icon-shanchu dust-delete"></i>
          </div>
-        {{/if}}
-</li>
-{{/each}}
+       </li>
+       {{/each}}
+ {{/if}}

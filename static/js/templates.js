@@ -128,7 +128,7 @@ Handlebars.registerHelper("replaceTag",function(repStr){
     var tagA = $repStr.find("a").length
     if(tagA===1&&lastContent==".aac"){
         var li = '<p>\
-                    <audio controls="controls" autoplay="autoplay">\
+                    <audio controls="controls">\
                     <source src='+content+' type="audio/ogg"/>\
                     Your browser does not support the audio element\
                     </audio>\
@@ -404,6 +404,14 @@ Handlebars.registerHelper("cut_list",function(list){
 //只截取时间点
 Handlebars.registerHelper("cut_time",function(str){
     return str.substring(11,19)
+})
+//显示名字
+Handlebars.registerHelper("short_name",function(str){
+    if(str.length>4){
+        str = str.slice(0,4)+"..."
+       return str
+    }
+    return str
 })
 Handlebars.registerHelper('if_or', function () {
     // Execute the conditional code if any of the conditions are true.

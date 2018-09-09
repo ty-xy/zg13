@@ -598,6 +598,7 @@ var attendance = (function () {
                                         maxView: 1,
                                         forceParse: 0,
                                         format:'hh:ii:00',
+                                        time:"09:00:00"
                                         })
                                     commonf()
                                     commit()
@@ -793,6 +794,7 @@ var attendance = (function () {
                                                           data.member_list.forEach(function(val){
                                                                idIndex.push(val.id)
                                                           })
+                                                        //   $(".attendance_ctn .button-time").val("09:00")
                                                           $(".attendance_ctn .button-time").datetimepicker({
                                                             language:"zh-CN",  
                                                             weekStart: 1,
@@ -874,7 +876,7 @@ var attendance = (function () {
                                 $(".attendance_ctn").empty()
                                 var html = templates.render("attendance_team");
                                 $(".attendance_ctn").html(html)
-                                
+                                // $(".attendance_ctn .button-common").val("17:00")
                                 $(".attendance_ctn .button-common").datetimepicker({
                                     language:"zh-CN",  
                                     weekStart: 1,
@@ -981,14 +983,12 @@ var attendance = (function () {
                 console.log(member_list)
             }
             var jobs_time = $(".button-job").val()
-            if(jobs_time=="00:00"){
-                alert('请填写开始时间','rgba(169,12,0,0.30)')
-                return
+            if(jobs_time==""){
+               jobs_time = "09:00:00"
             }
             var rest_time = $(".button-rest").val()
-            if(rest_time=="00:00"){
-                alert('请填写结束时间','rgba(169,12,0,0.30)')
-                return
+            if(rest_time==""){
+                rest_time = "17:00:00"
             }
             var date =$(".button-common-date").html()
             console.log(date)
@@ -1003,8 +1003,8 @@ var attendance = (function () {
             }
             var longitude = $(".kaoqin-era").attr("location").split(",")[0]
             var latitude = $(".kaoqin-era").attr("location").split(",")[1]
-            
-            var range = $(".button-common-area").val().slice(0,3);
+            var range_content =  $(".button-common-area").val()
+            var range = range_content.slice(0,range_content.length-1);
             if(range=="设置考勤范围"){
                 alert('设置考勤范围','rgba(169,12,0,0.30)')
                 return
@@ -1061,7 +1061,21 @@ var attendance = (function () {
                                 if(data.errno==0){
                                     $(".button-submit").css("background-color","#14A4FA")
                                     $(".button-submit").attr("disabled", false);
-                                    $(".attendance_md").hide();
+                                    $(".attendance_mangement").addClass("high_light").siblings().removeClass("high_light")
+                                    channel.get({
+                                        url:"json/zg/attendances/management",
+                                        success:function(data){
+                                           var data_list = data.attendances_list
+                                           var html = $(templates.render('attendance_management',{
+                                            data_list:data_list
+                                            }));
+                                           $(".attendance_ctn").html(html)
+                                           $(".attendance_ctn").on('click',".back_attendance",function(){
+                                            $(".attendance_ctn").empty()
+                                               $(".attendance_ctn").html(html)
+                                          })
+                                        }
+                                    })
                                 }
                             }
                         })
