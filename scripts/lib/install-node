@@ -56,7 +56,7 @@ export HOME=/root
 
 # Install yarn if not installed
 # comment this, for it's always not available of yarn source
-bash "$ZULIP_PATH/scripts/lib/third/install-yarn.sh" "$ZULIP_SRV" --version "$yarn_version"
+# bash "$ZULIP_PATH/scripts/lib/third/install-yarn.sh" "$ZULIP_SRV" --version "$yarn_version"
 # instead use npm
 npm install -g yarn
 yarn config set registry 'https://registry.npm.taobao.org'
