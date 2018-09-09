@@ -229,7 +229,7 @@ exports.load_messages = function (opts) {
                                        var split_uri = response.uri.split("/");
                                        var filename = split_uri[split_uri.length - 1];
                                        var uri = make_upload_absolute(response.uri);
-                                       var size = (file.size/1024/1024).toFixed(2);
+                                       var size = file.size
                                        var _obj_accessory = {accessory_list:[
                                             {url:uri,
                                             name:filename,

@@ -449,7 +449,12 @@ Handlebars.registerHelper('tr', function (context, options) {
     var result = i18n.t(options.fn(context), context);
     return new Handlebars.SafeString(result);
 });
-
+Handlebars.registerHelper("formatFileSize",function(ext){
+    if (ext / 1024 > 100) {
+        return (ext / 1024 / 1024).toFixed(2) + 'MB';
+        }
+        return (ext / 1024).toFixed(2) + 'kb';
+})
 return exports;
 }());
 if (typeof module !== 'undefined') {
