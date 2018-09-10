@@ -49,7 +49,7 @@ Handlebars.registerHelper('plural', function (condition, one, other) {
 Handlebars.registerHelper('sliceName', function (str) {
      var index = str.indexOf("的")
      var name = str.slice(0,index)
-     return name 
+     return name
 });
 Handlebars.registerHelper('types', function (str) {
      if (str==="leave"){
@@ -77,7 +77,7 @@ Handlebars.registerHelper('if_and', function () {
     return options.fn(this);
 });
 Handlebars.registerHelper('ts', function (timestamp) {
-    
+
     var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
         Y = date.getFullYear() + '-';
         M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
@@ -90,7 +90,7 @@ Handlebars.registerHelper('ts', function (timestamp) {
 });
 
 Handlebars.registerHelper('tt', function (timestamp) {
-    
+
     var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
         Y = date.getFullYear() + '-';
         M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
@@ -128,17 +128,17 @@ Handlebars.registerHelper("replaceTag",function(repStr){
     var tagA = $repStr.find("a").length
     if(tagA===1&&lastContent==".aac"){
         var li = '<p>\
-                    <audio controls="controls" autoplay="autoplay">\
+                    <audio controls="controls" >\
                     <source src='+content+' type="audio/ogg"/>\
                     Your browser does not support the audio element\
                     </audio>\
                 </p>'
-             repStr = li 
+             repStr = li
             return  repStr
     }else{
         return repStr
     }
-   
+
 
 })
 Handlebars.registerHelper("tl", function(text) {
@@ -151,37 +151,37 @@ Handlebars.registerHelper("tj",function(str){
     var strs = str.substring(p);
     return strs;
 })
-Handlebars.registerHelper('addKey',function(index){  
-    return index + 1;  
-}); 
-Handlebars.registerHelper('nfirst',function(name){  
-    return name.slice(0,1);  
-}); 
-// Handlebars.registerHelper('nindex',function(index){  
+Handlebars.registerHelper('addKey',function(index){
+    return index + 1;
+});
+Handlebars.registerHelper('nfirst',function(name){
+    return name.slice(0,1);
+});
+// Handlebars.registerHelper('nindex',function(index){
 //    if(index>4){
 //         return true
 //    }
 // });
-Handlebars.registerHelper('contents',function(content){ 
+Handlebars.registerHelper('contents',function(content){
     var str = window.location.hash.split(/\//).pop()
     var string = decodeURIComponent(str.replace(/\./g, '%'));
     if(content === string){
         return "backcolor"
     }
 });
-// Handlebars.registerHelper('buttonStatus',function(content){ 
+// Handlebars.registerHelper('buttonStatus',function(content){
 //     if(content===1){
 //         contents  =["催办",'撤销']
 //     }else if(content === 2 ){
 //         contents =  ['不同意','同意']
 //     }else if(content ===3 ){
-//         contents  =  ['反馈']            
+//         contents  =  ['反馈']
 //     }
 //     else if(content ===4 ){
-//         contents  =  ['已撤销']              
+//         contents  =  ['已撤销']
 //     }
 //     else if(content ===5){
-//         contents  =  ['再次提交']              
+//         contents  =  ['再次提交']
 //     }
 //     return contents
 // });
@@ -237,7 +237,7 @@ Handlebars.registerHelper('outMonth',function(month_week,month_count,no_normal_l
                     for(var key in outside_work_list){
                         $(".calendar_list_num[value='"+outside_work_list[key]+"']").next().addClass("calendar_list_stateY")
                     }
-                } 
+                }
                 if(firstDay==1){
                     var out = '<ul class="calendar_list">';
                     arr.unshift("");
@@ -245,7 +245,7 @@ Handlebars.registerHelper('outMonth',function(month_week,month_count,no_normal_l
                         arr.push(i)
                         out = out + '<li class="calendar_list_date"><p class="calendar_list_num" month='+month+' year='+year+' value='+arr[i]+'>'+arr[i]+'</p><p class=""></p></li>'
                     }
-                    $("body").ready(function () { 
+                    $("body").ready(function () {
                         stateColor()
                     })
                     return out + '</ul>';
@@ -257,7 +257,7 @@ Handlebars.registerHelper('outMonth',function(month_week,month_count,no_normal_l
                         arr.push(i)
                         out = out + '<li class="calendar_list_date"><p class="calendar_list_num" month='+month+' year='+year+' value='+arr[i]+'>'+arr[i]+'</p><p class=""></p></li>'
                     }
-                    $("body").ready(function () { 
+                    $("body").ready(function () {
                         stateColor()
                     })
                     return out + '</ul>';
@@ -270,7 +270,7 @@ Handlebars.registerHelper('outMonth',function(month_week,month_count,no_normal_l
                         arr.push(i)
                         out = out + '<li class="calendar_list_date"><p class="calendar_list_num" month='+month+' year='+year+' value='+arr[i]+'>'+arr[i]+'</p><p class=""></p></li>'
                     }
-                    $("body").ready(function () { 
+                    $("body").ready(function () {
                         stateColor()
                     })
                     return out + '</ul>';
@@ -284,7 +284,7 @@ Handlebars.registerHelper('outMonth',function(month_week,month_count,no_normal_l
                         arr.push(i)
                         out = out + '<li class="calendar_list_date"><p class="calendar_list_num" month='+month+' year='+year+' value='+arr[i]+'>'+arr[i]+'</p><p class=""></p></li>'
                     }
-                    $("body").ready(function () { 
+                    $("body").ready(function () {
                         stateColor()
                     })
                     return out + '</ul>';
@@ -299,7 +299,7 @@ Handlebars.registerHelper('outMonth',function(month_week,month_count,no_normal_l
                         arr.push(i)
                         out = out + '<li class="calendar_list_date"><p class="calendar_list_num" month='+month+' year='+year+' value='+arr[i]+'>'+arr[i]+'</p><p class=""></p></li>'
                     }
-                    $("body").ready(function () { 
+                    $("body").ready(function () {
                         stateColor()
                     })
                     return out + '</ul>';
@@ -315,7 +315,7 @@ Handlebars.registerHelper('outMonth',function(month_week,month_count,no_normal_l
                         arr.push(i)
                         out = out + '<li class="calendar_list_date"><p class="calendar_list_num" month='+month+' year='+year+' value='+arr[i]+'>'+arr[i]+'</p><p class=""></p></li>'
                     }
-                    $("body").ready(function () { 
+                    $("body").ready(function () {
                         stateColor()
                     })
                     return out + '</ul>';
@@ -332,7 +332,7 @@ Handlebars.registerHelper('outMonth',function(month_week,month_count,no_normal_l
                         arr.push(i)
                         out = out + '<li class="calendar_list_date"><p class="calendar_list_num" month='+month+' year='+year+' value='+arr[i]+'>'+arr[i]+'</p><p class=""></p></li>'
                     }
-                    $("body").ready(function () { 
+                    $("body").ready(function () {
                         stateColor()
                     })
                     return out + '</ul>';

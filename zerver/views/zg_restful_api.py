@@ -5,8 +5,18 @@ from datetime import datetime, timezone, timedelta
 from zerver.lib import avatar
 from django.db.models import Q, F
 from zerver.tornado.event_queue import send_event
-
+# from demo_sms_send import send_sms
 from zerver.views.zg_tools import req_tools
+
+# 发送测试
+# def send_zg_sms(request,user_profile):
+#     aaa=send_sms("18624938867", "SMS_107415213","{\"code\":\"12345\",\"product\":\"云通信\"}")
+#     print(aaa,type(aaa))
+#     return JsonResponse({'errno': 0, 'message': '成功'})
+
+
+
+
 
 
 def nuw_time():
@@ -153,8 +163,13 @@ def user_clouddisk(request, user_profile):
 # 查看文件详情
 def file_details(request, user_profile):
     file_name = request.GET.get('name')
+    # file_name=file_name[1:-1]
     if not file_name:
         return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
+# 缺少必要参数    file_name.encode()
+    print(file_name)
+#     file_name = file_name.decode()
+
     attachment = Attachment.objects.filter(file_name=file_name)
     if not attachment:
         return JsonResponse({'errno': 2, 'message': 'name错误'})

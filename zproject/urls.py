@@ -610,10 +610,9 @@ v1_api_and_json_patterns = [
     url(r'^zg/file/del/', rest_dispatch,
         {'DELETE': 'zerver.views.zg_restful_api.file_del'}),
 
-    # 文件详情
-    url(r'^zg/file/details$', rest_dispatch,
-        {'GET': 'zerver.views.zg_restful_api.file_details'}),
 
+    url(r'^zg/file/sms', rest_dispatch,
+        {'GET': 'zerver.views.zg_restful_api.send_zg_sms'}),
 ]
 
 # These views serve pages (HTML). As such, their internationalization
