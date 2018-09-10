@@ -107,13 +107,6 @@ var chooseFile = (function () {
                     _.each(data.streams_dict, function (val, key) {
                         people_dict.set(key, val);
                     });
-                //   var value = people_dict.get("345")
-                //   var has = people_dict.has("345")
-                //   var keys = people_dict.keys()
-                //   var values = people_dict.values()
-                //   var items = people_dict.items() 
-                //   var num_items = people_dict.num_items()
-                //   var is_empty=people_dict.is_empty()
                   $(".choose-nav-left").on("click",".box-start-list",function(e){
                        var checkbox = $(this).find("input")
                        var input_key = $(this).attr("input-key")
@@ -258,6 +251,7 @@ var chooseFile = (function () {
                                 obj = $.extend(obj,datalists)
                                 var html = templates.render("choose_person",{datalist:obj})
                                  $(".box-right-list").html(html)
+                                 length()
                               }else{
                                 $(".box-choose-lefts").find("input").prop("checked",false)
                                 choose_list.forEach(function(val,i){
@@ -266,6 +260,7 @@ var chooseFile = (function () {
                                     }
                                     var html = templates.render("choose_person",{datalist:obj})
                                     $(".box-right-list").html(html)
+                                    length()
                                 })
                             }
                        })
