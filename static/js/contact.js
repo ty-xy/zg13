@@ -674,8 +674,6 @@ var contact = (function(){
                         $(".organization_chart_box").on("click",".organization_chart_ctn_basic_save",function(){
                             var name = $(".item_name").val()
                             var description = $(".construction_description").val()
-                            console.log($(".item_name").val())
-                            console.log($(".construction_description").val())
                             var obj = {
                                 name:name,
                                 description:description
@@ -686,7 +684,9 @@ var contact = (function(){
                                 url:"json/zg/organization/information/updata/",
                                 data:JSON.stringify(obj),
                                 success:function(res){
-                                    console.log(res)
+                                    if(res.errno == 0){
+                                        server_events.operating_hints("基本信息保存成功!")
+                                    }
                                 }
                             })
                         })
@@ -744,6 +744,7 @@ var contact = (function(){
                                         data:JSON.stringify(obj),
                                         success:function(res){
                                             if(res.errno == 0){
+                                                server_events.operating_hints("添加子管理员成功!")
                                                 updataAdmin()
                                             }
                                         }
@@ -908,6 +909,7 @@ var contact = (function(){
                                         data:JSON.stringify(obj),
                                         success:function(res){
                                             if(res.errno == 0){
+                                                server_events.operating_hints("新增部门成功!")
                                                 $.ajax({
                                                     type:"GET",
                                                     url:"json/zg/department/list",
@@ -981,6 +983,7 @@ var contact = (function(){
                                         data:JSON.stringify(obj),
                                         success:function(res){
                                             if(res.errno == 0){
+                                                server_events.operating_hints("删除部门成功!")
                                                 $(".organization_chart_group_delete_box").hide()
                                                 updataList()
                                             }
@@ -1106,7 +1109,7 @@ var contact = (function(){
             $(".move_ctn").append(work_order_head)
             var work_order_body = templates.render("work_order_body",{pushData:pushData})
             $(".work_order_box").append(work_order_body)
-        })
+        })        
     })
 //组织基本信息获取
 function getOrganizeBasic(){
@@ -1266,6 +1269,8 @@ function updataList(){
         }
     })
 }
+
+return exports
 }())
 if (typeof module !== 'undefined') {
     module.exports = contact;
