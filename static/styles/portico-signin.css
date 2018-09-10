@@ -1041,6 +1041,7 @@ button.login-google-button {
     font-size: 16px;
     color: #999999;
     letter-spacing: 1.33px;
+    box-sizing: border-box
 }
 .login-forget-password{
     text-align: right;
@@ -1049,11 +1050,31 @@ button.login-google-button {
     color: #999999;
     letter-spacing: 1.08px;
     margin-top:10px;
+    cursor: pointer;
 }
 .insert-password{
     margin-bottom:45px;
 }
+.input-phone-number{
+   display:flex;
+   border-bottom:1px solid #ddd;
+   line-height:44px;
+}
+.input-phone-number>span{
+  margin-right:10px;
+}
+.input-phone-number>.login-input{
+    border:none;
+    margin-top:0;
+}
 .tab-contents{
+    margin-top:7px;
+}
+.login-inputs{
+    margin-top:7px;
+}
+.setting-password{
+    margin-bottom:15px;
     margin-top:7px;
 }
 #login_form .loader {
