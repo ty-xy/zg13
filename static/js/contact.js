@@ -551,7 +551,9 @@ var contact = (function(){
             //保存
             $(".new_task_save").on("click",function(e){
                 management.new_task_save();
-                management.new_task_cancel();
+                if(management.new_task_save()==undefined){
+                    management.new_task_cancel()
+                }
             })
             //初始化日期
             $('#datetimepicker').datetimepicker({  

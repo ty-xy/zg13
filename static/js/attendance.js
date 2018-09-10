@@ -346,7 +346,8 @@ var attendance = (function () {
                         var calendar_list = templates.render("calendar_list",{month_attendance_list:month_attendance_list})
                         $(".attendance_ctn").append(calendar_box);
                         $(".attendance_ctn").append(calendar_list);
-                        
+                        var height = window.screen.height
+                        $(".attendance_box").css("height",height)
                         //筛选时间
                         $(".calendar_screen_select").datetimepicker({
                             startView: 'decade',

@@ -898,8 +898,8 @@ var management = (function () {
             new_task_save();
         })
         exports.new_task_save = function(){
-            var inttitle = $(".create_tasttitle").val();
-            var inttime = $("#daibandata").val();
+            var inttitle = $(".create_tasttitle").val().trim();
+            var inttime = $("#daibandata").val().trim();
             function timestamp(str){
                 str = str.replace(/-/g,'/');
                 var date = new Date(str); 
@@ -913,10 +913,9 @@ var management = (function () {
                 "over_time":over_time+86399,
             }
             var j = JSON.stringify(obj)
-            
             if(inttitle==""){
                 $("#taskinput").css("border","1px solid #EF5350");
-                return;
+                return false;
             }
             if(inttitle!=""){
                 $("#taskinput").css("border","1px solid #ccc");
@@ -925,7 +924,7 @@ var management = (function () {
                 $(".new_task_date").css("border","1px solid #EF5350");
                 $(".new_task_date").css("border-right","1px solid #ccc");
                 $("#taskdata").css("border","1px solid #EF5350")
-                return;
+                return false;
             }
             if(inttime!=""){
                 $(".new_task_date").css("border","1px solid #ccc");
@@ -953,7 +952,6 @@ var management = (function () {
                         $(".new_task_date").val("");
                         var backlog_id;
                         $("#file_choose").on("click", "#file_inputs", function (e) {
-                            // e.preventDefault();
                             $("#file-choose #file_inputs").trigger("click");
                         });
                         $(".add_ctn").on("click",function(e){
@@ -986,7 +984,6 @@ var management = (function () {
                             $(".app").css("overflow-y","scroll");
                         })
 
-                        //
                         $(".todo_box").on("click",".add_checkbox",function(e){
                             var inputid = Number($(this).attr("inputid"))
                             var state = ($(this).attr("state"))
