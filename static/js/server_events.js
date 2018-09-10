@@ -10,7 +10,8 @@ var server_events = (function () {
     var get_events_timeout;
     var get_events_failures = 0;
     var get_events_params = {};
-
+    var arr = []
+    var push_data = []
     // This field keeps track of whether we are attempting to
     // force-reconnect to the events server due to suspecting we are
     // offline.  It is important for avoiding races with the presence
@@ -151,7 +152,7 @@ var server_events = (function () {
         s = date.getSeconds();
         return h + m;
     }
-    var arr = []
+    
     exports.set_local_news = function (send_id, stream_id, name, avatar, time, content, _href,stream) {
         obj = {
             send_id: send_id,
@@ -170,7 +171,11 @@ var server_events = (function () {
         var result = tagStr.replace(regx, '');
         return result;
     };
-    push_data = []
+    exports.operating_hints = function(msg){
+        $(".operating_hints_box").fadeIn().delay(1500).fadeOut()
+        $(".operating_hints_ctn").html(msg)
+    }
+    
     function get_events(options) {
         options = _.extend({
             dont_block: false

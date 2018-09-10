@@ -1307,6 +1307,9 @@
     bottom: 0;
     margin: auto;
     display: none;
+    /* display: block!important; */
+    /* opacity: 0; */
+    z-index: 11111;
 }
 .operating_hints_img{
     width: 80px;
