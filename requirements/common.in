@@ -1,5 +1,5 @@
 # After editing this file, you MUST afterward run
-# /tools/sss to update requirements/dev.txt
+# ssssto update requirements/dev.txt.
 # and requirements/prod.txt.
 # See requirements/README.md for more detail.
 # Django itself
