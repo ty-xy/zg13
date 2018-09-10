@@ -976,12 +976,90 @@ button.login-google-button {
         min-height: calc(100vh - 560px);
     }
 }
-
+.login_page_border{
+    height:404px;
+    width:400px;
+    background: #FFFFFF;
+    box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30);
+    border-radius: 6px;
+    padding:40px 50px 30px 50px;
+    box-sizing:border-box;
+}
+.login_page_border>.nav-tabs{
+     border-bottom: none;
+     /* display: flex;
+     justify-content:space-between */
+}
+.login_page_border>.nav-tabs>li:first-child{
+    margin-left:46px;
+    margin-right:120px;
+}
+.login_page_border>.nav-tabs>li{
+    width:44px;
+    box-sizing: border-box;
+   
+}
+.login_page_border>.nav-tabs>li>a,.login_page_border>.nav-tabs>li>a:hover{
+    border:none;
+    font-family: PingFangSC-Regular;
+    font-size: 20px;
+    color: #333333;
+    letter-spacing: 1.66px;
+    padding:0;
+    margin-right:0;
+    height:28px;
+    text-align: center;
+    background-color: #fff;
+    /* margin: */
+}
+.login_page_border .login-form{
+   width:300px
+}
+.login_page_border>.nav-tabs >li.active a{
+    border:none;
+    border-bottom:2px solid #4584FF;
+    font-family: PingFangSC-Regular;
+    font-size: 20px;
+    color: #4584FF;
+    letter-spacing: 1.66px;
+}
+.login-button{
+    background-image: linear-gradient(-157deg, #62ADFF 0%, #4584FF 63%);
+    border-radius: 4px;
+    width:300px;
+    height:50px;
+}
+.login-input{
+    border-left-color: transparent;
+    border-right-color:transparent;
+    border-top-color: transparent;
+    height:44px;
+    box-sizing: border-box;
+    width:300px;
+    margin-top:20px;
+    font-family: PingFangSC-Regular;
+    font-size: 16px;
+    color: #999999;
+    letter-spacing: 1.33px;
+}
+.login-forget-password{
+    text-align: right;
+    font-family: PingFangSC-Regular;
+    font-size: 13px;
+    color: #999999;
+    letter-spacing: 1.08px;
+    margin-top:10px;
+}
+.insert-password{
+    margin-bottom:45px;
+}
+.tab-contents{
+    margin-top:7px;
+}
 #login_form .loader {
     display: none;
     vertical-align: top;
     position: relative;
-
     height: 30px;
     margin-top: -10px;
     top: 5px;

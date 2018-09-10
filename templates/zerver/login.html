@@ -18,13 +18,44 @@
     </script>
     {% endif %}
     <div class="app login-page split-view new-style flex full-page">
-        <div class="left-main">
+        <div class="app-main login-page-container inline-block">
+             <div id ="login_page_register" class="login_page_border">
+                <ul class="nav nav-tabs nav-bars">
+                    <li class="active">
+                        <a href="#logins" data-toggle="tab">
+                              登录
+                        </a>
+                    </li>
+                    <li class="expect-check">
+                        <a href="#registers"  data-toggle="tab" >注册</a>
+                    </li>
+                </ul>
+                <div id="myTabContent" class="tab-content tab-contents">
+                      <div class="tab-pane fade in active" id="logins">
+                        <form name="login_form" id="login_form" method="post" class="login-form"
+                        action="{{ url('django.contrib.auth.views.login') }}?next={{ next }}">
+                            <div>
+                                <input  class="login-input" placeholder="请输入账号">
+                            </div>
+                            <div class="insert-password">
+                                <input  class="login-input" placeholder="请输入密码">
+                            </div>
+                            <button class="login-button" type="submit">登录</button>
+                            <div class="login-forget-password">忘记密码</div>
+                        </form>
+                    </div>
+     
+                    <div class="tab-pane fade" id="registers">
+                       register
+                    </div>
+                </div>
+               
+        </div>
+        <!-- <div class="left-main">
                 <h1 class="one-manage">一键联通好管理</h1>
                 <p class="manage-chat">管理您的工作量，与您的团队沟通，并庆祝成功</p>
         </div>
         <div class="inline-block">
-
-
             <div class="app-main login-page-container white-box inline-block">
                 {% if only_sso %}
                     {# SSO users don't have a password. #}
@@ -35,21 +66,20 @@
 
                 {% else %}
                     {# Non-SSO users. #}
-
-                    {% if realm_name %}
-                    <!-- <div class="left-side">
-                        <div class="org-header">
-                            <img class="avatar" src="{{ realm_icon }}" alt="" />
-                            <div class="info-box">
-                                <div class="organization-name">{{ realm_name }}</div>
-                                <div class="organization-path">{{ realm_uri }}</div>
-                            </div>
-                        </div>
-                        <div class="description">
-                            {{ realm_description|safe }}
-                        </div>
-                    </div> -->
-                    {% endif %}
+                    {% if realm_name %} -->
+                                            <!-- <div class="left-side">
+                                                <div class="org-header">
+                                                    <img class="avatar" src="{{ realm_icon }}" alt="" />
+                                                    <div class="info-box">
+                                                        <div class="organization-name">{{ realm_name }}</div>
+                                                        <div class="organization-path">{{ realm_uri }}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="description">
+                                                    {{ realm_description|safe }}
+                                                </div>
+                                            </div> -->
+                    <!-- {% endif %}
 
                     <div class="right-side">
                             <div class="lead">
@@ -68,32 +98,32 @@
                                 <form name="login_form" id="login_form" method="post" class="login-form"
                                   action="{{ url('django.contrib.auth.views.login') }}?next={{ next }}">
 
-                                    {{ csrf_input }}
+                                    {{ csrf_input }} -->
 
-                                    <!-- .no-validation is for removing the red star in CSS -->
-                                    <div class="input-box no-validation">
+                                                            <!-- .no-validation is for removing the red star in CSS -->
+                                      <!-- <div class="input-box no-validation">
                                         <input id="id_username" type="{% if not require_email_format_usernames %}text{% else %}email{% endif %}"
                                           name="username" class="{% if require_email_format_usernames %}email {% endif %}required"
                                           placeholder="邮箱"
                                           {% if email %} value="{{ email }}" {% else %} value="" {% endif %}
-                                          maxlength="72" required />
-                                        <!-- <label for="id_username">
-                                            {% if not require_email_format_usernames and email_auth_enabled %}
-                                            {{ _('Email or username') }}
-                                            {% elif not require_email_format_usernames %}
-                                            {{ _('Username') }}
-                                            {% else %}
-                                            {{ _('Email') }}
-                                            {% endif %}
-                                        </label> -->
-                                    </div>
+                                          maxlength="72" required /> -->
+                                                            <!-- <label for="id_username">
+                                                                {% if not require_email_format_usernames and email_auth_enabled %}
+                                                                {{ _('Email or username') }}
+                                                                {% elif not require_email_format_usernames %}
+                                                                {{ _('Username') }}
+                                                                {% else %}
+                                                                {{ _('Email') }}
+                                                                {% endif %}
+                                                            </label> -->
+                                    <!-- </div> -->
 
-                                    <div class="input-box no-validation">
-                                        <input id="id_password" name="password" class="required" type="password" placeholder="密码" required />
+                                    <!-- <div class="input-box no-validation">
+                                        <input id="id_password" name="password" class="required" type="password" placeholder="密码" required /> -->
                                         <!-- <label for="id_password" class="control-label">{{ _('Password') }}</label> -->
-                                    </div>
+                                    <!-- </div> -->
 
-                                    {% if form.errors %}
+                                    <!-- {% if form.errors %}
                                     <div class="alert alert-error">
                                         {% for error in form.errors.values() %}
                                         <div>{{ error | striptags }}</div>
@@ -119,29 +149,29 @@
                                     </button>
                                 </form>
 
-                                {% if any_oauth_backend_enabled %}
+                                {% if any_oauth_backend_enabled %} -->
                                 <!-- <div class="or"><span>{{ _('OR') }}</span></div> -->
-                                {% endif %}
+                                <!-- {% endif %}
 
-                            {% endif %} <!-- if password_auth_enabled -->
-
-                            {% if google_auth_enabled %}
+                            {% endif %} if password_auth_enabled -->
+<!-- 
+                            {% if google_auth_enabled %} -->
                             <!-- <div class="login-google">
                                 <form id='google_login_form' class="form-inline" action="{{ url('zerver.views.auth.start_google_oauth2') }}" method="get">
                                     <input type="hidden" name="next" value="{{ next }}">
                                     <button class="login-social-button login-google-button full-width">{{ _('Log in with Google') }}</button>
                                 </form>
                             </div> -->
-                            {% endif %}
+                            <!-- {% endif %}
 
-                            {% if github_auth_enabled %}
+                            {% if github_auth_enabled %} -->
                             <!-- <div class="login-github">
                                 <form id='social_login_form' class="form-inline github-wrapper" action="{{ url('login-social', args=('github',)) }}" method="get">
                                     <input type="hidden" name="next" value="{{ next }}">
                                     <button class="login-social-button login-github-button github">{{ _('Log in with GitHub') }}</button>
                                 </form>
-                            </div> -->
-                            {% endif %}
+                            <!-- </div> -->
+                            <!-- {% endif %}
 
                             <div class="actions">
                                 {% if email_auth_enabled %}
@@ -155,7 +185,7 @@
                     </div>
                 {% endif %}
             </div>
-        </div>
+        </div> -->
     </div>
     <script type="text/javascript">
     if (window.location.hash.substring(0, 1) === "#") {
