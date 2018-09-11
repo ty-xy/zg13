@@ -18,405 +18,6 @@ var contact = (function(){
             $("#main_div").hide();
             $("#compose").hide();
             $(".tab-content").css("height","calc(100% - 232px)")
-             //日志助手显示
-             $("body").on("click",'.log_assistant_btn',function(e){
-                $(".move_ctn").children().remove();
-                window.location.href = "#narrow/is/starred"
-                $(".tab-content").css("height","100%")
-                $(".move_ctn").children().remove();
-                e.stopPropagation();
-                e.preventDefault();
-                var window_high = window.screen.height;
-                $(".log_assistant_md").css("height",window_high);
-                $(".log_assistant_md").css("overflow","auto");
-                $(".log_assistant_md").show();
-                $.ajax({
-                    type:"GET",
-                    url:"json/zg/my/receive/web",
-                    contentType:"application/json",
-                    success:function(res){
-                        var page = [];
-                        for(var i= 2;i<=res.page;i++){
-                            page.push(i)
-                        }
-                        var lastpage = res.page;
-                        $(".log_assistant_md").remove();
-                        var receive_table_list = res.receive_table_list;
-                        var html = templates.render("log_assistant_box",{receive_table_list:receive_table_list,page:page})
-                        $(".move_ctn").append(html)
-                        //点击下载附件图片
-                        $(".download_fujian").on("click",function(){
-                            window.open($(this).attr("href"))
-                        })
-                        $(".log_assistant_md").on("click",function(e){
-                            e.stopPropagation();
-                            e.preventDefault();
-                            $(".log_assistant_md").hide();
-                            $(".log_assistant_md").remove();
-                            $(".app").css("overflow-y","scroll")
-                            $('.log_assistant_md').empty()   
-                        })
-                        //日志助手关闭
-                        $(".log_assistant_close").on("click",function(e){
-                            $(".log_assistant_md").hide();
-                            $(".log_assistant_md").remove();
-                            $(".app").css("overflow-y","scroll")
-                            $('.log_assistant_md').empty()   
-                        })
-                        //日志助手阻止冒泡
-                        $(".log_assistant_box").on("click",function(e){
-                            e.stopPropagation();
-                            e.preventDefault();
-                        })
-                        $(".log_assistant_screening").on("click",function(e){
-                            e.preventDefault();
-                            e.stopPropagation();
-                            $(".log_screening").show();
-                        })
-                        $(".log_screening").on("click",function(){
-                            e.stopPropagation();
-                            e.preventDefault();
-                        })
-                        $(".log_assistant_ctn_box").on("click",function(e){
-                            $(".log_screening").hide();
-                        })
-                        //我收到的 点击内容
-                        $(".log_assistant_box").on("click",".log_assistant_received",function(e){
-                            $(this).addClass("high_light").siblings().removeClass("high_light");
-                            $(".log_assistant_prompt_box").show();
-                            $(".log_assistant_ctn").css("margin-top","0px");
-                            $(".log_assistant_unread").hide();
-                            $(".log_assistant_title").html("我收到的");
-                            $.ajax({
-                                        type:"GET",
-                                        url:"json/zg/my/receive/web",
-                                        contentType:"application/json",
-                                        success:function(res){
-                                            $(".paging_box").remove();
-                                            $(".paging_box_receive").remove();
-                                            $(".paging_box_send").remove();
-                                            var page = [];
-                                            for(var i= 2;i<=res.page;i++){
-                                                page.push(i)
-                                            }
-                                            $(".log_assistant_ctn").remove();
-                                            var receive_table_list = res.receive_table_list;
-                                            var html = templates.render("log_assistant_receive",{receive_table_list:receive_table_list})
-                                            var paging = templates.render("paging_receive",{page:page})
-                                            $(".log_assistant_ctn_box").append(html);
-                                            $(".log_assistant_ctn_box").append(paging);
-                                            //点击下载附件图片
-                                            $(".download_fujian").on("click",function(){
-                                                window.open($(this).attr("href"))
-                                            })
-                                             //点击分页
-                                            $(".paging_receive").on("click",".paging_btn_receive",function(e){
-                                                var page = Number($(this).text());
-                                                $(this).addClass("blue_light").siblings().removeClass("blue_light");
-                                                $.ajax({
-                                                    type:"GET",
-                                                    url:"json/zg/my/receive/web?page="+page+"",
-                                                    contentType:"application/json",
-                                                    success:function(res){
-                                                        $(".log_assistant_ctn").remove();
-                                                        var receive_table_list = res.receive_table_list;
-                                                        var html = templates.render("log_assistant_receive",{receive_table_list:receive_table_list})
-                                                        $(".paging_box_receive").before(html);
-                                                        //翻页后移至顶部
-                                                        $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
-                                                        //点击下载附件图片
-                                                        $(".download_fujian").on("click",function(){
-                                                            window.open($(this).attr("href"))
-                                                        })
-                                                    }
-                                                })
-                                            });
-                                            //上翻
-                                                $(".paging_receive_prev").on("click",function(){
-                                                    var page = $(".blue_light").text();
-                                                        page--;
-                                                        if(page<1){
-                                                            return;
-                                                        }
-                                                        $(".blue_light").prev().addClass("blue_light").siblings().removeClass("blue_light");
-                                                        $.ajax({
-                                                            type:"GET",
-                                                            url:"json/zg/my/receive/web?page="+page+"",
-                                                            contentType:"application/json",
-                                                            success:function(res){
-                                                                $(".log_assistant_ctn").remove();
-                                                                var receive_table_list = res.receive_table_list;
-                                                                var html = templates.render("log_assistant_receive",{receive_table_list:receive_table_list})
-                                                                $(".paging_box_receive").before(html)
-                                                                //翻页后移至顶部
-                                                                $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
-                                                                //点击下载附件图片
-                                                                $(".download_fujian").on("click",function(){
-                                                                    window.open($(this).attr("href"))
-                                                                })
-                                                            }
-                                                        })
-                                                    })
-                                            //下翻
-                                                $(".paging_receive_next").on("click",function(){
-                                                    var page = $(".blue_light").text();
-                                                        page++;
-                                                        if(page>lastpage){
-                                                            return;
-                                                        }
-                                                        $(".blue_light").next().addClass("blue_light").siblings().removeClass("blue_light");
-                                                        $.ajax({
-                                                            type:"GET",
-                                                            url:"json/zg/my/receive/web?page="+page+"",
-                                                            contentType:"application/json",
-                                                            success:function(res){
-                                                                $(".log_assistant_ctn").remove();
-                                                                var receive_table_list = res.receive_table_list;
-                                                                var html = templates.render("log_assistant_receive",{receive_table_list:receive_table_list})
-                                                                $(".paging_box_receive").before(html)
-                                                                //翻页后移至顶部
-                                                                $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
-                                                                //点击下载附件图片
-                                                                $(".download_fujian").on("click",function(){
-                                                                    window.open($(this).attr("href"))
-                                                                })
-                                                            }
-                                                        })
-                                                    })
-                                        }
-                                    })
-
-                        });
-                        //点击分页
-                            //上翻
-                        $(".paging_prev").on("click",function(){
-                            var page = $(".blue_light").text();
-                            page--;
-                            if(page<1){
-                                return;
-                            }
-                            $(".blue_light").prev().addClass("blue_light").siblings().removeClass("blue_light");
-                            $.ajax({
-                                type:"GET",
-                                url:"json/zg/my/receive/web?page="+page+"",
-                                contentType:"application/json",
-                                success:function(res){
-                                    $(".log_assistant_ctn").remove();
-                                    var receive_table_list = res.receive_table_list;
-                                    var html = templates.render("log_assistant_receive",{receive_table_list:receive_table_list})
-                                    $(".paging_box").before(html)
-                                    //翻页后移至顶部
-                                    $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
-                                    //点击下载附件图片
-                                    $(".download_fujian").on("click",function(){
-                                        window.open($(this).attr("href"))
-                                    })
-                                }
-                            })
-                        })
-                            //下翻
-                        $(".paging_next").on("click",function(){
-                            var page = $(".blue_light").text();
-                            page++;
-                            if(page>lastpage){
-                                return;
-                            }
-                            $(".blue_light").next().addClass("blue_light").siblings().removeClass("blue_light");
-                            $.ajax({
-                                type:"GET",
-                                url:"json/zg/my/receive/web?page="+page+"",
-                                contentType:"application/json",
-                                success:function(res){
-                                    $(".log_assistant_ctn").remove();
-                                    var receive_table_list = res.receive_table_list;
-                                    var html = templates.render("log_assistant_receive",{receive_table_list:receive_table_list})
-                                    $(".paging_box").before(html)
-                                    //翻页后移至顶部
-                                    $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
-                                    //点击下载附件图片
-                                    $(".download_fujian").on("click",function(){
-                                        window.open($(this).attr("href"))
-                                    })
-                                }
-                            })
-                        })
-                            //点击页数
-                        $(".paging").on("click",".paging_btn",function(e){
-                            var page = Number($(this).text());
-                            $(this).addClass("blue_light").siblings().removeClass("blue_light");
-                            $.ajax({
-                                type:"GET",
-                                url:"json/zg/my/receive/web?page="+page+"",
-                                contentType:"application/json",
-                                success:function(res){
-                                    $(".log_assistant_ctn").remove();
-                                    var receive_table_list = res.receive_table_list;
-                                    var html = templates.render("log_assistant_receive",{receive_table_list:receive_table_list})
-                                    $(".paging_box").before(html)
-                                    //翻页后移至顶部
-                                    $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
-                                    //点击下载附件图片
-                                    $(".download_fujian").on("click",function(){
-                                        window.open($(this).attr("href"))
-                                    })
-                                }
-                            })
-                        })
-                        //点击上一页
-                        //我发出的 点击内容
-                        $(".log_assistant_box").on("click",".log_assistant_send",function(e){
-                            $(this).addClass("high_light").siblings().removeClass("high_light");
-                            $(".log_assistant_prompt_box").hide();
-                            $(".log_assistant_ctn").css("margin-top","20px");
-                            $(".log_assistant_unread").show();
-                            $(".log_assistant_title").html("我发出的")
-                            $.ajax({
-                                type:"GET",
-                                url:"json/zg/my/send/web",
-                                contentType:"application/json",
-                                success:function(res){
-                                    console.log(res)
-                                    var page = [];
-                                    for(var i= 2;i<=res.page;i++){
-                                        page.push(i)
-                                    }
-                                    var send_lastpage = res.page;
-                                    $(".paging_box").remove();
-                                    $(".paging_box_receive").remove();
-                                    $(".paging_box_send").remove();
-                                    $(".log_assistant_unread").show();
-                                    $(".log_assistant_ctn").remove();
-                                    var send_table_list = res.send_table_list;
-                                    var html = templates.render("log_assistant_send",{send_table_list:send_table_list});
-                                    var paging = templates.render("paging_send",{page:page})
-                                    $(".log_assistant_ctn_box").append(html);
-                                    $(".log_assistant_ctn_box").append(paging);
-                                    //翻页后移至顶部
-                                    $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
-                                    //点击下载附件图片
-                                    $(".download_fujian").on("click",function(){
-                                        window.open($(this).attr("href"))
-                                    })
-                                    //点击分页
-                                    $(".paging_send").on("click",".paging_btn_send",function(e){
-                                        var page = Number($(this).text());
-                                        $(this).addClass("blue_light").siblings().removeClass("blue_light");
-                                        $.ajax({
-                                            type:"GET",
-                                            url:"json/zg/my/send/web?page="+page+"",
-                                            contentType:"application/json",
-                                            success:function(res){
-                                                console.log(res)
-                                                $(".log_assistant_ctn").remove();
-                                                var send_table_list = res.send_table_list;
-                                                var html = templates.render("log_assistant_send",{send_table_list:send_table_list})
-                                                console.log(html)
-                                                $(".paging_box_send").before(html)
-                                                //翻页后移至顶部
-                                                $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
-                                                //点击下载附件图片
-                                                $(".download_fujian").on("click",function(){
-                                                    window.open($(this).attr("href"))
-                                                })
-                                            }
-                                        })
-                                    })
-                                        //上翻
-                                        $(".paging_send_prev").on("click",function(){
-                                            var page = $(".blue_light").text();
-                                                page--;
-                                                if(page<1){
-                                                    return;
-                                                }
-                                                $(".blue_light").prev().addClass("blue_light").siblings().removeClass("blue_light");
-                                            $.ajax({
-                                                type:"GET",
-                                                url:"json/zg/my/send/web?page="+page+"",
-                                                contentType:"application/json",
-                                                success:function(res){
-                                                    console.log(res)
-                                                    $(".log_assistant_ctn").remove();
-                                                    var send_table_list = res.send_table_list;
-                                                    var html = templates.render("log_assistant_send",{send_table_list:send_table_list})
-                                                    console.log(html)
-                                                    $(".paging_box_send").before(html)
-                                                    //翻页后移至顶部
-                                                    $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
-                                                    //点击下载附件图片
-                                                    $(".download_fujian").on("click",function(){
-                                                        window.open($(this).attr("href"))
-                                                    })
-                                                }
-                                            })
-                                        })
-                                        //下翻
-                                        $(".paging_send_next").on("click",function(){
-                                            var page = $(".blue_light").text();
-                                            page++;
-                                            if(page>send_lastpage){
-                                                return;
-                                            }
-                                            $(".blue_light").next().addClass("blue_light").siblings().removeClass("blue_light");
-                                            $.ajax({
-                                                type:"GET",
-                                                url:"json/zg/my/send/web?page="+page+"",
-                                                contentType:"application/json",
-                                                success:function(res){
-                                                    console.log(res)
-                                                    $(".log_assistant_ctn").remove();
-                                                    var send_table_list = res.send_table_list;
-                                                    var html = templates.render("log_assistant_send",{send_table_list:send_table_list})
-                                                    console.log(html)
-                                                    $(".paging_box_send").before(html)
-                                                    //翻页后移至顶部
-                                                    $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
-                                                    //点击下载附件图片
-                                                    $(".download_fujian").on("click",function(){
-                                                        window.open($(this).attr("href"))
-                                                    })
-                                                }
-                                            })
-                                        })
-                                    //显示未读
-                                    $(".log_assistant_unread").on("click",".log_assistant_unreadperson",function(){
-                                        $(".already_read").hide();
-                                        $(".unread").show();
-
-                                    })
-                                    //显示已读
-                                    $(".log_assistant_unread").on("click",".log_assistant_readperson",function(){
-                                        $(".already_read").show();
-                                        $(".unread").hide();
-                                    })
-                                    $(".log_assistant_unread div").on("click",function(){
-                                        $(this).css("color","#333333").siblings().css("color","#999999")
-                                    })
-                                    //附件图片显示原图
-                                    $(".thumbnail").on("click",function(){
-                                        console.log($(this))
-                                    })
-                                    }
-                                })
-                        })
-                            }
-                        })
-                //筛选
-                $(".log_assistant_screening").on("click",function(e){
-                    $(".log_screening").show();
-                })
-                //关闭筛选
-                $(".log_screening_close").on("click",function(e){
-                    $(".log_screening").hide();
-                })
-                //选择发送人
-                $(".log_screening_select").on("click",function(e){
-                    $("#people-choose").show();
-                })
-                //关闭选择发送人
-                $(".choose_team_close").on("click",function(e){
-                    $("#people-choose").hide();
-                })
-            })
         })
         //联系人点击
         $(".contact").off().on("click",function(){
@@ -427,7 +28,12 @@ var contact = (function(){
                 success:function(res){
                     $(".notice_ctn_box").children().remove();
                     var user_list = res.user_list;
+                    // console.log(user_list.short_name)
+                    // for(var key in user_list){
+                    //     console.log(user_list[key].short_name)
+                    // }
                     var user_list_our = templates.render("user_list_our",{user_list:user_list})
+                    // console.log(user_list)
                     var user_me = res.user_me;
                     $(".notice_ctn_box").append(user_list_our)
                     $(".notice_ctn_box").append(templates.render("invited_users"))
@@ -444,6 +50,8 @@ var contact = (function(){
                         var avatar = $(this).children().first().children().attr("src")
                         var short_name = $(this).attr("short_name");
                         var _href = "#narrow/pm-with/"+user_id+"-"+short_name
+                        console.log(short_name)
+                        console.log("_----____-------____------")
                         var user_detail_contact = templates.render("user_detail_contact",{user_name:user_name,user_id:user_id,email:email,avatar:avatar,_href:_href,short_name:short_name})
                         $(".move_ctn").append(user_detail_contact)
                         //发送消息点击事件
@@ -1144,7 +752,313 @@ var contact = (function(){
             $(".move_ctn").append(work_order_head)
             var work_order_body = templates.render("work_order_body",{pushData:pushData})
             $(".work_order_box").append(work_order_body)
-        })        
+        })  
+        //日志助手显示
+        $("body").on("click",'.log_assistant_btn',function(e){
+            console.log("__________________________--")
+           $("#zfilt").removeClass("focused_table");
+           console.log("213123")
+           $(".move_ctn").children().remove();
+           window.location.href = "#narrow/is/starred"
+           $(".tab-content").css("height","100%")
+           $(".move_ctn").children().remove();
+           e.stopPropagation();
+           e.preventDefault();
+           var window_high = window.screen.height;
+           $(".log_assistant_md").css("height",window_high);
+           $(".log_assistant_md").css("overflow","auto");
+           $(".log_assistant_md").show();
+           $.ajax({
+               type:"GET",
+               url:"json/zg/my/receive/web",
+               contentType:"application/json",
+               success:function(res){
+                   var page = [];
+                   for(var i= 2;i<=res.page;i++){
+                       page.push(i)
+                   }
+                   var lastpage = res.page;
+                   $(".log_assistant_md").remove();
+                   var receive_table_list = res.receive_table_list;
+                   var html = templates.render("log_assistant_box",{receive_table_list:receive_table_list,page:page})
+                   $(".move_ctn").append(html)
+                   //点击下载附件图片
+                   $(".download_fujian").on("click",function(){
+                       window.open($(this).attr("href"))
+                   })
+                   $(".log_assistant_md").on("click",function(e){
+                       e.stopPropagation();
+                       e.preventDefault();
+                       $(".log_assistant_md").hide();
+                       $(".log_assistant_md").remove();
+                       $(".app").css("overflow-y","scroll")
+                       $('.log_assistant_md').empty()   
+                   })
+                   //日志助手关闭
+                   $(".log_assistant_close").on("click",function(e){
+                       $(".log_assistant_md").hide();
+                       $(".log_assistant_md").remove();
+                       $(".app").css("overflow-y","scroll")
+                       $('.log_assistant_md').empty()   
+                   })
+                   //日志助手阻止冒泡
+                   $(".log_assistant_box").on("click",function(e){
+                       e.stopPropagation();
+                       e.preventDefault();
+                   })
+                   $(".log_assistant_screening").on("click",function(e){
+                       e.preventDefault();
+                       e.stopPropagation();
+                       $(".log_screening").show();
+                   })
+                   $(".log_screening").on("click",function(){
+                       e.stopPropagation();
+                       e.preventDefault();
+                   })
+                   $(".log_assistant_ctn_box").on("click",function(e){
+                       $(".log_screening").hide();
+                   })
+                   //我收到的 点击内容
+                   $(".log_assistant_box").on("click",".log_assistant_received",function(e){
+                       $(this).addClass("high_light").siblings().removeClass("high_light");
+                       $(".log_assistant_prompt_box").show();
+                       $(".log_assistant_ctn").css("margin-top","0px");
+                       $(".log_assistant_unread").hide();
+                       $(".log_assistant_title").html("我收到的");
+                       $.ajax({
+                                   type:"GET",
+                                   url:"json/zg/my/receive/web",
+                                   contentType:"application/json",
+                                   success:function(res){
+                                       $(".paging_box").remove();
+                                       $(".paging_box_receive").remove();
+                                       $(".paging_box_send").remove();
+                                       var page = [];
+                                       for(var i= 2;i<=res.page;i++){
+                                           page.push(i)
+                                       }
+                                       $(".log_assistant_ctn").remove();
+                                       var receive_table_list = res.receive_table_list;
+                                       var html = templates.render("log_assistant_receive",{receive_table_list:receive_table_list})
+                                       var paging = templates.render("paging_receive",{page:page})
+                                       $(".log_assistant_ctn_box").append(html);
+                                       $(".log_assistant_ctn_box").append(paging);
+                                       //点击下载附件图片
+                                       $(".download_fujian").on("click",function(){
+                                           window.open($(this).attr("href"))
+                                       })
+                                        //点击分页
+                                       $(".paging_receive").on("click",".paging_btn_receive",function(e){
+                                           var page = Number($(this).text());
+                                           $(this).addClass("blue_light").siblings().removeClass("blue_light");
+                                           console.log($(".paging_box_receive"))
+                                           getLogReceive(page)
+                                       });
+                                       //上翻
+                                           $(".paging_receive_prev").on("click",function(){
+                                               var page = $(".blue_light").text();
+                                                   page--;
+                                                   if(page<1){
+                                                       return;
+                                                   }
+                                                   console.log("asndiobfsdgobdasfbos")
+                                                   $(".blue_light").prev().addClass("blue_light").siblings().removeClass("blue_light");
+                                                   getLogReceive(page)
+                                               })
+                                       //下翻
+                                           $(".paging_receive_next").on("click",function(){
+                                               var page = $(".blue_light").text();
+                                                   page++;
+                                                   if(page>lastpage){
+                                                       return;
+                                                   }
+                                                   $(".blue_light").next().addClass("blue_light").siblings().removeClass("blue_light");
+                                                   getLogReceive(page)
+                                               })
+                                   }
+                               })
+
+                   });
+                   //点击分页
+                       //上翻
+                   $(".paging_prev").on("click",function(){
+                       var page = $(".blue_light").text();
+                       page--;
+                       if(page<1){
+                           return;
+                       }
+                       $(".blue_light").prev().addClass("blue_light").siblings().removeClass("blue_light");
+                    //    getLogReceive(page)
+                       $.ajax({
+                           type:"GET",
+                           url:"json/zg/my/receive/web?page="+page+"",
+                           contentType:"application/json",
+                           success:function(res){
+                               $(".log_assistant_ctn").remove();
+                               var receive_table_list = res.receive_table_list;
+                               var html = templates.render("log_assistant_receive",{receive_table_list:receive_table_list})
+                               $(".paging_box").before(html)
+                               //翻页后移至顶部
+                               $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
+                               //点击下载附件图片
+                               $(".download_fujian").on("click",function(){
+                                   window.open($(this).attr("href"))
+                               })
+                           }
+                       })
+                   })
+                       //下翻
+                   $(".paging_next").on("click",function(){
+                       var page = $(".blue_light").text();
+                       page++;
+                       if(page>lastpage){
+                           return;
+                       }
+                       $(".blue_light").next().addClass("blue_light").siblings().removeClass("blue_light");
+                    //    getLogReceive(page)
+                       $.ajax({
+                           type:"GET",
+                           url:"json/zg/my/receive/web?page="+page+"",
+                           contentType:"application/json",
+                           success:function(res){
+                               $(".log_assistant_ctn").remove();
+                               var receive_table_list = res.receive_table_list;
+                               var html = templates.render("log_assistant_receive",{receive_table_list:receive_table_list})
+                               $(".paging_box").before(html)
+                               //翻页后移至顶部
+                               $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
+                               //点击下载附件图片
+                               $(".download_fujian").on("click",function(){
+                                   window.open($(this).attr("href"))
+                               })
+                           }
+                       })
+                   })
+                       //点击页数
+                   $(".paging").on("click",".paging_btn",function(e){
+                       console.log($(".paging_box"))
+                       var page = Number($(this).text());
+                       $(this).addClass("blue_light").siblings().removeClass("blue_light");
+                    //    getLogReceive(page)
+                       $.ajax({
+                           type:"GET",
+                           url:"json/zg/my/receive/web?page="+page+"",
+                           contentType:"application/json",
+                           success:function(res){
+                               $(".log_assistant_ctn").remove();
+                               var receive_table_list = res.receive_table_list;
+                               var html = templates.render("log_assistant_receive",{receive_table_list:receive_table_list})
+                               $(".paging_box").before(html)
+                               //翻页后移至顶部
+                               $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
+                               //点击下载附件图片
+                               $(".download_fujian").on("click",function(){
+                                   window.open($(this).attr("href"))
+                               })
+                           }
+                       })
+                   })
+                   //点击上一页
+                   //我发出的 点击内容
+                   $(".log_assistant_box").on("click",".log_assistant_send",function(e){
+                       $(this).addClass("high_light").siblings().removeClass("high_light");
+                       $(".log_assistant_prompt_box").hide();
+                       $(".log_assistant_ctn").css("margin-top","20px");
+                       $(".log_assistant_unread").show();
+                       $(".log_assistant_title").html("我发出的")
+                       $.ajax({
+                           type:"GET",
+                           url:"json/zg/my/send/web",
+                           contentType:"application/json",
+                           success:function(res){
+                               console.log(res)
+                               var page = [];
+                               for(var i= 2;i<=res.page;i++){
+                                   page.push(i)
+                               }
+                               var send_lastpage = res.page;
+                               $(".paging_box").remove();
+                               $(".paging_box_receive").remove();
+                               $(".paging_box_send").remove();
+                               $(".log_assistant_unread").show();
+                               $(".log_assistant_ctn").remove();
+                               var send_table_list = res.send_table_list;
+                               var html = templates.render("log_assistant_send",{send_table_list:send_table_list});
+                               var paging = templates.render("paging_send",{page:page})
+                               $(".log_assistant_ctn_box").append(html);
+                               $(".log_assistant_ctn_box").append(paging);
+                               //翻页后移至顶部
+                               $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
+                               //点击下载附件图片
+                               $(".download_fujian").on("click",function(){
+                                   window.open($(this).attr("href"))
+                               })
+                               //点击分页
+                               $(".paging_send").on("click",".paging_btn_send",function(e){
+                                   var page = Number($(this).text());
+                                   $(this).addClass("blue_light").siblings().removeClass("blue_light");
+                                   getLogSend(page)
+                               })
+                                   //上翻
+                                   $(".paging_send_prev").on("click",function(){
+                                       var page = $(".blue_light").text();
+                                           page--;
+                                           if(page<1){
+                                               return;
+                                           }
+                                           $(".blue_light").prev().addClass("blue_light").siblings().removeClass("blue_light");
+                                           getLogSend(page)
+                                   })
+                                   //下翻
+                                   $(".paging_send_next").on("click",function(){
+                                       var page = $(".blue_light").text();
+                                       page++;
+                                       if(page>send_lastpage){
+                                           return;
+                                       }
+                                       $(".blue_light").next().addClass("blue_light").siblings().removeClass("blue_light");
+                                       getLogSend(page)
+                                   })
+                               //显示未读
+                               $(".log_assistant_unread").on("click",".log_assistant_unreadperson",function(){
+                                   $(".already_read").hide();
+                                   $(".unread").show();
+
+                               })
+                               //显示已读
+                               $(".log_assistant_unread").on("click",".log_assistant_readperson",function(){
+                                   $(".already_read").show();
+                                   $(".unread").hide();
+                               })
+                               $(".log_assistant_unread div").on("click",function(){
+                                   $(this).css("color","#333333").siblings().css("color","#999999")
+                               })
+                               //附件图片显示原图
+                               $(".thumbnail").on("click",function(){
+                                   console.log($(this))
+                               })
+                               }
+                           })
+                   })
+                       }
+                   })
+           //筛选
+           $(".log_assistant_screening").on("click",function(e){
+               $(".log_screening").show();
+           })
+           //关闭筛选
+           $(".log_screening_close").on("click",function(e){
+               $(".log_screening").hide();
+           })
+           //选择发送人
+           $(".log_screening_select").on("click",function(e){
+               $("#people-choose").show();
+           })
+           //关闭选择发送人
+           $(".choose_team_close").on("click",function(e){
+               $("#people-choose").hide();
+           })
+       })      
     })
 //组织基本信息获取
 function getOrganizeBasic(){
@@ -1306,7 +1220,48 @@ function updataList(){
         }
     })
 }
+function getLogReceive(page){
+    $.ajax({
+        type:"GET",
+        url:"json/zg/my/receive/web?page="+page+"",
+        contentType:"application/json",
+        success:function(res){
+            $(".log_assistant_ctn").remove();
+            var receive_table_list = res.receive_table_list;
+            var html = templates.render("log_assistant_receive",{receive_table_list:receive_table_list})
+            $(".paging_box_receive").before(html);
+            console.log($(".paging_box_receive"))
+            // console.log(html)
+            //翻页后移至顶部
+            $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
+            //点击下载附件图片
+            $(".download_fujian").on("click",function(){
+                window.open($(this).attr("href"))
+            })
+        }
+    })
+}
+function getLogSend(page){
+    $.ajax({
+        type:"GET",
+        url:"json/zg/my/send/web?page="+page+"",
+        contentType:"application/json",
+        success:function(res){
 
+            $(".log_assistant_ctn").remove();
+            var send_table_list = res.send_table_list;
+            var html = templates.render("log_assistant_send",{send_table_list:send_table_list})
+            console.log(html)
+            $(".paging_box_send").before(html)
+            //翻页后移至顶部
+            $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
+            //点击下载附件图片
+            $(".download_fujian").on("click",function(){
+                window.open($(this).attr("href"))
+            })
+        }
+    })
+}
 return exports
 }())
 if (typeof module !== 'undefined') {
