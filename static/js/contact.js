@@ -28,12 +28,7 @@ var contact = (function(){
                 success:function(res){
                     $(".notice_ctn_box").children().remove();
                     var user_list = res.user_list;
-                    // console.log(user_list.short_name)
-                    // for(var key in user_list){
-                    //     console.log(user_list[key].short_name)
-                    // }
                     var user_list_our = templates.render("user_list_our",{user_list:user_list})
-                    // console.log(user_list)
                     var user_me = res.user_me;
                     $(".notice_ctn_box").append(user_list_our)
                     $(".notice_ctn_box").append(templates.render("invited_users"))
@@ -50,8 +45,6 @@ var contact = (function(){
                         var avatar = $(this).children().first().children().attr("src")
                         var short_name = $(this).attr("short_name");
                         var _href = "#narrow/pm-with/"+user_id+"-"+short_name
-                        console.log(short_name)
-                        console.log("_----____-------____------")
                         var user_detail_contact = templates.render("user_detail_contact",{user_name:user_name,user_id:user_id,email:email,avatar:avatar,_href:_href,short_name:short_name})
                         $(".move_ctn").append(user_detail_contact)
                         //发送消息点击事件
@@ -129,6 +122,7 @@ var contact = (function(){
                 }
             })
         })
+        
         //待办点击
         $(".todo_list").on("click",function(){
             $(".organization_team").hide()
@@ -755,9 +749,7 @@ var contact = (function(){
         })  
         //日志助手显示
         $("body").on("click",'.log_assistant_btn',function(e){
-            console.log("__________________________--")
            $("#zfilt").removeClass("focused_table");
-           console.log("213123")
            $(".move_ctn").children().remove();
            window.location.href = "#narrow/is/starred"
            $(".tab-content").css("height","100%")
@@ -1060,6 +1052,7 @@ var contact = (function(){
            })
        })      
     })
+
 //组织基本信息获取
 function getOrganizeBasic(){
     $.ajax({
