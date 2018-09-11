@@ -602,13 +602,11 @@ var contact = (function(){
             var collection_tip_box = templates.render('collection_tip_box');
             $(".notice_ctn_box").append(collection_tip_box)
             $(".collection_tip").on("click",function(){
-                
                 $('.move_ctn').children().remove()
                 $.ajax({
                     type:"GET",
                     url:"json/zg/collection/list",
                     success:function(res){
-                        console.log(res.collection_list)
                         collection_list = res.collection_list
                         var collection_content_box = templates.render("collection_content_box",{collection_list:collection_list})
                         $('.move_ctn').append(collection_content_box)
@@ -624,7 +622,12 @@ var contact = (function(){
                                 type:"PUT",
                                 url:"json/zg/collection/",
                                 contentType:"appliction/json",
-                                data:JSON.stringify(obj)
+                                data:JSON.stringify(obj),
+                                success:function(res){
+                                    if(res.errno == 0){
+                                        server_events.operating_hints("取消收藏成功!")
+                                    }
+                                }
                             })
                         })
                     }
@@ -780,6 +783,37 @@ var contact = (function(){
                                         }
                                     }
                                 })
+                            })
+                            //样式切换变化
+                            $(this).addClass("color_li").siblings().removeClass("color_li")
+                            $(this).children().first().addClass("color_icon").parent().siblings().children().removeClass("color_icon")
+                            $(this).children().last().addClass("color_text").parent().siblings().children().removeClass("color_text")
+                        })
+                        //点击解散团队
+                        $(".organization_chart_box").on("click",".organization_chart_team_btn",function(){
+                            $(".organization_chart_change_box").children().remove();
+                            var organization_chart_ctn_team=templates.render("organization_chart_ctn_team")
+                            $(".organization_chart_change_box").append(organization_chart_ctn_team)
+                            //获取验证码
+                            $(".organization_chart_box").on("click",".disband_time",function(){
+                                var countdown=60;
+                                function sendmsg(){
+                                    if(countdown==0){
+                                        $(".disband_time").attr("disabled",false);
+                                        $(".disband_time").val("获取验证码");
+                                        countdown=60;
+                                        return false;
+                                    }
+                                    else{
+                                        $(".disband_time").attr("disabled",true);
+                                        $(".disband_time").val(countdown+"s");
+                                        countdown--;
+                                    }
+                                    setTimeout(function(){
+                                        sendmsg();
+                                    },1000);
+                                }
+                                sendmsg()
                             })
                             //样式切换变化
                             $(this).addClass("color_li").siblings().removeClass("color_li")
@@ -1061,7 +1095,6 @@ var contact = (function(){
                                         url:"json/zg/user/mobile_batch/",
                                         data:JSON.stringify(obj),
                                         success:function(res){
-                                            console.log(res)
                                             if(res.errno == 0){
                                                 updataList()
                                             }
@@ -1083,11 +1116,11 @@ var contact = (function(){
                             data:{department_id:id},
                             contentType:"application/json",
                             success:function(res){
-                                console.log("123")
                                 $(".organization_team_bottom_box").children().remove()
                                 var user_list = res.user_list
                                 var organization_chart_department_detail = templates.render("organization_chart_department_detail",{user_list:user_list,department_name:department_name})
                                 $(".organization_team_bottom_box").append(organization_chart_department_detail)
+                                $(".organization_team_bottom_box").css("height",window.screen.height)
                                 //返回上一级
                                 $(".organization_team_bottom_box").on("click",".back_up",function(){
                                     $(".organization_team_bottom_box").children().remove()
@@ -1153,6 +1186,7 @@ function getNoDepartmentList(){
             var not_department_list = res.not_department_list
             var organization_team_single = templates.render("organization_team_single",{not_department_list:not_department_list})
             $(".organization_team_bottom_box").append(organization_team_single)
+            $(".organization_team_bottom_box").css("height",window.screen.height)
         }
     })
 }
@@ -1167,6 +1201,7 @@ function getDepartmentList(){
             var department_lists = res.department_lists
             var organization_team_dept = templates.render("organization_team_dept",{department_lists:department_lists})
             $(".organization_team_bottom_box").prepend(organization_team_dept)
+            $(".organization_team_bottom_box").css("height",window.screen.height)
         }
     })
 }
