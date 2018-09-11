@@ -24,12 +24,11 @@
                 {{#each datalists}}
                  <li class="input-box-list input-detail-box" input-key ="1" avatar={{avatarurl}}>
                     <div class="box-list-left">
-                        <input 
+                        <label><input 
                         type="checkbox" 
                         data-key={{id}} 
                         {{#if checked}}checked="checked"{{/if}}
-                        class="choose-list-box"/>
-                        <span>{{fullname}}</span>
+                        class="choose-list-box"/>{{fullname}}</label>
                 </li>
                  {{/each}}
             </ul>
