@@ -749,11 +749,9 @@ var contact = (function(){
         })  
         //日志助手显示
         $("body").on("click",'.log_assistant_btn',function(e){
-           $("#zfilt").removeClass("focused_table");
-           $(".move_ctn").children().remove();
            window.location.href = "#narrow/is/starred"
            $(".tab-content").css("height","100%")
-           $(".move_ctn").children().remove();
+        //    $(".move_ctn").children().remove();
            e.stopPropagation();
            e.preventDefault();
            var window_high = window.screen.height;
@@ -771,6 +769,7 @@ var contact = (function(){
                    }
                    var lastpage = res.page;
                    $(".log_assistant_md").remove();
+                   $(".move_ctn").children().remove();
                    var receive_table_list = res.receive_table_list;
                    var html = templates.render("log_assistant_box",{receive_table_list:receive_table_list,page:page})
                    $(".move_ctn").append(html)
