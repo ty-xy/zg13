@@ -73,6 +73,8 @@ var arr;
 exports.parse_narrow = function (hash) {
     if(hash[2] == "starred"){
         $("#zfilt").removeClass("focused_table")
+        $("#zfilt").hide()
+        $(".home-title").hide()
         $(".compose-content").hide()
         $(".move_ctn").children().remove();
         $(".group_icon").hide()
@@ -87,6 +89,7 @@ exports.parse_narrow = function (hash) {
         $(".move_ctn").append(templates.render("right_blank_page"))
     }
     if(hash[1] == 'pm-with'||hash.length===5){
+        $("#zfilt").show()
         $(".keep_exist").show();
         $(".tab-content").css("height","calc(100% - 232px)")
         $(".organization_team").hide()
@@ -135,6 +138,24 @@ exports.parse_narrow = function (hash) {
         $(".persistent_data").on("mouseout",".only_tip",function(){
             $(this).children().last().children().last().hide()
         })
+
+        function  changeUrl (){
+            var url =window.location.hash
+            var i = url.indexOf("/")
+            var url_index = url.substr(0,url.indexOf("/",i+1))
+            var cindex = url.substr(19)
+            if (url_index=== "#narrow/pm-with"){
+                $(".home-title span").html(cindex)
+                setTimeout(function(){
+                    $(".home-title").show();
+                },10)
+                $(".compose-title").show()
+            }else{
+                $(".home-title").hide()
+                $(".compose-title").hide()
+            }
+        }
+        changeUrl()
     }
     var i;
     // console.log(hash)
