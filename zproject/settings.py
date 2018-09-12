@@ -1179,6 +1179,7 @@ JS_SPECS = {
             'js/settings_ui.js',
             'js/management.js',
             'js/message_group.js',
+            'js/login.js',
             # 'js/bootstrap-timepicker/js/bootstrap-timepicker.min.js',
             # 'js/bootstrap-datepicker/js/bootstrap-datepicker.js',
             # 'js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js',

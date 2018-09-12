@@ -155,7 +155,7 @@ var check = (function () {
                     var html = templates.render("table",{data:data,showClass:"initiate"})
                     $("#originator").html(html)
                     $(".check-shenpi-content").height($(window).height()-244)
-                    $(".move_ctn").on("click",".check-shenpi-detail-initiate",function(e){
+                    $(".move_ctn").off(".check-shenpi-detail-initiate").on("click",".check-shenpi-detail-initiate",function(e){
                         var types = $(this).children().eq(1).attr("data_type")
                         var id = $(this).attr("data_id")
                         var datater = {
@@ -166,7 +166,7 @@ var check = (function () {
                             url:"/json/zg/approval",
                             data:datater,
                             success:function(datalist){
-                                // console.log(datalist)
+                                console.log(datalist)
                                 var data =datalist.data
                                 if(data.feedback_list.length===0){
                                     data.shown=false
@@ -193,6 +193,8 @@ var check = (function () {
                                                 $(".feadback-remind").on("click",function(){
                                                     $(".modal-logs").hide()
                                                 })
+                                                console.log(datas)
+                                                server_events.showNotify("催办",data.head_name+"请您审批")
                                            }
                                         }
                                     })
