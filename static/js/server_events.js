@@ -254,7 +254,6 @@ var server_events = (function () {
                         var stream_name;
                         if(stream_id){
                           sub  = stream_data.get_sub_by_id(stream_id)
-                        
                         }
                         arr = JSON.parse(localStorage.getItem("arr"))
                         if(arr == null){
@@ -290,8 +289,6 @@ var server_events = (function () {
                                     console.log(2)
                                     $(".notice_bottom[name="+recipient+"]").html(mes)
                                     $(".notice_top_time[name='"+$(".only_tip").attr("send_id")+"']").html(server_events.tf(time))
-                                    // $(".notice_bottom[name="+send_id+"]").html(mes)
-                                    // $(".notice_top_time[name='"+send_id+"']").html(server_events.tf(time))
                                     arr[j].content = mes
                                     localStorage.setItem("arr",JSON.stringify(arr))
                                 }

@@ -567,7 +567,7 @@ function pick_empty_narrow_banner() {
         if (first_operand === "starred") {
             // You have no starred messages.
             // $("#zfilt").addClass("focused_table");
-            $("#zfilt").removeClass("focused_table")
+            $("#zfilt").hide()
             $(".notice_ctn_boxs").hide();
             $("#compose").hide();
             $(".persistent_data").show();
