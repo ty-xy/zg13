@@ -1501,3 +1501,6 @@ a.message-control-button {
 .compose-title{
     min-width: 940px;
 }
+.topic-box>.content_color{
+    color:#fff !important;
+}

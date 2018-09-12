@@ -169,6 +169,13 @@ Handlebars.registerHelper('contents',function(content){
         return "backcolor"
     }
 });
+Handlebars.registerHelper('content_color',function(content){ 
+    var str = window.location.hash.split(/\//).pop()
+    var string = decodeURIComponent(str.replace(/\./g, '%'));
+    if(content === string){
+        return "content_color"
+    }
+});
 // Handlebars.registerHelper('buttonStatus',function(content){ 
 //     if(content===1){
 //         contents  =["催办",'撤销']
