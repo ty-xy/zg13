@@ -16,7 +16,7 @@
 }
 .my_supervise_img{
     display: flex;
-    margin-top:30px;
+    margin-top: 30px;
 }
 /* .common_img{
     height:100px;
@@ -687,6 +687,85 @@
     margin: 100px 82px 0 82px;
     cursor: pointer;
 }
+.organization_chart_ctn_team_box{
+    float: left;
+    width: 459px;
+    margin: 0;
+}
+.disband_name{
+    float: left;
+    font-size: 15px;
+    color: #333333;
+    letter-spacing: 0.18px;
+    line-height: 36px;
+}
+.disband_phone{
+    float: left;
+    background: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    width: 175px;
+    height: 26px!important;
+}
+.disband_phone{
+    margin-left: 20px;
+}
+.disband_time{
+    float: left;
+    /* opacity: 0.6; */
+    background: #4584FF;
+    border-radius: 4px;
+    width: 100px!important;
+    height: 36px;
+    line-height: 36px;
+    margin-left: 10px;
+    font-size: 15px;
+    color: #FFFFFF;
+    letter-spacing: 0.18px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 200;
+}
+.disband_code{
+    font-size: 15px;
+    color: #333333;
+    letter-spacing: 0.18px;
+    float: left;
+    margin-left: 20px;
+    margin-top: 8px;
+}
+.disband_input{
+    width: 285px;
+    height: 26px!important;
+    background: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    float: left;
+    margin-left: 20px;
+}
+.disband_tip{
+    font-size: 14px;
+    color: #888888;
+    letter-spacing: 0.22px;
+    margin: 100px 35px 10px 40px;
+}
+.disband_ensure{
+    width: 296px;
+    height: 50px;
+    background: #FFFFFF;
+    border: 1px solid #DCDCDC;
+    border-radius: 4px;
+    font-size: 17px;
+    color: #333333;
+    letter-spacing: 0.27px;
+    margin: 0 81px;
+    text-align: center;
+    line-height: 50px;
+    cursor: pointer;
+}
+.disband_phone_box{
+    margin: 30px 20px 20px 20px;
+}
 
 .organization_chart_ctn_master_box{
     float: left;
@@ -1148,7 +1227,6 @@
     cursor: pointer;
 }
 .organization_team_bottom_box{
-    height: 1000px;
     overflow: auto;
     width: 941px;
     text-align: left;
