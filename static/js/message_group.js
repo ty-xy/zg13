@@ -420,8 +420,8 @@ var message_group = (function () {
                     })
                 },
             })
-             // 颜色的选择
-            $(".more-detail").on("click",function(e){
+             
+            $(".group_setting").off(".more-detail").on("click",".more-detail",function(e){
                 e.stopPropagation()
                 var all_person = avatars
                 var html = templates.render("more_people",{all_person:all_person})
