@@ -276,9 +276,10 @@ var server_events = (function () {
                         }else{
                             var flag = false;
                             for(var j =0 ;j<arr.length;j++){
-                                if(user_me!=name){
+                                if(user_me!=name&&arr[j].stream==""){
                                     if(arr[j].send_id == send_id){
                                         flag = true;
+                                        console.log(1)
                                         $(".notice_bottom[name='"+$(".only_tip").attr("send_id")+"']").html(mes)
                                         $(".notice_top_time[name='"+$(".only_tip").attr("send_id")+"']").html(server_events.tf(time))
                                         arr[j].content = mes
@@ -286,6 +287,7 @@ var server_events = (function () {
                                     }
                                 }
                                 if(user_me == name&&arr[j].name!==name&&arr[j].stream==""){
+                                    console.log(2)
                                     $(".notice_bottom[name="+recipient+"]").html(mes)
                                     $(".notice_top_time[name='"+$(".only_tip").attr("send_id")+"']").html(server_events.tf(time))
                                     // $(".notice_bottom[name="+send_id+"]").html(mes)
@@ -294,10 +296,18 @@ var server_events = (function () {
                                     localStorage.setItem("arr",JSON.stringify(arr))
                                 }
                                 if(arr[j].stream_id==stream_id&&arr[j].name==sub.name ){
-                                    $(".notice_bottom[name="+stream_id+"]").html(mes)
-                                    $(".notice_top_time[name="+stream_id+"]").html(server_events.tf(time))
-                                    arr[j].content = mes
-                                    localStorage.setItem("arr",JSON.stringify(arr))
+                                    if(user_me!=name){
+                                        flag=true
+                                        $(".notice_bottom[name="+stream_id+"]").html(mes)
+                                        $(".notice_top_time[name="+stream_id+"]").html(server_events.tf(time))
+                                        arr[j].content = mes
+                                        localStorage.setItem("arr",JSON.stringify(arr))
+                                    }else{
+                                        $(".notice_bottom[name="+stream_id+"]").html(mes)
+                                        $(".notice_top_time[name="+stream_id+"]").html(server_events.tf(time))
+                                        arr[j].content = mes
+                                        localStorage.setItem("arr",JSON.stringify(arr))
+                                    }
                                 }
                             }
                             if(!flag){
