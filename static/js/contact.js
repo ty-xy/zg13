@@ -663,6 +663,7 @@ var contact = (function(){
                                         data:JSON.stringify(obj),
                                         success:function(res){
                                             if(res.errno == 0){
+                                                server_events.operating_hints("批量删除成功!")
                                                 updataList()
                                             }
                                         }
@@ -751,7 +752,6 @@ var contact = (function(){
         $("body").on("click",'.log_assistant_btn',function(e){
            window.location.href = "#narrow/is/starred"
            $(".tab-content").css("height","100%")
-        //    $(".move_ctn").children().remove();
            e.stopPropagation();
            e.preventDefault();
            var window_high = window.screen.height;
