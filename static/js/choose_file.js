@@ -13,6 +13,8 @@ var chooseFile = (function () {
             var num_times = people_dict.get(id).length
             if(lengths===num_times){
                 $(".checkbox-inputs").prop("checked",true)
+            }else{
+                $(".checkbox-inputs").prop("checked",false)
             }
         }
         function cancel (){
@@ -107,9 +109,9 @@ var chooseFile = (function () {
                     _.each(data.streams_dict, function (val, key) {
                         people_dict.set(key, val);
                     });
-                  $(".choose-nav-left").on("click",".box-start-list",function(e){
+                  $(".choose-nav-left").on("click",".choose-check",function(e){
                        var checkbox = $(this).find("input")
-                       var input_key = $(this).attr("input-key")
+                       var input_key = $(this).attr("inputid")
                        if(checkbox.is(':checked')){
                             checkbox.prop("checked",false)
                        }else{
@@ -215,27 +217,30 @@ var chooseFile = (function () {
                        all_check(id)
                        //右边和左边对应
                        var value = people_dict.get(id)
-                       $(".box-list-left").on("click",function(e){
-                           var inputs= $(this).find("input")
-                           if(inputs.is(":checked")){
-                               inputs.prop("checked",false)
-                               $(".checkbox-inputs").prop("checked",false)
-                            }else{
-                                inputs.prop("checked",true)
+                       $(".choose-nav-left").off(".choose-list-box").on("click",".choose-list-box",function(e){
+                        //    var inputs= $(this).find("input")
+                           var that = $(this)
+                           if($(this).is(":checked")){
                                 all_check(id)
                                 var datalist = {}
                                 var datalists = {}
-                                 datalist.avatarurl =  $(this).closest(".input-box-list").attr("avatar")
-                                 datalist.id= inputs.attr("data-key")
-                                 datalist.fullname=$(this).find("span").text()
-                                 datalist.did = $(".select-choose").find("span").text()
-                                 datalists[inputs.attr("data-key")] = datalist
-                                 obj = $.extend(obj,datalists)
+                                datalist.avatarurl =  that.closest(".input-box-list").attr("avatar")
+                                datalist.id= that.attr("data-key")
+                                datalist.fullname=that.closest("label").text()
+                                datalist.did = $(".select-choose").find("span").text()
+                                datalists[that.attr("data-key")] = datalist
+                                console.log(obj)
+                                obj = $.extend(obj,datalists)
                                 var html = templates.render("choose_person",{datalist:obj})
-                                 $(".box-right-list").html(html)
+                                $(".box-right-list").html(html)
                                 var length = $(".box-right-list").children().length
                                 var text = "选中"+"("+length+")"
                                 $(".already-choose").html(text)
+                            //    that.prop("checked",false)
+                            //    $(".checkbox-inputs").prop("checked",false)
+                            }else{
+                                // that.prop("checked",true)
+                                 $(".checkbox-inputs").prop("checked",false)
                            }
                        })
                          //点击选择人员

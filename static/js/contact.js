@@ -29,7 +29,6 @@ var contact = (function(){
                     $(".notice_ctn_box").children().remove();
                     var user_list = res.user_list;
                     var user_list_our = templates.render("user_list_our",{user_list:user_list})
-                    var user_me = res.user_me;
                     $(".notice_ctn_box").append(user_list_our)
                     $(".notice_ctn_box").append(templates.render("invited_users"))
                     //点击联系人弹出右边页面

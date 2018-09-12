@@ -68,7 +68,32 @@ exports.password_warning = function (password, password_field) {
     }
     return zxcvbn(password).feedback.warning || i18n.t("Password is too weak");
 };
-
+exports.login=function(){
+    $(".insert-password").on("click",".icon-close-eye",function(e){
+         $(this).hide()
+         $(".insert-password .icon-close-open").show()
+         $(" .insert-password #password-login").attr("type","text")
+    })
+    $(".insert-password").on("click",".icon-close-open",function(e){
+        $(this).hide()
+        $(".insert-password .icon-close-eye").show()
+        $(".insert-password #password-login").attr("type","password")
+   })
+    $(".setting-password").on("click",".icon-close-eye",function(e){
+        $(this).hide()
+        $(".setting-password .icon-close-open").show()
+        $(".setting-password #password-login").attr("type","text")
+    })
+    $(".setting-password").on("click",".icon-close-open",function(e){
+        $(this).hide()
+        $(".setting-password .icon-close-eye").show()
+        $(".setting-password #password-login").attr("type","password")
+    })
+    $(".login-forget-password").on("click",function(e){
+        $("#forget-password-page").show()
+        $("#login_page_register").hide()
+    })
+}
 return exports;
 
 }());
