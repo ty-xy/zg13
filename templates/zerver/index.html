@@ -76,7 +76,12 @@
         </div>
     </div>
 </div>
-
+<div class="operating_hints_box">
+        <img src="/static/img/success.png" alt="" class="operating_hints_img">
+        <div class="operating_hints_ctn">
+            删除成员成功！
+        </div>
+    </div>
 <div class="app">
     <div class="alert-box">
         <div class="alert alert_sidebar alert-error home-error-bar" id="connection-error">
@@ -121,8 +126,25 @@
                             <p class="notice_top_time" name=""></p>
                         </div>
                         <div class="notice_bottom" name="">
+                                还没有新的日志
                         </div>
                     </div>
+                </li>
+            </a>
+            <a href="javascript:void(0)" class="">
+                <li class="notice_ctn work_order" send_id="">
+                    <div class="notice_left fix">
+                        <i class="iconfont icon-gongzuotongzhi log_assistant_img"></i>
+                    </div>
+                    <div class="notice_right fix">
+                        <div class="notice_top fix">
+                            <p class="notice_top_name">工作通知</p>
+                            <p class="notice_top_time" name=""></p>
+                        </div>
+                        <div class="notice_bottom" name="">
+                        </div>
+                    </div>
+                    <i class="iconfont icon-guanbiUI notice_box_del"></i>
                 </li>
             </a>
             <!-- <ul id="stream_filters" class="filters"></ul> -->
@@ -203,7 +225,8 @@
         </div>
         <div class="column-right">
             {% include "zerver/right_sidebar.html" %}
-        </div><!--/right sidebar-->
+        </div>
+        <!--/right sidebar-->
     </div><!--/row-->
     <div class="informational-overlays overlay new-style" data-overlay="informationalOverlays" aria-hidden="true">
         <div class="overlay-content modal-bg">

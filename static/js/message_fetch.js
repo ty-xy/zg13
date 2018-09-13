@@ -17,7 +17,6 @@ var consts = {
 
 function process_result(data, opts) {
     var messages = data.messages;
-    console.log(data,"data")
     $('#connection-error').removeClass("show");
        if(opts.msg_list.filter._operators[0].operand=== "management"){
         narrow.show_empty_narrow_message();
@@ -104,6 +103,22 @@ exports.load_messages = function (opts) {
 
     // }
     var state;
+    // 音频
+    var audios = document.getElementsByTagName("audio");
+    // 暂停函数
+    function pauseAll() {
+        var self = this;
+        [].forEach.call(audios, function (i) {
+            // 将audios中其他的audio全部暂停
+            i !== self && i.pause();
+        })
+        // console.log(111)
+    }
+    // 给play事件绑定暂停函数
+    [].forEach.call(audios, function (i) {
+        i.addEventListener("play", pauseAll.bind(i));
+    })
+
     function updata(){
         $.ajax({
             type:"GET",
@@ -229,7 +244,7 @@ exports.load_messages = function (opts) {
                                        var split_uri = response.uri.split("/");
                                        var filename = split_uri[split_uri.length - 1];
                                        var uri = make_upload_absolute(response.uri);
-                                       var size = (file.size/1024/1024).toFixed(2);
+                                       var size = file.size
                                        var _obj_accessory = {accessory_list:[
                                             {url:uri,
                                             name:filename,

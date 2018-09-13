@@ -75,7 +75,6 @@ var message_group = (function () {
                 private_message_recipient: '',
                 trigger:          'unknown',
             };
-        
             // Set default parameters based on the current narrowed view.
             var compose_opts = narrow_state.set_compose_defaults();
             default_opts = _.extend(default_opts, compose_opts);
@@ -105,7 +104,6 @@ var message_group = (function () {
                 }
                 
             }
-           
             console.log(i,ul.length)
         })
         $(".icon-prevs").on("click",function(e){
@@ -134,8 +132,18 @@ var message_group = (function () {
             compose_actions.respond_to_message({trigger: 'message click'});
             // var topic= $.trim($(this).text())
         })
-            
-        
+        //点击左边群组事件
+        $(".persistent_data").off("a").on("click","a",function(e){
+            var href = $(this).attr("href")
+            if(href.indexOf("#narrow/stream")!==-1){
+               var hash = href.split("/")
+               var subject = hash_util.decodeHashComponent(hash[4])
+               var stream = $(this).children().find(".notice_top_name").eq(0).text()
+               console.log(stream)
+               $("#stream").val(stream)
+               $("#subject").val(subject)
+            }
+        })
         $(".make-stream-sure").on("click",function(e){
             opts = fill_in_opts_from_current_narrowed_view('stream', {trigger: 'new topic button'});
             compose_state.stream_name(opts.stream),
@@ -188,10 +196,6 @@ var message_group = (function () {
                 var name =  $(this).attr("data-stream-name")
                 var stream_id = $(this).attr("data-stream-id")
                 var avatar = $(this).children().eq(0).css("background-color")
-                $("#compose").show()
-                $("#compose-container").show()
-                $(".compose-content").show()
-                
                 var data = {
                         anchor: 773,
                         num_before: 50,
@@ -249,6 +253,9 @@ var message_group = (function () {
                         $(".address_book").removeClass("left_blue_height")
                         i= 0
                         window.location.hash = narrow.by_stream_subject_uris(name,lastData.subject)
+                        $("#compose").show()
+                        $("#compose-container").show()
+                        $(".compose-content").show()
                     }
                 })
             })
@@ -413,8 +420,8 @@ var message_group = (function () {
                     })
                 },
             })
-             // 颜色的选择
-            $(".more-detail").on("click",function(e){
+             
+            $(".group_setting").off(".more-detail").on("click",".more-detail",function(e){
                 e.stopPropagation()
                 var all_person = avatars
                 var html = templates.render("more_people",{all_person:all_person})

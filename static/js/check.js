@@ -109,7 +109,7 @@ var check = (function () {
     }
      function feedBack (types,id,func) {
         $("body").on("click",".feedBack",function(e){
-            var rendered = templates.render("feed_back_content")
+            var rendered = templates.render("feed_back_content",{revolke_tips:true})
             $(".modal-logs").html(rendered)
             $(".modal-logs").show()
             $(".feadback-send").on("click",function(e){
@@ -155,7 +155,7 @@ var check = (function () {
                     var html = templates.render("table",{data:data,showClass:"initiate"})
                     $("#originator").html(html)
                     $(".check-shenpi-content").height($(window).height()-244)
-                    $(".move_ctn").on("click",".check-shenpi-detail-initiate",function(e){
+                    $(".move_ctn").off(".check-shenpi-detail-initiate").on("click",".check-shenpi-detail-initiate",function(e){
                         var types = $(this).children().eq(1).attr("data_type")
                         var id = $(this).attr("data_id")
                         var datater = {
@@ -166,7 +166,7 @@ var check = (function () {
                             url:"/json/zg/approval",
                             data:datater,
                             success:function(datalist){
-                                // console.log(datalist)
+                                console.log(datalist)
                                 var data =datalist.data
                                 if(data.feedback_list.length===0){
                                     data.shown=false
@@ -176,6 +176,29 @@ var check = (function () {
                                 var li = templates.render("check_detail",data)
                                 $(".move_ctn").html(li)
                                 backIcons3()
+                                $(".reminder").on("click",function(e){
+                                    datalist = {
+                                        types:types,
+                                        id:id,
+                                    }
+                                    channel.get({
+                                    url:'/json/zg/approval/urge',
+                                    data:datalist,
+                                    contentType:"application/json",
+                                    success:function(datas){
+                                           if(datas.errno===0){
+                                            var rendered = templates.render("feed_back_content",{reminder_tip:true})
+                                                $(".modal-logs").html(rendered)
+                                                $(".modal-logs").show()
+                                                $(".feadback-remind").on("click",function(){
+                                                    $(".modal-logs").hide()
+                                                })
+                                                console.log(datas)
+                                                server_events.showNotify("催办",data.head_name+"请您审批")
+                                           }
+                                        }
+                                    })
+                                })
                                 $(".revoke").on("click",function(e){
                                     var rendered = templates.render("feed_back_content",{revolke_tip:true})
                                     $(".modal-logs").html(rendered)
@@ -196,6 +219,7 @@ var check = (function () {
                                             }
                                         })
                                     })
+                                
                                 })
                             }
                         })
@@ -286,43 +310,49 @@ var check = (function () {
             moveContent()
         })
       
-        function common_choose(){
-            var arrlist =[]
+        function common_choose(content){
             var peopleList = []
-            $('.generate_log_member_box').children().not($(".add_log_people")).each(function(){
+            $('.shenpi-persons').children().not($(".add_log_people")).each(function(){
                 var index = Number($(this).attr('data_id'))
                 peopleList.push(index)
             })
-            $(".box-right-list").children().each(function () { 
-                var id = Number($(this).attr("key-data"));
-                var avatar = $(this).attr("avatarurl")
-                var name = $(this).children().find('.name-list').text()
-                var peppleList = {
-                    id:id,
-                    avatar:avatar,
-                    name:name,
-                    namel:name.slice(0,4)+"....",
-                    small:true
-                }
-                // console.log(peppleList)
-                if(peopleList.indexOf(peppleList.id)===-1){
-                    arrlist.push(peppleList)
-                    // console.log(arrlist)
-                }
-            })
-           
+            if(peopleList.length>0){
+                peopleList.forEach(function(item,index){
+                    if(content[item]!== undefined){
+                        delete(content[item])
+                    }
+                })
+            }
             // console.log($(".add_log_people").siblings().length)
             var li = $(templates.render('send_people',{
-               peoplelist:arrlist
+               peoplelist:content,
+               small:true
            }));
-           return li 
+           $(".add_log_people").before(li)
+           confirm_hover()
         }
-        //请假
-        function confirm(){
+        function xy (content){
+            var peopleList = []
+            $('.send-check-people').children().not($(".add_log_peoples")).each(function(){
+                var index = Number($(this).attr('data_id'))
+                peopleList.push(index)
+            })
+            if(peopleList.length>0){
+                peopleList.forEach(function(item,index){
+                    if(content[item]!== undefined){
+                        delete(content[item])
+                    }
+                })
+            }
+            var li = $(templates.render('send_people',{
+                peoplelist:content,
+                small:true
+            }));
+            $(".add_log_peoples").before(li)
+            confirm_hover()
+        }
+        function confirm_hover(){
             //点击确定
-            $(".choose-right-list").on('click','.button-confirm',function(e){
-               var li = common_choose()
-               $(".add_log_people").before(li)
                $('.generate_log_member').mouseenter(function(){
                   $(this).children().eq(2).show()
                   $(this).on('click',".dust-delete",function(e){
@@ -332,34 +362,9 @@ var check = (function () {
                $('.generate_log_member').mouseleave(function(){
                  $('.avatar-overs').hide()
               })
-               
-               $('.box-right-list').remove()
-               $(".modal-log").hide()
-               //清除里面所有的元素，模态框消失。
-               $(".modal-log-content").empty()
         
-            })
         }  
-        function confirms(){
-            $(".choose-right-list").on('click','.button-confirm',function(e){
-                var li = common_choose()
-                $(".add_log_peoples").before(li)
-                $('.generate_log_member').mouseenter(function(){
-                   $(this).children().eq(2).show()
-                   $(this).on('click',".dust-delete",function(e){
-                       $(this).parent().parent().remove()
-                   })
-                })
-                $('.generate_log_member').mouseleave(function(){
-                  $('.avatar-overs').hide()
-               })
-                
-                $('.box-right-list').remove()
-                $(".modal-log").hide()
-                //清除里面所有的元素，模态框消失。
-                $(".modal-log-content").empty()
-             })
-        }
+     
         var uploadFinished =function(i, file, response){
         if (response.uri === undefined) {
             return;
@@ -411,10 +416,10 @@ var check = (function () {
                 weekStart:1  
             });
             $(".add_log_people").on("click",function(e){
-                attendance.peopleChoose(confirm)
+                chooseFile.choosePeople(common_choose)
             })
             $(".add_log_peoples").on("click",function(e){
-                attendance.peopleChoose(confirms)
+                chooseFile.choosePeople(xy)
             })
             uploadFile()
             $("#btn-test").on("click",function(e){
@@ -454,10 +459,10 @@ var check = (function () {
                 weekStart:1  
             });
             $(".add_log_people").on("click",function(e){
-                attendance.peopleChoose(confirm)
+                chooseFile.choosePeople(common_choose)
             })
             $(".add_log_peoples").on("click",function(e){
-                attendance.peopleChoose(confirms)
+                chooseFile.choosePeople(xy)
             })
             $("#btn-test").on("click",function(e){
                  e.preventDefault()
@@ -480,10 +485,10 @@ var check = (function () {
             var li = templates.render("ask-for-leave",{showdate:true})
             $(".move_ctn").html(li)
             $(".add_log_people").on("click",function(e){
-                attendance.peopleChoose(confirm)
+                chooseFile.choosePeople(common_choose)
             })
             $(".add_log_peoples").on("click",function(e){
-                attendance.peopleChoose(confirms)
+                chooseFile.choosePeople(xy)
             })
             height()
             backIcon()

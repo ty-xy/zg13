@@ -10,7 +10,8 @@ var server_events = (function () {
     var get_events_timeout;
     var get_events_failures = 0;
     var get_events_params = {};
-
+    var arr = []
+    var push_data = []
     // This field keeps track of whether we are attempting to
     // force-reconnect to the events server due to suspecting we are
     // offline.  It is important for avoiding races with the presence
@@ -151,7 +152,7 @@ var server_events = (function () {
         s = date.getSeconds();
         return h + m;
     }
-    var arr = []
+    
     exports.set_local_news = function (send_id, stream_id, name, avatar, time, content, _href,stream) {
         obj = {
             send_id: send_id,
@@ -170,7 +171,11 @@ var server_events = (function () {
         var result = tagStr.replace(regx, '');
         return result;
     };
-
+    exports.operating_hints = function(msg){
+        $(".operating_hints_box").fadeIn().delay(1500).fadeOut()
+        $(".operating_hints_ctn").html(msg)
+    }
+    
     function get_events(options) {
         options = _.extend({
             dont_block: false
@@ -193,20 +198,37 @@ var server_events = (function () {
             get_events_params.queue_id = page_params.queue_id;
             get_events_params.last_event_id = page_params.last_event_id;
         }
-
     get_events_params.client_gravatar = true;
-
     get_events_timeout = undefined;
     get_events_xhr = channel.get({
         url:      '/json/events',
         data:     get_events_params,
         idempotent: true,
         timeout:  page_params.poll_timeout,
-        success: function (data) {
-            console.log(data)
+        success: function (data) {            
+            for(var i = 0;i<data.events.length;i++){
+                type = data.events[0].zg_type
+                push_one = data.events[0]
+            }
+            if(type == 'DailyReport'){
+                $(".work_order").show()
+                push_data.push(push_one)
+                localStorage.setItem("pushData",JSON.stringify(push_data))
+                $(".keep_exist .notice_bottom").html(push_one.theme)
+                $(".keep_exist .notice_top_time").html(server_events.tf(push_one.time))
+                server_events.showNotify("nbasdgaiosdvoavsdu",push_one.theme)
+            }else if(type == 'JobsNotice'){
+                console.log("工作通知")
+                $(".work_order").show()
+                push_data.push(push_one)
+                console.log(push_one)
+                localStorage.setItem("pushData",JSON.stringify(push_data))
+                $(".work_order .notice_bottom").html(push_one.theme)
+                $(".work_order .notice_top_time").html(server_events.tf(push_one.time))
+                server_events.showNotify("nbasdgaiosdvoavsdu",push_one.theme)
+            }
             var type;
             var data_message;
-            // console.log(data)
             $.ajax({
                 url:"json/zg/user",
                 type:"GET",
@@ -232,7 +254,6 @@ var server_events = (function () {
                         var stream_name;
                         if(stream_id){
                           sub  = stream_data.get_sub_by_id(stream_id)
-                        
                         }
                         arr = JSON.parse(localStorage.getItem("arr"))
                         if(arr == null){
@@ -254,30 +275,36 @@ var server_events = (function () {
                         }else{
                             var flag = false;
                             for(var j =0 ;j<arr.length;j++){
-                                console.log(user_me,name)
-                                if(user_me!=name){
+                                if(user_me!=name&&arr[j].stream==""){
                                     if(arr[j].send_id == send_id){
                                         flag = true;
+                                        console.log(1)
                                         $(".notice_bottom[name='"+$(".only_tip").attr("send_id")+"']").html(mes)
                                         $(".notice_top_time[name='"+$(".only_tip").attr("send_id")+"']").html(server_events.tf(time))
                                         arr[j].content = mes
-                                        console.log('对面',mes)
                                         localStorage.setItem("arr",JSON.stringify(arr))
                                     }
                                 }
                                 if(user_me == name&&arr[j].name!==name&&arr[j].stream==""){
+                                    console.log(2)
                                     $(".notice_bottom[name="+recipient+"]").html(mes)
                                     $(".notice_top_time[name='"+$(".only_tip").attr("send_id")+"']").html(server_events.tf(time))
-                                    // $(".notice_bottom[name="+send_id+"]").html(mes)
-                                    // $(".notice_top_time[name='"+send_id+"']").html(server_events.tf(time))
                                     arr[j].content = mes
                                     localStorage.setItem("arr",JSON.stringify(arr))
                                 }
                                 if(arr[j].stream_id==stream_id&&arr[j].name==sub.name ){
-                                    $(".notice_bottom[name="+stream_id+"]").html(mes)
-                                    $(".notice_top_time[name="+stream_id+"]").html(server_events.tf(time))
-                                    arr[j].content = mes
-                                    localStorage.setItem("arr",JSON.stringify(arr))
+                                    if(user_me!=name){
+                                        flag=true
+                                        $(".notice_bottom[name="+stream_id+"]").html(mes)
+                                        $(".notice_top_time[name="+stream_id+"]").html(server_events.tf(time))
+                                        arr[j].content = mes
+                                        localStorage.setItem("arr",JSON.stringify(arr))
+                                    }else{
+                                        $(".notice_bottom[name="+stream_id+"]").html(mes)
+                                        $(".notice_top_time[name="+stream_id+"]").html(server_events.tf(time))
+                                        arr[j].content = mes
+                                        localStorage.setItem("arr",JSON.stringify(arr))
+                                    }
                                 }
                             }
                             if(!flag){
@@ -426,7 +453,48 @@ var server_events = (function () {
             },
         });
     };
-
+    //自定义推送
+    exports.showNotify =function (title,msg){
+        var Notification = window.Notification || window.mozNotification || window.webkitNotification;
+        if(Notification){
+            Notification.requestPermission(function(status){
+                if(status != "granted"){
+                    return;
+                }else{
+                    var tag = "sds"+Math.random();
+                    Notification.body=msg;
+                    //notifyObj属于Notification构造方法的实例对象
+                    var notifyObj = new Notification(
+                        title,
+                        {
+                            dir:'auto',
+                            lang:'zh-CN',
+                            tag:tag,//实例化的notification的id
+                            icon:'images/img/u02.png',	//icon的值显示通知图片的URL
+                            body:msg
+                        }
+                    );
+                    notifyObj.onclick=function(){
+                        //如果通知消息被点击,通知窗口将被激活
+                        window.focus();
+                    },
+                    notifyObj.onerror = function () {
+                        console.log("HTML5桌面消息出错！！！");
+                    };
+                    notifyObj.onshow = function () {
+                        setTimeout(function(){
+                            notifyObj.close();
+                        },3000)
+                    };
+                    notifyObj.onclose = function () {
+                        console.log("HTML5桌面消息关闭！");
+                    };
+                }
+            });
+        }else{
+            console.log("您的浏览器不支持桌面消息!");
+        }
+    };
     window.addEventListener("beforeunload", function () {
         exports.cleanup_event_queue();
     });

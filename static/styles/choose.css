@@ -15,7 +15,7 @@
     background: #FFFFFF;
     box-shadow: 0 1px 10px 0 rgba(204,204,204,0.30);
     border-radius: 1px;
-    width:540px;
+    width:550px;
     height:473px;
     display: flex;
     flex-direction: column;
@@ -122,7 +122,7 @@ input[type="checkbox"]:checked{
     background: url("../img/Group-2.png") no-repeat center center;
     }
     .input-detail-box,.input-box-list{
-    width:229px;
+    width:231px;
     margin-top:15px;
     display:flex;
     padding-left:8px;
@@ -783,7 +783,7 @@ a.message-control-button {
         box-shadow: 0px 2px 4px rgba(0,0,0,0.4);
     }
     .open1{
-        background: rgba(0,184,0,0.8);
+        background: #4584FF
     }
     .open2{
         top: 1px;
@@ -1155,6 +1155,12 @@ a.message-control-button {
     .container-control{
         overflow: auto;
     }
+    .container-control>input{
+        font-family: PingFangSC-Regular;
+        font-size: 15px;
+        color: #888888 !important;
+        letter-spacing: 0.18px;
+    }
     #myTab>li{
        cursor: pointer;
     }
@@ -1491,4 +1497,47 @@ a.message-control-button {
 }
 .total-day{
     margin-left:6px;
+}
+.compose-title{
+    min-width: 940px;
+}
+.topic-box>.content_color{
+    color:#fff !important;
+}
+#form-test input[type="text"]{
+    font-family: PingFangSC-Regular;
+    font-size: 15px;
+    color: #888888 !important;
+    letter-spacing: 0.18px;
+}
+#form-test ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color:    #888;
+    font-family: PingFangSC-Regular;
+    font-size: 15px;
+    color: #888888;
+    letter-spacing: 0.18px;
+}
+#form-test :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #888;
+   font-family: PingFangSC-Regular;
+    font-size: 15px;
+    color: #888888;
+    letter-spacing: 0.18px;
+}
+#form-test  ::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #888;
+   font-family: PingFangSC-Regular;
+    font-size: 15px;
+    color: #888888;
+    letter-spacing: 0.18px;
+}
+#form-test :-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color:    #888;
+   font-family: PingFangSC-Regular;
+    font-size: 15px;
+    color: #888888;
+    letter-spacing: 0.18px;
+}
+.start_times,.end_times{
+    text-indent: 0px;
 }

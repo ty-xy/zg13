@@ -169,6 +169,14 @@ Handlebars.registerHelper('contents',function(content){
         return "backcolor"
     }
 });
+
+Handlebars.registerHelper('content_color',function(content){
+    var str = window.location.hash.split(/\//).pop()
+    var string = decodeURIComponent(str.replace(/\./g, '%'));
+    if(content === string){
+        return "content_color"
+    }
+});
 // Handlebars.registerHelper('buttonStatus',function(content){
 //     if(content===1){
 //         contents  =["催办",'撤销']
@@ -405,6 +413,14 @@ Handlebars.registerHelper("cut_list",function(list){
 Handlebars.registerHelper("cut_time",function(str){
     return str.substring(11,19)
 })
+//显示名字
+Handlebars.registerHelper("short_names",function(str){
+    if(str.length>4){
+        str = str.slice(0,4)+"..."
+       return str
+    }
+    return str
+})
 Handlebars.registerHelper('if_or', function () {
     // Execute the conditional code if any of the conditions are true.
     // Example usage:
@@ -449,7 +465,12 @@ Handlebars.registerHelper('tr', function (context, options) {
     var result = i18n.t(options.fn(context), context);
     return new Handlebars.SafeString(result);
 });
-
+Handlebars.registerHelper("formatFileSize",function(ext){
+    if (ext / 1024 > 100) {
+        return (ext / 1024 / 1024).toFixed(2) + 'MB';
+        }
+        return (ext / 1024).toFixed(2) + 'kb';
+})
 return exports;
 }());
 if (typeof module !== 'undefined') {
