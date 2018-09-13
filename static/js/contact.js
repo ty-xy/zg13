@@ -21,11 +21,11 @@ var contact = (function(){
         })
         //联系人点击
         $(".contact").off().on("click",function(){
-            initStyle()
             $.ajax({
                 url:"json/zg/user",
                 type:"GET",
                 success:function(res){
+                    initStyle()
                     $(".notice_ctn_box").children().remove();
                     var user_list = res.user_list;
                     var user_list_our = templates.render("user_list_our",{user_list:user_list})
@@ -1048,9 +1048,44 @@ var contact = (function(){
            $(".choose_team_close").on("click",function(e){
                $("#people-choose").hide();
            })
-       })      
+       })
+       
+       //收藏消息
+       $("#zfilt").off("click",".additional_collection").on("click",".additional_collection",function(){
+        var id = Number($(this).parent().parent().parent().parent().parent().parent().parent().attr("zid"))
+        flag = $(this).parent().prev().attr("star")
+        star = $(this).parent().prev().children().first()
+        var status;
+        if(flag == "false"){
+            status = "add"
+            $(this).parent().prev().attr("star","true")
+        }else{
+            status = "remove"
+            $(this).parent().prev().attr("star","false")
+        }
+        var obj = {
+            type:"message",
+            type_id:id,
+            status:status
+        }
+        $.ajax({
+            type:"PUT",
+            url:"json/zg/collection/",
+            contentType:"appliction/json",
+            data:JSON.stringify(obj),
+            success:function(res){
+                if(res.message == '收藏成功'){
+                    star.show()
+                }else if(res.message == "取消收藏成功"){
+                    star.hide()
+                }
+            }
+        })
     })
 
+
+    })
+    
 //组织基本信息获取
 function getOrganizeBasic(){
     $.ajax({

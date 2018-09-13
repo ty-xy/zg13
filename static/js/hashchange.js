@@ -93,6 +93,10 @@ exports.parse_narrow = function (hash) {
         $(".keep_exist").show();
         $(".tab-content").css("height","calc(100% - 232px)")
         $(".organization_team").hide()
+        $("#compose").show()
+        $("#home").show()
+        $("#empty_star_narrow_message").hide()
+        $("#main_div").show()
         arr = JSON.parse(localStorage.getItem("arr"))
         if(arr != null){
             $(".persistent_data").children().remove();
