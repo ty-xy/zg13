@@ -21,11 +21,11 @@ var contact = (function(){
         })
         //联系人点击
         $(".contact").off().on("click",function(){
-            initStyle()
             $.ajax({
                 url:"json/zg/user",
                 type:"GET",
                 success:function(res){
+                    initStyle()
                     $(".notice_ctn_box").children().remove();
                     var user_list = res.user_list;
                     var user_list_our = templates.render("user_list_our",{user_list:user_list})
@@ -150,9 +150,9 @@ var contact = (function(){
                 management.new_task_cancel();
             })
             //保存
-            $(".new_task_save").on("click",function(e){
-                management.new_task_save();
-                if(management.new_task_save()==undefined){
+            $(".new_task_save").off().on("click",function(e){
+                var state = management.new_task_save()
+                if(state==undefined){
                     management.new_task_cancel()
                 }
             })
@@ -166,6 +166,11 @@ var contact = (function(){
             //已完成下拉
             $(".right_san").on("click",function(){
                 $(".completed_box").toggle();
+                if($(".completed_box").is(":hidden")){
+                    $(".right_san").css("transform","rotate(0deg)")
+                }else{
+                    $(".right_san").css("transform","rotate(180deg)")
+                }
             })
             $(".generate_log").on("click",function(){
                 management.generate_log();
@@ -685,23 +690,25 @@ var contact = (function(){
                                         for(var key in content){
                                             department_list.push(content[key].id)
                                         }
-                                    }
-                                    var obj = {
-                                        user_list:user_list,
-                                        type:"mobile",
-                                        department_id:department_list
-                                    }
-                                    $.ajax({
-                                        type:"PUT",
-                                        contentType:"application/json",
-                                        url:"json/zg/user/mobile_batch/",
-                                        data:JSON.stringify(obj),
-                                        success:function(res){
-                                            if(res.errno == 0){
-                                                updataList()
-                                            }
+                                        var obj = {
+                                            user_list:user_list,
+                                            type:"mobile",
+                                            new_department_id_list:department_list,
+                                            department_id:"0"
                                         }
-                                    })
+                                        $.ajax({
+                                            type:"PUT",
+                                            contentType:"application/json",
+                                            url:"json/zg/user/mobile_batch/",
+                                            data:JSON.stringify(obj),
+                                            success:function(res){
+                                                if(res.errno == 0){
+                                                    updataList()
+                                                }
+                                            }
+                                        })
+                                    }
+                                    
                                 }
                             })
                         })
@@ -1048,9 +1055,52 @@ var contact = (function(){
            $(".choose_team_close").on("click",function(e){
                $("#people-choose").hide();
            })
-       })      
+        })
+       //没有部门成员点击跳转聊天
+       $(".move_ctn").on("click",".organization_team_single_box li",function(){
+            $(".group_icon").hide()
+            $(".home-title button").hide();
+            //做个切换到消息板块的假象试试
+            $(".notice_ctn_box").children().remove();
+            $(".news_icon").addClass("left_blue_height");
+            $(".address_book").removeClass("left_blue_height")
+       })
+       //收藏消息
+       $("#zfilt").off("click",".additional_collection").on("click",".additional_collection",function(){
+        var id = Number($(this).parent().parent().parent().parent().parent().parent().parent().attr("zid"))
+        flag = $(this).parent().prev().attr("star")
+        star = $(this).parent().prev().children().first()
+        var status;
+        if(flag == "false"){
+            status = "add"
+            $(this).parent().prev().attr("star","true")
+        }else{
+            status = "remove"
+            $(this).parent().prev().attr("star","false")
+        }
+        var obj = {
+            type:"message",
+            type_id:id,
+            status:status
+        }
+        $.ajax({
+            type:"PUT",
+            url:"json/zg/collection/",
+            contentType:"appliction/json",
+            data:JSON.stringify(obj),
+            success:function(res){
+                if(res.message == '收藏成功'){
+                    star.show()
+                }else if(res.message == "取消收藏成功"){
+                    star.hide()
+                }
+            }
+        })
     })
 
+
+    })
+    
 //组织基本信息获取
 function getOrganizeBasic(){
     $.ajax({

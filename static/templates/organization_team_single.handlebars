@@ -1,12 +1,14 @@
 <ul class="organization_team_single_box">
     {{#each not_department_list}}
-    <li class="fix organization_team_single">
-        <div class="organization_team_single_img_box">
-            <img src="{{avatarurl}}" alt="" class="organization_team_single_img">
-        </div>
-        <p class="organization_team_single_name">
-            {{fullname}}
-        </p>
-    </li>
+    <a href="{{pm_url}}">
+        <li class="fix organization_team_single">
+            <div class="organization_team_single_img_box">
+                <img src="{{avatarurl}}" alt="" class="organization_team_single_img">
+            </div>
+            <p class="organization_team_single_name">
+                {{fullname}}
+            </p>
+        </li>
+    </a>
     {{/each}}
 </ul>   

@@ -42,6 +42,8 @@ def not_department_user(request, user_profile):
             user_dict['avatarurl'] = avatars
             user_dict['fullname'] = name
             user_dict['id'] = user.id
+            user_dict['pm_url'] = '#narrow/pm-with/'+str(user.id)+'-'+user.short_name
+            
             not_department_list.append(user_dict)
     return JsonResponse({'errno': 0, 'message': '成功', 'not_department_list': not_department_list})
 

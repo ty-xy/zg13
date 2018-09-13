@@ -614,10 +614,20 @@ li.show-more-private-messages a {
     border-radius: 6px;
     margin: 20px;
     padding: 0;
+    border: none;
+    text-indent:40px;
+}
+.global_search_icon{
+    position:absolute;
+    left: 30px;
+    top: 30px;
+    font-size: 18px;
+    color: #999
 }
 .notice_ctn_box{
     margin: 0;
     position: relative;
+    overflow-x: hidden;
     /* padding-bottom: 100px; */
 }
 .notice_ctn{
