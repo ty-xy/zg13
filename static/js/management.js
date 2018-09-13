@@ -959,9 +959,6 @@ var management = (function () {
                             $(".taskdetail_md").show();
                             $("#management_ctn").hide();
                             $(".tab-content").css("height","100%");
-                            // $(".app").css("overflow-y","hidden");
-                            // $(".taskdetail_list").html($(this).html());
-                            // $(".taskdetail_list").val($(this).val());
                             var taskid = Number($(this).attr("taskid"))
                             backlog_id = taskid;
                         })
@@ -1040,7 +1037,7 @@ var management = (function () {
                     }else if(res.errno == 1){
                         console.log(res.message)
                     }else if(res.errno == 3){
-                        console.log(res.message)
+                        $(".new_task").show()
                         $(".error_tip").text(res.message)
                     }
                 },

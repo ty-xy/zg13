@@ -690,23 +690,25 @@ var contact = (function(){
                                         for(var key in content){
                                             department_list.push(content[key].id)
                                         }
-                                    }
-                                    var obj = {
-                                        user_list:user_list,
-                                        type:"mobile",
-                                        department_id:department_list
-                                    }
-                                    $.ajax({
-                                        type:"PUT",
-                                        contentType:"application/json",
-                                        url:"json/zg/user/mobile_batch/",
-                                        data:JSON.stringify(obj),
-                                        success:function(res){
-                                            if(res.errno == 0){
-                                                updataList()
-                                            }
+                                        var obj = {
+                                            user_list:user_list,
+                                            type:"mobile",
+                                            new_department_id_list:department_list,
+                                            department_id:"0"
                                         }
-                                    })
+                                        $.ajax({
+                                            type:"PUT",
+                                            contentType:"application/json",
+                                            url:"json/zg/user/mobile_batch/",
+                                            data:JSON.stringify(obj),
+                                            success:function(res){
+                                                if(res.errno == 0){
+                                                    updataList()
+                                                }
+                                            }
+                                        })
+                                    }
+                                    
                                 }
                             })
                         })
