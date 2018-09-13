@@ -150,9 +150,9 @@ var contact = (function(){
                 management.new_task_cancel();
             })
             //保存
-            $(".new_task_save").on("click",function(e){
-                management.new_task_save();
-                if(management.new_task_save()==undefined){
+            $(".new_task_save").off().on("click",function(e){
+                var state = management.new_task_save()
+                if(state==undefined){
                     management.new_task_cancel()
                 }
             })

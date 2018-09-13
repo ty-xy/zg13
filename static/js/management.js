@@ -894,7 +894,7 @@ var management = (function () {
             })
         }
     
-        $(".new_task_save").on("click",function(e){
+        $(".new_task_save").off().on("click",function(e){
             new_task_save();
         })
         exports.new_task_save = function(){
