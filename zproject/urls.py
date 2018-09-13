@@ -611,7 +611,7 @@ v1_api_and_json_patterns = [
         {'DELETE': 'zerver.views.zg_restful_api.file_del'}),
 
 
-    url(r'^zg/file/sms', rest_dispatch,
+    url(r'^zg/register/sms', rest_dispatch,
         {'GET': 'zerver.views.zg_restful_api.send_zg_sms'}),
 ]
 
