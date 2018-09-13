@@ -3213,6 +3213,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
 .todo_box{
     /* height: 250px; */
     overflow: auto;
+    overflow-x: hidden;
     /* margin-left: -10px; */
     height: calc(100% - 90px)
 }

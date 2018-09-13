@@ -166,6 +166,11 @@ var contact = (function(){
             //已完成下拉
             $(".right_san").on("click",function(){
                 $(".completed_box").toggle();
+                if($(".completed_box").is(":hidden")){
+                    $(".right_san").css("transform","rotate(0deg)")
+                }else{
+                    $(".right_san").css("transform","rotate(180deg)")
+                }
             })
             $(".generate_log").on("click",function(){
                 management.generate_log();
@@ -1048,8 +1053,16 @@ var contact = (function(){
            $(".choose_team_close").on("click",function(e){
                $("#people-choose").hide();
            })
+        })
+       //没有部门成员点击跳转聊天
+       $(".move_ctn").on("click",".organization_team_single_box li",function(){
+            $(".group_icon").hide()
+            $(".home-title button").hide();
+            //做个切换到消息板块的假象试试
+            $(".notice_ctn_box").children().remove();
+            $(".news_icon").addClass("left_blue_height");
+            $(".address_book").removeClass("left_blue_height")
        })
-       
        //收藏消息
        $("#zfilt").off("click",".additional_collection").on("click",".additional_collection",function(){
         var id = Number($(this).parent().parent().parent().parent().parent().parent().parent().attr("zid"))

@@ -618,6 +618,7 @@ li.show-more-private-messages a {
 .notice_ctn_box{
     margin: 0;
     position: relative;
+    overflow-x: hidden;
     /* padding-bottom: 100px; */
 }
 .notice_ctn{
