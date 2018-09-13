@@ -1503,3 +1503,43 @@ a.message-control-button {
 .compose-title{
     min-width: 940px;
 }
+.topic-box>.content_color{
+    color:#fff !important;
+}
+#form-test input[type="text"]{
+    font-family: PingFangSC-Regular;
+    font-size: 15px;
+    color: #888888 !important;
+    letter-spacing: 0.18px;
+}
+#form-test ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color:    #888;
+    font-family: PingFangSC-Regular;
+    font-size: 15px;
+    color: #888888;
+    letter-spacing: 0.18px;
+}
+#form-test :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #888;
+   font-family: PingFangSC-Regular;
+    font-size: 15px;
+    color: #888888;
+    letter-spacing: 0.18px;
+}
+#form-test  ::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #888;
+   font-family: PingFangSC-Regular;
+    font-size: 15px;
+    color: #888888;
+    letter-spacing: 0.18px;
+}
+#form-test :-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color:    #888;
+   font-family: PingFangSC-Regular;
+    font-size: 15px;
+    color: #888888;
+    letter-spacing: 0.18px;
+}
+.start_times,.end_times{
+    text-indent: 0px;
+}

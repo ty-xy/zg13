@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from zerver.models import Message, ZgDepartment, UserProfile, Realm
 from django.db.models import Q
 from zerver.lib import avatar
-from zerver.views.zg_tools import req_tools,zg_send_tools
+from zerver.views.zg_tools import req_tools, zg_send_tools
 import json
 
 
@@ -14,24 +14,26 @@ import json
 def department_list(request, user_profile):
     department_lists = []
     department_objs = ZgDepartment.objects.filter(realm=user_profile.realm)
-    not_department_count = UserProfile.objects.filter(department=None, realm=user_profile.realm.id).count()
+    not_department_count = UserProfile.objects.filter(zg_department_status=False, realm=user_profile.realm.id).count()
+
     if department_objs:
         for department_obj in department_objs:
             department = {}
             name = department_obj.name
-            user_count = UserProfile.objects.filter(department=department_obj.id, realm=user_profile.realm.id).count()
             department['name'] = name
+            user_count = department_obj.user.count()
             department['id'] = department_obj.id
             department['num'] = user_count
             department_lists.append(department)
 
-    return JsonResponse({'errno': 0, 'message': '成功', 'department_lists': department_lists,'not_department_count':not_department_count})
+    return JsonResponse({'errno': 0, 'message': '成功', 'department_lists': department_lists,
+                         'not_department_count': not_department_count})
 
 
 # 没有部门成员
 def not_department_user(request, user_profile):
     not_department_list = []
-    user_list = UserProfile.objects.filter(department=None, realm=user_profile.realm.id)
+    user_list = UserProfile.objects.filter(zg_department_status=False, realm=user_profile.realm.id)
     if user_list:
         for user in user_list:
             user_dict = {}
@@ -140,27 +142,40 @@ def user_mobile_batch(request, user_profile):
     user_list = req.get('user_list')
     types = req.get('type')
     department_id = req.get('department_id')
+    new_department_id_list = req.get('new_department_id_list')
 
-    if not all([user_list, types]):
+    if not all([user_list, types, department_id]):
         return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
+    if department_id == '0':
+        department_objs = 0
 
-    for user_id in user_list:
-        if types == 'mobile':
-            department_objs = ZgDepartment.objects.filter(id=department_id)
+    else:
+        try:
+            department_objs = ZgDepartment.objects.get(id=department_id)
+        except Exception as e:
+            print(e)
+            return JsonResponse({'errno': 2, 'message': '获取原部门信息失败'})
+
+    if types == 'mobile':
+        for new_department_id in new_department_id_list:
+            new_department_objs = ZgDepartment.objects.get(id=new_department_id)
+            for user_id in user_list:
+                user_objs = UserProfile.objects.filter(id=user_id)
+                new_department_objs.user.add(user_objs[0])
+                if department_id == '0':
+                    user_objs[0].zg_department_status = True
+                    user_objs[0].save()
+                else:
+                    department_objs.user.remove(user_objs[0])
+
+    elif types == 'del':
+        for user_id in user_list:
             user_objs = UserProfile.objects.filter(id=user_id)
-            if not all([department_objs, user_objs]):
-                return JsonResponse({'errno': 2, 'message': '移动成员失败'})
-            user_objs[0].department = department_objs[0]
-            user_objs[0].save()
+            department_objs.user.remove(user_objs[0])
+            if user_objs[0].zgdepartment_set.all():
+                user_objs[0].zg_department_status = False
+                user_objs[0].save()
 
-        elif types == 'del':
-            # try:
-            print(user_id)
-            user_obj = UserProfile.objects.get(id=user_id)
-            user_obj.department = None
-            user_obj.save()
-            # except Exception:
-            #     return JsonResponse({'errno': 3, 'message': '删除失败'})
     return JsonResponse({'errno': 0, 'message': '成功'})
 
 
@@ -192,9 +207,13 @@ def department_del(request, user_profile):
     if not user_profile.is_realm_admin:
         return JsonResponse({'errno': 2, 'message': '无权限'})
 
-    user_objs=UserProfile.objects.filter(department=department_id)
-    user_objs.update(department=None)
-    ZgDepartment.objects.filter(id=department_id).delete()
+    try:
+        department = ZgDepartment.objects.get(id=department_id)
+    except Exception as e:
+        print(e)
+        return JsonResponse({'errno': 3, 'message': '部门id错误'})
+    department.user.all().delete()
+    department.delete()
 
     return JsonResponse({'errno': 0, 'message': '成功'})
 
@@ -204,7 +223,6 @@ def department_del(request, user_profile):
 def department_up(request, user_profile):
     req = req_tools(request)
     department_id = req.get('department_id')
-
     department_name = req.get('department_name')
 
     if user_profile.is_realm_admin == 'f' and user_profile.zg_permission != 1:
@@ -212,7 +230,6 @@ def department_up(request, user_profile):
 
     aa = ZgDepartment.objects.filter(id=department_id)
     aa.update(name=department_name)
-
     return JsonResponse({'errno': 0, 'message': '修改成功'})
 
 
@@ -224,20 +241,28 @@ def department_user_list(request, user_profile):
         return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
     user_list = []
 
-    user_objs = UserProfile.objects.filter(department=department_id)
-    for i in user_objs:
-        user_dict = {}
-        user_dict['fullname'] = i.full_name
-        user_dict['avatarurl'] = avatar.absolute_avatar_url(i)
-        user_dict['id'] = i.id
-        user_list.append(user_dict)
+    department_objs = ZgDepartment.objects.filter(id=department_id)
+
+    user_objs = department_objs[0].user.all()
+
+    if user_objs:
+        for i in user_objs:
+            user_dict = {}
+            user_dict['fullname'] = i.full_name
+            user_dict['avatarurl'] = avatar.absolute_avatar_url(i)
+            user_dict['id'] = i.id
+            user_list.append(user_dict)
+
     return JsonResponse({'errno': 0, 'message': '成功', 'user_list': user_list})
+
 
 # 判断权限
 def zg_user_permissions(request, user_profile):
+    if user_profile.is_realm_admin:
+        return JsonResponse({'errno': 0, 'message': 2})
 
-    if user_profile.is_realm_admin == True or user_profile.zg_permission != None:
-        return JsonResponse({'errno': 0, 'message': True})
+    elif user_profile.zg_permission:
+        return JsonResponse({'errno': 0, 'message': 1})
 
     else:
-        return JsonResponse({'errno': 0, 'message': False})
+        return JsonResponse({'errno': 0, 'message': 0})
