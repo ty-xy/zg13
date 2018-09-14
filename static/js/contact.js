@@ -779,6 +779,14 @@ var contact = (function(){
                    var receive_table_list = res.receive_table_list;
                    var html = templates.render("log_assistant_box",{receive_table_list:receive_table_list,page:page})
                    $(".move_ctn").append(html)
+                   if(res.receive_table_list.length==0){
+                    var  personal_space = templates.render("personal_space")
+                    $(".log_assistant_ctn_box").html(personal_space)
+                    $(".personal_space_titleA").html("您还没有收到日志")
+                    $(".personal_space_titleB").hide()
+                    }else{
+                        $(".personal_space_box").hide()
+                    }
                    //点击下载附件图片
                    $(".download_fujian").on("click",function(){
                        window.open($(this).attr("href"))
@@ -840,6 +848,14 @@ var contact = (function(){
                                        var paging = templates.render("paging_receive",{page:page})
                                        $(".log_assistant_ctn_box").append(html);
                                        $(".log_assistant_ctn_box").append(paging);
+                                       if(res.receive_table_list.length==0){
+                                        var  personal_space = templates.render("personal_space")
+                                        $(".log_assistant_ctn_box").html(personal_space)
+                                        $(".personal_space_titleA").html("您还没有收到日志")
+                                        $(".personal_space_titleB").hide()
+                                        }else{
+                                            $(".personal_space_box").hide()
+                                        }
                                        //点击下载附件图片
                                        $(".download_fujian").on("click",function(){
                                            window.open($(this).attr("href"))
@@ -984,6 +1000,14 @@ var contact = (function(){
                                var paging = templates.render("paging_send",{page:page})
                                $(".log_assistant_ctn_box").append(html);
                                $(".log_assistant_ctn_box").append(paging);
+                               if(res.send_table_list.length==0){
+                                var  personal_space = templates.render("personal_space")
+                                $(".log_assistant_ctn_box").html(personal_space)
+                                $(".personal_space_titleA").html("您还没有发出日志")
+                                $(".personal_space_titleB").hide()
+                                }else{
+                                    $(".personal_space_box").hide()
+                                }
                                //翻页后移至顶部
                                $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
                                //点击下载附件图片

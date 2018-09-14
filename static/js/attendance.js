@@ -417,14 +417,13 @@ var attendance = (function () {
                     contentType:"application/json",
                     data:{page:1},
                     success:function(res){
-                        if(res.errno == 223){
+                        if(res.errno == 233){
                             var personal_space = templates.render("personal_space");
                             $(".attendance_ctn").append(personal_space)
                             return;
                         }
                         var month_attendance_list = res.month_attendance_list;
                         var month_week;
-
                         for(var i =0;i<month_attendance_list.length;i++){
                             month_week = month_attendance_list[0].month_week
                         }

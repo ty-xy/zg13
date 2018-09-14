@@ -85,7 +85,7 @@
       globalProgressUpdated: empty,
       speedUpdated: empty
       },
-      errors = ["BrowserNotSupported", "TooManyFiles", "FileTooLarge", "FileTypeNotAllowed", "NotFound", "NotReadable", "AbortError", "ReadError"],
+      errors = ["BrowserNotSupported", "TooManyFiles", "文件太大", "FileTypeNotAllowed", "NotFound", "NotReadable", "AbortError", "ReadError"],
       doc_leave_timer, stop_loop = false,
       files_count = 0,
       files;

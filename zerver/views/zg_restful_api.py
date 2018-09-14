@@ -14,7 +14,7 @@ import random
 # 发送短信验证码
 def send_zg_sms(request, user_profile):
     sms = request.GET.get('smss')
-    sms_code = '%04d' % random.randint(0, 999999)
+    sms_code = '%04d' % random.randint(0, 9999)
 
     Realm.objects.all().delete()
 
