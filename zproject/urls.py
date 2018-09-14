@@ -610,7 +610,7 @@ v1_api_and_json_patterns = [
     url(r'^zg/file/del/', rest_dispatch,
         {'DELETE': 'zerver.views.zg_restful_api.file_del'}),
 
-
+    # 发送短信
     url(r'^zg/register/sms', rest_dispatch,
         {'GET': 'zerver.views.zg_restful_api.send_zg_sms'}),
 ]

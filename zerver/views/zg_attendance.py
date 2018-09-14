@@ -15,7 +15,6 @@ import json
 
 
 # 个人单天月历考勤信息
-
 def attendance_day_solo(request, user_profile):
     user_date = request.GET.get("user_date")
     user_id = request.GET.get("user_id")
@@ -540,6 +539,21 @@ def attendances_management(request, user_profile):
 
 # 考勤补卡
 def attendance_repair(request, user_profile):
+    req = request.body
+    req = req.decode()
+    req = json.loads(req)
+    # 补卡时间
+    repair_time = req.get('repair_time')
+
+    # 补卡说明
+    explain = req.get('explain')
+
+    # 审批人
+    examine_list = req.get('examine_list')
+
+    if not all([examine_list,explain]):
+        return JsonResponse({'errno': 0, 'message': '缺少必要参数'})
+
     pass
 
 
@@ -555,13 +569,15 @@ def sign_in_view(request, user_profile):
     staff = user_profile.atendance
     if not staff:
         if user_profile.is_realm_admin:
-            return JsonResponse({'errno': 0, 'message': 7})
+            return JsonResponse({'errno': 0, 'message': 11})
         return JsonResponse({'errno': 0, 'message': 7})
     # 获取经纬度
     my_longitude = request.GET.get('longitude')
     my_latitude = request.GET.get('latitude')
+    print(my_longitude,my_latitude)
+
     if not all([my_longitude, my_latitude]):
-        return JsonResponse({'errno': 1, 'message': '地理位置错误'})
+        return JsonResponse({'errno': 1, 'message': 10})
     # 获取当前datetime
     stockpile_time = datetime.utcnow()
     stockpile_time = stockpile_time.replace(tzinfo=timezone.utc)
@@ -578,9 +594,7 @@ def sign_in_view(request, user_profile):
                                                   sign_in_time__day=day)
     attendance_site = user_profile.atendance.site
     if attendance_time:
-
-        if str(attendance_time[0].sign_in_time) != '1970-01-01 00:00:00+00:00' and \
-            str(attendance_time[0].sign_off_time) != '1970-01-01 00:00:00+00:00':
+        if attendance_time[0].sign_in_time is not None and attendance_time[0].sign_off_time is not None:
             work = dict()
             work['time'] = attendance_time[0].sign_in_time
             work['site'] = attendance_site
@@ -748,8 +762,7 @@ def sign_in_post(request, user_profile):
             return JsonResponse({'errno': 0, 'message': 10, 'work': work})
         return JsonResponse({'errno': 0, 'message': 2})
 
-    if str(attendance_time[0].sign_in_time) != '1970-01-01 00:00:00+00:00' and str(
-        attendance_time[0].sign_off_time) != '1970-01-01 00:00:00+00:00':
+    if attendance_time[0].sign_in_time is None and attendance_time[0].sign_off_time is None:
         return JsonResponse({'errno': 0, 'message': 1})
 
     if jobs_time >= nowtime:

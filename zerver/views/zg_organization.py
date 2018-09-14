@@ -3,6 +3,8 @@ from zerver.models import Message, ZgDepartment, UserProfile, Realm
 from django.db.models import Q
 from zerver.lib import avatar
 from zerver.views.zg_tools import req_tools, zg_send_tools
+from django.core.cache import cache
+
 import json
 
 
@@ -78,6 +80,15 @@ def put_admin(request, user_profile):
         return JsonResponse({'errno': 1, 'message': '无权限'})
     req = req_tools(request)
     user_id = req.get('user_id')
+    sms_code = req.get('sms_code')
+
+    if not all([user_id, sms_code]):
+        return JsonResponse({'errno': 2, 'message': '缺少必要参数'})
+
+    cache_sms_code = cache.get(sms_code + '_change_admin')
+
+    if cache_sms_code != sms_code:
+        return JsonResponse({'errno': 3, 'message': '验证码错误'})
 
     user_profile.is_realm_admin = False
 
