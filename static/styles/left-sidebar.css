@@ -649,7 +649,7 @@ li.show-more-private-messages a {
 .notice_right{
     float: left;
     margin-left: 10px;
-    width: 196px;
+    width: 248px;
 }
 .notice_img{
     width: 44px;
@@ -666,6 +666,7 @@ li.show-more-private-messages a {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    margin-top: 3px;
 }
 .notice_top_time{
     float: right;
@@ -908,6 +909,7 @@ li.show-more-private-messages a {
     border-radius: 4px;
     position: absolute;
     display: none;
+    z-index: 1111;
 }
 .additional_more_box{
     position: relative;

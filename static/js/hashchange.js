@@ -161,6 +161,11 @@ exports.parse_narrow = function (hash) {
         }
         changeUrl()
     }
+    if(hash.length==1){
+        $("#zhome").hide()
+        $("#compose").hide()
+        $("#empty_star_narrow_message").show()
+    }
     var i;
     // console.log(hash)
     var operators = [];
