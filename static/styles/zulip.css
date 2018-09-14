@@ -3143,6 +3143,9 @@ div.topic_edit_spinner .loading_indicator_spinner {
     margin-left: 130px;
     margin-top: 20px;
 }
+.management_block{
+    height: 110px;
+}
 .morn_managementtext{
     float: left;
     font-size: 14px;
@@ -3169,7 +3172,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     margin-right: 40px;
     cursor: pointer; */
     width: 360px;
-    height: 100px;
+    height: 80px;
     /* border: 1px solid #4584FF; */
     border-radius: 4px;
     font-size: 15px;
@@ -3180,6 +3183,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     position: fixed;
     bottom: 0px;
     background: #fff;
+    z-index: 11
     /* left: 65px; */
 }
 .generate_log>p{
@@ -3187,6 +3191,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     height: 40px;
     margin-left: 65px;
     border: 1px solid #4584FF;
+    margin-top: 20px;
 }
 .generate_log_title{
     width: 230px;
@@ -3322,7 +3327,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     font-size: 16px;
 }
 .completed_ctn{
-    float: left;
+    /* float: left; */
     line-height: 50px;
     font-size: 14px;
     letter-spacing: 0.17px;

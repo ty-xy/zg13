@@ -65,6 +65,7 @@
 }
 .attendance_top_left{
     float: left;
+    width: 530px;
 }
 .attendance_top_right{
     float: left;
@@ -97,6 +98,7 @@
     margin-right: 10px;
     cursor: pointer;
     border: 1px solid #4584FF;
+    margin-top: 5px;
 }
 .gray_bg{
     background: #4584FF!important;

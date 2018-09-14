@@ -62,7 +62,7 @@ var contact = (function(){
                             var arr = JSON.parse(localStorage.getItem("arr"))
                             if(arr == null){
                                 arr = []
-                                $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id}))
+                                $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id,short_name:short_name}))
                                 arr.push(server_events.set_local_news(user_id,'',user_name,avatar,time,'',_href))
                                 localStorage.setItem("arr",JSON.stringify(arr))
                             }else{
@@ -75,7 +75,7 @@ var contact = (function(){
                                     }
                                 }
                                 if(!flag){
-                                    $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id}))
+                                    $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id,short_name:short_name}))
                                     arr.push(server_events.set_local_news(user_id,'',user_name,avatar,time,',',_href))
                                     localStorage.setItem("arr",JSON.stringify(arr))
                                 }
@@ -139,7 +139,7 @@ var contact = (function(){
             <div class='morn_managementtext'>已完成任务</div>\
             <i class='iconfont icon-xialaxuanze right_san'></i></div>")
             $(".notice_ctn_box").append("<ul class='completed_box'></ul>")
-            
+            $(".notice_ctn_box").append("<div class='management_block'></div>")
             //新增任务
             $(".new_add_task").on("click",function(){
                 $(".new_add_task").hide();

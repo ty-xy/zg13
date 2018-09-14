@@ -122,6 +122,7 @@ exports.parse_narrow = function (hash) {
                 e.preventDefault()
                 var now_name = $(this).prev().prev().children().first().text()
                 var pipei_name = $(".home-title").children().eq(0).text(); 
+                
                 if(now_name == pipei_name){
                     window.location.href = "#narrow/is/starred"
                 }
