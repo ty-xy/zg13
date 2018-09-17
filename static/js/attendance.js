@@ -916,14 +916,18 @@ var attendance = (function () {
                 $(".attendance_ctn").off(".kaoqin-era").on('click',".kaoqin-era",function(){
                     $('#map-area').show()
                     $("#map-area").on('click','.place-sure',function(){
-                        var text=$('.place-area').text()
-                        console.log(111)
-                        var location = $('.place-area').attr("data_loaction")
-                        // $(".attendance-new-detail .kaoqin-era").empty("")
-                        $(".attendance-new-detail .kaoqin-era").val(text)
-                        $(".kaoqin-era").attr("location",location)
-                        $('#map-area').hide()
-                        $('#tipinput').val("")
+                        if($('.place-area').text()==""){
+                          $("#tipinput").css("border-color",'red')
+                          $("#tipinput").attr("placeholder","请输入区域")
+                        }else{
+                            var text=$('.place-area').text()
+                            var location = $('.place-area').attr("data_loaction")
+                            // $(".attendance-new-detail .kaoqin-era").empty("")
+                            $(".attendance-new-detail .kaoqin-era").val(text)
+                            $(".kaoqin-era").attr("location",location)
+                            $('#map-area').hide()
+                            $('#tipinput').val("")
+                        }
                         // $('.place-area').html("") 
                     })
                     $("#map-area").on('click',".attendance-map-close",function(){

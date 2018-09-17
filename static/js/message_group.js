@@ -206,7 +206,7 @@ var message_group = (function () {
                     url:  '/json/messages',
                     data: data,
                     idempotent: true,
-                    success:function(data){ 
+                    success:function(data){                 
                         var lastData = data.messages.pop()
                         var time = timerender.tf(lastData.timestamp)
                         _href=narrow.by_stream_subject_uris(name,lastData.subject)
@@ -414,6 +414,9 @@ var message_group = (function () {
                                     data:JSON.stringify({subject:del_subject}),
                                     success:function(data){
                                         that.remove()
+                                        // topic_data.maybe_remove(del_subject)
+                                        console.log(topic_data.get_recent_names(get_sub_by_name.stream_id))
+                                        $(".topic-list").find("[data-topic-name="+del_subject+"]").remove()
                                     }
                                 })
                               })
