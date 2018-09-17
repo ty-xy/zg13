@@ -913,16 +913,16 @@ var attendance = (function () {
             })     
              
            function commonf(){
-                $(".attendance_ctn").on('click',".kaoqin-era",function(){
+                $(".attendance_ctn").off(".kaoqin-era").on('click',".kaoqin-era",function(){
                     $('#map-area').show()
                     $("#map-area").on('click','.place-sure',function(){
-                        $('#tipinput').val("")
-                        $('#map-area').hide()
                         var text=$('.place-area').text()
                         var location = $('.place-area').attr("data_loaction")
                         // $(".attendance-new-detail .kaoqin-era").empty("")
                         $(".attendance-new-detail .kaoqin-era").val(text)
                         $(".kaoqin-era").attr("location",location)
+                        $('#map-area').hide()
+                        $('#tipinput').val("")
                         // $('.place-area').html("") 
                     })
                     $("#map-area").on('click',".attendance-map-close",function(){

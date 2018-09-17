@@ -12,7 +12,7 @@
             {{#compare head_status '==' "审批中"}}
                <p style="color:#FFA200">{{head_status}}</p>
                {{else}}
-                 {{#compare head_status '==' "已同意"}}
+                 {{#compare head_status '==' "审批通过"}}
                     <p style="color:#39D1A9">{{head_status}}</p>
                         {{else}}
                     <p>{{head_status}}</p>
@@ -103,7 +103,7 @@
                             {{#compare status '==' "审批中"}}
                                 <p style="color:#FFA200">{{status}}</p>
                                 {{else}}
-                                 {{#compare status '==' "已同意申请"}}
+                                 {{#compare status '==' "审批通过"}}
                                 <p style="color:#39D1A9">{{status}}</p>
                                     {{else}}
                                     <p>{{status}}</p>

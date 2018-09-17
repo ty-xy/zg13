@@ -38,7 +38,7 @@ var management = (function () {
           })(jQuery);
         function cancel (){
             $(".new_plan_title").val("");
-            $(".create_taskdate").val('');
+            $(".create_taskdates").val('');
           }
         function timestamp(str){
             str = str.replace(/-/g,'/');
@@ -98,8 +98,9 @@ var management = (function () {
         }
         function plancommon(){
             var inttitle = $(".new_plan_title").val();
-            var inttime = $(".create_taskdate").val();
+            var inttime = $(".create_taskdates").val();
             var over_time = timestamp(inttime);
+            console.log(over_time,"over_time",inttime,$(".create_taskdate"))
             var obj = {
                 "task":inttitle,
                 "over_time":over_time+86399,
@@ -204,7 +205,7 @@ var management = (function () {
                     var textval = that.parent().prev().prev().text()
                     var textdate = that.parent().prev().children().eq(1).text()
                     $(".new_plan_title").val(textval);
-                    $(".create_taskdate").val(textdate);
+                    $(".create_taskdates").val(textdate);
                     var fix_id = that.next().find(".data_id").prevObject.attr("data_id")
                     $(li).remove()
                     var plan = $(".new_plan").find(".new_plan_save")
