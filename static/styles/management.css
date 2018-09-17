@@ -1406,11 +1406,8 @@ ul{
 }
 .right_san{
     /* float: left;
-    margin-left: 20px;
-    cursor: pointer; */
-}
-.right_san:hover{
-    /* transform: rotate(90deg); */
+    margin-left: 20px; */
+    cursor: pointer;
 }
 .thumbnail{
     width: 52px;

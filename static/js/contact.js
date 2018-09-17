@@ -63,7 +63,7 @@ var contact = (function(){
                             if(arr == null){
                                 arr = []
                                 $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id,short_name:short_name}))
-                                arr.push(server_events.set_local_news(user_id,'',user_name,avatar,time,'',_href))
+                                arr.push(server_events.set_local_news(user_id,'',user_name,avatar,time,'',_href,"",short_name))
                                 localStorage.setItem("arr",JSON.stringify(arr))
                             }else{
                                 var flag = false;
@@ -76,7 +76,7 @@ var contact = (function(){
                                 }
                                 if(!flag){
                                     $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id,short_name:short_name}))
-                                    arr.push(server_events.set_local_news(user_id,'',user_name,avatar,time,',',_href))
+                                    arr.push(server_events.set_local_news(user_id,'',user_name,avatar,time,',',_href,"",short_name))
                                     localStorage.setItem("arr",JSON.stringify(arr))
                                 }
                             }
@@ -86,7 +86,7 @@ var contact = (function(){
                                 $(".notice_box_del").unbind("click").bind("click",function(e){
                                     e.stopPropagation()
                                     e.preventDefault()
-                                    var now_name = $(this).prev().prev().children().first().text()
+                                    var now_name = $(this).parent().parent().attr("short_name")
                                     var pipei_name = $(".home-title").children().first().text()
                                     if(now_name == pipei_name){
                                         window.location.href = "#narrow/is/starred"

@@ -1209,7 +1209,7 @@ input[type=checkbox].inline-block {
 
 #settings_page .sidebar .tab-container {
     padding: 6px;
-    /* border-bottom: 1px solid hsl(0, 0%, 86%); */
+    border-bottom: 1px solid hsl(0, 0%, 86%);
 }
 
 #settings_page .sidebar .settings-list {

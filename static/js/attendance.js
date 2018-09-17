@@ -335,6 +335,7 @@ var attendance = (function () {
                     contentType:"application/json",
                     data:{page:1},
                     success:function(res){
+                        $(".attendance_ctn").children().remove()
                         var month_attendance_list = res.month_attendance_list;
                         var month_week;
                         var attendances_id;
@@ -345,6 +346,9 @@ var attendance = (function () {
                         var calendar_box = templates.render("calendar_box",{attendances_id:attendances_id});
                         var calendar_list = templates.render("calendar_list",{month_attendance_list:month_attendance_list})
                         $(".attendance_ctn").append(calendar_box);
+                        if(select_year != undefined){
+                            $(".calendar_screen_select").val(select_year)
+                        }
                         $(".attendance_ctn").append(calendar_list);
                         var height = window.screen.height
                         $(".attendance_box").css("height",height)
@@ -357,6 +361,7 @@ var attendance = (function () {
                             minViewMode:2,
                             autoclose: true
                             }).on("changeDate",function(){
+                                console.log("--------------------")
                                 var select_year = $(this).val();
                                 checkCalendar(user_id,select_year);
                                 
@@ -367,7 +372,7 @@ var attendance = (function () {
                             url:"json/zg/attendance/day/solo",
                             contentType:"application/json",
                             success:function(res){
-                                console.log(res)
+                                // console.log(res)
                                 var attendance_name = res.attendance_name;
                                 var jobs_time = res.jobs_time;
                                 var location = res.location;

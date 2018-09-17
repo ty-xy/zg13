@@ -600,6 +600,12 @@ li.show-more-private-messages a {
 #taskdata{
     float: left;
 }
+.all_count{
+    position: absolute;
+    top: -20px;
+    right: -10px;
+    display: block;
+}
 /* zyc添加中部样式 */
 .persistent_data{
     /* margin-top: -100px; */
