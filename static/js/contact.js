@@ -746,13 +746,18 @@ var contact = (function(){
             })
         })
         //工作通知
-        $("body").on("click",".work_order",function(){
-            $(".move_ctn").children().remove();
-            var pushData = JSON.parse(localStorage.getItem("pushData"))
-            var work_order_head = templates.render("work_order_head")
-            $(".move_ctn").append(work_order_head)
-            var work_order_body = templates.render("work_order_body",{pushData:pushData})
-            $(".work_order_box").append(work_order_body)
+        $("body").on("click",".work_order",function(e){
+            e.stopPropagation();
+            e.preventDefault();
+            window.location.href = "#narrow/is/starred"
+            setTimeout(function(){
+                $(".move_ctn").children().remove();
+                var pushData = JSON.parse(localStorage.getItem("pushData"))
+                var work_order_head = templates.render("work_order_head")
+                $(".move_ctn").append(work_order_head)
+                var work_order_body = templates.render("work_order_body",{pushData:pushData})
+                $(".work_order_box").append(work_order_body)
+            },10)
             // 点击跳到详情页面
             $(".work_order_ctn").on("click",function(e){
                 

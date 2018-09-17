@@ -86,11 +86,10 @@
 }
 .attendance_groups>div{
     float: left;
-    background: #4584FF;
     border-radius: 100px;
     width: 120px;
     height: 28px;
-    color: #fff;
+    color: #4584FF;
     letter-spacing: 0.16px;
     font-size: 13px;
     text-align: center;
