@@ -536,7 +536,7 @@ exports.validation_error = function (error_type, stream_name) {
 
     switch (error_type) {
     case "does-not-exist":
-        response = i18n.t("<p>The stream <b>__stream_name__</b> does not exist.</p><p>Manage your subscriptions <a href='#streams/all'>on your Streams page</a>.</p>", context);
+        response = i18n.t("<p>这个频道 <b>__stream_name__</b> 不存在.</p><p>管理你的订阅 <a href='#streams/all'>在你的订阅页面e</a>.</p>", context);
         compose_error(response, $('#stream'));
         return false;
     case "error":
