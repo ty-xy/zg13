@@ -1330,6 +1330,7 @@
     padding: 20px 30px 20px 20px;
     float: left;
     margin-left: 30px;
+    cursor: pointer;
 }
 .work_order_ctn_box{
     margin: 60px 0 0 10px;

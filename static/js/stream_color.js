@@ -101,7 +101,18 @@ exports.update_stream_color = function (sub, color, opts) {
     // exports.set_colorpicker_color($("#subscription_overlay .subscription_settings[data-stream-id='" + id + "'] .colorpicker"), color);
     // $("#subscription_overlay .subscription_settings[data-stream-id='" + id + "'] .large-icon").css("color", color);
     exports.set_colorpicker_color($(".group_setting .setting_body[data-stream-id='" + id + "'] .colorpicker"), color);
-    $(".color-setting ").css("background-color", color);
+    $(".notice_ctn[stream_id='" + id + "']").find(".color-setting").css("background-color", color);
+    var arr = JSON.parse(localStorage.getItem("arr"))
+     for(var i =0;i<arr.length;i++){
+         console.log(arr[i].stream_id == id)
+         if(arr[i].stream_id == id){
+             flag = true;
+             arr[i].color = color 
+            //  console.log(arr[i].color,color)
+             localStorage.setItem("arr",JSON.stringify(arr))
+         }
+     }
+    $(".color-setting-total .color-setting ").css("background-color", color);
     if (opts.update_historical) {
         update_historical_message_color(sub.name, color);
     }

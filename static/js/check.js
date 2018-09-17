@@ -114,27 +114,33 @@ var check = (function () {
             $(".modal-logs").show()
             $(".feadback-send").on("click",function(e){
                 var content = $(".textarea-type").val()
-                var data = {
-                    types:types,
-                    id:id,
-                    content:content
-                }
-                channel.post({
-                    url:"json/zg/approval/table/feedback/",
-                    data:JSON.stringify(data),
-                    contentType:"application/json",
-                    success:function(dataList){
-                        // console.log("gafdgagfa",dataList)
-                       if(dataList.errno===0){
-                            $(".modal-logs").hide()
-                            var data = {
-                                types:types,
-                                id:id,
-                            }
-                            get_data(data,func)
-                       }
+                if(content===""){
+                    $(".textarea-type").addClass("invalid")
+                }else{
+                    $(".textarea-type").removeClass("invalid")
+                    var data = {
+                        types:types,
+                        id:id,
+                        content:content
                     }
-                })
+                    channel.post({
+                        url:"json/zg/approval/table/feedback/",
+                        data:JSON.stringify(data),
+                        contentType:"application/json",
+                        success:function(dataList){
+                            // console.log("gafdgagfa",dataList)
+                        if(dataList.errno===0){
+                                $(".modal-logs").hide()
+                                var data = {
+                                    types:types,
+                                    id:id,
+                                }
+                                get_data(data,func)
+                        }
+                        }
+                    })
+                }
+                   
             })    
         })
     }

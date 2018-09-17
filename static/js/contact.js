@@ -753,6 +753,10 @@ var contact = (function(){
             $(".move_ctn").append(work_order_head)
             var work_order_body = templates.render("work_order_body",{pushData:pushData})
             $(".work_order_box").append(work_order_body)
+            // 点击跳到详情页面
+            $(".work_order_ctn").on("click",function(e){
+                
+            })
         })  
         //日志助手显示
         $("body").on("click",'.log_assistant_btn',function(e){
