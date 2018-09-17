@@ -111,30 +111,7 @@ var management = (function () {
                 inttime:inttime
             }
         }
-       function simpleArr(datakeylist){
-            var arr = [];
-            for(var i in datakeylist){ 
-               arr=arr.concat(datakeylist[i]);
-            }
-            var hash = {};
-            var ress=[];
-            var result = [];
-            arr.forEach(function(item){
-                 ress.push({name:item.nid,id:item.id})
-            })
-            // var hash = {};item
-            for(var i = 0, len = arr.length; i < len; i++){
-                // hashlist[arr[i].id]=[]
-                if (!hash[arr[i].id]) //如果hash表中没有当前项
-                    {
-                        hash[arr[i].id] = true; //存入hash表
-                        result.push(arr[i]);    
-                      //把当前数组的当前项push到临时数组里面
-                    }
-            }
-           
-            return {result:result,ress:ress}
-       }
+      
         //一键生成日志
 
         function logClick (data){
@@ -269,8 +246,7 @@ var management = (function () {
                                 del()
                                 $('.new_plan').hide()
                                 $('.new_add_task_plan').show()
-                            }
-                            
+                            }   
                     }
                 })
                 cancel()
@@ -367,120 +343,20 @@ var management = (function () {
                 $('.new_plan').hide()
                 $('.new_add_task_plan').show()
             })
-            function button(){
-                 //点击清空
-                 $(".button-right-clear").on('click',function(e){
-                    // 清空右边列表
-                      $(".box-right-list").empty()
-                    // 选中的数数值为0
-                    $('.already-choose').text("选中(0)")
-                    //左边的选中状态都是false
-                    $(".choose-check").prop("checked", false);
-                    $(".checkbox-input").prop("checked",false);
-                    $(".checkbox-inputs").prop("checked",false);
-                    $('.choose-list-box:checkbox').prop("checked", false)
-                })
-                //点击取消
-                $(".button-cancel").on("click",function(e){
-                    $(".modal-log").hide()
-                    //清除里面所有的元素，模态框消失。
-                    $(".modal-log-content").empty()
-                 })
-            }
-            function confirm(){
-                //点击确定
-                $(".choose-right-list").on('click','.button-confirm',function(e){
-                    var arrlist =[]
-                    var peopleList = []
-                    $('#create_log_de .generate_log_member_box').children().not($(".add_log_people")).each(function(){
-                        
-                        var index = Number($(this).attr('data_id'))
-                        peopleList.push(index)
-                    })
-                    console.log(peopleList)
-                    $(".box-right-list").children().each(function () { 
-                        var id = Number($(this).attr("key-data"));
-                        var avatar = $(this).attr("avatarurl")
-                        var name = $(this).children().find('.name-list').text()
-                        var peppleList = {
-                            id:id,
-                            avatar:avatar,
-                            name:name,
-                            namel:name.slice(0,4)+"...."
-                        }
-                        if(peopleList.indexOf(peppleList.id)===-1){
-                            arrlist.push(peppleList)
-                        }
-                    })
-                   
-                    // console.log($(".add_log_people").siblings().length)
-                    var li = $(templates.render('send_people',{
-                       peoplelist:arrlist
-                   }));
-                   $(".add_log_people").before(li)
-                   $('.generate_log_member').mouseenter(function(){
-                      $(this).children().eq(2).show()
-                      $(this).on('click',".dust-delete",function(e){
-                          $(this).parent().parent().remove()
-                      })
-                   })
-                   $('.generate_log_member').mouseleave(function(){
-                     $('.avatar-over').hide()
-                  })
-                   
-                   $('.box-right-list').remove()
-                   $(".modal-log").hide()
-                   //清除里面所有的元素，模态框消失。
-                   $(".modal-log-content").empty()
             
-                })
-            }
-            function deletes(data){
-                var childrenlength=$(".box-right-list").children().length
-                // console.log(childrenlength)
-                $('.already-choose').text("选中("+childrenlength+")")
-                // console.log(childrenlength,"判断")
-                  //点击删除,选取的人删除,判断左边频道的状态
-                $(".button-right-delete").on('click',function(e){
-                    // console.log($(this))
-                        var attr= $(this).parent().attr('data_id')
-                        var keyAttr= $(this).parent().attr('key-data')
-                        $(".checkbox-input").prop("checked",false);
-                        $("[data-key='"+keyAttr+"']:checkbox").prop("checked", false);
-                        $(this).parent().remove()
-                        var childrenlengths=$(".box-right-list").children().length
-                        var ress =simpleArr(data).ress
-                            ress.forEach(function(val,i){
-                                if(val.id==keyAttr){
-                                    $("[inputid='"+val.name+"']:checkbox").prop("checked", false);
-                                }
-                            })
-                        // })
-                        var $subs = $('.choose-list-box:checkbox')
-                        $(".checkbox-inputs").prop("checked",$subs.length==$subs.filter(":checked").length ? true : false);
-                        if(childrenlengths>0){
-                            $('.already-choose').text("选中("+childrenlengths+")")
-                        }else{
-                            $('.already-choose').text("选中(0)")
-                            $(".choose-check").prop("checked", false);
-                            $(".checkbox-input").prop("checked",false);
-                            $(".checkbox-inputs").prop("checked",false);
-                            $('.choose-list-box:checkbox').prop("checked", false)
-                        }
-                        var length= $("[data_id='"+attr+"']").length
-                        //频道里面的人长度为0，左边的选中状态取消
-                        if(length===0){
-                            $("[inputid='"+attr+"']:checkbox").prop("checked", false);
-                        }
-                })
-            }
             // 上传文件
-            var should_hide_upload_status = false;
-            upload.feature_check($("#up_files #attach_files"));
-            $("#up_files").on("click", "#attach_files", function (e) {
-               // e.preventDefault();
+         
+            // var should_hide_upload_status = false;
+            upload.feature_check($("#up_files #attach_file"));
+            $("#up_files").on("click", "#attach_file", function (e) {
+            //    e.preventDefault();
+            //    e.stopPropagation()
+               console.log(22222)
                $("#up_files #file_inputs").trigger("click");
            });
+           $("#file_inputs").on("click",function(e){
+            //    console.log("kkakakakka")
+           })
            var drop =function(file){
             $('.process-bar-parent').show()
             $('.uploading-img').show()
@@ -565,232 +441,69 @@ var management = (function () {
                 $('#file_inputs').val('');
                 alert('上传成功','rgba(0,107,169,0.30)');
             }
-           
         };
-        $(".generate_log_upfile_box").on("click",".generate_log_pack_delete",function(e){
-             $(this).parent().parent().remove()
-             alert('删除成功','rgba(0,107,169,0.30)')
-        })
         $("#up_files").filedrop({
-            url: "/json/user_uploads",
-            fallback_id: 'file_inputs',  // Target for standard file dialog
-            paramname: "file",
-            maxfilesize: page_params.maxfilesize,
-            data: {
-                // the token isn't automatically included in filedrop's post
-                csrfmiddlewaretoken: csrf_token,
-            },
-            // raw_droppable: ['text/uri-list', 'text/plain'],
-            drop: drop,
-            progressUpdated: progressUpdated,
-            error: uploadError,
-            uploadFinished: uploadFinished,
-            afterAll:function(contents){
-                console.log(contents,321312)
-            }
+                url: "/json/user_uploads",
+                fallback_id: 'file_inputs',  // Target for standard file dialog
+                paramname: "file",
+                maxfilesize: page_params.maxfilesize,
+                data: {
+                    // the token isn't automatically included in filedrop's post
+                    csrfmiddlewaretoken: csrf_token,
+                },
+                // raw_droppable: ['text/uri-list', 'text/plain'],
+                drop: drop,
+                progressUpdated: progressUpdated,
+                error: uploadError,
+                uploadFinished: uploadFinished,
+                afterAll:function(contents){
+                    console.log(contents,321312)
+                }
           })
-           // 1.点击添加人员
-           $('.add_log_people').on("click",".generate_log_member_addlogo",function(e){ 
-               //显示模态框
-               $(".modal-log").show()
-              //获取数据
-              channel.get({
-                  url:"json/zg/stream/recipient/data",
-                  success:function(data){
-                    var rendered = $(templates.render('choose',{
-                        data:data.streams_dict
-                    }));
-                     // 渲染频道
-                     console.log(data.streams_dict)
-                    $(".modal-log-content").append(rendered)
-                    // 搜索
-                    $(".choose-nav-left .search-icon").keyup(function(){
-                        if($(".search-icon").val().length!==0){
-                            $(".modal-ul-choose").show()
-                            var listarr = simpleArr(data.streams_dict).result
-                            var indexlist = []
-                            var value = $(this).val()
-                            listarr.forEach(function(val,i){
-                                   var index = val.fullname.indexOf(value)
-                                   if(index!==-1){
-                                      indexlist.push(listarr[i])
-                                    //   console.log(indexlist,i)
-                                   }
-                                //    console.log(indexlist)
-                            })
-                        }
-                        
-                    })
-                    $(".search-icon").blur(function(){
-                        $(".modal-ul-choose").hide()
-                        $(".search-icon").val("")
-                    })
-                     // 频道点击全选 
-                    $(".choose-nav-left").on('click','.checkbox-input',function(e){
-                        if($(this).is(":checked")){
-                            $('.choose-check:checkbox').prop("checked", true)
-                            var datakeylist= data.streams_dict
-                            for(var i in datakeylist){
-                                var indexkey = i
-                                datakeylist[i].forEach(function(index,v){
-                                     index.nid=indexkey 
-                                })
-                                // chooselist=datakeylist[i].push[i]
-                            }
-                            var result = simpleArr(datakeylist).result
-                            
-                            result.forEach(function(val,i){
-                                val.did=1
-                           })
-                            var li = $(templates.render('choose_person',{
-                                datalist:result
-                            }));
-                            $(".box-right-list").html(li)
-                           
-                        }else{
-                            $('.choose-check:checkbox').prop("checked", false)
-                            $(".box-right-list").empty()
-                        }
-                        deletes(data.streams_dict)
-                    })
-                    
-                     //点击频道频道
-                    var lid = $(".choose-nav-left").children()
-                    $(".choose-nav-left").on('click','.choose-check',function(e){
-                        var inputid= $(this).attr("inputid")
-                        if($(this).is(":checked")){
-                            data_list= data.streams_dict[inputid]
-                            data_list.forEach(function(val,i){
-                                 val.did=inputid
-                            })
-                            var li = $(templates.render('choose_person',{
-                                datalist:data_list
-                            }));
-                            $(".box-right-list").append(li)
-                            
-                             var $subs = $('.choose-check:checkbox')
-                            $(".checkbox-input").prop("checked",$subs.length==$subs.filter(":checked").length ? true : false);
-                        }else{
-                            //没有咋勾选状态，就移除元素
-                            $("[data_id='"+inputid+"']").remove()
-                            $(".checkbox-input").prop("checked",false);
-                            data_list= data.streams_dict[inputid]
-                            data_list.forEach(function(val,i){
-                                $("[key-data='"+val.id+"']").remove()
-                           })
-                        }
-                        deletes(data.streams_dict)
-                    }) 
-                    confirm()
-                    //点击取消，模态框取消，里面所有的元素都没有了
-                    button()
-                    //点击选择联系人
-                    $('.choose-nav-left').on('click',".back-choose",function(e){
-                        // var li = $(templates.render('choose_channel',{
-                        //     data:data.streams_dict
-                        // }));
-                        var checkinput = $(".choose-nav-left .checkbox-inputs:checkbox").is(":checked")
-                        // console.log(checkinput,$(".choose-nav-left .checkbox-inputs:checkbox"))
-                        $(".choose-nav-left").children().remove()
-                        $(".choose-nav-left").html(lid)
-                        var text = $(this).next().children().text()
-                        if(checkinput){
-                            $("[inputid='"+text+"']").prop("checked", true);
-                        }else{
-                            $("[inputid='"+text+"']").prop("checked", false);
-                        }
-                        var childrenlength=$(".box-right-list").children().length
-                        // 给选中赋值
-                        if(childrenlength===0){
-                            $(".choose-check").prop("checked", false);
-                            $(".checkbox-input").prop("checked",false);
-                            $(".checkbox-inputs").prop("checked",false);
-                            $('.choose-list-box:checkbox').prop("checked", false)
-                        }
-                    })
-                    
-                    //点击下级
-                    $('.choose-nav-left').on('click',".next-right",function(e){
-                        var id = $(this).attr('button-key')
-                        var li = $(templates.render('choose_people',{
-                            datalists:data.streams_dict[id],
-                            channels:id
-                        }));
-                        
-                        $(".choose-nav-left").html(li)
-                        if($(this).siblings().children().eq(0).is(":checked")){
-                            $(".checkbox-inputs").prop("checked",true)
-                        }
-                        //右边对像的children
-                        var rightlength = $(".box-right-list").children()
-                         rightlength.each(function(){
-                            var id = Number($(this).attr("key-data"));
-                            $("[data-key='"+id+"']:checkbox").prop("checked", true)
-                            // data.streams_dict[id].forEach(function)
-                        })
-                        $(".checkbox-inputs").on("click",function(e){
-                            if($(this).is(":checked")){
-                                $('.choose-list-box:checkbox').prop("checked", true)
-                                var data_list_number=data.streams_dict[id]
-                                data_list_number.forEach(function(val,i){
-                                    $('.box_list_right[key-data='+val.id+']').remove()
-                                    val.did=id
-                               })
-                                var li = $(templates.render('choose_person',{
-                                    datalist:data_list_number
-                                }));
-                                $(".box-right-list").append(li)
-                                
-                            }else{
-                                $('.choose-list-box:checkbox').prop("checked", false)
-                                var dataId =$.trim($(this).parent().prev().children().eq(1).text())
-                                $("[data_id='"+dataId+"']").remove()  
-                            }
-                            deletes(data.streams_dict )
-                          })
-                        $(".box-choose-lefts").on("click",".choose-list-box",function(e){
-                            var inputid= $(this).attr("data-key")
-                            // 获得人的名字
-                            var silcontent = $.trim($(this).parent().text())
-                            // 获得头像
-                            var avatarurl =$(this).parent().parent().attr("avatar")
-                            if($(this).is(":checked")){
-                               var li = "<li class='input-box-list box_list_right' key-data="+inputid+" avatarurl="+avatarurl+">\
-                                        <div class='box-list-left'>\
-                                            <span class='name-list'>"+silcontent+"</span>\
-                                        </div>\
-                                        <button class='button-right-delete' data-id="+inputid+">删除</button>\
-                                    </li>"
-                            // $(".modal-log-content").empty()
-                            $('.box-right-list').append(li)
-                            var $subs = $('.choose-list-box:checkbox')
-                            $(".checkbox-inputs").prop("checked",$subs.length==$subs.filter(":checked").length ? true : false);
-                            $('.button-right').on('click',function(e){
-                                var keydata = $(this).attr('data-id')
-                                $(this).parent().remove()
-                                $("[data-key='"+keydata+"']:checkbox").prop("checked", false);
-                            })
-                           
-                            }else{
-                                $("[key-data='"+inputid+"']").remove()
-                                $(".checkbox-inputs").prop("checked",false)
-                            }
-                            deletes(data.streams_dict)
-                        })
-                           // 点击下级全选
-                     
-                        // 点击选取联系人,返回频道选人
-                        button()
-                        // confirm()
-                    })
-                  }
+          $(".generate_log_upfile_box").on("click",".generate_log_pack_delete",function(e){
+            $(this).parent().parent().remove()
+            alert('删除成功','rgba(0,107,169,0.30)')
+          })
+          function xy (content){
+            var peopleList = []
+            $('.generate_log_member_box').children().not($(".add_log_people")).each(function(){
+                var index = Number($(this).attr('data_id'))
+                peopleList.push(index)
+            })
+            if(peopleList.length>0){
+                peopleList.forEach(function(item,index){
+                    if(content[item]!== undefined){
+                        delete(content[item])
+                    }
+                })
+            }
+            var li = $(templates.render('send_people',{
+                peoplelist:content,
+            }));
+            $(".add_log_people").before(li)
+            confirm_hover()
+        }
+        function confirm_hover(){
+            //点击确定
+               $('.generate_log_member').mouseenter(function(){
+                  $(this).children().eq(2).show()
+                  $(this).on('click',".dust-delete",function(e){
+                      $(this).parent().parent().remove()
+                  })
+               })
+               $('.generate_log_member').mouseleave(function(){
+                 $('.avatar-over').hide()
               })
+        
+        } 
+           // 1.点击添加人员
+        $('.add_log_people').on("click",".generate_log_member_addlogo",function(e){ 
+               chooseFile.choosePeople(xy)
            })
         }
      
         $(".generate_log").on("click",function(){
-            generate_log();
-            console.log(1111)
+            exports.generate_log();
         })
         exports.generate_log = function(e){
             $(".create_generate_log").show();

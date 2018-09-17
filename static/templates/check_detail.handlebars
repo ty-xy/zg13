@@ -9,7 +9,15 @@
         <img src={{head_avatar}}  class="avatar-imgs-shenpi"/>
         <div class="application_people">
             <p>{{head_name}}</p>
-            <p>{{head_status}}</p>
+            {{#compare head_status '==' "审批中"}}
+               <p style="color:#FFA200">{{head_status}}</p>
+               {{else}}
+                 {{#compare head_status '==' "已同意"}}
+                    <p style="color:#39D1A9">{{head_status}}</p>
+                        {{else}}
+                    <p>{{head_status}}</p>
+                    {{/compare}}
+            {{/compare}}
         </div>
     </div>
     <hr class="line-height-hr"/>
@@ -92,7 +100,15 @@
                     <img src={{user_avatar}} class="avatar-imgs-shenpi"/>
                     <div class="application_people">
                         <p>{{sliceName user_name}}</p>
-                        <p>{{status}}</p>
+                            {{#compare status '==' "审批中"}}
+                                <p style="color:#FFA200">{{status}}</p>
+                                {{else}}
+                                 {{#compare status '==' "已同意申请"}}
+                                <p style="color:#39D1A9">{{status}}</p>
+                                    {{else}}
+                                    <p>{{status}}</p>
+                                 {{/compare}}
+                            {{/compare}}
                     </div>
                 </div>
                 <div>{{substrYear times}}</div>

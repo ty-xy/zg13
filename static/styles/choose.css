@@ -367,6 +367,7 @@ a.message-control-button {
     top:20px;
     line-height:70px;
     display:none;
+    text-align: center;
 }
 .avatar-overs{
     height:48px;
@@ -389,6 +390,12 @@ a.message-control-button {
     height:48px;
     width:48px;
     margin-top:-4px;
+}
+.avatar-img-color-setting{
+    border-radius:50% !important;
+    height:70px;
+    width:70px;
+    /* margin-top:-4px; */
 }
 .modal-ul-choose{
    z-index:2000;
