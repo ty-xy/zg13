@@ -13,11 +13,11 @@
 .message_reactions_my{
    float: right; 
    right: 14px;
-   top: 56px;
+   bottom: -12px;
 }
 .message_reactions_other{
     float: left;
-    left: 8px;
+    left: -48px;
     top: 56px;
 }
 .message_reactions .message_reaction {

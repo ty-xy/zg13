@@ -62,8 +62,8 @@ var contact = (function(){
                             var arr = JSON.parse(localStorage.getItem("arr"))
                             if(arr == null){
                                 arr = []
-                                $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id}))
-                                arr.push(server_events.set_local_news(user_id,'',user_name,avatar,time,'',_href))
+                                $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id,short_name:short_name}))
+                                arr.push(server_events.set_local_news(user_id,'',user_name,avatar,time,'',_href,"",short_name))
                                 localStorage.setItem("arr",JSON.stringify(arr))
                             }else{
                                 var flag = false;
@@ -75,8 +75,8 @@ var contact = (function(){
                                     }
                                 }
                                 if(!flag){
-                                    $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id}))
-                                    arr.push(server_events.set_local_news(user_id,'',user_name,avatar,time,',',_href))
+                                    $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id,short_name:short_name}))
+                                    arr.push(server_events.set_local_news(user_id,'',user_name,avatar,time,',',_href,"",short_name))
                                     localStorage.setItem("arr",JSON.stringify(arr))
                                 }
                             }
@@ -86,7 +86,7 @@ var contact = (function(){
                                 $(".notice_box_del").unbind("click").bind("click",function(e){
                                     e.stopPropagation()
                                     e.preventDefault()
-                                    var now_name = $(this).prev().prev().children().first().text()
+                                    var now_name = $(this).parent().parent().attr("short_name")
                                     var pipei_name = $(".home-title").children().first().text()
                                     if(now_name == pipei_name){
                                         window.location.href = "#narrow/is/starred"
@@ -139,7 +139,7 @@ var contact = (function(){
             <div class='morn_managementtext'>已完成任务</div>\
             <i class='iconfont icon-xialaxuanze right_san'></i></div>")
             $(".notice_ctn_box").append("<ul class='completed_box'></ul>")
-            
+            $(".notice_ctn_box").append("<div class='management_block'></div>")
             //新增任务
             $(".new_add_task").on("click",function(){
                 $(".new_add_task").hide();
@@ -746,13 +746,18 @@ var contact = (function(){
             })
         })
         //工作通知
-        $("body").on("click",".work_order",function(){
-            $(".move_ctn").children().remove();
-            var pushData = JSON.parse(localStorage.getItem("pushData"))
-            var work_order_head = templates.render("work_order_head")
-            $(".move_ctn").append(work_order_head)
-            var work_order_body = templates.render("work_order_body",{pushData:pushData})
-            $(".work_order_box").append(work_order_body)
+        $("body").on("click",".work_order",function(e){
+            e.stopPropagation();
+            e.preventDefault();
+            window.location.href = "#narrow/is/starred"
+            setTimeout(function(){
+                $(".move_ctn").children().remove();
+                var pushData = JSON.parse(localStorage.getItem("pushData"))
+                var work_order_head = templates.render("work_order_head")
+                $(".move_ctn").append(work_order_head)
+                var work_order_body = templates.render("work_order_body",{pushData:pushData})
+                $(".work_order_box").append(work_order_body)
+            },10)
             // 点击跳到详情页面
             $(".work_order_ctn").on("click",function(e){
                 
@@ -783,6 +788,14 @@ var contact = (function(){
                    var receive_table_list = res.receive_table_list;
                    var html = templates.render("log_assistant_box",{receive_table_list:receive_table_list,page:page})
                    $(".move_ctn").append(html)
+                   if(res.receive_table_list.length==0){
+                    var  personal_space = templates.render("personal_space")
+                    $(".log_assistant_ctn_box").html(personal_space)
+                    $(".personal_space_titleA").html("您还没有收到日志")
+                    $(".personal_space_titleB").hide()
+                    }else{
+                        $(".personal_space_box").hide()
+                    }
                    //点击下载附件图片
                    $(".download_fujian").on("click",function(){
                        window.open($(this).attr("href"))
@@ -844,6 +857,14 @@ var contact = (function(){
                                        var paging = templates.render("paging_receive",{page:page})
                                        $(".log_assistant_ctn_box").append(html);
                                        $(".log_assistant_ctn_box").append(paging);
+                                       if(res.receive_table_list.length==0){
+                                        var  personal_space = templates.render("personal_space")
+                                        $(".log_assistant_ctn_box").html(personal_space)
+                                        $(".personal_space_titleA").html("您还没有收到日志")
+                                        $(".personal_space_titleB").hide()
+                                        }else{
+                                            $(".personal_space_box").hide()
+                                        }
                                        //点击下载附件图片
                                        $(".download_fujian").on("click",function(){
                                            window.open($(this).attr("href"))
@@ -988,6 +1009,14 @@ var contact = (function(){
                                var paging = templates.render("paging_send",{page:page})
                                $(".log_assistant_ctn_box").append(html);
                                $(".log_assistant_ctn_box").append(paging);
+                               if(res.send_table_list.length==0){
+                                var  personal_space = templates.render("personal_space")
+                                $(".log_assistant_ctn_box").html(personal_space)
+                                $(".personal_space_titleA").html("您还没有发出日志")
+                                $(".personal_space_titleB").hide()
+                                }else{
+                                    $(".personal_space_box").hide()
+                                }
                                //翻页后移至顶部
                                $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
                                //点击下载附件图片

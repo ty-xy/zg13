@@ -78,8 +78,9 @@
                         <div class="our_news_box my_news_box" star="{{msg.starred}}">
                             <i class="iconfont icon-shoucang-xuanzhong our_news_box_star my_news_box_star {{#if msg.starred}}show{{/if}}"></i>
                             {{!-- {{#if msg.starred}}<i class="iconfont icon-shoucang-xuanzhong our_news_box_star my_news_box_star"></i>{{/if}} --}}
-                            {{#if use_match_properties}}{{{replaceTag msg/match_content}}}
+                            {{#if use_match_properties}}{{{replaceTag msg/match_content}}}<div class="message_reactions message_reactions_my">{{ partial "message_reactions" }}</div>
                             {{else}}{{{replaceTag msg/content}}}
+                            <div class="message_reactions message_reactions_my">{{ partial "message_reactions" }}</div>
                             {{/if}}
                         </div>
                         {{/unless}}
@@ -104,8 +105,9 @@
                             <div class="our_news_box other_news_box" data-message-id="{{message.id}}" star="{{msg.starred}}">
                                 <i class="iconfont icon-shoucang-xuanzhong our_news_box_star other_news_box_star {{#if msg.starred}}show{{/if}}"></i>
                                 {{!-- {{#if msg.starred}}<i class="iconfont icon-shoucang-xuanzhong our_news_box_star other_news_box_star"></i>{{/if}} --}}
-                                {{#if use_match_properties}}{{{replaceTag msg/match_content}}}
+                                {{#if use_match_properties}}{{{replaceTag msg/match_content}}}<div class="message_reactions message_reactions_other">{{ partial "message_reactions" }}</div>
                                 {{else}}{{{replaceTag msg/content}}}
+                                <div class="message_reactions message_reactions_other">{{ partial "message_reactions" }}</div>
                                 {{/if}}
                             </div>
                             {{/unless}}
@@ -134,11 +136,11 @@
                 </div>
                 <div class="message_expander message_length_controller" title="{{t 'See the rest of this message' }}">{{t "[More...]" }}</div>
                 <div class="message_condenser message_length_controller" title="{{t 'Make this message take up less space on the screen' }}">{{t "[Condense this message]" }}</div>
-                {{#if compare}}
+                {{!-- {{#if compare}}
                 <div class="message_reactions message_reactions_my">{{ partial "message_reactions" }}</div>
                 {{else}}
                 <div class="message_reactions message_reactions_other">{{ partial "message_reactions" }}</div>
-                {{/if}}
+                {{/if}} --}}
             </div>
         </div>
     </div>

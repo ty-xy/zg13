@@ -335,6 +335,7 @@ var attendance = (function () {
                     contentType:"application/json",
                     data:{page:1},
                     success:function(res){
+                        $(".attendance_ctn").children().remove()
                         var month_attendance_list = res.month_attendance_list;
                         var month_week;
                         var attendances_id;
@@ -345,6 +346,9 @@ var attendance = (function () {
                         var calendar_box = templates.render("calendar_box",{attendances_id:attendances_id});
                         var calendar_list = templates.render("calendar_list",{month_attendance_list:month_attendance_list})
                         $(".attendance_ctn").append(calendar_box);
+                        if(select_year != undefined){
+                            $(".calendar_screen_select").val(select_year)
+                        }
                         $(".attendance_ctn").append(calendar_list);
                         var height = window.screen.height
                         $(".attendance_box").css("height",height)
@@ -357,6 +361,7 @@ var attendance = (function () {
                             minViewMode:2,
                             autoclose: true
                             }).on("changeDate",function(){
+                                console.log("--------------------")
                                 var select_year = $(this).val();
                                 checkCalendar(user_id,select_year);
                                 
@@ -367,7 +372,7 @@ var attendance = (function () {
                             url:"json/zg/attendance/day/solo",
                             contentType:"application/json",
                             success:function(res){
-                                console.log(res)
+                                // console.log(res)
                                 var attendance_name = res.attendance_name;
                                 var jobs_time = res.jobs_time;
                                 var location = res.location;
@@ -417,14 +422,13 @@ var attendance = (function () {
                     contentType:"application/json",
                     data:{page:1},
                     success:function(res){
-                        if(res.errno == 223){
+                        if(res.errno == 233){
                             var personal_space = templates.render("personal_space");
                             $(".attendance_ctn").append(personal_space)
                             return;
                         }
                         var month_attendance_list = res.month_attendance_list;
                         var month_week;
-
                         for(var i =0;i<month_attendance_list.length;i++){
                             month_week = month_attendance_list[0].month_week
                         }
@@ -508,6 +512,19 @@ var attendance = (function () {
                          $(".attendance_bottom_search_person").bind('input propertychange',function(){
                              var searchText = $(this).val();
                              var $searchLi = "";
+                             var peopleArr = []
+                             for(var i =0;i<p.length;i++){
+                                peopleArr.push(p[i].getElementsByClassName("attendance_bottom_name")[0].innerHTML)
+                             }
+                             for(var key in peopleArr){
+                                    for(var i =0;i<p.length;i++){
+                                        if(peopleArr[key] == searchText){
+                                            if(p[i].getElementsByClassName("attendance_bottom_name")[0].innerHTML == searchText){
+                                                $(".attendance_bottom_ctn").html(p[i]).clone()
+                                            }
+                                         }
+                                    }
+                             }
                              if(searchText != ""){
                                  $searchLi = $(".attendance_bottom_ctn").find('p:contains('+ searchText +')').parent();
                                  $(".attendance_bottom_ctn").html("");
@@ -626,6 +643,19 @@ var attendance = (function () {
                             $(".attendance_bottom_search_person").bind('input propertychange',function(){
                                 var searchText = $(this).val();
                                 var $searchLi = "";
+                                var peopleArr = []
+                                for(var i =0;i<p.length;i++){
+                                   peopleArr.push(p[i].getElementsByClassName("attendance_bottom_name")[0].innerHTML)
+                                }
+                                for(var key in peopleArr){
+                                       for(var i =0;i<p.length;i++){
+                                           if(peopleArr[key] == searchText){
+                                               if(p[i].getElementsByClassName("attendance_bottom_name")[0].innerHTML == searchText){
+                                                   $(".attendance_bottom_ctn").html(p[i]).clone()
+                                               }
+                                            }
+                                       }
+                                }
                                 if(searchText != ""){
                                     $searchLi = $(".attendance_bottom_ctn").find('p:contains('+ searchText +')').parent();
                                     $(".attendance_bottom_ctn").html("");
@@ -688,6 +718,19 @@ var attendance = (function () {
                                             $(".attendance_bottom_search_person").bind('input propertychange',function(){
                                                 var searchText = $(this).val();
                                                 var $searchLi = "";
+                                                var peopleArr = []
+                                                for(var i =0;i<p.length;i++){
+                                                   peopleArr.push(p[i].getElementsByClassName("attendance_bottom_name")[0].innerHTML)
+                                                }
+                                                for(var key in peopleArr){
+                                                       for(var i =0;i<p.length;i++){
+                                                           if(peopleArr[key] == searchText){
+                                                               if(p[i].getElementsByClassName("attendance_bottom_name")[0].innerHTML == searchText){
+                                                                   $(".attendance_bottom_ctn").html(p[i]).clone()
+                                                               }
+                                                            }
+                                                       }
+                                                }
                                                 if(searchText != ""){
                                                     $searchLi = $(".attendance_bottom_ctn").find('p:contains('+ searchText +')').parent();
                                                     $(".attendance_bottom_ctn").html("");
@@ -757,8 +800,10 @@ var attendance = (function () {
                                                  url:"json/zg/attendances/del/",
                                                  data:JSON.stringify({attendances_id:attendances_id}),
                                                  success:function(data){
-                                                    alert(data.message,'rgba(0,107,169,0.30)')
-                                                    that.parent().parent().remove()
+                                                    if(data.errno == 0){
+                                                        alert(data.message,'rgba(0,107,169,0.30)')
+                                                        that.parent().parent().remove()
+                                                    }
                                                  }
                                            })
                                        })
@@ -827,13 +872,28 @@ var attendance = (function () {
                                 //-------------切换回考勤统计-----------------
                                  $(".attendance_statistics").on("click",function(){
                                     $(this).addClass("high_light").siblings().removeClass("high_light")
-                                     $(".attendance_ctn").children().remove();
-                                     $(".attendance_ctn").append(original)
+                                    //  $(".attendance_ctn").children().remove();
+                                    //  $(".attendance_ctn").append(original)
+                                    $(".move_ctn").children().remove();
+                                    attendance.attendance()
                                      //搜索全部成员
                                      var p = $(".attendance_bottom_ctn").children();
                                      $(".attendance_bottom_search_person").bind('input propertychange',function(){
                                          var searchText = $(this).val();
                                          var $searchLi = "";
+                                         var peopleArr = []
+                                         for(var i =0;i<p.length;i++){
+                                            peopleArr.push(p[i].getElementsByClassName("attendance_bottom_name")[0].innerHTML)
+                                         }
+                                         for(var key in peopleArr){
+                                                for(var i =0;i<p.length;i++){
+                                                    if(peopleArr[key] == searchText){
+                                                        if(p[i].getElementsByClassName("attendance_bottom_name")[0].innerHTML == searchText){
+                                                            $(".attendance_bottom_ctn").html(p[i]).clone()
+                                                        }
+                                                     }
+                                                }
+                                         }
                                          if(searchText != ""){
                                              $searchLi = $(".attendance_bottom_ctn").find('p:contains('+ searchText +')').parent();
                                              $(".attendance_bottom_ctn").html("");

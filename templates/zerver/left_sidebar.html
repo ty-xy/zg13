@@ -2,13 +2,13 @@
     <div class="bottom_sidebar">
         <ul id="global_filters" class="filters">
             {# Special-case this link so we don't actually go to page top. #}
-            <li data-name="starred" class="global-filter left_tab private_button" title="{{ _('Private messages') }}">
+            <li data-name="home" class="global-filter left_tab private_button" title="{{ _('Private messages') }}">
                     <a href="#narrow/is/starred" class="iconfont icon-xiaoxi news_icon left_blue_height">
                         <span class="filter-icon">
                             <!-- <i class="icon-vector-envelope left_tab_icon"></i> -->
                         </span>
                         <!-- <span class="hover-underline">{{ _('Private messages') }}</span> -->
-                        <span class="count">
+                        <span class="count all_count">
                             <span class="value"></span>
                         </span>
                     </a>
