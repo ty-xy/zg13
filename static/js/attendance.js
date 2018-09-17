@@ -917,6 +917,7 @@ var attendance = (function () {
                     $('#map-area').show()
                     $("#map-area").on('click','.place-sure',function(){
                         var text=$('.place-area').text()
+                        console.log(111)
                         var location = $('.place-area').attr("data_loaction")
                         // $(".attendance-new-detail .kaoqin-era").empty("")
                         $(".attendance-new-detail .kaoqin-era").val(text)
