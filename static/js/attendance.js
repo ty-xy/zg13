@@ -512,6 +512,19 @@ var attendance = (function () {
                          $(".attendance_bottom_search_person").bind('input propertychange',function(){
                              var searchText = $(this).val();
                              var $searchLi = "";
+                             var peopleArr = []
+                             for(var i =0;i<p.length;i++){
+                                peopleArr.push(p[i].getElementsByClassName("attendance_bottom_name")[0].innerHTML)
+                             }
+                             for(var key in peopleArr){
+                                    for(var i =0;i<p.length;i++){
+                                        if(peopleArr[key] == searchText){
+                                            if(p[i].getElementsByClassName("attendance_bottom_name")[0].innerHTML == searchText){
+                                                $(".attendance_bottom_ctn").html(p[i]).clone()
+                                            }
+                                         }
+                                    }
+                             }
                              if(searchText != ""){
                                  $searchLi = $(".attendance_bottom_ctn").find('p:contains('+ searchText +')').parent();
                                  $(".attendance_bottom_ctn").html("");
@@ -630,6 +643,19 @@ var attendance = (function () {
                             $(".attendance_bottom_search_person").bind('input propertychange',function(){
                                 var searchText = $(this).val();
                                 var $searchLi = "";
+                                var peopleArr = []
+                                for(var i =0;i<p.length;i++){
+                                   peopleArr.push(p[i].getElementsByClassName("attendance_bottom_name")[0].innerHTML)
+                                }
+                                for(var key in peopleArr){
+                                       for(var i =0;i<p.length;i++){
+                                           if(peopleArr[key] == searchText){
+                                               if(p[i].getElementsByClassName("attendance_bottom_name")[0].innerHTML == searchText){
+                                                   $(".attendance_bottom_ctn").html(p[i]).clone()
+                                               }
+                                            }
+                                       }
+                                }
                                 if(searchText != ""){
                                     $searchLi = $(".attendance_bottom_ctn").find('p:contains('+ searchText +')').parent();
                                     $(".attendance_bottom_ctn").html("");
@@ -692,6 +718,19 @@ var attendance = (function () {
                                             $(".attendance_bottom_search_person").bind('input propertychange',function(){
                                                 var searchText = $(this).val();
                                                 var $searchLi = "";
+                                                var peopleArr = []
+                                                for(var i =0;i<p.length;i++){
+                                                   peopleArr.push(p[i].getElementsByClassName("attendance_bottom_name")[0].innerHTML)
+                                                }
+                                                for(var key in peopleArr){
+                                                       for(var i =0;i<p.length;i++){
+                                                           if(peopleArr[key] == searchText){
+                                                               if(p[i].getElementsByClassName("attendance_bottom_name")[0].innerHTML == searchText){
+                                                                   $(".attendance_bottom_ctn").html(p[i]).clone()
+                                                               }
+                                                            }
+                                                       }
+                                                }
                                                 if(searchText != ""){
                                                     $searchLi = $(".attendance_bottom_ctn").find('p:contains('+ searchText +')').parent();
                                                     $(".attendance_bottom_ctn").html("");
@@ -761,8 +800,10 @@ var attendance = (function () {
                                                  url:"json/zg/attendances/del/",
                                                  data:JSON.stringify({attendances_id:attendances_id}),
                                                  success:function(data){
-                                                    alert(data.message,'rgba(0,107,169,0.30)')
-                                                    that.parent().parent().remove()
+                                                    if(data.errno == 0){
+                                                        alert(data.message,'rgba(0,107,169,0.30)')
+                                                        that.parent().parent().remove()
+                                                    }
                                                  }
                                            })
                                        })
@@ -831,13 +872,28 @@ var attendance = (function () {
                                 //-------------切换回考勤统计-----------------
                                  $(".attendance_statistics").on("click",function(){
                                     $(this).addClass("high_light").siblings().removeClass("high_light")
-                                     $(".attendance_ctn").children().remove();
-                                     $(".attendance_ctn").append(original)
+                                    //  $(".attendance_ctn").children().remove();
+                                    //  $(".attendance_ctn").append(original)
+                                    $(".move_ctn").children().remove();
+                                    attendance.attendance()
                                      //搜索全部成员
                                      var p = $(".attendance_bottom_ctn").children();
                                      $(".attendance_bottom_search_person").bind('input propertychange',function(){
                                          var searchText = $(this).val();
                                          var $searchLi = "";
+                                         var peopleArr = []
+                                         for(var i =0;i<p.length;i++){
+                                            peopleArr.push(p[i].getElementsByClassName("attendance_bottom_name")[0].innerHTML)
+                                         }
+                                         for(var key in peopleArr){
+                                                for(var i =0;i<p.length;i++){
+                                                    if(peopleArr[key] == searchText){
+                                                        if(p[i].getElementsByClassName("attendance_bottom_name")[0].innerHTML == searchText){
+                                                            $(".attendance_bottom_ctn").html(p[i]).clone()
+                                                        }
+                                                     }
+                                                }
+                                         }
                                          if(searchText != ""){
                                              $searchLi = $(".attendance_bottom_ctn").find('p:contains('+ searchText +')').parent();
                                              $(".attendance_bottom_ctn").html("");
