@@ -1445,6 +1445,9 @@ a.message-control-button {
    .icon-back-color{
       color:#39D1A9;
    }
+   .icon-back-colors{
+    color: #FFA200;
+ }
    .check-shenpi-content{
        overflow-y:auto;
        overflow-x: hidden;
