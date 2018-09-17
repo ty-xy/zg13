@@ -312,10 +312,11 @@ var check = (function () {
  }
     $("body").ready(function(){
        $("body").on("click",".common_check",function(e){
-            $(this).addClass("backgr").siblings().removeClass("backgr")
             moveContent()
         })
-      
+        $("body").on("click",".manage_groups_list",function(){
+            $(this).addClass("backgr").siblings().removeClass("backgr")
+        })
         function common_choose(content){
             var peopleList = []
             $('.shenpi-persons').children().not($(".add_log_people")).each(function(){

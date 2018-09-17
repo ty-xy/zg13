@@ -120,13 +120,11 @@ exports.parse_narrow = function (hash) {
             $(".notice_box_del").unbind("click").bind("click",function(e){
                 e.stopPropagation()
                 e.preventDefault()
-                var now_name = $(this).prev().prev().children().first().text()
+                var now_name = $(this).parent().parent().attr("short_name")
                 var pipei_name = $(".home-title").children().eq(0).text(); 
                 if(now_name == pipei_name){
                     window.location.href = "#narrow/is/starred"
                 }
-                console.log(now_name)
-                console.log(pipei_name)
                 $(this).parent().parent().parent().remove();
                 var send_id = $(this).parent().parent().attr("send_id")
                 var stream_id = $(this).closest(".only_tip").attr("stream_id")
@@ -160,6 +158,11 @@ exports.parse_narrow = function (hash) {
             }
         }
         changeUrl()
+    }
+    if(hash.length==1){
+        $("#zhome").hide()
+        $("#compose").hide()
+        $("#empty_star_narrow_message").show()
     }
     var i;
     // console.log(hash)

@@ -153,7 +153,7 @@ var server_events = (function () {
         return h + m;
     }
     
-    exports.set_local_news = function (send_id, stream_id, name, avatar, time, content, _href,stream) {
+    exports.set_local_news = function (send_id, stream_id, name, avatar, time, content, _href,stream,short_name) {
         obj = {
             send_id: send_id,
             stream_id: stream_id ? stream_id : '',
@@ -162,7 +162,8 @@ var server_events = (function () {
             time: time,
             content: content,
             _href: _href,
-            stream:stream?stream:""
+            stream:stream?stream:"",
+            short_name:short_name?short_name:""
         }
         return obj
     }
