@@ -612,12 +612,6 @@ class ZgDepartmentAttendance(models.Model):
     attendance_time = models.CharField(max_length=15, default='12345')
 
 
-# 部门
-class ZgDepartment(models.Model):
-    name = models.CharField(max_length=30)
-    realm = models.ForeignKey(Realm)
-
-
 class UserProfile(AbstractBaseUser, PermissionsMixin):
     DEFAULT_BOT = 1
     """
@@ -661,12 +655,12 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     bot_owner = models.ForeignKey('self', null=True, on_delete=models.SET_NULL)  # type: Optional[UserProfile]
     long_term_idle = models.BooleanField(default=False, db_index=True)  # type: bool
     # zg-------------
-
+    # 考勤组
     atendance = models.ForeignKey(ZgDepartmentAttendance, null=True)
     # 权限
     zg_permission = models.IntegerField(null=True)
-    # 部门
-    department = models.ForeignKey(ZgDepartment, null=True)
+    # 状态
+    zg_department_status = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
     MAX_NAME_LENGTH = 100
@@ -892,6 +886,13 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
             return int(self.tos_version.split('.')[0])
         else:
             return -1
+
+
+# 部门
+class ZgDepartment(models.Model):
+    name = models.CharField(max_length=30)
+    realm = models.ForeignKey(Realm)
+    user = models.ManyToManyField(UserProfile)
 
 
 # 外勤表

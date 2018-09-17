@@ -1189,7 +1189,7 @@ td.pointer {
     vertical-align: top;
     line-height: 18px;
     font-size: 14px;
-    margin-left: -3px;
+    margin-right: 10px;
     margin-bottom: 30px;
     /* display: none; */
 }
@@ -3213,6 +3213,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
 .todo_box{
     /* height: 250px; */
     overflow: auto;
+    overflow-x: hidden;
     /* margin-left: -10px; */
     height: calc(100% - 90px)
 }
@@ -3455,7 +3456,9 @@ input::-webkit-input-placeholder{
 }
 .save_cancel{
     text-align: center;
-    margin-left: 84px;
+    overflow: hidden;
+    margin-left:84px;
+    width: 360px;
 }
 /* 添加计划 */
 

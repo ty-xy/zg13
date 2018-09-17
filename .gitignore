@@ -76,3 +76,4 @@ zthumbor/thumbor_local_settings.py
 ##
 *.log
 *.deb
+*.egg

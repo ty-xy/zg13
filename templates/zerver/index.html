@@ -114,7 +114,10 @@
             {% include "zerver/left_sidebar.html" %}
         </div>
         <div class="column_two">
-            <input type="text" id="global_search">
+            <div style="position: relative;">
+                <input type="text" id="global_search" autocomplete="off">
+                <i class="iconfont icon-sousuo1 global_search_icon"></i>
+            </div>
             <a href="#narrow/is/starred" class="ppp">
                 <li class="notice_ctn log_assistant_btn keep_exist" send_id="">
                     <div class="notice_left fix">

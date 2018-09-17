@@ -825,6 +825,7 @@ ul{
     float: left;
     font-size: 14px;
     position: relative;
+    margin-bottom: 20px;
 }
 #newplan_datetimepicker{
     float: left;
@@ -1386,7 +1387,7 @@ ul{
     letter-spacing: 2px;
     color: red;
     top: 45px;
-    right: 40px;
+    right: 24px;
     position: absolute;
 }
 .error_pw{

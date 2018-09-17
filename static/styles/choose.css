@@ -750,6 +750,8 @@ a.message-control-button {
     font-size:10px;
     color: #ddd;
     margin-left: 10px;
+    display: block;
+    float: left;
 }
 .color-pop{
     display:none;

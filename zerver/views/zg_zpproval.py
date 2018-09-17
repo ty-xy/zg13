@@ -158,7 +158,7 @@ def reimburse_add(request, user_profile):
 # 待审批列表
 def expectation_approval_list(request, user_profile):
     iaitiate_list = []
-    review_objs = ZgReview.objects.filter(status='审批中', send_user_id=user_profile.id, duties='approval')
+    review_objs = ZgReview.objects.filter(status='审批中', send_user_id=user_profile.id, duties='approval').order_by('-id')
     if review_objs:
         for review_obj in review_objs:
             aa = {}
@@ -184,7 +184,7 @@ def expectation_approval_list(request, user_profile):
 # 已完成审批列表
 def completed_approval_list(request, user_profile):
     completed_list = []
-    review_objs = ZgReview.objects.filter(Q(status='审批通过') | Q(status='审批未通过'), send_user_id=user_profile.id)
+    review_objs = ZgReview.objects.filter(Q(status='审批通过') | Q(status='审批未通过'), send_user_id=user_profile.id).order_by('-id')
 
     if review_objs:
         for review_obj in review_objs:

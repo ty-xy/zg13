@@ -386,12 +386,11 @@ input.recipient_box {
 }
 
 #send_controls {
-    float: right;
-    position: relative;
+    position: absolute;
     right: 12px;
     font-size: 0.8em;
     height: 2.2em;
-    bottom: -40px;
+    top: 140px;
 }
 
 #send_controls .compose_checkbox_label {

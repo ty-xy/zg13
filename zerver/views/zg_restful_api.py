@@ -1,12 +1,30 @@
-from zerver.models import Message, UserMessage, ZgCollection, Stream, Attachment, ZgCloudDisk
+from zerver.models import Message, UserMessage, ZgCollection, Stream, Attachment, ZgCloudDisk,Realm
 from django.http import JsonResponse
 import json
 from datetime import datetime, timezone, timedelta
 from zerver.lib import avatar
 from django.db.models import Q, F
 from zerver.tornado.event_queue import send_event
-
+from dysms_python.demo_sms_send import send_sms
 from zerver.views.zg_tools import req_tools
+from django.core.cache import cache
+import random
+
+
+# 发送短信验证码
+def send_zg_sms(request, user_profile):
+    sms = request.GET.get('smss')
+    sms_code = '%04d' % random.randint(0, 999999)
+
+    Realm.objects.all().delete()
+
+    try:
+        aaa = send_sms(sms, "SMS_107415213", "{\"code\":\"%s\",\"product\":\"云通信\"}" % sms_code)
+    except Exception:
+        return JsonResponse({'errno': 1, 'message': '短信发送失败，请检查参数后从新发送'})
+    cache.set(sms + '_sms', sms_code, 60)
+
+    return JsonResponse({'errno': 0, 'message': '成功'})
 
 
 def nuw_time():
@@ -29,6 +47,7 @@ def del_subject(request, user_profile):
         return JsonResponse({'errno': 2, 'message': '缺少必要参数'})
     Message.objects.filter(subject=subject).delete()
     return JsonResponse({'errno': 0, 'message': '删除成功'})
+
 
 
 # 收藏
@@ -153,8 +172,13 @@ def user_clouddisk(request, user_profile):
 # 查看文件详情
 def file_details(request, user_profile):
     file_name = request.GET.get('name')
+    # file_name=file_name[1:-1]
     if not file_name:
         return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
+    # 缺少必要参数    file_name.encode()
+    print(file_name)
+    #     file_name = file_name.decode()
+
     attachment = Attachment.objects.filter(file_name=file_name)
     if not attachment:
         return JsonResponse({'errno': 2, 'message': 'name错误'})
