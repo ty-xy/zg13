@@ -398,6 +398,16 @@ var message_group = (function () {
                                 var colorpicker = $(".group_setting").find(".colorpicker")
                                 var color = stream_data.get_color(title);
                                 console.log(color)
+                                $(".up-chat").off("#div2").on("click","#div2",function(e){
+                                    var that  =  $(this).parent()
+                                    $(this).parent().attr("class",(that.attr("class")=="close1")?"open1":"close1")
+                                    $(this).attr("class",($(this).attr("class")=="close2")?"open2":"close2")
+                                })
+                                $(".new-message-setting").off("#div2").on("click","#div2",function(e){
+                                    var that  =  $(this).parent()
+                                    $(this).parent().attr("class",(that.attr("class")=="close1")?"open1":"close1")
+                                    $(this).attr("class",($(this).attr("class")=="close2")?"open2":"close2")
+                                })
                                 stream_color.set_colorpicker_colors(colorpicker, color);
                                 $(".more-topic").on("click",function(e){
                                     e.stopPropagation()
