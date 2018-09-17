@@ -1560,3 +1560,6 @@ a.message-control-button {
      letter-spacing: 0.18px;
      opacity: 1;
 }
+.invalid::-webkit-input-placeholder {
+    color: red;
+}

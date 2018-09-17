@@ -755,7 +755,7 @@ var contact = (function(){
             $(".work_order_box").append(work_order_body)
             // 点击跳到详情页面
             $(".work_order_ctn").on("click",function(e){
-                console.log(4444)
+                
             })
         })  
         //日志助手显示
