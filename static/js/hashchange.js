@@ -97,6 +97,8 @@ exports.parse_narrow = function (hash) {
         $("#home").show()
         $("#empty_star_narrow_message").hide()
         $("#main_div").show()
+        $(".group_setting_icon").hide()
+        $(".compose-title").hide()
         arr = JSON.parse(localStorage.getItem("arr"))
         if(arr != null){
             $(".persistent_data").children().remove();
