@@ -1580,3 +1580,12 @@ a.message-control-button {
 .invalid::-webkit-input-placeholder {
     color: red;
 }
+.search-people-border{
+    display: none;
+}
+.group-people-search{
+    display:flex;
+}
+.seach-people-icon{
+    
+}

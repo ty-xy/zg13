@@ -11,10 +11,16 @@
             {{!-- <input stream_id="1" class="colorpicker" id="streamcolor" type="text" value="#76ce90" tabindex="-1" style="display: none;" /> --}}
         </span>
     </div>
-    <div>
+    <div class="group-people-search">
         <span>群组成员({{color/subscriber_count}})</span>
-        <input type="text" placeholder="输入邮箱地址" />
-        <span>取消</span>
+        <div class="search-people-border">
+            <input type="text" placeholder="输入邮箱地址" />
+            <span>取消</span>
+        </div>
+        <div class="seach-people-icon">
+            <i class="iconfont icon-sousuo1"></i>
+            <i class="iconfont icon-sousuo1"></i>
+        </div>
     </div>
     <ul class="list-avatar">
         {{#each avatar}}
