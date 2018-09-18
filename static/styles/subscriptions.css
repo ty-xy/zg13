@@ -609,8 +609,12 @@ form#add_new_subscription {
 }
 
 .stream-title {
-    font-size: 1.3em;
-    font-weight: 400;
+    /* font-size: 1.3em;
+    font-weight: 400; */
+    font-family: PingFangSC-Regular;
+    font-size: 15px;
+    color: #333333;
+    letter-spacing: 0.18px;
 }
 
 .stream-creation-info {
@@ -804,6 +808,7 @@ form#add_new_subscription {
 
 .add-user-label {
     margin: 8px 0px;
+    margin-top:0;
 }
 
 #stream_creation_form {

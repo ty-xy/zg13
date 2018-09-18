@@ -415,6 +415,20 @@ var message_group = (function () {
                                     $(".names-item").html(html)
                                     $(".more-topic").hide()
                                 })
+                                $(".icon-search-email").on("click",function(e){
+                                    $(".search-people-border").show()
+                                    $(".seach-people-icon").hide()
+                                    $(".search-people-border input").attr("placeholder","输入邮箱地址")
+                                })
+                                $(".icon-add-people").on("click",function(e){
+                                    $(".search-people-border").show()
+                                    $(".seach-people-icon").hide()
+                                    $(".search-people-border input").attr("placeholder","输入搜索内容")
+                               })
+                               $(".icon-search-cancel").on("click",function(e){
+                                    $(".search-people-border").hide()
+                                    $(".seach-people-icon").show()
+                               })
                                 $(".names-item").on("click",".topiclist-group",function(e){
                                    var  del_subject = $(this).attr("data-name")
                                    var that = $(this)
