@@ -247,6 +247,7 @@ var contact = (function(){
                 url:"json/zg/user/permissions",
                 success:function(res){
                     identity = res.message
+                    console.log(res)
                     $("#group_seeting_choose").hide();
                     $("#zfilt").removeClass("focused_table")
                     //清空右侧添加内容
@@ -433,7 +434,7 @@ var contact = (function(){
                             $(".organization_chart_group_list_box").remove()
                             $(".organization_chart_change_box").children().remove()
                             $(".organization_chart_tab").remove()
-                            var organization_chart_tab = templates.render("organization_chart_tab")
+                            var organization_chart_tab = templates.render("organization_chart_tab",{identity:identity})
                             $(".organization_chart_body").prepend(organization_chart_tab)
                             $.ajax({
                                 type:"GET",
@@ -460,7 +461,6 @@ var contact = (function(){
                                     var not_department_count = res.not_department_count
                                     $(".organization_chart_group_list_box").remove()
                                     //默认 部门列表以及其右侧人员
-                                    console.log(res)
                                     var organization_chart_group_list = templates.render("organization_chart_group_list",{department_lists:department_lists,not_department_count:not_department_count})
                                     $(".organization_chart_body").prepend(organization_chart_group_list)
                                     //添加部门列表右侧内容
@@ -1143,9 +1143,10 @@ function getOrganizeBasic(){
             $(".organization_chart_ctn_basic").remove()
             $(".organization_chart_tab").remove()
             var data = res.data
+            console.log(identity)
             var organization_chart_ctn_basic=templates.render("organization_chart_ctn_basic",{data:data})
             $(".organization_chart_change_box").append(organization_chart_ctn_basic)
-            var organization_chart_tab = templates.render("organization_chart_tab")
+            var organization_chart_tab = templates.render("organization_chart_tab",{identity:identity})
             $(".organization_chart_body").prepend(organization_chart_tab)
         }
     })
