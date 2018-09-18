@@ -367,6 +367,7 @@ a.message-control-button {
     top:20px;
     line-height:70px;
     display:none;
+    text-align: center;
 }
 .avatar-overs{
     height:48px;
@@ -390,6 +391,12 @@ a.message-control-button {
     width:48px;
     margin-top:-4px;
 }
+.avatar-img-color-setting{
+    border-radius:50% !important;
+    height:70px;
+    width:70px;
+    /* margin-top:-4px; */
+}
 .modal-ul-choose{
    z-index:2000;
    position: absolute;
@@ -408,7 +415,7 @@ a.message-control-button {
     margin-top:5px;
     cursor: pointer;
 }
-.toast-alert,.toast-alert-button{
+.toast-alert,.toast-alert-button,.toast-alert-buttons{
     height:34px;
     min-width:184px;
     max-width:350px;
@@ -422,10 +429,17 @@ a.message-control-button {
     margin:auto;
     line-height:34px;
     display:none;
+   
 }
 .toast-alert-button{
     bottom:100px;
     text-align:center;
+   
+}
+.toast-alert-buttons{
+    bottom:400px;
+    text-align:center;
+    z-index:1000;
 }
 #process-bar{
     position:absolute;

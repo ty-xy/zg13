@@ -587,7 +587,6 @@ var check = (function () {
                                         $(".move_ctn").children().remove();
                                         var li = templates.render("check_detail",data)
                                         $(".move_ctn").html(li)
-                                      
                                         backIcons2()
                                         $(".no_agree").on("click",function(e){
                                             datalist = {
@@ -675,7 +674,7 @@ var check = (function () {
                                 data:datas,
                                     success:function(datalist){
                                         var data =datalist.data
-                                    //    console.log("抄送我的1")
+                                       console.log(datalist)
                                         if(data.feedback_list.length===0){
                                             data.shown=false
                                         }else{
@@ -688,6 +687,48 @@ var check = (function () {
                                         backIcons4()
                                        
                                         $(".check-detail-flex").height($(window).height()-244)
+                                        $(".no_agree").on("click",function(e){
+                                            datalist = {
+                                                types:types,
+                                                id:id,
+                                                state:"审批未通过"
+                                            }
+                                            channel.put({
+                                                url:'/json/zg/approval/table/state_update/',
+                                                data:JSON.stringify(datalist),
+                                                contentType:"application/json",
+                                                success:function(datas){
+                                                    var html ='<button class="button-detail-common feedBack">反馈</button>'
+                                                    $(".button-show").html(html)
+                                                    var data = {
+                                                        types:types,
+                                                        id:id,
+                                                    }
+                                                    get_data(data,backIcons2)
+                                                }
+                                            })
+                                        })
+                                        $(".agree").on("click",function(e){
+                                            var datalist = {
+                                                types:types,
+                                                id:id,
+                                                state:"同意"
+                                            }
+                                            channel.put({
+                                                url:'/json/zg/approval/table/state_update/',
+                                                data:JSON.stringify(datalist),
+                                                contentType:"application/json",
+                                                success:function(){
+                                                    var html ='<button class="button-detail-common feedBack">反馈</button>'
+                                                    $(".button-show").html(html)
+                                                    var data = {
+                                                        types:types,
+                                                        id:id,
+                                                    }
+                                                    get_data(data,backIcons2)
+                                                }
+                                            })
+                                        })
                                         if(data.button_status!==5){
                                             feedBack(datas.types,datas.id,backIcons4)
                                         }

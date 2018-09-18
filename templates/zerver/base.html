@@ -63,9 +63,14 @@
                         placeSearch.setCity(e.poi.adcode);
                         placeSearch.search(e.poi.name,function(status, result){
                             if(status==="complete"){
+                                $("#tipinput").css("border-color",'initial')
+                                $("#tipinput").attr("placeholder","")
                                 var data_loaction= e.poi.location.toString()
                                 $(".place-area").html(e.poi.address)
                                 $(".place-area").attr("data_loaction",data_loaction)
+                            }else{
+                                $("#tipinput").css("border-color",'red')
+                                $("#tipinput").attr("placeholder","请输入区域")
                             }
                         });  //关键字查询查询
                     }

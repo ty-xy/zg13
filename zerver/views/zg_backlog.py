@@ -3,7 +3,7 @@ from zerver.models import Backlog, BacklogAccessory, UpdateBacklog, Statement, S
 from django.http import JsonResponse, HttpResponse, HttpRequest
 import datetime, time, json, calendar
 from zerver.lib import avatar
-from datetime import datetime, timezone, timedelta
+from datetime import timezone, timedelta
 from zerver.views.zg_tools import zg_send_tools
 
 import re, math

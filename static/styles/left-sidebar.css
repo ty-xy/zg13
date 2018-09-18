@@ -264,8 +264,11 @@ li.active-sub-filter {
 .topic-unread-count {
     right: 30px;
     top: 3px;
+    background-color: red;
 }
-
+.topic-unread-count>.value{
+    background-color: red;
+}
 .private_message_count {
     right: 20px;
 }
