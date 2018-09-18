@@ -3,7 +3,8 @@
 <div id="copy-from-stream-expand-collapse" class="add-user-label ">
     <i class="toggle fa fa-caret-right" aria-hidden="true"></i>
     <span class="control-label">
-        {{t "Copy from stream" }}
+        {{!-- {{t "Copy from stream" }} --}}
+        从群组复制
     </span>
 </div>
  
@@ -16,12 +17,10 @@
     </label>
     {{/each}}
 </div>
-
-<br />
+{{!-- <br /> --}}
+<i class="iconfont icon-sousuo icon-search-border"></i>
 <input class="add-user-list-filter" name="user_list_filter" type="text"
-  autocomplete="off" placeholder="{{t "Filter" }}" />
-
-
+  autocomplete="off" placeholder="搜索" />
 <div>
     <a href="#" draggable="false" class="subs_set_all_users">{{t "Check all" }}</a> 
     <a href="#" draggable="false" class="subs_unset_all_users">{{t "Uncheck all" }}</a>

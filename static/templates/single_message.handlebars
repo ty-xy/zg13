@@ -27,7 +27,11 @@
                                     {{/if_and}}
                                 </span>
                             {{else}}
-                                <span class="sender_name auto-select {{#if compare}}inline-right{{/if}}">{{msg/sender_full_name}}</span>
+                                {{#if sender_is_bot}}
+                                    <span class="sender_name auto-select {{#if compare}}inline-right{{/if}}">欢迎 Bot</span>
+                                    {{else}}
+                                    <span class="sender_name auto-select {{#if compare}}inline-right{{/if}}">{{msg/sender_full_name}}</span>
+                                {{/if}}
                                 {{#if sender_is_bot}}
                                 <i class="zulip-icon bot" aria-hidden="true"></i>
                                 {{/if}}
