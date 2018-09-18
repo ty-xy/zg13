@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from zerver.models import ZgAttendance, ZgOutsideWork, ZgDepartmentAttendance, UserProfile
 from zerver.views.zg_tools import haversine
 from django.db.models import Q
+from zerver.views.zg_tools import timing_task
 import calendar
 from datetime import datetime, timezone, timedelta
 from zerver.lib import avatar
@@ -368,6 +369,14 @@ def add_attendances(request, user_profile):
         [attendances_date, attendances_latitude, attendances_name, attendances_range, attendances_location,
          attendances_longitude, attendances_member_list, attendances_rest_time, attendances_jobs_time]):
         return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
+    date_dict = {'1': 'mon', '2': 'tue', '3': 'wed', '4': 'thu', '5': 'fri', '6': 'sat', '7': 'sun'}
+
+    date_list = list()
+    for date in attendances_date:
+        date_list.append(date_dict[date])
+
+    date_list = tuple(date_list)
+    timing_task(date_list, '15', '40', attendances_name)
 
     try:
         attendances_obj = ZgDepartmentAttendance.objects.create(attendance_name=attendances_name,
@@ -386,7 +395,6 @@ def add_attendances(request, user_profile):
     except Exception as e:
         print(e)
         return JsonResponse({'errno': 2, 'message': '储存考勤组信息失败'})
-
     return JsonResponse({'errno': 0, 'message': '创建考勤组成功'})
 
 
@@ -551,7 +559,7 @@ def attendance_repair(request, user_profile):
     # 审批人
     examine_list = req.get('examine_list')
 
-    if not all([examine_list,explain]):
+    if not all([examine_list, explain]):
         return JsonResponse({'errno': 0, 'message': '缺少必要参数'})
 
     pass
@@ -574,7 +582,7 @@ def sign_in_view(request, user_profile):
     # 获取经纬度
     my_longitude = request.GET.get('longitude')
     my_latitude = request.GET.get('latitude')
-    print(my_longitude,my_latitude)
+    print(my_longitude, my_latitude)
 
     if not all([my_longitude, my_latitude]):
         return JsonResponse({'errno': 1, 'message': 10})

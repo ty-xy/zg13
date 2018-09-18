@@ -1,15 +1,12 @@
 from django.http import JsonResponse
 from zerver.decorator import zulip_login_required
-from zerver.models import ZgLeave, ZgReview, ZgReimburse, Message, UserProfile, Feedback,ZgAttendance
-from zerver.tornado.event_queue import send_event
+from zerver.models import ZgLeave, ZgReview, ZgReimburse, UserProfile, Feedback
 import json
 from datetime import datetime, timezone, timedelta
-from zerver.tornado.event_queue import request_event_queue
-from zerver.lib.actions import do_send_messages
 from zerver.lib import avatar
 from django.db.models import Q
 from zerver.tornado.event_queue import send_event
-from zerver.views.zg_tools import req_tools, zg_send_tools
+from zerver.views.zg_tools import zg_send_tools
 
 
 def nuw_time():
@@ -58,8 +55,6 @@ def add_leave(request, user_profile):
     img_url = req.get('img_url')
     # 审批人
     approver_list = req.get('approver_list')
-    print(approver_list)
-    print('-=' * 30)
     # 抄送人
     observer_list = req.get('observer_list')
 
@@ -212,9 +207,9 @@ def completed_approval_list(request, user_profile):
 # 我发起的
 def approval_initiate_me(request, user_profile):
     # 查询发送人是我的发送人审批人表
-    initiate_objs = ZgReview.objects.filter(user=user_profile).order_by('-id').distinct('types', 'table_id')
+    initiate_objs = ZgReview.objects.filter(user=user_profile).distinct('types', 'table_id')
     initiate_list = []
-    if initiate_objs:
+    if initiate_objs is not None:
         for initiate_obj in initiate_objs:
             aa = {}
             if initiate_obj.types == 'reimburse':
@@ -389,7 +384,6 @@ def tools_approcal_details(types, ids, user_profile, table_obj):
             feedback_dict['content'] = feedback_obj.content
             feedback_list.append(feedback_dict)
     data['feedback_list'] = feedback_list
-    print('5' + '_' * 30)
     return data
 
 
@@ -397,7 +391,6 @@ def tools_approcal_details(types, ids, user_profile, table_obj):
 def approval_details(request, user_profile):
     types = request.GET.get('types')
     ids = request.GET.get('id')
-    print('1' + '_' * 30)
     if not all([types, ids]):
         return JsonResponse({'errno': 1, 'message': '缺少参数'})
     data = {}
@@ -425,18 +418,14 @@ def approval_details(request, user_profile):
         data['count'] = reimburse.count
         data['cause'] = reimburse.cause
         data['img_url'] = reimburse.img_url
-        print('2' + '_' * 30)
 
     else:
-        print('3' + '_' * 30)
 
         return JsonResponse({'errno': 4, 'message': '类型错误'})
 
     data2 = tools_approcal_details(types, ids, user_profile, reimburse)
     data1 = data.copy()
     data1.update(data2)
-    print('4' + '_' * 30)
-    print(data1)
 
     return JsonResponse({'errno': 0, 'message': '成功', 'data': data1})
 
@@ -480,8 +469,10 @@ def state_update(request, user_profile):
             reimburse = ZgReimburse.objects.filter(id=ids)
         else:
             reimburse = 0
-        reimburse[0].status = states
-        reimburse[0].save()
+        print(reimburse)
+        reimburse.update(status=states)
+        # reimburse[0].save()
+        print(reimburse[0].status, '----' * 30, states)
         review_objs[0].status = states
         review_objs[0].save()
 
@@ -491,9 +482,6 @@ def state_update(request, user_profile):
 # ==================================请假
 #         if not review_obj:
 #             ZgAttendance.objects.filter()
-
-
-
 
     elif states == '发起申请':
         if not table_objs:
@@ -545,8 +533,6 @@ def zg_urgent(request, user_profile):
     ids = request.GET.get('id')
     review = ZgReview.objects.filter(status='审批中', types=types, table_id=ids, duties='approval')
     send_list = []
-    print(review)
-    print('-' * 50)
 
     if review:
         table_type = {'leave': '请假', 'evection': '出差', 'reimburse': '报销'}
@@ -563,6 +549,5 @@ def zg_urgent(request, user_profile):
         event = zg_send_tools(event)
         send_list.append(26)
         send_list.append(22)
-        print(event)
         send_event(event, send_list)
     return JsonResponse({'errno': 0, 'message': '催办成功,'})

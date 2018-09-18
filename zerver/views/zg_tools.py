@@ -1,11 +1,11 @@
 from math import radians, cos, sin, asin, sqrt
 from zerver.lib import avatar
-from zerver.models import UserProfile
+from zerver.models import UserProfile, ZgDepartmentAttendance
 from django.http import JsonResponse
 import json
 import time
-# from apscheduler.schedulers.background import BackgroundScheduler
-# from django_apscheduler.jobstores import DjangoJobStore, register_events, register_job
+from apscheduler.schedulers.background import BackgroundScheduler
+from django_apscheduler.jobstores import DjangoJobStore, register_events, register_job
 
 
 def haversine(lon1, lat1, lon2, lat2):  # 经度1，纬度1，经度2，纬度2 （十进制度数）
@@ -52,27 +52,29 @@ def zg_send_tools(zg_dict):
     return event
 
 
-#
-# try:
-#     # 实例化调度器
-#     schedulers = BackgroundScheduler()
-#     # 调度器使用DjangoJobStore()
-#     schedulers.add_jobstore(DjangoJobStore(), "default")
-#
-#
-#     # 'cron'方式循环，周一到周五，每天9:30:10执行,id为工作ID作为标记
-#     # ('scheduler',"interval", seconds=1)  #用interval方式循环，每一秒执行一次
-#     @register_job(schedulers, 'cron', day_of_week='mon-fri', hour='14', minute='43', id='task_time')
-#     def test_job():
-#         t_now = time.localtime()
-#         print(t_now)
-#         print(12321321321321)
-#
-#
-#     # 监控任务
-#     register_events(schedulers)
-#     # 调度器开始
-#     schedulers.start()
-# except Exception as e:
-#     print(e)
+#                定时日期，定时时辰，定时分钟， 定时任务id：名字，
+def timing_task(day_of_week, hour, minute, ttid):
+    try:
+        # 实例化调度器
+        schedulers = BackgroundScheduler()
+        # 调度器使用DjangoJobStore()
+        schedulers.add_jobstore(DjangoJobStore(), "default")
 
+        # 'cron'方式循环，周一到周五，每天9:30:10执行,id为工作ID作为标记
+        # ('scheduler',"interval", seconds=1)  #用interval方式循环，每一秒执行一次
+
+        # zg------
+        # id为考勤组名称，
+        @register_job(schedulers, 'cron', day_of_week='mon,tue,wed', hour=hour,
+                      minute=minute, id=ttid)
+        def test_job():
+            t_now = time.localtime()
+            print(t_now)
+
+        # 监控任务
+        register_events(schedulers)
+        # 调度器开始
+        schedulers.start()
+
+    except Exception as e:
+        print(e)
