@@ -206,7 +206,7 @@ var message_group = (function () {
                     url:  '/json/messages',
                     data: data,
                     idempotent: true,
-                    success:function(data){ 
+                    success:function(data){                 
                         var lastData = data.messages.pop()
                         var time = timerender.tf(lastData.timestamp)
                         _href=narrow.by_stream_subject_uris(name,lastData.subject)
@@ -398,6 +398,16 @@ var message_group = (function () {
                                 var colorpicker = $(".group_setting").find(".colorpicker")
                                 var color = stream_data.get_color(title);
                                 console.log(color)
+                                $(".up-chat").off("#div2").on("click","#div2",function(e){
+                                    var that  =  $(this).parent()
+                                    $(this).parent().attr("class",(that.attr("class")=="close1")?"open1":"close1")
+                                    $(this).attr("class",($(this).attr("class")=="close2")?"open2":"close2")
+                                })
+                                $(".new-message-setting").off("#div2").on("click","#div2",function(e){
+                                    var that  =  $(this).parent()
+                                    $(this).parent().attr("class",(that.attr("class")=="close1")?"open1":"close1")
+                                    $(this).attr("class",($(this).attr("class")=="close2")?"open2":"close2")
+                                })
                                 stream_color.set_colorpicker_colors(colorpicker, color);
                                 $(".more-topic").on("click",function(e){
                                     e.stopPropagation()
@@ -414,6 +424,9 @@ var message_group = (function () {
                                     data:JSON.stringify({subject:del_subject}),
                                     success:function(data){
                                         that.remove()
+                                        // topic_data.maybe_remove(del_subject)
+                                        console.log(topic_data.get_recent_names(get_sub_by_name.stream_id))
+                                        $(".topic-list").find("[data-topic-name="+del_subject+"]").remove()
                                     }
                                 })
                               })
