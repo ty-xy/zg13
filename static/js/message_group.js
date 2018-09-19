@@ -438,7 +438,8 @@ var message_group = (function () {
                                     data:JSON.stringify({subject:del_subject}),
                                     success:function(data){
                                         that.remove()
-                                        // topic_data.maybe_remove(del_subject)
+                                        var history = topic_data.topic_history()
+                                        history.maybe_remove(del_subject)
                                         console.log(topic_data.get_recent_names(get_sub_by_name.stream_id))
                                         $(".topic-list").find("[data-topic-name="+del_subject+"]").remove()
                                     }

@@ -10,15 +10,12 @@ exports.stream_has_topics = function (stream_id) {
 
 exports.topic_history = function () {
     var topics = new Dict({fold_case: true});
-
     var self = {};
-
     self.add_or_update = function (opts) {
         var name = opts.name;
         var message_id = opts.message_id || 0;
         message_id = parseInt(message_id, 10);
         var existing = topics.get(name);
-        
         if (!existing) {
             topics.set(opts.name, {
                 message_id: message_id,
