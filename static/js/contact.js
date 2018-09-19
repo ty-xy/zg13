@@ -58,12 +58,13 @@ var contact = (function(){
                             //获取更新消息列表
                             $(".persistent_data").show();
                             var _time = new Date()
+                            var time_stamp = new Date().getTime()
                             var time = _time.getHours() +':'+_time.getMinutes()
                             var arr = JSON.parse(localStorage.getItem("arr"))
                             if(arr == null){
                                 arr = []
-                                $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id,short_name:short_name}))
-                                arr.push(server_events.set_local_news(user_id,'',user_name,avatar,time,'',_href,"",short_name))
+                                $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id,short_name:short_name,time_stamp:time_stamp}))
+                                arr.unshift(server_events.set_local_news(user_id,'',user_name,avatar,time,'',_href,"",short_name,time_stamp))
                                 localStorage.setItem("arr",JSON.stringify(arr))
                             }else{
                                 var flag = false;
@@ -72,12 +73,14 @@ var contact = (function(){
                                         flag = true;
                                         arr[i].content = arr[i].content
                                         localStorage.setItem("arr",JSON.stringify(arr))
+                                        server_events.sortBytime()
                                     }
                                 }
                                 if(!flag){
-                                    $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id,short_name:short_name}))
-                                    arr.push(server_events.set_local_news(user_id,'',user_name,avatar,time,',',_href,"",short_name))
+                                    $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id,short_name:short_name,time_stamp:time_stamp}))
+                                    arr.unshift(server_events.set_local_news(user_id,'',user_name,avatar,time,',',_href,"",short_name,time_stamp))
                                     localStorage.setItem("arr",JSON.stringify(arr))
+                                    server_events.sortBytime()
                                 }
                             }
                             //推送消息删除
@@ -86,8 +89,10 @@ var contact = (function(){
                                 $(".notice_box_del").unbind("click").bind("click",function(e){
                                     e.stopPropagation()
                                     e.preventDefault()
+                                    // var now_name = $(this).parent().parent().attr("short_name")
+                                    // var pipei_name = $(".home-title").children().first().text()
                                     var now_name = $(this).parent().parent().attr("short_name")
-                                    var pipei_name = $(".home-title").children().first().text()
+                                    var pipei_name = $(".home-title").children().eq(0).text(); 
                                     if(now_name == pipei_name){
                                         window.location.href = "#narrow/is/starred"
                                     }
