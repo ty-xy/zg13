@@ -625,6 +625,7 @@ function pick_empty_narrow_banner() {
             $(".persistent_data").hide();
             $(".keep_exist").hide();
             $(".work_order").hide();
+            $("#empty_narrow_all_mentioned").hide()
             return $("#empty_narrow_all_mentioned");
         } else if (first_operand === "private") {
             // // You have no private messages.
@@ -654,6 +655,7 @@ function pick_empty_narrow_banner() {
         }else if (first_operand === "supervise") {
             // $('#zfilt').hide()
             $("#zfilt").removeClass("focused_table");
+            $("#zfilt").hide()
             $(".notice_ctn_boxs").hide()
             $(".notice_ctn_box").show()
             $("#compose").hide()

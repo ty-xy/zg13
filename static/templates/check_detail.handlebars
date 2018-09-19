@@ -67,6 +67,14 @@
              {{/unless}}
         </div>
     </div>
+    {{#if img_url}}
+        <div>
+           <span>添加图片:</span>
+           {{#each img_url}}
+                <img src={{this}} class="img-border"/>
+           {{/each}}
+        </div>
+    {{/if}}
      <hr class="line-height-hr"/>
     <div>
         <p>抄送人</p>

@@ -206,7 +206,7 @@ var check = (function () {
                     var html = templates.render("table",{data:data,showClass:"initiate"})
                     $("#originator").html(html)
                     $(".check-shenpi-content").height($(window).height()-244)
-                    $(".move_ctn").off(".check-shenpi-detail-initiate").on("click",".check-shenpi-detail-initiate",function(e){
+                    $(".move_ctn").off("click",".check-shenpi-detail-initiate").on("click",".check-shenpi-detail-initiate",function(e){
                         var types = $(this).children().eq(1).attr("data_type")
                         var id = $(this).attr("data_id")
                         var datater = {
@@ -627,6 +627,7 @@ var check = (function () {
                                     data:data,
                                     success:function(datalist){
                                         var data =datalist.data
+                                        console.log(data)
                                         // console.log("返回待我审批1")
                                         $(".move_ctn").children().remove();
                                         var li = templates.render("check_detail",data)

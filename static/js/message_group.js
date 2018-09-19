@@ -139,7 +139,7 @@ var message_group = (function () {
                var hash = href.split("/")
                var subject = hash_util.decodeHashComponent(hash[4])
                var stream = $(this).children().find(".notice_top_name").eq(0).text()
-                         
+               $(".compose-content").show()
                $("#stream").val(stream)
                $("#subject").val(subject)
             }
