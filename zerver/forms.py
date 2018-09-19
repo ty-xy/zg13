@@ -284,7 +284,7 @@ class OurAuthenticationForm(AuthenticationForm):
                 # normal invalid_login case below.
                 error_msg = (
                     u"您的账户不再是激活状态. "
-                    u"请与您的组织管理员联系以重新激活它.")
+                    u"请与您的单位管理员联系以重新激活它.")
                 raise ValidationError(mark_safe(error_msg))
 
             if return_data.get("invalid_subdomain"):
