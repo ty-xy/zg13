@@ -283,7 +283,7 @@ var server_events = (function () {
                             arr = []
                             if(data_message.type==="private"){
                                 var time_stamp = new Date().getTime()
-                                arr.push(server_events.set_local_news(send_id,'',name,avatar,time,mes,_href,time_stamp))
+                                arr.unshift(server_events.set_local_news(send_id,'',name,avatar,time,mes,_href,time_stamp))
                                 var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:send_id,time:time,short_name:short_name,_href:_href,time_stamp:time_stamp})
                                 $(".persistent_data").prepend(notice_box)
                                 server_events.sortBytime()
@@ -336,7 +336,7 @@ var server_events = (function () {
                                 if(user_me!=name){
                                     if(data_message.type==="private"){
                                         var time_stamp = new Date().getTime()
-                                        arr.push(server_events.set_local_news(send_id,'',name,avatar,time,mes,_href,time_stamp))
+                                        arr.unshift(server_events.set_local_news(send_id,'',name,avatar,time,mes,_href,time_stamp))
                                         var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:send_id,time:time,short_name:short_name,_href:_href,time_stamp:time_stamp})
                                         $(".persistent_data").prepend(notice_box)
                                         server_events.sortBytime()

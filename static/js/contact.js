@@ -64,7 +64,7 @@ var contact = (function(){
                             if(arr == null){
                                 arr = []
                                 $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id,short_name:short_name,time_stamp:time_stamp}))
-                                arr.push(server_events.set_local_news(user_id,'',user_name,avatar,time,'',_href,"",short_name,time_stamp))
+                                arr.unshift(server_events.set_local_news(user_id,'',user_name,avatar,time,'',_href,"",short_name,time_stamp))
                                 localStorage.setItem("arr",JSON.stringify(arr))
                             }else{
                                 var flag = false;
@@ -78,7 +78,7 @@ var contact = (function(){
                                 }
                                 if(!flag){
                                     $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id,short_name:short_name,time_stamp:time_stamp}))
-                                    arr.push(server_events.set_local_news(user_id,'',user_name,avatar,time,',',_href,"",short_name,time_stamp))
+                                    arr.unshift(server_events.set_local_news(user_id,'',user_name,avatar,time,',',_href,"",short_name,time_stamp))
                                     localStorage.setItem("arr",JSON.stringify(arr))
                                     server_events.sortBytime()
                                 }
