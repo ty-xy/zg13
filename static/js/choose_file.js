@@ -95,15 +95,20 @@ var chooseFile = (function () {
            
         }
         //选择发送人
-        exports.choosePeople = function(func){
+        exports.choosePeople = function(func,object){
             $(".modal-log").show()
             channel.get({
                 url:"json/zg/stream/recipient/data",
                 success:function(data){
-                    var obj = {}
+                    var obj = object
                     var o1 = {}
                     var datakeylist = data.streams_dict
                     commonTotal(data)
+                    if(obj!={}){
+                        var html = templates.render("choose_person",{datalist:obj})
+                        $(".box-right-list").html(html)
+                        length()
+                    }
                     var lid = $(".choose-nav-left").children()
                     people_dict = new Dict({fold_case: true});
                     _.each(data.streams_dict, function (val, key) {

@@ -179,7 +179,7 @@ var message_group = (function () {
             $(".home_gruop_title").show()
             $("#main_div").show();
             var streams = stream_data.subscribed_subs();
-            var sub = stream_data.get_subscribers()
+            // var sub = stream_data.get_subscribers()
             var subscriptions = stream_data.get_streams_for_settings_page();
             // console.log(stream_edit,323111)
             // 渲染群组

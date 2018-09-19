@@ -405,7 +405,7 @@ var check = (function () {
             })
          }
         //请假
-        $(".move_ctn").on("click",".ask_for_leave",function(e){
+        $(".move_ctn").off(".ask_for_leave").on("click",".ask_for_leave",function(e){
             $(".move_ctn").children().remove();
             var li = templates.render("ask-for-leave")
             $(".move_ctn").html(li)
@@ -423,10 +423,10 @@ var check = (function () {
                 weekStart:1  
             });
             $(".add_log_people").on("click",function(e){
-                chooseFile.choosePeople(common_choose)
+                chooseFile.choosePeople(common_choose,object={})
             })
             $(".add_log_peoples").on("click",function(e){
-                chooseFile.choosePeople(xy)
+                chooseFile.choosePeople(xy,object={})
             })
             uploadFile()
             $("#btn-test").on("click",function(e){
@@ -446,7 +446,7 @@ var check = (function () {
             backIcon()
         })
         //出差
-        $(".move_ctn").on("click",".on_business_trip",function(e){
+        $(".move_ctn").off(".on_business_trip").on("click",".on_business_trip",function(e){
             $(".move_ctn").children().remove();
             var li = templates.render("ask-for-leave",{show:true})
             $(".move_ctn").html(li)
@@ -466,10 +466,10 @@ var check = (function () {
                 weekStart:1  
             });
             $(".add_log_people").on("click",function(e){
-                chooseFile.choosePeople(common_choose)
+                chooseFile.choosePeople(common_choose,object={})
             })
             $(".add_log_peoples").on("click",function(e){
-                chooseFile.choosePeople(xy)
+                chooseFile.choosePeople(xy,object={})
             })
             $("#btn-test").on("click",function(e){
                  e.preventDefault()
@@ -487,15 +487,15 @@ var check = (function () {
             })
         })
         //差旅费
-        $(".move_ctn").on("click",".reimburse-moneny",function(e){
+        $(".move_ctn").off(".reimburse-moneny").on("click",".reimburse-moneny",function(e){
             $(".move_ctn").children().remove();
             var li = templates.render("ask-for-leave",{showdate:true})
             $(".move_ctn").html(li)
             $(".add_log_people").on("click",function(e){
-                chooseFile.choosePeople(common_choose)
+                chooseFile.choosePeople(common_choose,object={})
             })
             $(".add_log_peoples").on("click",function(e){
-                chooseFile.choosePeople(xy)
+                chooseFile.choosePeople(xy,object={})
             })
             height()
             backIcon()
@@ -546,7 +546,7 @@ var check = (function () {
                 })
             })
         })
-        $('.move_ctn').on("click",".progress-percent",function(e){
+        $('.move_ctn').off(".progress-percent").on("click",".progress-percent",function(e){
             $(".move_ctn").children().remove();
             var li = templates.render("project_progress")
             $(".move_ctn").html(li)
@@ -554,7 +554,7 @@ var check = (function () {
             backIcon()
         })
         // 待我审批
-        $("body").on("click",".expect-check",function(e){
+        $("body").off(".expect-check").on("click",".expect-check",function(e){
             channel.get({
                 url:"/json/zg/approval/list/expectation",
                 success:function(data){
@@ -570,7 +570,7 @@ var check = (function () {
                            var html = templates.render("table",{data:data,showClass:"expectation"})
                             $("#ios").html(html)
                             $(".check-shenpi-content").height($(window).height()-244)
-                            $(".move_ctn ").on("click",".check-shenpi-detail-expectation",function(e){
+                            $(".move_ctn ").off(".check-shenpi-detail-expectation").on("click",".check-shenpi-detail-expectation",function(e){
                                 var types = $(this).children().eq(1).attr("data_type")
                                 var id = $(this).attr("data_id")
                                 var data = {
@@ -661,7 +661,7 @@ var check = (function () {
                         var html = templates.render("table",{data:data,showClass :"inform"})
                         $("#make_copy").html(html)
                         $(".check-shenpi-content").height($(window).height()-244)
-                        $(".move_ctn").on("click",".check-shenpi-detail-inform",function(e){
+                        $(".move_ctn").off(".check-shenpi-detail-inform").on("click",".check-shenpi-detail-inform",function(e){
                             var types = $(this).children().eq(1).attr("data_type")
                             var id = $(this).attr("data_id")
                             var datas = {
@@ -763,7 +763,7 @@ var check = (function () {
             // $(".modal-logs").show()
         })
         // 我已经审批
-        $("body").on("click",".already_checked",function(e){
+        $("body").off(".already_checked").on("click",".already_checked",function(e){
             channel.get({
                 url:"/json/zg/approval/list/completed",
                 success:function(data){
@@ -777,7 +777,7 @@ var check = (function () {
                         var html = templates.render("table",{data:data,showClass:"completed"})
                         $("#already_check").html(html)
                         $(".check-shenpi-content").height($(window).height()-244)
-                        $(".move_ctn").on("click",".check-shenpi-detail-completed",function(e){
+                        $(".move_ctn").off(".check-shenpi-detail-completed").on("click",".check-shenpi-detail-completed",function(e){
                             var types = $(this).children().eq(1).attr("data_type")
                             var id = $(this).attr("data_id")
                             var datas= {

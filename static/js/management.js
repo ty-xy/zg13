@@ -349,15 +349,14 @@ var management = (function () {
          
             // var should_hide_upload_status = false;
             upload.feature_check($("#up_files #attach_file"));
+            console.log($("#up_files"))
             $("#up_files").on("click", "#attach_file", function (e) {
+                e.preventDefault();
             //    e.preventDefault();
             //    e.stopPropagation()
                console.log(22222)
                $("#up_files #file_inputs").trigger("click");
            });
-           $("#file_inputs").on("click",function(e){
-            //    console.log("kkakakakka")
-           })
            var drop =function(file){
             $('.process-bar-parent').show()
             $('.uploading-img').show()
@@ -499,7 +498,7 @@ var management = (function () {
         } 
            // 1.点击添加人员
         $('.add_log_people').on("click",".generate_log_member_addlogo",function(e){ 
-               chooseFile.choosePeople(xy)
+               chooseFile.choosePeople(xy,object={})
            })
         }
      
