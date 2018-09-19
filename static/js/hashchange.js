@@ -83,6 +83,7 @@ exports.parse_narrow = function (hash) {
             $(".persistent_data").show()
             $(".persistent_data").children().remove();
             var notice_box = templates.render("notice_box",{arr:arr})
+            server_events.sortBytime()
             $(".persistent_data").prepend(notice_box)
         }
         //添加默认空白

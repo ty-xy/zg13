@@ -596,8 +596,8 @@ function pick_empty_narrow_banner() {
                 $(".notice_box_del").unbind("click").bind("click",function(e){
                     e.stopPropagation()
                     e.preventDefault()
-                    var now_name = $(this).prev().prev().children().first().text()
-                    var pipei_name = $(".home-title").children().first().children().first().text()
+                    var now_name = $(this).parent().parent().attr("short_name")
+                    var pipei_name = $(".home-title").children().eq(0).text(); 
                     if(now_name == pipei_name){
                         window.location.href = "#narrow/is/starred"
                     }

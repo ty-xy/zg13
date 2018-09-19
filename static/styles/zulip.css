@@ -2383,7 +2383,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
 }
 
 .modal-body {
-    max-height: 60vh;
+    /* max-height: 60vh; */
 }
 
 .modal form {
