@@ -2,13 +2,13 @@
 class="feed-back-show 
 {{#if tooTip}}feedback-back-tooTip {{/if}} 
 {{#if tooTip}}feedback-back-tooTip {{/if}} 
+{{#if deltag}}feedback-back-tooTip {{/if}} 
 {{#if reminder_tip}}feedback-back-tooTip{{/if}}">
     <div class="headback-title">
         {{#if revolke_tips}}
             <h1>反馈</h1>
             {{else}}
-            <h1>提示</h1> 
-                
+            <h1>提示</h1>   
         {{/if}}
         <i class="iconfont icon-guanbiUI icon-close-guanbi"></i>
     </div>
@@ -22,7 +22,11 @@ class="feed-back-show
              {{#if reminder_tip}}
               <p>催办成功</p>
              {{else}}
-             <textarea  class="textarea-type" placeholder="请输入反馈内容...."></textarea>
+                 {{#if deltag}}
+                    <p>是否要删除该话题?</p>
+                    {{else}}
+                    <textarea  class="textarea-type" placeholder="请输入反馈内容...."></textarea>
+                  {{/if}}
              {{/if}}
            {{/if}}
         {{/if}}
@@ -38,7 +42,11 @@ class="feed-back-show
             {{#if reminder_tip }}
              <button class="feadback-remind feedback-button-common">确定</button>
              {{else}}
-             <button class="feadback-send feedback-button-common">发送</button>
+               {{#if deltag}}
+                <button class="feadback-sure-del feedback-button-common">确定</button>
+                {{else}}
+               <button class="feadback-send feedback-button-common">发送</button>
+             {{/if}}
             {{/if}}
            {{/if}}
         {{/if}}

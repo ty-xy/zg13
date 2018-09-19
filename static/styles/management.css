@@ -1475,7 +1475,7 @@ ul{
     text-align:right;
     margin-right:30px;
 }
-.feadback-revoke ,.feadback-send{
+.feadback-revoke ,.feadback-send,.feedback-remind,.feadback-sure-del{
     background: #4584FF;
     border-radius: 4px;
     color:#fff;

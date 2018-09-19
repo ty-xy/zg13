@@ -155,6 +155,16 @@ exports.parse_narrow = function (hash) {
                     $(".home-title").show();
                 },10)
                 $(".compose-title").show()
+            }else if(url_index=== "#narrow/stream"){
+                $(".home-title").show()
+                $(".group_setting_icon").show()
+                $(".compose-title").show()
+                var hash = url.split("/")
+                var subject = hash_util.decodeHashComponent(hash[4])
+                var stream = hash[2].split("-")
+                console.log(stream[1])
+                $("#stream").val(stream[1])
+                $("#subject").val(subject)
             }else{
                 $(".home-title").hide()
                 $(".compose-title").hide()

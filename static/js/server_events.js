@@ -306,6 +306,9 @@ var server_events = (function () {
                                         $(".notice_bottom[name='"+send_id+"']").html(mes)
                                         $(".notice_top_time[name='"+send_id+"']").html(server_events.tf(time))
                                         arr[j].content = mes
+                                        arr[j].time= server_events.tf(time)
+                                        var sarr = arr.splice(j,1)
+                                        arr.unshift(sarr[0])
                                         localStorage.setItem("arr",JSON.stringify(arr))
                                         server_events.sortBytime()
                                     }
@@ -314,6 +317,9 @@ var server_events = (function () {
                                     $(".notice_bottom[name="+recipient+"]").html(mes)
                                     $(".notice_top_time[name='"+$(".only_tip").attr("send_id")+"']").html(server_events.tf(time))
                                     arr[j].content = mes
+                                    arr[j].time= server_events.tf(time)
+                                    var sarr = arr.splice(j,1)
+                                    arr.unshift(sarr[0])
                                     localStorage.setItem("arr",JSON.stringify(arr))
                                     server_events.sortBytime()
                                 }
@@ -322,12 +328,24 @@ var server_events = (function () {
                                         flag=true
                                         $(".notice_bottom[name="+stream_id+"]").html(mes)
                                         $(".notice_top_time[name="+stream_id+"]").html(server_events.tf(time))
+                                        var stream_li = $(".only_tip[stream_id="+stream_id+"]").parent()
+                                        stream_li.remove()
+                                        $(".persistent_data").prepend(stream_li)
                                         arr[j].content = mes
+                                        arr[j].time= server_events.tf(time)
+                                        var sarr = arr.splice(j,1)
+                                        arr.unshift(sarr[0])
                                         localStorage.setItem("arr",JSON.stringify(arr))
                                     }else{
                                         $(".notice_bottom[name="+stream_id+"]").html(mes)
                                         $(".notice_top_time[name="+stream_id+"]").html(server_events.tf(time))
+                                        var stream_li = $(".only_tip[stream_id="+stream_id+"]").parent()
+                                        stream_li.remove()
+                                        $(".persistent_data").prepend(stream_li)
                                         arr[j].content = mes
+                                        arr[j].time= server_events.tf(time)
+                                        var sarr = arr.splice(j,1)
+                                        arr.unshift(sarr[0])
                                         localStorage.setItem("arr",JSON.stringify(arr))
                                     }
                                 }

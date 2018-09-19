@@ -12,7 +12,11 @@
             <div class="notice_right fix">
                 <div class="notice_top fix">
                     <p class="notice_top_name">{{name}}</p>
+                    {{#unless stream}}
                     <p class="notice_top_time" name="{{send_id}}">{{tf time}}</p>
+                        {{else}}
+                        <p class="notice_top_time" name="{{stream_id}}">{{tf time}}</p>
+                    {{/unless}}
                 </div>
                  {{#unless stream}}
                 <div class="notice_bottom" name="{{send_id}}">
@@ -45,7 +49,11 @@
                 <div class="notice_right fix">
                     <div class="notice_top fix">
                         <p class="notice_top_name">{{name}}</p>
+                         {{#unless stream}}
                         <p class="notice_top_time" name="{{send_id}}">{{tf time}}</p>
+                         {{else}}
+                          <p class="notice_top_time" name="{{stream_id}}">{{tf time}}</p>
+                        {{/unless}}
                     </div>
                        {{#unless stream}}
                         <div class="notice_bottom" name="{{send_id}}">

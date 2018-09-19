@@ -51,9 +51,10 @@ import urllib
 
 def check_prereg_key_and_redirect(request: HttpRequest, confirmation_key: str) -> HttpResponse:
     # If the key isn't valid, show the error message on the original URL
-    confirmation = Confirmation.objects.filter(confirmation_key=confirmation_key).first()
+    confirmation = Confirmation.objects.filter(
+        confirmation_key=confirmation_key).first()
     if confirmation is None or confirmation.type not in [
-        Confirmation.USER_REGISTRATION, Confirmation.INVITATION, Confirmation.REALM_CREATION]:
+            Confirmation.USER_REGISTRATION, Confirmation.INVITATION, Confirmation.REALM_CREATION]:
         return render_confirmation_key_error(
             request, ConfirmationKeyException(ConfirmationKeyException.DOES_NOT_EXIST))
     try:
@@ -129,13 +130,15 @@ def accounts_register(request: HttpRequest) -> HttpResponse:
             # zephyr mirroring realm.
             hesiod_name = compute_mit_user_fullname(email)
             form = RegistrationForm(
-                initial={'full_name': hesiod_name if "@" not in hesiod_name else ""},
+                initial={
+                    'full_name': hesiod_name if "@" not in hesiod_name else ""},
                 realm_creation=realm_creation)
             name_validated = True
         elif settings.POPULATE_PROFILE_VIA_LDAP:
             for backend in get_backends():
                 if isinstance(backend, LDAPBackend):
-                    ldap_attrs = _LDAPUser(backend, backend.django_to_ldap_username(email)).attrs
+                    ldap_attrs = _LDAPUser(
+                        backend, backend.django_to_ldap_username(email)).attrs
                     try:
                         ldap_full_name = ldap_attrs[settings.AUTH_LDAP_USER_ATTR_MAP['full_name']][0]
                         request.session['authenticated_full_name'] = ldap_full_name
@@ -168,7 +171,8 @@ def accounts_register(request: HttpRequest) -> HttpResponse:
             # verified name from you on file, use that. Otherwise, fall
             # back to the full name in the request.
             try:
-                postdata.update({'full_name': request.session['authenticated_full_name']})
+                postdata.update(
+                    {'full_name': request.session['authenticated_full_name']})
                 name_validated = True
             except KeyError:
                 pass
@@ -193,8 +197,10 @@ def accounts_register(request: HttpRequest) -> HttpResponse:
 
         full_name = form.cleaned_data['full_name']
         short_name = email_to_username(email)
-        default_stream_group_names = request.POST.getlist('default_stream_group')
-        default_stream_groups = lookup_default_stream_groups(default_stream_group_names, realm)
+        default_stream_group_names = request.POST.getlist(
+            'default_stream_group')
+        default_stream_groups = lookup_default_stream_groups(
+            default_stream_group_names, realm)
 
         timezone = ""
         if 'timezone' in request.POST and request.POST['timezone'] in get_all_timezones():
@@ -202,7 +208,8 @@ def accounts_register(request: HttpRequest) -> HttpResponse:
 
         if not realm_creation:
             try:
-                existing_user_profile = get_user(email, realm)  # type: Optional[UserProfile]
+                existing_user_profile = get_user(
+                    email, realm)  # type: Optional[UserProfile]
             except UserProfile.DoesNotExist:
                 existing_user_profile = None
         else:
@@ -250,11 +257,13 @@ def accounts_register(request: HttpRequest) -> HttpResponse:
                                           prereg_user=prereg_user, is_realm_admin=is_realm_admin,
                                           tos_version=settings.TOS_VERSION,
                                           timezone=timezone,
-                                          newsletter_data={"IP": request.META['REMOTE_ADDR']},
+                                          newsletter_data={
+                                              "IP": request.META['REMOTE_ADDR']},
                                           default_stream_groups=default_stream_groups)
 
         if realm_creation:
-            bulk_add_subscriptions([realm.signup_notifications_stream], [user_profile])
+            bulk_add_subscriptions(
+                [realm.signup_notifications_stream], [user_profile])
             send_initial_realm_messages(realm)
 
             # Because for realm creation, registration happens on the
@@ -322,9 +331,11 @@ def prepare_activation_url(email: str, request: HttpRequest,
     if realm_creation:
         confirmation_type = Confirmation.REALM_CREATION
 
-    activation_url = create_confirmation_link(prereg_user, request.get_host(), confirmation_type)
+    activation_url = create_confirmation_link(
+        prereg_user, request.get_host(), confirmation_type)
     if settings.DEVELOPMENT and realm_creation:
-        request.session['confirmation_key'] = {'confirmation_key': activation_url.split('/')[-1]}
+        request.session['confirmation_key'] = {
+            'confirmation_key': activation_url.split('/')[-1]}
     return activation_url
 
 
@@ -345,12 +356,12 @@ def create_realm(request: HttpRequest, creation_key: Optional[Text] = None) -> H
         key_record = validate_key(creation_key)
     except RealmCreationKey.Invalid:
         return render(request, "zerver/realm_creation_failed.html",
-                      context={'message': _('The organization creation link has expired'
-                                            ' or is not valid.')})
+                      context={'message': _('创建团队的链接过期或无效.')})
+
     if not settings.OPEN_REALM_CREATION:
         if key_record is None:
             return render(request, "zerver/realm_creation_failed.html",
-                          context={'message': _('New organization creation disabled.')})
+                          context={'message': _('已禁止创建新团队.')})
 
     # When settings.OPEN_REALM_CREATION is enabled, anyone can create a new realm,
     # subject to a few restrictions on their email address.
@@ -358,7 +369,8 @@ def create_realm(request: HttpRequest, creation_key: Optional[Text] = None) -> H
         form = RealmCreationForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data['email']
-            activation_url = prepare_activation_url(email, request, realm_creation=True)
+            activation_url = prepare_activation_url(
+                email, request, realm_creation=True)
             if key_record is not None and key_record.presume_email_valid:
                 # The user has a token created from the server command line;
                 # skip confirming the email is theirs, taking their word for it.
@@ -406,12 +418,14 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
         from_multiuse_invite = True
 
     if request.method == 'POST':
-        form = HomepageForm(request.POST, realm=realm, from_multiuse_invite=from_multiuse_invite)
+        form = HomepageForm(request.POST, realm=realm,
+                            from_multiuse_invite=from_multiuse_invite)
         if form.is_valid():
             email = form.cleaned_data['email']
             password = request.POST.get('password')
             print(password, email)
-            activation_url = prepare_activation_url(email, request, streams=streams_to_subscribe)
+            activation_url = prepare_activation_url(
+                email, request, streams=streams_to_subscribe)
             print(activation_url)
             print('1' + '-' * 30)
             login_status = True
@@ -423,7 +437,8 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
 
             # zg--------------
             key = activation_url.split('/')[-1]
-            confirmation = Confirmation.objects.filter(confirmation_key=key).first()
+            confirmation = Confirmation.objects.filter(
+                confirmation_key=key).first()
             get_object_from_key(key, confirmation.type)
 
             request.full_name = email
@@ -485,13 +500,15 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
                     # zephyr mirroring realm.
                     hesiod_name = compute_mit_user_fullname(email)
                     form = RegistrationForm(
-                        initial={'full_name': hesiod_name if "@" not in hesiod_name else ""},
+                        initial={
+                            'full_name': hesiod_name if "@" not in hesiod_name else ""},
                         realm_creation=realm_creation)
                     name_validated = True
                 elif settings.POPULATE_PROFILE_VIA_LDAP:
                     for backend in get_backends():
                         if isinstance(backend, LDAPBackend):
-                            ldap_attrs = _LDAPUser(backend, backend.django_to_ldap_username(email)).attrs
+                            ldap_attrs = _LDAPUser(
+                                backend, backend.django_to_ldap_username(email)).attrs
                             try:
                                 ldap_full_name = ldap_attrs[settings.AUTH_LDAP_USER_ATTR_MAP['full_name']][0]
                                 request.session['authenticated_full_name'] = ldap_full_name
@@ -509,7 +526,8 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
                                 break
                             except TypeError:
                                 # Let the user fill out a name and/or try another backend
-                                form = RegistrationForm(realm_creation=realm_creation)
+                                form = RegistrationForm(
+                                    realm_creation=realm_creation)
                 elif 'full_name' in request.POST:
                     form = RegistrationForm(
                         initial={'full_name': request.POST.get('full_name')},
@@ -524,11 +542,13 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
                     # verified name from you on file, use that. Otherwise, fall
                     # back to the full name in the request.
                     try:
-                        postdata.update({'full_name': request.session['authenticated_full_name']})
+                        postdata.update(
+                            {'full_name': request.session['authenticated_full_name']})
                         name_validated = True
                     except KeyError:
                         pass
-                form = RegistrationForm(postdata, realm_creation=realm_creation)
+                form = RegistrationForm(
+                    postdata, realm_creation=realm_creation)
                 if not (password_auth_enabled(realm) and password_required):
                     form['password'].field.required = False
 
@@ -544,8 +564,10 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
 
                 full_name = email
                 short_name = email_to_username(email)
-                default_stream_group_names = request.POST.getlist('default_stream_group')
-                default_stream_groups = lookup_default_stream_groups(default_stream_group_names, realm)
+                default_stream_group_names = request.POST.getlist(
+                    'default_stream_group')
+                default_stream_groups = lookup_default_stream_groups(
+                    default_stream_group_names, realm)
 
                 timezone = "Asia/Shanghai"
                 if 'timezone' in request.POST and request.POST['timezone'] in get_all_timezones():
@@ -553,7 +575,8 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
 
                 if not realm_creation:
                     try:
-                        existing_user_profile = get_user(email, realm)  # type: Optional[UserProfile]
+                        existing_user_profile = get_user(
+                            email, realm)  # type: Optional[UserProfile]
                     except UserProfile.DoesNotExist:
                         existing_user_profile = None
                 else:
@@ -593,7 +616,8 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
                     do_activate_user(user_profile)
                     do_change_password(user_profile, password)
                     do_change_full_name(user_profile, full_name, user_profile)
-                    do_set_user_display_setting(user_profile, 'timezone', timezone)
+                    do_set_user_display_setting(
+                        user_profile, 'timezone', timezone)
                     # TODO: When we clean up the `do_activate_user` code path,
                     # make it respect invited_as_admin / is_realm_admin.
                 else:
@@ -601,11 +625,13 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
                                                   prereg_user=prereg_user, is_realm_admin=is_realm_admin,
                                                   tos_version=settings.TOS_VERSION,
                                                   timezone=timezone,
-                                                  newsletter_data={"IP": request.META['REMOTE_ADDR']},
+                                                  newsletter_data={
+                                                      "IP": request.META['REMOTE_ADDR']},
                                                   default_stream_groups=default_stream_groups)
 
                 if realm_creation:
-                    bulk_add_subscriptions([realm.signup_notifications_stream], [user_profile])
+                    bulk_add_subscriptions(
+                        [realm.signup_notifications_stream], [user_profile])
                     send_initial_realm_messages(realm)
 
                     # Because for realm creation, registration happens on the
@@ -706,7 +732,8 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
 def accounts_home_from_multiuse_invite(request: HttpRequest, confirmation_key: str) -> HttpResponse:
     multiuse_object = None
     try:
-        multiuse_object = get_object_from_key(confirmation_key, Confirmation.MULTIUSE_INVITE)
+        multiuse_object = get_object_from_key(
+            confirmation_key, Confirmation.MULTIUSE_INVITE)
         # Required for oAuth2
         request.session["multiuse_object_key"] = confirmation_key
     except ConfirmationKeyException as exception:
@@ -729,7 +756,7 @@ def find_account(request: HttpRequest) -> HttpResponse:
         if form.is_valid():
             emails = form.cleaned_data['emails']
             for user_profile in UserProfile.objects.filter(
-                email__in=emails, is_active=True, is_bot=False, realm__deactivated=False):
+                    email__in=emails, is_active=True, is_bot=False, realm__deactivated=False):
                 send_email('zerver/emails/find_team', to_user_id=user_profile.id,
                            context={'user_profile': user_profile})
 

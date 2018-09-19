@@ -415,6 +415,20 @@ var message_group = (function () {
                                     $(".names-item").html(html)
                                     $(".more-topic").hide()
                                 })
+                                $(".icon-search-email").on("click",function(e){
+                                    $(".search-people-border").show()
+                                    $(".seach-people-icon").hide()
+                                    $(".search-people-border input").attr("placeholder","输入邮箱地址")
+                                })
+                                $(".icon-add-people").on("click",function(e){
+                                    $(".search-people-border").show()
+                                    $(".seach-people-icon").hide()
+                                    $(".search-people-border input").attr("placeholder","输入搜索内容")
+                               })
+                               $(".icon-search-cancel").on("click",function(e){
+                                    $(".search-people-border").hide()
+                                    $(".seach-people-icon").show()
+                               })
                                 $(".names-item").on("click",".topiclist-group",function(e){
                                    var  del_subject = $(this).attr("data-name")
                                    var that = $(this)
@@ -472,27 +486,34 @@ var message_group = (function () {
                 var stream_id = Number($(this).closest(".setting_body").attr("data-stream-id"))
                 var sub = stream_data.get_sub_by_id(stream_id);
                // console.log(sub,"sub_es",e.target)
-               if(sub){
-                    channel.del({
-                        url: '/json/streams/' + stream_id,
-                        error: function (xhr) {
-                            ui_report.error(i18n.t("Failed"), xhr, alert_element);
-                        },
-                        success: function (data) {
-                            if(data.result==="success"){
-                                $(".group_setting").hide();
-                                arr = JSON.parse(localStorage.getItem("arr"))
-                                for(var i=0;i<arr.length;i++){
-                                    if(arr[i].stream_id == stream_id){
-                                        arr.remove(i)
+               var rendered = templates.render("feed_back_content",{deltag:true})
+               $(".modal-logs").html(rendered)
+               $(".modal-logs").show()
+               $(".feadback-sure-del").on("click",function(e){
+                   $(".modal-logs").hide()
+                   if(sub){
+                        channel.del({
+                            url: '/json/streams/' + stream_id,
+                            error: function (xhr) {
+                                ui_report.error(i18n.t("Failed"), xhr, alert_element);
+                            },
+                            success: function (data) {
+                                if(data.result==="success"){
+                                    $(".group_setting").hide();
+                                    arr = JSON.parse(localStorage.getItem("arr"))
+                                    for(var i=0;i<arr.length;i++){
+                                        if(arr[i].stream_id == stream_id){
+                                            arr.remove(i)
+                                        }
                                     }
+                                    localStorage.setItem("arr",JSON.stringify(arr))
+                                    $(window).attr("location","#narrow/is/starred")
                                 }
-                                localStorage.setItem("arr",JSON.stringify(arr))
-                                $(window).attr("location","#narrow/is/starred")
-                            }
-                        },
-                    });
-                }
+                            },
+                        });
+                    }
+               })
+            
            })
             //点击空白区域这个模态框消失
             if($(".group_setting").show()){

@@ -432,9 +432,9 @@ a.message-control-button {
    
 }
 .toast-alert-button{
-    bottom:100px;
+    bottom:0;
+    top:0;
     text-align:center;
-   
 }
 .toast-alert-buttons{
     bottom:400px;
@@ -1579,4 +1579,55 @@ a.message-control-button {
 }
 .invalid::-webkit-input-placeholder {
     color: red;
+}
+.search-people-border{
+    display: none;
+    flex:1;
+    text-align: end
+}
+.group-people-search{
+    display:flex;
+    height:30px;
+    
+}
+.seach-people-icon{
+   display: flex;
+   justify-content: flex-end;
+   flex:1;
+}
+.icon-common{
+   font-size: 18px;
+   color:#999;
+   margin-left:21px;
+   cursor: pointer;
+}
+/* .search-people-border input[type="text"]{
+    padding:0 !important;
+}  */
+.search-people-border>input[type="text"]{
+   height:20px;
+   /* box-sizing:border-box; */
+   margin-bottom:0;
+}
+.icon-search-cancel{
+    margin-left:10px
+}
+.block-person{
+    display:flex;
+}
+.block-person .add-user-label{
+    margin-top:0;
+}
+.controls-to-add{
+    margin-left:10px;
+}
+.icon-search-border{
+    margin-right:-24px;
+    position: relative;
+    color:#999;
+    display: inline-block;
+    vertical-align: middle;
+}
+.add-user-list-filter{
+    text-indent: 20px;
 }

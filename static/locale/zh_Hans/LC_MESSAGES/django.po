@@ -2697,7 +2697,7 @@ msgstr "你必须上传一个图标"
 
 #: zerver/views/registration.py:343
 msgid "The organization creation link has expired or is not valid."
-msgstr "团队的链接过期或无效"
+msgstr "创建团队的链接过期或无效"
 
 #: zerver/views/registration.py:348
 msgid "New organization creation disabled."
