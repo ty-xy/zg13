@@ -180,20 +180,20 @@ var server_events = (function () {
     exports.sortBytime = function (){
         var ul = $(".persistent_data");
         var lis = [];
-        lis = $(".persistent_data li");
+        lis = $(".persistent_data a");
         var ux = [];
         //循环提取时间，并调用排序方法进行排序
         for (var i=0; i<lis.length; i++){
             var tmp = {};
             tmp.dom = lis.eq(i);
-            tmp.date = Number(lis.eq(i).attr("time_stamp"));
+            tmp.date = Number(lis.eq(i).children().attr("time_stamp"));
             ux.push(tmp);
         }
         ux.sort(function(a,b){
         return b.date - a.date;
         });
         //移除原先顺序错乱的li内容
-        $('.persistent_data li').remove();
+        $('.persistent_data a').remove();
         //重新填写排序好的内容
         for (var i=0; i<ux.length; i++){
         ul.append(ux[i].dom);
