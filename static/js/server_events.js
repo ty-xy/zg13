@@ -149,7 +149,7 @@ var server_events = (function () {
         D = date.getDate() + ' ';
         h = date.getHours() + ':';
         m = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
-        s = date.getSeconds();
+        s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
         return h + m;
     }
     
@@ -283,7 +283,7 @@ var server_events = (function () {
                             arr = []
                             if(data_message.type==="private"){
                                 var time_stamp = new Date().getTime()
-                                arr.unshift(server_events.set_local_news(send_id,'',name,avatar,time,mes,_href,time_stamp))
+                                arr.unshift(server_events.set_local_news(send_id,'',name,avatar,time,mes,_href,tream,short_name,time_stamp))
                                 var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:send_id,time:time,short_name:short_name,_href:_href,time_stamp:time_stamp})
                                 $(".persistent_data").prepend(notice_box)
                                 server_events.sortBytime()
@@ -292,7 +292,7 @@ var server_events = (function () {
                                 var name = sub.name
                                 var stream = data_message.type
                                 var _href= narrow.by_stream_subject_uris(name,data_message.subject)
-                                arr.unshift(server_events.set_local_news('',stream_id,name,avatar,time,mes,_href,stream))
+                                arr.unshift(server_events.set_local_news('',stream_id,name,avatar,time,mes,_href,tream,short_name,time_stamp))
                                 var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:stream_id,time:time,_href:_href,stream:stream})
                                 $(".persistent_data").prepend(notice_box)
                             }
@@ -300,11 +300,11 @@ var server_events = (function () {
                         }else{
                             var flag = false;
                             for(var j =0 ;j<arr.length;j++){
-                                if(user_me!=name&&arr[j].stream==""){
+                                if(user_me!=name){
                                     if(arr[j].send_id == send_id){
                                         flag = true;
-                                        $(".notice_bottom[name='"+$(".only_tip").attr("send_id")+"']").html(mes)
-                                        $(".notice_top_time[name='"+$(".only_tip").attr("send_id")+"']").html(server_events.tf(time))
+                                        $(".notice_bottom[name='"+send_id+"']").html(mes)
+                                        $(".notice_top_time[name='"+send_id+"']").html(server_events.tf(time))
                                         arr[j].content = mes
                                         localStorage.setItem("arr",JSON.stringify(arr))
                                         server_events.sortBytime()
