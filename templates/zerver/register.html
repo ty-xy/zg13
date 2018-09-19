@@ -37,46 +37,43 @@ Form is validated both client-side using jquery-validate (see signup.js) and ser
 
                 <div class="input-box no-validation">
                     <input type='hidden' name='key' value='{{ key }}' />
-                    <input type='hidden' name='timezone' id='timezone'/>
+                    <input type='hidden' name='timezone' id='timezone' />
                     <input id="id_email" type='text' disabled="true" placeholder="{{ email }}" required />
                     <label for="id_email" class="inline-block label-title">{{ _('Email') }}</label>
                 </div>
 
                 <div class="input-box">
                     {% if lock_name %}
-                        <p class="fakecontrol">{{ full_name }}</p>
+                    <p class="fakecontrol">{{ full_name }}</p>
                     {% else %}
-                        <input id="id_full_name" class="required" type="text" name="full_name"
-                          value="{% if full_name %}{{ full_name }}{% elif form.full_name.value() %}{{ form.full_name.value() }}{% endif %}"
-                          maxlength={{ MAX_NAME_LENGTH }} placeholder="{% trans %}Full name or 名前{% endtrans %}" required />
-                        <label for="id_full_name" class="inline-block label-title">{{ _('Full name') }}</label>
-                        {% if form.full_name.errors %}
-                            {% for error in form.full_name.errors %}
-                            <p class="help-inline text-error">{{ error }}</p>
-                            {% endfor %}
-                        {% endif %}
+                    <input id="id_full_name" class="required" type="text" name="full_name" value="{% if full_name %}{{ full_name }}{% elif form.full_name.value() %}{{ form.full_name.value() }}{% endif %}"
+                        maxlength={{ MAX_NAME_LENGTH }} placeholder="{% trans %}Full name or 名前{% endtrans %}" required />
+                    <label for="id_full_name" class="inline-block label-title">{{ _('全名') }}</label>
+                    {% if form.full_name.errors %}
+                    {% for error in form.full_name.errors %}
+                    <p class="help-inline text-error">{{ error }}</p>
+                    {% endfor %}
+                    {% endif %}
                     {% endif %}
                 </div>
 
                 {% if password_required %}
                 <div class="input-box">
-                    <input id="id_password" class="required" type="password" name="password"
-                      value="{% if form.password.value() %}{{ form.password.value() }}{% endif %}"
-                      maxlength={{ 20 }}
-                      data-min-length="{{password_min_length}}"
-                      data-min-guesses="{{password_min_guesses}}" required />
-                    <label for="id_password" class="inline-block">{{ _('Password') }}</label>
+                    <input id="id_password" class="required" type="password" name="password" value="{% if form.password.value() %}{{ form.password.value() }}{% endif %}"
+                        maxlength={{ 20 }} data-min-length="{{password_min_length}}" data-min-guesses="{{password_min_guesses}}"
+                        required />
+                    <label for="id_password" class="inline-block">{{ _('密码') }}</label>
                     {% if full_name %}
                     <span class="help-inline">
-                        {{ _('This is used for mobile applications and other tools that require a password.') }}
+                        {{ _('用于需要密码的手机App和其他工具.') }}
                     </span>
                     {% endif %}
                     {% if form.password.errors %}
-                        {% for error in form.password.errors %}
-                        <p class="help-inline text-error">{{ error }}</p>
-                        {% endfor %}
+                    {% for error in form.password.errors %}
+                    <p class="help-inline text-error">{{ error }}</p>
+                    {% endfor %}
                     {% endif %}
-                    <div class="progress" id="pw_strength" title="{{ _('Password strength') }}">
+                    <div class="progress" id="pw_strength" title="{{ _('密码强度') }}">
                         <div class="bar bar-danger" style="width: 10%;"></div>
                     </div>
                 </div>
@@ -85,12 +82,14 @@ Form is validated both client-side using jquery-validate (see signup.js) and ser
 
             {% if default_stream_groups %}
             <div class="input-group m-10 inline-block">
-                <label for="default_stream_group">{{ _('What parts of the organization are you interested in?') }}</label>
+                <label for="default_stream_group">{{ _('你对组织中的那部分感兴趣?') }}</label>
                 {% for default_stream_group in default_stream_groups %}
                 <div class="input-group radio">
                     <input class="inline-block" type="checkbox" name="default_stream_group" value="{{ default_stream_group.name }}"
-                      {% if "default_stream_group" in  form.data and default_stream_group.name in form.data.getlist('default_stream_group') %} checked {% endif %} />
-                    <label for="id_radio_{{ default_stream_group.name }}" class="inline-block">{{ default_stream_group.name }}</label>
+                        {% if "default_stream_group" in form.data and default_stream_group.name in
+                        form.data.getlist('default_stream_group') %} checked {% endif %} />
+                    <label for="id_radio_{{ default_stream_group.name }}" class="inline-block">{{
+                        default_stream_group.name }}</label>
                 </div>
                 {% endfor %}
             </div>
@@ -100,57 +99,55 @@ Form is validated both client-side using jquery-validate (see signup.js) and ser
                 {% if creating_new_team %}
                 <div class="input-box">
                     <div class="inline-block relative">
-                        <input id="id_team_name" class="required" type="text"
-                          placeholder="请填写团队名称"
-                          value="{% if form.realm_name.value() %}{{ form.realm_name.value() }}{% endif %}"
-                          name="realm_name" maxlength={{ MAX_REALM_NAME_LENGTH }} required />
+                        <input id="id_team_name" class="required" type="text" placeholder="请填写团队名称" value="{% if form.realm_name.value() %}{{ form.realm_name.value() }}{% endif %}"
+                            name="realm_name" maxlength={{ MAX_REALM_NAME_LENGTH }} required />
                     </div>
-                    <label for="id_team_name" class="inline-block label-title">{{ _('Organization name') }}</label>
+                    <label for="id_team_name" class="inline-block label-title">{{ _('组织机构名称') }}</label>
                     {% if form.realm_name.errors %}
-                        {% for error in form.realm_name.errors %}
-                        <p class="help-inline text-error">{{ error }}</p>
-                        {% endfor %}
+                    {% for error in form.realm_name.errors %}
+                    <p class="help-inline text-error">{{ error }}</p>
+                    {% endfor %}
                     {% endif %}
 
                     <div class="help-box margin-top">
-                        {{ _('Shorter is better than longer.') }}
+                        {{ _('短比长更好一些.') }}
                     </div>
                 </div>
 
                 <div class="input-box">
                     <label class="static org-url">
-                        {{ _('Organization URL') }}
+                        {{ _('组织机构URL') }}
                     </label>
                     {% if root_domain_available %}
                     <label class="checkbox static" for="realm_in_root_domain">
-                        <input type="checkbox" name="realm_in_root_domain" id="realm_in_root_domain"
-                          {% if not form.realm_subdomain.value() and not form.realm_subdomain.errors %}checked="checked"{% endif %}/>
+                        <input type="checkbox" name="realm_in_root_domain" id="realm_in_root_domain" {% if not
+                            form.realm_subdomain.value() and not form.realm_subdomain.errors %}checked="checked" {%
+                            endif %} />
                         <span></span>
                         {% trans %}用{{ external_host }}{% endtrans %}
                     </label>
                     {% endif %}
 
-                    <div class="inline-block" id="subdomain_section" {% if root_domain_available and
-                      not form.realm_subdomain.errors and not form.realm_subdomain.value() %}style="display: none;"{% endif %}>
+                    <div class="inline-block" id="subdomain_section" {% if root_domain_available and not
+                        form.realm_subdomain.errors and not form.realm_subdomain.value() %}style="display: none;" {%
+                        endif %}>
                         <div class="or"><span>{{ _('OR') }}</span></div>
                         <div class="inline-block relative">
-                            <input id="id_team_subdomain"
-                              class="{% if root_domain_landing_page %}required{% endif %} subdomain" type="text"
-                              placeholder="acme"
-                              value="{% if form.realm_subdomain.value() %}{{ form.realm_subdomain.value() }}{% endif %}"
-                              name="realm_subdomain" maxlength={{ MAX_REALM_SUBDOMAIN_LENGTH }}
-                              {% if root_domain_landing_page %}required{% endif %} />
+                            <input id="id_team_subdomain" class="{% if root_domain_landing_page %}required{% endif %} subdomain"
+                                type="text" placeholder="acme" value="{% if form.realm_subdomain.value() %}{{ form.realm_subdomain.value() }}{% endif %}"
+                                name="realm_subdomain" maxlength={{ MAX_REALM_SUBDOMAIN_LENGTH }} {% if
+                                root_domain_landing_page %}required{% endif %} />
                             <label for="id_team_subdomain" class="realm_subdomain_label">.{{ external_host }}</label>
                             <p id="id_team_subdomain_error_client" class="error help-inline text-error"></p>
                         </div>
                         {% if form.realm_subdomain.errors %}
-                            {% for error in form.realm_subdomain.errors %}
-                            <p class="error help-inline text-error team_subdomain_error_server">{{ error }}</p>
-                            {% endfor %}
+                        {% for error in form.realm_subdomain.errors %}
+                        <p class="error help-inline text-error team_subdomain_error_server">{{ error }}</p>
+                        {% endfor %}
                         {% endif %}
                     </div>
                     <div class="help-box margin-top">
-                        {{ _("The address you'll use to log in to your organization.") }}
+                        {{ _("你将用来登录你组织机构的网络地址.") }}
                     </div>
                 </div>
                 {% endif %}
@@ -168,20 +165,21 @@ Form is validated both client-side using jquery-validate (see signup.js) and ser
                     at all. (So, it's not symmetric to the code above.)
                     #}
                     <label for="id_terms" class="inline-block checkbox">
-                        <input id="id_terms" class="required" type="checkbox" name="terms"
-                          {% if form.terms.value() %}checked="checked"{% endif %} />
+                        <input id="id_terms" class="required" type="checkbox" name="terms" {% if form.terms.value()
+                            %}checked="checked" {% endif %} />
                         <span></span>
-                        {% trans %}I agree to the <a href="{{ root_domain_uri }}/terms" target="_blank">Terms of Service</a>.{% endtrans %}
+                        {% trans %}I agree to the <a href="{{ root_domain_uri }}/terms" target="_blank">Terms of
+                            Service</a>.{% endtrans %}
                     </label>
                     {% if form.terms.errors %}
-                        {% for error in form.terms.errors %}
-                        <p class="help-inline text-error">{{ error }}</p>
-                        {% endfor %}
+                    {% for error in form.terms.errors %}
+                    <p class="help-inline text-error">{{ error }}</p>
+                    {% endfor %}
                     {% endif %}
                 </div>
                 {% endif %}
                 <div class="register-button-box">
-                    <button class="register-button" type="submit">{{ _('Sign up') }}</button>
+                    <button class="register-button" type="submit">{{ _('注册') }}</button>
                     <input type="hidden" name="next" value="{{ next }}" />
                 </div>
             </div>
@@ -191,23 +189,24 @@ Form is validated both client-side using jquery-validate (see signup.js) and ser
 </div>
 
 <script type="text/javascript">
-if ($('#id_email').length === 1) {
-    if (!$('#id_email').attr('disabled')) {
-        common.autofocus('#id_email');
+    if ($('#id_email').length === 1) {
+        if (!$('#id_email').attr('disabled')) {
+            common.autofocus('#id_email');
+        } else {
+            common.autofocus('#id_full_name');
+        }
     } else {
         common.autofocus('#id_full_name');
     }
-} else {
-    common.autofocus('#id_full_name');
-}
 
-// reset error message displays
-$('#id_team_subdomain_error_client').css('display', 'none');
-if ($('.team_subdomain_error_server').text() === '') {
-    $('.team_subdomain_error_server').css('display', 'none');
-}
+    // reset error message displays
+    $('#id_team_subdomain_error_client').css('display', 'none');
+    if ($('.team_subdomain_error_server').text() === '') {
+        $('.team_subdomain_error_server').css('display', 'none');
+    }
 
-$("#timezone").val(moment.tz.guess());
+    $("#timezone").val(moment.tz.guess());
+
 </script>
 
 {% endblock %}
