@@ -194,6 +194,7 @@ input[type="checkbox"]:checked{
 .test-image-file{
     width:10px;
     height:100%;
+    /* background-color:red; */
     /* display: flex;
     justify-content: center;
     align-items: center; */
@@ -983,7 +984,7 @@ a.message-control-button {
     }
     .nav-bars{
         height:88.5px;
-        
+        min-width:930px;
     }
     .nav-bars>li{
        margin-right:38px
@@ -992,6 +993,12 @@ a.message-control-button {
         border:1px solid transparent;
         border-bottom-color:#4584FF;
         color: #4584FF;
+    }
+    #myTabContent{
+        min-width:930px
+    }
+    .middle_ctn{
+        min-width:1000px;
     }
     .nav-tabs > li > a{
         color: #333333;

@@ -139,7 +139,7 @@ var message_group = (function () {
                var hash = href.split("/")
                var subject = hash_util.decodeHashComponent(hash[4])
                var stream = $(this).children().find(".notice_top_name").eq(0).text()
-                         
+               $(".compose-content").show()
                $("#stream").val(stream)
                $("#subject").val(subject)
             }
@@ -179,7 +179,7 @@ var message_group = (function () {
             $(".home_gruop_title").show()
             $("#main_div").show();
             var streams = stream_data.subscribed_subs();
-            var sub = stream_data.get_subscribers()
+            // var sub = stream_data.get_subscribers()
             var subscriptions = stream_data.get_streams_for_settings_page();
             // console.log(stream_edit,323111)
             // 渲染群组
@@ -190,7 +190,7 @@ var message_group = (function () {
 
             // })
             // 点击群组的事件
-            $("#group_seeting_choose").off(".stream-list-rows").on("click",".stream-list-rows",function(){
+            $("#group_seeting_choose").off("click",".stream-list-rows").on("click",".stream-list-rows",function(){
                  e.preventDefault()
                  e.stopPropagation()
                 var name =  $(this).attr("data-stream-name")
@@ -438,7 +438,8 @@ var message_group = (function () {
                                     data:JSON.stringify({subject:del_subject}),
                                     success:function(data){
                                         that.remove()
-                                        // topic_data.maybe_remove(del_subject)
+                                        var history = topic_data.topic_history()
+                                        history.maybe_remove(del_subject)
                                         console.log(topic_data.get_recent_names(get_sub_by_name.stream_id))
                                         $(".topic-list").find("[data-topic-name="+del_subject+"]").remove()
                                     }

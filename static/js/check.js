@@ -27,7 +27,7 @@ var check = (function () {
             })
         })
     }
-    function backIcons2(){
+    exports.backIcons2 = function (){
         $(".first-icon").off("click").on("click",function(e){
             moveContent()
             console.log("返回待我审批")
@@ -144,6 +144,51 @@ var check = (function () {
             })    
         })
     }
+    exports.ready_check_func=function(types,id){
+        $(".move_ctn ").off("click",".no_agree").on("click",".no_agree",function(e){
+            datalist = {
+                types:types,
+                id:id,
+                state:"审批未通过"
+            }
+            channel.put({
+                url:'/json/zg/approval/table/state_update/',
+                data:JSON.stringify(datalist),
+                contentType:"application/json",
+                success:function(datas){
+                    var html ='<button class="button-detail-common feedBack">反馈</button>'
+                    $(".button-show").html(html)
+                    var data = {
+                        types:types,
+                        id:id,
+                    }
+                    get_data(data,exports.backIcons2)
+                }
+            })
+        })
+        $(".move_ctn ").off("click",".agree").on("click",".agree",function(e){
+            var datalist = {
+                types:types,
+                id:id,
+                state:"同意"
+            }
+            channel.put({
+                url:'/json/zg/approval/table/state_update/',
+                data:JSON.stringify(datalist),
+                contentType:"application/json",
+                success:function(){
+                    var html ='<button class="button-detail-common feedBack">反馈</button>'
+                    $(".button-show").html(html)
+                    var data = {
+                        types:types,
+                        id:id,
+                    }
+                    get_data(data,exports.backIcons2)
+                }
+            })
+        })
+    }
+
     //我发送的请求的一个函数
     function send_check(content){
         channel.get({
@@ -161,7 +206,7 @@ var check = (function () {
                     var html = templates.render("table",{data:data,showClass:"initiate"})
                     $("#originator").html(html)
                     $(".check-shenpi-content").height($(window).height()-244)
-                    $(".move_ctn").off(".check-shenpi-detail-initiate").on("click",".check-shenpi-detail-initiate",function(e){
+                    $(".move_ctn").off("click",".check-shenpi-detail-initiate").on("click",".check-shenpi-detail-initiate",function(e){
                         var types = $(this).children().eq(1).attr("data_type")
                         var id = $(this).attr("data_id")
                         var datater = {
@@ -405,7 +450,7 @@ var check = (function () {
             })
          }
         //请假
-        $(".move_ctn").on("click",".ask_for_leave",function(e){
+        $(".move_ctn").off(".ask_for_leave").on("click",".ask_for_leave",function(e){
             $(".move_ctn").children().remove();
             var li = templates.render("ask-for-leave")
             $(".move_ctn").html(li)
@@ -423,10 +468,10 @@ var check = (function () {
                 weekStart:1  
             });
             $(".add_log_people").on("click",function(e){
-                chooseFile.choosePeople(common_choose)
+                chooseFile.choosePeople(common_choose,object={})
             })
             $(".add_log_peoples").on("click",function(e){
-                chooseFile.choosePeople(xy)
+                chooseFile.choosePeople(xy,object={})
             })
             uploadFile()
             $("#btn-test").on("click",function(e){
@@ -446,7 +491,7 @@ var check = (function () {
             backIcon()
         })
         //出差
-        $(".move_ctn").on("click",".on_business_trip",function(e){
+        $(".move_ctn").off(".on_business_trip").on("click",".on_business_trip",function(e){
             $(".move_ctn").children().remove();
             var li = templates.render("ask-for-leave",{show:true})
             $(".move_ctn").html(li)
@@ -466,10 +511,10 @@ var check = (function () {
                 weekStart:1  
             });
             $(".add_log_people").on("click",function(e){
-                chooseFile.choosePeople(common_choose)
+                chooseFile.choosePeople(common_choose,object={})
             })
             $(".add_log_peoples").on("click",function(e){
-                chooseFile.choosePeople(xy)
+                chooseFile.choosePeople(xy,object={})
             })
             $("#btn-test").on("click",function(e){
                  e.preventDefault()
@@ -487,15 +532,15 @@ var check = (function () {
             })
         })
         //差旅费
-        $(".move_ctn").on("click",".reimburse-moneny",function(e){
+        $(".move_ctn").off(".reimburse-moneny").on("click",".reimburse-moneny",function(e){
             $(".move_ctn").children().remove();
             var li = templates.render("ask-for-leave",{showdate:true})
             $(".move_ctn").html(li)
             $(".add_log_people").on("click",function(e){
-                chooseFile.choosePeople(common_choose)
+                chooseFile.choosePeople(common_choose,object={})
             })
             $(".add_log_peoples").on("click",function(e){
-                chooseFile.choosePeople(xy)
+                chooseFile.choosePeople(xy,object={})
             })
             height()
             backIcon()
@@ -546,7 +591,7 @@ var check = (function () {
                 })
             })
         })
-        $('.move_ctn').on("click",".progress-percent",function(e){
+        $('.move_ctn').off(".progress-percent").on("click",".progress-percent",function(e){
             $(".move_ctn").children().remove();
             var li = templates.render("project_progress")
             $(".move_ctn").html(li)
@@ -554,7 +599,7 @@ var check = (function () {
             backIcon()
         })
         // 待我审批
-        $("body").on("click",".expect-check",function(e){
+        $("body").off(".expect-check").on("click",".expect-check",function(e){
             channel.get({
                 url:"/json/zg/approval/list/expectation",
                 success:function(data){
@@ -570,7 +615,7 @@ var check = (function () {
                            var html = templates.render("table",{data:data,showClass:"expectation"})
                             $("#ios").html(html)
                             $(".check-shenpi-content").height($(window).height()-244)
-                            $(".move_ctn ").on("click",".check-shenpi-detail-expectation",function(e){
+                            $(".move_ctn ").off(".check-shenpi-detail-expectation").on("click",".check-shenpi-detail-expectation",function(e){
                                 var types = $(this).children().eq(1).attr("data_type")
                                 var id = $(this).attr("data_id")
                                 var data = {
@@ -582,54 +627,13 @@ var check = (function () {
                                     data:data,
                                     success:function(datalist){
                                         var data =datalist.data
-
+                                        console.log(data)
                                         // console.log("返回待我审批1")
                                         $(".move_ctn").children().remove();
                                         var li = templates.render("check_detail",data)
                                         $(".move_ctn").html(li)
-                                        backIcons2()
-                                        $(".no_agree").on("click",function(e){
-                                            datalist = {
-                                                types:types,
-                                                id:id,
-                                                state:"审批未通过"
-                                            }
-                                            channel.put({
-                                                url:'/json/zg/approval/table/state_update/',
-                                                data:JSON.stringify(datalist),
-                                                contentType:"application/json",
-                                                success:function(datas){
-                                                    var html ='<button class="button-detail-common feedBack">反馈</button>'
-                                                    $(".button-show").html(html)
-                                                    var data = {
-                                                        types:types,
-                                                        id:id,
-                                                    }
-                                                    get_data(data,backIcons2)
-                                                }
-                                            })
-                                        })
-                                        $(".agree").on("click",function(e){
-                                            var datalist = {
-                                                types:types,
-                                                id:id,
-                                                state:"同意"
-                                            }
-                                            channel.put({
-                                                url:'/json/zg/approval/table/state_update/',
-                                                data:JSON.stringify(datalist),
-                                                contentType:"application/json",
-                                                success:function(){
-                                                    var html ='<button class="button-detail-common feedBack">反馈</button>'
-                                                    $(".button-show").html(html)
-                                                    var data = {
-                                                        types:types,
-                                                        id:id,
-                                                    }
-                                                    get_data(data,backIcons2)
-                                                }
-                                            })
-                                        })
+                                        exports.backIcons2()
+                                        exports.ready_check_func(types,id)
                                     }
                                 })
                             })
@@ -661,7 +665,7 @@ var check = (function () {
                         var html = templates.render("table",{data:data,showClass :"inform"})
                         $("#make_copy").html(html)
                         $(".check-shenpi-content").height($(window).height()-244)
-                        $(".move_ctn").on("click",".check-shenpi-detail-inform",function(e){
+                        $(".move_ctn").off(".check-shenpi-detail-inform").on("click",".check-shenpi-detail-inform",function(e){
                             var types = $(this).children().eq(1).attr("data_type")
                             var id = $(this).attr("data_id")
                             var datas = {
@@ -704,7 +708,7 @@ var check = (function () {
                                                         types:types,
                                                         id:id,
                                                     }
-                                                    get_data(data,backIcons2)
+                                                    get_data(data,exports.backIcons2)
                                                 }
                                             })
                                         })
@@ -725,7 +729,7 @@ var check = (function () {
                                                         types:types,
                                                         id:id,
                                                     }
-                                                    get_data(data,backIcons2)
+                                                    get_data(data,exports.backIcons2)
                                                 }
                                             })
                                         })
@@ -763,7 +767,7 @@ var check = (function () {
             // $(".modal-logs").show()
         })
         // 我已经审批
-        $("body").on("click",".already_checked",function(e){
+        $("body").off(".already_checked").on("click",".already_checked",function(e){
             channel.get({
                 url:"/json/zg/approval/list/completed",
                 success:function(data){
@@ -777,7 +781,7 @@ var check = (function () {
                         var html = templates.render("table",{data:data,showClass:"completed"})
                         $("#already_check").html(html)
                         $(".check-shenpi-content").height($(window).height()-244)
-                        $(".move_ctn").on("click",".check-shenpi-detail-completed",function(e){
+                        $(".move_ctn").off(".check-shenpi-detail-completed").on("click",".check-shenpi-detail-completed",function(e){
                             var types = $(this).children().eq(1).attr("data_type")
                             var id = $(this).attr("data_id")
                             var datas= {

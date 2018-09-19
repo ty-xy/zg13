@@ -356,3 +356,10 @@
         top: 5%;
     }
 }
+
+@media (max-width: 775px){
+.column-middle, .app-main .column-middle {
+    /* margin-left: 7px;
+    margin-right: 7px; */
+    display: none;
+}

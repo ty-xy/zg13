@@ -63,7 +63,6 @@ exports.widget = function (parent_elem, my_stream_id) {
 
     self.build_list = function () {
         self.topic_items = new Dict({fold_case: true});
-
         var max_topics = 5;
         var topic_names = topic_data.get_recent_names(my_stream_id);
         var my_stream_name = stream_data.get_sub_by_id(my_stream_id).name;
@@ -73,12 +72,11 @@ exports.widget = function (parent_elem, my_stream_id) {
         _.each(topic_names, function (topic_name, idx) {
             // console.log(topic_name,idx)
             var num_unread = unread.num_unread_for_topic(my_stream_id, topic_name);
-         
             if (!zoomed) {
                 // console.log(idx)
                 // Show the most recent topics, as well as any with unread messages
                 var show_topic = idx || (num_unread > -1) ||
-                                 (self.active_topic === topic_name.toLowerCase());
+                    (self.active_topic === topic_name.toLowerCase());
 
                 if (!show_topic) {
                     return;

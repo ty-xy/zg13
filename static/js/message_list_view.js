@@ -59,8 +59,9 @@ function same_recipient(a, b) {
 function add_display_time(group, message_container, prev) {
     var time = new XDate(message_container.msg.timestamp * 1000);
     var today = new XDate();
-
+    // console.log(group,prev,message_container)
     if (prev !== undefined) {
+       
         var prev_time = new XDate(prev.msg.timestamp * 1000);
         if (time.toDateString() !== prev_time.toDateString()) {
             // NB: show_date is HTML, inserted into the document without escaping.
@@ -449,6 +450,7 @@ MessageListView.prototype = {
         var msg_to_render = _.extend(message_container, {
             table_name: this.table_name,
         });
+        console.log(msg_to_render)
         return templates.render('single_message', msg_to_render);
     },
 

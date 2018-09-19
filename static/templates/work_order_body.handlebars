@@ -1,6 +1,6 @@
 <ul class="work_order_ctn_box fix">
     {{#each pushData}}
-    <li class="work_order_ctn">
+    <li class="work_order_ctn" data_id={{content.id}} data_type={{content.type}}>
         <p class="work_order_state">[审批]</p>
         <p class="work_order_title">{{theme}}</p>
         <p class="work_order_reason">
