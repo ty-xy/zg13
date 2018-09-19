@@ -759,8 +759,27 @@ var contact = (function(){
                 $(".work_order_box").append(work_order_body)
             },10)
             // 点击跳到详情页面
-            $(".work_order_ctn").on("click",function(e){
-                
+            $(".move_ctn").off("click",".work_order_ctn").on("click",".work_order_ctn",function(e){
+                var id  = $(this).attr("data_id")
+                var types = $(this).attr("data_type")
+                var data = {
+                    types:types,
+                    id:id
+                }
+                console.log(id)
+                channel.get({
+                    url:"/json/zg/approval",
+                    data:data,
+                    success:function(datalist){
+                        var data =datalist.data
+                        // console.log("返回待我审批1")
+                        $(".move_ctn").children().remove();
+                        var li = templates.render("check_detail",data)
+                        $(".move_ctn").html(li)
+                        check.backIcons2()
+                        check.ready_check_func(types,id)
+                    }
+                })
             })
         })  
         //日志助手显示

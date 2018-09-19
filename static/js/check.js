@@ -27,7 +27,7 @@ var check = (function () {
             })
         })
     }
-    function backIcons2(){
+    exports.backIcons2 = function (){
         $(".first-icon").off("click").on("click",function(e){
             moveContent()
             console.log("返回待我审批")
@@ -144,6 +144,51 @@ var check = (function () {
             })    
         })
     }
+    exports.ready_check_func=function(types,id){
+        $(".move_ctn ").off("click",".no_agree").on("click",".no_agree",function(e){
+            datalist = {
+                types:types,
+                id:id,
+                state:"审批未通过"
+            }
+            channel.put({
+                url:'/json/zg/approval/table/state_update/',
+                data:JSON.stringify(datalist),
+                contentType:"application/json",
+                success:function(datas){
+                    var html ='<button class="button-detail-common feedBack">反馈</button>'
+                    $(".button-show").html(html)
+                    var data = {
+                        types:types,
+                        id:id,
+                    }
+                    get_data(data,exports.backIcons2)
+                }
+            })
+        })
+        $(".move_ctn ").off("click",".agree").on("click",".agree",function(e){
+            var datalist = {
+                types:types,
+                id:id,
+                state:"同意"
+            }
+            channel.put({
+                url:'/json/zg/approval/table/state_update/',
+                data:JSON.stringify(datalist),
+                contentType:"application/json",
+                success:function(){
+                    var html ='<button class="button-detail-common feedBack">反馈</button>'
+                    $(".button-show").html(html)
+                    var data = {
+                        types:types,
+                        id:id,
+                    }
+                    get_data(data,exports.backIcons2)
+                }
+            })
+        })
+    }
+
     //我发送的请求的一个函数
     function send_check(content){
         channel.get({
@@ -582,54 +627,12 @@ var check = (function () {
                                     data:data,
                                     success:function(datalist){
                                         var data =datalist.data
-
                                         // console.log("返回待我审批1")
                                         $(".move_ctn").children().remove();
                                         var li = templates.render("check_detail",data)
                                         $(".move_ctn").html(li)
-                                        backIcons2()
-                                        $(".no_agree").on("click",function(e){
-                                            datalist = {
-                                                types:types,
-                                                id:id,
-                                                state:"审批未通过"
-                                            }
-                                            channel.put({
-                                                url:'/json/zg/approval/table/state_update/',
-                                                data:JSON.stringify(datalist),
-                                                contentType:"application/json",
-                                                success:function(datas){
-                                                    var html ='<button class="button-detail-common feedBack">反馈</button>'
-                                                    $(".button-show").html(html)
-                                                    var data = {
-                                                        types:types,
-                                                        id:id,
-                                                    }
-                                                    get_data(data,backIcons2)
-                                                }
-                                            })
-                                        })
-                                        $(".agree").on("click",function(e){
-                                            var datalist = {
-                                                types:types,
-                                                id:id,
-                                                state:"同意"
-                                            }
-                                            channel.put({
-                                                url:'/json/zg/approval/table/state_update/',
-                                                data:JSON.stringify(datalist),
-                                                contentType:"application/json",
-                                                success:function(){
-                                                    var html ='<button class="button-detail-common feedBack">反馈</button>'
-                                                    $(".button-show").html(html)
-                                                    var data = {
-                                                        types:types,
-                                                        id:id,
-                                                    }
-                                                    get_data(data,backIcons2)
-                                                }
-                                            })
-                                        })
+                                        exports.backIcons2()
+                                        exports.ready_check_func(types,id)
                                     }
                                 })
                             })
@@ -704,7 +707,7 @@ var check = (function () {
                                                         types:types,
                                                         id:id,
                                                     }
-                                                    get_data(data,backIcons2)
+                                                    get_data(data,exports.backIcons2)
                                                 }
                                             })
                                         })
@@ -725,7 +728,7 @@ var check = (function () {
                                                         types:types,
                                                         id:id,
                                                     }
-                                                    get_data(data,backIcons2)
+                                                    get_data(data,exports.backIcons2)
                                                 }
                                             })
                                         })
