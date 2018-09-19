@@ -153,7 +153,7 @@ var server_events = (function () {
         return h + m;
     }
     
-    exports.set_local_news = function (send_id, stream_id, name, avatar, time, content, _href,stream,short_name) {
+    exports.set_local_news = function (send_id, stream_id, name, avatar, time, content, _href,stream,short_name,time_stamp) {
         obj = {
             send_id: send_id,
             stream_id: stream_id ? stream_id : '',
@@ -163,7 +163,8 @@ var server_events = (function () {
             content: content,
             _href: _href,
             stream:stream?stream:"",
-            short_name:short_name?short_name:""
+            short_name:short_name?short_name:"",
+            time_stamp:time_stamp?time_stamp:0
         }
         return obj
     }
@@ -176,7 +177,28 @@ var server_events = (function () {
         $(".operating_hints_box").fadeIn().delay(1500).fadeOut()
         $(".operating_hints_ctn").html(msg)
     }
-    
+    exports.sortBytime = function (){
+        var ul = $(".persistent_data");
+        var lis = [];
+        lis = $(".persistent_data li");
+        var ux = [];
+        //循环提取时间，并调用排序方法进行排序
+        for (var i=0; i<lis.length; i++){
+            var tmp = {};
+            tmp.dom = lis.eq(i);
+            tmp.date = Number(lis.eq(i).attr("time_stamp"));
+            ux.push(tmp);
+        }
+        ux.sort(function(a,b){
+        return b.date - a.date;
+        });
+        //移除原先顺序错乱的li内容
+        $('.persistent_data li').remove();
+        //重新填写排序好的内容
+        for (var i=0; i<ux.length; i++){
+        ul.append(ux[i].dom);
+        }
+    }
     function get_events(options) {
         options = _.extend({
             dont_block: false
@@ -260,9 +282,11 @@ var server_events = (function () {
                         if(arr == null){
                             arr = []
                             if(data_message.type==="private"){
-                                arr.push(server_events.set_local_news(send_id,'',name,avatar,time,mes,_href))
-                                var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:send_id,time:time,short_name:short_name,_href:_href})
+                                var time_stamp = new Date().getTime()
+                                arr.push(server_events.set_local_news(send_id,'',name,avatar,time,mes,_href,time_stamp))
+                                var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:send_id,time:time,short_name:short_name,_href:_href,time_stamp:time_stamp})
                                 $(".persistent_data").prepend(notice_box)
+                                server_events.sortBytime()
                             }else if(data_message.type==="stream"){
                                 var avatar = sub.color
                                 var name = sub.name
@@ -279,19 +303,19 @@ var server_events = (function () {
                                 if(user_me!=name&&arr[j].stream==""){
                                     if(arr[j].send_id == send_id){
                                         flag = true;
-                                        console.log(1)
                                         $(".notice_bottom[name='"+$(".only_tip").attr("send_id")+"']").html(mes)
                                         $(".notice_top_time[name='"+$(".only_tip").attr("send_id")+"']").html(server_events.tf(time))
                                         arr[j].content = mes
                                         localStorage.setItem("arr",JSON.stringify(arr))
+                                        server_events.sortBytime()
                                     }
                                 }
                                 if(user_me == name&&arr[j].name!==name&&arr[j].stream==""){
-                                    console.log(2)
                                     $(".notice_bottom[name="+recipient+"]").html(mes)
                                     $(".notice_top_time[name='"+$(".only_tip").attr("send_id")+"']").html(server_events.tf(time))
                                     arr[j].content = mes
                                     localStorage.setItem("arr",JSON.stringify(arr))
+                                    server_events.sortBytime()
                                 }
                                 if(arr[j].stream_id==stream_id&&arr[j].name==sub.name ){
                                     if(user_me!=name){
@@ -311,16 +335,19 @@ var server_events = (function () {
                             if(!flag){
                                 if(user_me!=name){
                                     if(data_message.type==="private"){
-                                        arr.push(server_events.set_local_news(send_id,'',name,avatar,time,mes,_href))
-                                        var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:send_id,time:time,short_name:short_name,_href:_href})
+                                        var time_stamp = new Date().getTime()
+                                        arr.push(server_events.set_local_news(send_id,'',name,avatar,time,mes,_href,time_stamp))
+                                        var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:send_id,time:time,short_name:short_name,_href:_href,time_stamp:time_stamp})
                                         $(".persistent_data").prepend(notice_box)
+                                        server_events.sortBytime()
                                     }else if(data_message.type==="stream"){
+                                        var time_stamp = new Date().getTime()
                                         var avatar = sub.color
                                         var name = sub.name
                                         var stream = data_message.type
                                         var _href= narrow.by_stream_subject_uris(name,data_message.subject)
                                         arr.unshift(server_events.set_local_news('',stream_id,name,avatar,time,mes,_href,stream))
-                                        var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:stream_id,time:time,_href:_href,stream:stream})
+                                        var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:stream_id,time:time,_href:_href,stream:stream,time_stamp:time_stamp})
                                         $(".persistent_data").prepend(notice_box)
                                     }
                                     localStorage.setItem("arr",JSON.stringify(arr))
