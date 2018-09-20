@@ -1,11 +1,21 @@
 from math import radians, cos, sin, asin, sqrt
 from zerver.lib import avatar
-from zerver.models import UserProfile
+from zerver.models import UserProfile, ZgDepartmentAttendance, ZgAttendance
 from django.http import JsonResponse
 import json
 import time
-# from apscheduler.schedulers.background import BackgroundScheduler
-# from django_apscheduler.jobstores import DjangoJobStore, register_events, register_job
+from apscheduler.schedulers.background import BackgroundScheduler
+from django_apscheduler.jobstores import DjangoJobStore, register_events, register_job
+from datetime import datetime, timezone, timedelta
+
+
+
+def nuw_time():
+    stockpile_time = datetime.utcnow()
+    stockpile_time = stockpile_time.replace(tzinfo=timezone.utc)
+    tzutc_8 = timezone(timedelta(hours=8))
+    stockpile_time = stockpile_time.astimezone(tzutc_8)
+    return stockpile_time
 
 
 def haversine(lon1, lat1, lon2, lat2):  # 经度1，纬度1，经度2，纬度2 （十进制度数）
@@ -52,27 +62,46 @@ def zg_send_tools(zg_dict):
     return event
 
 
-#
-# try:
-#     # 实例化调度器
-#     schedulers = BackgroundScheduler()
-#     # 调度器使用DjangoJobStore()
-#     schedulers.add_jobstore(DjangoJobStore(), "default")
-#
-#
-#     # 'cron'方式循环，周一到周五，每天9:30:10执行,id为工作ID作为标记
-#     # ('scheduler',"interval", seconds=1)  #用interval方式循环，每一秒执行一次
-#     @register_job(schedulers, 'cron', day_of_week='mon-fri', hour='14', minute='43', id='task_time')
-#     def test_job():
-#         t_now = time.localtime()
-#         print(t_now)
-#         print(12321321321321)
-#
-#
-#     # 监控任务
-#     register_events(schedulers)
-#     # 调度器开始
-#     schedulers.start()
-# except Exception as e:
-#     print(e)
-# # 报错则调度器停止执行
+try:
+    # 实例化调度器
+    schedulers = BackgroundScheduler()
+    # 调度器使用DjangoJobStore()
+    schedulers.add_jobstore(DjangoJobStore(), "default")
+
+
+    # 'cron'方式循环，周一到周五，每天9:30:10执行,id为工作ID作为标记
+    # ('scheduler',"interval", seconds=1)  #用interval方式循环，每一秒执行一次
+    @register_job(schedulers, 'cron', day_of_week='1-5', hour='10', minute='11', id='task_time1')
+    def timing_attendance():
+        users = UserProfile.objects.all()
+        user_list = list()
+        for user in users:
+            user_list.append(ZgAttendance(user_name=user, create_time=nuw_time()))
+        ZgAttendance.objects.bulk_create(user_list)
+
+
+    @register_job(schedulers, 'cron', day_of_week='1-5', hour='10', minute='45', id='task_time1')
+    def examine_attendance():
+        sign_in_attendances = ZgAttendance.objects.filter(
+            sign_in_explain=None,
+            create_time__year=nuw_time().year,
+            create_time__month=nuw_time().month,
+            create_time__day=nuw_time().day,
+        )
+        sign_in_attendances.update(sign_in_explain='缺卡')
+
+        sign_off_attendances = ZgAttendance.objects.filter(
+            sign_off_explain=None,
+            create_time__year=nuw_time().year,
+            create_time__month=nuw_time().month,
+            create_time__day=nuw_time().day,
+        )
+        sign_off_attendances.update(sign_off_explain='缺卡')
+
+    # 监控任务
+    register_events(schedulers)
+    # 调度器开始
+    schedulers.start()
+
+except Exception as e:
+    print(e)
