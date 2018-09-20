@@ -899,6 +899,10 @@ li.show-more-private-messages a {
 }
 .my_news_box{
     float: right;
+    background: #DDE9FF;
+    min-height: 17px;
+    box-sizing: border-box;
+    border-radius: 5px;
 }
 .my_bubble>p{
     float: right;
