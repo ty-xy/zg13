@@ -502,9 +502,9 @@ var management = (function () {
            })
         }
      
-        $(".generate_log").on("click",function(){
-            exports.generate_log();
-        })
+        // $(".generate_log").on("click",function(){
+        //     exports.generate_log();
+        // })
         exports.generate_log = function(e){
             $(".create_generate_log").show();
             $("#try-log .day-report").addClass("high_light").siblings().removeClass("high_light");
@@ -561,7 +561,7 @@ var management = (function () {
         }
         $("#create_log_de").on("click",function(e){
             // console.log("修改成功")
-            e.preventDefault();
+            // e.preventDefault();
             e.stopPropagation();
         })
         $(".create_daily").on("click",function(e){
