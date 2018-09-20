@@ -276,6 +276,7 @@ var management = (function () {
                     var ids= Number($(this).attr('data_id'))
                     list.push(ids)
                 })
+                var that = $(this)
                 // var arr = list.toString()
                 var send_list =[]
                 $(".generate_log_member_box").children().not($(".add_log_people")).each(function(){
@@ -305,24 +306,24 @@ var management = (function () {
                  }
                 if(accomplish.length>0&&send_list.length>0){
                     channel.post({
-                        url:"json/zg/table/",
+                        url:"json/zg/table/", 
                         data:JSON.stringify(paramas),
                         // idempotent: true,
                         contentType:"application/json",
                         success:function(data){
                             if(data.errno===0){
-                               $(this).css("background-color","#14A4FA")
+                                that.css("background-color","#14A4FA")
                                alert('提交成功','rgba(0,107,169,0.30)')
-                               $(this).attr("disabled",false)
+                               that.attr("disabled",false)
                               $(".create_generate_log").delay(1000).hide(0)
                             } else if(data.errno===1){
                                 alert('请完善必填内容','rgba(169,12,0,0.30)')
-                                $(this).attr("disabled",false)
-                                $(this).css("background-color","#14A4FA")
+                                that.attr("disabled",false)
+                                that.css("background-color","#14A4FA")
                             } else{
                                 alert('网络不稳定,请重新提交','rgba(169,12,0,0.30)')
-                                $(this).attr("disabled",false)
-                                $(this).css("background-color","#14A4FA")
+                                that.attr("disabled",false)
+                                that.css("background-color","#14A4FA")
                             }
                         }
                     })
@@ -332,7 +333,6 @@ var management = (function () {
                         $(this).attr("disabled",false)
                         $(this).css("background-color","#14A4FA")
                     }else if(send_list.length===0){
-                        
                         alert('请选择人员','rgba(169,12,0,0.30)')
                         $(this).attr("disabled",false)
                         $(this).css("background-color","#14A4FA")
@@ -349,15 +349,14 @@ var management = (function () {
          
             // var should_hide_upload_status = false;
             upload.feature_check($("#up_files #attach_file"));
+            console.log($("#up_files"))
             $("#up_files").on("click", "#attach_file", function (e) {
+                e.preventDefault();
             //    e.preventDefault();
             //    e.stopPropagation()
                console.log(22222)
                $("#up_files #file_inputs").trigger("click");
            });
-           $("#file_inputs").on("click",function(e){
-            //    console.log("kkakakakka")
-           })
            var drop =function(file){
             $('.process-bar-parent').show()
             $('.uploading-img').show()
@@ -499,7 +498,7 @@ var management = (function () {
         } 
            // 1.点击添加人员
         $('.add_log_people').on("click",".generate_log_member_addlogo",function(e){ 
-               chooseFile.choosePeople(xy)
+               chooseFile.choosePeople(xy,object={})
            })
         }
      

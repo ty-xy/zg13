@@ -58,12 +58,13 @@ var contact = (function(){
                             //获取更新消息列表
                             $(".persistent_data").show();
                             var _time = new Date()
+                            var time_stamp = new Date().getTime()
                             var time = _time.getHours() +':'+_time.getMinutes()
                             var arr = JSON.parse(localStorage.getItem("arr"))
                             if(arr == null){
                                 arr = []
-                                $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id,short_name:short_name}))
-                                arr.push(server_events.set_local_news(user_id,'',user_name,avatar,time,'',_href,"",short_name))
+                                $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id,short_name:short_name,time_stamp:time_stamp}))
+                                arr.unshift(server_events.set_local_news(user_id,'',user_name,avatar,time,'',_href,"",short_name,time_stamp))
                                 localStorage.setItem("arr",JSON.stringify(arr))
                             }else{
                                 var flag = false;
@@ -72,12 +73,14 @@ var contact = (function(){
                                         flag = true;
                                         arr[i].content = arr[i].content
                                         localStorage.setItem("arr",JSON.stringify(arr))
+                                        server_events.sortBytime()
                                     }
                                 }
                                 if(!flag){
-                                    $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id,short_name:short_name}))
-                                    arr.push(server_events.set_local_news(user_id,'',user_name,avatar,time,',',_href,"",short_name))
+                                    $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id,short_name:short_name,time_stamp:time_stamp}))
+                                    arr.unshift(server_events.set_local_news(user_id,'',user_name,avatar,time,',',_href,"",short_name,time_stamp))
                                     localStorage.setItem("arr",JSON.stringify(arr))
+                                    server_events.sortBytime()
                                 }
                             }
                             //推送消息删除
@@ -86,8 +89,10 @@ var contact = (function(){
                                 $(".notice_box_del").unbind("click").bind("click",function(e){
                                     e.stopPropagation()
                                     e.preventDefault()
+                                    // var now_name = $(this).parent().parent().attr("short_name")
+                                    // var pipei_name = $(".home-title").children().first().text()
                                     var now_name = $(this).parent().parent().attr("short_name")
-                                    var pipei_name = $(".home-title").children().first().text()
+                                    var pipei_name = $(".home-title").children().eq(0).text(); 
                                     if(now_name == pipei_name){
                                         window.location.href = "#narrow/is/starred"
                                     }
@@ -247,6 +252,7 @@ var contact = (function(){
                 url:"json/zg/user/permissions",
                 success:function(res){
                     identity = res.message
+                    console.log(res)
                     $("#group_seeting_choose").hide();
                     $("#zfilt").removeClass("focused_table")
                     //清空右侧添加内容
@@ -433,7 +439,7 @@ var contact = (function(){
                             $(".organization_chart_group_list_box").remove()
                             $(".organization_chart_change_box").children().remove()
                             $(".organization_chart_tab").remove()
-                            var organization_chart_tab = templates.render("organization_chart_tab")
+                            var organization_chart_tab = templates.render("organization_chart_tab",{identity:identity})
                             $(".organization_chart_body").prepend(organization_chart_tab)
                             $.ajax({
                                 type:"GET",
@@ -460,7 +466,6 @@ var contact = (function(){
                                     var not_department_count = res.not_department_count
                                     $(".organization_chart_group_list_box").remove()
                                     //默认 部门列表以及其右侧人员
-                                    console.log(res)
                                     var organization_chart_group_list = templates.render("organization_chart_group_list",{department_lists:department_lists,not_department_count:not_department_count})
                                     $(".organization_chart_body").prepend(organization_chart_group_list)
                                     //添加部门列表右侧内容
@@ -759,8 +764,27 @@ var contact = (function(){
                 $(".work_order_box").append(work_order_body)
             },10)
             // 点击跳到详情页面
-            $(".work_order_ctn").on("click",function(e){
-                
+            $(".move_ctn").off("click",".work_order_ctn").on("click",".work_order_ctn",function(e){
+                var id  = $(this).attr("data_id")
+                var types = $(this).attr("data_type")
+                var data = {
+                    types:types,
+                    id:id
+                }
+                console.log(id)
+                channel.get({
+                    url:"/json/zg/approval",
+                    data:data,
+                    success:function(datalist){
+                        var data =datalist.data
+                        // console.log("返回待我审批1")
+                        $(".move_ctn").children().remove();
+                        var li = templates.render("check_detail",data)
+                        $(".move_ctn").html(li)
+                        check.backIcons2()
+                        check.ready_check_func(types,id)
+                    }
+                })
             })
         })  
         //日志助手显示
@@ -1143,9 +1167,10 @@ function getOrganizeBasic(){
             $(".organization_chart_ctn_basic").remove()
             $(".organization_chart_tab").remove()
             var data = res.data
+            console.log(identity)
             var organization_chart_ctn_basic=templates.render("organization_chart_ctn_basic",{data:data})
             $(".organization_chart_change_box").append(organization_chart_ctn_basic)
-            var organization_chart_tab = templates.render("organization_chart_tab")
+            var organization_chart_tab = templates.render("organization_chart_tab",{identity:identity})
             $(".organization_chart_body").prepend(organization_chart_tab)
         }
     })

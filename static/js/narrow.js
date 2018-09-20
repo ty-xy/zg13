@@ -596,8 +596,8 @@ function pick_empty_narrow_banner() {
                 $(".notice_box_del").unbind("click").bind("click",function(e){
                     e.stopPropagation()
                     e.preventDefault()
-                    var now_name = $(this).prev().prev().children().first().text()
-                    var pipei_name = $(".home-title").children().first().children().first().text()
+                    var now_name = $(this).parent().parent().attr("short_name")
+                    var pipei_name = $(".home-title").children().eq(0).text(); 
                     if(now_name == pipei_name){
                         window.location.href = "#narrow/is/starred"
                     }
@@ -625,6 +625,7 @@ function pick_empty_narrow_banner() {
             $(".persistent_data").hide();
             $(".keep_exist").hide();
             $(".work_order").hide();
+            $("#empty_narrow_all_mentioned").hide()
             return $("#empty_narrow_all_mentioned");
         } else if (first_operand === "private") {
             // // You have no private messages.
@@ -654,6 +655,7 @@ function pick_empty_narrow_banner() {
         }else if (first_operand === "supervise") {
             // $('#zfilt').hide()
             $("#zfilt").removeClass("focused_table");
+            $("#zfilt").hide()
             $(".notice_ctn_boxs").hide()
             $(".notice_ctn_box").show()
             $("#compose").hide()

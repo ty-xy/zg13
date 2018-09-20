@@ -83,6 +83,7 @@ exports.parse_narrow = function (hash) {
             $(".persistent_data").show()
             $(".persistent_data").children().remove();
             var notice_box = templates.render("notice_box",{arr:arr})
+            server_events.sortBytime()
             $(".persistent_data").prepend(notice_box)
         }
         //添加默认空白
@@ -154,6 +155,16 @@ exports.parse_narrow = function (hash) {
                     $(".home-title").show();
                 },10)
                 $(".compose-title").show()
+            }else if(url_index=== "#narrow/stream"){
+                $(".home-title").show()
+                $(".group_setting_icon").show()
+                $(".compose-title").show()
+                var hash = url.split("/")
+                var subject = hash_util.decodeHashComponent(hash[4])
+                var stream = hash[2].split("-")
+                console.log(stream[1])
+                $("#stream").val(stream[1])
+                $("#subject").val(subject)
             }else{
                 $(".home-title").hide()
                 $(".compose-title").hide()

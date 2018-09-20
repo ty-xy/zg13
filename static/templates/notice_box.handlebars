@@ -1,7 +1,7 @@
 {{#if arr}}
     {{#each arr}}
     <a href="{{_href}}">
-        <li class="notice_ctn only_tip" {{#unless stream}}send_id="{{send_id}}"{{else}}stream_id="{{stream_id}}"{{/unless}} short_name="{{short_name}}">
+        <li class="notice_ctn only_tip" {{#unless stream}}send_id="{{send_id}}"{{else}}stream_id="{{stream_id}}"{{/unless}} short_name="{{short_name}}" time_stamp="{{time_stamp}}">
             <div class="notice_left fix">
                     {{#unless stream}}
                         <img src="{{avatar}}" alt="" class="notice_img">
@@ -12,7 +12,11 @@
             <div class="notice_right fix">
                 <div class="notice_top fix">
                     <p class="notice_top_name">{{name}}</p>
+                    {{#unless stream}}
                     <p class="notice_top_time" name="{{send_id}}">{{tf time}}</p>
+                        {{else}}
+                        <p class="notice_top_time" name="{{stream_id}}">{{tf time}}</p>
+                    {{/unless}}
                 </div>
                  {{#unless stream}}
                 <div class="notice_bottom" name="{{send_id}}">
@@ -34,7 +38,7 @@
     {{else}}
         {{#if _href}}
         <a href="{{_href}}">
-            <li class="notice_ctn only_tip" {{#unless stream}}send_id="{{send_id}}"{{else}}stream_id="{{stream_id}}"{{/unless}} short_name="{{short_name}}">
+            <li class="notice_ctn only_tip" {{#unless stream}}send_id="{{send_id}}"{{else}}stream_id="{{stream_id}}"{{/unless}} short_name="{{short_name}}" time_stamp="{{time_stamp}}">
                 <div class="notice_left fix">
                     {{#unless stream}}
                         <img src="{{avatar}}" alt="" class="notice_img">
@@ -45,7 +49,11 @@
                 <div class="notice_right fix">
                     <div class="notice_top fix">
                         <p class="notice_top_name">{{name}}</p>
+                         {{#unless stream}}
                         <p class="notice_top_time" name="{{send_id}}">{{tf time}}</p>
+                         {{else}}
+                          <p class="notice_top_time" name="{{stream_id}}">{{tf time}}</p>
+                        {{/unless}}
                     </div>
                        {{#unless stream}}
                         <div class="notice_bottom" name="{{send_id}}">

@@ -259,6 +259,9 @@ div[id^="message-edit-send-status"],
     margin-bottom: 8px;
     line-height: 20px;
     display: none;
+    position: absolute;
+    top: -2px;
+    width: 100%;
 }
 
 #nonexistent_stream_reply_error {

@@ -686,12 +686,13 @@ td.pointer {
     vertical-align: middle;
     padding: 1px;
     font-weight: 400;
-    /* position: absolute; */
-    /* left: 400px; */
+    position: absolute;
+    left:0;
+    right:0;
     line-height: 20px;
     text-align: center;
     margin-bottom: -20px;
-    margin-top: -5px;
+    margin-top: 0px;
     -webkit-transition: background-color 1.5s ease-in, color 1.5s ease-in;
     -moz-transition: background-color 1.5s ease-in, color 1.5s ease-in;
     -o-transition: background-color 1.5s ease-in, color 1.5s ease-in;
@@ -2383,7 +2384,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
 }
 
 .modal-body {
-    max-height: 60vh;
+    /* max-height: 60vh; */
 }
 
 .modal form {

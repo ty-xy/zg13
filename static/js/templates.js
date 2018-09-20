@@ -48,7 +48,13 @@ Handlebars.registerHelper('plural', function (condition, one, other) {
 });
 Handlebars.registerHelper('sliceName', function (str) {
      var index = str.indexOf("的")
-     var name = str.slice(0,index)
+     var name
+     if(index!=-1){
+        name= str.slice(0,index)
+     }else{
+        name =str
+     }
+     
      return name
 });
 Handlebars.registerHelper('types', function (str) {

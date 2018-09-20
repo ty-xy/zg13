@@ -3,6 +3,7 @@
         <i class="iconfont icon-jibenxinxi color_icon"></i>
         <p class="color_text">基本信息</p> 
     </li>
+    {{#compare identity '==' 2}}
     <li class="organization_chart_master_btn">
         <i class="iconfont icon-genghuanzhuguanliyuan"></i>
         <p>更换主管理员</p>
@@ -15,4 +16,10 @@
         <i class="iconfont icon-jiesantuandui"></i>
         <p>解散团队</p>
     </li>
+    {{else}}
+    <li class="organization_chart_out_btn">
+        <i class="iconfont icon-jiesantuandui"></i>
+        <p>退出团队</p>
+    </li>
+    {{/compare}}
 </ul>

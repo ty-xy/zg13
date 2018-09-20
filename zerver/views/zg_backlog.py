@@ -572,7 +572,8 @@ def table_view(request, user_profile):
                     }
             send_event(zg_send_tools(even), send)
 
-    except Exception:
+    except Exception as e:
+        print(e)
         return JsonResponse({'errno': 2, 'message': "储存周报失败"})
 
     return JsonResponse({'errno': 0, 'message': "成功", 'table_id': a.id})
