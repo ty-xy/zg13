@@ -160,6 +160,12 @@
                                                 <span id="sending-indicator"></span> -->
                                                
                                             </div>
+                                            <div id="send_controls" class="new-style">
+                                                    <label id="enter-sends-label" class="compose_checkbox_label">
+                                                        <input type="checkbox" id="enter_sends" />按Enter键发送
+                                                    </label>
+                                                    <button type="submit" id="compose-send-button" class="button small send_message" tabindex="150" title="{{ _('Send') }} (Ctrl + Enter)">{{ _('Send') }}</button>
+                                            </div>
                                     <textarea class="new_message_textarea" name="content" id='compose-textarea' style="margin-left: 12px;resize: none!important;"
                                       value="" placeholder="{{ _('Compose your message here') }}" tabindex="0" maxlength="10000" aria-label="{{ _('Compose your message here...') }}"></textarea>
                                     <div class="scrolling_list" id="preview_message_area" style="display:none;">
@@ -167,12 +173,7 @@
                                         <div id="preview_content"></div>
                                     </div>
                                     <div class="drag"></div>
-                                    <div id="send_controls" class="new-style">
-                                            <label id="enter-sends-label" class="compose_checkbox_label">
-                                                <input type="checkbox" id="enter_sends" />{{ _('Press Enter to send') }}
-                                            </label>
-                                            <button type="submit" id="compose-send-button" class="button small send_message" tabindex="150" title="{{ _('Send') }} (Ctrl + Enter)">{{ _('Send') }}</button>
-                                    </div>
+                                   
                                 </td>
                             </tr>
                         </tbody>

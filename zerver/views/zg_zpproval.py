@@ -76,6 +76,8 @@ def add_leave(request, user_profile):
 
         event = {'zg_type': 'JobsNotice',
                  'time': nuw_time(),
+                 'avatar_url': avatar.absolute_avatar_url(user_profile),
+                 'user_name': user_profile.full_name,
                  'content': {'type': approval_type,
                              'reason': cause,
                              'time_length': start_time + '   ～   ' + end_time,
@@ -115,6 +117,7 @@ def reimburse_add(request, user_profile):
     category = req.get('category')
     detail = req.get('detail')
     image_url = req.get('image_url')
+    print(image_url)
     approver_list = req.get('approver_list')
     observer_list = req.get('observer_list')
 
@@ -126,6 +129,9 @@ def reimburse_add(request, user_profile):
 
     event = {'type': 'JobsNotice',
              'time': nuw_time(),
+             'avatar_url': avatar.absolute_avatar_url(user_profile),
+             'user_name': user_profile.full_name,
+
              'content': {'type': 'reimburse',
                          'amount': amount,
                          'category': category,
@@ -290,12 +296,16 @@ def tools_approcal_details(types, ids, user_profile, table_obj):
         data['head_status'] = '已撤销'
 
     else:
+        print('-=-=-=-====')
         bb = ZgReview.objects.filter(table_id=ids, types=types, status='审批未通过', duties='approval').count()
         cc = ZgReview.objects.filter(table_id=ids, types=types, status='审批中', duties='approval').count()
+        print(bb, cc,'------'*30)
         if bb > 0:
             data['head_status'] = '审批未通过'
+            print('审批未通过')
         elif cc > 0:
             data['head_status'] = '审批中'
+            print('审批通过')
         else:
             data['head_status'] = '审批通过'
 
@@ -317,7 +327,6 @@ def tools_approcal_details(types, ids, user_profile, table_obj):
     #     data['button_status'] =2
 
     approver_statu = True
-    # print(data['button_status'],'--------------------------=-=-=-')
     if data['button_status'] == 5:
         approver_statu = False
 
@@ -352,6 +361,7 @@ def tools_approcal_details(types, ids, user_profile, table_obj):
                 rev_dict["user_name"] = user_obj.full_name
                 rev_dict['times'] = rev.send_time
                 rev_dict['status'] = rev.status
+                print(rev.status,user_obj.full_name)
                 approver_list.append(rev_dict)
                 break
     elif approver_statu == False:
@@ -441,6 +451,8 @@ def state_update(request, user_profile):
     ids = req.get('id')
     states = req.get('state')
 
+    print(types,'------'*30)
+
     if states == '同意':
         states = '审批通过'
     elif states == '不同意':
@@ -460,19 +472,17 @@ def state_update(request, user_profile):
         return JsonResponse({'errno': 5, 'message': '暂无此类审批'})
 
     if states == '审批通过' or states == '审批未通过':
+
         review_objs = ZgReview.objects.filter(send_user_id=user_profile.id, types=types, table_id=ids)
         if not review_objs:
             return JsonResponse({'errno': 2, 'message': '无此条信息'})
-        if types == 'leave' or 'evection':
-            reimburse = ZgLeave.objects.filter(id=ids)
+        if types == 'leave' or types =='evection':
+            leave = ZgLeave.objects.filter(id=ids)
+            leave.update(status=states)
         elif types == 'reimburse':
             reimburse = ZgReimburse.objects.filter(id=ids)
-        else:
-            reimburse = 0
-        print(reimburse)
-        reimburse.update(status=states)
-        # reimburse[0].save()
-        print(reimburse[0].status, '----' * 30, states)
+            reimburse.update(status=states)
+
         review_objs[0].status = states
         review_objs[0].save()
 
@@ -540,6 +550,8 @@ def zg_urgent(request, user_profile):
 
         event = {'zg_type': 'Urgent',
                  'time': nuw_time(),
+                 'avatar_url': avatar.absolute_avatar_url(user_profile),
+                 'user_name': user_profile.full_name,
                  'content': {'type': types,
                              'user_name': user_profile.full_name,
                              'theme': user_profile.full_name + '提醒您审批他的' + table_type[types] + '申请',

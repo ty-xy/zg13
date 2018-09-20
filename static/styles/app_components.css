@@ -250,6 +250,7 @@
 
 .new-style .tab-switcher .ind-tab.selected {
     position: relative;
+    color: #4584FF;
     /* background: hsl(0, 0%, 53%);
     color: hsl(0, 0%, 100%);
     border: 1px solid hsl(0, 0%, 46%);

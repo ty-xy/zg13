@@ -73,6 +73,8 @@ var arr;
 exports.parse_narrow = function (hash) {
     if(hash[2] == "starred"){
         $("#zfilt").removeClass("focused_table")
+        $("#zfilt").hide()
+        $(".home-title").hide()
         $(".compose-content").hide()
         $(".move_ctn").children().remove();
         $(".group_icon").hide()
@@ -87,9 +89,16 @@ exports.parse_narrow = function (hash) {
         $(".move_ctn").append(templates.render("right_blank_page"))
     }
     if(hash[1] == 'pm-with'||hash.length===5){
+        $("#zfilt").show()
         $(".keep_exist").show();
         $(".tab-content").css("height","calc(100% - 232px)")
         $(".organization_team").hide()
+        $("#compose").show()
+        $("#home").show()
+        $("#empty_star_narrow_message").hide()
+        $("#main_div").show()
+        $(".group_setting_icon").hide()
+        $(".compose-title").hide()
         arr = JSON.parse(localStorage.getItem("arr"))
         if(arr != null){
             $(".persistent_data").children().remove();
@@ -113,13 +122,11 @@ exports.parse_narrow = function (hash) {
             $(".notice_box_del").unbind("click").bind("click",function(e){
                 e.stopPropagation()
                 e.preventDefault()
-                var now_name = $(this).prev().prev().children().first().text()
+                var now_name = $(this).parent().parent().attr("short_name")
                 var pipei_name = $(".home-title").children().eq(0).text(); 
                 if(now_name == pipei_name){
                     window.location.href = "#narrow/is/starred"
                 }
-                console.log(now_name)
-                console.log(pipei_name)
                 $(this).parent().parent().parent().remove();
                 var send_id = $(this).parent().parent().attr("send_id")
                 var stream_id = $(this).closest(".only_tip").attr("stream_id")
@@ -135,6 +142,29 @@ exports.parse_narrow = function (hash) {
         $(".persistent_data").on("mouseout",".only_tip",function(){
             $(this).children().last().children().last().hide()
         })
+
+        function  changeUrl (){
+            var url =window.location.hash
+            var i = url.indexOf("/")
+            var url_index = url.substr(0,url.indexOf("/",i+1))
+            var cindex = url.substr(19)
+            if (url_index=== "#narrow/pm-with"){
+                $(".home-title span").html(cindex)
+                setTimeout(function(){
+                    $(".home-title").show();
+                },10)
+                $(".compose-title").show()
+            }else{
+                $(".home-title").hide()
+                $(".compose-title").hide()
+            }
+        }
+        changeUrl()
+    }
+    if(hash.length==1){
+        $("#zhome").hide()
+        $("#compose").hide()
+        $("#empty_star_narrow_message").show()
     }
     var i;
     // console.log(hash)

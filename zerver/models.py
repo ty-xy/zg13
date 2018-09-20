@@ -910,6 +910,7 @@ class ZgOutsideWork(models.Model):
 # 考勤表
 class ZgAttendance(models.Model):
     user_name = models.ForeignKey(UserProfile)
+    create_time = models.DateTimeField(null=True)
     sign_in_time = models.DateTimeField(null=True, verbose_name="打卡时间")
     sign_off_time = models.DateTimeField(null=True, verbose_name="下班时间")
     sign_in_explain = models.CharField(max_length=15, null=True, verbose_name="打卡备注")
@@ -2353,3 +2354,6 @@ class ZgCollection(models.Model):
 class ZgCloudDisk(models.Model):
     user = models.ForeignKey(UserProfile, null=True, on_delete=models.SET_NULL)
     attachment = models.ForeignKey(Attachment, null=True, on_delete=models.SET_NULL)
+
+
+

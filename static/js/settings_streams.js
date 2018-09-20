@@ -196,6 +196,11 @@ exports.delete_stream = function (stream_id, alert_element, stream_row) {
         },
         success: function () {
             stream_row.remove();
+            $('.toast-alert-buttons').fadeIn({
+                duration: 1
+            }).delay (1000).fadeOut ({duration: 1000});
+            $('.toast-alert-buttons').html("删除成功")
+            $('.toast-alert-buttons').css('background-color','rgba(0,107,169,0.30)')
         },
     });
 };

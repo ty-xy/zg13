@@ -114,7 +114,10 @@
             {% include "zerver/left_sidebar.html" %}
         </div>
         <div class="column_two">
-            <input type="text" id="global_search">
+            <div style="position: relative;">
+                <input type="text" id="global_search" autocomplete="off">
+                <i class="iconfont icon-sousuo1 global_search_icon"></i>
+            </div>
             <a href="#narrow/is/starred" class="ppp">
                 <li class="notice_ctn log_assistant_btn keep_exist" send_id="">
                     <div class="notice_left fix">
@@ -142,6 +145,7 @@
                             <p class="notice_top_time" name=""></p>
                         </div>
                         <div class="notice_bottom" name="">
+                            暂无新的工作通知
                         </div>
                     </div>
                     <i class="iconfont icon-guanbiUI notice_box_del"></i>
@@ -180,7 +184,7 @@
                 <i class="column-middle_shodowr"></i> -->
                 <div class="home-title">
                         <span>知工群主1</span>
-                        <button>群组设置</button>
+                        <button class="group_setting_icon">群组设置</button>
                 </div>
                 <!-- <div class="home_gruop_title">
                     <div class="home_title_body">

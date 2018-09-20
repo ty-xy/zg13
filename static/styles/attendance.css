@@ -65,6 +65,7 @@
 }
 .attendance_top_left{
     float: left;
+    width: 530px;
 }
 .attendance_top_right{
     float: left;
@@ -85,11 +86,10 @@
 }
 .attendance_groups>div{
     float: left;
-    background: #4584FF;
     border-radius: 100px;
     width: 120px;
     height: 28px;
-    color: #fff;
+    color: #4584FF;
     letter-spacing: 0.16px;
     font-size: 13px;
     text-align: center;
@@ -97,6 +97,7 @@
     margin-right: 10px;
     cursor: pointer;
     border: 1px solid #4584FF;
+    margin-top: 5px;
 }
 .gray_bg{
     background: #4584FF!important;
@@ -626,7 +627,7 @@ textarea:focus {
     padding: 0 14px;
 }
 .personal_space_box{
-    background: #F5F5F5;
+    /* background: #F5F5F5; */
 }
 .personal_space_titleA{
     font-size: 16px;

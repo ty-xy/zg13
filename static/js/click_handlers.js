@@ -205,39 +205,39 @@ $(function () {
                 compose_actions.quote_and_reply({trigger: 'popover respond'});
             })
             //收藏消息
-            $(".additional_collection").off("click").on("click",function(){
-                console.log(23)
-                var id = Number($(this).parent().parent().parent().parent().parent().parent().parent().attr("zid"))
-                flag = $(this).parent().prev().attr("star")
-                star = $(this).parent().prev().children().first()
+            // $("#zfilt").off("click",".additional_collection").on("click",".additional_collection",function(){
+            //     console.log(23)
+            //     var id = Number($(this).parent().parent().parent().parent().parent().parent().parent().attr("zid"))
+            //     flag = $(this).parent().prev().attr("star")
+            //     star = $(this).parent().prev().children().first()
                 
-                var status;
-                if(flag == "false"){
-                    status = "add"
-                    $(this).parent().prev().attr("star","true")
-                }else{
-                    status = "remove"
-                    $(this).parent().prev().attr("star","false")
-                }
-                var obj = {
-                    type:"message",
-                    type_id:id,
-                    status:status
-                }
-                $.ajax({
-                    type:"PUT",
-                    url:"json/zg/collection/",
-                    contentType:"appliction/json",
-                    data:JSON.stringify(obj),
-                    success:function(res){
-                        if(res.message == '收藏成功'){
-                            star.show()
-                        }else if(res.message == "取消收藏成功"){
-                            star.hide()
-                        }
-                    }
-                })
-            })
+            //     var status;
+            //     if(flag == "false"){
+            //         status = "add"
+            //         $(this).parent().prev().attr("star","true")
+            //     }else{
+            //         status = "remove"
+            //         $(this).parent().prev().attr("star","false")
+            //     }
+            //     var obj = {
+            //         type:"message",
+            //         type_id:id,
+            //         status:status
+            //     }
+            //     $.ajax({
+            //         type:"PUT",
+            //         url:"json/zg/collection/",
+            //         contentType:"appliction/json",
+            //         data:JSON.stringify(obj),
+            //         success:function(res){
+            //             if(res.message == '收藏成功'){
+            //                 star.show()
+            //             }else if(res.message == "取消收藏成功"){
+            //                 star.hide()
+            //             }
+            //         }
+            //     })
+            // })
         if (is_clickable_message_element($(e.target))) {
             // If this click came from a hyperlink, don't trigger the
             // reply action.  The simple way of doing this is simply

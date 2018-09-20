@@ -17,6 +17,7 @@ def send_zg_sms(request, user_profile):
     sms_code = '%04d' % random.randint(0, 9999)
     #                   注册，                        更换管理员
     send_sms_dict = {'register': 'SMS_107415213', 'change_admin': 'SMS_107415211'}
+
     try:
         aaa = send_sms(sms, send_sms_dict[send_type], "{\"code\":\"%s\",\"product\":\"云通信\"}" % sms_code)
     except Exception:

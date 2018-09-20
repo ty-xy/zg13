@@ -367,6 +367,7 @@ a.message-control-button {
     top:20px;
     line-height:70px;
     display:none;
+    text-align: center;
 }
 .avatar-overs{
     height:48px;
@@ -390,6 +391,12 @@ a.message-control-button {
     width:48px;
     margin-top:-4px;
 }
+.avatar-img-color-setting{
+    border-radius:50% !important;
+    height:70px;
+    width:70px;
+    /* margin-top:-4px; */
+}
 .modal-ul-choose{
    z-index:2000;
    position: absolute;
@@ -408,7 +415,7 @@ a.message-control-button {
     margin-top:5px;
     cursor: pointer;
 }
-.toast-alert,.toast-alert-button{
+.toast-alert,.toast-alert-button,.toast-alert-buttons{
     height:34px;
     min-width:184px;
     max-width:350px;
@@ -422,10 +429,17 @@ a.message-control-button {
     margin:auto;
     line-height:34px;
     display:none;
+   
 }
 .toast-alert-button{
     bottom:100px;
     text-align:center;
+   
+}
+.toast-alert-buttons{
+    bottom:400px;
+    text-align:center;
+    z-index:1000;
 }
 #process-bar{
     position:absolute;
@@ -629,9 +643,15 @@ a.message-control-button {
     cursor: pointer;
     font-family: PingFangSC-Medium;
     font-size: 18px;
-    color: #888888;
+    color: #333333;
     letter-spacing: 0.2px;
     margin-right:52px;
+}
+.high_light_blue{
+    font-family: PingFangSC-Medium;
+    font-size: 18px;
+    color: #4584FF;
+    letter-spacing: 0.2px;
 }
 .new_setting{
     background: #4584FF;
@@ -744,6 +764,8 @@ a.message-control-button {
     font-size:10px;
     color: #ddd;
     margin-left: 10px;
+    display: block;
+    float: left;
 }
 .color-pop{
     display:none;
@@ -1273,10 +1295,14 @@ a.message-control-button {
         letter-spacing: 0.18px;
    }
    .application_people>p:last-child{
-        font-family: PingFangSC-Medium;
+        /* font-family: PingFangSC-Medium;
         font-size: 13px;
         color: #FFA200;
-        letter-spacing: 0;
+        letter-spacing: 0; */
+        font-family: PingFangSC-Regular;
+        font-size: 13px;
+        color: #999999;
+        letter-spacing: 0.16px;
    }
    .button-detail-common{
         border: 1px solid #DDDDDD;
@@ -1433,6 +1459,9 @@ a.message-control-button {
    .icon-back-color{
       color:#39D1A9;
    }
+   .icon-back-colors{
+    color: #FFA200;
+ }
    .check-shenpi-content{
        overflow-y:auto;
        overflow-x: hidden;
@@ -1510,34 +1539,44 @@ a.message-control-button {
     color: #888888 !important;
     letter-spacing: 0.18px;
 }
-#form-test ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+#form-test input::-webkit-input-placeholder { /* WebKit, Blink, Edge */
     color:    #888;
     font-family: PingFangSC-Regular;
     font-size: 15px;
-    color: #888888;
+    color: #888888 !important;
     letter-spacing: 0.18px;
 }
-#form-test :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+#form-test input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
    color:    #888;
    font-family: PingFangSC-Regular;
     font-size: 15px;
-    color: #888888;
+    color: #888888 !important;
     letter-spacing: 0.18px;
 }
-#form-test  ::-moz-placeholder { /* Mozilla Firefox 19+ */
+#form-test  input::-moz-placeholder { /* Mozilla Firefox 19+ */
    color:    #888;
    font-family: PingFangSC-Regular;
     font-size: 15px;
-    color: #888888;
+    color: #888888 !important; 
     letter-spacing: 0.18px;
 }
-#form-test :-ms-input-placeholder { /* Internet Explorer 10-11 */
-   color:    #888;
+#form-test input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color: #888;
    font-family: PingFangSC-Regular;
     font-size: 15px;
-    color: #888888;
+    color: #888888!important;
     letter-spacing: 0.18px;
 }
 .start_times,.end_times{
     text-indent: 0px;
+}
+#newplan_datetimepicker1>input[readonly],#newplan_datetimepicker2>input[readonly]{
+    font-family: PingFangSC-Regular;
+     font-size: 15px;
+     color: #888888!important;
+     letter-spacing: 0.18px;
+     opacity: 1;
+}
+.invalid::-webkit-input-placeholder {
+    color: red;
 }

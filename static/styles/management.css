@@ -825,6 +825,7 @@ ul{
     float: left;
     font-size: 14px;
     position: relative;
+    margin-bottom: 20px;
 }
 #newplan_datetimepicker{
     float: left;
@@ -1282,8 +1283,11 @@ ul{
     width: 342px;
     height: 300px;
     position: absolute;
-    left: 100px;
-    top: 100px;
+    left: 0px;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    margin: auto;
     border: 1px solid #ccc;
     background: #fff;
     display: none;
@@ -1386,7 +1390,7 @@ ul{
     letter-spacing: 2px;
     color: red;
     top: 45px;
-    right: 40px;
+    right: 24px;
     position: absolute;
 }
 .error_pw{
@@ -1402,11 +1406,8 @@ ul{
 }
 .right_san{
     /* float: left;
-    margin-left: 20px;
-    cursor: pointer; */
-}
-.right_san:hover{
-    /* transform: rotate(90deg); */
+    margin-left: 20px; */
+    cursor: pointer;
 }
 .thumbnail{
     width: 52px;

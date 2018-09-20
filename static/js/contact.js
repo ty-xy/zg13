@@ -21,11 +21,11 @@ var contact = (function(){
         })
         //联系人点击
         $(".contact").off().on("click",function(){
-            initStyle()
             $.ajax({
                 url:"json/zg/user",
                 type:"GET",
                 success:function(res){
+                    initStyle()
                     $(".notice_ctn_box").children().remove();
                     var user_list = res.user_list;
                     var user_list_our = templates.render("user_list_our",{user_list:user_list})
@@ -62,8 +62,8 @@ var contact = (function(){
                             var arr = JSON.parse(localStorage.getItem("arr"))
                             if(arr == null){
                                 arr = []
-                                $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id}))
-                                arr.push(server_events.set_local_news(user_id,'',user_name,avatar,time,'',_href))
+                                $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id,short_name:short_name}))
+                                arr.push(server_events.set_local_news(user_id,'',user_name,avatar,time,'',_href,"",short_name))
                                 localStorage.setItem("arr",JSON.stringify(arr))
                             }else{
                                 var flag = false;
@@ -75,8 +75,8 @@ var contact = (function(){
                                     }
                                 }
                                 if(!flag){
-                                    $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id}))
-                                    arr.push(server_events.set_local_news(user_id,'',user_name,avatar,time,',',_href))
+                                    $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id,short_name:short_name}))
+                                    arr.push(server_events.set_local_news(user_id,'',user_name,avatar,time,',',_href,"",short_name))
                                     localStorage.setItem("arr",JSON.stringify(arr))
                                 }
                             }
@@ -86,7 +86,7 @@ var contact = (function(){
                                 $(".notice_box_del").unbind("click").bind("click",function(e){
                                     e.stopPropagation()
                                     e.preventDefault()
-                                    var now_name = $(this).prev().prev().children().first().text()
+                                    var now_name = $(this).parent().parent().attr("short_name")
                                     var pipei_name = $(".home-title").children().first().text()
                                     if(now_name == pipei_name){
                                         window.location.href = "#narrow/is/starred"
@@ -139,7 +139,7 @@ var contact = (function(){
             <div class='morn_managementtext'>已完成任务</div>\
             <i class='iconfont icon-xialaxuanze right_san'></i></div>")
             $(".notice_ctn_box").append("<ul class='completed_box'></ul>")
-            
+            $(".notice_ctn_box").append("<div class='management_block'></div>")
             //新增任务
             $(".new_add_task").on("click",function(){
                 $(".new_add_task").hide();
@@ -150,9 +150,9 @@ var contact = (function(){
                 management.new_task_cancel();
             })
             //保存
-            $(".new_task_save").on("click",function(e){
-                management.new_task_save();
-                if(management.new_task_save()==undefined){
+            $(".new_task_save").off().on("click",function(e){
+                var state = management.new_task_save()
+                if(state==undefined){
                     management.new_task_cancel()
                 }
             })
@@ -166,6 +166,11 @@ var contact = (function(){
             //已完成下拉
             $(".right_san").on("click",function(){
                 $(".completed_box").toggle();
+                if($(".completed_box").is(":hidden")){
+                    $(".right_san").css("transform","rotate(0deg)")
+                }else{
+                    $(".right_san").css("transform","rotate(180deg)")
+                }
             })
             $(".generate_log").on("click",function(){
                 management.generate_log();
@@ -685,23 +690,25 @@ var contact = (function(){
                                         for(var key in content){
                                             department_list.push(content[key].id)
                                         }
-                                    }
-                                    var obj = {
-                                        user_list:user_list,
-                                        type:"mobile",
-                                        department_id:department_list
-                                    }
-                                    $.ajax({
-                                        type:"PUT",
-                                        contentType:"application/json",
-                                        url:"json/zg/user/mobile_batch/",
-                                        data:JSON.stringify(obj),
-                                        success:function(res){
-                                            if(res.errno == 0){
-                                                updataList()
-                                            }
+                                        var obj = {
+                                            user_list:user_list,
+                                            type:"mobile",
+                                            new_department_id_list:department_list,
+                                            department_id:"0"
                                         }
-                                    })
+                                        $.ajax({
+                                            type:"PUT",
+                                            contentType:"application/json",
+                                            url:"json/zg/user/mobile_batch/",
+                                            data:JSON.stringify(obj),
+                                            success:function(res){
+                                                if(res.errno == 0){
+                                                    updataList()
+                                                }
+                                            }
+                                        })
+                                    }
+                                    
                                 }
                             })
                         })
@@ -739,13 +746,22 @@ var contact = (function(){
             })
         })
         //工作通知
-        $("body").on("click",".work_order",function(){
-            $(".move_ctn").children().remove();
-            var pushData = JSON.parse(localStorage.getItem("pushData"))
-            var work_order_head = templates.render("work_order_head")
-            $(".move_ctn").append(work_order_head)
-            var work_order_body = templates.render("work_order_body",{pushData:pushData})
-            $(".work_order_box").append(work_order_body)
+        $("body").on("click",".work_order",function(e){
+            e.stopPropagation();
+            e.preventDefault();
+            window.location.href = "#narrow/is/starred"
+            setTimeout(function(){
+                $(".move_ctn").children().remove();
+                var pushData = JSON.parse(localStorage.getItem("pushData"))
+                var work_order_head = templates.render("work_order_head")
+                $(".move_ctn").append(work_order_head)
+                var work_order_body = templates.render("work_order_body",{pushData:pushData})
+                $(".work_order_box").append(work_order_body)
+            },10)
+            // 点击跳到详情页面
+            $(".work_order_ctn").on("click",function(e){
+                
+            })
         })  
         //日志助手显示
         $("body").on("click",'.log_assistant_btn',function(e){
@@ -772,6 +788,14 @@ var contact = (function(){
                    var receive_table_list = res.receive_table_list;
                    var html = templates.render("log_assistant_box",{receive_table_list:receive_table_list,page:page})
                    $(".move_ctn").append(html)
+                   if(res.receive_table_list.length==0){
+                    var  personal_space = templates.render("personal_space")
+                    $(".log_assistant_ctn_box").html(personal_space)
+                    $(".personal_space_titleA").html("您还没有收到日志")
+                    $(".personal_space_titleB").hide()
+                    }else{
+                        $(".personal_space_box").hide()
+                    }
                    //点击下载附件图片
                    $(".download_fujian").on("click",function(){
                        window.open($(this).attr("href"))
@@ -833,6 +857,14 @@ var contact = (function(){
                                        var paging = templates.render("paging_receive",{page:page})
                                        $(".log_assistant_ctn_box").append(html);
                                        $(".log_assistant_ctn_box").append(paging);
+                                       if(res.receive_table_list.length==0){
+                                        var  personal_space = templates.render("personal_space")
+                                        $(".log_assistant_ctn_box").html(personal_space)
+                                        $(".personal_space_titleA").html("您还没有收到日志")
+                                        $(".personal_space_titleB").hide()
+                                        }else{
+                                            $(".personal_space_box").hide()
+                                        }
                                        //点击下载附件图片
                                        $(".download_fujian").on("click",function(){
                                            window.open($(this).attr("href"))
@@ -977,6 +1009,14 @@ var contact = (function(){
                                var paging = templates.render("paging_send",{page:page})
                                $(".log_assistant_ctn_box").append(html);
                                $(".log_assistant_ctn_box").append(paging);
+                               if(res.send_table_list.length==0){
+                                var  personal_space = templates.render("personal_space")
+                                $(".log_assistant_ctn_box").html(personal_space)
+                                $(".personal_space_titleA").html("您还没有发出日志")
+                                $(".personal_space_titleB").hide()
+                                }else{
+                                    $(".personal_space_box").hide()
+                                }
                                //翻页后移至顶部
                                $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
                                //点击下载附件图片
@@ -1048,9 +1088,52 @@ var contact = (function(){
            $(".choose_team_close").on("click",function(e){
                $("#people-choose").hide();
            })
-       })      
+        })
+       //没有部门成员点击跳转聊天
+       $(".move_ctn").on("click",".organization_team_single_box li",function(){
+            $(".group_icon").hide()
+            $(".home-title button").hide();
+            //做个切换到消息板块的假象试试
+            $(".notice_ctn_box").children().remove();
+            $(".news_icon").addClass("left_blue_height");
+            $(".address_book").removeClass("left_blue_height")
+       })
+       //收藏消息
+       $("#zfilt").off("click",".additional_collection").on("click",".additional_collection",function(){
+        var id = Number($(this).parent().parent().parent().parent().parent().parent().parent().attr("zid"))
+        flag = $(this).parent().prev().attr("star")
+        star = $(this).parent().prev().children().first()
+        var status;
+        if(flag == "false"){
+            status = "add"
+            $(this).parent().prev().attr("star","true")
+        }else{
+            status = "remove"
+            $(this).parent().prev().attr("star","false")
+        }
+        var obj = {
+            type:"message",
+            type_id:id,
+            status:status
+        }
+        $.ajax({
+            type:"PUT",
+            url:"json/zg/collection/",
+            contentType:"appliction/json",
+            data:JSON.stringify(obj),
+            success:function(res){
+                if(res.message == '收藏成功'){
+                    star.show()
+                }else if(res.message == "取消收藏成功"){
+                    star.hide()
+                }
+            }
+        })
     })
 
+
+    })
+    
 //组织基本信息获取
 function getOrganizeBasic(){
     $.ajax({

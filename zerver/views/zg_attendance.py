@@ -1,15 +1,21 @@
 from django.http import JsonResponse
-from zerver.models import ZgAttendance, ZgOutsideWork, ZgDepartmentAttendance, UserProfile
+from zerver.models import ZgAttendance, ZgOutsideWork, ZgDepartmentAttendance, UserProfile, Attachment
 from zerver.views.zg_tools import haversine
 from django.db.models import Q
-from zerver.views.zg_tools import timing_task
 import calendar
 from datetime import datetime, timezone, timedelta
 from zerver.lib import avatar
 import json
+from zerver.views.zg_tools import zg_send_tools
+from zerver.tornado.event_queue import send_event
 
 
-# # 当前时间'%Y-%m-%d %H:%M:%S'
+def nuw_time():
+    stockpile_time = datetime.utcnow()
+    stockpile_time = stockpile_time.replace(tzinfo=timezone.utc)
+    tzutc_8 = timezone(timedelta(hours=8))
+    stockpile_time = stockpile_time.astimezone(tzutc_8)
+    return stockpile_time
 
 
 # number = calendar.monthrange(nowTime.year, nowTime.month)[1]
@@ -371,12 +377,6 @@ def add_attendances(request, user_profile):
         return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
     date_dict = {'1': 'mon', '2': 'tue', '3': 'wed', '4': 'thu', '5': 'fri', '6': 'sat', '7': 'sun'}
 
-    date_list = list()
-    for date in attendances_date:
-        date_list.append(date_dict[date])
-
-    date_list = tuple(date_list)
-    timing_task(date_list, '15', '40', attendances_name)
 
     try:
         attendances_obj = ZgDepartmentAttendance.objects.create(attendance_name=attendances_name,
@@ -549,24 +549,96 @@ def attendances_management(request, user_profile):
 def attendance_repair(request, user_profile):
     req = request.body
     req = req.decode()
+    print(req, '--------' * 10)
     req = json.loads(req)
-    # 补卡时间
-    repair_time = req.get('repair_time')
+    # 发送审批人
+    send_user = req.get('examine_user')
+    send_list = list()
+    send_list.append(send_user)
 
     # 补卡说明
     explain = req.get('explain')
+    # 补卡时间
+    repair_time = req.get('repair_time')
+    # 附件list
+    upload_list = req.get('upload_list')
 
-    # 审批人
-    examine_list = req.get('examine_list')
+    if not all([repair_time, explain, send_user]):
+        return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
 
-    if not all([examine_list, explain]):
-        return JsonResponse({'errno': 0, 'message': '缺少必要参数'})
+    attachment_list = list()
+    if upload_list:
+        for upload in upload_list:
+            attachment = Attachment.objects.filter(id=upload)
+            if attachment:
+                attachment_list.append('user_uploads/' + attachment[0].path_id)
+    even = {'zg_type': 'repair',
+            'theme': user_profile.full_name + '的补卡申请',
+            'time': nuw_time(),
+            'avatar_url': avatar.absolute_avatar_url(user_profile),
+            'user_name': user_profile.full_name,
+            'user_id': user_profile.id,
+            'content': {'type': 'repair',
+                        'repair_time': repair_time,
+                        'explain': explain,
+                        'attachment_list': attachment_list
+                        }
+            }
+    send_event(zg_send_tools(even), send_list)
 
-    pass
+    return JsonResponse({'errno': 0, 'message': '发起申请成功'})
 
 
-def testFuncton():
-    print("Hello Scheduler")
+# 补卡审批
+def repair_examine(request, user_profile):
+    req = request.body
+    req = req.decode()
+    req = json.loads(req)
+    opinion = req.get('opinion')
+    user_id = req.get('user_id')
+    user_list = list()
+    user_list.append(int(user_id))
+    repair_time = req.get('repair_time')
+
+    stockpile_time = datetime.strptime(repair_time, '%Y-%m-%d')
+    year = stockpile_time.year
+    month = stockpile_time.month
+    day = stockpile_time.day
+
+    if not all([opinion, user_id, repair_time]):
+        return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
+    if opinion == 'yes':
+        attendances = ZgAttendance.objects.filter(user_name=user_id)
+        # create_time__year=str(year),
+        # create_time__month=str(month),
+        # create_time__day=str(day)
+        #                                               )
+        users = UserProfile.objects.filter(id=user_id)
+        user_atendance = users[0].atendance
+        if repair_time <= user_atendance.jobs_time:
+            attendances[0].sign_in_time = repair_time
+            attendances[0].save()
+        elif repair_time >= user_atendance.rest_time:
+            attendances[0].sign_off_time = repair_time
+            attendances[0].save()
+        theme = user_profile.full_name + '通过了您的补卡申请'
+
+    elif opinion == 'no':
+        theme = user_profile.full_name + '拒绝了您的补卡申请'
+
+    else:
+        theme = None
+        return JsonResponse({'errno': 2, 'message': '参数错误'})
+
+    even = {'zg_type': 'repair_feedback',
+            'theme': theme,
+            'time': nuw_time(),
+            'avatar_url': avatar.absolute_avatar_url(user_profile),
+            'user_name': user_profile.full_name,
+            }
+    send_event(zg_send_tools(even), user_list)
+
+    return JsonResponse({'errno': 0, 'message': '成功'})
 
 
 # =======================================================
@@ -918,22 +990,6 @@ def attendance_location(request, user_profile):
 
 # 外勤页面
 def outside_sign_in_view(request, user_profile):
-    my_longitude = request.GET.get('longitude')
-    my_latitude = request.GET.get('latitude')
-    longitude = user_profile.atendance.longitude
-    latitude = user_profile.atendance.latitude
-    my_longitude = float(my_longitude)
-    my_latitude = float(my_latitude)
-    longitude = float(longitude)
-    latitude = float(latitude)
-    # 计算距离
-    distance = haversine(longitude, latitude, my_longitude, my_latitude)
-    # 默认距离
-    default_distance = user_profile.atendance.default_distance
-
-    if distance < default_distance:
-        return JsonResponse({'errno': 1, 'message': '您当前不在考勤范围内'})
-
     stockpile_time = datetime.utcnow()
     stockpile_time = stockpile_time.replace(tzinfo=timezone.utc)
     year = stockpile_time.year
@@ -991,5 +1047,8 @@ def outside_sign_in(request, user_profile):
 
 def delete_att(request, user_profile):
     ids = request.GET.get('id')
-    ZgAttendance.objects.get(id=ids).delete()
+    a = ZgAttendance.objects.get(id=ids)
+    a.sign_in_explain = '缺卡'
+    a.save()
+    # a.sign_off_explain = '缺卡'
     return JsonResponse({'errno': 1})

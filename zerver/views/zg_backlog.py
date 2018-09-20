@@ -3,7 +3,8 @@ from zerver.models import Backlog, BacklogAccessory, UpdateBacklog, Statement, S
 from django.http import JsonResponse, HttpResponse, HttpRequest
 import datetime, time, json, calendar
 from zerver.lib import avatar
-from datetime import  timezone, timedelta
+
+from datetime import timezone, timedelta
 from zerver.views.zg_tools import zg_send_tools
 
 import re, math
@@ -13,7 +14,7 @@ from zerver.tornado.event_queue import send_event
 
 
 def nuw_time():
-    stockpile_time = datetime.utcnow()
+    stockpile_time = datetime.datetime.utcnow()
     stockpile_time = stockpile_time.replace(tzinfo=timezone.utc)
     tzutc_8 = timezone(timedelta(hours=8))
     stockpile_time = stockpile_time.astimezone(tzutc_8)
@@ -565,7 +566,9 @@ def table_view(request, user_profile):
                 StatementState.objects.create(statement_id=a, staff=staff, receive_time=b)
             even = {'zg_type': 'DailyReport',
                     'theme': user_profile.full_name + '的日志',
-                    'time': nuw_time()
+                    'time': nuw_time(),
+                    'avatar_url': avatar.absolute_avatar_url(user_profile),
+                    'user_name': user_profile.full_name,
                     }
             send_event(zg_send_tools(even), send)
 

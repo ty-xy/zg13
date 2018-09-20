@@ -463,7 +463,7 @@ v1_api_and_json_patterns = [
 
     # 考勤补卡
     url(r'^zg/attendance/repair/$', rest_dispatch,
-        {'PATCH': 'zerver.views.zg_attendance.attendance_repair'}),
+        {'POST': 'zerver.views.zg_attendance.attendance_repair'}),
 
     # ----个人打卡----
     # 获取打卡球内信息
