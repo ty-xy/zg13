@@ -22,7 +22,6 @@ def serve_s3(request: HttpRequest, url_path: str) -> HttpResponse:
 
 
 def serve_local(request: HttpRequest, path_id: str) -> HttpResponse:
-
     local_path = get_local_file_path(path_id)
     if local_path is None:
         return HttpResponseNotFound('<p>File not found</p>')
@@ -127,4 +126,6 @@ def upload_file_backend(request: HttpRequest, user_profile: UserProfile) -> Http
         user_file.name = user_file.name.encode('ascii')
 
     uri = upload_message_image_from_request(request, user_file, user_profile)
-    return json_success({'uri': uri})
+    # zg________
+    url_id=uri.split('|')
+    return json_success({'uri': url_id[0],'uploads_id': url_id[1]})

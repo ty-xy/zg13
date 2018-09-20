@@ -1,10 +1,9 @@
-from zerver.models import Message, UserMessage, ZgCollection, Stream, Attachment, ZgCloudDisk,Realm
+from zerver.models import Message, UserMessage, ZgCollection, Stream, Attachment, ZgCloudDisk, Realm
 from django.http import JsonResponse
 import json
 from datetime import datetime, timezone, timedelta
 from zerver.lib import avatar
 from django.db.models import Q, F
-from zerver.tornado.event_queue import send_event
 from dysms_python.demo_sms_send import send_sms
 from zerver.views.zg_tools import req_tools
 from django.core.cache import cache
@@ -13,16 +12,17 @@ import random
 
 # 发送短信验证码
 def send_zg_sms(request, user_profile):
-    sms = request.GET.get('smss')
+    sms = request.GET.get('sms')
+    send_type = request.GET.get('type')
     sms_code = '%04d' % random.randint(0, 9999)
-
-    Realm.objects.all().delete()
+    #                   注册，                        更换管理员
+    send_sms_dict = {'register': 'SMS_107415213', 'change_admin': 'SMS_107415211'}
 
     try:
-        aaa = send_sms(sms, "SMS_107415213", "{\"code\":\"%s\",\"product\":\"云通信\"}" % sms_code)
+        aaa = send_sms(sms, send_sms_dict[send_type], "{\"code\":\"%s\",\"product\":\"云通信\"}" % sms_code)
     except Exception:
         return JsonResponse({'errno': 1, 'message': '短信发送失败，请检查参数后从新发送'})
-    cache.set(sms + '_sms', sms_code, 60)
+    cache.set(sms + '_' + send_type, sms_code, 60)
 
     return JsonResponse({'errno': 0, 'message': '成功'})
 
@@ -47,7 +47,6 @@ def del_subject(request, user_profile):
         return JsonResponse({'errno': 2, 'message': '缺少必要参数'})
     Message.objects.filter(subject=subject).delete()
     return JsonResponse({'errno': 0, 'message': '删除成功'})
-
 
 
 # 收藏

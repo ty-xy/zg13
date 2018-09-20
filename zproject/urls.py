@@ -463,7 +463,7 @@ v1_api_and_json_patterns = [
 
     # 考勤补卡
     url(r'^zg/attendance/repair/$', rest_dispatch,
-        {'PATCH': 'zerver.views.zg_attendance.attendance_repair'}),
+        {'POST': 'zerver.views.zg_attendance.attendance_repair'}),
 
     # ----个人打卡----
     # 获取打卡球内信息
@@ -610,7 +610,7 @@ v1_api_and_json_patterns = [
     url(r'^zg/file/del/', rest_dispatch,
         {'DELETE': 'zerver.views.zg_restful_api.file_del'}),
 
-
+    # 发送短信
     url(r'^zg/register/sms', rest_dispatch,
         {'GET': 'zerver.views.zg_restful_api.send_zg_sms'}),
 ]

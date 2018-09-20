@@ -910,10 +910,11 @@ class ZgOutsideWork(models.Model):
 # 考勤表
 class ZgAttendance(models.Model):
     user_name = models.ForeignKey(UserProfile)
-    sign_in_time = models.DateTimeField(default='1970-01-01 08:00:00', verbose_name="打卡时间")
-    sign_off_time = models.DateTimeField(default='1970-01-01 08:00:00', verbose_name="下班时间")
-    sign_in_explain = models.CharField(max_length=15, default='缺卡', verbose_name="打卡备注")
-    sign_off_explain = models.CharField(max_length=15, default='缺卡', verbose_name="打卡备注")
+    create_time = models.DateTimeField(null=True)
+    sign_in_time = models.DateTimeField(null=True, verbose_name="打卡时间")
+    sign_off_time = models.DateTimeField(null=True, verbose_name="下班时间")
+    sign_in_explain = models.CharField(max_length=15, null=True, verbose_name="打卡备注")
+    sign_off_explain = models.CharField(max_length=15, null=True, verbose_name="打卡备注")
 
 
 class UserGroup(models.Model):
@@ -2325,7 +2326,7 @@ class ZgReview(models.Model):
     types = models.CharField(max_length=30)
 
     table_id = models.PositiveIntegerField()
-    # 状态
+    # 状态：已撤销，审批通过，审批未通过，发起申请，审批中
     status = models.CharField(max_length=15, default='审批中')
     # 职责：（审批：approval  抄送：inform）
     duties = models.CharField(max_length=30, default='approval')
@@ -2353,3 +2354,6 @@ class ZgCollection(models.Model):
 class ZgCloudDisk(models.Model):
     user = models.ForeignKey(UserProfile, null=True, on_delete=models.SET_NULL)
     attachment = models.ForeignKey(Attachment, null=True, on_delete=models.SET_NULL)
+
+
+
