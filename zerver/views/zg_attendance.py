@@ -622,7 +622,7 @@ def repair_examine(request, user_profile):
 
     if opinion == 'yes':
         attendances = ZgAttendance.objects.get(id=repair_id)
-        print(attendances[0].id)exit
+        print(attendances[0].id)
         user_list.append(attendances[0].user_name.id)
         user_attendance = attendances[0].user_name.atendance
         if repair_time <= user_attendance.jobs_time:
