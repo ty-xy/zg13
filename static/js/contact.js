@@ -177,10 +177,11 @@ var contact = (function(){
                     $(".right_san").css("transform","rotate(180deg)")
                 }
             })
-            $(".generate_log").on("click",function(){
-                management.generate_log();
-            })
-            
+            // $(window).load(function(){
+                $(".generate_log").on("click",function(){
+                    management.generate_log();
+                })
+            // })
         })
         //管理组点击
         $(".manage_group").on("click",function(){
