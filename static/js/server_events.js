@@ -235,20 +235,17 @@ var server_events = (function () {
             }
             if(type == 'DailyReport'){
                 $(".work_order").show()
-                push_data.push(push_one)
                 localStorage.setItem("pushData",JSON.stringify(push_data))
                 $(".keep_exist .notice_bottom").html(push_one.theme)
                 $(".keep_exist .notice_top_time").html(server_events.tf(push_one.time))
-                server_events.showNotify("nbasdgaiosdvoavsdu",push_one.theme)
+                server_events.showNotify(push_one.user_name,push_one.theme)
             }else if(type == 'JobsNotice'){
-                console.log("工作通知")
                 $(".work_order").show()
                 push_data.push(push_one)
-                console.log(push_one)
                 localStorage.setItem("pushData",JSON.stringify(push_data))
                 $(".work_order .notice_bottom").html(push_one.theme)
                 $(".work_order .notice_top_time").html(server_events.tf(push_one.time))
-                server_events.showNotify("nbasdgaiosdvoavsdu",push_one.theme)
+                server_events.showNotify(push_one.user_name,push_one.theme)
             }
             var type;
             var data_message;
