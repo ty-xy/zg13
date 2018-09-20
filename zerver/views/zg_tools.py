@@ -9,7 +9,6 @@ from django_apscheduler.jobstores import DjangoJobStore, register_events, regist
 from datetime import datetime, timezone, timedelta
 
 
-
 def nuw_time():
     stockpile_time = datetime.utcnow()
     stockpile_time = stockpile_time.replace(tzinfo=timezone.utc)
@@ -59,6 +58,7 @@ def zg_send_tools(zg_dict):
              'all': False}
     for k, v in zg_dict.items():
         event[k] = v
+    print('sdasdsadsadasdadas')
     return event
 
 
@@ -71,17 +71,19 @@ try:
 
     # 'cron'方式循环，周一到周五，每天9:30:10执行,id为工作ID作为标记
     # ('scheduler',"interval", seconds=1)  #用interval方式循环，每一秒执行一次
-    @register_job(schedulers, 'cron', day_of_week='1-5', hour='10', minute='11', id='task_time1')
+    @register_job(schedulers, 'cron', day_of_week='1-5', hour='01', minute='11', id='task_time1')
     def timing_attendance():
         users = UserProfile.objects.all()
         user_list = list()
         for user in users:
             user_list.append(ZgAttendance(user_name=user, create_time=nuw_time()))
         ZgAttendance.objects.bulk_create(user_list)
+        print('定时自动考勤正在运行', '---------' * 15)
 
 
-    @register_job(schedulers, 'cron', day_of_week='1-5', hour='10', minute='45', id='task_time1')
+    @register_job(schedulers, 'cron', day_of_week='1-5', hour='23', minute='40', id='task_time2')
     def examine_attendance():
+        print('定时自动考勤校正正在运行', '---------' * 15)
         sign_in_attendances = ZgAttendance.objects.filter(
             sign_in_explain=None,
             create_time__year=nuw_time().year,
@@ -89,7 +91,6 @@ try:
             create_time__day=nuw_time().day,
         )
         sign_in_attendances.update(sign_in_explain='缺卡')
-
         sign_off_attendances = ZgAttendance.objects.filter(
             sign_off_explain=None,
             create_time__year=nuw_time().year,
@@ -97,6 +98,7 @@ try:
             create_time__day=nuw_time().day,
         )
         sign_off_attendances.update(sign_off_explain='缺卡')
+
 
     # 监控任务
     register_events(schedulers)
