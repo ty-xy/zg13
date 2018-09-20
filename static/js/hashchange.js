@@ -162,7 +162,6 @@ exports.parse_narrow = function (hash) {
                 var hash = url.split("/")
                 var subject = hash_util.decodeHashComponent(hash[4])
                 var stream = hash[2].split("-")
-                console.log(stream[1])
                 $("#stream").val(stream[1])
                 $("#subject").val(subject)
             }else{

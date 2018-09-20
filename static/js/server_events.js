@@ -272,6 +272,7 @@ var server_events = (function () {
                         var sub;
                         var recipient = data_message.display_recipient[0].id
                         var stream_name;
+                        console.log(data_message)
                         if(stream_id){
                           sub  = stream_data.get_sub_by_id(stream_id)
                         }
@@ -488,7 +489,6 @@ var server_events = (function () {
         blueslip.log("Cleaning up our event queue");
         // Set expired because in a reload we may be called twice.
         page_params.event_queue_expired = true;
-        // console.log(12)
         channel.del({
             url: '/json/events',
             data: {
@@ -522,7 +522,7 @@ var server_events = (function () {
                         window.focus();
                     },
                     notifyObj.onerror = function () {
-                        console.log("HTML5桌面消息出错！！！");
+
                     };
                     notifyObj.onshow = function () {
                         setTimeout(function(){
@@ -530,12 +530,12 @@ var server_events = (function () {
                         },3000)
                     };
                     notifyObj.onclose = function () {
-                        console.log("HTML5桌面消息关闭！");
+
                     };
                 }
             });
         }else{
-            console.log("您的浏览器不支持桌面消息!");
+
         }
     };
     window.addEventListener("beforeunload", function () {
