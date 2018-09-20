@@ -20,7 +20,7 @@ from mimetypes import guess_type, guess_extension
 
 from zerver.models import get_user_profile_by_id, RealmEmoji
 from zerver.models import Attachment
-from zerver.models import Realm, RealmEmoji, UserProfile, Message
+from zerver.models import Realm, RealmEmoji, UserProfile, Message,Attachment
 
 import urllib
 import base64
@@ -257,7 +257,6 @@ class S3UploadBackend(ZulipUploadBackend):
             user_profile,
             file_data
         )
-
         create_attachment(uploaded_file_name, s3_file_name, user_profile, uploaded_file_size)
 
         return url
@@ -430,7 +429,15 @@ class LocalUploadBackend(ZulipUploadBackend):
 
         write_local_file('files', path, file_data)
         create_attachment(uploaded_file_name, path, user_profile, uploaded_file_size)
-        return '/user_uploads/' + path
+        attachment = Attachment.objects.get(path_id=path)
+
+        # return '/user_uploads/' + path
+        # zg----------------------
+        url_id='/user_uploads/' + path+'|'+str(attachment.id)
+        return url_id
+
+
+
 
     def delete_message_image(self, path_id: Text) -> bool:
         file_path = os.path.join(settings.LOCAL_UPLOADS_DIR, 'files', path_id)

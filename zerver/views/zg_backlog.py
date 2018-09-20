@@ -3,6 +3,7 @@ from zerver.models import Backlog, BacklogAccessory, UpdateBacklog, Statement, S
 from django.http import JsonResponse, HttpResponse, HttpRequest
 import datetime, time, json, calendar
 from zerver.lib import avatar
+
 from datetime import timezone, timedelta
 from zerver.views.zg_tools import zg_send_tools
 
@@ -172,7 +173,7 @@ def look_table(request, user_profile):
         statement_backlogs_list = StatementBacklog.objects.filter(statement_id=statement).order_by('-id')
         user = UserProfile.objects.get(email=statement.user)
 
-        table_dict = {}
+        table_dict = dict()
         table_dict['avatar'] = avatar.absolute_avatar_url(user)
         table_dict['user_name'] = user.full_name
         table_dict['generate_time'] = statement.generate_time
@@ -217,10 +218,8 @@ def web_my_receive(request, user_profile):
         filter_dict['receive_time__range'] = (generate_time, time.time())
     if screen_over_time:
         filter_dict['receive_time__range'] = ('0', screen_over_time)
-
     if all([generate_time, screen_over_time]):
         filter_dict['receive_time__range'] = (generate_time, screen_over_time)
-
     if sender:
         filter_dict['staff'] = sender
     else:
@@ -343,7 +342,7 @@ def web_my_send(request, user_profile):
             web_my_receive_dict['url_list'] = url_list
             accessory_list = StatementAccessory.objects.filter(statement_id=statement_state, is_delete='f')
             for accessory in accessory_list:
-                accessory_dict = {}
+                accessory_dict = dict()
                 accessory_dict['url'] = accessory.statement_accessory_url
                 accessory_dict['size'] = accessory.accessory_size
                 accessory_name = accessory.accessory_name
@@ -516,7 +515,6 @@ def stream_recipient_data(request, user_profile):
         a = Stream.objects.get(id=streams_user_id_list)
         streams_dict[a.name] = streams_user_data_list
         streams_dict['no_strems'] = []
-
     return JsonResponse({'errno': 0, 'message': "获取成功", 'streams_dict': streams_dict})
 
 
@@ -568,7 +566,9 @@ def table_view(request, user_profile):
                 StatementState.objects.create(statement_id=a, staff=staff, receive_time=b)
             even = {'zg_type': 'DailyReport',
                     'theme': user_profile.full_name + '的日志',
-                    'time': nuw_time()
+                    'time': nuw_time(),
+                    'avatar_url': avatar.absolute_avatar_url(user_profile),
+                    'user_name': user_profile.full_name,
                     }
             send_event(zg_send_tools(even), send)
 
@@ -599,7 +599,6 @@ def generate_table(request, user_profile):
 
         day_begin = day_begin + " " + '00:00:00'
         day_end = day_end + " " + "23:59:00"
-
         day_begin = time.mktime(time.strptime(day_begin, '%Y-%m-%d %H:%M:%S'))
         day_end = time.mktime(time.strptime(day_end, '%Y-%m-%d %H:%M:%S'))
 
@@ -998,7 +997,7 @@ def backlogs_details(request, user_profile):
     for i in update_backlog:
         update_backlog_list.append(i.update_backlog)
 
-    backlogs_dict = {}
+    backlogs_dict = dict()
     backlogs_dict['id'] = backlogs.id
     backlogs_dict['create_time'] = backlogs.create_time
     backlogs_dict['over_time'] = backlogs.over_time
@@ -1007,7 +1006,7 @@ def backlogs_details(request, user_profile):
     backlogs_dict['state'] = backlogs.state
     accessory_list = []
     for accessory in backlogs_accessory_list:
-        accessory_dict = {}
+        accessory_dict = dict()
         accessory_dict['id'] = accessory.id
         accessory_dict['url'] = accessory.accessory_url
         accessory_dict["size"] = accessory.accessory_size
@@ -1059,7 +1058,6 @@ def accomplis_backlogs_view(request, user_profile):
 
     accomplis_backlogs_listss = []
     for accomplis_backlogs in accomplis_backlogs_list:
-
         a = {}
         a['id'] = accomplis_backlogs.id
 
@@ -1092,7 +1090,7 @@ def accomplis_backlogs_view(request, user_profile):
 
 
 def users_view(request, user_profile):
-    users = UserProfile.objects.all()
+    users = UserProfile.objects.all().order_by('full_name')
     user_list = list()
     for user in users:
         if user == user_profile or user.full_name[-3:] == 'Bot':
