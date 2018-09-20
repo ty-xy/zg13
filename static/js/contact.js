@@ -86,6 +86,8 @@ var contact = (function(){
                             //推送消息删除
                             $(".persistent_data").on("mouseover",".only_tip",function(){
                                 $(this).children().last().children().last().show()
+                                $(this).addClass("shallow_blue")
+                                console.log($(this))
                                 $(".notice_box_del").unbind("click").bind("click",function(e){
                                     e.stopPropagation()
                                     e.preventDefault()
@@ -111,6 +113,7 @@ var contact = (function(){
                             })
                             $(".persistent_data").on("mouseout",".only_tip",function(){
                                 $(this).children().last().children().last().hide()
+                                $(this).removeClass("shallow_blue")
                             })
                             setTimeout(function(){
                                 $(".home-title").show();
@@ -735,6 +738,7 @@ var contact = (function(){
                                 var organization_chart_department_detail = templates.render("organization_chart_department_detail",{user_list:user_list,department_name:department_name})
                                 $(".organization_team_bottom_box").append(organization_chart_department_detail)
                                 $(".organization_team_bottom_box").css("height",window.screen.height)
+                                $(".organization_team_single_box").css("height",window.screen.height)
                                 //返回上一级
                                 $(".organization_team_bottom_box").on("click",".back_up",function(){
                                     $(".organization_team_bottom_box").children().remove()
@@ -1200,6 +1204,7 @@ function getNoDepartmentList(){
             var organization_team_single = templates.render("organization_team_single",{not_department_list:not_department_list})
             $(".organization_team_bottom_box").append(organization_team_single)
             $(".organization_team_bottom_box").css("height",window.screen.height)
+            $(".organization_team_single_box").css("height",window.screen.height)
         }
     })
 }
@@ -1215,6 +1220,7 @@ function getDepartmentList(){
             var organization_team_dept = templates.render("organization_team_dept",{department_lists:department_lists})
             $(".organization_team_bottom_box").prepend(organization_team_dept)
             $(".organization_team_bottom_box").css("height",window.screen.height)
+            $(".organization_team_single_box").css("height",window.screen.height)
         }
     })
 }
