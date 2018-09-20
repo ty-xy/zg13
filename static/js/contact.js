@@ -96,8 +96,8 @@ var contact = (function(){
                                     if(now_name == pipei_name){
                                         window.location.href = "#narrow/is/starred"
                                     }
-                                    console.log(now_name)
-                                    console.log(pipei_name)
+                                    // console.log(now_name)
+                                    // console.log(pipei_name)
                                     $(this).parent().parent().parent().remove();
                                     var send_id = $(this).parent().parent().attr("send_id")
                                     arr = JSON.parse(localStorage.getItem("arr"))
@@ -253,7 +253,7 @@ var contact = (function(){
                 url:"json/zg/user/permissions",
                 success:function(res){
                     identity = res.message
-                    console.log(res)
+                    // console.log(res)
                     $("#group_seeting_choose").hide();
                     $("#zfilt").removeClass("focused_table")
                     //清空右侧添加内容
@@ -380,7 +380,7 @@ var contact = (function(){
                             $(".organization_chart_box").on("click",".child_administrator_del",function(){
                                 var id_list = []
                                 id_list.push($(this).attr("user_id"))
-                                console.log(id_list)
+                                // console.log(id_list)
                                 var obj = {
                                     type:"del",
                                     id_list:id_list
@@ -898,7 +898,7 @@ var contact = (function(){
                                        $(".paging_receive").on("click",".paging_btn_receive",function(e){
                                            var page = Number($(this).text());
                                            $(this).addClass("blue_light").siblings().removeClass("blue_light");
-                                           console.log($(".paging_box_receive"))
+                                        //    console.log($(".paging_box_receive"))
                                            getLogReceive(page)
                                        });
                                        //上翻
@@ -908,7 +908,7 @@ var contact = (function(){
                                                    if(page<1){
                                                        return;
                                                    }
-                                                   console.log("asndiobfsdgobdasfbos")
+                                                //    console.log("asndiobfsdgobdasfbos")
                                                    $(".blue_light").prev().addClass("blue_light").siblings().removeClass("blue_light");
                                                    getLogReceive(page)
                                                })
@@ -983,7 +983,7 @@ var contact = (function(){
                    })
                        //点击页数
                    $(".paging").on("click",".paging_btn",function(e){
-                       console.log($(".paging_box"))
+                    //    console.log($(".paging_box"))
                        var page = Number($(this).text());
                        $(this).addClass("blue_light").siblings().removeClass("blue_light");
                     //    getLogReceive(page)
@@ -1330,7 +1330,7 @@ function getLogReceive(page){
             var receive_table_list = res.receive_table_list;
             var html = templates.render("log_assistant_receive",{receive_table_list:receive_table_list})
             $(".paging_box_receive").before(html);
-            console.log($(".paging_box_receive"))
+            // console.log($(".paging_box_receive"))
             // console.log(html)
             //翻页后移至顶部
             $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
@@ -1351,7 +1351,7 @@ function getLogSend(page){
             $(".log_assistant_ctn").remove();
             var send_table_list = res.send_table_list;
             var html = templates.render("log_assistant_send",{send_table_list:send_table_list})
-            console.log(html)
+            // console.log(html)
             $(".paging_box_send").before(html)
             //翻页后移至顶部
             $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);

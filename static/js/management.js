@@ -60,7 +60,7 @@ var management = (function () {
             return li 
         }
         function alert(text,color){
-            console.log(111)
+            // console.log(111)
             $('.toast-alert').fadeIn({
                 duration: 1
             }).delay (1000).fadeOut ({duration: 1000});
@@ -100,7 +100,7 @@ var management = (function () {
             var inttitle = $(".new_plan_title").val();
             var inttime = $(".create_taskdates").val();
             var over_time = timestamp(inttime);
-            console.log(over_time,"over_time",inttime,$(".create_taskdate"))
+            // console.log(over_time,"over_time",inttime,$(".create_taskdate"))
             var obj = {
                 "task":inttitle,
                 "over_time":over_time+86399,
@@ -349,12 +349,12 @@ var management = (function () {
          
             // var should_hide_upload_status = false;
             upload.feature_check($("#up_files #attach_file"));
-            console.log($("#up_files"))
+            // console.log($("#up_files"))
             $("#up_files").on("click", "#attach_file", function (e) {
                 e.preventDefault();
             //    e.preventDefault();
             //    e.stopPropagation()
-               console.log(22222)
+            //    console.log(22222)
                $("#up_files #file_inputs").trigger("click");
            });
            var drop =function(file){
@@ -457,7 +457,7 @@ var management = (function () {
                 error: uploadError,
                 uploadFinished: uploadFinished,
                 afterAll:function(contents){
-                    console.log(contents,321312)
+                    // console.log(contents,321312)
                 }
           })
           $(".generate_log_upfile_box").on("click",".generate_log_pack_delete",function(e){
@@ -514,7 +514,7 @@ var management = (function () {
                success: function (data) {
                if(data){
                     data.date_type="day"
-                    console.log(data)
+                    // console.log(data)
                     logClick(data)
                    }
                },
@@ -657,7 +657,7 @@ var management = (function () {
                             url:"json/zg/backlog/gets",
                             success:function(response){
                                 if(response.errno == 3){
-                                    console.log(response.message)
+                                    // console.log(response.message)
                                 }
                             updata()
                             //测试方案2
@@ -744,18 +744,18 @@ var management = (function () {
                         })
                             },
                             error:function(reject){
-                                console.log(reject)
+                                // console.log(reject)
                             }   
                         })
                     }else if(res.errno == 1){
-                        console.log(res.message)
+                        // console.log(res.message)
                     }else if(res.errno == 3){
                         $(".new_task").show()
                         $(".error_tip").text(res.message)
                     }
                 },
                 error:function(rej){
-                    console.log(rej)
+                    // console.log(rej)
                 }
             })
         }

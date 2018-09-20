@@ -93,7 +93,7 @@ var attendance = (function () {
                             minViewMode:2,
                             autoclose: true
                             }).on("changeDate",function(){
-                                console.log("--------------------")
+                                // console.log("--------------------")
                                 var select_year = $(this).val();
                                 checkCalendar(user_id,select_year);
                                 
@@ -179,7 +179,7 @@ var attendance = (function () {
                             minViewMode:2,
                             autoclose: true
                             }).on("changeDate",function(){
-                                console.log("0000")
+                                // console.log("0000")
                                 var select_year = $(this).val();
                                 checkCalendar(user_id,select_year);
                                 
@@ -563,7 +563,7 @@ var attendance = (function () {
                                                 data:{attendances_id:index},
                                                 success:function(data){
                                                     datalist[0]=data
-                                                    console.log(data)
+                                                    // console.log(data)
                                                     var html = $(templates.render('attendance_update',{
                                                           datalist:datalist
                                                         }));
@@ -694,7 +694,7 @@ var attendance = (function () {
                             $(".attendance_mangement").hide();
                             $(".attendance_ctn").children().remove();
                             
-                            console.log("hello world")
+                            // console.log("hello world")
                             checkCalendarMy();
                             //关闭考勤
                             $(".attendance_close").on("click",function(){
@@ -773,19 +773,19 @@ var attendance = (function () {
            function commonContent(){
             // settime()
             var name = $(".title-input").val()
-            console.log(name)
+            // console.log(name)
             if(name==""){
                 alert('请填写考勤组的名字','rgba(169,12,0,0.30)')
                 return 
             }
             var member_list = $(".button-common-people").attr("data_id")
-            console.log(member_list)
+            // console.log(member_list)
             if(member_list == undefined){
                 alert('请选择考勤人员','rgba(169,12,0,0.30)')
                 return 
             }else{
                 member_list=member_list.split(",")
-                console.log(member_list)
+                // console.log(member_list)
             }
             var jobs_time = $(".button-job").val()
             if(jobs_time==""){
@@ -796,7 +796,7 @@ var attendance = (function () {
                 rest_time = "17:00:00"
             }
             var date =$(".button-common-date").html()
-            console.log(date)
+            // console.log(date)
             if(date=="设置考勤日期"){
                 alert('请填写日期','rgba(169,12,0,0.30)')
                 return
@@ -834,7 +834,7 @@ var attendance = (function () {
                     datelist.push(7)
                    } 
             })
-            console.log(date,datelist)
+            // console.log(date,datelist)
             data_list  ={
                  name:name,
                  member_list:member_list,
@@ -846,14 +846,14 @@ var attendance = (function () {
                  location:location,
                  range:range,
             }
-            console.log(data_list)
+            // console.log(data_list)
             return  data_list
            }
            //点击提交的公共函数
            function commit(){
                 $(".button-submit-common").on("click",function(){
                         var data_list = commonContent()
-                        console.log(data_list)
+                        // console.log(data_list)
                         if(data_list){
                         $(".button-submit").attr("disabled", true);
                         $(".button-submit").css("background-color","#ccc")
@@ -862,7 +862,7 @@ var attendance = (function () {
                             data:JSON.stringify(data_list),
                             contentType:"application/json",
                             success:function(data){
-                                console.log(data)
+                                // console.log(data)
                                 if(data.errno==0){
                                     $(".button-submit").css("background-color","#14A4FA")
                                     $(".button-submit").attr("disabled", false);
@@ -900,7 +900,7 @@ var attendance = (function () {
                         data:JSON.stringify(data_list),
                         contentType:"application/json",
                         success:function(data){
-                            console.log(data)
+                            // console.log(data)
                             if(data.errno==0){
                                 $(".button-submit-update").css("background-color","#14A4FA")
                                 $(".button-submit-update").attr("disabled", false);

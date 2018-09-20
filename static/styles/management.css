@@ -1480,3 +1480,6 @@ ul{
     border-radius: 4px;
     color:#fff;
 }
+.feadback-remind,.feadback-cancel-sure{
+    display:none;
+}

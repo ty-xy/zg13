@@ -241,10 +241,10 @@ var server_events = (function () {
                 $(".keep_exist .notice_top_time").html(server_events.tf(push_one.time))
                 server_events.showNotify("nbasdgaiosdvoavsdu",push_one.theme)
             }else if(type == 'JobsNotice'){
-                console.log("工作通知")
+                // console.log("工作通知")
                 $(".work_order").show()
                 push_data.push(push_one)
-                console.log(push_one)
+                // console.log(push_one)
                 localStorage.setItem("pushData",JSON.stringify(push_data))
                 $(".work_order .notice_bottom").html(push_one.theme)
                 $(".work_order .notice_top_time").html(server_events.tf(push_one.time))
@@ -525,7 +525,7 @@ var server_events = (function () {
                         window.focus();
                     },
                     notifyObj.onerror = function () {
-                        console.log("HTML5桌面消息出错！！！");
+                        // console.log("HTML5桌面消息出错！！！");
                     };
                     notifyObj.onshow = function () {
                         setTimeout(function(){
@@ -533,12 +533,12 @@ var server_events = (function () {
                         },3000)
                     };
                     notifyObj.onclose = function () {
-                        console.log("HTML5桌面消息关闭！");
+                        // console.log("HTML5桌面消息关闭！");
                     };
                 }
             });
         }else{
-            console.log("您的浏览器不支持桌面消息!");
+            // console.log("您的浏览器不支持桌面消息!");
         }
     };
     window.addEventListener("beforeunload", function () {

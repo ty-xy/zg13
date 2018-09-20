@@ -601,8 +601,8 @@ function pick_empty_narrow_banner() {
                     if(now_name == pipei_name){
                         window.location.href = "#narrow/is/starred"
                     }
-                    console.log(now_name)
-                    console.log(pipei_name)
+                    // console.log(now_name)
+                    // console.log(pipei_name)
                     $(this).parent().parent().parent().remove();
                     var send_id = $(this).parent().parent().attr("send_id")
                     arr = JSON.parse(localStorage.getItem("arr"))

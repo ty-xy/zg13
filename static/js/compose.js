@@ -406,6 +406,7 @@ exports.finish = function () {
         // $(".tab-content").scrollTop(h);
         var scrollHeight = $("#zfilt").prop("scrollHeight")
         $("#zfilt").scrollTop(scrollHeight+h)
+        console.log(message_viewport,message_viewport.scrollTop(),message_viewport.at_top(),message_viewport.at_bottom())
     }
     // console.log("gagagag")
     if (! compose.validate()) {

@@ -229,7 +229,7 @@ li.active-sub-filter {
     line-height: 28px;
     font-family: PingFangSC-Medium;
     font-size: 11px;
-    color: #A0ACBF!important;
+    color: #333!important;
     letter-spacing: 0.16px;
 }
 .topic-name {
@@ -899,10 +899,10 @@ li.show-more-private-messages a {
 }
 .my_news_box{
     float: right;
-    background: #DDE9FF;
-    min-height: 17px;
-    box-sizing: border-box;
-    border-radius: 5px;
+    /* background: #DDE9FF; */
+    /* min-height: 17px; */
+    /* box-sizing: border-box;
+    border-radius: 5px; */
 }
 .my_bubble>p{
     float: right;
