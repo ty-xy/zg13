@@ -420,12 +420,12 @@ var message_group = (function () {
                                 $(".icon-search-email").on("click",function(e){
                                     $(".search-people-border").show()
                                     $(".seach-people-icon").hide()
-                                    $(".search-people-border input").attr("placeholder","输入邮箱地址")
+                                    $(".search-people-border input").attr("placeholder","输入搜索内容")
                                 })
                                 $(".icon-add-people").on("click",function(e){
                                     $(".search-people-border").show()
                                     $(".seach-people-icon").hide()
-                                    $(".search-people-border input").attr("placeholder","输入搜索内容")
+                                    $(".search-people-border input").attr("placeholder","输入邮箱地址")
                                })
                                $(".icon-search-cancel").on("click",function(e){
                                     $(".search-people-border").hide()
