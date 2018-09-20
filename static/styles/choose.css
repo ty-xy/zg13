@@ -997,9 +997,9 @@ a.message-control-button {
     #myTabContent{
         min-width:930px
     }
-    .middle_ctn{
+    /* .middle_ctn{
         min-width:1000px;
-    }
+    } */
     .nav-tabs > li > a{
         color: #333333;
         font-size: 18px;
