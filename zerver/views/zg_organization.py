@@ -1,15 +1,12 @@
 from django.http import JsonResponse
-from zerver.models import Message, ZgDepartment, UserProfile, Realm
-from django.db.models import Q
+from zerver.models import  ZgDepartment, UserProfile
 from zerver.lib import avatar
-from zerver.views.zg_tools import req_tools, zg_send_tools
+from zerver.views.zg_tools import req_tools
 from django.core.cache import cache
 
-import json
-
-
-# def zg_address_book(request,user_profile):
-#     Message.objects.filter(sender=user_profile,recipient=)
+import qrcode
+from django.http import HttpResponse
+from django.utils.six import BytesIO
 
 
 # 部门列表
@@ -52,7 +49,7 @@ def not_department_user(request, user_profile):
 
 # 组织基本信息查看
 def organization_information(request, user_profile):
-    data = {}
+    data = dict()
     data['name'] = user_profile.realm.name
     data['description'] = user_profile.realm.description
     return JsonResponse({'errno': 0, 'message': '成功', 'data': data})
@@ -105,7 +102,7 @@ def child_admin(request, user_profile):
     child_admin_objs = UserProfile.objects.filter(zg_permission=1, realm=user_profile.realm.id)
     user_list = []
     for child_admin_obj in child_admin_objs:
-        user_dict = {}
+        user_dict = dict()
         user_dict['name'] = child_admin_obj.full_name
         user_dict['avatar'] = avatar.absolute_avatar_url(child_admin_obj)
         user_dict['id'] = child_admin_obj.id
@@ -277,6 +274,12 @@ def zg_user_permissions(request, user_profile):
         return JsonResponse({'errno': 0, 'message': 0})
 
 
-# 邀请成员
-def zg_invitation_user(request,user_profile):
-    invitation_type = request.GET.get('')
+# 邀请成员二维码
+def invite_qrcode(request, user_profile):
+    img = qrcode.make('http://' + request.META['HTTP_HOST'] + '/register/')
+    buf = BytesIO()
+    img.save(buf)
+    image_stream = buf.getvalue()
+    a = HttpResponse(image_stream, content_type="image/png")
+    return a
+
