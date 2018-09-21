@@ -235,20 +235,17 @@ var server_events = (function () {
             }
             if(type == 'DailyReport'){
                 $(".work_order").show()
-                push_data.push(push_one)
                 localStorage.setItem("pushData",JSON.stringify(push_data))
                 $(".keep_exist .notice_bottom").html(push_one.theme)
                 $(".keep_exist .notice_top_time").html(server_events.tf(push_one.time))
-                server_events.showNotify("nbasdgaiosdvoavsdu",push_one.theme)
+                server_events.showNotify(push_one.user_name,push_one.theme)
             }else if(type == 'JobsNotice'){
-                console.log("工作通知")
                 $(".work_order").show()
                 push_data.push(push_one)
-                console.log(push_one)
                 localStorage.setItem("pushData",JSON.stringify(push_data))
                 $(".work_order .notice_bottom").html(push_one.theme)
                 $(".work_order .notice_top_time").html(server_events.tf(push_one.time))
-                server_events.showNotify("nbasdgaiosdvoavsdu",push_one.theme)
+                server_events.showNotify(push_one.user_name,push_one.theme)
             }
             var type;
             var data_message;
@@ -275,6 +272,7 @@ var server_events = (function () {
                         var sub;
                         var recipient = data_message.display_recipient[0].id
                         var stream_name;
+                        console.log(data_message)
                         if(stream_id){
                           sub  = stream_data.get_sub_by_id(stream_id)
                         }
@@ -491,7 +489,6 @@ var server_events = (function () {
         blueslip.log("Cleaning up our event queue");
         // Set expired because in a reload we may be called twice.
         page_params.event_queue_expired = true;
-        // console.log(12)
         channel.del({
             url: '/json/events',
             data: {
@@ -525,7 +522,7 @@ var server_events = (function () {
                         window.focus();
                     },
                     notifyObj.onerror = function () {
-                        console.log("HTML5桌面消息出错！！！");
+
                     };
                     notifyObj.onshow = function () {
                         setTimeout(function(){
@@ -533,12 +530,12 @@ var server_events = (function () {
                         },3000)
                     };
                     notifyObj.onclose = function () {
-                        console.log("HTML5桌面消息关闭！");
+
                     };
                 }
             });
         }else{
-            console.log("您的浏览器不支持桌面消息!");
+
         }
     };
     window.addEventListener("beforeunload", function () {

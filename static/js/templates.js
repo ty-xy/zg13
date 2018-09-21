@@ -90,7 +90,7 @@ Handlebars.registerHelper('ts', function (timestamp) {
         D = date.getDate() + ' ';
         h = date.getHours() + ':';
         m = (date.getMinutes()<10 ? '0'+date.getMinutes():date.getMinutes()) + ':';
-        s = date.getSeconds();
+        s = date.getSeconds()<10 ? '0'+date.getSeconds():date.getSeconds();
     return Y+M+D+h+m+s;
     // return options.inverse(this);
 });

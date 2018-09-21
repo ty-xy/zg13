@@ -1123,7 +1123,7 @@ msgstr "密码"
 #: templates/zerver/login.html:104
 msgid ""
 "You've already registered with this email address. Please log in below."
-msgstr "您已经用这个邮箱注册过，请直接在下面登录"
+msgstr "您已经用这个邮箱注册过，请直接登录"
 
 #: templates/zerver/login.html:116 templates/zerver/portico-header.html:33
 #: templates/zerver/portico-header.html:39

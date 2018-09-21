@@ -20,6 +20,8 @@ var message_group = (function () {
                 if(url.indexOf("/",index+1) != -1){
                     var j = url.slice(index+4,url.indexOf("/",index+1))
                     j= hash_util.decodeHashComponent(j)
+                    console.log(j)
+                    console.log(hash_util)
                     $(".home-title span").html(j)
                 }else{
                     var title = hash_util.decodeHashComponent(url.substr(index+4))
