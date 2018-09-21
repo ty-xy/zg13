@@ -188,9 +188,9 @@ $(function () {
             $(".recipient_row").off("click").on("click", '.additional_copy', function(e){
                 var btn = $(this)[0]
                 var clipboard = new ClipboardJS(btn);
-                console.log(clipboard)
+                // console.log(clipboard)
                 clipboard.on('success', function(e) {
-                    console.log(e);
+                    // console.log(e); 
                     copynum++;
                     if(copynum >= 1){
                         clipboard.destroy();
@@ -198,7 +198,7 @@ $(function () {
                     };
                 });
                 clipboard.on('error', function(e) {
-                    console.log(e);
+                    // console.log(e);
                 });
             })
             $(".additional_reply").off("click").on("click",function(){
@@ -603,7 +603,7 @@ $(function () {
 
 
     $('.compose_stream_button').click(function () {
-        console.log("是这吗？")
+        // console.log("是这吗？")
         compose_actions.start('stream', {trigger: 'new topic button'});
     });
     // $('.compose_private_button').click(function () {
@@ -674,7 +674,7 @@ $(function () {
     $("#change_full_name_button").on('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
-        console.log("进入函数");
+        // console.log("进入函数");
         location.reload();
     });
     // $("#save_useravatar").click(function(e){

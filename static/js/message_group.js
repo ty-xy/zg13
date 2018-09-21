@@ -140,8 +140,10 @@ var message_group = (function () {
             if(href.indexOf("#narrow/stream")!==-1){
                var hash = href.split("/")
                var subject = hash_util.decodeHashComponent(hash[4])
-               var stream = $(this).children().find(".notice_top_name").eq(0).text()
+               var stream = hash[2].split("-")
+                stream = hash_util.decodeHashComponent(stream[1])
                $(".compose-content").show()
+               $(".message_comp").show()
                $("#stream").val(stream)
                $("#subject").val(subject)
             }
@@ -156,6 +158,7 @@ var message_group = (function () {
             data.content="欢迎来到 "+data.subject+""
             compose.send_message(data)
             $("#subjects").val("")
+            $(".compos-left-title span").show()
             var index = stream_data.get_stream_id (opts.stream)
             //   common_topic(index)
               $("#stream").val(opts.stream)
@@ -180,6 +183,7 @@ var message_group = (function () {
             $(".home-title").hide()
             $(".home_gruop_title").show()
             $("#main_div").show();
+            // $("#home").show()
             var streams = stream_data.subscribed_subs();
             // var sub = stream_data.get_subscribers()
             var subscriptions = stream_data.get_streams_for_settings_page();
@@ -208,54 +212,96 @@ var message_group = (function () {
                     url:  '/json/messages',
                     data: data,
                     idempotent: true,
-                    success:function(data){                 
-                        var lastData = data.messages.pop()
-                        var time = timerender.tf(lastData.timestamp)
-                        _href=narrow.by_stream_subject_uris(name,lastData.subject)
-                        var  mes  = lastData.content
-                             mes = server_events.deleteTag(mes)
-                             console.log(lastData)
-                        var stream = lastData.type
+                    success:function(data){
                         var arr = JSON.parse(localStorage.getItem("arr"))
-                        if(arr == null){
-                           arr =[]
-                           $(".persistent_data").show()
-                           $(".persistent_data").prepend(templates.render("notice_box",{name:name,avatar:avatar,_href:_href,time:time,send_id:stream_id,mes:mes,stream:stream}))
-                           arr.unshift(server_events.set_local_news('',stream_id,name,avatar,time,mes,_href,stream))
-                           localStorage.setItem("arr",JSON.stringify(arr))
+                        var subject
+                        if(data.messages.length==0){
+                            var stream = "stream"
+                            var time = ''
+                            var mes = ''
+                             subject = compose.empty_topic_placeholder();
+                            _href=narrow.by_stream_subject_uris(name,subject)
+                            if(arr == null){
+                                arr =[]
+                                $(".persistent_data").show()
+                                $(".persistent_data").prepend(templates.render("notice_box",{name:name,avatar:avatar,_href:_href,time:'',send_id:stream_id,mes:'',stream:stream}))
+                                arr.unshift(server_events.set_local_news('',stream_id,name,avatar,time,mes,_href,stream))
+                                localStorage.setItem("arr",JSON.stringify(arr))
+                             }else{
+                                 var flag = false;
+                                 $(".persistent_data").show()
+                                 for(var i =0;i<arr.length;i++){
+                                     if(arr[i].stream_id == stream_id){
+                                         flag = true;
+                                         arr[i].content = arr[i].content
+                                         localStorage.setItem("arr",JSON.stringify(arr))
+                                     }
+                                 }
+                                 if(!flag){
+                                     console.log(1111)
+                                     $(".persistent_data").show()
+                                     $(".persistent_data").prepend(templates.render("notice_box",{name:name,avatar:avatar,_href:_href,time:time,send_id:stream_id,mes:server_events.deleteTag(mes),stream:stream}))
+                                     arr.unshift(server_events.set_local_news('',stream_id,name,avatar,time,mes,_href,stream))
+                                     localStorage.setItem("arr",JSON.stringify(arr))
+                                 }
+                             }
+                             $("#stream").val(name)
+                             $("#subject").val(subject)
                         }else{
-                            var flag = false;
-                            $(".persistent_data").show()
-                            for(var i =0;i<arr.length;i++){
-                                if(arr[i].stream_id == stream_id){
-                                    flag = true;
-                                    arr[i].content = arr[i].content
+                            var lastData = data.messages.pop()
+                            var time = timerender.tf(lastData.timestamp)
+                            _href=narrow.by_stream_subject_uris(name,lastData.subject)
+                            var  mes  = lastData.content
+                                 mes = server_events.deleteTag(mes)
+                                 console.log(lastData)
+                            var stream = lastData.type
+                            var arr = JSON.parse(localStorage.getItem("arr"))
+                            if(arr == null){
+                               arr =[]
+                               $(".persistent_data").show()
+                               $(".persistent_data").prepend(templates.render("notice_box",{name:name,avatar:avatar,_href:_href,time:time,send_id:stream_id,mes:mes,stream:stream}))
+                               arr.unshift(server_events.set_local_news('',stream_id,name,avatar,time,mes,_href,stream))
+                               localStorage.setItem("arr",JSON.stringify(arr))
+                            }else{
+                                var flag = false;
+                                $(".persistent_data").show()
+                                for(var i =0;i<arr.length;i++){
+                                    if(arr[i].stream_id == stream_id){
+                                        flag = true;
+                                        arr[i].content = arr[i].content
+                                        localStorage.setItem("arr",JSON.stringify(arr))
+                                    }
+                                }
+                                if(!flag){
+                                    console.log(1111)
+                                    $(".persistent_data").show()
+                                    $(".persistent_data").prepend(templates.render("notice_box",{name:name,avatar:avatar,_href:_href,time:time,send_id:stream_id,mes:server_events.deleteTag(mes),stream:stream}))
+                                    arr.unshift(server_events.set_local_news('',stream_id,name,avatar,time,mes,_href,stream))
                                     localStorage.setItem("arr",JSON.stringify(arr))
                                 }
                             }
-                            if(!flag){
-                                console.log(1111)
-                                $(".persistent_data").show()
-                                $(".persistent_data").prepend(templates.render("notice_box",{name:name,avatar:avatar,_href:_href,time:time,send_id:stream_id,mes:server_events.deleteTag(mes),stream:stream}))
-                                arr.unshift(server_events.set_local_news('',stream_id,name,avatar,time,mes,_href,stream))
-                                localStorage.setItem("arr",JSON.stringify(arr))
-                            }
+                            subject = lastData.subject
+                            $("#stream").val(name)
+                            $("#subject").val(lastData.subject)
                         }
                         $(".notice_ctn_box").hide()
                         $(".group_icon").hide()
                         $(".home-title").show()
                         $(".home-title button").show();
-                        console.log(name)
                         $(".home-title span").text(name)
                         $(".home_gruop_title").hide()
                         $("#zfilt").show()
                         $("#stream-message").show()
-                        $("#stream").val(name)
-                        $("#subject").val(lastData.subject)
+                   
                         $(".news_icon").addClass("left_blue_height");
                         $(".address_book").removeClass("left_blue_height")
                         i= 0
-                        window.location.hash = narrow.by_stream_subject_uris(name,lastData.subject)
+                        window.location.hash = narrow.by_stream_subject_uris(name,subject)
+                        if($(".topic-list").children().length===0){
+                            $(".compos-left-title span").hide()
+                        }else{
+                            $(".compos-left-title span").show()
+                        }
                         $("#compose").show()
                         $("#compose-container").show()
                         $(".compose-content").show()

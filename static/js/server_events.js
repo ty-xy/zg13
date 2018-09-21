@@ -17,7 +17,16 @@ var server_events = (function () {
     // offline.  It is important for avoiding races with the presence
     // system when coming back from unsuspend.
     exports.suspect_offline = false;
+    // i = 80000
+    // function scrollToEnd(){//滚动到底部
+    //     var x = $("#zfilt").height()
+    //     i += 800
+    //     var h = 8000 + i;
+    //     $(".tab-content").scrollTop(h);
+    //     var scrollHeight = $("#zfilt").prop("scrollHeight")
+    //     $("#zfilt").scrollTop(scrollHeight+h)
 
+    // }
     function get_events_success(events) {
         var messages = [];
         var messages_to_update = [];
@@ -100,6 +109,7 @@ var server_events = (function () {
                 messages = echo.process_from_server(messages);
                 _.each(messages, message_store.set_message_booleans);
                 message_events.insert_new_messages(messages);
+                // scrollToEnd()
             } catch (ex2) {
                 blueslip.error('Failed to insert new messages\n' +
                     blueslip.exception_msg(ex2),
@@ -228,7 +238,8 @@ var server_events = (function () {
         data:     get_events_params,
         idempotent: true,
         timeout:  page_params.poll_timeout,
-        success: function (data) {            
+        success: function (data) {  
+            // console.log(data)         
             for(var i = 0;i<data.events.length;i++){
                 type = data.events[0].zg_type
                 push_one = data.events[0]
@@ -272,7 +283,7 @@ var server_events = (function () {
                         var sub;
                         var recipient = data_message.display_recipient[0].id
                         var stream_name;
-                        console.log(data_message)
+                        // console.log(data_message)
                         if(stream_id){
                           sub  = stream_data.get_sub_by_id(stream_id)
                         }
@@ -522,7 +533,6 @@ var server_events = (function () {
                         window.focus();
                     },
                     notifyObj.onerror = function () {
-
                     };
                     notifyObj.onshow = function () {
                         setTimeout(function(){
@@ -530,12 +540,10 @@ var server_events = (function () {
                         },3000)
                     };
                     notifyObj.onclose = function () {
-
                     };
                 }
             });
         }else{
-
         }
     };
     window.addEventListener("beforeunload", function () {
