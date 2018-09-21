@@ -71,7 +71,7 @@ def zg_send_tools(zg_dict):
 #
 #     # 'cron'方式循环，周一到周五，每天9:30:10执行,id为工作ID作为标记
 #     # ('scheduler',"interval", seconds=1)  #用interval方式循环，每一秒执行一次
-#     @register_job(schedulers, 'cron', day_of_week='1-5', hour='01', minute='11', id='task_time1')
+#     @register_job(schedulers, 'cron', day_of_week='1-5', hour='11', minute='32', id='task_time1')
 #     def timing_attendance():
 #         users = UserProfile.objects.all()
 #         user_list = list()
