@@ -301,7 +301,7 @@ var server_events = (function () {
                                 var name = sub.name
                                 var stream = data_message.type
                                 var _href= narrow.by_stream_subject_uris(name,data_message.subject)
-                                arr.unshift(server_events.set_local_news('',stream_id,name,avatar,time,mes,_href,tream,short_name,time_stamp))
+                                arr.unshift(server_events.set_local_news('',stream_id,name,avatar,time,mes,_href,stream,short_name,time_stamp))
                                 var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:stream_id,time:time,_href:_href,stream:stream})
                                 $(".persistent_data").prepend(notice_box)
                             }
