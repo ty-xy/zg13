@@ -562,7 +562,6 @@ def zg_urgent(request, user_profile):
                              }}
 
         event = zg_send_tools(event)
-        send_list.append(26)
-        send_list.append(22)
+        send_list.append(ids)
         send_event(event, send_list)
     return JsonResponse({'errno': 0, 'message': '催办成功,'})
