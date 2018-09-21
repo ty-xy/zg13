@@ -465,6 +465,10 @@ v1_api_and_json_patterns = [
     url(r'^zg/attendance/repair/$', rest_dispatch,
         {'POST': 'zerver.views.zg_attendance.attendance_repair'}),
 
+    # 考勤补卡意见
+    url(r'^zg/attendance/repair/opinion/$', rest_dispatch,
+        {'POST': 'zerver.views.zg_attendance.repair_examine'}),
+
     # ----个人打卡----
     # 获取打卡球内信息
     url(r'^zg/attendance/sign_in_view$', rest_dispatch,
@@ -578,6 +582,11 @@ v1_api_and_json_patterns = [
     # 权限认证
     url(r'^zg/user/permissions$', rest_dispatch,
         {'GET': 'zerver.views.zg_organization.zg_user_permissions'}),
+
+    # 邀请成员
+    url(r'^zg/invitation/user$', rest_dispatch,
+        {'GET': 'zerver.views.zg_organization.zg_invitation_user'}),
+
 
     # zg_restful-------------
     # 收藏
