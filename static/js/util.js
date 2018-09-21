@@ -64,6 +64,7 @@ exports.same_stream_and_topic = function util_same_stream_and_topic(a, b) {
 
 exports.is_pm_recipient = function (email, message) {
     var recipients = message.reply_to.toLowerCase().split(',');
+    // console.log(recipients)
     return recipients.indexOf(email.toLowerCase()) !== -1;
 };
 

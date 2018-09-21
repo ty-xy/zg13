@@ -162,7 +162,8 @@ exports.parse_narrow = function (hash) {
                 var hash = url.split("/")
                 var subject = hash_util.decodeHashComponent(hash[4])
                 var stream = hash[2].split("-")
-                $("#stream").val(stream[1])
+                 stream = hash_util.decodeHashComponent(stream[1])
+                $("#stream").val(stream)
                 $("#subject").val(subject)
             }else{
                 $(".home-title").hide()

@@ -108,7 +108,7 @@ function ajaxSubscribeForCreation(stream_name, description, principals, invite_o
                announce: JSON.stringify(announce),
         },
         success: function (data) {
-            console.log(data)
+            // console.log(data)
             $("#create_stream_name").val("");
             $("#create_stream_description").val("");
             ui_report.success(i18n.t("Stream successfully created!"), $(".stream_create_info"));
@@ -294,7 +294,7 @@ exports.show_new_steam_modals = function (){
         var stream_id = elem.attr('data-stream-id');
         var checked = elem.find('input').prop('checked');
         var subscriber_ids = stream_data.get_sub_by_id(stream_id).subscribers;
-        console.log(subscriber_ids,"subscriber_ids")
+        // console.log(subscriber_ids,"subscriber_ids")
         $('#user-checkboxes label.checkbox').each(function () {
             var user_elem = $(this);
             var user_id = user_elem.attr('data-user-id');
@@ -343,7 +343,7 @@ exports.show_new_stream_modal = function () {
         var stream_id = elem.attr('data-stream-id');
         var checked = elem.find('input').prop('checked');
         var subscriber_ids = stream_data.get_sub_by_id(stream_id).subscribers;
-        console.log(subscriber_ids,"subscriber_ids")
+        // console.log(subscriber_ids,"subscriber_ids")
         $('#user-checkboxes label.checkbox').each(function () {
             var user_elem = $(this);
             var user_id = user_elem.attr('data-user-id');
@@ -376,12 +376,12 @@ exports.create_handlers_for_users = function (container) {
         clear_error_display();
         var stream_name = $.trim($("#create_stream_name").val());
         var name_ok = stream_name_error.validate_for_submit(stream_name);
-        console.log(name_ok,stream_name)
+        // console.log(name_ok,stream_name)
         if (!name_ok) {
             return;
         }
         var principals = get_principal();
-        console.log(principals)
+        // console.log(principals)
         if (principals.length === 0) {
             stream_subscription_error.report_no_subs_to_stream();
             return;
@@ -473,7 +473,7 @@ exports.set_up_handlers = function () {
         clear_error_display();
         var stream_name = $.trim($("#create_stream_name").val());
         var name_ok = stream_name_error.validate_for_submit(stream_name);
-        console.log(name_ok,stream_name)
+        // console.log(name_ok,stream_name)
         if (!name_ok) {
             return;
         }

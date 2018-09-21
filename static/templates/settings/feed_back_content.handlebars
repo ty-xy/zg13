@@ -1,7 +1,7 @@
 <div id="feed-back-content"  
 class="feed-back-show 
 {{#if tooTip}}feedback-back-tooTip {{/if}} 
-{{#if tooTip}}feedback-back-tooTip {{/if}} 
+{{#if revolke_tip}}feedback-back-tooTip {{/if}}
 {{#if deltag}}feedback-back-tooTip {{/if}} 
 {{#if reminder_tip}}feedback-back-tooTip{{/if}}">
     <div class="headback-title">
@@ -34,21 +34,23 @@ class="feed-back-show
     <div class="feedback-back">
         {{#if tooTip}}
          <button class="feadback-send-sure feedback-button-common">确定</button>
+        {{/if}}
+        {{#if revolke_tip}}
+        <button class="feadback-revoke feedback-button-common">确定</button>
+        {{/if}}
+        {{#if reminder_tip}}
+        <button class="feadback-remind feedback-button-common">确定</button>
+        {{/if}}
+        {{#if deltag}}
+        <button class="feadback-sure-del feedback-button-common">确定</button>
+        {{/if}}
+        {{#if revolke_tips}}
+          <button class="feadback-send feedback-button-common">发送</button>
+        {{/if}}
+        {{#if reminder_tip}}
+         <button class="feadback-cancel-sure feedback-button-common">取消</button>
         {{else}}
-          <button class="feadback-cancel feedback-button-common">取消</button>
-           {{#if revolke_tip}}
-           <button class="feadback-revoke feedback-button-common">确定</button>
-           {{else}}
-            {{#if reminder_tip }}
-             <button class="feadback-remind feedback-button-common">确定</button>
-             {{else}}
-               {{#if deltag}}
-                <button class="feadback-sure-del feedback-button-common">确定</button>
-                {{else}}
-               <button class="feadback-send feedback-button-common">发送</button>
-             {{/if}}
-            {{/if}}
-           {{/if}}
+        <button class="feadback-cancel feedback-button-common">取消</button>
         {{/if}}
     </div>
 </div>

@@ -16,7 +16,16 @@ exports.up = function () {
         go_to_row(next_row);
     }
 };
+i = 80000
+    function scrollToEnd(){//滚动到底部
+        var x = $("#zfilt").height()
+        i += 800
+        var h = 8000 + i;
+        $(".tab-content").scrollTop(h);
+        var scrollHeight = $("#zfilt").prop("scrollHeight")
+        $("#zfilt").scrollTop(scrollHeight+h)
 
+    }
 exports.down = function (with_centering) {
     message_viewport.last_movement_direction = 1;
     var next_row = rows.next_visible(current_msg_list.selected_row());
@@ -32,6 +41,7 @@ exports.down = function (with_centering) {
         var current_msg_table = rows.get_table(current_msg_list.table_name);
         message_viewport.scrollTop(current_msg_table.safeOuterHeight(true) -
                                    message_viewport.height() * 0.1);
+         scrollToEnd()
         unread_ops.mark_current_list_as_read();
     }
 };
@@ -49,6 +59,7 @@ exports.to_end = function () {
     current_msg_list.select_id(next_id, {then_scroll: true,
                                          from_scroll: true});
     unread_ops.mark_current_list_as_read();
+    scrollToEnd()
 };
 
 function amount_to_paginate() {
@@ -95,6 +106,7 @@ exports.page_down_the_right_amount = function () {
     // see also: page_up_the_right_amount
     var delta = amount_to_paginate();
     message_viewport.scrollTop(message_viewport.scrollTop() + delta);
+    scrollToEnd()
 };
 
 exports.page_up = function () {
@@ -118,6 +130,7 @@ exports.scroll_to_selected = function () {
     var selected_row = current_msg_list.selected_row();
     if (selected_row && (selected_row.length !== 0)) {
         message_viewport.recenter_view(selected_row);
+        scrollToEnd()
     }
 };
 

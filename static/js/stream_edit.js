@@ -11,7 +11,7 @@ function setup_subscriptions_stream_hash(sub) {
 
 function settings_for_sub(sub) {
     var id = parseInt(sub.stream_id, 10);
-    console.log(id,sub.stream_id)
+    // console.log(id,sub.stream_id)
     return $("#subscription_overlay .subscription_settings[data-stream-id='" + id + "']");
 }
 
@@ -580,7 +580,7 @@ $(function () {
     $("#subscriptions_table").on("click", ".sub_unsub_button", function (e) {
         
         var sub = get_sub_for_target(e.target);
-        console.log(sub,"sub_es",e.target)
+        // console.log(sub,"sub_es",e.target)
         var stream_row = $(this).parent();
         subs.sub_or_unsub(sub);
         var sub_settings = settings_for_sub(sub);

@@ -74,7 +74,7 @@ function _fade_messages() {
 
         change_fade_state($(visible_groups[i]), should_fade_group);
     }
-
+    // console.log("fgadfgagad")
     // Defer updating all message groups so that the compose box can open sooner
     setTimeout(function (expected_msg_list, expected_recipient) {
         var all_groups = rows.get_table(current_msg_list.table_name).find(".recipient_row");
@@ -93,6 +93,7 @@ function _fade_messages() {
             var group_elt = $(all_groups[i]);
             should_fade_group = exports.should_fade_message(rows.recipient_from_group(group_elt));
             change_fade_state(group_elt, should_fade_group);
+            // console.log(000)
         }
 
         floating_recipient_bar.update();
@@ -131,7 +132,7 @@ exports.would_receive_message = function (email) {
         }
         return stream_data.is_user_subscribed(focused_recipient.stream, user.user_id);
     }
-
+    // console.log(1111111111)
     // PM, so check if the given email is in the recipients list.
     return util.is_pm_recipient(email, focused_recipient);
 };
@@ -145,6 +146,7 @@ function update_user_row_when_fading(elt) {
     } else {
         // would_receive is either true (so definitely don't fade) or
         // undefined (in which case we don't presume to fade)
+        // console.log(elt)
         elt.removeClass('user-fade');
     }
 }
@@ -186,6 +188,7 @@ exports.update_one_user_row = function (elt) {
     if (_want_normal_display()) {
         elt.removeClass('user-fade');
     } else {
+        // console.log("0--------")
         update_user_row_when_fading(elt);
     }
 };
