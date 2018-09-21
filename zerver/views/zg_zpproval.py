@@ -87,6 +87,7 @@ def add_leave(request, user_profile):
 
         # 添加审批人
         if approver_list:
+            print(approver_list, type(approver_list))
             for approver in approver_list:
                 ZgReview.objects.create(types=approval_type, user=user_profile, send_user_id=approver, table_id=aaa.id,
                                         send_time=nuw_time())
@@ -127,7 +128,7 @@ def reimburse_add(request, user_profile):
     a = ZgReimburse.objects.create(user=user_profile, category=category, amount=amount, detail=detail,
                                    image_url=image_url, send_time=nuw_time())
 
-    event = {'type': 'JobsNotice',
+    event = {'zg_type': 'JobsNotice',
              'time': nuw_time(),
              'avatar_url': avatar.absolute_avatar_url(user_profile),
              'user_name': user_profile.full_name,
@@ -140,7 +141,9 @@ def reimburse_add(request, user_profile):
 
     event = zg_send_tools(event)
     if approver_list:
+        print(approver_list,type(approver_list))
         for approver in approver_list:
+
             ZgReview.objects.create(types='reimburse', user=user_profile, send_user_id=approver, table_id=a.id,
                                     send_time=nuw_time())
             event['theme'] = user_profile.full_name + '的' + '报销' + '申请需要您的审批'

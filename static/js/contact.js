@@ -86,6 +86,7 @@ var contact = (function(){
                             //推送消息删除
                             $(".persistent_data").on("mouseover",".only_tip",function(){
                                 $(this).children().last().children().last().show()
+                                $(this).addClass("shallow_blue")
                                 $(".notice_box_del").unbind("click").bind("click",function(e){
                                     e.stopPropagation()
                                     e.preventDefault()
@@ -96,8 +97,6 @@ var contact = (function(){
                                     if(now_name == pipei_name){
                                         window.location.href = "#narrow/is/starred"
                                     }
-                                    // console.log(now_name)
-                                    // console.log(pipei_name)
                                     $(this).parent().parent().parent().remove();
                                     var send_id = $(this).parent().parent().attr("send_id")
                                     arr = JSON.parse(localStorage.getItem("arr"))
@@ -111,6 +110,7 @@ var contact = (function(){
                             })
                             $(".persistent_data").on("mouseout",".only_tip",function(){
                                 $(this).children().last().children().last().hide()
+                                $(this).removeClass("shallow_blue")
                             })
                             setTimeout(function(){
                                 $(".home-title").show();
@@ -253,7 +253,6 @@ var contact = (function(){
                 url:"json/zg/user/permissions",
                 success:function(res){
                     identity = res.message
-                    // console.log(res)
                     $("#group_seeting_choose").hide();
                     $("#zfilt").removeClass("focused_table")
                     //清空右侧添加内容
@@ -350,7 +349,6 @@ var contact = (function(){
                                     for(var key in content){
                                         id_list.push(content[key].id)
                                     }
-                                    console.log(id_list)
                                     var obj = {
                                         type:"add",
                                         id_list:id_list
@@ -380,7 +378,6 @@ var contact = (function(){
                             $(".organization_chart_box").on("click",".child_administrator_del",function(){
                                 var id_list = []
                                 id_list.push($(this).attr("user_id"))
-                                // console.log(id_list)
                                 var obj = {
                                     type:"del",
                                     id_list:id_list
@@ -511,7 +508,6 @@ var contact = (function(){
                                             data:{department_id:id},
                                             success:function(res){
                                                 user_list = res.user_list
-                                                console.log(res)
                                                 var organization_chart_group_detail = templates.render("organization_chart_group_detail",{init_group:init_group,user_list:user_list})
                                                 $(".organization_chart_change_box").html(organization_chart_group_detail)
                                                 //保存更改
@@ -600,7 +596,6 @@ var contact = (function(){
                                 for(var i=0;i<$(".branch_name").length;i++){
                                     $branch_name = $(".branch_name")[0].innerHTML.trim()
                                 }
-                                console.log($(".new_group_name"))
                                 $(".new_group_name").val($branch_name)
                                 $(".new_group_name").attr("department_id",$(".branch_name").attr("department_id"))
                             })
@@ -736,6 +731,7 @@ var contact = (function(){
                                 var organization_chart_department_detail = templates.render("organization_chart_department_detail",{user_list:user_list,department_name:department_name})
                                 $(".organization_team_bottom_box").append(organization_chart_department_detail)
                                 $(".organization_team_bottom_box").css("height",window.screen.height)
+                                $(".organization_team_single_box").css("height",window.screen.height)
                                 //返回上一级
                                 $(".organization_team_bottom_box").on("click",".back_up",function(){
                                     $(".organization_team_bottom_box").children().remove()
@@ -772,13 +768,11 @@ var contact = (function(){
                     types:types,
                     id:id
                 }
-                console.log(id)
                 channel.get({
                     url:"/json/zg/approval",
                     data:data,
                     success:function(datalist){
                         var data =datalist.data
-                        // console.log("返回待我审批1")
                         $(".move_ctn").children().remove();
                         var li = templates.render("check_detail",data)
                         $(".move_ctn").html(li)
@@ -898,7 +892,6 @@ var contact = (function(){
                                        $(".paging_receive").on("click",".paging_btn_receive",function(e){
                                            var page = Number($(this).text());
                                            $(this).addClass("blue_light").siblings().removeClass("blue_light");
-                                        //    console.log($(".paging_box_receive"))
                                            getLogReceive(page)
                                        });
                                        //上翻
@@ -908,7 +901,6 @@ var contact = (function(){
                                                    if(page<1){
                                                        return;
                                                    }
-                                                //    console.log("asndiobfsdgobdasfbos")
                                                    $(".blue_light").prev().addClass("blue_light").siblings().removeClass("blue_light");
                                                    getLogReceive(page)
                                                })
@@ -983,7 +975,6 @@ var contact = (function(){
                    })
                        //点击页数
                    $(".paging").on("click",".paging_btn",function(e){
-                    //    console.log($(".paging_box"))
                        var page = Number($(this).text());
                        $(this).addClass("blue_light").siblings().removeClass("blue_light");
                     //    getLogReceive(page)
@@ -1018,7 +1009,6 @@ var contact = (function(){
                            url:"json/zg/my/send/web",
                            contentType:"application/json",
                            success:function(res){
-                               console.log(res)
                                var page = [];
                                for(var i= 2;i<=res.page;i++){
                                    page.push(i)
@@ -1090,7 +1080,7 @@ var contact = (function(){
                                })
                                //附件图片显示原图
                                $(".thumbnail").on("click",function(){
-                                   console.log($(this))
+
                                })
                                }
                            })
@@ -1168,7 +1158,6 @@ function getOrganizeBasic(){
             $(".organization_chart_ctn_basic").remove()
             $(".organization_chart_tab").remove()
             var data = res.data
-            console.log(identity)
             var organization_chart_ctn_basic=templates.render("organization_chart_ctn_basic",{data:data})
             $(".organization_chart_change_box").append(organization_chart_ctn_basic)
             var organization_chart_tab = templates.render("organization_chart_tab",{identity:identity})
@@ -1201,6 +1190,7 @@ function getNoDepartmentList(){
             var organization_team_single = templates.render("organization_team_single",{not_department_list:not_department_list})
             $(".organization_team_bottom_box").append(organization_team_single)
             $(".organization_team_bottom_box").css("height",window.screen.height)
+            $(".organization_team_single_box").css("height",window.screen.height)
         }
     })
 }
@@ -1216,6 +1206,7 @@ function getDepartmentList(){
             var organization_team_dept = templates.render("organization_team_dept",{department_lists:department_lists})
             $(".organization_team_bottom_box").prepend(organization_team_dept)
             $(".organization_team_bottom_box").css("height",window.screen.height)
+            $(".organization_team_single_box").css("height",window.screen.height)
         }
     })
 }
@@ -1330,7 +1321,6 @@ function getLogReceive(page){
             var receive_table_list = res.receive_table_list;
             var html = templates.render("log_assistant_receive",{receive_table_list:receive_table_list})
             $(".paging_box_receive").before(html);
-            // console.log($(".paging_box_receive"))
             // console.log(html)
             //翻页后移至顶部
             $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
@@ -1351,7 +1341,6 @@ function getLogSend(page){
             $(".log_assistant_ctn").remove();
             var send_table_list = res.send_table_list;
             var html = templates.render("log_assistant_send",{send_table_list:send_table_list})
-            // console.log(html)
             $(".paging_box_send").before(html)
             //翻页后移至顶部
             $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);

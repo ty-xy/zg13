@@ -117,11 +117,14 @@ var attendance = (function () {
                                     var m = Number(sign_in_time.substring(8,10));
                                 }
                                 var n = m + month_week - 2;
+                                console.log(res)
                                 var calendar_detail = templates.render("calendar_detail",{
                                     attendance_name:attendance_name,
                                     jobs_time:jobs_time,location:location,rest_time:rest_time,sign_in_explain:sign_in_explain,
                                     sign_in_time:sign_in_time,sign_off_explain:sign_off_explain,sign_off_time:sign_off_time
                                 });
+                                console.log("--------------")
+                                console.log(calendar_detail)
                                 $(".calendar_list_box").first().after(calendar_detail);
                                 $(".calendar_list_box").first().children().children().children().eq(n).children().first().addClass("gray_date")
                             }
@@ -563,7 +566,7 @@ var attendance = (function () {
                                                 data:{attendances_id:index},
                                                 success:function(data){
                                                     datalist[0]=data
-                                                    // console.log(data)
+                                                    console.log(data)
                                                     var html = $(templates.render('attendance_update',{
                                                           datalist:datalist
                                                         }));
@@ -572,6 +575,15 @@ var attendance = (function () {
                                                           data.member_list.forEach(function(val){
                                                                idIndex.push(val.id)
                                                           })
+                                                          var datalists= data.member_list.reduce(function(prev, cur)
+                                                          {  
+                                                             cur.fullname=cur.name;
+                                                             cur.did = "1",
+                                                             cur.avatarurl="12"
+                                                             prev[cur.id] = cur; 
+                                                             return prev;
+                                                          }, {});
+                                                          $(".button-common-people").attr("data_obj",JSON.stringify(datalists))
                                                         //   $(".attendance_ctn .button-time").val("09:00")
                                                           $(".attendance_ctn .button-time").datetimepicker({
                                                             language:"zh-CN",  

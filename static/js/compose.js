@@ -442,6 +442,7 @@ exports.finish = function () {
     // to a server-side error?
     $(document).trigger($.Event('compose_finished.zulip'));
     scrollToEnd()
+    $(".compos-left-title span").show()
     return true;
 };
 
