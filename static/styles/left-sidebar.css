@@ -640,7 +640,7 @@ li.show-more-private-messages a {
     /* padding-bottom: 100px; */
 }
 .notice_ctn{
-    padding: 5px 20px;
+    padding: 5px 14px;
     /* width: 260px; */
     height: 53px;
     cursor: pointer;
@@ -860,7 +860,7 @@ li.show-more-private-messages a {
     text-decoration: none;
 }
 .notice_box_del{
-    font-size: 13px;
+    font-size: 1px;
     color: #cccccc;
     float: right;
     position: absolute;
@@ -1149,4 +1149,10 @@ li.show-more-private-messages a {
     width: 256px;
     height: 26px!important;
     border-right: none;
+}
+.old_blue{
+    background: #F1F6FD;
+}
+.shallow_blue{
+    background: #F9FBFF;
 }
