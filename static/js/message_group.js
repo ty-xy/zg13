@@ -143,6 +143,7 @@ var message_group = (function () {
                var stream = hash[2].split("-")
                 stream = hash_util.decodeHashComponent(stream[1])
                $(".compose-content").show()
+               $(".message_comp").show()
                $("#stream").val(stream)
                $("#subject").val(subject)
             }
