@@ -554,8 +554,7 @@ def attendance_repair(request, user_profile):
     send_user = req.get('examine_user')
     send_list = list()
     send_list.append(send_user)
-    # a = request.META['HTTP_HOST']
-    # print(a, 'meta', '--------' * 10)
+
     # 补卡说明
     explain = req.get('explain')
     # 补卡时间
@@ -1067,10 +1066,3 @@ def outside_sign_in(request, user_profile):
          'notes': notes, 'img_url': img_url, 'stockpile_time': stockpile_time})
 
 
-def delete_att(request, user_profile):
-    ids = request.GET.get('id')
-    a = ZgAttendance.objects.get(id=ids)
-    a.sign_in_explain = '缺卡'
-    a.save()
-    # a.sign_off_explain = '缺卡'
-    return JsonResponse({'errno': 1})
