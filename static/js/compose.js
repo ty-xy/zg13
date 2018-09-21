@@ -394,25 +394,44 @@ exports.enter_with_preview_open = function () {
     }
 };
 i = 800
+function scrollToEnd(){//滚动到底部
+    var x = $("#zfilt").height()
+    i += 800
+    var h = 8000 + i;
+    $(".tab-content").scrollTop(h+x+$("#zfilt").scrollTop());
+    // var scrollHeight = $("#zfilt").prop("scrollHeight")
+    // $("#zfilt").scrollTop(scrollHeight+h+x)
+    console.log()
+    // message_viewport.scrollTop(message_viewport.scrollTop() + 100);
+    // console.log(message_viewport,message_viewport.scrollTop(),message_viewport.at_top(),message_viewport.at_bottom())
+}
+$(document).ready(function(){
+    var a,b,c;
+    a = $(window).height();
+    var group = $(".tab-content")   //浏览器窗口高度
+    // var group = $(".group-pic");
+    $("#zfilt").scroll(function(){
+        b = $(this).scrollTop();   //页面滚动的高度
+        c = group.offset().top;
+            //元素距离文档（document）顶部的高度
+        if(a+b>c){
+            console.log(1,a,c,b)
+        }else{
+           console.log(b,c,a)
+        }
+    });
+});
+
 exports.finish = function () {
     exports.clear_invites();
     exports.clear_private_stream_alert();
     notifications.clear_compose_notifications();
-    
-    function scrollToEnd(){//滚动到底部
-        var x = $("#zfilt").height()
-        i += 800
-        var h = 8000 + i;
-        // $(".tab-content").scrollTop(h);
-        var scrollHeight = $("#zfilt").prop("scrollHeight")
-        $("#zfilt").scrollTop(scrollHeight+h)
-        console.log(message_viewport,message_viewport.scrollTop(),message_viewport.at_top(),message_viewport.at_bottom())
-    }
     // console.log("gagagag")
     if (! compose.validate()) {
         return false;
     }
     var message_content = compose_state.message_content();
+    // console.log(message_content)
     if (is_deferred_delivery(message_content)) {
         exports.schedule_message();
     } else {
@@ -434,8 +453,8 @@ exports.update_email = function (user_id, new_email) {
     }
 
     reply_to = people.update_email_in_reply_to(reply_to, user_id, new_email);
-
     compose_state.recipient(reply_to);
+    scrollToEnd()
 };
 
 exports.get_invalid_recipient_emails = function () {

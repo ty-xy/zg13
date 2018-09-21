@@ -178,6 +178,7 @@ var message_group = (function () {
             $(".home-title").hide()
             $(".home_gruop_title").show()
             $("#main_div").show();
+            // $("#home").show()
             var streams = stream_data.subscribed_subs();
             // var sub = stream_data.get_subscribers()
             var subscriptions = stream_data.get_streams_for_settings_page();

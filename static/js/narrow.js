@@ -620,6 +620,7 @@ function pick_empty_narrow_banner() {
             return $("#supervise_ctn");
         } else if (first_operand === "mentioned") {
             $("#zfilt").addClass("focused_table");
+            // $("#home").hide();
             $(".notice_ctn_boxs").hide()
             $(".notice_ctn_box").show()
             $(".persistent_data").hide();

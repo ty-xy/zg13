@@ -71,7 +71,7 @@ function scroll_finish() {
     clearTimeout(scroll_timer);
     scroll_timer = setTimeout(exports.scroll_finished, 100);
 }
-
+ 
 exports.initialize = function () {
     message_viewport.message_pane.scroll($.throttle(50, function () {
         unread_ops.process_visible();

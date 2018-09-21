@@ -52,7 +52,16 @@ function maybe_add_narrowed_messages(messages, msg_list, messages_are_new) {
             }, 5000);
         }});
 }
-
+ i = 80000
+    function scrollToEnd(){//滚动到底部
+        var x = $("#zfilt").height()
+        i += 800
+        var h = 8000 + i;
+        $(".tab-content").scrollTop(h);
+        var scrollHeight = $("#zfilt").prop("scrollHeight")
+        $("#zfilt").scrollTop(scrollHeight+h)
+    }
+    // scrollToEnd()
 
 exports.insert_new_messages = function insert_new_messages(messages, locally_echoed) {
     messages = _.map(messages, message_store.add_message_metadata);
@@ -65,14 +74,15 @@ exports.insert_new_messages = function insert_new_messages(messages, locally_ech
     if (narrow_state.active()) {
         if (narrow_state.filter().can_apply_locally()) {
             message_util.add_messages(messages, message_list.narrowed, {messages_are_new: true});
+            
         } else {
             // if we cannot apply locally, we have to wait for this callback to happen to notify
             maybe_add_narrowed_messages(messages, message_list.narrowed, true);
         }
     }
-
-
-    if (locally_echoed) {
+  
+     
+    if (locally_echoed) { 
         notifications.notify_local_mixes(messages);
     }
 
@@ -86,6 +96,7 @@ exports.insert_new_messages = function insert_new_messages(messages, locally_ech
     notifications.received_messages(messages);
     stream_list.update_streams_sidebar();
     pm_list.update_private_messages();
+   scrollToEnd()
 };
 
 exports.maybe_advance_to_recently_sent_message = function (messages) {
@@ -110,8 +121,19 @@ exports.maybe_advance_to_recently_sent_message = function (messages) {
                 break;
             }
         }
+        scrollToEnd() 
     }
 };
+// i = 800
+// function scrollToEnd(){//滚动到底部
+//     var x = $("#zfilt").height()
+//     i += 800
+//     var h = 8000 + i;
+//     // $(".tab-content").scrollTop(h);
+//     var scrollHeight = $("#zfilt").prop("scrollHeight")
+//     $("#zfilt").scrollTop(scrollHeight+h)
+//     console.log(message_viewport,message_viewport.scrollTop(),message_viewport.at_top(),message_viewport.at_bottom())
+// }
 
 exports.update_messages = function update_messages(events) {
     var msgs_to_rerender = [];
@@ -119,7 +141,8 @@ exports.update_messages = function update_messages(events) {
     var changed_narrow = false;
     var changed_compose = false;
     var message_content_edited = false;
-
+    
+    scrollToEnd()
     _.each(events, function (event) {
         var msg = message_store.get(event.message_id);
         if (msg === undefined) {
@@ -185,7 +208,7 @@ exports.update_messages = function update_messages(events) {
                     }
                 }
             }
-
+            scrollToEnd()
             _.each(event.message_ids, function (id) {
                 var msg = message_store.get(id);
                 if (msg === undefined) {
@@ -262,8 +285,10 @@ exports.update_messages = function update_messages(events) {
     } else {
         // If the content of the message was edited, we do a special animation.
         current_msg_list.view.rerender_messages(msgs_to_rerender, message_content_edited);
+        scrollToEnd()
         if (current_msg_list === message_list.narrowed) {
             home_msg_list.view.rerender_messages(msgs_to_rerender);
+            scrollToEnd()
         }
     }
 
@@ -271,8 +296,9 @@ exports.update_messages = function update_messages(events) {
         // We need to do this after we rerender the message list, to
         // produce correct results.
         compose_fade.update_message_list();
+        scrollToEnd()
     }
-
+    scrollToEnd()
     unread_ui.update_unread_counts();
     stream_list.update_streams_sidebar();
     pm_list.update_private_messages();
