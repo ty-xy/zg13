@@ -244,10 +244,7 @@ var check = (function () {
                                             }).delay (1000).fadeOut ({duration: 1000});
                                             $('.toast-alert-buttons').html("催办成功")
                                             $('.toast-alert-buttons').css('background-color','rgba(0,107,169,0.30)')
-                                                var index = data.head_name.indexOf("的")
-                                                var name = data.head_name.slice(0,index)
-                                                console.log(name)
-                                                server_events.showNotify("催办",data.head_name+"请您审批",name)
+                                                server_events.showNotify("催办",data.head_name+"请您审批")
                                            }
                                         }
                                     })
