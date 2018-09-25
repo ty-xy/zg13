@@ -93,9 +93,13 @@ var message_group = (function () {
         var i = 0 
         $("#compose .icon-nexts").on("click",function(e){
             var ul = $(".topic-list").children()
-            if(0<i<ul.length-5){
+            // console.log(ul.length-5)
+            if(i<ul.length-5){
                 ul.eq(i).hide()
                 i++
+                if(i>0){
+                   $(".first-icon i").css("color","#999")
+                }
                 if(i===ul.length-5){
                     $(".last-icon i").css("color","rgba(153,153,153,0.50)")
                     $(".last-icon i").attr("disabled",true);
@@ -103,23 +107,26 @@ var message_group = (function () {
                     $(".first-icon i").css("color","#999")
                 }else{
                     $(".last-icon i").removeAttr("disabled")
+                    
                 }
                 
             }
-            console.log(i,ul.length)
         })
         $(".icon-prevs").on("click",function(e){
             var ul = $(".topic-list").children()
             if(i-1>-1){
              ul.eq(i-1).show()
              i--
-             if(i===5){
+             if(i<ul.length-5){
+                $(".last-icon i").css("color","#999")
+             }
+             if(i===0){
                  $(".first-icon i").attr("disabled",true);
                  $(".last-icon i").removeAttr("disabled")
                  $(".last-icon i").css("color","#999")
                  $(".first-icon i").css("color","rgba(153,153,153,0.50)")
                 }
-             console.log(i,ul.length)
+            //  console.log(i,ul.length)
            }
         })         
         var Heights = $(window).height()
@@ -185,17 +192,20 @@ var message_group = (function () {
             $("#main_div").show();
             // $("#home").show()
             var streams = stream_data.subscribed_subs();
+            // console.log(streams)
+            streams.forEach(function(value,i){
+                value.count = unread.num_unread_for_stream(value.stream_id); 
+            })
             // var sub = stream_data.get_subscribers()
             var subscriptions = stream_data.get_streams_for_settings_page();
             // console.log(stream_edit,323111)
             // 渲染群组
             var content1 =  templates.render('show_group', {subscriptions:streams,showList:false});
             $("#group_seeting_choose").html(content1)
+        
             $("#group_seeting_choose .streams-list").height($(window).height()-160)
             $(".swtich-button").hide()
-
-            // })
-            // 点击群组的事件
+ 
             $("#group_seeting_choose").off("click",".stream-list-rows").on("click",".stream-list-rows",function(){
                  e.preventDefault()
                  e.stopPropagation()
@@ -213,6 +223,7 @@ var message_group = (function () {
                     data: data,
                     idempotent: true,
                     success:function(data){
+                        // console.log(data)
                         var arr = JSON.parse(localStorage.getItem("arr"))
                         var subject
                         if(data.messages.length==0){
@@ -281,6 +292,7 @@ var message_group = (function () {
                                 }
                             }
                             subject = lastData.subject
+                            // console.log(lastData)
                             $("#stream").val(name)
                             $("#subject").val(lastData.subject)
                         }
@@ -292,7 +304,6 @@ var message_group = (function () {
                         $(".home_gruop_title").hide()
                         $("#zfilt").show()
                         $("#stream-message").show()
-                   
                         $(".news_icon").addClass("left_blue_height");
                         $(".address_book").removeClass("left_blue_height")
                         i= 0
@@ -377,8 +388,6 @@ var message_group = (function () {
                 var streams = stream_data.subscribed_subs();
                 common(streams,".already_sub",false)
                      // 开关按钮暂定状态，稍后优化
-               
-               
                 $(".swtich-button").hide()
             })
         })
@@ -391,9 +400,10 @@ var message_group = (function () {
             var titlef= title.slice(0,1)
             var text= $(".home-title span").html()
             var get_sub_by_name =stream_data.get_sub_by_name(title)
-            var emial =get_email_of_subscribers(get_sub_by_name.subscribers)
+            
             // var avatar = people.stream_url_for_eamil(emial[0])
             var avatars = []
+            var emial =get_email_of_subscribers(get_sub_by_name.subscribers)
              emial.forEach(function(i,v){
                  var avatarUrl= people.stream_url_for_eamil(i.email)
                  var personnal = {

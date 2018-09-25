@@ -508,7 +508,10 @@ var server_events = (function () {
         });
     };
     //自定义推送
-    exports.showNotify =function (title,msg){
+    exports.showNotify =function (title,msg,name=""){
+       if(page_params.full_name===name){
+           return
+       } 
         var Notification = window.Notification || window.mozNotification || window.webkitNotification;
         if(Notification){
             Notification.requestPermission(function(status){

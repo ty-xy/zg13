@@ -217,7 +217,7 @@ var check = (function () {
                             url:"/json/zg/approval",
                             data:datater,
                             success:function(datalist){
-                                // console.log(datalist)
+                                console.log(datalist)
                                 var data =datalist.data
                                 if(data.feedback_list.length===0){
                                     data.shown=false
@@ -238,14 +238,16 @@ var check = (function () {
                                     contentType:"application/json",
                                     success:function(datas){
                                            if(datas.errno===0){
-                                            var rendered = templates.render("feed_back_content",{reminder_tip:true})
-                                                $(".modal-logs").html(rendered)
-                                                $(".modal-logs").show()
-                                                $(".feadback-remind").on("click",function(){
-                                                    $(".modal-logs").hide()
-                                                })
-                                                // console.log(datas)
-                                                server_events.showNotify("催办",data.head_name+"请您审批")
+    
+                                            $('.toast-alert-buttons').fadeIn({
+                                                duration: 1
+                                            }).delay (1000).fadeOut ({duration: 1000});
+                                            $('.toast-alert-buttons').html("催办成功")
+                                            $('.toast-alert-buttons').css('background-color','rgba(0,107,169,0.30)')
+                                                var index = data.head_name.indexOf("的")
+                                                var name = data.head_name.slice(0,index)
+                                                console.log(name)
+                                                server_events.showNotify("催办",data.head_name+"请您审批",name)
                                            }
                                         }
                                     })
