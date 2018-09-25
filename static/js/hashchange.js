@@ -78,6 +78,9 @@ exports.parse_narrow = function (hash) {
         $(".compose-content").hide()
         $(".move_ctn").children().remove();
         $(".group_icon").hide()
+        if($(".persistent_data .person_value")!=0){
+            $(".person_value").show()
+        }
         arr = JSON.parse(localStorage.getItem("arr"))
         if(arr !=null){
             $(".persistent_data").show()
