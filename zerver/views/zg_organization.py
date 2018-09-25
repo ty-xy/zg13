@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from zerver.models import  ZgDepartment, UserProfile
+from zerver.models import ZgDepartment, UserProfile
 from zerver.lib import avatar
 from zerver.views.zg_tools import req_tools
 from django.core.cache import cache
@@ -41,7 +41,7 @@ def not_department_user(request, user_profile):
             user_dict['avatarurl'] = avatars
             user_dict['fullname'] = name
             user_dict['id'] = user.id
-            user_dict['pm_url'] = '#narrow/pm-with/'+str(user.id)+'-'+user.short_name
+            user_dict['pm_url'] = '#narrow/pm-with/' + str(user.id) + '-' + user.short_name
 
             not_department_list.append(user_dict)
     return JsonResponse({'errno': 0, 'message': '成功', 'not_department_list': not_department_list})
@@ -198,7 +198,10 @@ def user_details(request, user_profile):
     data['fullname'] = user_obj[0].full_name
     data['id'] = user_obj[0].id
     data['email'] = user_obj[0].email
-    data['department'] = user_obj[0].department
+    try:
+        data['department'] = user_obj[0].department
+    except Exception:
+        data['department'] = ''
     return JsonResponse({'errno': 0, 'message': '成功', 'data': data})
 
 
@@ -282,4 +285,3 @@ def invite_qrcode(request, user_profile):
     image_stream = buf.getvalue()
     a = HttpResponse(image_stream, content_type="image/png")
     return a
-

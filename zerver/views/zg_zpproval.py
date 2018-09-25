@@ -87,7 +87,6 @@ def add_leave(request, user_profile):
 
         # 添加审批人
         if approver_list:
-            print(approver_list, type(approver_list))
             for approver in approver_list:
                 ZgReview.objects.create(types=approval_type, user=user_profile, send_user_id=approver, table_id=aaa.id,
                                         send_time=nuw_time())
@@ -118,7 +117,6 @@ def reimburse_add(request, user_profile):
     category = req.get('category')
     detail = req.get('detail')
     image_url = req.get('image_url')
-    print(image_url)
     approver_list = req.get('approver_list')
     observer_list = req.get('observer_list')
 
@@ -141,7 +139,6 @@ def reimburse_add(request, user_profile):
 
     event = zg_send_tools(event)
     if approver_list:
-        print(approver_list,type(approver_list))
         for approver in approver_list:
 
             ZgReview.objects.create(types='reimburse', user=user_profile, send_user_id=approver, table_id=a.id,
@@ -299,16 +296,12 @@ def tools_approcal_details(types, ids, user_profile, table_obj):
         data['head_status'] = '已撤销'
 
     else:
-        print('-=-=-=-====')
         bb = ZgReview.objects.filter(table_id=ids, types=types, status='审批未通过', duties='approval').count()
         cc = ZgReview.objects.filter(table_id=ids, types=types, status='审批中', duties='approval').count()
-        print(bb, cc,'------'*30)
         if bb > 0:
             data['head_status'] = '审批未通过'
-            print('审批未通过')
         elif cc > 0:
             data['head_status'] = '审批中'
-            print('审批通过')
         else:
             data['head_status'] = '审批通过'
 
@@ -326,8 +319,8 @@ def tools_approcal_details(types, ids, user_profile, table_obj):
         data['button_status'] = 4
     elif table_obj.status == '已撤销' and table_obj.user == user_profile:
         data['button_status'] = 5
-    # else:
-    #     data['button_status'] =2
+    else:
+        data['button_status'] = 3
 
     approver_statu = True
     if data['button_status'] == 5:
@@ -518,7 +511,7 @@ def state_update(request, user_profile):
     else:
         return JsonResponse({'errno': 4, 'message': '无此条信息'})
 
-    return JsonResponse({'errno': 0, 'message': '修改成功'})
+    return JsonResponse({'errno': 0, 'message': '审批成功'})
 
 
 # 反馈

@@ -79,8 +79,8 @@ def serve_file_backend(request: HttpRequest, user_profile: UserProfile,
     #     return HttpResponse1Forbidden(_("<p>You are not authorized to view this file.</p>"))
 
     if settings.LOCAL_UPLOADS_DIR is not None:
-        if path_id[-3:] == 'aac':
-            response = HttpResponse(serve_local(request, path_id), content_type='audio/aac')
+        if path_id[-3:] == 'amr':
+            response = HttpResponse(serve_local(request, path_id), content_type='audio/amr')
 
             return response
         return serve_local(request, path_id)
