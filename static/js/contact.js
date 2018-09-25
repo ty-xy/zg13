@@ -807,6 +807,7 @@ var contact = (function(){
                    var receive_table_list = res.receive_table_list;
                    var html = templates.render("log_assistant_box",{receive_table_list:receive_table_list,page:page})
                    $(".move_ctn").append(html)
+                   $(".log_assistant_ctn_box").css("height",window.screen.height)
                    if(res.receive_table_list.length==0){
                     var  personal_space = templates.render("personal_space")
                     $(".log_assistant_ctn_box").html(personal_space)
@@ -875,6 +876,7 @@ var contact = (function(){
                                        var html = templates.render("log_assistant_receive",{receive_table_list:receive_table_list})
                                        var paging = templates.render("paging_receive",{page:page})
                                        $(".log_assistant_ctn_box").append(html);
+                                       $(".log_assistant_ctn_box").css("height",window.screen.height)
                                        $(".log_assistant_ctn_box").append(paging);
                                        if(res.receive_table_list.length==0){
                                         var  personal_space = templates.render("personal_space")
@@ -1023,6 +1025,7 @@ var contact = (function(){
                                var html = templates.render("log_assistant_send",{send_table_list:send_table_list});
                                var paging = templates.render("paging_send",{page:page})
                                $(".log_assistant_ctn_box").append(html);
+                               $(".log_assistant_ctn_box").css("height",window.screen.height)
                                $(".log_assistant_ctn_box").append(paging);
                                if(res.send_table_list.length==0){
                                 var  personal_space = templates.render("personal_space")
@@ -1324,6 +1327,7 @@ function getLogReceive(page){
             // console.log(html)
             //翻页后移至顶部
             $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
+            $(".log_assistant_ctn_box").css("height",window.screen.height)
             //点击下载附件图片
             $(".download_fujian").on("click",function(){
                 window.open($(this).attr("href"))
@@ -1344,6 +1348,7 @@ function getLogSend(page){
             $(".paging_box_send").before(html)
             //翻页后移至顶部
             $(".log_assistant_ctn_box").animate({scrollTop:0}, 0);
+            $(".log_assistant_ctn_box").css("height",window.screen.height)
             //点击下载附件图片
             $(".download_fujian").on("click",function(){
                 window.open($(this).attr("href"))
