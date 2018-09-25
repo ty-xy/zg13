@@ -55,7 +55,7 @@ exports.update_scrollbar = (function () {
 
 function update_pm_count_in_dom(count_span, value_span, count) {
     var li = count_span.parent();
-
+    
     if (count === 0) {
         count_span.hide();
         li.removeClass("user-with-count");
@@ -84,7 +84,7 @@ function update_group_count_in_dom(count_span, value_span, count) {
 }
 
 function get_pm_list_item(user_id) {
-    return $("li.user_sidebar_entry[data-user-id='" + user_id + "']");
+    return $(".only_tip[send_id='" + user_id + "']");
 }
 
 function get_group_list_item(user_ids_string) {

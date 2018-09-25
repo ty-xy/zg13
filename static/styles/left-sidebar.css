@@ -206,12 +206,23 @@ li.active-sub-filter {
     letter-spacing: 0.6px;
     border-radius: 4px;
 }
-
+.preson_count{
+    background: hsl(105, 2%, 50%);
+    padding: 1px 4px;
+    border-radius: 0px;
+    color: hsl(0, 0%, 100%);
+    font-size: 12px;
+    font-weight: normal;
+    letter-spacing: 0.6px;
+    border-radius: 4px;
+    position: absolute;
+    right: 10px;
+    top: 7px;
+}
 #global_filters .count {
     margin-right: 30px;
     margin-top: 4px;
     display: none;
-
     line-height: 12px;
 }
 
