@@ -30,7 +30,7 @@ var check = (function () {
     exports.backIcons2 = function (){
         $(".first-icon").off("click").on("click",function(e){
             moveContent()
-            console.log("返回待我审批")
+            // console.log("返回待我审批")
              $(".expect-check").addClass("active").siblings().removeClass("active")
              $("#ios").addClass("in active").siblings().removeClass("in active")
              channel.get({
@@ -48,7 +48,7 @@ var check = (function () {
     function backIcons3(){
         $(".first-icon").off("click").on("click",function(e){
             moveContent()
-            console.log("我发送的")
+            // console.log("我发送的")
              $(".send_apply").addClass("active").siblings().removeClass("active")
              $("#originator").addClass("in active").siblings().removeClass("in active")
              channel.get({
@@ -217,7 +217,7 @@ var check = (function () {
                             url:"/json/zg/approval",
                             data:datater,
                             success:function(datalist){
-                                console.log(datalist)
+                                // console.log(datalist)
                                 var data =datalist.data
                                 if(data.feedback_list.length===0){
                                     data.shown=false
@@ -244,7 +244,7 @@ var check = (function () {
                                                 $(".feadback-remind").on("click",function(){
                                                     $(".modal-logs").hide()
                                                 })
-                                                console.log(datas)
+                                                // console.log(datas)
                                                 server_events.showNotify("催办",data.head_name+"请您审批")
                                            }
                                         }
@@ -627,7 +627,7 @@ var check = (function () {
                                     data:data,
                                     success:function(datalist){
                                         var data =datalist.data
-                                        console.log(data)
+                                        // console.log(data)
                                         // console.log("返回待我审批1")
                                         $(".move_ctn").children().remove();
                                         var li = templates.render("check_detail",data)
@@ -678,7 +678,7 @@ var check = (function () {
                                 data:datas,
                                     success:function(datalist){
                                         var data =datalist.data
-                                       console.log(datalist)
+                                    //    console.log(datalist)
                                         if(data.feedback_list.length===0){
                                             data.shown=false
                                         }else{

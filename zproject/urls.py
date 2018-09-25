@@ -465,6 +465,10 @@ v1_api_and_json_patterns = [
     url(r'^zg/attendance/repair/$', rest_dispatch,
         {'POST': 'zerver.views.zg_attendance.attendance_repair'}),
 
+    # 考勤补卡意见
+    url(r'^zg/attendance/repair/opinion/$', rest_dispatch,
+        {'POST': 'zerver.views.zg_attendance.repair_examine'}),
+
     # ----个人打卡----
     # 获取打卡球内信息
     url(r'^zg/attendance/sign_in_view$', rest_dispatch,
@@ -579,6 +583,11 @@ v1_api_and_json_patterns = [
     url(r'^zg/user/permissions$', rest_dispatch,
         {'GET': 'zerver.views.zg_organization.zg_user_permissions'}),
 
+    # 邀请成员二维码
+    url(r'^zg/invite/qrcode$', rest_dispatch,
+        {'GET': 'zerver.views.zg_organization.invite_qrcode'}),
+
+
     # zg_restful-------------
     # 收藏
     url(r'^zg/collection/$', rest_dispatch,
@@ -597,10 +606,6 @@ v1_api_and_json_patterns = [
     # 查看云盘列表
     url(r'^zg/clouddisk/user$', rest_dispatch,
         {'GET': 'zerver.views.zg_restful_api.user_clouddisk'}),
-
-    # 删除考勤信息
-    url(r'^zg/del/attssss$', rest_dispatch,
-        {'GET': 'zerver.views.zg_attendance.delete_att'}),
 
     # 文件详情
     url(r'^zg/file/details$', rest_dispatch,

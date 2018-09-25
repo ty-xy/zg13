@@ -638,7 +638,7 @@ exports.process_hotkey = function (e, hotkey) {
             narrow.narrow_to_next_pm_string();
             return true;
         case 'open_drafts':
-            console.log(66666)
+            // console.log(66666)
             drafts.launch();
             return true;
         case 'reply_message': // 'r': respond to message

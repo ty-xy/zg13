@@ -53,7 +53,7 @@ $(function () {
     $("#send_confirm").validate({
         errorElement: "div",
         errorPlacement: function (error) {
-            console.log(error,1)
+            // console.log(error,1)
             $('.email-frontend-error').empty();
             $("#send_confirm .alert.email-backend-error").remove();
             error.appendTo(".email-frontend-error").addClass("text-error");

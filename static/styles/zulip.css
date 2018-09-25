@@ -1573,7 +1573,7 @@ blockquote p {
     /* padding: 11px 10px; */
     margin-top: 5px;
     max-width: 700px;
-    /* margin: 13px 0; */
+    margin: 13px 0;
 }
 .my_news_box>p{
     background: #DDE9FF!important;
@@ -2759,8 +2759,16 @@ div.topic_edit_spinner .loading_indicator_spinner {
     /* margin-top: 20px; */
     margin-left: 10px;
     margin-right: 10px;
+    /* height:calc(100% - 90px);
+    overflow: auto */
 }
-
+/* .zfilt_parent{
+    height:calc(100% - 90px);
+    overflow: auto;
+}
+#zfilt {
+    height:calc(100% - 352px);
+} */
 .screen {
     position: absolute;
     left: 0;

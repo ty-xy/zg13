@@ -539,7 +539,7 @@ function describe_unescaped(operators) {
         var prefix_for_operator = Filter.operator_to_prefix(canonicalized_operator,
                                                             elem.negated);
         if (prefix_for_operator !== '') {
-            console.log(prefix_for_operator,11)
+            // console.log(prefix_for_operator,11)
             return prefix_for_operator + ' ' + operand;
         }
         return "unknown operator";

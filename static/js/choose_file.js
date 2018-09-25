@@ -140,7 +140,7 @@ var chooseFile = (function () {
                         var data_id = $(this).attr("data_id")
                         var key_data = $(this).attr("key-data")
                         $(this).remove()
-                        console.log(1111)
+                        // console.log(1111)
                         var length = $(".box-right-list").children().length
                         var text = "选中"+"("+length+")"
                         $(".already-choose").html(text)
@@ -148,7 +148,7 @@ var chooseFile = (function () {
                         
                         if($(".box-start-list").length>0&&$(".box-start-list[input-key="+data_id+"]").length!==0){
                             checkbox = $(".box-start-list[input-key="+data_id+"]").find("input")
-                            console.log(obj)
+                            // console.log(obj)
                             delete(obj[key_data])
                         }else{
                             checkbox = $(".choose-list-box[data-key="+key_data+"]")
@@ -234,7 +234,7 @@ var chooseFile = (function () {
                                 datalist.fullname=that.closest("label").text()
                                 datalist.did = $(".select-choose").find("span").text()
                                 datalists[that.attr("data-key")] = datalist
-                                console.log(obj)
+                                // console.log(obj)
                                 obj = $.extend(obj,datalists)
                                 var html = templates.render("choose_person",{datalist:obj})
                                 $(".box-right-list").html(html)
@@ -396,20 +396,20 @@ var chooseFile = (function () {
                                     person_dict.set("未分组",data.not_department_list)
                                     var value = data.not_department_list
                                     common_content(value,obj,name)
-                                    console.log(1)
+                                    // console.log(1)
                                 }
                             } 
                         })
                       }else{
                         value = person_dict.get(name)
                         common_content(value,obj,name)
-                        console.log(2)
+                        // console.log(2)
                       }
                   })
                   //搜索
                   function showName (){
                     if($(".modal-ul-choose").is(':visible')){
-                        console.log(111)
+                        // console.log(111)
                         $(".modal-ul-choose").click(function(e){
                             $(".modal-ul-choose").hide();
                             $(".search-icon").val("")
@@ -442,7 +442,7 @@ var chooseFile = (function () {
                                     objs[next.id] ? +'' : objs[next.id] = next && item.push(next);
                                     return item;
                                 },[])
-                                console.log(arr)
+                                // console.log(arr)
                                 var search_arr =[]
                                 arr.forEach(function(val,index){
                                     var value_lowerCase = val.fullname.toLowerCase()
@@ -462,7 +462,7 @@ var chooseFile = (function () {
                         })
                      }else{
                         if(search_value!==""){
-                            console.log(11)
+                            // console.log(11)
                             var search_arr =[]
                             tatal_arr.forEach(function(val,index){
                                 if(val.indexOf(search_value)!==-1){
