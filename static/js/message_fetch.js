@@ -143,11 +143,17 @@ exports.load_messages = function (opts) {
             }
         })
     }
+    
     channel.get({
         url:      '/json/messages',
         data:     data,
         idempotent: true,
         success: function (data) {
+            // console.log(data)
+            // exports.getLastMessage = function (data){
+            //     console.log(data)
+            //     // return data.messages.pop()
+            // }
             get_messages_success(data, opts);
             if(data.result == "success"){
                 // var organization_chart_md = templates.render("organization_chart_md")

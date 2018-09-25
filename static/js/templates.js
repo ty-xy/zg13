@@ -471,11 +471,20 @@ Handlebars.registerHelper('tr', function (context, options) {
     var result = i18n.t(options.fn(context), context);
     return new Handlebars.SafeString(result);
 });
-Handlebars.registerHelper("formatFileSize",function(ext){
-    if (ext / 1024 > 100) {
-        return (ext / 1024 / 1024).toFixed(2) + 'MB';
+Handlebars.registerHelper("formatFileSize",function(str){
+
+        var str = Number(size);
+        if (str > 1024) {
+        if ((str / 1024) > 100) {
+        if ((str / 1024 / 1024) > 100) {
+        return (str / 1024 / 1024 / 1024).toFixed(2)+ 'GB';
         }
-        return (ext / 1024).toFixed(2) + 'kb';
+        return (str / 1024 / 1024).toFixed(2)+'MB';
+        }
+        return (str / 1024).toFixed(2)+'KB';
+        }
+        return str +'B';
+
 })
 return exports;
 }());
