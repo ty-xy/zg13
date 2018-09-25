@@ -415,9 +415,9 @@ $(document).ready(function(){
         c = group.offset().top;
             //元素距离文档（document）顶部的高度
         if(a+b>c){
-            console.log(1,a,c,b)
+            // console.log(1,a,c,b)
         }else{
-           console.log(b,c,a)
+        //    console.log(b,c,a)
         }
     });
 });

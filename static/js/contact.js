@@ -54,6 +54,7 @@ var contact = (function(){
                             $(".group_icon").hide();
                             $(".persistent_data").show()
                             $(".tab-content").css("height","calc(100% - 232px)")
+                            // console.log(message_fetch.getLastMessage())
                             //上方显示聊天对面信息
                             //获取更新消息列表
                             $(".persistent_data").show();
@@ -69,6 +70,7 @@ var contact = (function(){
                             }else{
                                 var flag = false;
                                 for(var i =0;i<arr.length;i++){
+                                    // console.log(arr[i])
                                     if(arr[i].send_id == user_id){
                                         flag = true;
                                         arr[i].content = arr[i].content
