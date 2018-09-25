@@ -510,7 +510,9 @@ var server_events = (function () {
         });
     };
     //自定义推送
-    exports.showNotify =function (title,msg,name=""){
+    exports.showNotify =function (title,msg){
+        var index = msg.indexOf("的")
+        var name = msg.slice(0,index)
        if(page_params.full_name===name){
            return
        } 
