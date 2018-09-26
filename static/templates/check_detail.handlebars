@@ -70,7 +70,8 @@
     {{#if img_url}}
         <div>
            <span>添加图片:</span>
-           {{#each img_url}}
+           {{!-- <img src={{img_url}} class="img-border" /> --}}
+           {{#each  img_url}}
                 <img src={{this}} class="img-border"/>
            {{/each}}
         </div>
