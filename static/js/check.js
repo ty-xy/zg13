@@ -10,6 +10,14 @@ var check = (function () {
             moveContent()
         })
     }
+    // function del_msg (data) {
+    //     if(data.img_url){
+    //          var str = data.img_url
+    //          var imgurl = str.substring(1,str.length-1);
+    //          console.log(imgurl,str)
+    //          data.img_url = imgurl  
+    //     }
+    //  }
     function backIcons1 (){
         $(".first-icon").off("click").on("click",function(e){
             moveContent()
@@ -80,6 +88,7 @@ var check = (function () {
             })
         })
     }
+  
     function get_data(datalis,func){
         // var lis = $(".move_ctn").children()
          var datas= {
@@ -97,6 +106,7 @@ var check = (function () {
                         data.shown=true
                     }
                     $(".move_ctn").children().remove();
+                    
                     var li = templates.render("check_detail",data)
                     $(".move_ctn").html(li)
                     func()
@@ -224,6 +234,7 @@ var check = (function () {
                                 }else{
                                     data.shown=true
                                 }
+                                // del_msg(data)
                                 var li = templates.render("check_detail",data)
                                 $(".move_ctn").html(li)
                                 backIcons3()
@@ -327,8 +338,12 @@ var check = (function () {
             var ids= Number($(this).attr('data_id'))
               resend_list.push(ids)
           })
-          
-          var img_url = $(".img-none-border").attr("data-url")
+          var img_url = []
+          $(".form-group-img").children().not($(".img-commons-control")).each(function(){
+              img_url.push($(this).attr("data-url"))
+              console.log(img_url)
+          })
+        //   var img_url = $(".img-none-border").attr("data-url")
           
         var  data = {
             approval_type:type,
@@ -570,8 +585,13 @@ var check = (function () {
                     var ids= Number($(this).attr('data_id'))
                     resend_list.push(ids)
                 })
-                var img_url = $(".img-none-border").attr("data-url")
-                var data ={
+                var img_url = []
+                $(".form-group-img").children().not($(".img-commons-control")).each(function(){
+                    img_url.push($(this).attr("data-url"))
+                    console.log(img_url)
+                })
+                
+                var data ={     
                     amount:amount,
                     category:category,
                     approver_list:send_list,
