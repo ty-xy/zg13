@@ -1,6 +1,6 @@
 from zerver.models import Backlog, BacklogAccessory, UpdateBacklog, Statement, StatementBacklog, StatementAccessory, \
     StatementState, UserProfile, Stream, ZgStatementComment, ZgReplyComment
-from django.http import JsonResponse, HttpResponse, HttpRequest
+from django.http import JsonResponse
 import datetime, time, json, calendar
 from zerver.lib import avatar
 
