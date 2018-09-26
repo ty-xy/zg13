@@ -74,8 +74,8 @@ html {
 }
 .r_eyeicon{
     position: absolute;
-    right: 0px;
-    bottom: 5px;
+    right: 3px;
+    bottom: 7px;
     font-size: 12px;
 }
 .phone_number,.verification,.registered_password{
@@ -89,6 +89,28 @@ html {
     padding-bottom: 10px;
     outline: none;
 }
+#registered_password,#resset_password{
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #999999;
+    letter-spacing: 1.33px;
+    padding-bottom: 10px;
+    margin: 25px 0 4px;
+    padding-top: 9px;
+}
+#id_password{
+    padding: 9px 32px 11px 12px;
+    margin: 25px 0 4px;
+    font-size: 1.2rem;
+    line-height: normal;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    outline: none;
+    width: 281px;
+}
 .verification_box{
     margin-top: 30px;
     position: relative;
@@ -96,7 +118,7 @@ html {
 .get_verification{
     background: #4584FF;
     border-radius: 100px;
-    width: 90px;
+    width: 90px!important;
     height: 27px;
     text-align: center;
     font-size: 12px;

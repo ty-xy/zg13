@@ -1472,6 +1472,7 @@ textarea[readonly] {
   cursor: not-allowed;
   background-color: #4584FF;
   opacity: 0.6;
+  width: 90px;
 }
 
 input[type="radio"][disabled],

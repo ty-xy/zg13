@@ -115,6 +115,7 @@ $(function () {
         clearTimeout(timer);
         timer = setTimeout(check_subdomain_avilable, 250, $('#id_team_subdomain').val());
     });
+    //获取验证码
     $("#send_confirm").on("click",".get_verification",function(){
         var countdown=60;
         function sendmsg(){
@@ -135,7 +136,26 @@ $(function () {
         }
         sendmsg()
     })
-
+    //登陆页小眼睛
+    $("#login_form").on("click",".eyeclose",function(){
+        if($(this).prev().attr("type")){
+            $(this).prev().attr("type","");
+            $(this).removeClass("icon-yanjingguan").addClass("icon-yanjingkai")
+        }else{
+            $(this).prev().attr("type","password");
+            $(this).removeClass("icon-yanjingkai").addClass("icon-yanjingguan")
+        }
+    })
+    //注册页小眼睛
+    $("#send_confirm").on("click",".eyeclose",function(){
+        if($(this).prev().attr("type")){
+            $(this).prev().attr("type","");
+            $(this).removeClass("icon-yanjingguan").addClass("icon-yanjingkai")
+        }else{
+            $(this).prev().attr("type","password");
+            $(this).removeClass("icon-yanjingkai").addClass("icon-yanjingguan")
+        }
+    })
     // //获取验证码
     // $(".organization_chart_box").on("click",".disband_time",function(){
     //     var countdown=60;
