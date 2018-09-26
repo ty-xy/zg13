@@ -1483,7 +1483,9 @@ input.new-organization-button {
     margin: 0;
     text-align: left;
 }
-
+.phone_nav{
+    display: none;
+}
 .center-block .control-group .controls {
     margin: 0;
     text-align: left;
@@ -1880,6 +1882,66 @@ input.new-organization-button {
         display: inline-block;
         margin-top: 10px;
     }
+    .footer{
+        display: none;
+    }
+    body{
+        background: #fff;
+        width: 100vw;
+        height: 100vh;
+    }
+    .column-right{
+        display: none;
+    }
+    .column-left{
+        margin-top: 40px;
+        width: 100vw;
+    }
+    .column_left_l{
+        float: left;
+    }
+    .column_left_r{
+        float: right;
+        width: 26px;
+        height: 23px;
+        background: #fff;
+        margin-right: 45px;
+        position: relative;
+        margin-top: 4px;
+        cursor: pointer;
+    }
+    .line_A,.line_B{
+        width: 30px;
+        background:#5566DC;
+        height: 4px;
+        position: absolute;
+        top: 5px;
+    }
+    .line_B{
+        top: 14px;
+    }
+    .phone_nav{
+        margin: 0;
+        width: 160px;
+        list-style: none;
+        background: #FFFFFF;
+        border: 1px solid #F7F7F7;
+        box-shadow: 0 2px 4px 0 rgba(238,238,238,0.50);
+        position: absolute;
+        right: 0;
+        top:27px;
+        padding: 10px 0;
+        display: none;
+    }
+    .phone_nav>li{
+        margin: 5px 20px;
+    }
+    .phone_nav>li>a{
+        font-size: 15px;
+        color: #666666;
+        letter-spacing: 0.78px;
+    }
+    .column_left_r:hover .phone_nav{display:block;}
 }
 
 @media (max-height: 600px) {

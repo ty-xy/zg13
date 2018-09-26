@@ -115,4 +115,46 @@ $(function () {
         clearTimeout(timer);
         timer = setTimeout(check_subdomain_avilable, 250, $('#id_team_subdomain').val());
     });
+    $("#send_confirm").on("click",".get_verification",function(){
+        var countdown=60;
+        function sendmsg(){
+            if(countdown==0){
+                $(".get_verification").attr("disabled",false);
+                $(".get_verification").val("获取验证码");
+                countdown=60;
+                return false;
+            }
+            else{
+                $(".get_verification").attr("disabled",true);
+                $(".get_verification").val(countdown+"s");
+                countdown--;
+            }
+            setTimeout(function(){
+                sendmsg();
+            },1000);
+        }
+        sendmsg()
+    })
+
+    // //获取验证码
+    // $(".organization_chart_box").on("click",".disband_time",function(){
+    //     var countdown=60;
+    //     function sendmsg(){
+    //         if(countdown==0){
+    //             $(".disband_time").attr("disabled",false);
+    //             $(".disband_time").val("获取验证码");
+    //             countdown=60;
+    //             return false;
+    //         }
+    //         else{
+    //             $(".disband_time").attr("disabled",true);
+    //             $(".disband_time").val(countdown+"s");
+    //             countdown--;
+    //         }
+    //         setTimeout(function(){
+    //             sendmsg();
+    //         },1000);
+    //     }
+    //     sendmsg()
+    // })
 });

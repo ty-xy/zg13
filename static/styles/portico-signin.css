@@ -17,15 +17,105 @@ html {
 
 .white-box {
     position: relative;
-    padding: 30px;
+    padding: 35px;
     min-width: 0px;
 
     background-color: #fff;
-    box-shadow: 0px 0px 4px hsla(0, 0%, 0%, 0.1);
     border: 1px solid #ddd;
     border-radius: 4px;
+    box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30);
+    border-radius: 6px;
 }
-
+#id_username,#id_password{
+    border: none;
+    border-bottom: 1px solid #ddd;
+    font-size: 16px;
+    color: #999999;
+    letter-spacing: 1.33px;
+}
+.id_password_box{
+    position:relative;
+}
+.eyeicon{
+    position:absolute;
+    right:1px;
+    top:36px;
+    font-size:12px;
+    color:#666;
+}
+.registered_title{
+    text-align: center;
+    width:326px;
+    font-family: PingFangSC-Medium;
+    font-size: 20px;
+    color: #666666;
+    letter-spacing: 0.24px;
+    line-height: 28px;
+    margin: 0;
+}
+.phone_number_box{
+    margin-top:60px;
+    position: relative;    
+}
+.phone_number{
+    text-indent: 46px;
+}
+.area_code{
+    position: absolute;
+    font-size: 16px;
+    color: #333333;
+    letter-spacing: 1.33px;
+    padding-right: 10px;
+    border-right: 1px solid #ddd;
+    left: 0;
+    top: 3px;
+    line-height: 18px;
+    height: 18px;
+}
+.r_eyeicon{
+    position: absolute;
+    right: 0px;
+    bottom: 5px;
+    font-size: 12px;
+}
+.phone_number,.verification,.registered_password{
+    border: none;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #999999;
+    letter-spacing: 1.33px;
+    width: 328px;
+    padding-bottom: 10px;
+    outline: none;
+}
+.verification_box{
+    margin-top: 30px;
+    position: relative;
+}
+.get_verification{
+    background: #4584FF;
+    border-radius: 100px;
+    width: 90px;
+    height: 27px;
+    text-align: center;
+    font-size: 12px;
+    color: #FFFFFF;
+    position: absolute;
+    right: 0;
+    bottom: 10px;
+    font-weight: 500;
+    cursor: pointer;
+}
+.registered_password_box{
+    margin-top: 26px;
+    position: relative;
+}
+.reset_title{
+    font-size: 20px;
+    color: #333333;
+    letter-spacing: 1.66px;
+}
 .grey {
     color: #aaa;
 }
@@ -173,7 +263,7 @@ html {
 }
 
 .forgot-password-container {
-    width: 503px;
+    /* width: 503px; */
 }
 
 .forgot-password-container form {
