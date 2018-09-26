@@ -88,7 +88,6 @@ exports.topic_history = function () {
 
     self.get_recent_names = function () {
         var recents = topics.values();
-        var message = current_msg_list.get(1017);
         recents.sort(function (a, b) {
             return b.message_id - a.message_id;
         });

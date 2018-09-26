@@ -78,6 +78,7 @@ exports.parse_narrow = function (hash) {
         $(".compose-content").hide()
         $(".move_ctn").children().remove();
         $(".group_icon").hide()
+        unread_ui.update_unread_counts()
         arr = JSON.parse(localStorage.getItem("arr"))
         if(arr !=null){
             $(".persistent_data").show()
