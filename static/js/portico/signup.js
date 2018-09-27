@@ -136,8 +136,6 @@ $(function () {
         }
         sendmsg()
         var sms = $(this).parent().prev().children().last().val();
-        console.log($(this).parent().prev().children().last())
-        console.log(sms)
         var type = "register"
         var obj = {
             sms:sms,
@@ -146,8 +144,8 @@ $(function () {
         $.ajax({
             type:"GET",
             contentType:"application/json",
-            url:"/json/zg/register/sms",
-            data:JSON.stringify(obj),
+            url:"/api/v1/zg/register/sms",
+            data:obj,
             success:function(){
                 console.log("-------------______---success")
             }  
