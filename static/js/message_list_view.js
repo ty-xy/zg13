@@ -36,9 +36,10 @@ function same_day(earlier_msg, later_msg) {
     if (earlier_msg === undefined || later_msg === undefined) {
         return false;
     }
+    // console.log(earlier_msg,later_msg)
     var earlier_time = new XDate(earlier_msg.msg.timestamp * 1000);
     var later_time = new XDate(later_msg.msg.timestamp * 1000);
-
+    // console.log(earlier_time,later_time)
     return earlier_time.toDateString() === later_time.toDateString();
 }
 
@@ -205,17 +206,32 @@ MessageListView.prototype = {
             }
         }
 
-        _.each(message_containers, function (message_container) {
+        _.each(message_containers, function (message_container,index,arr) {
             var message_reactions = reactions.get_message_reactions(message_container.msg);
             message_container.msg.message_reactions = message_reactions;
             if(message_container.msg.sender_full_name===page_params.full_name){
                 message_container.compare=true;
+                if(index<arr.length-1&&same_day(arr[index],arr[index+1])){
+                    var firstime = arr[index+1].msg.timestamp
+                    var lasttime = arr[index].msg.timestamp
+                    var indexs = Math.floor((firstime-lasttime)/60)
+                    // last_msg_container.msg.showTime = true
+                    if(indexs>10&&index<arr.length-1){
+                        arr[index+1].msg.showTime = true
+                    }else if(indexs<10&&index<arr.length-1){
+                        arr[index+1].msg.showTime = false
+                    }
+                }else{
+                    message_container.msg.showTime =true
+                }
             }else{
                 message_container.compare=false
             }
             message_container.include_recipient = false;
             message_container.include_footer    = false;
-
+            
+            // console.log(1)
+            // console.log(prev, message_container)
             if (same_recipient(prev, message_container) && self.collapse_messages &&
                 prev.msg.historical === message_container.msg.historical &&
                 same_day(prev, message_container)) {
@@ -290,8 +306,17 @@ MessageListView.prototype = {
         }
         var last_msg_container = _.last(first_group.message_containers);
         var first_msg_container = _.first(second_group.message_containers);
-
+        var firstime = first_msg_container.msg.timestamp
+        var lasttime = last_msg_container.msg.timestamp
+        var index = Math.floor((firstime-lasttime)/60)
+        // last_msg_container.msg.showTime = true
+        if(index>10){
+            first_msg_container.msg.showTime = true
+        }else{
+            first_msg_container.msg.showTime = false
+        }
         // Join two groups into one.
+        // console.log(2)
         if (this.collapse_messages && same_recipient(last_msg_container, first_msg_container) &&
             same_day(last_msg_container, first_msg_container) &&
             last_msg_container.msg.historical === first_msg_container.msg.historical) {
@@ -341,6 +366,7 @@ MessageListView.prototype = {
         if (where === 'top') {
             first_group = _.last(new_message_groups);
             second_group = _.first(this._message_groups);
+            // console.log(last_msg_container,first_msg_container)
             if (this.join_message_groups(first_group, second_group)) {
                 // join_message_groups moved the old message to the end of the
                 // new group. We need to replace the old rendered message
@@ -354,6 +380,7 @@ MessageListView.prototype = {
                 this._message_groups.unshift(first_group);
 
                 new_message_groups = _.initial(new_message_groups);
+                // console.log(3)
             } else if (!same_day(second_group.message_containers[0],
                        first_group.message_containers[0])) {
                 // The groups did not merge, so we need up update the date row for the old group
@@ -370,6 +397,7 @@ MessageListView.prototype = {
         } else {
             first_group = _.last(this._message_groups);
             second_group = _.first(new_message_groups);
+           
             if (this.join_message_groups(first_group, second_group)) {
                 // rerender the last message
                 message_actions.rerender_messages.push(
@@ -382,7 +410,7 @@ MessageListView.prototype = {
             } else if (first_group !== undefined && second_group !== undefined) {
                 var last_msg_container = _.last(first_group.message_containers);
                 var first_msg_container = _.first(second_group.message_containers);
-
+                // console.log(4)
                 if (same_day(last_msg_container, first_msg_container)) {
                     // Clear the date if it is the same as the last group
                     delete second_group.show_date;
@@ -443,14 +471,17 @@ MessageListView.prototype = {
 
         });
     },
-
+      
     _get_message_template: function MessageListView___get_message_template(message_container) {
         var msg_reactions = reactions.get_message_reactions(message_container.msg);
         message_container.msg.message_reactions = msg_reactions;
         var msg_to_render = _.extend(message_container, {
             table_name: this.table_name,
         });
-        return templates.render('single_message', msg_to_render);
+        if(msg_to_render.msg){
+        //    console.log(msg_to_render)
+        }
+        return templates.render('single_message',msg_to_render);
     },
 
     render: function MessageListView__render(messages, where, messages_are_new) {

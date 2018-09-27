@@ -1,6 +1,6 @@
 from zerver.models import Backlog, BacklogAccessory, UpdateBacklog, Statement, StatementBacklog, StatementAccessory, \
     StatementState, UserProfile, Stream, ZgStatementComment, ZgReplyComment
-from django.http import JsonResponse, HttpResponse, HttpRequest
+from django.http import JsonResponse
 import datetime, time, json, calendar
 from zerver.lib import avatar
 
@@ -159,6 +159,7 @@ def state_view(request, user_profile):
 # 查看自己和他人的报表
 def look_table(request, user_profile):
     table_id = request.GET.get('table_id')
+    print(table_id)
 
     if not table_id:
         return JsonResponse({'errno': 2, 'message': "缺少必要参数", })
@@ -166,9 +167,10 @@ def look_table(request, user_profile):
     try:
 
         statement = Statement.objects.get(id=table_id)
-        a = StatementState.objects.get(statement_id=statement.id, staff=user_profile.id)
-        a.state = True
-        a.save()
+        a = StatementState.objects.filter(statement_id=statement.id, staff=user_profile.id)
+        if a :
+            a[0].state = True
+            a[0].save()
 
         statement_backlogs_list = StatementBacklog.objects.filter(statement_id=statement).order_by('-id')
         user = UserProfile.objects.get(email=statement.user)
@@ -193,16 +195,18 @@ def look_table(request, user_profile):
         url_list = []
         table_dict['url_list'] = url_list
         accessory_list = StatementAccessory.objects.filter(statement_id=table_id, is_delete='f').order_by('-id')
-        for accessory in accessory_list:
-            accessory_dict = {}
-            accessory_dict['url'] = accessory.statement_accessory_url
-            accessory_dict['size'] = accessory.accessory_size
-            accessory_dict['name'] = accessory.accessory_name
-            url_list.append(accessory_dict)
+        if accessory_list:
+            for accessory in accessory_list:
+                accessory_dict = {}
+                accessory_dict['url'] = accessory.statement_accessory_url
+                accessory_dict['size'] = accessory.accessory_size
+                accessory_dict['name'] = accessory.accessory_name
+                url_list.append(accessory_dict)
 
-    except Exception:
+    except Exception as e:
+        print(e)
         return JsonResponse({'errno': 1, 'message': "获取数据失败", })
-    #
+    # #
     return JsonResponse({'errno': 0, 'message': "获取数据成功", 'table_dict': table_dict})
 
 
@@ -504,7 +508,10 @@ def stream_recipient_data(request, user_profile):
     streams_dict = {}
     for streams_user_id_list in streams_user_list:
         streams_user_data_list = []
-        for user_id in streams_user_list[streams_user_id_list]:
+        streams_user_lists = streams_user_list[streams_user_id_list]
+        if user_profile.id in streams_user_lists:
+            streams_user_lists.remove(user_profile.id)
+        for user_id in streams_user_lists:
             user_data_dict = {}
             user = UserProfile.objects.get(id=user_id)
             user_data_dict['avatarurl'] = avatar.absolute_avatar_url(user)
@@ -542,11 +549,9 @@ def table_view(request, user_profile):
 
         if overdue:
             a.overdue = overdue
-            print('未完成：%s' % overdue)
 
         if underway:
             a.underway = underway
-            print('进行中：%s' % underway)
 
         a.save()
 
@@ -1095,6 +1100,7 @@ def users_view(request, user_profile):
     for user in users:
         if user == user_profile or user.full_name[-3:] == 'Bot':
             continue
+
         user_dict = dict()
         user_dict['user_avatar'] = avatar.absolute_avatar_url(user)
         user_dict['name'] = user.full_name

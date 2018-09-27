@@ -67,6 +67,10 @@ Handlebars.registerHelper('types', function (str) {
      }
 
 });
+// Handlebars.registerHelper('del_string', function (str) {
+//     var imgurl = str.substring(1,str.length-1);
+//     return imgurl
+// })
 Handlebars.registerHelper('if_and', function () {
     // Execute the conditional code if all conditions are true.
     // Example usage:

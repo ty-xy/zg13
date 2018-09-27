@@ -5,7 +5,7 @@ var exports = {};
 exports.update_count_in_dom = function (unread_count_elem, count) {
     var count_span = unread_count_elem.find('.count');
     var value_span = count_span.find('.value');
-
+    // console.log(value_span)
     if (count === 0) {
         count_span.hide();
         if (count_span.parent().hasClass("subscription_block")) {

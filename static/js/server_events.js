@@ -511,6 +511,11 @@ var server_events = (function () {
     };
     //自定义推送
     exports.showNotify =function (title,msg){
+        var index = msg.indexOf("的")
+        var name = msg.slice(0,index)
+       if(page_params.full_name===name){
+           return
+       } 
         var Notification = window.Notification || window.mozNotification || window.webkitNotification;
         if(Notification){
             Notification.requestPermission(function(status){

@@ -52,7 +52,7 @@ function get_editability(message, edit_limit_seconds_buffer) {
         now.diffSeconds(message.timestamp * 1000) > 0) && message.sent_by_me) {
         return editability_types.FULL;
     }
-
+    // console.log(page_params.realm_message_content_edit_limit_seconds,edit_limit_seconds_buffer,now.diffSeconds(message.timestamp * 1000))
     // TODO: Change hardcoded value (24 hrs) to be realm setting
     if (!message.sent_by_me && (
         86400 + edit_limit_seconds_buffer + now.diffSeconds(message.timestamp * 1000) <= 0)) {
@@ -442,7 +442,7 @@ exports.maybe_show_edit = function (row, id) {
 
 exports.edit_last_sent_message = function () {
     var msg = current_msg_list.get_last_message_sent_by_me();
-
+    console.log(msg)
     if (!msg) {
         return;
     }
@@ -482,7 +482,7 @@ exports.show_history = function (message) {
         data: {message_id: JSON.stringify(message.id)},
         success: function (data) {
             // console.log(message.id)
-            // console.log(data)
+            console.log(data)
             // For now, we ignore topic edits
             var content_edit_history = [];
             var prev_timestamp;
