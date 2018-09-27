@@ -10,14 +10,6 @@ var check = (function () {
             moveContent()
         })
     }
-    // function del_msg (data) {
-    //     if(data.img_url){
-    //          var str = data.img_url
-    //          var imgurl = str.substring(1,str.length-1);
-    //          console.log(imgurl,str)
-    //          data.img_url = imgurl  
-    //     }
-    //  }
     function backIcons1 (){
         $(".first-icon").off("click").on("click",function(e){
             moveContent()
@@ -45,7 +37,6 @@ var check = (function () {
                 url:"/json/zg/approval/list/expectation",
                 success:function(dataF){
                     var  data = dataF.iaitiate_list
-                   
                     var  html = templates.render("table",{data:data, showClass:"expectation"})
                     $("#ios").html(html)
                     $(".check-shenpi-content").height($(window).height()-244)
@@ -63,7 +54,6 @@ var check = (function () {
                 url:"/json/zg/approval/initiate/me",
                 success:function(dataF){
                     var  data = dataF.initiate_list
-                    
                     var  html = templates.render("table",{data:data,showClass:"initiate"})
                     $("#originator").html(html)
                     $(".check-shenpi-content").height($(window).height()-244)
@@ -146,7 +136,7 @@ var check = (function () {
                                     id:id,
                                 }
                                 get_data(data,func)
-                        }
+                           }
                         }
                     })
                 }
@@ -282,6 +272,7 @@ var check = (function () {
                                     })
                                 
                                 })
+                                feedBack(datater.types,datater.id,backIcons3)
                             }
                         })
                     })
