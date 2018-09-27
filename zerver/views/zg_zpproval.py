@@ -116,7 +116,7 @@ def reimburse_add(request, user_profile):
     amount = req.get('amount')
     category = req.get('category')
     detail = req.get('detail')
-    image_url = req.get('image_url')
+    image_url = req.get('img_url')
     approver_list = req.get('approver_list')
     observer_list = req.get('observer_list')
 
@@ -140,7 +140,6 @@ def reimburse_add(request, user_profile):
     event = zg_send_tools(event)
     if approver_list:
         for approver in approver_list:
-
             ZgReview.objects.create(types='reimburse', user=user_profile, send_user_id=approver, table_id=a.id,
                                     send_time=nuw_time())
             event['theme'] = user_profile.full_name + '的' + '报销' + '申请需要您的审批'
@@ -203,8 +202,29 @@ def completed_approval_list(request, user_profile):
             aa['user_avatar'] = avatar.absolute_avatar_url(review_obj.user)
             aa['type'] = review_obj.types
             aa['id'] = review_obj.table_id
-            aa['status'] = review_obj.status
             aa['send_time'] = review_obj.send_time
+            if review_obj.types == 'reimburse':
+                reimburse = ZgReimburse.objects.filter(id=review_obj.table_id)
+
+            elif review_obj.types == 'leave' or review_obj.types == 'evection':
+                reimburse = ZgLeave.objects.filter(id=review_obj.table_id, approval_type=review_obj.types)
+
+            else:
+                reimburse = None
+
+            bb = ZgReview.objects.filter(table_id=aa['id'], types=aa['type'], status='审批未通过', duties='approval').count()
+            cc = ZgReview.objects.filter(table_id=aa['id'], types=aa['type'], status='审批中', duties='approval').count()
+
+            if reimburse[0].status == '已撤销':
+                aa['status'] = '已撤销'
+            else:
+                if bb > 0:
+                    aa['status'] = '审批未通过'
+                elif cc > 0:
+                    aa['status'] = '审批中'
+                else:
+                    aa['status'] = '审批通过'
+
             completed_list.append(aa)
 
     return JsonResponse({'errno': 0, 'message': '成功', 'completed_list': completed_list})
@@ -230,10 +250,20 @@ def approval_initiate_me(request, user_profile):
             aa['user_avatar'] = avatar.absolute_avatar_url(user_profile)
             aa['type'] = initiate_obj.types
             aa['id'] = initiate_obj.table_id
-            bb = ZgReview.objects.filter(types=aa['type'], table_id=aa['id'], status='审批未通过', duties='approval').count()
-            cc = ZgReview.objects.filter(types=aa['type'], table_id=aa['id'], status='审批中', duties='approval').count()
-            dd = ZgReview.objects.filter(types=aa['type'], table_id=aa['id'], status='已撤销', duties='approval').count()
-            if dd > 0:
+
+            if initiate_obj.types == 'reimburse':
+                reimburse = ZgReimburse.objects.filter(id=initiate_obj.table_id)
+
+            elif initiate_obj.types == 'leave' or initiate_obj.types == 'evection':
+                reimburse = ZgLeave.objects.filter(id=initiate_obj.table_id, approval_type=initiate_obj.types)
+
+            else:
+                reimburse = None
+
+            bb = ZgReview.objects.filter(table_id=aa['id'], types=aa['type'], status='审批未通过', duties='approval').count()
+            cc = ZgReview.objects.filter(table_id=aa['id'], types=aa['type'], status='审批中', duties='approval').count()
+
+            if reimburse[0].status == '已撤销':
                 aa['status'] = '已撤销'
             else:
                 if bb > 0:
@@ -270,12 +300,22 @@ def inform_approval(request, user_profile):
             aa['user_avatar'] = avatar.absolute_avatar_url(inform.user)
             aa['type'] = inform.types
             aa['id'] = inform.table_id
-            bb = ZgReview.objects.filter(types=aa['type'], table_id=aa['id'],
-                                         status='审批未通过').count()
-            cc = ZgReview.objects.filter(types=aa['type'], table_id=aa['id'],
-                                         status='审批中').count()
 
-            if bb > 0:
+            if inform.types == 'reimburse':
+                reimburse = ZgReimburse.objects.filter(id=inform.table_id)
+
+            elif inform.types == 'leave' or inform.types == 'evection':
+                reimburse = ZgLeave.objects.filter(id=inform.table_id, approval_type=inform.types)
+
+            else:
+                reimburse = None
+
+            bb = ZgReview.objects.filter(table_id=aa['id'], types=aa['type'], status='审批未通过', duties='approval').count()
+            cc = ZgReview.objects.filter(table_id=aa['id'], types=aa['type'], status='审批中', duties='approval').count()
+
+            if reimburse[0].status == '已撤销':
+                aa['status'] = '已撤销'
+            elif bb > 0:
                 aa['status'] = '审批未通过'
             elif cc > 0:
                 aa['status'] = '审批中'
@@ -357,7 +397,7 @@ def tools_approcal_details(types, ids, user_profile, table_obj):
                 rev_dict["user_name"] = user_obj.full_name
                 rev_dict['times'] = rev.send_time
                 rev_dict['status'] = rev.status
-                print(rev.status,user_obj.full_name)
+                print(rev.status, user_obj.full_name)
                 approver_list.append(rev_dict)
                 break
     elif approver_statu == False:
@@ -412,7 +452,7 @@ def approval_details(request, user_profile):
         data['image_url'] = reimburse.image_url
 
 
-    elif types == 'leave' or 'evection':
+    elif types == 'leave' or types == 'evection':
         reimburse = ZgLeave.objects.filter(id=ids, approval_type=types)
         if not reimburse:
             return JsonResponse({'errno': 3, 'message': '无效数据'})
@@ -447,7 +487,7 @@ def state_update(request, user_profile):
     ids = req.get('id')
     states = req.get('state')
 
-    print(types,'------'*30)
+    print(types, '------' * 30)
 
     if states == '同意':
         states = '审批通过'
@@ -469,25 +509,23 @@ def state_update(request, user_profile):
 
     if states == '审批通过' or states == '审批未通过':
 
-        review_objs = ZgReview.objects.filter(send_user_id=user_profile.id, types=types, table_id=ids)
+        review_objs = ZgReview.objects.filter(types=types, table_id=ids,duties='approval')
         if not review_objs:
             return JsonResponse({'errno': 2, 'message': '无此条信息'})
-        if types == 'leave' or types =='evection':
+        if types == 'leave' or types == 'evection':
             leave = ZgLeave.objects.filter(id=ids)
             leave.update(status=states)
         elif types == 'reimburse':
             reimburse = ZgReimburse.objects.filter(id=ids)
             reimburse.update(status=states)
-
-        review_objs[0].status = states
-        review_objs[0].save()
+        review_objs.update(status=states)
 
         review_obj = ZgReview.objects.filter(Q(status='审批未通过') | Q(status='审批中') | Q(status='已撤销'), types=types,
                                              table_id=ids)
 
-# ==================================请假
-#         if not review_obj:
-#             ZgAttendance.objects.filter()
+    # ==================================请假
+    #         if not review_obj:
+    #             ZgAttendance.objects.filter()
 
     elif states == '发起申请':
         if not table_objs:

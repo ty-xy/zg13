@@ -135,10 +135,14 @@ def add_department(request, user_profile):
     name = req.get('name')
     if not name:
         return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
+
+    department = ZgDepartment.objects.filter(name=name)
+    if department:
+        return JsonResponse({'errno': 2, 'message': '部门名称已存在'})
     try:
         ZgDepartment.objects.create(name=name, realm=user_profile.realm)
     except Exception:
-        return JsonResponse({'errno': 0, 'message': '创建部门失败'})
+        return JsonResponse({'errno': 3, 'message': '创建部门失败'})
     return JsonResponse({'errno': 0, 'message': '创建部门成功'})
 
 

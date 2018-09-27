@@ -156,7 +156,9 @@ class Realm(models.Model):
     name = models.CharField(max_length=MAX_REALM_NAME_LENGTH, null=True)  # type: Optional[Text]
     string_id = models.CharField(max_length=MAX_REALM_SUBDOMAIN_LENGTH, unique=True)  # type: Text
     restricted_to_domain = models.BooleanField(default=False)  # type: bool
-    invite_required = models.BooleanField(default=True)  # type: bool
+    # zg----被邀请才可加入，default=True
+    invite_required = models.BooleanField(default=False)  # type: bool
+
     invite_by_admins_only = models.BooleanField(default=False)  # type: bool
     inline_image_preview = models.BooleanField(default=True)  # type: bool
     inline_url_embed_preview = models.BooleanField(default=True)  # type: bool

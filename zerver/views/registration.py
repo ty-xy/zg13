@@ -423,11 +423,9 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
         if form.is_valid():
             email = form.cleaned_data['email']
             password = request.POST.get('password')
-            print(password, email)
             activation_url = prepare_activation_url(
                 email, request, streams=streams_to_subscribe)
-            print(activation_url)
-            print('1' + '-' * 30)
+
             login_status = True
             try:
                 send_confirm_registration_email(email, activation_url)
