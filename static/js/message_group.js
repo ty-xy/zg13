@@ -12,21 +12,26 @@ var message_group = (function () {
         function  changeUrl (){
             var url =window.location.hash
             var i = url.indexOf("/")
-            var index = url.indexOf("/",i+1)
             var url_index = url.substr(0,url.indexOf("/",i+1))
-            var cindex = url.indexOf("-")
+            var hash = url.split("/")
+            console.log(hash)
+            var subject = hash_util.decodeHashComponent(hash[4])
+            var stream = hash[2].split("-")
+            var stream_id = stream[0]
+             stream = hash_util.decodeHashComponent(stream[1])
             if (url_index=== "#narrow/stream"){
-                var stream_id = Number(url.slice(index+1,cindex))
-                if(url.indexOf("/",index+1) != -1){
-                    var j = url.slice(index+4,url.indexOf("/",index+1))
-                    j= hash_util.decodeHashComponent(j)
-                    console.log(j)
-                    console.log(hash_util)
-                    $(".home-title span").html(j)
-                }else{
-                    var title = hash_util.decodeHashComponent(url.substr(index+4))
-                    $(".home-title span").html(title)             
-                }
+                stream_id = Number(stream_id)
+                $(".home-title span").html(stream) 
+                // console.log(stream)  
+                // if(url.indexOf("/",index+1) != -1){
+                //     var j = url.slice(index+4,url.indexOf("/",index+1))
+                //     j= hash_util.decodeHashComponent(j)
+                //     console.log(j)
+                //     $(".home-title span").html(j)
+                // }else{
+                //     var title = hash_util.decodeHashComponent(url.substr(index+4))
+                //     $(".home-title span").html(title)             
+                // }
                 $(".home-title").show()
                 $(".home-title button").show();
                 $(".compose-title").show()

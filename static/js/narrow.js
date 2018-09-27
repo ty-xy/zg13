@@ -588,7 +588,9 @@ function pick_empty_narrow_banner() {
                     $(".home-title").show();
                 },10)
                 $(".home-title button").hide();
+                
                 $(".home-title span").html($(this).children().last().children().children().first().text());
+                console.log(111111,11113)
             })
             //推送消息删除
             $(".persistent_data").on("mouseover",".only_tip",function(){

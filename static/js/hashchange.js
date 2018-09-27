@@ -164,6 +164,7 @@ exports.parse_narrow = function (hash) {
                 var subject = hash_util.decodeHashComponent(hash[4])
                 var stream = hash[2].split("-")
                  stream = hash_util.decodeHashComponent(stream[1])
+                 $(".home-title span").html(stream)
                 $("#stream").val(stream)
                 $("#subject").val(subject)
             }else{
