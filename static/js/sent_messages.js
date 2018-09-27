@@ -21,6 +21,7 @@ function report_send_time(send_time, receive_time,
         received: receive_time.toString(),
         locally_echoed: locally_echoed,
     };
+    // console.log(data.rendered_content_disparity,rendered_changed)
 
     if (locally_echoed) {
         data.rendered_content_disparity = rendered_changed;
@@ -53,7 +54,7 @@ exports.start_tracking_message = function (opts) {
 exports.message_state = function (opts) {
     var self = {};
     self.data = {};
-
+    
     self.data.start = new Date();
 
     self.data.local_id = opts.local_id;
@@ -122,7 +123,7 @@ exports.message_state = function (opts) {
         return (self.data.send_finished !== undefined) &&
                (self.data.received !== undefined);
     };
-
+    console.log(opts,self)
     return self;
 };
 
