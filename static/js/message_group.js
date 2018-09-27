@@ -364,23 +364,16 @@ var message_group = (function () {
               $("#group_seeting_choose").on("click",".all_group",function(){
                 common(subscriptions,".all_group",true)
                 $(".swtich-button").show()
-                $(".streams-list").on("click","#div2",function(e){
-                    console.log($(this))
+                // 开关
+                $(".streams-list").off().on("click","#div1",function(e){
                     e.stopPropagation()
                     e.preventDefault()
-                    if($(this).closest($(this).parent()).length!=0){
-                        e.preventDefault()
-                        e.stopPropagation()
                     var stream_id = Number($(this).closest(".stream-list-row").attr("data-stream-id"))
                     var sub = stream_data.get_sub_by_id(stream_id)
                     subs.sub_or_unsub(sub);
-                    console.log($(this))
-                    console.log(";;fasdfsadfasfd")
-                    // var x = $(this).parents(".stream-list-row")
-                    var that = $(this).parent()
-                    $(this).parent().attr("class",(that.attr("class")=="close1")?"open1":"close1")
-                    $(this).attr("class",($(this).attr("class")=="close2")?"open2":"close2")
-                  }
+                    var that = $(this)
+                    $(this).attr("class",(that.attr("class")=="close1")?"open1":"close1")
+                    $(this).children().attr("class",($(this).children().attr("class")=="close2")?"open2":"close2")
                })
               })
                //已订阅
