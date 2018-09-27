@@ -690,9 +690,9 @@ def sign_in_view(request, user_profile):
     # 获取当前time
     nowTime = stockpile_time.time()
     attendance_time = ZgAttendance.objects.filter(user_name=user_profile,
-                                                  create_time__year=year,
-                                                  create_time__month=month,
-                                                  create_time__day=day)
+                                                  sign_in_time__year=year,
+                                                  sign_in_time__month=month,
+                                                  sign_in_time__day=day)
     attendance_site = user_profile.atendance.site
     if attendance_time:
         if attendance_time[0].sign_in_time is not None and attendance_time[0].sign_off_time is not None:

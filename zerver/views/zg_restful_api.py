@@ -25,14 +25,14 @@ import random
 #     cache.set(sms + '_' + send_type, sms_code, 60)
 #
 #     return JsonResponse({'errno': 0, 'message': '成功'})
-
-
-def nuw_time():
-    stockpile_time = datetime.utcnow()
-    stockpile_time = stockpile_time.replace(tzinfo=timezone.utc)
-    tzutc_8 = timezone(timedelta(hours=8))
-    stockpile_time = stockpile_time.astimezone(tzutc_8)
-    return stockpile_time
+#
+#
+# def nuw_time():
+#     stockpile_time = datetime.utcnow()
+#     stockpile_time = stockpile_time.replace(tzinfo=timezone.utc)
+#     tzutc_8 = timezone(timedelta(hours=8))
+#     stockpile_time = stockpile_time.astimezone(tzutc_8)
+#     return stockpile_time
 
 
 # 删除主题
