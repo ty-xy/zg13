@@ -44,12 +44,12 @@ var message_group = (function () {
         changeUrl()
         window.addEventListener('hashchange', function () {
                 changeUrl()
+                var hash = hashchange.parse_narrow(window.location.hash.split("/"))
+                if(hash.length===2&&hash[0].operator==="stream"&&hash[1].operator==="subject"){
+                    $("#stream").val(hash[0].operand)
+                    $("#subject").val(hash[1].operand)
+                }
           })
-        var hash = hashchange.parse_narrow(window.location.hash.split("/"))
-        if(hash.length===2&&hash[0].operator==="stream"&&hash[1].operator==="subject"){
-            $("#stream").val(hash[0].operand)
-            $("#subject").val(hash[1].operand)
-        }
         function common(subscriptions,contents,shows){
             var content=  templates.render('show_group', {subscriptions:subscriptions,showList:shows});
             $("#group_seeting_choose").html(content)
