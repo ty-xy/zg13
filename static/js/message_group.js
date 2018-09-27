@@ -13,13 +13,13 @@ var message_group = (function () {
             var url =window.location.hash
             var i = url.indexOf("/")
             var url_index = url.substr(0,url.indexOf("/",i+1))
-            var hash = url.split("/")
-            console.log(hash)
-            var subject = hash_util.decodeHashComponent(hash[4])
-            var stream = hash[2].split("-")
-            var stream_id = stream[0]
-             stream = hash_util.decodeHashComponent(stream[1])
+           
             if (url_index=== "#narrow/stream"){
+                var hash = url.split("/")
+                var subject = hash_util.decodeHashComponent(hash[4])
+                var stream = hash[2].split("-")
+                var stream_id = stream[0]
+                 stream = hash_util.decodeHashComponent(stream[1])
                 stream_id = Number(stream_id)
                 $(".home-title span").html(stream) 
                 // console.log(stream)  
