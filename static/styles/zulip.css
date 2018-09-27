@@ -689,6 +689,7 @@ td.pointer {
     position: absolute;
     left:0;
     right:0;
+    top:-5px;
     line-height: 20px;
     text-align: center;
     margin-bottom: -20px;

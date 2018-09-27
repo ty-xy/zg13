@@ -119,6 +119,7 @@ var contact = (function(){
                             },10)
                             $(".home-title button").hide();
                             $(".home-title span").html(user_name);
+                            console.log(1,"username",user_name)
                             //做个切换到消息板块的假象试试
                             $(".notice_ctn_box").children().remove();
                             $(".news_icon").addClass("left_blue_height");
