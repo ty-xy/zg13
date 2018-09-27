@@ -135,6 +135,23 @@ $(function () {
             },1000);
         }
         sendmsg()
+        var sms = $(this).parent().prev().children().last().val();
+        console.log($(this).parent().prev().children().last())
+        console.log(sms)
+        var type = "register"
+        var obj = {
+            sms:sms,
+            type:type
+        }
+        $.ajax({
+            type:"GET",
+            contentType:"application/json",
+            url:"/json/zg/register/sms",
+            data:JSON.stringify(obj),
+            success:function(){
+                console.log("-------------______---success")
+            }  
+        })
     })
     //登陆页小眼睛
     $("#login_form").on("click",".eyeclose",function(){
