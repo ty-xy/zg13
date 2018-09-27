@@ -12,7 +12,6 @@ from zerver.views.integrations import IntegrationView, APIView, MarkdownDirector
 from zerver.lib.integrations import WEBHOOK_INTEGRATIONS
 from zerver.webhooks import github_dispatcher
 
-
 from django.contrib.auth.views import (login, password_reset_done,
                                        password_reset_confirm, password_reset_complete)
 
@@ -32,7 +31,6 @@ import zerver.views.user_settings
 import zerver.views.muting
 import zerver.views.streams
 import zerver.views.realm
-
 
 from zerver.lib.rest import rest_dispatch
 
@@ -291,7 +289,6 @@ v1_api_and_json_patterns = [
     url(r'^users/me/(?P<stream_id>\d+)/topics$', rest_dispatch,
         {'GET': 'zerver.views.streams.get_topics_backend'}),
 
-
     # streams -> zerver.views.streams
     # (this API is only used externally)
     url(r'^streams$', rest_dispatch,
@@ -365,7 +362,6 @@ v1_api_and_json_patterns = [
     url(r'^zg/backlog/gets$', rest_dispatch,
         {'GET': 'zerver.views.zg_backlog.backlogs_view_g'}),
 
-
     # 一键生成
     url(r'^zg/creator/table$', rest_dispatch,
         {'GET': 'zerver.views.zg_backlog.generate_table'}),
@@ -386,7 +382,7 @@ v1_api_and_json_patterns = [
     url(r'^zg/table/$', rest_dispatch,
         {'POST': 'zerver.views.zg_backlog.table_view'}),
 
-    #频道信息表
+    # 频道信息表
     url(r'^zg/stream/recipient/data$', rest_dispatch,
         {'GET': 'zerver.views.zg_backlog.stream_recipient_data'}),
     # 日志助手
@@ -423,7 +419,6 @@ v1_api_and_json_patterns = [
         {'POST': 'zerver.views.zg_backlog.reply_comment'}),
     # ------考勤信息----
 
-
     # web个人月历
     url(r'^zg/attendance/month/solo/web$', rest_dispatch,
         {'GET': 'zerver.views.zg_attendance.solo_month_attendance_web'}),
@@ -442,7 +437,6 @@ v1_api_and_json_patterns = [
     # 个人单天月历考勤信息
     url(r'^zg/attendance/day/solo$', rest_dispatch,
         {'GET': 'zerver.views.zg_attendance.attendance_day_solo'}),
-
 
     # 考勤组成员
     url(r'^zg/attendances/member$', rest_dispatch,
@@ -537,7 +531,6 @@ v1_api_and_json_patterns = [
     url(r'^zg/approval/urge$', rest_dispatch,
         {'GET': 'zerver.views.zg_zpproval.zg_urgent'}),
 
-
     # --------组织结构
     # 通讯哭部门列表
     url(r'^zg/department/list$', rest_dispatch,
@@ -587,7 +580,6 @@ v1_api_and_json_patterns = [
     url(r'^zg/invite/qrcode$', rest_dispatch,
         {'GET': 'zerver.views.zg_organization.invite_qrcode'}),
 
-
     # zg_restful-------------
     # 收藏
     url(r'^zg/collection/$', rest_dispatch,
@@ -615,9 +607,9 @@ v1_api_and_json_patterns = [
     url(r'^zg/file/del/', rest_dispatch,
         {'DELETE': 'zerver.views.zg_restful_api.file_del'}),
 
-    # 发送短信
-    url(r'^zg/register/sms', rest_dispatch,
-        {'GET': 'zerver.views.zg_restful_api.send_zg_sms'}),
+    # # 发送短信
+    # url(r'^zg/register/sms', rest_dispatch,
+    #     {'GET': 'zerver.views.zg_restful_api.send_zg_sms'}),
 ]
 
 # These views serve pages (HTML). As such, their internationalization
@@ -627,8 +619,9 @@ v1_api_and_json_patterns = [
 # endpoint for use by code), you should add it here.
 # import zerver.views.streams
 
-i18n_urls = [
+from zerver.views.zg_restful_api import send_zg_sms
 
+i18n_urls = [
 
     url(r'^$', zerver.views.home.home, name='zerver.views.home.home'),
     # We have a desktop-specific landing page in case we change our /
@@ -637,13 +630,16 @@ i18n_urls = [
     url(r'^desktop_home/$', zerver.views.home.desktop_home,
         name='zerver.views.home.desktop_home'),
 
+    url(r'^api/v1/zg/register/sms$', send_zg_sms),
+    url(r'^api/v1/zg/register/$', zerver.views.registration.accounts_home, name='register'),
+
     url(r'^devindex/$', zerver.views.auth.dex_page, name='zerver.views.auth.dex_page'),
     url(r'^product_features/$', zerver.views.home.product_features),
     url(r'^product_download/$', zerver.views.home.product_download),
     url(r'^product_solution/$', zerver.views.home.product_solution),
     url(r'^product_vip/$', zerver.views.home.product_vip),
     url(r'^product_use/$', zerver.views.home.product_use),
-    url(r'^user_documentation/$',zerver.views.home.user_documentation),
+    url(r'^user_documentation/$', zerver.views.home.user_documentation),
     url(r'^accounts/login/sso/$', zerver.views.auth.remote_user_sso, name='login-sso'),
     url(r'^accounts/login/jwt/$', zerver.views.auth.remote_user_jwt, name='login-jwt'),
     url(r'^accounts/login/social/(\w+)$', zerver.views.auth.start_social_login,
@@ -768,20 +764,20 @@ i18n_urls = [
     url(r'^privacy/$', TemplateView.as_view(template_name='zerver/privacy.html'), name='privacy'),
 
     url(r'^config-error/google$', TemplateView.as_view(
-        template_name='zerver/config_error.html',),
-        {'google_error': True},),
+        template_name='zerver/config_error.html', ),
+        {'google_error': True}, ),
     url(r'^config-error/github$', TemplateView.as_view(
-        template_name='zerver/config_error.html',),
-        {'github_error': True},),
+        template_name='zerver/config_error.html', ),
+        {'github_error': True}, ),
     url(r'^config-error/smtp$', TemplateView.as_view(
-        template_name='zerver/config_error.html',),
-        {'smtp_error': True},),
+        template_name='zerver/config_error.html', ),
+        {'smtp_error': True}, ),
     url(r'^config-error/ldap$', TemplateView.as_view(
-        template_name='zerver/config_error.html',),
+        template_name='zerver/config_error.html', ),
         {'ldap_error_realm_is_none': True},
         name='ldap_error_realm_is_none'),
     url(r'^config-error/dev$', TemplateView.as_view(
-        template_name='zerver/config_error.html',),
+        template_name='zerver/config_error.html', ),
         {'dev_not_supported_error': True},
         name='dev_not_supported'),
 ]
@@ -902,6 +898,7 @@ if settings.DEVELOPMENT:
 # tests to fail
 urlpatterns = i18n_patterns(*i18n_urls) + urls + legacy_urls
 
+
 def handler400(request: HttpRequest, exception: Exception) -> HttpResponse:
     # (This workaround should become obsolete with Django 2.1; the
     #  issue was fixed upstream in commit 7ec0fdf62 on 2018-02-14.)
@@ -920,7 +917,6 @@ def handler400(request: HttpRequest, exception: Exception) -> HttpResponse:
     # https://docs.djangoproject.com/en/1.11/topics/http/views/#customizing-error-views
     return HttpResponseBadRequest(
         '<h1>Bad Request (400)</h1>', content_type='text/html')
-
 
 # from apscheduler.scheduler import Scheduler
 # from zerver.views.zg_attendance import testFuncton
