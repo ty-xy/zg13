@@ -13,7 +13,7 @@ var message_group = (function () {
             var url =window.location.hash
             var i = url.indexOf("/")
             var url_index = url.substr(0,url.indexOf("/",i+1))
-           
+            console.log(url_index)
             if (url_index=== "#narrow/stream"){
                 var hash = url.split("/")
                 var subject = hash_util.decodeHashComponent(hash[4])
@@ -22,7 +22,7 @@ var message_group = (function () {
                  stream = hash_util.decodeHashComponent(stream[1])
                 stream_id = Number(stream_id)
                 $(".home-title span").html(stream) 
-                // console.log(stream)  
+                console.log(stream)  
                 // if(url.indexOf("/",index+1) != -1){
                 //     var j = url.slice(index+4,url.indexOf("/",index+1))
                 //     j= hash_util.decodeHashComponent(j)
