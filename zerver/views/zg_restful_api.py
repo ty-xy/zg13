@@ -22,7 +22,9 @@ def send_zg_sms(request):
         aaa = send_sms(sms, send_sms_dict[send_type], "{\"code\":\"%s\",\"product\":\"云通信\"}" % sms_code)
     except Exception:
         return JsonResponse({'errno': 1, 'message': '短信发送失败，请检查参数后从新发送'})
-    cache.set(sms + '_' + send_type, sms_code, 60)
+    cache.set(sms + '_' + send_type, sms_code, 600)
+
+    print(cache.get(sms + '_' + send_type))
 
     return JsonResponse({'errno': 0, 'message': '成功'})
 
