@@ -3645,7 +3645,7 @@ def do_update_message_flags(user_profile: UserProfile,
 
 def subscribed_to_stream(user_profile: UserProfile, stream_id: int) -> bool:
     try:
-        if Subscription.objects.get(user_profileqq=user_profile,
+        if Subscription.objects.get(user_profile=user_profile,
                                     active=True,
                                     recipient__type=Recipient.STREAM,
                                     recipient__type_id=stream_id):

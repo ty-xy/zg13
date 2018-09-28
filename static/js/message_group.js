@@ -13,7 +13,7 @@ var message_group = (function () {
             var url =window.location.hash
             var i = url.indexOf("/")
             var url_index = url.substr(0,url.indexOf("/",i+1))
-           
+            console.log(url_index)
             if (url_index=== "#narrow/stream"){
                 var hash = url.split("/")
                 var subject = hash_util.decodeHashComponent(hash[4])
@@ -22,7 +22,7 @@ var message_group = (function () {
                  stream = hash_util.decodeHashComponent(stream[1])
                 stream_id = Number(stream_id)
                 $(".home-title span").html(stream) 
-                // console.log(stream)  
+                console.log(stream)  
                 // if(url.indexOf("/",index+1) != -1){
                 //     var j = url.slice(index+4,url.indexOf("/",index+1))
                 //     j= hash_util.decodeHashComponent(j)
@@ -39,6 +39,30 @@ var message_group = (function () {
                 $(".home-title").hide()
                 $(".compose-title").hide()
             }
+        }
+        function  findPeople(data,item){
+            var person = people.get_by_email(item);
+
+            if (person) {
+                var email = person.email.toLocaleLowerCase();
+                var full_name = person.full_name.toLowerCase();
+
+                return (email.indexOf(data) > -1 || full_name.indexOf(data) > -1);
+            }
+            // if(x>-1||y>-1){
+            //     var person = people.get_by_email(item.email);
+            //     person.avatar_url=people.stream_url_for_eamil(item.email)
+            //     return {
+            //           full_name:person.full_name,
+            //           avatar_url:person.avatar_url
+            //     }
+            // }
+        }
+        function  filter (list,data,func) {
+             var vux =  list.filter(function (item) {
+                  return func(data,item.email)
+             })
+             return vux
         }
        
         changeUrl()
@@ -390,7 +414,7 @@ var message_group = (function () {
             })
         })
         //群组设置
-        $(".middle_ctn").off(".group_setting_icon").on("click",".group_setting_icon",function(e){
+           $(".group_setting_icon").on("click",function(e){
             // e.preventDefault()
             //组织冒泡
             e.stopPropagation();
@@ -398,10 +422,11 @@ var message_group = (function () {
             var titlef= title.slice(0,1)
             var text= $(".home-title span").html()
             var get_sub_by_name =stream_data.get_sub_by_name(title)
-            
+            console.log(get_sub_by_name)
             // var avatar = people.stream_url_for_eamil(emial[0])
             var avatars = []
             var emial =get_email_of_subscribers(get_sub_by_name.subscribers)
+            // console.log(emial)
              emial.forEach(function(i,v){
                  var avatarUrl= people.stream_url_for_eamil(i.email)
                  var personnal = {
@@ -410,6 +435,7 @@ var message_group = (function () {
                  }
                  avatars.push(personnal)
              })
+             console.log(avatars)
              var show = emial.length>10?true:false
              var avatar= avatars.length>10?avatars.slice(0,10):avatars
           
@@ -475,6 +501,24 @@ var message_group = (function () {
                                     $(".search-people-border").show()
                                     $(".seach-people-icon").hide()
                                     $(".search-people-border input").attr("placeholder","输入搜索内容")
+                                    $(".search-people-border input").on("input",function(e){
+                                       var data = filter(emial,$(this).val(),findPeople)
+                                       console.log(data)
+                                       if(data.length==0){
+                                           $(".group_setting .list-avatar").empty()
+                                           var li = "<li style='color:red,width:100%' class='choose-group-people'>没有这个成员<li>"
+                                           console.log($(".list-avatar"))
+                                           $(".group_setting .list-avatar").html(li)
+                                        }else{
+                                            data.forEach(function(value){
+                                                value.name = value.index,
+                                                value.avatarUrl=people.stream_url_for_eamil(value.email)
+                                            })
+                                            console.log(data)
+                                            var html = templates.render("more_people",{all_person:data})
+                                            $(".group_setting .list-avatar").html(html)
+                                        }
+                                    })
                                 })
                                 $(".icon-add-people").on("click",function(e){
                                     $(".search-people-border").show()
@@ -484,6 +528,9 @@ var message_group = (function () {
                                $(".icon-search-cancel").on("click",function(e){
                                     $(".search-people-border").hide()
                                     $(".seach-people-icon").show()
+                                    var all_person = avatars
+                                    var html = templates.render("more_people",{all_person:all_person})
+                                    $(".group_setting .list-avatar").html(html)
                                })
                                 $(".names-item").on("click",".topiclist-group",function(e){
                                    var  del_subject = $(this).attr("data-name")
@@ -513,11 +560,7 @@ var message_group = (function () {
                 var html = templates.render("more_people",{all_person:all_person})
                 $(".list-avatar").html(html)
             })
-            
-            //  var colorpicker = $(".group_setting .sub_setting_color").children().eq(0);
-            // $(".group_setting").on("click",".sub_setting_color",function(){
-              
-            // })
+               
             // 退订群组
             $(".group_setting").on("click",".back-tuiding",function(e){
                  var stream_id = Number($(this).closest(".setting_body").attr("data-stream-id"))
