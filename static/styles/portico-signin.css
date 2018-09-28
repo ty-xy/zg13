@@ -388,6 +388,14 @@ html {
 #login_form .input-box {
     display: block;
 }
+.input_block{
+    position: absolute;
+    top: 24px;
+    left: 113px;
+    width: 101px;
+    height: 40px;
+    background: #fff;
+}
 
 .new-style .form-inline {
     margin: 0px;

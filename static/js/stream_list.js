@@ -477,6 +477,7 @@ exports.initialize = function () {
         popovers.hide_all();
         narrow.by('stream', sub.name, {select_first_unread: true, trigger: 'sidebar'});
         $(".home-title span").html(sub.name)
+        console.log(3)
         exports.clear_and_hide_search();
 
         e.preventDefault();

@@ -12,21 +12,26 @@ var message_group = (function () {
         function  changeUrl (){
             var url =window.location.hash
             var i = url.indexOf("/")
-            var index = url.indexOf("/",i+1)
             var url_index = url.substr(0,url.indexOf("/",i+1))
-            var cindex = url.indexOf("-")
+           
             if (url_index=== "#narrow/stream"){
-                var stream_id = Number(url.slice(index+1,cindex))
-                if(url.indexOf("/",index+1) != -1){
-                    var j = url.slice(index+4,url.indexOf("/",index+1))
-                    j= hash_util.decodeHashComponent(j)
-                    console.log(j)
-                    console.log(hash_util)
-                    $(".home-title span").html(j)
-                }else{
-                    var title = hash_util.decodeHashComponent(url.substr(index+4))
-                    $(".home-title span").html(title)             
-                }
+                var hash = url.split("/")
+                var subject = hash_util.decodeHashComponent(hash[4])
+                var stream = hash[2].split("-")
+                var stream_id = stream[0]
+                 stream = hash_util.decodeHashComponent(stream[1])
+                stream_id = Number(stream_id)
+                $(".home-title span").html(stream) 
+                // console.log(stream)  
+                // if(url.indexOf("/",index+1) != -1){
+                //     var j = url.slice(index+4,url.indexOf("/",index+1))
+                //     j= hash_util.decodeHashComponent(j)
+                //     console.log(j)
+                //     $(".home-title span").html(j)
+                // }else{
+                //     var title = hash_util.decodeHashComponent(url.substr(index+4))
+                //     $(".home-title span").html(title)             
+                // }
                 $(".home-title").show()
                 $(".home-title button").show();
                 $(".compose-title").show()
@@ -39,12 +44,12 @@ var message_group = (function () {
         changeUrl()
         window.addEventListener('hashchange', function () {
                 changeUrl()
+                var hash = hashchange.parse_narrow(window.location.hash.split("/"))
+                if(hash.length===2&&hash[0].operator==="stream"&&hash[1].operator==="subject"){
+                    $("#stream").val(hash[0].operand)
+                    $("#subject").val(hash[1].operand)
+                }
           })
-        var hash = hashchange.parse_narrow(window.location.hash.split("/"))
-        if(hash.length===2&&hash[0].operator==="stream"&&hash[1].operator==="subject"){
-            $("#stream").val(hash[0].operand)
-            $("#subject").val(hash[1].operand)
-        }
         function common(subscriptions,contents,shows){
             var content=  templates.render('show_group', {subscriptions:subscriptions,showList:shows});
             $("#group_seeting_choose").html(content)
@@ -364,23 +369,16 @@ var message_group = (function () {
               $("#group_seeting_choose").on("click",".all_group",function(){
                 common(subscriptions,".all_group",true)
                 $(".swtich-button").show()
-                $(".streams-list").on("click","#div2",function(e){
-                    console.log($(this))
+                // 开关
+                $(".streams-list").off().on("click","#div1",function(e){
                     e.stopPropagation()
                     e.preventDefault()
-                    if($(this).closest($(this).parent()).length!=0){
-                        e.preventDefault()
-                        e.stopPropagation()
                     var stream_id = Number($(this).closest(".stream-list-row").attr("data-stream-id"))
                     var sub = stream_data.get_sub_by_id(stream_id)
                     subs.sub_or_unsub(sub);
-                    console.log($(this))
-                    console.log(";;fasdfsadfasfd")
-                    // var x = $(this).parents(".stream-list-row")
-                    var that = $(this).parent()
-                    $(this).parent().attr("class",(that.attr("class")=="close1")?"open1":"close1")
-                    $(this).attr("class",($(this).attr("class")=="close2")?"open2":"close2")
-                  }
+                    var that = $(this)
+                    $(this).attr("class",(that.attr("class")=="close1")?"open1":"close1")
+                    $(this).children().attr("class",($(this).children().attr("class")=="close2")?"open2":"close2")
                })
               })
                //已订阅

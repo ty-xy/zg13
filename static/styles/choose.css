@@ -1000,14 +1000,23 @@ a.message-control-button {
     .nav-bars{
         height:88.5px;
         min-width:930px;
+        padding-left:7px;
     }
     .nav-bars>li{
-       margin-right:38px
+       margin-right:38px;
+       position: relative;
+    }
+    .nav-bars>li>a>.hr-show{
+        display: none;
     }
     .nav-bars > .active > a,.nav-bars>.active>a:hover{
         border:1px solid transparent;
-        border-bottom-color:#4584FF;
+        /* border-bottom-color:#4584FF;  */
         color: #4584FF;
+        /* box-sizing: border-box; */
+    }
+    .nav-bars > .active > a> .hr-show,.nav-bars>.active>a:hover>.hr-show{
+        display:block
     }
     #myTabContent{
         min-width:930px
@@ -1021,10 +1030,11 @@ a.message-control-button {
         letter-spacing: 0.2px;
         height:71px;
         line-height:100px;
+        /* box-sizing: border-box; */
     }
     .send-check{
         display:flex;
-        margin-left:10px
+        margin-left:21px
     }
     .send-check>li{
         /* opacity: 0.5; */
@@ -1678,4 +1688,13 @@ a.message-control-button {
     height:22px;
     line-height:22px;
     box-sizing: border-box
+}
+.hr-show{
+    display: inline-block;
+    height: 1px;
+    width: 60px;
+    border-bottom: 2px solid #4584FF;
+    position:absolute;
+    bottom:0px;
+    left:18px
 }

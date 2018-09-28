@@ -2,11 +2,10 @@ $(function () {
     // NB: this file is included on multiple pages.  In each context,
     // some of the jQuery selectors below will return empty lists.
     $.extend($.validator.messages,{
-        email: "请输入正确格式的电子邮件",
+        email: "请输入正确格式的邮箱格式",
         required: "必选字段",
     })
     var password_field = $('#id_password, #id_new_password1');
-
     $.validator.addMethod('password_strength', function (value) {
         return common.password_quality(value, undefined, password_field);
     }, function () {
@@ -21,6 +20,11 @@ $(function () {
                 .addClass(class_to_add);
         };
     }
+    $.validator.addMethod("mobile", function(value, element) {
+        var length = value.length;
+        var mobile = /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/
+        return this.optional(element) || (length == 11 && mobile.test(value));
+    }, "手机号码格式错误");
 
     $('#registration, #password_reset').validate({
         rules: {
@@ -86,6 +90,9 @@ $(function () {
         submitHandler: function (form) {
             $("#login_form").find('.loader').css('display', 'inline-block');
             $("#login_form").find("button .text").hide();
+            var x = $("#id_username").val()
+            y = x + '@zulip.com'
+            $("#id_username").val(y)
             form.submit();
         },
         invalidHandler: function () {
@@ -171,25 +178,4 @@ $(function () {
             $(this).removeClass("icon-yanjingkai").addClass("icon-yanjingguan")
         }
     })
-    // //获取验证码
-    // $(".organization_chart_box").on("click",".disband_time",function(){
-    //     var countdown=60;
-    //     function sendmsg(){
-    //         if(countdown==0){
-    //             $(".disband_time").attr("disabled",false);
-    //             $(".disband_time").val("获取验证码");
-    //             countdown=60;
-    //             return false;
-    //         }
-    //         else{
-    //             $(".disband_time").attr("disabled",true);
-    //             $(".disband_time").val(countdown+"s");
-    //             countdown--;
-    //         }
-    //         setTimeout(function(){
-    //             sendmsg();
-    //         },1000);
-    //     }
-    //     sendmsg()
-    // })
 });

@@ -5,7 +5,7 @@ from django.utils.translation import ugettext as _
 from django.conf import settings
 from django.contrib.auth import authenticate, get_backends
 from django.urls import reverse
-from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponse, HttpRequest
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponse, HttpRequest
 from django.shortcuts import redirect, render
 from django.template import RequestContext, loader
 from django.utils.timezone import now
@@ -40,6 +40,8 @@ from zproject.backends import ldap_auth_enabled, password_auth_enabled, ZulipLDA
 from confirmation.models import Confirmation, RealmCreationKey, ConfirmationKeyException, \
     validate_key, create_confirmation_link, get_object_from_key, \
     render_confirmation_key_error
+from django.views.decorators.csrf import csrf_exempt
+from django.core.cache import cache
 
 import logging
 import requests
@@ -54,7 +56,7 @@ def check_prereg_key_and_redirect(request: HttpRequest, confirmation_key: str) -
     confirmation = Confirmation.objects.filter(
         confirmation_key=confirmation_key).first()
     if confirmation is None or confirmation.type not in [
-            Confirmation.USER_REGISTRATION, Confirmation.INVITATION, Confirmation.REALM_CREATION]:
+        Confirmation.USER_REGISTRATION, Confirmation.INVITATION, Confirmation.REALM_CREATION]:
         return render_confirmation_key_error(
             request, ConfirmationKeyException(ConfirmationKeyException.DOES_NOT_EXIST))
     try:
@@ -403,7 +405,6 @@ def confirmation_key(request: HttpRequest) -> HttpResponse:
 
 def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite] = None) -> HttpResponse:
     realm = get_realm(get_subdomain(request))
-
     if realm is None:
         return HttpResponseRedirect(reverse('zerver.views.registration.find_account'))
     if realm.deactivated:
@@ -418,269 +419,564 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
         from_multiuse_invite = True
 
     if request.method == 'POST':
-        form = HomepageForm(request.POST, realm=realm,
-                            from_multiuse_invite=from_multiuse_invite)
-        if form.is_valid():
-            email = form.cleaned_data['email']
-            password = request.POST.get('password')
-            activation_url = prepare_activation_url(
-                email, request, streams=streams_to_subscribe)
 
-            login_status = True
+        phone = request.POST.get('phone')
+        password = request.POST.get('password')
+        smscode = request.POST.get('smscode')
+
+        print(phone, password, smscode)
+        # print(cache.get(phone + '_' + 'register'))
+        if not all([phone, password, smscode]):
+            return JsonResponse({"errno": 1, "message": "缺少必要参数"})
+        if smscode != cache.get(phone + '_' + 'register'):
+            return JsonResponse({"errno": 2, "message": "验证码错误"})
+
+        email = phone + '@zulip.com'
+
+        activation_url = prepare_activation_url(
+            email, request, streams=streams_to_subscribe)
+
+        login_status = True
+        try:
+            send_confirm_registration_email(email, activation_url)
+        except smtplib.SMTPException as e:
+            logging.error('Error in accounts_home: %s' % (str(e),))
+            return HttpResponseRedirect("/config-error/smtp")
+
+        # zg--------------
+        key = activation_url.split('/')[-1]
+        confirmation = Confirmation.objects.filter(
+            confirmation_key=key).first()
+        get_object_from_key(key, confirmation.type)
+
+        request.full_name = email
+        request.password = password
+
+        confirmation = Confirmation.objects.get(confirmation_key=key)
+        prereg_user = confirmation.content_object
+        email = prereg_user.email
+        realm_creation = prereg_user.realm_creation
+        password_required = prereg_user.password_required
+        is_realm_admin = prereg_user.invited_as_admin or realm_creation
+
+        try:
+            validators.validate_email(email)
+        except ValidationError:
+            return render(request, "zerver/invalid_email.html", context={"invalid_email": True})
+
+        if realm_creation:
+            # For creating a new realm, there is no existing realm or domain
+            realm = None
+        else:
+            realm = get_realm(get_subdomain(request))
+            if realm is None or realm != prereg_user.realm:
+                return render_confirmation_key_error(
+                    request, ConfirmationKeyException(ConfirmationKeyException.DOES_NOT_EXIST))
+
             try:
-                send_confirm_registration_email(email, activation_url)
-            except smtplib.SMTPException as e:
-                logging.error('Error in accounts_home: %s' % (str(e),))
-                return HttpResponseRedirect("/config-error/smtp")
+                email_allowed_for_realm(email, realm)
+            except DomainNotAllowedForRealmError:
+                return render(request, "zerver/invalid_email.html",
+                              context={"realm_name": realm.name, "closed_domain": True})
+            except DisposableEmailError:
+                return render(request, "zerver/invalid_email.html",
+                              context={"realm_name": realm.name, "disposable_emails_not_allowed": True})
 
-            # zg--------------
-            key = activation_url.split('/')[-1]
-            confirmation = Confirmation.objects.filter(
-                confirmation_key=key).first()
-            get_object_from_key(key, confirmation.type)
-
-            request.full_name = email
-            request.password = password
-
-            confirmation = Confirmation.objects.get(confirmation_key=key)
-            prereg_user = confirmation.content_object
-            email = prereg_user.email
-            realm_creation = prereg_user.realm_creation
-            password_required = prereg_user.password_required
-            is_realm_admin = prereg_user.invited_as_admin or realm_creation
+            if realm.deactivated:
+                # The user is trying to register for a deactivated realm. Advise them to
+                # contact support.
+                return redirect_to_deactivation_notice()
 
             try:
-                validators.validate_email(email)
-            except ValidationError:
-                return render(request, "zerver/invalid_email.html", context={"invalid_email": True})
+                validate_email_for_realm(realm, email)
+            except ValidationError:  # nocoverage # We need to add a test for this.
+                return HttpResponseRedirect(reverse('django.contrib.auth.views.login') + '?email=' +
+                                            urllib.parse.quote_plus(email))
+
+        name_validated = False
+        full_name = None
+
+        if request.POST.get('from_confirmation'):
+            try:
+                del request.session['authenticated_full_name']
+            except KeyError:
+                pass
+            if realm is not None and realm.is_zephyr_mirror_realm:
+                # For MIT users, we can get an authoritative name from Hesiod.
+                # Technically we should check that this is actually an MIT
+                # realm, but we can cross that bridge if we ever get a non-MIT
+                # zephyr mirroring realm.
+                hesiod_name = compute_mit_user_fullname(email)
+                form = RegistrationForm(
+                    initial={
+                        'full_name': hesiod_name if "@" not in hesiod_name else ""},
+                    realm_creation=realm_creation)
+                name_validated = True
+            elif settings.POPULATE_PROFILE_VIA_LDAP:
+                for backend in get_backends():
+                    if isinstance(backend, LDAPBackend):
+                        ldap_attrs = _LDAPUser(
+                            backend, backend.django_to_ldap_username(email)).attrs
+                        try:
+                            ldap_full_name = ldap_attrs[settings.AUTH_LDAP_USER_ATTR_MAP['full_name']][0]
+                            request.session['authenticated_full_name'] = ldap_full_name
+                            name_validated = True
+                            # We don't use initial= here, because if the form is
+                            # complete (that is, no additional fields need to be
+                            # filled out by the user) we want the form to validate,
+                            # so they can be directly registered without having to
+                            # go through this interstitial.
+                            form = RegistrationForm({'full_name': ldap_full_name},
+                                                    realm_creation=realm_creation)
+                            # FIXME: This will result in the user getting
+                            # validation errors if they have to enter a password.
+                            # Not relevant for ONLY_SSO, though.
+                            break
+                        except TypeError:
+                            # Let the user fill out a name and/or try another backend
+                            form = RegistrationForm(
+                                realm_creation=realm_creation)
+            elif 'full_name' in request.POST:
+                form = RegistrationForm(
+                    initial={'full_name': request.POST.get('full_name')},
+                    realm_creation=realm_creation
+                )
+            else:
+                form = RegistrationForm(realm_creation=realm_creation)
+        else:
+            postdata = request.POST.copy()
+            if name_changes_disabled(realm):
+                # If we populate profile information via LDAP and we have a
+                # verified name from you on file, use that. Otherwise, fall
+                # back to the full name in the request.
+                try:
+                    postdata.update(
+                        {'full_name': request.session['authenticated_full_name']})
+                    name_validated = True
+                except KeyError:
+                    pass
+            form = RegistrationForm(
+                postdata, realm_creation=realm_creation)
+            if not (password_auth_enabled(realm) and password_required):
+                form['password'].field.required = False
+
+        if login_status == True:
 
             if realm_creation:
-                # For creating a new realm, there is no existing realm or domain
-                realm = None
+                string_id = form.cleaned_data['realm_subdomain']
+                realm_name = form.cleaned_data['realm_name']
+                realm = do_create_realm(string_id, realm_name)
+                setup_initial_streams(realm)
+                setup_realm_internal_bots(realm)
+            assert (realm is not None)
+
+            full_name = email
+            short_name = email_to_username(email)
+            default_stream_group_names = request.POST.getlist(
+                'default_stream_group')
+            default_stream_groups = lookup_default_stream_groups(
+                default_stream_group_names, realm)
+
+            timezone = "Asia/Shanghai"
+            if 'timezone' in request.POST and request.POST['timezone'] in get_all_timezones():
+                timezone = request.POST['timezone']
+
+            if not realm_creation:
+                try:
+                    existing_user_profile = get_user(
+                        email, realm)  # type: Optional[UserProfile]
+                except UserProfile.DoesNotExist:
+                    existing_user_profile = None
             else:
-                realm = get_realm(get_subdomain(request))
-                if realm is None or realm != prereg_user.realm:
-                    return render_confirmation_key_error(
-                        request, ConfirmationKeyException(ConfirmationKeyException.DOES_NOT_EXIST))
+                existing_user_profile = None
 
-                try:
-                    email_allowed_for_realm(email, realm)
-                except DomainNotAllowedForRealmError:
-                    return render(request, "zerver/invalid_email.html",
-                                  context={"realm_name": realm.name, "closed_domain": True})
-                except DisposableEmailError:
-                    return render(request, "zerver/invalid_email.html",
-                                  context={"realm_name": realm.name, "disposable_emails_not_allowed": True})
-
-                if realm.deactivated:
-                    # The user is trying to register for a deactivated realm. Advise them to
-                    # contact support.
-                    return redirect_to_deactivation_notice()
-
-                try:
-                    validate_email_for_realm(realm, email)
-                except ValidationError:  # nocoverage # We need to add a test for this.
+            return_data = {}  # type: Dict[str, bool]
+            if ldap_auth_enabled(realm):
+                # If the user was authenticated using an external SSO
+                # mechanism like Google or GitHub auth, then authentication
+                # will have already been done before creating the
+                # PreregistrationUser object with password_required=False, and
+                # so we don't need to worry about passwords.
+                #
+                # If instead the realm is using EmailAuthBackend, we will
+                # set their password above.
+                #
+                # But if the realm is using LDAPAuthBackend, we need to verify
+                # their LDAP password (which will, as a side effect, create
+                # the user account) here using authenticate.
+                auth_result = authenticate(request,
+                                           username=email,
+                                           password=password,
+                                           realm=realm,
+                                           return_data=return_data)
+                if auth_result is None:
+                    # TODO: This probably isn't going to give a
+                    # user-friendly error message, but it doesn't
+                    # particularly matter, because the registration form
+                    # is hidden for most users.
                     return HttpResponseRedirect(reverse('django.contrib.auth.views.login') + '?email=' +
                                                 urllib.parse.quote_plus(email))
 
-            name_validated = False
-            full_name = None
+                # Since we'll have created a user, we now just log them in.
+                return login_and_go_to_home(request, auth_result)
+            elif existing_user_profile is not None and existing_user_profile.is_mirror_dummy:
+                user_profile = existing_user_profile
+                do_activate_user(user_profile)
+                do_change_password(user_profile, password)
+                do_change_full_name(user_profile, full_name, user_profile)
+                do_set_user_display_setting(
+                    user_profile, 'timezone', timezone)
+                # TODO: When we clean up the `do_activate_user` code path,
+                # make it respect invited_as_admin / is_realm_admin.
+            else:
+                user_profile = do_create_user(email, password, realm, full_name, short_name,
+                                              prereg_user=prereg_user, is_realm_admin=is_realm_admin,
+                                              tos_version=settings.TOS_VERSION,
+                                              timezone=timezone,
+                                              newsletter_data={
+                                                  "IP": request.META['REMOTE_ADDR']},
+                                              default_stream_groups=default_stream_groups)
 
-            if request.POST.get('from_confirmation'):
+            if realm_creation:
+                bulk_add_subscriptions(
+                    [realm.signup_notifications_stream], [user_profile])
+                send_initial_realm_messages(realm)
+
+                # Because for realm creation, registration happens on the
+                # root domain, we need to log them into the subdomain for
+                # their new realm.
+                return redirect_and_log_into_subdomain(realm, full_name, email)
+
+            # This dummy_backend check below confirms the user is
+            # authenticating to the correct subdomain.
+            auth_result = authenticate(username=user_profile.email,
+                                       realm=realm,
+                                       return_data=return_data,
+                                       use_dummy_backend=True)
+            if return_data.get('invalid_subdomain'):
+                # By construction, this should never happen.
+                logging.error("Subdomain mismatch in registration %s: %s" % (
+                    realm.subdomain, user_profile.email,))
+                return redirect('/')
+
+            return login_and_go_to_home(request, auth_result)
+
+        return render(
+            request,
+            'zerver/register.html',
+            context={'form': form,
+                     'email': email,
+                     'key': key,
+                     'full_name': request.session.get('authenticated_full_name', None),
+                     'lock_name': name_validated and name_changes_disabled(realm),
+                     # password_auth_enabled is normally set via our context processor,
+                     # but for the registration form, there is no logged in user yet, so
+                     # we have to set it here.
+                     'creating_new_team': realm_creation,
+                     'password_required': password_auth_enabled(realm) and password_required,
+                     'password_auth_enabled': password_auth_enabled(realm),
+                     'root_domain_available': is_root_domain_available(),
+                     'default_stream_groups': get_default_stream_groups(realm),
+                     'MAX_REALM_NAME_LENGTH': str(Realm.MAX_REALM_NAME_LENGTH),
+                     'MAX_NAME_LENGTH': str(UserProfile.MAX_NAME_LENGTH),
+                     'MAX_PASSWORD_LENGTH': str(form.MAX_PASSWORD_LENGTH),
+                     'MAX_REALM_SUBDOMAIN_LENGTH': str(Realm.MAX_REALM_SUBDOMAIN_LENGTH)
+                     }
+        )
+
+
+    else:
+        form = HomepageForm(realm=realm)
+    return render(request,
+                  'zerver/accounts_home.html',
+                  context={'form': form, 'current_url': request.get_full_path,
+                           'from_multiuse_invite': from_multiuse_invite},
+                  )
+
+
+@csrf_exempt
+def app_accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite] = None) -> HttpResponse:
+    realm = get_realm(get_subdomain(request))
+    if realm is None:
+        return HttpResponseRedirect(reverse('zerver.views.registration.find_account'))
+    if realm.deactivated:
+        return redirect_to_deactivation_notice()
+
+    from_multiuse_invite = False
+    streams_to_subscribe = None
+
+    if multiuse_object:
+        realm = multiuse_object.realm
+        streams_to_subscribe = multiuse_object.streams.all()
+        from_multiuse_invite = True
+
+    if request.method == 'POST':
+
+        phone = request.POST.get('phone')
+        password = request.POST.get('password')
+        smscode = request.POST.get('smscode')
+
+        print(phone, password, smscode)
+        print(cache.get('18624938867' + '_' + 'register'))
+
+        if not all([phone, password, smscode]):
+            return JsonResponse({"errno": 1, "message": "缺少必要参数"})
+        if smscode != cache.get(phone + '_' + 'register'):
+            return JsonResponse({"errno": 2, "message": "验证码错误"})
+
+        email = phone + '@zulip.com'
+
+        activation_url = prepare_activation_url(
+            email, request, streams=streams_to_subscribe)
+
+        login_status = True
+        try:
+            send_confirm_registration_email(email, activation_url)
+        except smtplib.SMTPException as e:
+            logging.error('Error in accounts_home: %s' % (str(e),))
+            return HttpResponseRedirect("/config-error/smtp")
+
+        # zg--------------
+        key = activation_url.split('/')[-1]
+        confirmation = Confirmation.objects.filter(
+            confirmation_key=key).first()
+        get_object_from_key(key, confirmation.type)
+
+        request.full_name = email
+        request.password = password
+
+        confirmation = Confirmation.objects.get(confirmation_key=key)
+        prereg_user = confirmation.content_object
+        email = prereg_user.email
+        realm_creation = prereg_user.realm_creation
+        password_required = prereg_user.password_required
+        is_realm_admin = prereg_user.invited_as_admin or realm_creation
+
+        try:
+            validators.validate_email(email)
+        except ValidationError:
+            return render(request, "zerver/invalid_email.html", context={"invalid_email": True})
+
+        if realm_creation:
+            # For creating a new realm, there is no existing realm or domain
+            realm = None
+        else:
+            realm = get_realm(get_subdomain(request))
+            if realm is None or realm != prereg_user.realm:
+                return render_confirmation_key_error(
+                    request, ConfirmationKeyException(ConfirmationKeyException.DOES_NOT_EXIST))
+
+            try:
+                email_allowed_for_realm(email, realm)
+            except DomainNotAllowedForRealmError:
+                return render(request, "zerver/invalid_email.html",
+                              context={"realm_name": realm.name, "closed_domain": True})
+            except DisposableEmailError:
+                return render(request, "zerver/invalid_email.html",
+                              context={"realm_name": realm.name, "disposable_emails_not_allowed": True})
+
+            if realm.deactivated:
+                # The user is trying to register for a deactivated realm. Advise them to
+                # contact support.
+                return redirect_to_deactivation_notice()
+
+            try:
+                validate_email_for_realm(realm, email)
+            except ValidationError:  # nocoverage # We need to add a test for this.
+                return HttpResponseRedirect(reverse('django.contrib.auth.views.login') + '?email=' +
+                                            urllib.parse.quote_plus(email))
+
+        name_validated = False
+        full_name = None
+
+        if request.POST.get('from_confirmation'):
+            try:
+                del request.session['authenticated_full_name']
+            except KeyError:
+                pass
+            if realm is not None and realm.is_zephyr_mirror_realm:
+                # For MIT users, we can get an authoritative name from Hesiod.
+                # Technically we should check that this is actually an MIT
+                # realm, but we can cross that bridge if we ever get a non-MIT
+                # zephyr mirroring realm.
+                hesiod_name = compute_mit_user_fullname(email)
+                form = RegistrationForm(
+                    initial={
+                        'full_name': hesiod_name if "@" not in hesiod_name else ""},
+                    realm_creation=realm_creation)
+                name_validated = True
+            elif settings.POPULATE_PROFILE_VIA_LDAP:
+                for backend in get_backends():
+                    if isinstance(backend, LDAPBackend):
+                        ldap_attrs = _LDAPUser(
+                            backend, backend.django_to_ldap_username(email)).attrs
+                        try:
+                            ldap_full_name = ldap_attrs[settings.AUTH_LDAP_USER_ATTR_MAP['full_name']][0]
+                            request.session['authenticated_full_name'] = ldap_full_name
+                            name_validated = True
+                            # We don't use initial= here, because if the form is
+                            # complete (that is, no additional fields need to be
+                            # filled out by the user) we want the form to validate,
+                            # so they can be directly registered without having to
+                            # go through this interstitial.
+                            form = RegistrationForm({'full_name': ldap_full_name},
+                                                    realm_creation=realm_creation)
+                            # FIXME: This will result in the user getting
+                            # validation errors if they have to enter a password.
+                            # Not relevant for ONLY_SSO, though.
+                            break
+                        except TypeError:
+                            # Let the user fill out a name and/or try another backend
+                            form = RegistrationForm(
+                                realm_creation=realm_creation)
+            elif 'full_name' in request.POST:
+                form = RegistrationForm(
+                    initial={'full_name': request.POST.get('full_name')},
+                    realm_creation=realm_creation
+                )
+            else:
+                form = RegistrationForm(realm_creation=realm_creation)
+        else:
+            postdata = request.POST.copy()
+            if name_changes_disabled(realm):
+                # If we populate profile information via LDAP and we have a
+                # verified name from you on file, use that. Otherwise, fall
+                # back to the full name in the request.
                 try:
-                    del request.session['authenticated_full_name']
+                    postdata.update(
+                        {'full_name': request.session['authenticated_full_name']})
+                    name_validated = True
                 except KeyError:
                     pass
-                if realm is not None and realm.is_zephyr_mirror_realm:
-                    # For MIT users, we can get an authoritative name from Hesiod.
-                    # Technically we should check that this is actually an MIT
-                    # realm, but we can cross that bridge if we ever get a non-MIT
-                    # zephyr mirroring realm.
-                    hesiod_name = compute_mit_user_fullname(email)
-                    form = RegistrationForm(
-                        initial={
-                            'full_name': hesiod_name if "@" not in hesiod_name else ""},
-                        realm_creation=realm_creation)
-                    name_validated = True
-                elif settings.POPULATE_PROFILE_VIA_LDAP:
-                    for backend in get_backends():
-                        if isinstance(backend, LDAPBackend):
-                            ldap_attrs = _LDAPUser(
-                                backend, backend.django_to_ldap_username(email)).attrs
-                            try:
-                                ldap_full_name = ldap_attrs[settings.AUTH_LDAP_USER_ATTR_MAP['full_name']][0]
-                                request.session['authenticated_full_name'] = ldap_full_name
-                                name_validated = True
-                                # We don't use initial= here, because if the form is
-                                # complete (that is, no additional fields need to be
-                                # filled out by the user) we want the form to validate,
-                                # so they can be directly registered without having to
-                                # go through this interstitial.
-                                form = RegistrationForm({'full_name': ldap_full_name},
-                                                        realm_creation=realm_creation)
-                                # FIXME: This will result in the user getting
-                                # validation errors if they have to enter a password.
-                                # Not relevant for ONLY_SSO, though.
-                                break
-                            except TypeError:
-                                # Let the user fill out a name and/or try another backend
-                                form = RegistrationForm(
-                                    realm_creation=realm_creation)
-                elif 'full_name' in request.POST:
-                    form = RegistrationForm(
-                        initial={'full_name': request.POST.get('full_name')},
-                        realm_creation=realm_creation
-                    )
-                else:
-                    form = RegistrationForm(realm_creation=realm_creation)
-            else:
-                postdata = request.POST.copy()
-                if name_changes_disabled(realm):
-                    # If we populate profile information via LDAP and we have a
-                    # verified name from you on file, use that. Otherwise, fall
-                    # back to the full name in the request.
-                    try:
-                        postdata.update(
-                            {'full_name': request.session['authenticated_full_name']})
-                        name_validated = True
-                    except KeyError:
-                        pass
-                form = RegistrationForm(
-                    postdata, realm_creation=realm_creation)
-                if not (password_auth_enabled(realm) and password_required):
-                    form['password'].field.required = False
+            form = RegistrationForm(
+                postdata, realm_creation=realm_creation)
+            if not (password_auth_enabled(realm) and password_required):
+                form['password'].field.required = False
 
-            if login_status == True:
+        if login_status == True:
 
-                if realm_creation:
-                    string_id = form.cleaned_data['realm_subdomain']
-                    realm_name = form.cleaned_data['realm_name']
-                    realm = do_create_realm(string_id, realm_name)
-                    setup_initial_streams(realm)
-                    setup_realm_internal_bots(realm)
-                assert (realm is not None)
+            if realm_creation:
+                string_id = form.cleaned_data['realm_subdomain']
+                realm_name = form.cleaned_data['realm_name']
+                realm = do_create_realm(string_id, realm_name)
+                setup_initial_streams(realm)
+                setup_realm_internal_bots(realm)
+            assert (realm is not None)
 
-                full_name = email
-                short_name = email_to_username(email)
-                default_stream_group_names = request.POST.getlist(
-                    'default_stream_group')
-                default_stream_groups = lookup_default_stream_groups(
-                    default_stream_group_names, realm)
+            full_name = email
+            short_name = email_to_username(email)
+            default_stream_group_names = request.POST.getlist(
+                'default_stream_group')
+            default_stream_groups = lookup_default_stream_groups(
+                default_stream_group_names, realm)
 
-                timezone = "Asia/Shanghai"
-                if 'timezone' in request.POST and request.POST['timezone'] in get_all_timezones():
-                    timezone = request.POST['timezone']
+            timezone = "Asia/Shanghai"
+            if 'timezone' in request.POST and request.POST['timezone'] in get_all_timezones():
+                timezone = request.POST['timezone']
 
-                if not realm_creation:
-                    try:
-                        existing_user_profile = get_user(
-                            email, realm)  # type: Optional[UserProfile]
-                    except UserProfile.DoesNotExist:
-                        existing_user_profile = None
-                else:
+            if not realm_creation:
+                try:
+                    existing_user_profile = get_user(
+                        email, realm)  # type: Optional[UserProfile]
+                except UserProfile.DoesNotExist:
                     existing_user_profile = None
+            else:
+                existing_user_profile = None
 
-                return_data = {}  # type: Dict[str, bool]
-                if ldap_auth_enabled(realm):
-                    # If the user was authenticated using an external SSO
-                    # mechanism like Google or GitHub auth, then authentication
-                    # will have already been done before creating the
-                    # PreregistrationUser object with password_required=False, and
-                    # so we don't need to worry about passwords.
-                    #
-                    # If instead the realm is using EmailAuthBackend, we will
-                    # set their password above.
-                    #
-                    # But if the realm is using LDAPAuthBackend, we need to verify
-                    # their LDAP password (which will, as a side effect, create
-                    # the user account) here using authenticate.
-                    auth_result = authenticate(request,
-                                               username=email,
-                                               password=password,
-                                               realm=realm,
-                                               return_data=return_data)
-                    if auth_result is None:
-                        # TODO: This probably isn't going to give a
-                        # user-friendly error message, but it doesn't
-                        # particularly matter, because the registration form
-                        # is hidden for most users.
-                        return HttpResponseRedirect(reverse('django.contrib.auth.views.login') + '?email=' +
-                                                    urllib.parse.quote_plus(email))
-
-                    # Since we'll have created a user, we now just log them in.
-                    return login_and_go_to_home(request, auth_result)
-                elif existing_user_profile is not None and existing_user_profile.is_mirror_dummy:
-                    user_profile = existing_user_profile
-                    do_activate_user(user_profile)
-                    do_change_password(user_profile, password)
-                    do_change_full_name(user_profile, full_name, user_profile)
-                    do_set_user_display_setting(
-                        user_profile, 'timezone', timezone)
-                    # TODO: When we clean up the `do_activate_user` code path,
-                    # make it respect invited_as_admin / is_realm_admin.
-                else:
-                    user_profile = do_create_user(email, password, realm, full_name, short_name,
-                                                  prereg_user=prereg_user, is_realm_admin=is_realm_admin,
-                                                  tos_version=settings.TOS_VERSION,
-                                                  timezone=timezone,
-                                                  newsletter_data={
-                                                      "IP": request.META['REMOTE_ADDR']},
-                                                  default_stream_groups=default_stream_groups)
-
-                if realm_creation:
-                    bulk_add_subscriptions(
-                        [realm.signup_notifications_stream], [user_profile])
-                    send_initial_realm_messages(realm)
-
-                    # Because for realm creation, registration happens on the
-                    # root domain, we need to log them into the subdomain for
-                    # their new realm.
-                    return redirect_and_log_into_subdomain(realm, full_name, email)
-
-                # This dummy_backend check below confirms the user is
-                # authenticating to the correct subdomain.
-                auth_result = authenticate(username=user_profile.email,
+            return_data = {}  # type: Dict[str, bool]
+            if ldap_auth_enabled(realm):
+                # If the user was authenticated using an external SSO
+                # mechanism like Google or GitHub auth, then authentication
+                # will have already been done before creating the
+                # PreregistrationUser object with password_required=False, and
+                # so we don't need to worry about passwords.
+                #
+                # If instead the realm is using EmailAuthBackend, we will
+                # set their password above.
+                #
+                # But if the realm is using LDAPAuthBackend, we need to verify
+                # their LDAP password (which will, as a side effect, create
+                # the user account) here using authenticate.
+                auth_result = authenticate(request,
+                                           username=email,
+                                           password=password,
                                            realm=realm,
-                                           return_data=return_data,
-                                           use_dummy_backend=True)
-                if return_data.get('invalid_subdomain'):
-                    # By construction, this should never happen.
-                    logging.error("Subdomain mismatch in registration %s: %s" % (
-                        realm.subdomain, user_profile.email,))
-                    return redirect('/')
+                                           return_data=return_data)
+                if auth_result is None:
+                    # TODO: This probably isn't going to give a
+                    # user-friendly error message, but it doesn't
+                    # particularly matter, because the registration form
+                    # is hidden for most users.
+                    return HttpResponseRedirect(reverse('django.contrib.auth.views.login') + '?email=' +
+                                                urllib.parse.quote_plus(email))
 
+                # Since we'll have created a user, we now just log them in.
                 return login_and_go_to_home(request, auth_result)
+            elif existing_user_profile is not None and existing_user_profile.is_mirror_dummy:
+                user_profile = existing_user_profile
+                do_activate_user(user_profile)
+                do_change_password(user_profile, password)
+                do_change_full_name(user_profile, full_name, user_profile)
+                do_set_user_display_setting(
+                    user_profile, 'timezone', timezone)
+                # TODO: When we clean up the `do_activate_user` code path,
+                # make it respect invited_as_admin / is_realm_admin.
+            else:
+                user_profile = do_create_user(email, password, realm, full_name, short_name,
+                                              prereg_user=prereg_user, is_realm_admin=is_realm_admin,
+                                              tos_version=settings.TOS_VERSION,
+                                              timezone=timezone,
+                                              newsletter_data={
+                                                  "IP": request.META['REMOTE_ADDR']},
+                                              default_stream_groups=default_stream_groups)
 
-            return render(
-                request,
-                'zerver/register.html',
-                context={'form': form,
-                         'email': email,
-                         'key': key,
-                         'full_name': request.session.get('authenticated_full_name', None),
-                         'lock_name': name_validated and name_changes_disabled(realm),
-                         # password_auth_enabled is normally set via our context processor,
-                         # but for the registration form, there is no logged in user yet, so
-                         # we have to set it here.
-                         'creating_new_team': realm_creation,
-                         'password_required': password_auth_enabled(realm) and password_required,
-                         'password_auth_enabled': password_auth_enabled(realm),
-                         'root_domain_available': is_root_domain_available(),
-                         'default_stream_groups': get_default_stream_groups(realm),
-                         'MAX_REALM_NAME_LENGTH': str(Realm.MAX_REALM_NAME_LENGTH),
-                         'MAX_NAME_LENGTH': str(UserProfile.MAX_NAME_LENGTH),
-                         'MAX_PASSWORD_LENGTH': str(form.MAX_PASSWORD_LENGTH),
-                         'MAX_REALM_SUBDOMAIN_LENGTH': str(Realm.MAX_REALM_SUBDOMAIN_LENGTH)
-                         }
-            )
-            #
-            # # zg--------------
-            # return HttpResponseRedirect(reverse('send_confirm', kwargs={'email': email}))
-        email = request.POST['email']
-        try:
-            validate_email_for_realm(realm, email)
-        except ValidationError:
-            return redirect_to_email_login_url(email)
+            if realm_creation:
+                bulk_add_subscriptions(
+                    [realm.signup_notifications_stream], [user_profile])
+                send_initial_realm_messages(realm)
+
+                # Because for realm creation, registration happens on the
+                # root domain, we need to log them into the subdomain for
+                # their new realm.
+                return redirect_and_log_into_subdomain(realm, full_name, email)
+
+            # This dummy_backend check below confirms the user is
+            # authenticating to the correct subdomain.
+            auth_result = authenticate(username=user_profile.email,
+                                       realm=realm,
+                                       return_data=return_data,
+                                       use_dummy_backend=True)
+            if return_data.get('invalid_subdomain'):
+                # By construction, this should never happen.
+                logging.error("Subdomain mismatch in registration %s: %s" % (
+                    realm.subdomain, user_profile.email,))
+                return redirect('/')
+
+            return login_and_go_to_home(request, auth_result)
+
+        return render(
+            request,
+            'zerver/register.html',
+            context={'form': form,
+                     'email': email,
+                     'key': key,
+                     'full_name': request.session.get('authenticated_full_name', None),
+                     'lock_name': name_validated and name_changes_disabled(realm),
+                     # password_auth_enabled is normally set via our context processor,
+                     # but for the registration form, there is no logged in user yet, so
+                     # we have to set it here.
+                     'creating_new_team': realm_creation,
+                     'password_required': password_auth_enabled(realm) and password_required,
+                     'password_auth_enabled': password_auth_enabled(realm),
+                     'root_domain_available': is_root_domain_available(),
+                     'default_stream_groups': get_default_stream_groups(realm),
+                     'MAX_REALM_NAME_LENGTH': str(Realm.MAX_REALM_NAME_LENGTH),
+                     'MAX_NAME_LENGTH': str(UserProfile.MAX_NAME_LENGTH),
+                     'MAX_PASSWORD_LENGTH': str(form.MAX_PASSWORD_LENGTH),
+                     'MAX_REALM_SUBDOMAIN_LENGTH': str(Realm.MAX_REALM_SUBDOMAIN_LENGTH)
+                     }
+        )
+
     else:
         form = HomepageForm(realm=realm)
     return render(request,
@@ -754,7 +1050,7 @@ def find_account(request: HttpRequest) -> HttpResponse:
         if form.is_valid():
             emails = form.cleaned_data['emails']
             for user_profile in UserProfile.objects.filter(
-                    email__in=emails, is_active=True, is_bot=False, realm__deactivated=False):
+                email__in=emails, is_active=True, is_bot=False, realm__deactivated=False):
                 send_email('zerver/emails/find_team', to_user_id=user_profile.id,
                            context={'user_profile': user_profile})
 
