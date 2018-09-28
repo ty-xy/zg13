@@ -607,9 +607,6 @@ v1_api_and_json_patterns = [
     url(r'^zg/file/del/', rest_dispatch,
         {'DELETE': 'zerver.views.zg_restful_api.file_del'}),
 
-    # # 发送短信
-    # url(r'^zg/register/sms', rest_dispatch,
-    #     {'GET': 'zerver.views.zg_restful_api.send_zg_sms'}),
 ]
 
 # These views serve pages (HTML). As such, their internationalization
@@ -631,7 +628,6 @@ i18n_urls = [
         name='zerver.views.home.desktop_home'),
 
     url(r'^api/v1/zg/register/sms$', send_zg_sms),
-    url(r'^api/v1/zg/register/$', zerver.views.registration.accounts_home, name='register'),
 
     url(r'^devindex/$', zerver.views.auth.dex_page, name='zerver.views.auth.dex_page'),
     url(r'^product_features/$', zerver.views.home.product_features),
@@ -841,10 +837,12 @@ urls += [
     url(r'^api/v1/fetch_api_key$', zerver.views.auth.api_fetch_api_key,
         name='zerver.views.auth.api_fetch_api_key'),
 
+    url(r'^api/v1/zg/register$', zerver.views.registration.app_accounts_home, ),
+
     # This is for the signing in through the devAuthBackEnd on mobile apps.
     url(r'^api/v1/dev_fetch_api_key$', zerver.views.auth.api_dev_fetch_api_key,
         name='zerver.views.auth.api_dev_fetch_api_key'),
-    # This is for fetching the emails of the admins and the users.
+    # This is for fetching the emails xof the admins and the users.
     url(r'^api/v1/dev_list_users$', zerver.views.auth.api_dev_list_users,
         name='zerver.views.auth.api_dev_list_users'),
 
