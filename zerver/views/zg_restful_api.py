@@ -11,7 +11,7 @@ import random
 
 #
 # # 发送短信验证码
-# def send_zg_sms(request):
+def send_zg_sms(request):
 #     sms = request.GET.get('sms')
 #     send_type = request.GET.get('type')
 #     sms_code = '%04d' % random.randint(0, 9999)
@@ -26,7 +26,7 @@ import random
 #
 #     print(cache.get(sms + '_' + send_type))
 #
-#     return JsonResponse({'errno': 0, 'message': '成功'})
+    return JsonResponse({'errno': 0, 'message': '成功'})
 
 
 def nuw_time():

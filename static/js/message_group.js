@@ -414,7 +414,7 @@ var message_group = (function () {
             })
         })
         //群组设置
-        $(".middle_ctn").off(".group_setting_icon").on("click",".group_setting_icon",function(e){
+           $(".group_setting_icon").on("click",function(e){
             // e.preventDefault()
             //组织冒泡
             e.stopPropagation();
@@ -506,7 +506,7 @@ var message_group = (function () {
                                        console.log(data)
                                        if(data.length==0){
                                            $(".group_setting .list-avatar").empty()
-                                           var li = "<li style='color:red'>没有这个成员<li>"
+                                           var li = "<li style='color:red,width:100%' class='choose-group-people'>没有这个成员<li>"
                                            console.log($(".list-avatar"))
                                            $(".group_setting .list-avatar").html(li)
                                         }else{
