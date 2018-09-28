@@ -104,12 +104,13 @@ html {
 #id_password{
     padding: 9px 32px 11px 12px;
     margin: 25px 0 4px;
-    font-size: 1.2rem;
+    /* font-size: 1.2rem; */
     line-height: normal;
     border: none;
     border-bottom: 1px solid #ddd;
     outline: none;
     width: 281px;
+    height: 20px;
 }
 .verification_box{
     margin-top: 30px;

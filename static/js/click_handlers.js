@@ -575,6 +575,7 @@ $(function () {
     notifications.register_click_handlers();
 
     $('body').on('click', '.logout_button', function () {
+        window.localStorage.clear()
         $('#logout_form').submit();
     });
 
