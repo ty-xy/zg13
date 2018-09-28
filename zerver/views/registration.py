@@ -56,7 +56,7 @@ def check_prereg_key_and_redirect(request: HttpRequest, confirmation_key: str) -
     confirmation = Confirmation.objects.filter(
         confirmation_key=confirmation_key).first()
     if confirmation is None or confirmation.type not in [
-            Confirmation.USER_REGISTRATION, Confirmation.INVITATION, Confirmation.REALM_CREATION]:
+        Confirmation.USER_REGISTRATION, Confirmation.INVITATION, Confirmation.REALM_CREATION]:
         return render_confirmation_key_error(
             request, ConfirmationKeyException(ConfirmationKeyException.DOES_NOT_EXIST))
     try:
@@ -402,6 +402,7 @@ def create_realm(request: HttpRequest, creation_key: Optional[Text] = None) -> H
 def confirmation_key(request: HttpRequest) -> HttpResponse:
     return json_success(request.session.get('confirmation_key'))
 
+
 def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite] = None) -> HttpResponse:
     realm = get_realm(get_subdomain(request))
     if realm is None:
@@ -421,17 +422,16 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
 
         phone = request.POST.get('phone')
         password = request.POST.get('password')
-        smscode=request.POST.get('smscode')
+        smscode = request.POST.get('smscode')
 
-
-        print(phone,password,smscode)
+        print(phone, password, smscode)
         # print(cache.get(phone + '_' + 'register'))
-        if not all([phone,password,smscode]):
-            return JsonResponse({"errno":1,"message":"缺少必要参数"})
-        if smscode != cache.get(phone+'_'+'register'):
+        if not all([phone, password, smscode]):
+            return JsonResponse({"errno": 1, "message": "缺少必要参数"})
+        if smscode != cache.get(phone + '_' + 'register'):
             return JsonResponse({"errno": 2, "message": "验证码错误"})
 
-        email=phone+'@zulip.com'
+        email = phone + '@zulip.com'
 
         activation_url = prepare_activation_url(
             email, request, streams=streams_to_subscribe)
@@ -694,8 +694,6 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
                   )
 
 
-
-
 @csrf_exempt
 def app_accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite] = None) -> HttpResponse:
     realm = get_realm(get_subdomain(request))
@@ -716,17 +714,17 @@ def app_accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseIn
 
         phone = request.POST.get('phone')
         password = request.POST.get('password')
-        smscode=request.POST.get('smscode')
+        smscode = request.POST.get('smscode')
 
+        print(phone, password, smscode)
+        print(cache.get('18624938867' + '_' + 'register'))
 
-        print(phone,password,smscode)
-        # print(cache.get(phone + '_' + 'register'))
-        if not all([phone,password,smscode]):
-            return JsonResponse({"errno":1,"message":"缺少必要参数"})
-        if smscode != cache.get(phone+'_'+'register'):
+        if not all([phone, password, smscode]):
+            return JsonResponse({"errno": 1, "message": "缺少必要参数"})
+        if smscode != cache.get(phone + '_' + 'register'):
             return JsonResponse({"errno": 2, "message": "验证码错误"})
 
-        email=phone+'@zulip.com'
+        email = phone + '@zulip.com'
 
         activation_url = prepare_activation_url(
             email, request, streams=streams_to_subscribe)
@@ -1052,7 +1050,7 @@ def find_account(request: HttpRequest) -> HttpResponse:
         if form.is_valid():
             emails = form.cleaned_data['emails']
             for user_profile in UserProfile.objects.filter(
-                    email__in=emails, is_active=True, is_bot=False, realm__deactivated=False):
+                email__in=emails, is_active=True, is_bot=False, realm__deactivated=False):
                 send_email('zerver/emails/find_team', to_user_id=user_profile.id,
                            context={'user_profile': user_profile})
 

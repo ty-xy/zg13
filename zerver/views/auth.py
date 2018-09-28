@@ -544,6 +544,8 @@ def add_dev_login_context(realm: Realm, context: Dict[str, Any]) -> None:
     context['direct_users'] = [u for u in users if not u.is_realm_admin]
 def dex_page(request):
     return render(request, "zerver/zhigong.html")
+
+
 def login_page(request: HttpRequest, **kwargs: Any) -> HttpResponse:
     if request.user.is_authenticated:
         return HttpResponseRedirect(request.user.realm.uri)
@@ -567,7 +569,7 @@ def login_page(request: HttpRequest, **kwargs: Any) -> HttpResponse:
             # If we're switching realms, redirect to that realm, but
             # only if it actually exists.
             return HttpResponseRedirect(realm.uri)
-
+    # ------------------------------------------------------------------------zg
     if 'username' in request.POST:
         extra_context['email'] = request.POST['username']
 
@@ -580,6 +582,7 @@ def login_page(request: HttpRequest, **kwargs: Any) -> HttpResponse:
         return redirect_to_misconfigured_ldap_notice(e.args[1])
 
     try:
+        # ------------------------------------------------------------------------zg
         template_response.context_data['email'] = request.GET['email']
     except KeyError:
         pass
