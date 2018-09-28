@@ -14,8 +14,17 @@
     <div class="group-people-search">
         <span>群组成员({{color/subscriber_count}})</span>
         <div class="search-people-border">
-            <input type="text" placeholder="输入邮箱地址" />
+            <input type="text" placeholder="输入搜索内容" />
             <span class="icon-search-cancel">取消</span>
+        </div>
+        <div class="add-people-search">
+             {{!-- <div class="add_subscribers_container" {{#if invite_only}}{{#unless subscribed}}style="display: none"{{/unless}}{{/if}}> --}}
+            <input type="text" name="principal" placeholder="{{t 'Email address' }}" value="" class="input-block search-people" autocomplete="off" tabindex="-1" />
+            <button type="submit" name="add_subscriber" class="button add-subscriber-button small rounded" tabindex="-1" style="background-color:#fff">
+                {{t 'Add' }}
+            </button>
+            <span class="icon-search-cancel">取消</span>
+            {{!-- </div> --}}
         </div>
         <div class="seach-people-icon">
             <i class="iconfont icon-sousuo1 icon-common icon-search-email"></i>
@@ -27,7 +36,7 @@
          <li class="choose-group-people">
              <img src={{avatarUrl}} />
              {{!-- <span>{{this}}</span> --}}
-             <div>{{name}}</div>
+             <div>{{short_names name}}</div>
          </li>
         {{/each}}
         {{#if show}}

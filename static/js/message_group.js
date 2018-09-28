@@ -40,6 +40,13 @@ var message_group = (function () {
                 $(".compose-title").hide()
             }
         }
+        function alert(text,color){
+            $('.toast-alerts-button').fadeIn({
+                duration: 1
+            }).delay (1000).fadeOut ({duration: 1000});
+            $('.toast-alerts-button').html(text)
+            $('.toast-alerts-button').css('background-color',color)
+            }
         function  findPeople(data,item){
             var person = people.get_by_email(item);
 
@@ -293,7 +300,7 @@ var message_group = (function () {
                             _href=narrow.by_stream_subject_uris(name,lastData.subject)
                             var  mes  = lastData.content
                                  mes = server_events.deleteTag(mes)
-                                 console.log(lastData)
+                                //  console.log(lastData)
                             var stream = lastData.type
                             var arr = JSON.parse(localStorage.getItem("arr"))
                             if(arr == null){
@@ -422,7 +429,6 @@ var message_group = (function () {
             var titlef= title.slice(0,1)
             var text= $(".home-title span").html()
             var get_sub_by_name =stream_data.get_sub_by_name(title)
-            console.log(get_sub_by_name)
             // var avatar = people.stream_url_for_eamil(emial[0])
             var avatars = []
             var emial =get_email_of_subscribers(get_sub_by_name.subscribers)
@@ -521,12 +527,36 @@ var message_group = (function () {
                                     })
                                 })
                                 $(".icon-add-people").on("click",function(e){
-                                    $(".search-people-border").show()
+                                    // $(".search-people-border").show()
                                     $(".seach-people-icon").hide()
-                                    $(".search-people-border input").attr("placeholder","输入邮箱地址")
+                                    $(".add-people-search").show()
+                                    $(".add-subscriber-button").on("click",function(e){
+                                        var settings_row = $(e.target).closest('.group-people-search');
+                                        var text_box = settings_row.find('input[name="principal"]')
+                                        var principal = $.trim(text_box.val());
+                                        function success (data){
+                                            text_box.val('');
+                                            console.log(data)
+                                            if (data.subscribed.hasOwnProperty(principal)) {
+                                               alert("订阅群组成功","rgba(0,0,0,0.50)")
+                                            } else {
+                                                alert("该用户已订阅","rgba(0,0,0,0.50)")
+                                            }
+                                        }
+                                        function invite_failure() {
+                                            alert("订阅失败","rgba(255,0,0,0.63)")
+                                        }
+                                        if(principal==""){
+                                            return
+                                        }else{
+                                            stream_edit.invite_user_to_stream(principal,get_sub_by_name,success,invite_failure)
+                                        }    
+                                    })
+                                    // $(".search-people-border input").attr("placeholder","输入邮箱地址")
                                })
                                $(".icon-search-cancel").on("click",function(e){
                                     $(".search-people-border").hide()
+                                    $(".add-people-search").hide()
                                     $(".seach-people-icon").show()
                                     var all_person = avatars
                                     var html = templates.render("more_people",{all_person:all_person})
