@@ -9,6 +9,7 @@ from zerver.views.zg_tools import req_tools
 from django.core.cache import cache
 import random
 
+
 #
 # 发送短信验证码
 def send_zg_sms(request):

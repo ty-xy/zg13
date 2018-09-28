@@ -702,6 +702,7 @@ a.message-control-button {
     width:20%;
     text-align: center;
     margin-top:20px;
+    height:58px
     /* margin-right:30px; */
 }
 .choose-group-people>img{
@@ -1570,7 +1571,7 @@ a.message-control-button {
     margin-left:6px;
 }
 .compose-title{
-    min-width: 940px;
+    min-width: 878px;
 }
 .topic-box>.content_color{
     color:#fff !important;

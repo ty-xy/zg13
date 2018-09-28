@@ -136,7 +136,7 @@ Handlebars.registerHelper("replaceTag",function(repStr){
     var content = $repStr.text()
     var lastContent = content.substr(-4)
     var tagA = $repStr.find("a").length
-    if(tagA===1&&lastContent==".amr"){
+    if(tagA===1&&lastContent==".aac"){
         var li = '<p>\
                     <audio controls="controls" >\
                     <source src='+content+' type="audio/ogg"/>\
