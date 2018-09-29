@@ -49,8 +49,11 @@ finally:
 requires = []
 
 if sys.version_info < (3, 3):
+    print(1,'---'*20)
     requires.append("aliyun-python-sdk-core>=2.0.2")
 else:
+
+    print(2, '---' * 20)
     requires.append("aliyun-python-sdk-core-v3>=2.3.5")
 
 setup(
