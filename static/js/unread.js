@@ -133,7 +133,7 @@ exports.unread_pm_counter = (function () {
                 item_id: msg_id,
             });
         });
-        console.log(bucketer)
+        // console.log(bucketer)
     };
 
     self.add = function (message) {

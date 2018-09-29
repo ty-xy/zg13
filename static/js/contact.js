@@ -43,7 +43,9 @@ var contact = (function(){
                         var email = $(this).attr("email");
                         var avatar = $(this).children().first().children().attr("src")
                         var short_name = $(this).attr("short_name");
+                     
                         var _href = "#narrow/pm-with/"+user_id+"-"+short_name
+                     
                         var user_detail_contact = templates.render("user_detail_contact",{user_name:user_name,user_id:user_id,email:email,avatar:avatar,_href:_href,short_name:short_name})
                         $(".move_ctn").append(user_detail_contact)
                         //发送消息点击事件
@@ -62,6 +64,7 @@ var contact = (function(){
                             var time_stamp = new Date().getTime()
                             var time = _time.getHours() +':'+_time.getMinutes()
                             var arr = JSON.parse(localStorage.getItem("arr"))
+                   
                             if(arr == null){
                                 arr = []
                                 $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id,short_name:short_name,time_stamp:time_stamp}))
@@ -73,6 +76,7 @@ var contact = (function(){
                                     // console.log(arr[i])
                                     if(arr[i].send_id == user_id){
                                         flag = true;
+                                     
                                         arr[i].content = arr[i].content
                                         localStorage.setItem("arr",JSON.stringify(arr))
                                         server_events.sortBytime()
