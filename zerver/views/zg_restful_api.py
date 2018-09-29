@@ -4,30 +4,44 @@ import json
 from datetime import datetime, timezone, timedelta
 from zerver.lib import avatar
 from django.db.models import Q, F
-# from dysms_python.demo_sms_send import send_sms
+from dysms_python.demo_sms_send import send_sms
 from zerver.views.zg_tools import req_tools
 from django.core.cache import cache
 import random
+from django.views.decorators.csrf import csrf_exempt
 
 
 #
-# # 发送短信验证码
+# # # 发送短信验证码
 def send_zg_sms(request):
-    # sms = request.GET.get('sms')
-    # send_type = request.GET.get('type')
-    # sms_code = '%04d' % random.randint(0, 9999)
-    # #                   注册，                        更换管理员
-    # send_sms_dict = {'register': 'SMS_107415213', 'change_admin': 'SMS_107415211'}
-    #
-    # try:
-    #     aaa = send_sms(sms, send_sms_dict[send_type], "{\"code\":\"%s\",\"product\":\"云通信\"}" % sms_code)
-    # except Exception:
-    #     return JsonResponse({'errno': 1, 'message': '短信发送失败，请检查参数后从新发送'})
-    # cache.set(sms + '_' + send_type, sms_code, 300)
-    #
-    # print(sms_code)
+    sms = request.GET.get('sms')
+    send_type = request.GET.get('type')
+    sms_code = '%04d' % random.randint(0, 9999)
+    #                   注册，                        更换管理员
+    send_sms_dict = {'register': 'SMS_107415213', 'change_admin': 'SMS_107415211'}
 
+    try:
+        aaa = send_sms(sms, send_sms_dict[send_type], "{\"code\":\"%s\",\"product\":\"云通信\"}" % sms_code)
+    except Exception:
+        return JsonResponse({'errno': 1, 'message': '短信发送失败，请检查参数后从新发送'})
+    cache.set(sms + '_' + send_type, sms_code, 300)
+
+    print(sms_code)
+#
     return JsonResponse({'errno': 0, 'message': '成功'})
+
+@csrf_exempt
+def app_nue_password(request):
+    phone=request.POST.get('phone')
+    smscode=request.POST.get('smscode')
+    password1=request.POST.get('password1')
+    password2=request.POST.get('password2')
+
+    if not all([phone,smscode,password1,password2]):
+        return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
+
+
+    pass
 
 
 def nuw_time():
@@ -186,12 +200,7 @@ def file_details(request, user_profile):
         return JsonResponse({'errno': 2, 'message': 'name错误'})
     file_dict = dict()
     attachment = attachment[0]
-    if attachment.size / 1024 / 1024 > 1:
-        file_dict['size'] = str(attachment.size / 1024 / 1024) + 'M'
-    elif attachment.size / 1024 > 1:
-        file_dict['size'] = str(attachment.size / 1024) + 'KB'
-    else:
-        file_dict['size'] = str(attachment.size) + 'b'
+    file_dict['size'] =attachment.size
     file_dict['name'] = attachment.file_name
     file_dict['url'] = attachment.path_id
     file_dict['create_time'] = attachment.create_time
