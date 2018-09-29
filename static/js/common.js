@@ -28,7 +28,9 @@ exports.password_quality = function (password, bar, password_field) {
     if (typeof zxcvbn === 'undefined') {
         return;
     }
-
+    console.log(password)
+    console.log(bar)
+    console.log(password_field)
     var min_length = password_field.data('minLength');
     var min_guesses = password_field.data('minGuesses');
 
