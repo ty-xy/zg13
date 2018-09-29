@@ -56,6 +56,14 @@ var message_group = (function () {
 
                 return (email.indexOf(data) > -1 || full_name.indexOf(data) > -1);
             }
+            // if(x>-1||y>-1){
+            //     var person = people.get_by_email(item.email);
+            //     person.avatar_url=people.stream_url_for_eamil(item.email)
+            //     return {
+            //           full_name:person.full_name,
+            //           avatar_url:person.avatar_url
+            //     }
+            // }
         }
         function  filter (list,data,func) {
              var vux =  list.filter(function (item) {
@@ -416,13 +424,11 @@ var message_group = (function () {
            $(".group_setting_icon").on("click",function(e){
             // e.preventDefault()
             //组织冒泡
-           
             e.stopPropagation();
             var title = $(this).siblings().html()
             var titlef= title.slice(0,1)
             var text= $(".home-title span").html()
             var get_sub_by_name =stream_data.get_sub_by_name(title)
-            // console.log(stream_list.get_stream_li(get_sub_by_name.stream_id))
             // var avatar = people.stream_url_for_eamil(emial[0])
             var avatars = []
             var emial =get_email_of_subscribers(get_sub_by_name.subscribers)
@@ -533,14 +539,6 @@ var message_group = (function () {
                                             console.log(data)
                                             if (data.subscribed.hasOwnProperty(principal)) {
                                                alert("订阅群组成功","rgba(0,0,0,0.50)")
-                                               var emial =get_email_of_subscribers(get_sub_by_name.subscribers)
-                                               emial.forEach(function(i,v){
-                                                var avatarUrl= people.stream_url_for_eamil(i.email)
-                                                   i.avatarUrl = avatarUrl
-                                                   i.name=i.index
-                                              })
-                                              var html = templates.render("more_people",{all_person:emial})
-                                              $(".group_setting .list-avatar").html(html)
                                             } else {
                                                 alert("该用户已订阅","rgba(0,0,0,0.50)")
                                             }
@@ -567,14 +565,25 @@ var message_group = (function () {
                                 $(".names-item").on("click",".topiclist-group",function(e){
                                    var  del_subject = $(this).attr("data-name")
                                    var that = $(this)
-                                   channel.del({
-                                    url: 'json/zg/subject/',
-                                    idempotent: true,
-                                    data:JSON.stringify({subject:del_subject}),
-                                    success:function(data){
-                                        that.remove()
-                                        topic_list.zoom_in()
-                                    }
+                                   var rendered = templates.render("feed_back_content",{deltag:true})
+                                   $(".modal-logs").html(rendered)
+                                   $(".modal-logs").show()
+                                   $(".type-area>p").html("是否删除该话题？")
+                                   $(".feadback-sure-del").on("click",function(e){
+                                    $(".modal-logs").hide()
+                                  
+                                    channel.del({
+                                        url: 'json/zg/subject/',
+                                        idempotent: true,
+                                        data:JSON.stringify({subject:del_subject}),
+                                        success:function(data){
+                                            that.remove()
+                                            var history = topic_data.topic_history()
+                                            history.maybe_remove(del_subject)
+                                            console.log(topic_data.get_recent_names(get_sub_by_name.stream_id))
+                                            $(".topic-list").find("[data-topic-name="+del_subject+"]").remove()
+                                        }
+                                    })
                                 })
                               })
                             }
