@@ -461,6 +461,7 @@ a.message-control-button {
     right:0;
     margin:auto;
     line-height:50px;
+    z-index:1000
 }
 .toast-alert-buttons{
     bottom:400px;

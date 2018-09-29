@@ -56,14 +56,6 @@ var message_group = (function () {
 
                 return (email.indexOf(data) > -1 || full_name.indexOf(data) > -1);
             }
-            // if(x>-1||y>-1){
-            //     var person = people.get_by_email(item.email);
-            //     person.avatar_url=people.stream_url_for_eamil(item.email)
-            //     return {
-            //           full_name:person.full_name,
-            //           avatar_url:person.avatar_url
-            //     }
-            // }
         }
         function  filter (list,data,func) {
              var vux =  list.filter(function (item) {
@@ -539,6 +531,14 @@ var message_group = (function () {
                                             console.log(data)
                                             if (data.subscribed.hasOwnProperty(principal)) {
                                                alert("订阅群组成功","rgba(0,0,0,0.50)")
+                                               var emial =get_email_of_subscribers(get_sub_by_name.subscribers)
+                                               emial.forEach(function(i,v){
+                                                var avatarUrl= people.stream_url_for_eamil(i.email)
+                                                   i.avatarUrl = avatarUrl
+                                                   i.name=i.index
+                                              })
+                                              var html = templates.render("more_people",{all_person:emial})
+                                              $(".group_setting .list-avatar").html(html)
                                             } else {
                                                 alert("该用户已订阅","rgba(0,0,0,0.50)")
                                             }
