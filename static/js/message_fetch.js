@@ -155,6 +155,42 @@ exports.load_messages = function (opts) {
             //     // return data.messages.pop()
             // }
             get_messages_success(data, opts);
+            // if(data.messages.length >1 ){
+            //    var new_data =  data.messages
+            //    var unread_data = []
+            //    for(var i=0;i<new_data.length;i++){
+            //         if(new_data[i].unread == true){
+            //             unread_data.unshift(new_data[i])
+            //         }
+            //    }
+            //    console.log(unread_data)
+            //    var count = 0;
+            //    if(unread_data){
+            //         function  unique1(unread_data){     
+            //                 var allArr = [];    
+            //                 for(var i=0;i<unread_data.length;i++){
+            //                     var flag = true;
+            //                 　    for(var j=0;j<allArr.length;j++){
+            //                         if(unread_data[i].sender_id == allArr[j].sender_id){
+            //                 　　　　　   flag = false;
+            //                 　　    };
+            //                 };
+            //                 if(flag){
+            //                 　　allArr.unshift(unread_data[i]);
+            //                 };
+            //             };
+            //         return allArr;
+            //         }　
+            //         // for(var k=0;k<unread_data.length;k++){
+            //         //     if(unread_data[k].type == "private"){
+                            
+            //         //     }
+            //         // }
+            //         var left_list= unique1(unread_data)
+            //         $(".persistent_data").children().remove()
+            //         $(".persistent_data").prepend(templates.render("notice_box",{left_list:left_list}))
+            //    }
+            // }
             if(data.result == "success"){
                 $.ajax({
                     type:"GET",
