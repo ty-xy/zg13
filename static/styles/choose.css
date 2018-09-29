@@ -445,6 +445,23 @@ a.message-control-button {
     top:0;
     text-align:center;
 }
+.toast-alerts-button{
+    top:100px;
+    text-align:center;
+    display: none;
+    height:50px;
+    min-width:184px;
+    max-width:360px;
+    color:#fff;
+    background: rgba(0,0,0,0.50);
+    border-radius: 4px;
+    border-radius: 6px;
+    position: absolute;
+    left:0;
+    right:0;
+    margin:auto;
+    line-height:50px;
+}
 .toast-alert-buttons{
     bottom:400px;
     text-align:center;
@@ -702,6 +719,7 @@ a.message-control-button {
     width:20%;
     text-align: center;
     margin-top:20px;
+    height:58px
     /* margin-right:30px; */
 }
 .choose-group-people>img{
@@ -1570,7 +1588,7 @@ a.message-control-button {
     margin-left:6px;
 }
 .compose-title{
-    min-width: 940px;
+    min-width: 878px;
 }
 .topic-box>.content_color{
     color:#fff !important;
@@ -1627,10 +1645,27 @@ a.message-control-button {
     flex:1;
     text-align: end
 }
+.add-people-search{
+    display: none;
+    flex:1;
+    text-align: end
+}
+.add-people-search>.button{
+    margin-bottom:0;
+    border:none;
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #4584FF;
+    letter-spacing: 0.15px;
+    /* background-color: #fff; */
+}
+.add-people-search>.search-people{
+    width:160px;
+}
 .group-people-search{
     display:flex;
     height:30px;
-    
+    line-height:30px;
 }
 .seach-people-icon{
    display: flex;
@@ -1646,7 +1681,7 @@ a.message-control-button {
 /* .search-people-border input[type="text"]{
     padding:0 !important;
 }  */
-.search-people-border>input[type="text"]{
+.search-people-border>input[type="text"],.add-people-search>input[type="text"]{
    height:20px;
    /* box-sizing:border-box; */
    margin-bottom:0;

@@ -205,7 +205,7 @@ function create_stream() {
 function create_streams() {
     var stream_name = $.trim($("#create_stream_name").val());
     var description = $.trim($("#create_stream_description").val());
-    var is_invite_only = $('#stream_creation_form input[name=privacy]:checked').val() === "invite-only";
+    var is_invite_only = $('#stream_creation_forms input[name=privacy]:checked').val() === "invite-only";
     var principals = get_principal();
 
     created_stream = stream_name;
