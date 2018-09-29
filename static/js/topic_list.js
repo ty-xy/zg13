@@ -24,7 +24,7 @@ exports.close = function () {
 
 exports.zoom_out = function () {
     zoomed = false;
-    console.log("zgggg")
+ 
     exports.rebuild(active_widget.get_parent(), active_widget.get_stream_id());
 };
 
@@ -65,7 +65,9 @@ exports.widget = function (parent_elem, my_stream_id) {
         self.topic_items = new Dict({fold_case: true});
         var max_topics = 5;
         var topic_names = topic_data.get_recent_names(my_stream_id);
+      
         var my_stream_name = stream_data.get_sub_by_id(my_stream_id).name;
+      
         // console.log(my_stream_name,topic_names)
         var ul = $('<ul class="topic-list">');
         ul.attr('data-stream', my_stream_name);
@@ -178,6 +180,7 @@ exports.widget = function (parent_elem, my_stream_id) {
             active_topic = active_topic.toLowerCase();
         }
         self.active_topic = active_topic;
+        console.log("-----是这-----")
         self.dom = self.build_list();
         parent_elem.append(self.dom);
 
@@ -222,9 +225,11 @@ exports.need_to_show_no_more_topics = function (stream_id) {
 };
 
 exports.rebuild = function (stream_li, stream_id) {
+  
     var active_topic = narrow_state.topic();
     var no_more_topics = exports.need_to_show_no_more_topics(stream_id);
     exports.remove_expanded_topics();
+
     active_widget = exports.widget(stream_li, stream_id);
     active_widget.build(active_topic, no_more_topics);
 };
@@ -270,6 +275,7 @@ exports.zoom_in = function () {
     $('#stream-filters-container').scrollTop(0);
     ui.update_scrollbar($("#stream-filters-container"));
     active_widget.show_spinner();
+    console.log("再试试------")
     topic_data.get_server_history(stream_id, on_success);
 };
 

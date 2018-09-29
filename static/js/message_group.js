@@ -416,11 +416,13 @@ var message_group = (function () {
            $(".group_setting_icon").on("click",function(e){
             // e.preventDefault()
             //组织冒泡
+           
             e.stopPropagation();
             var title = $(this).siblings().html()
             var titlef= title.slice(0,1)
             var text= $(".home-title span").html()
             var get_sub_by_name =stream_data.get_sub_by_name(title)
+            // console.log(stream_list.get_stream_li(get_sub_by_name.stream_id))
             // var avatar = people.stream_url_for_eamil(emial[0])
             var avatars = []
             var emial =get_email_of_subscribers(get_sub_by_name.subscribers)
@@ -571,10 +573,7 @@ var message_group = (function () {
                                     data:JSON.stringify({subject:del_subject}),
                                     success:function(data){
                                         that.remove()
-                                        var history = topic_data.topic_history()
-                                        history.maybe_remove(del_subject)
-                                        console.log(topic_data.get_recent_names(get_sub_by_name.stream_id))
-                                        $(".topic-list").find("[data-topic-name="+del_subject+"]").remove()
+                                        topic_list.zoom_in()
                                     }
                                 })
                               })
