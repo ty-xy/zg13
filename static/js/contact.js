@@ -779,6 +779,7 @@ var contact = (function(){
                         $(".move_ctn").children().remove();
                         var li = templates.render("check_detail",data)
                         $(".move_ctn").html(li)
+                        $(".check-detail-flex").height($(window).height()-244)
                         check.backIcons2()
                         check.ready_check_func(types,id)
                     }

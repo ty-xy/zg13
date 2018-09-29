@@ -114,6 +114,7 @@ exports.unread_pm_counter = (function () {
     self.set_pms = function (pms) {
         _.each(pms, function (obj) {
             var user_ids_string = obj.sender_id.toString();
+            // console.log(pms)
             self.set_message_ids(user_ids_string, obj.unread_message_ids);
         });
     };
@@ -132,10 +133,13 @@ exports.unread_pm_counter = (function () {
                 item_id: msg_id,
             });
         });
+        console.log(bucketer)
     };
 
     self.add = function (message) {
         var user_ids_string = people.pm_reply_user_string(message);
+        // console.log(user_ids_string)
+        // console.log(current_msg_list.get(2096),current_msg_list)
         if (user_ids_string) {
             bucketer.add({
                 bucket_key: user_ids_string,
@@ -153,9 +157,11 @@ exports.unread_pm_counter = (function () {
         var total_count = 0;
         bucketer.each(function (id_set, user_ids_string) {
             var count = id_set.count();
+            // console.log(count)
             pm_dict.set(user_ids_string, count);
             total_count += count;
         });
+        // console.log(total_count,pm_dict,bucketer)
         return {
             total_count: total_count,
             pm_dict: pm_dict,
@@ -172,6 +178,7 @@ exports.unread_pm_counter = (function () {
         if (!bucket) {
             return 0;
         }
+        console.log(bucket)
         return bucket.count();
     };
 
@@ -429,7 +436,7 @@ exports.get_counts = function () {
     res.pm_count = pm_res.pm_dict;
     res.private_message_count = pm_res.total_count;
     res.home_unread_messages += pm_res.total_count;
-
+    // console.log(res)
     return res;
 };
 
@@ -454,6 +461,8 @@ exports.load_server_counts = function () {
 
     exports.unread_pm_counter.set_huddles(unread_msgs.huddles);
     exports.unread_pm_counter.set_pms(unread_msgs.pms);
+    // console.log(unread_pm_counter,unread_msgs.streams,unread_msgs.pms)
+
     exports.unread_topic_counter.set_streams(unread_msgs.streams);
     exports.unread_mentions_counter.add_many(unread_msgs.mentions);
 
@@ -470,6 +479,7 @@ exports.load_server_counts = function () {
 };
 
 exports.initialize = function () {
+    unread.load_server_counts()
     if (feature_flags.load_server_counts) {
         exports.load_server_counts();
     }
