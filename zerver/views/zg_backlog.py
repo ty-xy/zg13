@@ -314,7 +314,8 @@ def web_my_send(request, user_profile):
         statement = Statement.objects.filter(**filter_dict).order_by('-id')[page1:page2]
         page_count = Statement.objects.filter(**filter_dict).count()
         page_count = math.ceil(page_count / 10)
-    except Exception:
+    except Exception as e:
+        print(e)
         return JsonResponse({'errno': 1, 'message': "获取我收到的报表失败"})
 
     try:
