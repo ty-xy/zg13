@@ -413,6 +413,19 @@ var management = (function () {
             }
               alert(msg,'rgba(169,12,0,0.30)');
         };
+        function formatFileSize(str) { 
+            var str = Number(str);
+            if (str > 1024) {
+            if ((str / 1024) > 100) {
+            if ((str / 1024 / 1024) > 100) {
+            return (str / 1024 / 1024 / 1024).toFixed(2)+ 'GB';
+            }
+            return (str / 1024 / 1024).toFixed(2)+'MB';
+            }
+            return (str / 1024).toFixed(2)+'KB';
+            }
+            return str +'B';
+         }
        var uploadFinished = function (i, file, response) {
             if (response.uri === undefined) {
             return;
@@ -422,7 +435,7 @@ var management = (function () {
             var type = file.type.split("/")
                 typeName= type[type.length-1]
             var uri =make_upload_absolute(response.uri);
-            var size = file.size
+            var size = formatFileSize(file.size)
             if(i != -1){
                 $('.uploading-img').hide()
                 var img = fileType.type_indicator(typeName.toString())
@@ -434,7 +447,7 @@ var management = (function () {
                 </div>\
                 <div class='generate_log_pack_right'>\
                     <p>"+filename+"</p>\
-                    <p>"+size+"MB</p>\
+                    <p>"+size+"</p>\
                 </div>\
               </div>"
                 $(".generate_log_upfile_box").append(li)

@@ -2,7 +2,8 @@
     {{#each arr}}
     <a href="{{_href}}">
         <li class="notice_ctn only_tip" {{#unless stream}}send_id="{{send_id}}"{{else}}stream_id="{{stream_id}}"{{/unless}} short_name="{{short_name}}" time_stamp="{{time_stamp}}">
-            <div class="notice_left fix">
+           <span class="count preson_count"><span class="value preson_value">{{#if num_unread}}{{num_unread}}{{/if}}</span></span>
+           <div class="notice_left fix">
                     {{#unless stream}}
                         <img src="{{avatar}}" alt="" class="notice_img">
                        {{else}}
@@ -27,12 +28,9 @@
                     {{content}}
                 </div>
                 {{/unless}}
-                {{!-- <div class="notice_box_del">
-                    删除
-                </div> --}} 
                 <i class="iconfont icon-guanbiUI notice_box_del"></i>
             </div>
-            <span class="count preson_count"><span class="value preson_value">{{#if num_unread}}{{num_unread}}{{/if}}</span></span>
+            
         </li>
     </a>
     {{/each}}
@@ -40,6 +38,7 @@
         {{#if _href}}
         <a href="{{_href}}">
             <li class="notice_ctn only_tip" {{#unless stream}}send_id="{{send_id}}"{{else}}stream_id="{{stream_id}}"{{/unless}} short_name="{{short_name}}" time_stamp="{{time_stamp}}">
+                <span class="count preson_count"><span class="value person_value">{{#if num_unread}}{{num_unread}}{{/if}}</span></span>
                 <div class="notice_left fix">
                     {{#unless stream}}
                         <img src="{{avatar}}" alt="" class="notice_img">
@@ -70,8 +69,44 @@
                     </div> --}}
                     <i class="iconfont icon-guanbiUI notice_box_del"></i>
                 </div>
-                <span class="count preson_count"><span class="value person_value">{{#if num_unread}}{{num_unread}}{{/if}}</span></span>
+                
             </li>
         </a>
+        {{!-- {{else}}
+                {{#each left_list}}
+                    <a href="{{pm_with_url}}">
+                        <li class="notice_ctn only_tip" {{#unless stream}}send_id="{{send_id}}"{{else}}stream_id="{{stream_id}}"{{/unless}} short_name="{{sender_short_name}}" time_stamp="{{timestamp}}">
+                        <span class="count preson_count"><span class="value preson_value">{{#if num_unread}}{{num_unread}}{{/if}}</span></span>
+                        <div class="notice_left fix">
+                                    {{#unless stream}}
+                                        <img src="{{avatar}}" alt="" class="notice_img">
+                                    {{else}}
+                                    <span class='color-setting avatar_setting' style="background-color:{{avatar}}">{{nfirst stream}}</span>
+                                    {{/unless}}
+                            </div>
+                            <div class="notice_right fix">
+                                <div class="notice_top fix">
+                                    <p class="notice_top_name">{{sender_short_name}}</p>
+                                    {{#unless stream}}
+                                    <p class="notice_top_time" name="{{sender_id}}">{{tf timestamp}}</p>
+                                        {{else}}
+                                        <p class="notice_top_time" name="{{stream_id}}">{{tf timestamp}}</p>
+                                    {{/unless}}
+                                </div>
+                                {{#unless stream}}
+                                <div class="notice_bottom" name="{{sender_id}}">
+                                    {{deleteTag content}}
+                                </div>
+                                {{else}}
+                                <div class="notice_bottom" name="{{stream_id}}">
+                                    {{deleteTag content}}
+                                </div>
+                                {{/unless}}
+                                <i class="iconfont icon-guanbiUI notice_box_del"></i>
+                            </div>
+                            
+                        </li>
+                    </a>
+                    {{/each}} --}}
     {{/if}}
 {{/if}}

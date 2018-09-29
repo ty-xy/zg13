@@ -509,15 +509,28 @@ def state_update(request, user_profile):
 
     if states == '审批通过' or states == '审批未通过':
 
-        review_objs = ZgReview.objects.filter(types=types, table_id=ids,duties='approval')
+        review_objs = ZgReview.objects.filter(types=types, table_id=ids, duties='approval')
         if not review_objs:
             return JsonResponse({'errno': 2, 'message': '无此条信息'})
-        if types == 'leave' or types == 'evection':
-            leave = ZgLeave.objects.filter(id=ids)
-            leave.update(status=states)
-        elif types == 'reimburse':
-            reimburse = ZgReimburse.objects.filter(id=ids)
-            reimburse.update(status=states)
+
+        if states == '审批通过':
+            review_objs = review_objs.filter(send_user_id=user_profile.id)
+            if types == 'leave' or types == 'evection':
+                leave = ZgLeave.objects.filter(id=ids)
+                leave.update(status=states)
+            elif types == 'reimburse':
+                reimburse = ZgReimburse.objects.filter(id=ids)
+                reimburse.update(status=states)
+
+        else:
+            review_objs.update(status=states)
+            if types == 'leave' or types == 'evection':
+                leave = ZgLeave.objects.filter(id=ids)
+                leave.update(status=states)
+            elif types == 'reimburse':
+                reimburse = ZgReimburse.objects.filter(id=ids)
+                reimburse.update(status=states)
+
         review_objs.update(status=states)
 
         review_obj = ZgReview.objects.filter(Q(status='审批未通过') | Q(status='审批中') | Q(status='已撤销'), types=types,
@@ -593,6 +606,9 @@ def zg_urgent(request, user_profile):
                              }}
 
         event = zg_send_tools(event)
-        send_list.append(ids)
-        send_event(event, send_list)
-    return JsonResponse({'errno': 0, 'message': '催办成功,'})
+
+        print(ids, event)
+        send_event(event, [23])
+        print(send_list)
+        return JsonResponse({'errno': 0, 'message': '催办成功,'})
+    return JsonResponse({'errno': 1, 'message': '催办失败,'})

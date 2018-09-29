@@ -477,7 +477,7 @@ Handlebars.registerHelper('tr', function (context, options) {
 });
 Handlebars.registerHelper("formatFileSize",function(str){
 
-        var str = Number(size);
+        var str = Number(str);
         if (str > 1024) {
         if ((str / 1024) > 100) {
         if ((str / 1024 / 1024) > 100) {
@@ -488,7 +488,6 @@ Handlebars.registerHelper("formatFileSize",function(str){
         return (str / 1024).toFixed(2)+'KB';
         }
         return str +'B';
-
 })
 return exports;
 }());

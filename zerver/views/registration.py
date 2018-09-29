@@ -700,14 +700,14 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
 @csrf_exempt
 def app_accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite] = None) -> HttpResponse:
     phone = request.POST.get('phone')
-    users = UserProfile.objects.filter(email=phone+'@zulip.com')
-    print(users,'-----------------')
+    users = UserProfile.objects.filter(email=phone + '@zulip.com')
+    print(users, '-----------------')
     if users:
         return JsonResponse({"errno": 6, "message": "该账户已注册"})
 
     realm = get_realm(get_subdomain(request))
     if realm is None:
-        print(1,'---'*30)
+        print(1, '---' * 30)
         return HttpResponseRedirect(reverse('zerver.views.registration.find_account'))
     if realm.deactivated:
         print(2, '---' * 30)
@@ -727,7 +727,7 @@ def app_accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseIn
         password = request.POST.get('password')
         smscode = request.POST.get('smscode')
 
-        users=UserProfile.objects.filter(email=phone)
+        users = UserProfile.objects.filter(email=phone)
         if users:
             return JsonResponse({"errno": 6, "message": "该账户已注册"})
 
@@ -742,11 +742,14 @@ def app_accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseIn
             email, request, streams=streams_to_subscribe)
 
         login_status = True
+
+        # ----------------------------
         try:
             send_confirm_registration_email(email, activation_url)
         except smtplib.SMTPException as e:
             logging.error('Error in accounts_home: %s' % (str(e),))
             return HttpResponseRedirect("/config-error/smtp")
+        # ---------------------------------
 
         # zg--------------
         key = activation_url.split('/')[-1]
@@ -799,7 +802,6 @@ def app_accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseIn
                                             urllib.parse.quote_plus(email))
 
         name_validated = False
-        full_name = None
 
         if request.POST.get('from_confirmation'):
             try:
@@ -875,7 +877,7 @@ def app_accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseIn
                 setup_realm_internal_bots(realm)
             assert (realm is not None)
 
-            full_name = email
+            full_name = request.POST.get('full_name')
             short_name = email_to_username(email)
             default_stream_group_names = request.POST.getlist(
                 'default_stream_group')
@@ -942,7 +944,6 @@ def app_accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseIn
                                                   "IP": request.META['REMOTE_ADDR']},
                                               default_stream_groups=default_stream_groups)
 
-
             # return JsonResponse({'errno': 0, 'message': '成功'})
 
             if realm_creation:
@@ -961,6 +962,7 @@ def app_accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseIn
                                        realm=realm,
                                        return_data=return_data,
                                        use_dummy_backend=True)
+
             if return_data.get('invalid_subdomain'):
                 # By construction, this should never happen.
                 logging.error("Subdomain mismatch in registration %s: %s" % (
@@ -968,7 +970,6 @@ def app_accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseIn
                 return redirect('/')
             return JsonResponse({'errno': 0, 'message': '注册成功'})
             # return login_and_go_to_home(request, auth_result)
-
 
         return render(
             request,
@@ -994,9 +995,7 @@ def app_accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseIn
         )
 
     else:
-        print(7777777)
         form = HomepageForm(realm=realm)
-    print(8888888)
     return render(request,
                   'zerver/accounts_home.html',
                   context={'form': form, 'current_url': request.get_full_path,

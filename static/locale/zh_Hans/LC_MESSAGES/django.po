@@ -598,8 +598,8 @@ msgid ""
 "            Why not <a href=\"#\" class=\"empty_feed_compose_private\">\n"
 "            start the conversation</a>?\n"
 "            "
-msgstr "\n 为什么不<a href=\"#\" class=\"empty_feed_compose_stream\">\n"
-"            开始对话呢</a>?"
+msgstr "\n 为什么不\n"
+"            开始对话呢"
 
 #: templates/zerver/home.html:52
 msgid "You have no private messages with this person yet!"
