@@ -16,6 +16,8 @@ exports.topic_history = function () {
         var message_id = opts.message_id || 0;
         message_id = parseInt(message_id, 10);
         var existing = topics.get(name);
+        // console.log(existing,"fdsfdsafsafadsfsad")
+        // console.log(topics,"gfdsgdsfgdfg","name",name,"names")
         if (!existing) {
             topics.set(opts.name, {
                 message_id: message_id,
@@ -23,6 +25,7 @@ exports.topic_history = function () {
                 historical: false,
                 count: 1,
             });
+            // console.log(topics,"gfdsgdsfgdfg","name",name)
             return;
         }
 
@@ -62,10 +65,16 @@ exports.topic_history = function () {
         // This method populates historical topics from the
         // server.  We have less data about these than the
         // client can maintain for newer topics.
+       
+        var arr = []
+        var names  = self.get_recent_names()
+       
         _.each(server_history, function (obj) {
             var name = obj.name;
             var message_id = obj.max_id;
             var existing = topics.get(name);
+            names.remove(name)
+           
             if (existing) {
                 if (!existing.historical) {
                     // Trust out local data more, since it
@@ -84,10 +93,14 @@ exports.topic_history = function () {
                 historical: true,
             });
         });
+      
+        topics.del(names[0])
+       
     };
 
     self.get_recent_names = function () {
         var recents = topics.values();
+      
         recents.sort(function (a, b) {
             return b.message_id - a.message_id;
         });
@@ -147,7 +160,7 @@ exports.add_history = function (stream_id, server_history) {
 
 exports.get_server_history = function (stream_id, on_success) {
     var url = '/json/users/me/' + stream_id + '/topics';
-
+    // console.log("就是这一不没有错")
     channel.get({
         url: url,
         data: {},

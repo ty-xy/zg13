@@ -312,7 +312,8 @@ exports.update_streams_sidebar = function () {
     }
 
     var filter = narrow_state.filter();
-
+    // console.log(filter)
+    // console.log("lalalalalallal")
     exports.update_stream_sidebar_for_narrow(filter);
 };
 
@@ -341,7 +342,7 @@ exports.refresh_pinned_or_unpinned_stream = function (sub) {
     // We use kind of brute force now, which is probably fine.
     build_stream_sidebar_row(sub);
     exports.update_streams_sidebar();
-
+    // console.log("weishafdsfadsfsadf")
     // Only scroll pinned topics into view.  If we're unpinning
     // a topic, we may be literally trying to get it out of
     // our sight.
@@ -428,7 +429,7 @@ exports.update_stream_sidebar_for_narrow = function (filter) {
     }
     // console.log(stream_li,"stream_li")
     topic_list.rebuild(stream_li, stream_id);
-
+    // console.log("是这了-------------对吗")
     return stream_li;
 };
 
