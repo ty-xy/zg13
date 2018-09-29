@@ -12,28 +12,13 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 #
-<<<<<<< HEAD
-# 发送短信验证码
-=======
 # # # 发送短信验证码
->>>>>>> 0bdc6af923a90af31c61f87ef07fd3cbc1488fd1
 def send_zg_sms(request):
     sms = request.GET.get('sms')
     send_type = request.GET.get('type')
     sms_code = '%04d' % random.randint(0, 9999)
     #                   注册，                        更换管理员
     send_sms_dict = {'register': 'SMS_107415213', 'change_admin': 'SMS_107415211'}
-<<<<<<< HEAD
-
-    try:
-        aaa = send_sms(sms, send_sms_dict[send_type], "{\"code\":\"%s\",\"product\":\"云通信\"}" % sms_code)
-    except Exception:
-        return JsonResponse({'errno': 1, 'message': '短信发送失败，请检查参数后从新发送'})
-    cache.set(sms + '_' + send_type, sms_code, 300)
-
-    print(sms_code)
-=======
->>>>>>> 0bdc6af923a90af31c61f87ef07fd3cbc1488fd1
 
     try:
         aaa = send_sms(sms, send_sms_dict[send_type], "{\"code\":\"%s\",\"product\":\"云通信\"}" % sms_code)
