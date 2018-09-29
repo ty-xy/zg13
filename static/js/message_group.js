@@ -565,17 +565,25 @@ var message_group = (function () {
                                 $(".names-item").on("click",".topiclist-group",function(e){
                                    var  del_subject = $(this).attr("data-name")
                                    var that = $(this)
-                                   channel.del({
-                                    url: 'json/zg/subject/',
-                                    idempotent: true,
-                                    data:JSON.stringify({subject:del_subject}),
-                                    success:function(data){
-                                        that.remove()
-                                        var history = topic_data.topic_history()
-                                        history.maybe_remove(del_subject)
-                                        console.log(topic_data.get_recent_names(get_sub_by_name.stream_id))
-                                        $(".topic-list").find("[data-topic-name="+del_subject+"]").remove()
-                                    }
+                                   var rendered = templates.render("feed_back_content",{deltag:true})
+                                   $(".modal-logs").html(rendered)
+                                   $(".modal-logs").show()
+                                   $(".type-area>p").html("是否删除该话题？")
+                                   $(".feadback-sure-del").on("click",function(e){
+                                    $(".modal-logs").hide()
+                                  
+                                    channel.del({
+                                        url: 'json/zg/subject/',
+                                        idempotent: true,
+                                        data:JSON.stringify({subject:del_subject}),
+                                        success:function(data){
+                                            that.remove()
+                                            var history = topic_data.topic_history()
+                                            history.maybe_remove(del_subject)
+                                            console.log(topic_data.get_recent_names(get_sub_by_name.stream_id))
+                                            $(".topic-list").find("[data-topic-name="+del_subject+"]").remove()
+                                        }
+                                    })
                                 })
                               })
                             }

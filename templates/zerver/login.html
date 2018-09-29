@@ -18,10 +18,10 @@
     </script>
     {% endif %}
     <div class="app login-page split-view new-style flex full-page">
-        <div class="left-main">
+        <!-- <div class="left-main">
                 <h1 class="one-manage">一键联通好管理</h1>
                 <p class="manage-chat">管理您的工作量，与您的团队沟通，并庆祝成功</p>
-        </div>
+        </div> -->
         <div class="inline-block">
 
 
@@ -72,11 +72,12 @@
 
                                     <!-- .no-validation is for removing the red star in CSS -->
                                     <div class="input-box no-validation">
-                                        <input id="id_username" type="{% if not require_email_format_usernames %}text{% else %}email{% endif %}"
-                                          name="username" class="{% if require_email_format_usernames %}email {% endif %}required"
-                                          placeholder="邮箱"
+                                        <input id="id_username" type="text"
+                                          name="username" class="mobile required"
+                                          placeholder="请输入账号"
                                           {% if email %} value="{{ email }}" {% else %} value="" {% endif %}
-                                          maxlength="72" required />
+                                          maxlength="11" required />
+                                        <div class="input_block"></div>                                        
                                         <!-- <label for="id_username">
                                             {% if not require_email_format_usernames and email_auth_enabled %}
                                             {{ _('Email or username') }}
@@ -88,8 +89,9 @@
                                         </label> -->
                                     </div>
 
-                                    <div class="input-box no-validation">
-                                        <input id="id_password" name="password" class="required" type="password" placeholder="密码" required />
+                                    <div class="input-box no-validation id_password_box">
+                                        <input id="id_password" name="password" class="required" type="password" placeholder="请输入密码" autocomplete="off" required/>
+                                        <i class="iconfont icon-yanjingguan eyeclose eyeicon"></i>  
                                         <!-- <label for="id_password" class="control-label">{{ _('Password') }}</label> -->
                                     </div>
 

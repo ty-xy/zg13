@@ -207,17 +207,21 @@ li.active-sub-filter {
     border-radius: 4px;
 }
 .preson_count{
-    background: hsl(105, 2%, 50%);
-    padding: 1px 4px;
-    border-radius: 0px;
     color: hsl(0, 0%, 100%);
     font-size: 12px;
     font-weight: normal;
     letter-spacing: 0.6px;
     border-radius: 4px;
     position: absolute;
-    right: 10px;
-    top: 7px;
+    width: 24px;
+    height: 16px;
+    text-align: center;
+    line-height: 16px;
+    right: 34px;
+    top: 35px;
+    background: #F25742;
+    border-radius: 100px;
+    display: none;
 }
 #global_filters .count {
     margin-right: 30px;
@@ -614,11 +618,23 @@ li.show-more-private-messages a {
 #taskdata{
     float: left;
 }
-.all_count{
+.preson_value{
+    display: block!important
+}
+#global_filters .all_count{
     position: absolute;
     top: -20px;
     right: -10px;
     display: block;
+    margin-top: 6px;
+    display: none;
+    line-height: 12px;
+    background: #F25742;
+    border-radius: 100px;
+    width: 26px;
+    padding: 0;
+    height: 16px;
+    line-height: 16px;
 }
 /* zyc添加中部样式 */
 .persistent_data{

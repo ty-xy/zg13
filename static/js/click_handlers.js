@@ -186,6 +186,7 @@ $(function () {
             //复制到粘贴板
             var copynum = 0;
             $(".recipient_row").off("click").on("click", '.additional_copy', function(e){
+                $(this).parent().parent().parent().hide()
                 var btn = $(this)[0]
                 var clipboard = new ClipboardJS(btn);
                 // console.log(clipboard)
@@ -202,6 +203,7 @@ $(function () {
                 });
             })
             $(".additional_reply").off("click").on("click",function(){
+                $(this).parent().parent().parent().hide()
                 compose_actions.quote_and_reply({trigger: 'popover respond'});
             })
             //收藏消息
@@ -573,6 +575,7 @@ $(function () {
     notifications.register_click_handlers();
 
     $('body').on('click', '.logout_button', function () {
+        window.localStorage.clear()
         $('#logout_form').submit();
     });
 
