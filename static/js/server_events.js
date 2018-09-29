@@ -281,7 +281,8 @@ var server_events = (function () {
                         var short_name = data_message.sender_short_name
                         var _href = data_message.pm_with_url
                         var sub;
-                        var recipient = data_message.display_recipient[0].id
+                        var recipient = data_message.display_recipient[0].id;
+                        var r_name = data_message.display_recipient[0].full_name;
                         var stream_name;
                         // console.log(data_message)
                         if(stream_id){
@@ -310,8 +311,8 @@ var server_events = (function () {
                         }else{
                             var flag = false;
                             for(var j =0 ;j<arr.length;j++){
-                                if(user_me!=name){
-                                    if(arr[j].send_id == send_id){
+                                if(user_me!=name&&data_message.type==="private"){
+                                    if(arr[j].send_id == send_id&&arr[j].stream==""){
                                         flag = true;
                                         $(".notice_bottom[name='"+send_id+"']").html(mes)
                                         $(".notice_top_time[name='"+send_id+"']").html(server_events.tf(time))
@@ -321,19 +322,24 @@ var server_events = (function () {
                                         arr.unshift(sarr[0])
                                         localStorage.setItem("arr",JSON.stringify(arr))
                                         server_events.sortBytime()
+                                        
                                     }
+                                    console.log(arr,1)
                                 }
-                                if(user_me == name&&arr[j].name!==name&&arr[j].stream==""){
+                                
+                                if(user_me == name&&arr[j].name==r_name&&arr[j].stream==""&&data_message.type==="private"){
                                     $(".notice_bottom[name="+recipient+"]").html(mes)
                                     $(".notice_top_time[name='"+$(".only_tip").attr("send_id")+"']").html(server_events.tf(time))
                                     arr[j].content = mes
+                                    console.log(arr[j].name,name)
                                     arr[j].time= server_events.tf(time)
                                     var sarr = arr.splice(j,1)
                                     arr.unshift(sarr[0])
                                     localStorage.setItem("arr",JSON.stringify(arr))
                                     server_events.sortBytime()
+                                    console.log(arr,2)
                                 }
-                                if(arr[j].stream_id==stream_id&&arr[j].name==sub.name ){
+                                if(arr[j].stream_id==stream_id&&arr[j].name==sub.name&&data_message.type==="stream"){
                                     if(user_me!=name){
                                         flag=true
                                         $(".notice_bottom[name="+stream_id+"]").html(mes)

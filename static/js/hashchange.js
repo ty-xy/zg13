@@ -104,6 +104,7 @@ exports.parse_narrow = function (hash) {
         arr = JSON.parse(localStorage.getItem("arr"))
         if(arr != null){
             $(".persistent_data").children().remove();
+            // console.log(arr)
             var notice_box = templates.render("notice_box",{arr:arr})
             $(".persistent_data").prepend(notice_box)
             _.filter($(".persistent_data").children(),function(data){
@@ -152,10 +153,11 @@ exports.parse_narrow = function (hash) {
             var cindex = url.substr(19)
             if (url_index=== "#narrow/pm-with"){
                 $(".home-title span").html(cindex)
+                $(".group_setting_icon").hide()
+                $(".compose-title").hide()
                 setTimeout(function(){
                     $(".home-title").show();
                 },10)
-                $(".compose-title").show()
             }else if(url_index=== "#narrow/stream"){
                 $(".home-title").show()
                 $(".group_setting_icon").show()
