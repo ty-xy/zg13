@@ -526,7 +526,7 @@ INSTALLED_APPS = [
     'webpack_loader',
     'zerver',
     'social_django',
-    'django_apscheduler',
+    # 'django_apscheduler',
 
 ]
 
