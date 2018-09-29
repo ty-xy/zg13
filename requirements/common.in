@@ -205,5 +205,3 @@ appdirs==1.4.3
 APScheduler==3.3.1
 # Django==2.0.0
 -e git+https://github.com/sallyruthstruik/django-apscheduler.git@9cb356e03c84850734eacadea946ccc6d24c69d2#egg=django_apscheduler
-
-qrcode==4.0.4

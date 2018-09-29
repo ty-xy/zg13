@@ -423,6 +423,9 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
         phone = request.POST.get('phone')
         password = request.POST.get('password')
         smscode = request.POST.get('smscode')
+        users = UserProfile.objects.filter(email=phone)
+        if users:
+            return JsonResponse({"errno": 6, "message": "该账户已注册"})
 
         print(phone, password, smscode)
         # print(cache.get(phone + '_' + 'register'))
@@ -696,10 +699,18 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
 
 @csrf_exempt
 def app_accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite] = None) -> HttpResponse:
+    phone = request.POST.get('phone')
+    users = UserProfile.objects.filter(email=phone+'@zulip.com')
+    print(users,'-----------------')
+    if users:
+        return JsonResponse({"errno": 6, "message": "该账户已注册"})
+
     realm = get_realm(get_subdomain(request))
     if realm is None:
+        print(1,'---'*30)
         return HttpResponseRedirect(reverse('zerver.views.registration.find_account'))
     if realm.deactivated:
+        print(2, '---' * 30)
         return redirect_to_deactivation_notice()
 
     from_multiuse_invite = False
@@ -716,8 +727,9 @@ def app_accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseIn
         password = request.POST.get('password')
         smscode = request.POST.get('smscode')
 
-        print(phone, password, smscode)
-        print(cache.get('18624938867' + '_' + 'register'))
+        users=UserProfile.objects.filter(email=phone)
+        if users:
+            return JsonResponse({"errno": 6, "message": "该账户已注册"})
 
         if not all([phone, password, smscode]):
             return JsonResponse({"errno": 1, "message": "缺少必要参数"})
@@ -756,11 +768,11 @@ def app_accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseIn
             validators.validate_email(email)
         except ValidationError:
             return render(request, "zerver/invalid_email.html", context={"invalid_email": True})
-
         if realm_creation:
             # For creating a new realm, there is no existing realm or domain
             realm = None
         else:
+
             realm = get_realm(get_subdomain(request))
             if realm is None or realm != prereg_user.realm:
                 return render_confirmation_key_error(
@@ -930,6 +942,9 @@ def app_accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseIn
                                                   "IP": request.META['REMOTE_ADDR']},
                                               default_stream_groups=default_stream_groups)
 
+
+            # return JsonResponse({'errno': 0, 'message': '成功'})
+
             if realm_creation:
                 bulk_add_subscriptions(
                     [realm.signup_notifications_stream], [user_profile])
@@ -951,8 +966,9 @@ def app_accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseIn
                 logging.error("Subdomain mismatch in registration %s: %s" % (
                     realm.subdomain, user_profile.email,))
                 return redirect('/')
+            return JsonResponse({'errno': 0, 'message': '注册成功'})
+            # return login_and_go_to_home(request, auth_result)
 
-            return login_and_go_to_home(request, auth_result)
 
         return render(
             request,
@@ -978,7 +994,9 @@ def app_accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseIn
         )
 
     else:
+        print(7777777)
         form = HomepageForm(realm=realm)
+    print(8888888)
     return render(request,
                   'zerver/accounts_home.html',
                   context={'form': form, 'current_url': request.get_full_path,
