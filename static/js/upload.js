@@ -128,6 +128,10 @@ exports.options = function (config) {
         if (response.uri === undefined) {
             return;
         }
+        var laetPoint = file.name.indexOf('.')
+        var strA = file.name.slice(0,laetPoint)
+        var strB = file.name.slice(laetPoint)
+        var new_name = strA + '_'+file.size + strB
         var split_uri = response.uri.split("/");
         var filename = split_uri[split_uri.length - 1];
         // Urgh, yet another hack to make sure we're "composing"
@@ -144,7 +148,7 @@ exports.options = function (config) {
             compose_ui.insert_syntax_and_focus(pasted_image_uri, textarea);
         } else {
             // This is a dropped file, so make the filename a link to the image
-            var filename_uri = "[" + filename + "](" + uri + ")";
+            var filename_uri = "[" + new_name + "](" + uri + ")";
             compose_ui.insert_syntax_and_focus(filename_uri, textarea);
         }
         compose_ui.autosize_textarea();

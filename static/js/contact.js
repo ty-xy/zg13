@@ -608,38 +608,43 @@ var contact = (function(){
                             })
                             //删除部门
                             $(".organization_chart_box").on("click",".branch_delete_group",function(){
-                                var organization_chart_group_delete = templates.render("organization_chart_group_delete")
-                                $(".organization_chart_md").append(organization_chart_group_delete)
-                                $(".branch_ctn").hide()
-        
-                                //删除框点击
-                                $(".organization_chart_group_delete_box").on("click",function(e){
-                                    e.stopPropagation()
-                                })
-                                //取消点击
-                                $(".organization_chart_group_delete_cancel,.organization_chart_group_delete_close").on("click",function(){
-                                    $(".organization_chart_group_delete_box").hide();
-                                })
-                                //确认删除
-                                $(".organization_chart_group_delete_ensure").on("click",function(){
-                                    var department_id = $(".branch_name").attr("department_id")
-                                    var obj = {
-                                        department_id:department_id
-                                    }
-                                    $.ajax({
-                                        type:"PUT",
-                                        contentType:"application/json",
-                                        url:"json/zg/department/del/",
-                                        data:JSON.stringify(obj),
-                                        success:function(res){
-                                            if(res.errno == 0){
-                                                server_events.operating_hints("删除部门成功!")
-                                                $(".organization_chart_group_delete_box").hide()
-                                                updataList()
+                                if($(".new_group_box li").length>1){
+                                    $(".new_group_ctn").append(templates.render("delete_member_tip"))
+                                    $(".branch_ctn").hide()
+                                    $(".delete_member_tip").fadeOut(4000)
+                                }else{
+                                    var organization_chart_group_delete = templates.render("organization_chart_group_delete")
+                                    $(".organization_chart_md").append(organization_chart_group_delete)
+                                    $(".branch_ctn").hide()
+                                        //删除框点击
+                                        $(".organization_chart_group_delete_box").on("click",function(e){
+                                            e.stopPropagation()
+                                        })
+                                        //取消点击
+                                        $(".organization_chart_group_delete_cancel,.organization_chart_group_delete_close").on("click",function(){
+                                            $(".organization_chart_group_delete_box").hide();
+                                        })
+                                        //确认删除
+                                        $(".organization_chart_group_delete_ensure").on("click",function(){
+                                            var department_id = $(".branch_name").attr("department_id")
+                                            var obj = {
+                                                department_id:department_id
                                             }
-                                        }
-                                    })
-                                })
+                                            $.ajax({
+                                                type:"PUT",
+                                                contentType:"application/json",
+                                                url:"json/zg/department/del/",
+                                                data:JSON.stringify(obj),
+                                                success:function(res){
+                                                    if(res.errno == 0){
+                                                        server_events.operating_hints("删除部门成功!")
+                                                        $(".organization_chart_group_delete_box").hide()
+                                                        updataList()
+                                                    }
+                                                }
+                                            })
+                                        })
+                                }
                             })
                             //取消更改
                             $(".organization_chart_box").on("click",".new_group_cancle",function(){
