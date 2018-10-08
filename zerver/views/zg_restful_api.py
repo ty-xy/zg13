@@ -25,7 +25,7 @@ def send_zg_sms(request):
     except Exception:
         return JsonResponse({'errno': 1, 'message': '短信发送失败，请检查参数后从新发送'})
     cache.set(sms + '_' + send_type, sms_code, 300)
-
+    print(sms)
     print(sms_code)
 #
     return JsonResponse({'errno': 0, 'message': '成功'})

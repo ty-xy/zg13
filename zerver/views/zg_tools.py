@@ -5,8 +5,9 @@ from django.http import JsonResponse
 import json
 import time
 # from apscheduler.schedulers.background import BackgroundScheduler
-# from django_apscheduler.jobstores import DjangoJobStore, register_events, register_job
+# from django_apscheduler.jobstores import DjangoJobStore, register_events
 from datetime import datetime, timezone, timedelta
+# from django_apscheduler.jobstores import register_job
 
 
 def nuw_time():
@@ -61,7 +62,7 @@ def zg_send_tools(zg_dict):
     print('sdasdsadsadasdadas')
     return event
 
-
+#
 # try:
 #     # 实例化调度器
 #     schedulers = BackgroundScheduler()
@@ -81,7 +82,7 @@ def zg_send_tools(zg_dict):
 #         print('定时自动考勤正在运行', '---------' * 15)
 #
 #
-#     @register_job(schedulers, 'cron', day_of_week='1-5', hour='23', minute='40', id='task_time2')
+#     @register_job(schedulers, 'cron', day_of_week='1-5', hour='11', minute='03', id='task_time2')
 #     def examine_attendance():
 #         print('定时自动考勤校正正在运行', '---------' * 15)
 #         sign_in_attendances = ZgAttendance.objects.filter(
