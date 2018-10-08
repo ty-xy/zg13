@@ -231,7 +231,7 @@
             <form class="email-change-form grid">
                 <h3>{{t "User settings" }}</h3>
                 <div class="input-group user-name-section">
-                    <label class="inline-block title">{{t "Email" }}</label>
+                    <label class="inline-block title">手机号</label>
                     <a id="change_email" {{#if page_params.is_admin}}href="#change_email"{{else}}{{#unless page_params.realm_email_changes_disabled}}href="#change_email"{{/unless}}{{/if}}>
                         <button type="button" class="button small rounded inline-block" id='email_value'
                           {{#unless page_params.is_admin}}{{#if page_params.realm_email_changes_disabled}}disabled="disabled"{{/if}}{{/unless}}>
@@ -247,11 +247,11 @@
                   aria-labelledby="change_email_modal_label" aria-hidden="true">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="{{t 'Close' }}"><span aria-hidden="true">&times;</span></button>
-                        <h3 id="change_email_modal_label">{{t "Change email" }}</h3>
+                        <h3 id="change_email_modal_label">更改手机号码</h3>
                     </div>
                     <div class="modal-body">
                         <div class="input-group email_change_container">
-                            <label for="email">{{t "New email" }}</label>
+                            <label for="email">新号码</label>
                             <input type="text" name="email" value="{{ page_params.email }}" autocomplete="off" spellcheck="false" autofocus="autofocus"/>
                         </div>
                     </div>
