@@ -142,7 +142,7 @@ $(function () {
             },1000);
         }
         sendmsg()
-        var sms = $(this).parent().prev().children().last().val();
+        var sms = $(this).parent().prev().prev().children().last().val();
         var type = "register"
         var obj = {
             sms:sms,

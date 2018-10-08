@@ -574,7 +574,9 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
                 setup_realm_internal_bots(realm)
             assert (realm is not None)
 
-            full_name = request.POST.get('full_name')
+
+            full_name = request.POST.get('fullname')
+
             short_name = email_to_username(email)
             default_stream_group_names = request.POST.getlist(
                 'default_stream_group')
