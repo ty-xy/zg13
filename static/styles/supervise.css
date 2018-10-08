@@ -58,7 +58,7 @@
 }
 .attendance_ctn{
     padding:0 30px;
-    height:680px;
+    /* height:680px; */
     overflow-y: auto; 
     overflow-x: hidden;
 }

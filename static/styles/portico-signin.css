@@ -60,6 +60,20 @@ html {
 .phone_number{
     text-indent: 46px;
 }
+.login_style{
+    font-family: PingFangHK-Regular;
+    font-size: 15px;
+    color: #1E88E5;
+    letter-spacing: 0.18px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.8em;
+    line-height: 1.5;
+    vertical-align: top;
+    transition: color 0.2s ease;
+    margin-top:10px;
+    float:right;
+}
 .area_code{
     position: absolute;
     font-size: 16px;

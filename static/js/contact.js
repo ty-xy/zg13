@@ -154,6 +154,10 @@ var contact = (function(){
             $(".notice_ctn_box").append("<div class='management_block'></div>")
             //新增任务
             $(".new_add_task").on("click",function(){
+                // console.log($(".notice_ctn_box"))
+                // var h = $(document).height()-$(window).height();
+                // $(".notice_ctn_box").scrollTop(h);
+                $(".notice_ctn_box")
                 $(".new_add_task").hide();
                 $(".new_task").show();
             })
