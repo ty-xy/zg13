@@ -324,20 +324,17 @@ var server_events = (function () {
                                         server_events.sortBytime()
                                         
                                     }
-                                    console.log(arr,1)
                                 }
                                 
                                 if(user_me == name&&arr[j].name==r_name&&arr[j].stream==""&&data_message.type==="private"){
                                     $(".notice_bottom[name="+recipient+"]").html(mes)
                                     $(".notice_top_time[name='"+$(".only_tip").attr("send_id")+"']").html(server_events.tf(time))
                                     arr[j].content = mes
-                                    console.log(arr[j].name,name)
                                     arr[j].time= server_events.tf(time)
                                     var sarr = arr.splice(j,1)
                                     arr.unshift(sarr[0])
                                     localStorage.setItem("arr",JSON.stringify(arr))
                                     server_events.sortBytime()
-                                    console.log(arr,2)
                                 }
                                 if(arr[j].stream_id==stream_id&&arr[j].name==sub.name&&data_message.type==="stream"){
                                     if(user_me!=name){
