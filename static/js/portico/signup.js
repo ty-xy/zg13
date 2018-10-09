@@ -156,7 +156,11 @@ $(function () {
                 sendmsg();
             },1000);
         }
-        sendmsg()
+        if($(".phone_number").hasClass("valid")){
+            sendmsg()
+        }else{
+            return
+        }
         var sms = $(this).parent().prev().prev().children().last().val();
         var type = "register"
         var obj = {

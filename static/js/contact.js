@@ -676,9 +676,12 @@ var contact = (function(){
                                     for(var i=0;i<arr.length;i++){
                                         user_list.push(Number(arr[i].getAttribute("user_id")))
                                     }
+
+                                    var department_id = $(this).parent().prev().prev().children().first().attr("department_id")
                                     var obj = {
                                         user_list:user_list,
-                                        type:"del"
+                                        type:"del",
+                                        department_id:department_id
                                     }
                                     $.ajax({
                                         type:"PUT",
