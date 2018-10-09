@@ -582,6 +582,7 @@ a.message-control-button {
     bottom:0;
     top:0;
     height:100%;
+    overflow: auto;
     width:380px;
     z-index:500000;
     background: #FFFFFF;
@@ -1520,10 +1521,16 @@ a.message-control-button {
    .icon-back-color{
       color:#39D1A9;
    }
+   .icon-back-color-over{
+       color:#bebebe
+   }
    .icon-back-colors{
     color: #FFA200;
- }
-   .check-shenpi-content{
+  }
+  .icon-backs-colors{
+    color:#F74144
+  }   
+  .check-shenpi-content{
        overflow-y:auto;
        overflow-x: hidden;
    }
