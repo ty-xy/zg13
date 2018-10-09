@@ -60,10 +60,16 @@ $(function () {
                                     <div class="registered_title">注册</div>
                                     <div class="phone_number_box">
                                         <span class="area_code">+86</span>
-                                        <input class="phone_number mobile required"  name="phone" placeholder="请输入手机号"/>
+                                        <input class="phone_number mobile required" name="phone" placeholder="请输入手机号" maxlength="11" required/>
+                                        <div class="alert alert-error email-frontend-error"></div>
+                                        {% if form.email.errors %}
+                                            {% for error in form.email.errors %}
+                                            <div class="email-backend-error alert alert-error">{{ error }}</div>
+                                            {% endfor %}
+                                        {% endif %}
                                     </div>
                                     <div class="full_name_box">
-                                        <input id="full_name" class="full_name" name="fullname" placeholder="请输入昵称" type="text"/>
+                                        <input id="full_name" class="full_name required" name="fullname" placeholder="请输入昵称" type="text" required/>
                                     </div>
                                     <div class="verification_box">
                                         <input class="verification" name="smscode" autocomplete="off" placeholder="请输入验证码" />
@@ -76,13 +82,6 @@ $(function () {
 
                                     <!-- <input type="email" id="email" class="email" name="email" value="" required /> -->
                                     <!-- <label for="email">Email</label> -->
-
-                                    <!-- <div class="alert alert-error email-frontend-error"></div> -->
-                                    <!-- {% if form.email.errors %}
-                                        {% for error in form.email.errors %}
-                                        <div class="email-backend-error alert alert-error">{{ error }}</div>
-                                        {% endfor %}
-                                    {% endif %} -->
                                 </div>
                                 <a href="/login/" class="login_style">登录</a>
                                 <button class="full-width" type="submit" name="">提交</button>

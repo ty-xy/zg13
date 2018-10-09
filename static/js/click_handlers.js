@@ -143,8 +143,9 @@ $(function () {
             })
             //取消
             $(".transfer_btn_cancel").on("click",function(){
-                $(".transfer_content").val("")
-                $("#transfer_input").val("")
+                // $(".transfer_content").val("")
+                // $("#transfer_input").val("")
+                $(".transfer_md").hide();
             })
             //完成并关闭
             $(".transfer_btn_close").on("click",function(){
