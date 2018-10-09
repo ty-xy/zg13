@@ -361,14 +361,28 @@ exports.show_new_stream_modal = function () {
 exports.create_handlers_for_users = function (container) {
     // container should be $('#people_to_add')...see caller to verify
     container.on('change', '#user-checkboxes input', update_announce_stream_state); 
-    container.on('click', '.subs_set_all_users', function (e) {
-        $('#user-checkboxes .checkbox').each(function (idx, li) {
+    container.on('click', '.all-choose', function (e) {
+        if($(this).is(":checked")){
+            $('#user-checkboxes .checkbox').each(function (idx, li) {
             
-            if  (li.style.display !== "none") {
-                $(li.firstElementChild).prop('checked', true);
-            }
-        });
-        e.preventDefault();
+                if  (li.style.display !== "none") {
+                    $(li.firstElementChild).prop('checked', true);
+                }
+            });
+           
+        }else{
+            $('#user-checkboxes .checkbox').each(function (idx, li) {
+                if (li.style.display !== "none") {
+                    // The first checkbox is the one for ourself; this is the code path for:
+                    // `stream_subscription_error.cant_create_stream_without_susbscribing`
+                    if (idx === 0 && !page_params.is_admin) {
+                        return;
+                    }
+                    $(li.firstElementChild).prop('checked', false);
+                }
+            });
+        }
+        // e.preventDefault();
         update_announce_stream_state();
     });
     $(".new_display_content").on("click",".button-confirm", function (e) {

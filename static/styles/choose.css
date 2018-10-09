@@ -1705,6 +1705,7 @@ a.message-control-button {
 }
 .controls-to-add{
     margin-left:10px;
+    flex:1
 }
 .icon-search-border{
     margin-right:-24px;
@@ -1715,6 +1716,12 @@ a.message-control-button {
 }
 .add-user-list-filter{
     text-indent: 20px;
+    background-color: #F4F5F7 !important;
+    border-radius: 6px !important;
+    width: 270px;
+    height: 32px !important;
+    box-sizing: border-box;
+    border: none !important;
 }
 .show-content-color{
     font-family: PingFangSC-Regular;
@@ -1740,4 +1747,18 @@ a.message-control-button {
     position:absolute;
     bottom:0px;
     left:18px
+}
+.all-choose{
+    margin-left:20px !important;
+}
+.i-normal{
+    font-style: normal !important;
+    /* text-align: end; */
+    /* flex: 1; */
+    float: right;
+    margin-right: 100px;
+}
+.fix-button{
+    display: inline-block !important;
+    vertical-align: middle !important;
 }

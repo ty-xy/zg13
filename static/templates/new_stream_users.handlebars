@@ -13,25 +13,33 @@
     <label class="checkbox add-user-label" data-stream-id="{{this.stream_id}}" data-stream-name="{{this.name}}">
         <input type="checkbox" name="stream" value="{{this.name}}" />
         <span></span>
-        {{this.name}} ( <i class="fa fa-user" aria-hidden="true"></i> {{this.subscriber_count}})
+        {{this.name}} (<i class="fa fa-user" aria-hidden="true"></i> {{this.subscriber_count}})
     </label>
     {{/each}}
 </div>
 {{!-- <br /> --}}
-<i class="iconfont icon-sousuo icon-search-border"></i>
-<input class="add-user-list-filter" name="user_list_filter" type="text"
-  autocomplete="off" placeholder="搜索" />
 <div>
-    <a href="#" draggable="false" class="subs_set_all_users">{{t "Check all" }}</a> 
-    <a href="#" draggable="false" class="subs_unset_all_users">{{t "Uncheck all" }}</a>
+    <i class="iconfont icon-sousuo icon-search-border"></i>
+    <input class="add-user-list-filter" name="user_list_filter" type="text"
+    autocomplete="off" placeholder="搜索" />
+    {{!-- <div> --}}
+    <label> 
+        <input type = "checkbox"  class="all-choose"/> 全选
+    </label>
 </div>
+    {{!-- <a href="#" draggable="false" class="subs_set_all_users">{{t "Check all" }}</a> 
+    <a href="#" draggable="false" class="subs_unset_all_users">{{t "Uncheck all" }}</a> --}}
+{{!-- </div> --}}
 
 <div id="user-checkboxes" class="user-attendances new-style">
     {{#each users}}
     <label class="checkbox add-user-label" data-user-id="{{this.user_id}}" data-email="{{this.email}}">
-        <input type="checkbox" name="user" value="{{this.email}}" {{#if @first}}checked="checked"{{#unless is_admin}} disabled="disabled"{{/unless}}{{/if}}/>
-        <span></span>
-        {{this.full_name}} ({{this.email}})
+        <input type="checkbox" name="user" value="{{this.email}}" {{#if @first}}checked="checked"{{#unless is_admin}} disabled="disabled"{{/unless}}{{/if}} class="fix-button" />
+        {{!-- <span></span> --}}
+        {{this.full_name}} 
+        <i class="i-normal"> {{this.email}}</i>
+       
     </label>
+    {{!-- <span>{{this.email}}</span> --}}
     {{/each}}
 </div>
