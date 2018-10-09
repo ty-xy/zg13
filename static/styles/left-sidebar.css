@@ -674,6 +674,9 @@ li.show-more-private-messages a {
     list-style: none;
     position: relative;
 }
+.notice_ctn:hover{
+    background: #F9FBFF;
+}
 .notice_left{
     float: left;
     width: 44px;

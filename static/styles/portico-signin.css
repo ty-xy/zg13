@@ -1,6 +1,6 @@
 html {
     min-height: 500px;
-    min-width: 1024px;
+    /* min-width: 1024px; */
 }
 
 .flex {
@@ -60,6 +60,20 @@ html {
 .phone_number{
     text-indent: 46px;
 }
+.login_style{
+    font-family: PingFangHK-Regular;
+    font-size: 15px;
+    color: #1E88E5;
+    letter-spacing: 0.18px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.8em;
+    line-height: 1.5;
+    vertical-align: top;
+    transition: color 0.2s ease;
+    margin-top:10px;
+    float:right;
+}
 .area_code{
     position: absolute;
     font-size: 16px;
@@ -89,6 +103,18 @@ html {
     padding-bottom: 10px;
     outline: none;
 }
+#full_name{
+    border: none;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #999999;
+    letter-spacing: 1.33px;
+    padding-bottom: 10px;
+    outline: none;
+    width: 328px;
+    padding: 0;
+}
 #registered_password,#resset_password{
     border: none;
     outline: none;
@@ -116,6 +142,10 @@ html {
     margin-top: 30px;
     position: relative;
 }
+.full_name_box{
+    margin-top:10px;
+
+}
 .get_verification{
     background: #4584FF;
     border-radius: 100px;
@@ -138,6 +168,56 @@ html {
     font-size: 20px;
     color: #333333;
     letter-spacing: 1.66px;
+}
+.download_box{
+
+    position: relative;
+    padding: 30px;
+    min-width: 0;
+    background-color: #fff;
+    box-shadow: 0 0 4px hsla(0,0%,0%,0.1);
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+.download_title{
+    font-size: 24px;
+    color: #333333;
+    letter-spacing: 0.22px;
+}
+.download_info{
+    overflow: hidden;
+}
+.download_qd{
+    width: 164px;
+    height: 164px;
+    margin: 10px auto;
+}
+.download_logo{
+    width: 120px;
+    height: 120px;
+    margin: 10px auto;
+}
+.download_info>p{
+    float: left;
+    text-align: center;
+    font-size: 14px;
+    color: #888888;
+    letter-spacing: 0.13px;
+    margin-left: 40px;
+}
+.download_btn{
+    background: #4584FF;
+    border-radius: 4px;
+    width: 260px;
+    height: 44px;
+    font-size: 15px;
+    color: #FFFFFF;
+    letter-spacing: 0.18px;
+    line-height: 44px;
+    text-align: center;
+    font-weight: 500;
+    cursor: pointer;
+    display: block;
 }
 .grey {
     color: #aaa;

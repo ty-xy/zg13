@@ -33,6 +33,7 @@ var contact = (function(){
                     $(".notice_ctn_box").append(templates.render("invited_users"))
                     //点击联系人弹出右边页面
                     $(".notice_ctn_box").on("click",".user_list_box",function(){
+                        $(this).addClass("backgr").siblings().removeClass("backgr")
                         $("#zfilt").children().remove();
                         $(".move_ctn").children().remove();
                         $(".move_ctn").show()
@@ -154,6 +155,10 @@ var contact = (function(){
             $(".notice_ctn_box").append("<div class='management_block'></div>")
             //新增任务
             $(".new_add_task").on("click",function(){
+                // console.log($(".notice_ctn_box"))
+                // var h = $(document).height()-$(window).height();
+                // $(".notice_ctn_box").scrollTop(h);
+                $(".notice_ctn_box")
                 $(".new_add_task").hide();
                 $(".new_task").show();
             })
@@ -255,6 +260,8 @@ var contact = (function(){
         })
         //团队组织方法
         $(".organization_team").on("click",function(){
+            $(this).addClass("backgr").next().children().removeClass("backgr")
+            $(this).prev().removeClass("backgr")
             $.ajax({
                 type:"GET",
                 url:"json/zg/user/permissions",
@@ -608,38 +615,43 @@ var contact = (function(){
                             })
                             //删除部门
                             $(".organization_chart_box").on("click",".branch_delete_group",function(){
-                                var organization_chart_group_delete = templates.render("organization_chart_group_delete")
-                                $(".organization_chart_md").append(organization_chart_group_delete)
-                                $(".branch_ctn").hide()
-        
-                                //删除框点击
-                                $(".organization_chart_group_delete_box").on("click",function(e){
-                                    e.stopPropagation()
-                                })
-                                //取消点击
-                                $(".organization_chart_group_delete_cancel,.organization_chart_group_delete_close").on("click",function(){
-                                    $(".organization_chart_group_delete_box").hide();
-                                })
-                                //确认删除
-                                $(".organization_chart_group_delete_ensure").on("click",function(){
-                                    var department_id = $(".branch_name").attr("department_id")
-                                    var obj = {
-                                        department_id:department_id
-                                    }
-                                    $.ajax({
-                                        type:"PUT",
-                                        contentType:"application/json",
-                                        url:"json/zg/department/del/",
-                                        data:JSON.stringify(obj),
-                                        success:function(res){
-                                            if(res.errno == 0){
-                                                server_events.operating_hints("删除部门成功!")
-                                                $(".organization_chart_group_delete_box").hide()
-                                                updataList()
+                                if($(".new_group_box li").length>1){
+                                    $(".new_group_ctn").append(templates.render("delete_member_tip"))
+                                    $(".branch_ctn").hide()
+                                    $(".delete_member_tip").fadeOut(4000)
+                                }else{
+                                    var organization_chart_group_delete = templates.render("organization_chart_group_delete")
+                                    $(".organization_chart_md").append(organization_chart_group_delete)
+                                    $(".branch_ctn").hide()
+                                        //删除框点击
+                                        $(".organization_chart_group_delete_box").on("click",function(e){
+                                            e.stopPropagation()
+                                        })
+                                        //取消点击
+                                        $(".organization_chart_group_delete_cancel,.organization_chart_group_delete_close").on("click",function(){
+                                            $(".organization_chart_group_delete_box").hide();
+                                        })
+                                        //确认删除
+                                        $(".organization_chart_group_delete_ensure").on("click",function(){
+                                            var department_id = $(".branch_name").attr("department_id")
+                                            var obj = {
+                                                department_id:department_id
                                             }
-                                        }
-                                    })
-                                })
+                                            $.ajax({
+                                                type:"PUT",
+                                                contentType:"application/json",
+                                                url:"json/zg/department/del/",
+                                                data:JSON.stringify(obj),
+                                                success:function(res){
+                                                    if(res.errno == 0){
+                                                        server_events.operating_hints("删除部门成功!")
+                                                        $(".organization_chart_group_delete_box").hide()
+                                                        updataList()
+                                                    }
+                                                }
+                                            })
+                                        })
+                                }
                             })
                             //取消更改
                             $(".organization_chart_box").on("click",".new_group_cancle",function(){
@@ -664,9 +676,12 @@ var contact = (function(){
                                     for(var i=0;i<arr.length;i++){
                                         user_list.push(Number(arr[i].getAttribute("user_id")))
                                     }
+
+                                    var department_id = $(this).parent().prev().prev().children().first().attr("department_id")
                                     var obj = {
                                         user_list:user_list,
-                                        type:"del"
+                                        type:"del",
+                                        department_id:department_id
                                     }
                                     $.ajax({
                                         type:"PUT",
@@ -758,6 +773,7 @@ var contact = (function(){
         $("body").on("click",".work_order",function(e){
             e.stopPropagation();
             e.preventDefault();
+            $(this).addClass("backgr").parent().prev().children().first().removeClass("backgr");
             window.location.href = "#narrow/is/starred"
             setTimeout(function(){
                 $(".move_ctn").children().remove();
@@ -792,6 +808,7 @@ var contact = (function(){
         })  
         //日志助手显示
         $("body").on("click",'.log_assistant_btn',function(e){
+           $(this).addClass("backgr").parent().next().children().first().removeClass("backgr")
            window.location.href = "#narrow/is/starred"
            $(".tab-content").css("height","100%")
            e.stopPropagation();

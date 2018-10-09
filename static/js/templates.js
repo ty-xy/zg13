@@ -225,7 +225,7 @@ Handlebars.registerHelper("toNorm",function(str){
     var regx = /[a-zA-Z]/gm
     var str = str.replace(regx,'')
     str = str.replace(/-/g,'/')
-    var left = str.substring(0,9)
+    var left = str.substring(0,10)
     var right = str.substring(10,15)
     var middle = "\r\n"
     return left+middle+right

@@ -8,4 +8,4 @@ This module works on Python versions:
 2.6.5 and greater
 Documentation:
 
-Please visit http://develop.aliyun.com/sdk/python
+Please visit http://depythonvelop.aliyun.com/sdk/

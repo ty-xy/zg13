@@ -116,6 +116,8 @@ exports.parse_narrow = function (hash) {
                     var li = data.getElementsByClassName("notice_ctn")
                     var $li = $(li)
                     $li.addClass("backgr").parent().siblings().children().removeClass("backgr")
+                    $(".log_assistant_btn").removeClass("backgr")
+                    $(".work_order").removeClass("backgr")
                 }
             })
         }

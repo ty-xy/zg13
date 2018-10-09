@@ -58,7 +58,7 @@
 }
 .attendance_ctn{
     padding:0 30px;
-    height:680px;
+    /* height:680px; */
     overflow-y: auto; 
     overflow-x: hidden;
 }
@@ -894,6 +894,18 @@
 }
 .organization_chart_change_box{
     overflow: hidden;
+}
+.delete_member_tip{
+    width: 360px;
+    height: 50px;
+    background: rgba(0,0,0,0.50);
+    border-radius: 4px;
+    font-size: 15px;
+    color: #FFFFFF;
+    letter-spacing: 0.16px;
+    text-align: center;
+    line-height: 50px;
+    margin: 0 auto;
 }
 .color_li{
     background: #F1F6FD;
