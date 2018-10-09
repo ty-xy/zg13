@@ -14,8 +14,12 @@
                {{else}}
                  {{#compare head_status '==' "审批通过"}}
                     <p style="color:#39D1A9">{{head_status}}</p>
-                        {{else}}
-                    <p>{{head_status}}</p>
+                    {{else}}
+                      {{#compare head_status '==' "审批未通过"}}
+                        <p style="color:#F74144">{{head_status}}</p>
+                       {{else}}
+                        <p>{{head_status}}</p>
+                        {{/compare}}
                     {{/compare}}
             {{/compare}}
         </div>
@@ -93,12 +97,16 @@
         <div class="common-flex">
             <div class="common-flex-links">
                 {{#compare status '==' '发起申请' }}
-                <i class="iconfont icon-shenpitongguo icon-back-color"></i>
+                <i class="iconfont icon-shenpitongguo icon-back-color {{#compare status '==' '已撤销' }}icon-back-color-over{{/compare}}"></i>
                   {{else}}
                     {{#compare status '==' '审批中' }}
                     <i class="iconfont icon-shenpidengdai icon-back-colors"></i>
                         {{else}}
-                        <i class="iconfont icon-shenpitongguo icon-back-color"></i>
+                         {{#compare status '==' '审批未通过'}}
+                         <i class="iconfont icon-guanbi1 icon-backs-colors"></i>
+                          {{else}}
+                         <i class="iconfont icon-shenpitongguo icon-back-color {{#compare status '==' '已撤销' }}icon-back-color-over{{/compare}}"></i>
+                         {{/compare}}
                     {{/compare}}
                 {{/compare}}
                 <i class="connect-line"/>
@@ -113,9 +121,13 @@
                                 <p style="color:#FFA200">{{status}}</p>
                                 {{else}}
                                  {{#compare status '==' "审批通过"}}
-                                <p style="color:#39D1A9">{{status}}</p>
+                                 <p style="color:#39D1A9">{{status}}</p>
                                     {{else}}
-                                    <p>{{status}}</p>
+                                      {{#compare status '==' "审批未通过"}}
+                                       <p style="color:#F74144">{{status}}</p>
+                                       {{else}}
+                                      <p>{{status}}</p>
+                                         {{/compare}}
                                  {{/compare}}
                             {{/compare}}
                     </div>

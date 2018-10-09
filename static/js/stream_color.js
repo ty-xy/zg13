@@ -102,12 +102,13 @@ exports.update_stream_color = function (sub, color, opts) {
     // $("#subscription_overlay .subscription_settings[data-stream-id='" + id + "'] .large-icon").css("color", color);
     exports.set_colorpicker_color($(".group_setting .setting_body[data-stream-id='" + id + "'] .colorpicker"), color);
     $(".notice_ctn[stream_id='" + id + "']").find(".color-setting").css("background-color", color);
+
     var arr = JSON.parse(localStorage.getItem("arr"))
      for(var i =0;i<arr.length;i++){
-         console.log(arr[i].stream_id == id)
+        //  console.log(arr[i].stream_id == id)
          if(arr[i].stream_id == id){
-             flag = true;
-             arr[i].color = color 
+            //  flag = true;
+             arr[i].avatar = color 
             //  console.log(arr[i].color,color)
              localStorage.setItem("arr",JSON.stringify(arr))
          }
@@ -121,7 +122,7 @@ exports.update_stream_color = function (sub, color, opts) {
 };
 
 function picker_do_change_color(color) {
-    console.log(color)
+    // console.log(color)
     var stream_id = $(this).attr('stream_id');
     var hex_color = color.toHexString();
     subs.set_color(stream_id, hex_color);
