@@ -205,6 +205,7 @@ exports.load_messages = function (opts) {
                             $(".todo_box").append(html_li)
                             var backlog_id;
                             $(".todo_box").on("click",".add_ctn",function(e){
+                                $(this).parent().parent().addClass("backgr").siblings().removeClass("backgr")
                                 $(".move_ctn").children().remove();
                                 $(".taskdetail_md").show();
                                 $("#management_ctn").hide();
