@@ -2277,46 +2277,52 @@ class ZgReplyComment(models.Model):
 
 # ================================
 # 请假出差表
-class ZgLeave(models.Model):
-    # 用户
-    user = models.ForeignKey(UserProfile)
-    # 审批类型
-    # 出差，evection 请假leave
-    approval_type = models.CharField(max_length=20)
-    # 申请人，，请假人
-    content = models.CharField(max_length=20, null=True)
-    # 开始时间
-    start_time = models.DateField()
-    # 结束时间
-    end_time = models.DateField()
-    # 天数
-    count = models.CharField(max_length=10)
-    # 事由
-    cause = models.CharField(max_length=200)
-    # 图片
-    img_url = models.CharField(max_length=200, null=True)
-    # 状态
-    status = models.CharField(max_length=15, default='发起申请')
-    send_time = models.DateTimeField()
+# class ZgLeave(models.Model):
+#     # 用户
+#     user = models.ForeignKey(UserProfile)
+#     # 审批类型
+#     # 出差，evection 请假leave
+#     approval_type = models.CharField(max_length=20)
+#     # 申请人，，请假人
+#     content = models.CharField(max_length=20, null=True)
+#     # 开始时间
+#     start_time = models.DateField()
+#     # 结束时间
+#     end_time = models.DateField()
+#     # 天数
+#     count = models.CharField(max_length=10)
+#     # 事由
+#     cause = models.CharField(max_length=200)
+#     # 图片
+#     # img_url = models.CharField(max_length=200, null=True)
+#     # 状态
+#     status = models.CharField(max_length=15, default='发起申请')
+#     send_time = models.DateTimeField()
 
 
-# 报销审批
-class ZgReimburse(models.Model):
-    # 用户
-    user = models.ForeignKey(UserProfile)
-    # 金额
-    amount = models.IntegerField()
-    # 类别
-    category = models.CharField(max_length=40)
-    # 明细
-    detail = models.CharField(max_length=240, null=True)
-    # 图片
-    image_url = models.CharField(max_length=200, null=True)
-    # 状态
-    status = models.CharField(max_length=25, default='发起申请')
-
-    send_time = models.DateTimeField()
-
+# # 报销审批
+# class ZgReimburse(models.Model):
+#     # 用户
+#     user = models.ForeignKey(UserProfile)
+#     # 金额
+#     amount = models.IntegerField()
+#     # 类别
+#     category = models.CharField(max_length=40)
+#     # 明细
+#     detail = models.CharField(max_length=240, null=True)
+#     # 图片
+#     # image_url = models.CharField(max_length=200, null=True)
+#     # 状态
+#     status = models.CharField(max_length=25, default='发起申请')
+#
+#     send_time = models.DateTimeField()
+#
+# # 审批报表附件
+# class ZgCorrectzAccessory(models.Model):
+#     table_id = models.PositiveIntegerField()
+#     correctz_type = models.CharField(max_length=32)
+#     attachment = models.ForeignKey(Attachment)
+#
 
 # 抄送人审批人
 class ZgReview(models.Model):
@@ -2356,6 +2362,3 @@ class ZgCollection(models.Model):
 class ZgCloudDisk(models.Model):
     user = models.ForeignKey(UserProfile, null=True, on_delete=models.SET_NULL)
     attachment = models.ForeignKey(Attachment, null=True, on_delete=models.SET_NULL)
-
-
-

@@ -581,6 +581,11 @@ v1_api_and_json_patterns = [
         {'GET': 'zerver.views.zg_organization.invite_qrcode'}),
 
     # zg_restful-------------
+
+    # 更新full_name
+    url(r'^zg/update/user/name$', rest_dispatch,
+        {'PUT': 'zerver.views.zg_restful_api.update_user_full_name'}),
+
     # 收藏
     url(r'^zg/collection/$', rest_dispatch,
         {'PUT': 'zerver.views.zg_restful_api.zg_collection'}),
@@ -616,7 +621,7 @@ v1_api_and_json_patterns = [
 # endpoint for use by code), you should add it here.
 # import zerver.views.streams
 
-from zerver.views.zg_restful_api import send_zg_sms
+from zerver.views.zg_restful_api import send_zg_sms,verification_user
 
 i18n_urls = [
 
@@ -628,6 +633,8 @@ i18n_urls = [
         name='zerver.views.home.desktop_home'),
 
     url(r'^api/v1/zg/register/sms$', send_zg_sms),
+    # 验证用户
+    url(r'^api/v1/zg/verification/user/$', verification_user,),
 
     url(r'^devindex/$', zerver.views.auth.dex_page, name='zerver.views.auth.dex_page'),
     url(r'^product_features/$', zerver.views.home.product_features),

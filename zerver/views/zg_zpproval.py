@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from zerver.decorator import zulip_login_required
-from zerver.models import ZgLeave, ZgReview, ZgReimburse, UserProfile, Feedback
+from zerver.models import ZgLeave, ZgReview, ZgReimburse, UserProfile, Feedback,ZgCorrectzAccessory,Attachment
 import json
 from datetime import datetime, timezone, timedelta
 from zerver.lib import avatar
@@ -53,6 +53,7 @@ def add_leave(request, user_profile):
     cause = req.get('cause')
     # 图片
     img_url = req.get('img_url')
+    print(img_url)
     # 审批人
     approver_list = req.get('approver_list')
     # 抄送人
@@ -66,7 +67,12 @@ def add_leave(request, user_profile):
                                      start_time=start_time,
                                      end_time=end_time,
                                      send_time=nuw_time(),
-                                     count=count, cause=cause, img_url=img_url)
+                                     count=count, cause=cause)
+
+        for img in img_url:
+            print(img)
+            attachment=Attachment.objects.filter(path_id=img)
+            ZgCorrectzAccessory.objects.create(correctz_type='Leave',attachment=attachment)
 
         types = ''
         if approval_type == 'evection':
@@ -124,7 +130,11 @@ def reimburse_add(request, user_profile):
         JsonResponse({'errno': 2, 'message': '带*号为必填参数'})
 
     a = ZgReimburse.objects.create(user=user_profile, category=category, amount=amount, detail=detail,
-                                   image_url=image_url, send_time=nuw_time())
+                                   send_time=nuw_time())
+    for img in image_url:
+        print(img)
+        attachment = Attachment.objects.filter(path_id=img)
+        ZgCorrectzAccessory.objects.create(correctz_type='Reimburse', attachment=attachment)
 
     event = {'zg_type': 'JobsNotice',
              'time': nuw_time(),
@@ -449,7 +459,10 @@ def approval_details(request, user_profile):
         data['amount'] = reimburse.amount
         data['category'] = reimburse.category
         data['detail'] = reimburse.detail
-        data['image_url'] = reimburse.image_url
+        data['image_url'] = list()
+        # ZgCorrectzAccessory.objects.filter()
+
+
 
 
     elif types == 'leave' or types == 'evection':
@@ -457,7 +470,6 @@ def approval_details(request, user_profile):
         if not reimburse:
             return JsonResponse({'errno': 3, 'message': '无效数据'})
         reimburse = reimburse[0]
-
         data['approval_type'] = reimburse.approval_type
         data['start_time'] = reimburse.start_time
         data['end_time'] = reimburse.end_time

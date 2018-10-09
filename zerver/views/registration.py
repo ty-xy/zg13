@@ -498,7 +498,6 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
                                             urllib.parse.quote_plus(email))
 
         name_validated = False
-        full_name = None
 
         if request.POST.get('from_confirmation'):
             try:

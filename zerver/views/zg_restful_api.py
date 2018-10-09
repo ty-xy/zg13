@@ -1,4 +1,4 @@
-from zerver.models import Message, UserMessage, ZgCollection, Stream, Attachment, ZgCloudDisk, Realm
+from zerver.models import Message, UserMessage, ZgCollection, Stream, Attachment, ZgCloudDisk, Realm, UserProfile
 from django.http import JsonResponse
 import json
 from datetime import datetime, timezone, timedelta
@@ -27,19 +27,19 @@ def send_zg_sms(request):
     cache.set(sms + '_' + send_type, sms_code, 300)
     print(sms)
     print(sms_code)
-#
+    #
     return JsonResponse({'errno': 0, 'message': '成功'})
+
 
 @csrf_exempt
 def app_nue_password(request):
-    phone=request.POST.get('phone')
-    smscode=request.POST.get('smscode')
-    password1=request.POST.get('password1')
-    password2=request.POST.get('password2')
+    phone = request.POST.get('phone')
+    smscode = request.POST.get('smscode')
+    password1 = request.POST.get('password1')
+    password2 = request.POST.get('password2')
 
-    if not all([phone,smscode,password1,password2]):
+    if not all([phone, smscode, password1, password2]):
         return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
-
 
     pass
 
@@ -111,21 +111,37 @@ def zg_collection(request, user_profile):
 # 收藏列表
 def zg_collection_list(request, user_profile):
     collection_objs = ZgCollection.objects.filter(user=user_profile).order_by()
-
     collection_list = list()
     for collection_obj in collection_objs:
         collection_dict = {}
 
         if collection_obj.types == 'message':
             message_obj = Message.objects.filter(id=collection_obj.type_id)
+
             if message_obj:
+                content = message_obj[0].content
                 collection_dict['user_name'] = message_obj[0].sender.full_name
                 collection_dict['user_avatars'] = avatar.absolute_avatar_url(message_obj[0].sender)
-                collection_dict['subject'] = '来自于:' + message_obj[0].subject
+                if not message_obj[0].subject:
+                    collection_dict['subject'] = '来自于:私聊'
+                else:
+                    collection_dict['subject'] = '来自于:' + message_obj[0].subject
                 collection_dict['content'] = message_obj[0].content
                 collection_dict['collection_time'] = collection_obj.collection_time
                 collection_dict['message_id'] = message_obj[0].id
                 collection_list.append(collection_dict)
+                collection_dict['type'] = None
+
+                if len(content.split('.')) == 3:
+                    if len(content.split('.')[2]) == 3 or len(content.split('.')[2]) == 4:
+                        collection_dict['name'] = content.split(']')[0][1:]
+                        collection_dict['type'] = content.split('.')[2][0:-1]
+                        collection_dict['content'] = 'http://' + request.META['HTTP_HOST'] + content.split('(')[
+                                                                                                 1][0:-1]
+                if len((content.split('.'))) > 3:
+                    if content.split('.')[-1] == 'aac':
+                        collection_dict['type'] = 'aac'
+                        # collection_dict['content'] = content.split('(')[1][0:-1]
 
     return JsonResponse({'errno': 0, 'message': '成功', 'collection_list': collection_list})
 
@@ -192,7 +208,6 @@ def file_details(request, user_profile):
     if not file_name:
         return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
     # 缺少必要参数    file_name.encode()
-    print(file_name)
     #     file_name = file_name.decode()
 
     attachment = Attachment.objects.filter(file_name=file_name)
@@ -200,7 +215,7 @@ def file_details(request, user_profile):
         return JsonResponse({'errno': 2, 'message': 'name错误'})
     file_dict = dict()
     attachment = attachment[0]
-    file_dict['size'] =attachment.size
+    file_dict['size'] = attachment.size
     file_dict['name'] = attachment.file_name
     file_dict['url'] = attachment.path_id
     file_dict['create_time'] = attachment.create_time
@@ -218,3 +233,25 @@ def file_del(request, user_profile):
         return JsonResponse({'errno': 0, 'message': '删除失败'})
 
     return JsonResponse({'errno': 0, 'message': '删除成功'})
+
+
+# 修改用户名
+def update_user_full_name(request, user_profile):
+    req = req_tools(request)
+    full_name = req.get('full_name')
+    if not full_name:
+        return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
+    user_profile.full_name = full_name
+    user_profile.save()
+    return JsonResponse({'errno': 0, 'message': '成功'})
+
+
+# 验证用户
+@csrf_exempt
+def verification_user(request):
+    phone = request.POST.get('phone')
+    user = UserProfile.objects.filter(email=phone + '@zulip.com')
+    if not user:
+        return JsonResponse({'errno': 0, 'message': '成功'})
+
+    return JsonResponse({'errno': 1, 'message': '该用户已注册'})
