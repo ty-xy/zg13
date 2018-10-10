@@ -468,7 +468,7 @@ exports.create_handlers_for_users = function (container) {
                 var user_id = elem.attr('data-user-id');
                 var user_checked = filtered_users.has(user_id);
                 var display = user_checked ? "block" : "none";
-                elem.css({display: display});
+                el ({display: display});
             });
         }());
 
