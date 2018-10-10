@@ -56,6 +56,14 @@ $(function () {
 
     $("#send_confirm").validate({
         errorElement: "div",
+        rules:{
+            fullname:{
+                required: true,
+                regUserName: true,
+                minlength: 4,
+                maxlength: 10
+            }
+        },
         errorPlacement: function (error) {
             // console.log(error,1)
             $('.email-frontend-error').empty();
@@ -66,7 +74,14 @@ $(function () {
             $('#errors').empty();
         },
     });
-
+    $("#full_name").validate({
+        rules:{
+            name:"required",
+            fullname:{
+                required:true,
+            }
+        }
+    })
     $(".register-page #email, .login-page-container #id_username").on('focusout keydown', function (e) {
         // check if it is the "focusout" or if it is a keydown, then check if
         // the keycode was the one for "enter" (13).
@@ -141,8 +156,12 @@ $(function () {
                 sendmsg();
             },1000);
         }
-        sendmsg()
-        var sms = $(this).parent().prev().prev().children().last().val();
+        if($(".phone_number").hasClass("valid")){
+            sendmsg()
+        }else{
+            return
+        }
+        var sms = $(".phone_number").val()
         var type = "register"
         var obj = {
             sms:sms,

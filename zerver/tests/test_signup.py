@@ -217,7 +217,7 @@ class PasswordResetTest(ZulipTestCase):
         # Check that the password reset email is from a noreply address.
         from django.core.mail import outbox
         from_email = outbox[0].from_email
-        self.assertIn("Zulip Account Security", from_email)
+        self.assertIn("e建联安全提示", from_email)
         self.assertIn(FromAddress.NOREPLY, from_email)
 
         self.assertIn('Someone (possibly you) requested a password',

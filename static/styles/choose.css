@@ -582,6 +582,7 @@ a.message-control-button {
     bottom:0;
     top:0;
     height:100%;
+    overflow: auto;
     width:380px;
     z-index:500000;
     background: #FFFFFF;
@@ -633,6 +634,9 @@ a.message-control-button {
     cursor: pointer;
     display:none;
 }
+.group_icon:hover{
+    background: #F1F6FD;
+}
 .organization_team{
     height:50px;
     position: relative;
@@ -640,6 +644,9 @@ a.message-control-button {
     line-height: 50px;
     cursor: pointer;
     display:none;
+}
+.organization_team:hover{
+    background: #F1F6FD
 }
 .icon_qunzu{
     display: inline-block;
@@ -988,7 +995,8 @@ a.message-control-button {
           margin-top:20px;
     }
     .notice_ctn_boxs{
-     margin-left:0
+     margin-left:0;
+     margin-bottom: 0;
     }
     .backgr{
        background: #F1F6FD;
@@ -1520,10 +1528,16 @@ a.message-control-button {
    .icon-back-color{
       color:#39D1A9;
    }
+   .icon-back-color-over{
+       color:#bebebe
+   }
    .icon-back-colors{
     color: #FFA200;
- }
-   .check-shenpi-content{
+  }
+  .icon-backs-colors{
+    color:#F74144
+  }   
+  .check-shenpi-content{
        overflow-y:auto;
        overflow-x: hidden;
    }
@@ -1698,6 +1712,7 @@ a.message-control-button {
 }
 .controls-to-add{
     margin-left:10px;
+    flex:1
 }
 .icon-search-border{
     margin-right:-24px;
@@ -1708,6 +1723,12 @@ a.message-control-button {
 }
 .add-user-list-filter{
     text-indent: 20px;
+    background-color: #F4F5F7 !important;
+    border-radius: 6px !important;
+    width: 270px;
+    height: 32px !important;
+    box-sizing: border-box;
+    border: none !important;
 }
 .show-content-color{
     font-family: PingFangSC-Regular;
@@ -1733,4 +1754,18 @@ a.message-control-button {
     position:absolute;
     bottom:0px;
     left:18px
+}
+.all-choose{
+    margin-left:20px !important;
+}
+.i-normal{
+    font-style: normal !important;
+    /* text-align: end; */
+    /* flex: 1; */
+    float: right;
+    margin-right: 100px;
+}
+.fix-button{
+    display: inline-block !important;
+    vertical-align: middle !important;
 }

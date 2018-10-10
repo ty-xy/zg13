@@ -218,8 +218,9 @@ var message_group = (function () {
         })
         $(".group_icon").on("click",function(e){
             // people.get_person_from_user_id(26)
+            $(this).addClass("bachgr").next().next().children().removeClass("backgr")
+            $(this).next().removeClass("backgr")
             $(".move_ctn").children().remove();
-            
             $("#empty_narrow_all_mentioned").hide()
             $("#zhome").hide()
             $("#group_seeting_choose").show()
@@ -472,15 +473,16 @@ var message_group = (function () {
                             if(data.errno===0){
                                 var showTopic = names.length>2?true:false
                                 var html = templates.render("group_setting",
-                                {name:title,
-                                titlef:titlef,
-                                avatar:avatar,
-                                color:get_sub_by_name,
-                                show:show,
-                                showTopic:showTopic,
-                                topiclength:names.length,
-                                stream_permissions:data.stream_permissions,
-                                names:names.length>0?names.slice(0,2):''
+                                {
+                                    name:title,
+                                    titlef:titlef,
+                                    avatar:avatar,
+                                    color:get_sub_by_name,
+                                    show:show,
+                                    showTopic:showTopic,
+                                    topiclength:names.length,
+                                    stream_permissions:data.stream_permissions,
+                                    names:names.length>0?names.slice(0,2):''
                                 })
                                 $(".group_setting").html(html)
                                 var colorpicker = $(".group_setting").find(".colorpicker")

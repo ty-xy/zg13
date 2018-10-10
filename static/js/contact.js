@@ -33,6 +33,7 @@ var contact = (function(){
                     $(".notice_ctn_box").append(templates.render("invited_users"))
                     //点击联系人弹出右边页面
                     $(".notice_ctn_box").on("click",".user_list_box",function(){
+                        $(this).addClass("backgr").siblings().removeClass("backgr")
                         $("#zfilt").children().remove();
                         $(".move_ctn").children().remove();
                         $(".move_ctn").show()
@@ -259,6 +260,8 @@ var contact = (function(){
         })
         //团队组织方法
         $(".organization_team").on("click",function(){
+            $(this).addClass("backgr").next().children().removeClass("backgr")
+            $(this).prev().removeClass("backgr")
             $.ajax({
                 type:"GET",
                 url:"json/zg/user/permissions",
@@ -673,9 +676,12 @@ var contact = (function(){
                                     for(var i=0;i<arr.length;i++){
                                         user_list.push(Number(arr[i].getAttribute("user_id")))
                                     }
+
+                                    var department_id = $(this).parent().prev().prev().children().first().attr("department_id")
                                     var obj = {
                                         user_list:user_list,
-                                        type:"del"
+                                        type:"del",
+                                        department_id:department_id
                                     }
                                     $.ajax({
                                         type:"PUT",
@@ -767,6 +773,7 @@ var contact = (function(){
         $("body").on("click",".work_order",function(e){
             e.stopPropagation();
             e.preventDefault();
+            $(this).addClass("backgr").parent().prev().children().first().removeClass("backgr");
             window.location.href = "#narrow/is/starred"
             setTimeout(function(){
                 $(".move_ctn").children().remove();
@@ -801,6 +808,7 @@ var contact = (function(){
         })  
         //日志助手显示
         $("body").on("click",'.log_assistant_btn',function(e){
+           $(this).addClass("backgr").parent().next().children().first().removeClass("backgr")
            window.location.href = "#narrow/is/starred"
            $(".tab-content").css("height","100%")
            e.stopPropagation();
@@ -855,7 +863,7 @@ var contact = (function(){
                    //日志助手阻止冒泡
                    $(".log_assistant_box").on("click",function(e){
                        e.stopPropagation();
-                       e.preventDefault();
+                    //    e.preventDefault();
                    })
                    $(".log_assistant_screening").on("click",function(e){
                        e.preventDefault();
@@ -1099,9 +1107,9 @@ var contact = (function(){
                                    $(this).css("color","#333333").siblings().css("color","#999999")
                                })
                                //附件图片显示原图
-                               $(".thumbnail").on("click",function(){
+                            //    $(".thumbnail").on("click",function(){
 
-                               })
+                            //    })
                                }
                            })
                    })

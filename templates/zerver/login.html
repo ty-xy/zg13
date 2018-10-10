@@ -74,7 +74,7 @@
                                     <div class="input-box no-validation">
                                         <input id="id_username" type="text"
                                           name="username" class="mobile required"
-                                          placeholder="请输入账号"
+                                          placeholder="请输入手机号"
                                           {% if email %} value="{{ email }}" {% else %} value="" {% endif %}
                                           maxlength="11" required />
                                         <div class="input_block"></div>                                        
@@ -90,7 +90,7 @@
                                     </div>
 
                                     <div class="input-box no-validation id_password_box">
-                                        <input id="id_password" name="password" class="required" type="password" placeholder="请输入密码" autocomplete="off" required/>
+                                        <input id="id_password" name="password" maxlength="20" class="required" type="password" placeholder="请输入密码" autocomplete="off" required/>
                                         <i class="iconfont icon-yanjingguan eyeclose eyeicon"></i>  
                                         <!-- <label for="id_password" class="control-label">{{ _('Password') }}</label> -->
                                     </div>
@@ -117,7 +117,7 @@
 
                                     <button type="submit" name="button" class="full-width">
                                         <img class="loader" src="/static/images/loader.svg" />
-                                        <span class="text">{{ _("Log in") }}</span>
+                                        <span class="text">{{ _("登录") }}</span>
                                     </button>
                                 </form>
 

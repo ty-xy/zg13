@@ -30,7 +30,7 @@ html {
     border: none;
     border-bottom: 1px solid #ddd;
     font-size: 16px;
-    color: #999999;
+    color: #000;
     letter-spacing: 1.33px;
 }
 .id_password_box{
@@ -97,7 +97,7 @@ html {
     border-bottom: 1px solid #ddd;
     margin-bottom: 10px;
     font-size: 16px;
-    color: #999999;
+    color: #000;
     letter-spacing: 1.33px;
     width: 328px;
     padding-bottom: 10px;
@@ -108,7 +108,7 @@ html {
     border-bottom: 1px solid #ddd;
     margin-bottom: 10px;
     font-size: 16px;
-    color: #999999;
+    color: #000;
     letter-spacing: 1.33px;
     padding-bottom: 10px;
     outline: none;
