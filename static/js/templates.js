@@ -134,6 +134,8 @@ Handlebars.registerHelper("deleteTag",function(tagStr){
 Handlebars.registerHelper("replaceTag",function(repStr){
     var $repStr = $(repStr)
     var content = $repStr.text()
+    var img_content = $repStr.eq(-1).hasClass("message_inline_image")
+    // console.log(img_content,$repStr.eq(-1))
     var lastContent = content.substr(-4)
     var tagA = $repStr.find("a").length
     if(tagA===1&&lastContent==".aac"){
@@ -145,6 +147,11 @@ Handlebars.registerHelper("replaceTag",function(repStr){
                 </p>'
              repStr = li
             return  repStr
+    }else if(img_content){
+      var index = repStr.indexOf("</p>")
+      repStr = repStr.slice(index+4)
+    //   console.log(repStr)
+      return  repStr
     }else{
         return repStr
     }

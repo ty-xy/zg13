@@ -243,7 +243,7 @@ var server_events = (function () {
         idempotent: true,
         timeout:  page_params.poll_timeout,
         success: function (data) {  
-            // console.log(data)         
+            console.log(data)         
             for(var i = 0;i<data.events.length;i++){
                 type = data.events[0].zg_type
                 push_one = data.events[0]
