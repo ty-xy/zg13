@@ -8,6 +8,7 @@ from zerver.views.zg_tools import judge_pc_or_mobile
 import qrcode
 from django.http import HttpResponse
 from django.utils.six import BytesIO
+from django.views.decorators.csrf import csrf_exempt
 
 
 # 部门列表
@@ -283,7 +284,8 @@ def zg_user_permissions(request, user_profile):
 
 
 # 邀请成员二维码
-def invite_qrcode(request, user_profile):
+@csrf_exempt
+def invite_qrcode(request):
     agent = request.META.get('HTTP_USER_AGENT')
     if not agent:
         return JsonResponse({'errno': 0, 'message': '获取失败'})

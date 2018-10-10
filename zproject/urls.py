@@ -576,10 +576,6 @@ v1_api_and_json_patterns = [
     url(r'^zg/user/permissions$', rest_dispatch,
         {'GET': 'zerver.views.zg_organization.zg_user_permissions'}),
 
-    # 邀请成员二维码
-    url(r'^zg/invite/qrcode$', rest_dispatch,
-        {'GET': 'zerver.views.zg_organization.invite_qrcode'}),
-
     # zg_restful-------------
 
     # 更新full_name
@@ -621,7 +617,8 @@ v1_api_and_json_patterns = [
 # endpoint for use by code), you should add it here.
 # import zerver.views.streams
 
-from zerver.views.zg_restful_api import send_zg_sms,verification_user
+from zerver.views.zg_restful_api import send_zg_sms,verification_user,new_password
+from zerver.views.zg_organization import invite_qrcode
 
 i18n_urls = [
 
@@ -631,10 +628,14 @@ i18n_urls = [
     # desktop app build for everyone in that case
     url(r'^desktop_home/$', zerver.views.home.desktop_home,
         name='zerver.views.home.desktop_home'),
-
+    # 发送手机
     url(r'^api/v1/zg/register/sms$', send_zg_sms),
     # 验证用户
-    url(r'^api/v1/zg/verification/user/$', verification_user,),
+    url(r'^api/v1/zg/verification/user$', verification_user),
+    # 修改密码
+    url(r'^api/v1/zg/new/password/$', new_password),
+    # 邀请成员二维码
+    url(r'^api/v1/zg/invite/qrcode$', invite_qrcode),
 
     url(r'^devindex/$', zerver.views.auth.dex_page, name='zerver.views.auth.dex_page'),
     url(r'^product_features/$', zerver.views.home.product_features),

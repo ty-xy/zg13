@@ -9,6 +9,7 @@ from zerver.views.zg_tools import req_tools
 from django.core.cache import cache
 import random
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.hashers import make_password
 
 
 #
@@ -17,8 +18,8 @@ def send_zg_sms(request):
     sms = request.GET.get('sms')
     send_type = request.GET.get('type')
     sms_code = '%04d' % random.randint(0, 9999)
-    #                   注册，                        更换管理员
-    send_sms_dict = {'register': 'SMS_107415213', 'change_admin': 'SMS_107415211'}
+    #                   注册，                        更换管理员                      更改密码
+    send_sms_dict = {'register': 'SMS_107415213', 'change_admin': 'SMS_107415211', 'new_password': 'SMS_107415212'}
 
     try:
         aaa = send_sms(sms, send_sms_dict[send_type], "{\"code\":\"%s\",\"product\":\"云通信\"}" % sms_code)
@@ -29,6 +30,27 @@ def send_zg_sms(request):
     print(sms_code)
     #
     return JsonResponse({'errno': 0, 'message': '成功'})
+
+
+# 修改密码
+@csrf_exempt
+def new_password(request):
+    if request.method == 'POST':
+        phone = request.POST.get('phone')
+        sms_code = request.POST.get('sms_code')
+        new_password = request.POST.get('new_password')
+        print(phone, sms_code, new_password)
+        if not all([phone, sms_code, new_password]):
+            return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
+
+        if not cache.get(phone + '_new_password'):
+            return JsonResponse({'errno': 2, 'message': '验证码错误'})
+        users = UserProfile.objects.filter(email=phone + '@zulip.com')
+        if users:
+            users[0].set_password(new_password)
+            users[0].save()
+            return JsonResponse({'errno': 0, 'message': '修改成功'})
+        return JsonResponse({'errno': 3, 'message': '输入错误'})
 
 
 @csrf_exempt
@@ -73,19 +95,14 @@ def zg_collection(request, user_profile):
     type_id = req.get('type_id')
     # 状态
     status = req.get('status')
-
     flagattr = getattr(UserMessage.flags, 'starred')
-
     if types == 'message':
         message_objs = Message.objects.filter(id=type_id)
         if not message_objs:
             return JsonResponse({'errno': 1, 'message': '消息ID错误'})
-
         msgs = UserMessage.objects.filter(user_profile=user_profile,
                                           message=type_id)
-
         if status == 'add':
-
             try:
                 msgs.update(flags=F('flags').bitor(flagattr))
                 ZgCollection.objects.create(user=user_profile, types=types, type_id=type_id, collection_time=nuw_time())
@@ -249,9 +266,11 @@ def update_user_full_name(request, user_profile):
 # 验证用户
 @csrf_exempt
 def verification_user(request):
-    phone = request.POST.get('phone')
-    user = UserProfile.objects.filter(email=phone + '@zulip.com')
-    if not user:
-        return JsonResponse({'errno': 0, 'message': '成功'})
+    if request.method == 'GET':
+        phone = request.GET.get('phone')
 
-    return JsonResponse({'errno': 1, 'message': '该用户已注册'})
+        user = UserProfile.objects.filter(email=phone + '@zulip.com')
+        if not user:
+            return JsonResponse({'errno': 0, 'message': '成功'})
+
+        return JsonResponse({'errno': 1, 'message': '该用户已注册'})
