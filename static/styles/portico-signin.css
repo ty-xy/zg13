@@ -43,6 +43,12 @@ html {
     font-size:12px;
     color:#666;
 }
+.icon-yanjingkai{
+    font-size: 16px!important;
+    position: absolute;
+    right: 3px;
+    top: 34px;
+}
 .registered_title{
     text-align: center;
     width:326px;

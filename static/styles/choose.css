@@ -481,6 +481,15 @@ a.message-control-button {
     left:163px;
     top:60px;
 }
+.process-bar-parentA{
+    position: absolute;
+    height: 5px;
+    margin-bottom: 0px;
+    width: 100px;
+    left: 21px;
+    top: 16px;
+    display: none;
+}
 .paging_box{
     /* width: 937px; */
     /* height: 50px; */
