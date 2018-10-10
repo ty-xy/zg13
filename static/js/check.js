@@ -100,7 +100,7 @@ var check = (function () {
                     var li = templates.render("check_detail",data)
                     $(".move_ctn").html(li)
                     func()
-                    $(".check-detail-flex").height($(window).height()-244)
+                    $(".check-detail-flex").height($(window).height()-190)
                     if(data.button_status!==5){
                         feedBack(datas.types,datas.id,func)
                     }
@@ -227,8 +227,9 @@ var check = (function () {
                                 // del_msg(data)
                                 var li = templates.render("check_detail",data)
                                 $(".move_ctn").html(li)
+                               
                                 backIcons3()
-                                $(".reminder").on("click",function(e){
+                                $(".reminder").on("click",function(e){ $(".check-detail-flex").height($(window).height()-190)
                                     datalist = {
                                         types:types,
                                         id:id,
@@ -642,6 +643,7 @@ var check = (function () {
                                         $(".move_ctn").children().remove();
                                         var li = templates.render("check_detail",data)
                                         $(".move_ctn").html(li)
+                                        $(".check-detail-flex").height($(window).height()-190)
                                         exports.backIcons2()
                                         exports.ready_check_func(types,id)
                                     }
@@ -697,6 +699,7 @@ var check = (function () {
                                         $(".move_ctn").children().remove();
                                         var li = templates.render("check_detail",data)
                                         $(".move_ctn").html(li)
+                                        $(".check-detail-flex").height($(window).height()-190)
                                         // backIcons(lis)
                                         backIcons4()
                                        
@@ -812,9 +815,9 @@ var check = (function () {
                                         $(".move_ctn").children().remove();
                                         var li = templates.render("check_detail",data)
                                         $(".move_ctn").html(li)
+                                        $(".check-detail-flex").height($(window).height()-190)
                                         backIcons1()
                                         // backIcons(lis)
-                                        $(".check-detail-flex").height($(window).height()-244)
                                         if(data.button_status!==5){
                                             feedBack(datas.types,datas.id,backIcons1)
                                         }

@@ -196,17 +196,21 @@ var server_events = (function () {
         for (var i=0; i<lis.length; i++){
             var tmp = {};
             tmp.dom = lis.eq(i);
+          
             tmp.date = Number(lis.eq(i).children().attr("time_stamp"));
             ux.push(tmp);
         }
+       
         ux.sort(function(a,b){
         return b.date - a.date;
         });
+        
         //移除原先顺序错乱的li内容
         $('.persistent_data a').remove();
         //重新填写排序好的内容
         for (var i=0; i<ux.length; i++){
-        ul.append(ux[i].dom);
+            ul.append(ux[i].dom);
+         
         }
     }
     function get_events(options) {
@@ -316,8 +320,10 @@ var server_events = (function () {
                                         flag = true;
                                         $(".notice_bottom[name='"+send_id+"']").html(mes)
                                         $(".notice_top_time[name='"+send_id+"']").html(server_events.tf(time))
+                                        $(".only_tip[send_id="+send_id+"]").attr("time_stamp",time*1000)
                                         arr[j].content = mes
                                         arr[j].time= server_events.tf(time)
+                                        arr[j].time_stamp = time*1000
                                         var sarr = arr.splice(j,1)
                                         arr.unshift(sarr[0])
                                         localStorage.setItem("arr",JSON.stringify(arr))
@@ -328,11 +334,14 @@ var server_events = (function () {
                                 
                                 if(user_me == name&&arr[j].name==r_name&&arr[j].stream==""&&data_message.type==="private"){
                                     $(".notice_bottom[name="+recipient+"]").html(mes)
-                                    $(".notice_top_time[name='"+$(".only_tip").attr("send_id")+"']").html(server_events.tf(time))
+                                    $(".notice_top_time[name="+recipient+"]").html(server_events.tf(time))
+                                    $(".only_tip[send_id="+recipient+"]").attr("time_stamp",time*1000)
                                     arr[j].content = mes
                                     arr[j].time= server_events.tf(time)
+                                    arr[j].time_stamp = time*1000
                                     var sarr = arr.splice(j,1)
                                     arr.unshift(sarr[0])
+                                    // console.log(time*1000)
                                     localStorage.setItem("arr",JSON.stringify(arr))
                                     server_events.sortBytime()
                                 }
@@ -346,17 +355,20 @@ var server_events = (function () {
                                         $(".persistent_data").prepend(stream_li)
                                         arr[j].content = mes
                                         arr[j].time= server_events.tf(time)
+                                        arr[j].time_stamp = time*1000
                                         var sarr = arr.splice(j,1)
                                         arr.unshift(sarr[0])
                                         localStorage.setItem("arr",JSON.stringify(arr))
                                     }else{
                                         $(".notice_bottom[name="+stream_id+"]").html(mes)
                                         $(".notice_top_time[name="+stream_id+"]").html(server_events.tf(time))
+
                                         var stream_li = $(".only_tip[stream_id="+stream_id+"]").parent()
                                         stream_li.remove()
                                         $(".persistent_data").prepend(stream_li)
                                         arr[j].content = mes
                                         arr[j].time= server_events.tf(time)
+                                        arr[j].time_stamp = time*1000
                                         var sarr = arr.splice(j,1)
                                         arr.unshift(sarr[0])
                                         localStorage.setItem("arr",JSON.stringify(arr))
