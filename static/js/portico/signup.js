@@ -156,9 +156,10 @@ $(function () {
                 sendmsg();
             },1000);
         }
-        if($(".phone_number").hasClass("valid")){
+        if($(".phone_number").attr("aria-invalid")=='false'){
             sendmsg()
         }else{
+            console.log("获取失败")
             return
         }
         var sms = $(".phone_number").val()
@@ -220,6 +221,15 @@ $(function () {
             }  
         })
     })
+
+// $(document).ready(function() {
+//     // alert("-___--___")
+//     console.log($("#reset_password"))
+//     $("#reset_password").ajaxForm(function(data){
+//           alert("返回的值是" + data);
+//           console.log(data)
+//     });		    
+// });
     //登陆页小眼睛
     $("#login_form").on("click",".eyeclose",function(){
         if($(this).prev().attr("type")){
