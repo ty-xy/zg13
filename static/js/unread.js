@@ -178,7 +178,7 @@ exports.unread_pm_counter = (function () {
         if (!bucket) {
             return 0;
         }
-        console.log(bucket)
+        // console.log(bucket)
         return bucket.count();
     };
 

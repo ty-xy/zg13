@@ -52,6 +52,8 @@ exports.render_now = function (time, today) {
     } else {
         // For now, if we get a message from tomorrow, we don't bother
         // rewriting the timestamp when it gets to be tomorrow.
+        time =  xt(time)
+        // console.log(time)
         time_str = time.toString("MMM\xa0dd");
         needs_update = false;
     }
@@ -123,7 +125,7 @@ function render_date_span(elem, rendered_time, rendered_time_above) {
         var pieces = [
             '<i class="date-direction icon-vector-caret-up"></i>',
             rendered_time_above.time_str,
-            '<hr class="date-line">',
+            // '<hr class="date-line">',
             '<i class="date-direction icon-vector-caret-down"></i>',
             rendered_time.time_str,
         ];
@@ -144,9 +146,11 @@ function render_date_span(elem, rendered_time, rendered_time_above) {
 // of this DOM node as HTML, so effectively a copy of the node. That's
 // okay since to update the time later we look up the node by its id.)
 exports.render_date = function (time, time_above, today) {
+    // console.log(time,time_above,today)
     var className = "timerender" + next_timerender_id;
     next_timerender_id += 1;
     var rendered_time = exports.render_now(time, today);
+    // console.log(rendered_time)
     var node = $("<span />").attr('class', className);
     if (time_above !== undefined) {
         var rendered_time_above = exports.render_now(time_above, today);
@@ -171,6 +175,16 @@ exports.tf = function(timestamp) {
         m = date.getMinutes();
         s = date.getSeconds();
     return h+m
+}
+function xt(timestamp){
+    var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+    Y = date.getFullYear() + '-';
+    M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+    D = date.getDate() + ' ';
+    h = date.getHours() + ':';
+    m = date.getMinutes();
+    s = date.getSeconds();
+    return M+D
 }
 // This isn't expected to be called externally except manually for
 // testing purposes.
