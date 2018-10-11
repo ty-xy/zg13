@@ -26,7 +26,7 @@ $(function () {
         return this.optional(element) || (length == 11 && mobile.test(value));
     }, "手机号码格式错误");
 
-    $('#registration, #password_reset,#send_confirm').validate({
+    $('#registration, #password_reset,#send_confirm,#reset_password').validate({
         // rules: {
         //     password:      'password_strength',
         //     new_password1: 'password_strength',
@@ -174,6 +174,49 @@ $(function () {
             data:obj,
             success:function(){
                 console.log("-------------______---success")
+            }  
+        })
+    })
+
+    //获取验证码
+    $("#reset_password").on("click",".get_verification",function(){
+        console.log("000000")
+        var countdown=60;
+        function sendmsg(){
+            if(countdown==0){
+                $(".get_verification").attr("disabled",false);
+                $(".get_verification").val("获取验证码");
+                countdown=60;
+                return false;
+            }
+            else{
+                $(".get_verification").attr("disabled",true);
+                $(".get_verification").val(countdown+"s");
+                countdown--;
+            }
+            setTimeout(function(){
+                sendmsg();
+            },1000);
+        }
+        console.log($(".phone_number").attr("aria-invalid"))
+        if($(".phone_number").attr("aria-invalid")=='false'){
+            sendmsg()
+        }else{
+            return
+        }
+        var sms = $(".phone_number").val()
+        var type = "new_password"
+        var obj = {
+            sms:sms,
+            type:type
+        }
+        $.ajax({
+            type:"GET",
+            contentType:"application/json",
+            url:"/api/v1/zg/register/sms",
+            data:obj,
+            success:function(){
+                console.log("123")
             }  
         })
     })
