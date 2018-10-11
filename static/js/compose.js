@@ -107,6 +107,7 @@ function update_fade() {
     }
 
     var msg_type = compose_state.get_message_type();
+    console.log(msg_type)
     compose_fade.set_focused_recipient(msg_type);
     compose_fade.update_faded_messages();
 }
@@ -431,7 +432,7 @@ exports.finish = function () {
         return false;
     }
     var message_content = compose_state.message_content();
-    // console.log(message_content)
+    console.log(message_content)
     if (is_deferred_delivery(message_content)) {
         exports.schedule_message();
     } else {
@@ -582,6 +583,17 @@ exports.validate_stream_message_address_info = function (stream_name) {
 
 function validate_stream_message() {
     var stream_name = compose_state.stream_name();
+    var url =window.location.hash
+    var hash = url.split("/")
+    var subject = hash_util.decodeHashComponent(hash[4])
+    var stream = hash[2].split("-")
+     stream = hash_util.decodeHashComponent(stream[1])
+    if(stream_name === ""&&hash[1]==="stream"){
+        stream_name = stream
+        $("#subject").val(subject)
+        $("#stream").val(stream)
+    }
+    // console.log(stream_name,compose_state.subject())
     if (stream_name === "") {
         compose_error(i18n.t("Please specify a stream"), $("#stream"));
         return false;

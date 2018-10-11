@@ -40,7 +40,7 @@
                     </span>
                     <span class="alert-msg pull-right"></span>
                     {{#if msg/showTime}}
-                    <span class="message_time{{#if msg/locally_echoed}} notvisible{{/if}}{{#if status_message}} status-time{{/if}}">{{timestr}}</span>
+                    <span class="message_time{{#if msg/locally_echoed}} notvisible{{/if}}{{#if status_message}} status-time{{/if}}">{{{show_date}}}{{timestr}}</span>
                     {{/if}}
                     {{#if_and last_edit_timestr include_sender}}
                         {{#unless status_message}}

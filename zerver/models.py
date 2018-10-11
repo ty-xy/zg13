@@ -2293,8 +2293,7 @@ class ZgLeave(models.Model):
     count = models.CharField(max_length=10)
     # 事由
     cause = models.CharField(max_length=200)
-    # 图片
-    img_url = models.CharField(max_length=200, null=True)
+
     # 状态
     status = models.CharField(max_length=15, default='发起申请')
     send_time = models.DateTimeField()
@@ -2310,12 +2309,17 @@ class ZgReimburse(models.Model):
     category = models.CharField(max_length=40)
     # 明细
     detail = models.CharField(max_length=240, null=True)
-    # 图片
-    image_url = models.CharField(max_length=200, null=True)
     # 状态
     status = models.CharField(max_length=25, default='发起申请')
 
     send_time = models.DateTimeField()
+#
+# 审批报表附件
+class ZgCorrectzAccessory(models.Model):
+    table_id = models.PositiveIntegerField()
+    # 请假出差：leave，报销：reimburse
+    correctz_type = models.CharField(max_length=32)
+    attachment = models.ForeignKey(Attachment)
 
 
 # 抄送人审批人
@@ -2356,6 +2360,3 @@ class ZgCollection(models.Model):
 class ZgCloudDisk(models.Model):
     user = models.ForeignKey(UserProfile, null=True, on_delete=models.SET_NULL)
     attachment = models.ForeignKey(Attachment, null=True, on_delete=models.SET_NULL)
-
-
-

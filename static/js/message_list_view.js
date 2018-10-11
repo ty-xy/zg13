@@ -73,8 +73,9 @@ function add_display_time(group, message_container, prev) {
         // Show the date in the recipient bar, but not a date separator bar.
         group.show_date_separator = false;
         group.show_date = (timerender.render_date(time, undefined, today))[0].outerHTML;
+        
     }
-
+    // console.log(group,prev)
     if (message_container.timestr === undefined) {
         message_container.timestr = timerender.stringify_time(time);
     }
