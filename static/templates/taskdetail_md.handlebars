@@ -51,6 +51,12 @@
                         <a id="attach_file">上传文件</a>
                         <span class="taskdetail_numberT">最多只能上传3个附件哦</span>
                     </p>
+                    <div class="uploading_file">
+                        <div class="uploading-img uploading-imgA">上传中</div>
+                        <div class='progress active process-bar-parent process-bar-parentA'>\
+                            <div class='bar' id= 'process-bar' style='width:0'></div>\
+                        </div>
+                    </div>
                 </div>
                 <ul class="taskdetail_attachment_box" length="{{accessory_length}}">
                     {{#each accessory_dict}}

@@ -359,7 +359,56 @@ exports.load_messages = function (opts) {
                                         })
                                         
                                     };
-                                
+                                    var drop =function(file){
+                                        $('.process-bar-parent').show()
+                                        $('.uploading-img').show()
+                                       }
+                                       var progressUpdated = function (i, file, progress) {
+                                        // $('.process-bar-parent').show()
+                                        $("#" + "process-bar").width(progress + "%");
+                                        if (progress === 100) {
+                                            // maybe_hide_upload_status();
+                                            setTimeout(function () {
+                                                $('.process-bar-parent').hide()
+                                                $(".uploading-img").hide()
+                                                $("#process-bar").css("width","0")
+                                            }, 1000);
+                                        }
+                                       };
+                                       var uploadError = function (error_code, server_response, file) {
+                                        var msg;
+                                        $('.process-bar-parent').hide()
+                                        $('.uploading-img').hide()
+                                        if(error_code=="BrowserNotSupported"&&server_response==undefined){
+                                            return
+                                        }
+                                        switch (error_code) {
+                                        case 'BrowserNotSupported':
+                                            msg = i18n.t("File upload is not yet available for your browser.");
+                                            break;
+                                        case 'TooManyFiles':
+                                            msg = i18n.t("Unable to upload that many files at once.");
+                                            break;
+                                        case 'FileTooLarge':
+                                            // sanitization not needed as the file name is not potentially parsed as HTML, etc.
+                                            var context = {
+                                                file_name: file.name,
+                                            };
+                                            msg = i18n.t('"__file_name__" was too large; the maximum file size is 25MiB.', context);
+                                            break;
+                                        case 413: // HTTP status "Request Entity Too Large"
+                                            msg = i18n.t("Sorry, the file was too large.");
+                                            break;
+                                        case 400:
+                                            var server_message = server_response && server_response.msg;
+                                            msg = server_message || i18n.t("An unknown error occurred.");
+                                            break;
+                                        default:
+                                            msg = i18n.t("An unknown error occurred.");
+                                            break;
+                                        }
+                                          alert(msg,'rgba(169,12,0,0.30)');
+                                    };
                                     $("#file_choose").filedrop({
                                         url: "/json/user_uploads",
                                         fallback_id: 'file_inputs',  // Target for standard file dialog
@@ -374,6 +423,9 @@ exports.load_messages = function (opts) {
                                         // progressUpdated: progressUpdated,
                                         // error: uploadError,
                                         uploadFinished: uploadFinished,
+                                        drop:drop,
+                                        progressUpdated: progressUpdated,
+                                        uploadError:uploadError
                                         //    afterAll:function(contents){
 
                                         //    }
