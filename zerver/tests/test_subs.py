@@ -1636,7 +1636,7 @@ class SubscriptionAPITest(ZulipTestCase):
         msg = self.get_second_to_last_message()
         self.assertEqual(msg.recipient.type, Recipient.STREAM)
         self.assertEqual(msg.sender_id, self.notification_bot().id)
-        expected_msg = "%s 刚刚创建了新频道 #**%s**." % (invitee_full_name, invite_streams[0])
+        expected_msg = "%s 刚刚创建了新群组 #**%s**." % (invitee_full_name, invite_streams[0])
         self.assertEqual(msg.content, expected_msg)
 
     def test_successful_cross_realm_notification(self) -> None:
@@ -1674,7 +1674,7 @@ class SubscriptionAPITest(ZulipTestCase):
         self.assertEqual(msg.recipient.type, Recipient.STREAM)
         self.assertEqual(msg.sender_id, self.notification_bot().id)
         stream_id = Stream.objects.latest('id').id
-        expected_rendered_msg = '<p>%s 刚刚创建了新频道 <a class="stream" data-stream-id="%d" href="/#narrow/stream/%s-%s">#%s</a>.</p>' % (
+        expected_rendered_msg = '<p>%s 刚刚创建了新群组 <a class="stream" data-stream-id="%d" href="/#narrow/stream/%s-%s">#%s</a>.</p>' % (
             user.full_name, stream_id, stream_id, invite_streams[0], invite_streams[0])
         self.assertEqual(msg.rendered_content, expected_rendered_msg)
 
@@ -1703,7 +1703,7 @@ class SubscriptionAPITest(ZulipTestCase):
 
         msg = self.get_second_to_last_message()
         self.assertEqual(msg.sender_id, self.notification_bot().id)
-        expected_msg = "%s 刚刚创建了新频道 #**%s**." % (invitee_full_name, invite_streams[0])
+        expected_msg = "%s 刚刚创建了新群组 #**%s**." % (invitee_full_name, invite_streams[0])
         self.assertEqual(msg.content, expected_msg)
 
     def test_non_ascii_stream_subscription(self) -> None:
@@ -2247,7 +2247,7 @@ class SubscriptionAPITest(ZulipTestCase):
         invalid_stream_name = ""
         result = self.client_post("/json/subscriptions/exists",
                                   {"stream": invalid_stream_name})
-        self.assert_json_error(result, "无效频道名 ''")
+        self.assert_json_error(result, "无效群组名 ''")
 
     def test_existing_subscriptions_autosubscription(self) -> None:
         """
@@ -2444,7 +2444,7 @@ class StreamIdTest(ZulipTestCase):
 
     def test_get_stream_id_wrong_name(self) -> None:
         result = self.client_get("/json/get_stream_id?stream=wrongname")
-        self.assert_json_error(result, u"无效频道名 'wrongname'")
+        self.assert_json_error(result, u"无效群组名 'wrongname'")
 
 class InviteOnlyStreamTest(ZulipTestCase):
     def test_must_be_subbed_to_send(self) -> None:
@@ -2907,7 +2907,7 @@ class AccessStreamTest(ZulipTestCase):
         # Nobody can access a stream that doesn't exist
         with self.assertRaisesRegex(JsonableError, "Invalid stream id"):
             access_stream_by_id(hamlet, 501232)
-        with self.assertRaisesRegex(JsonableError, "无效频道名 'invalid stream'"):
+        with self.assertRaisesRegex(JsonableError, "无效群组名 'invalid stream'"):
             access_stream_by_name(hamlet, "invalid stream")
 
         # Hamlet can access the private stream
@@ -2923,7 +2923,7 @@ class AccessStreamTest(ZulipTestCase):
         # Othello cannot access the private stream
         with self.assertRaisesRegex(JsonableError, "Invalid stream id"):
             access_stream_by_id(othello, stream.id)
-        with self.assertRaisesRegex(JsonableError, "无效频道名 'new_private_stream'"):
+        with self.assertRaisesRegex(JsonableError, "无效群组名 'new_private_stream'"):
             access_stream_by_name(othello, stream.name)
 
         # Both Othello and Hamlet can access a public stream that only
@@ -2943,17 +2943,17 @@ class AccessStreamTest(ZulipTestCase):
         sipbtest = self.mit_user("sipbtest")
         with self.assertRaisesRegex(JsonableError, "Invalid stream id"):
             access_stream_by_id(hamlet, mit_stream.id)
-        with self.assertRaisesRegex(JsonableError, "无效频道名 'mit_stream'"):
+        with self.assertRaisesRegex(JsonableError, "无效群组名 'mit_stream'"):
             access_stream_by_name(hamlet, mit_stream.name)
         with self.assertRaisesRegex(JsonableError, "Invalid stream id"):
             access_stream_by_id(sipbtest, stream.id)
-        with self.assertRaisesRegex(JsonableError, "无效频道名 'new_private_stream'"):
+        with self.assertRaisesRegex(JsonableError, "无效群组名 'new_private_stream'"):
             access_stream_by_name(sipbtest, stream.name)
 
         # MIT realm users cannot access even public streams in their realm
         with self.assertRaisesRegex(JsonableError, "Invalid stream id"):
             access_stream_by_id(sipbtest, mit_stream.id)
-        with self.assertRaisesRegex(JsonableError, "无效频道名 'mit_stream'"):
+        with self.assertRaisesRegex(JsonableError, "无效群组名 'mit_stream'"):
             access_stream_by_name(sipbtest, mit_stream.name)
 
         # But they can access streams they are subscribed to

@@ -291,7 +291,7 @@ def send_signup_message(sender: UserProfile, admin_realm_signup_notifications_st
             user_profile.realm,
             sender,
             # "stream",
-            "频道",
+            "群组",
             signup_notifications_stream.name,
             # "signups",
             "注册",
@@ -313,7 +313,7 @@ def send_signup_message(sender: UserProfile, admin_realm_signup_notifications_st
         admin_realm,
         sender,
         # "stream",
-        "频道",
+        "群组",
         admin_realm_signup_notifications_stream,
         user_profile.realm.display_subdomain,
         # "%s <`%s`> just signed up for Zulip!%s(total: **%i**)" % (
@@ -879,7 +879,7 @@ def send_welcome_bot_response(message: MutableMapping[str, Any]) -> None:
             # "skills. Or, try clicking on some of the stream names to your left!"
             "祝贺您的第一个回复! :tada:\n\n"
             "您可能在这里联系发送新的信息"
-            "技巧. 或点击左边的频道发送消息!")
+            "技巧. 或点击左边的群组发送消息!")
 
 
 def render_incoming_message(message: Message,
@@ -1858,7 +1858,7 @@ def check_schedule_message(sender: UserProfile, client: Client,
 
 def check_stream_name(stream_name: Text) -> None:
     if stream_name.strip() == "":
-        raise JsonableError(_("无效频道名 '%s'" % (stream_name)))
+        raise JsonableError(_("无效群组名 '%s'" % (stream_name)))
     if len(stream_name) > Stream.MAX_NAME_LENGTH:
         raise JsonableError(_("Stream name too long (limit: %s characters)." % (Stream.MAX_NAME_LENGTH)))
     for i in stream_name:

@@ -18,7 +18,7 @@ def access_stream_for_delete_or_update(user_profile: UserProfile, stream_id: int
     # all callers should have the require_realm_admin decorator.
     # assert(user_profile.is_realm_admin)
 
-    error = _("无效频道 id")
+    error = _("无效群组 id")
     try:
         stream = Stream.objects.get(id=stream_id)
     except Stream.DoesNotExist:
@@ -79,7 +79,7 @@ def access_stream_by_id(user_profile: UserProfile,
                         stream_id: int,
                         require_active: bool=True,
                         allow_realm_admin: bool=False) -> Tuple[Stream, Recipient, Optional[Subscription]]:
-    error = _("无效频道名 id")
+    error = _("无效群组名 id")
     try:
         stream = Stream.objects.get(id=stream_id)
     except Stream.DoesNotExist:
@@ -94,13 +94,13 @@ def check_stream_name_available(realm: Realm, name: Text) -> None:
     check_stream_name(name)
     try:
         get_stream(name, realm)
-        raise JsonableError(_("频道名 '%s' 已经存在.") % (name,))
+        raise JsonableError(_("群组名 '%s' 已经存在.") % (name,))
     except Stream.DoesNotExist:
         pass
 
 def access_stream_by_name(user_profile: UserProfile,
                           stream_name: Text) -> Tuple[Stream, Recipient, Optional[Subscription]]:
-    error = _("无效的频道名 '%s'" % (stream_name,))
+    error = _("无效群组名 '%s'" % (stream_name,))
     try:
         stream = get_realm_stream(stream_name, user_profile.realm_id)
     except Stream.DoesNotExist:
@@ -155,7 +155,7 @@ def can_access_stream_history_by_name(user_profile: UserProfile, stream_name: Te
 
     if stream.is_history_public_to_subscribers():
         # In this case, we check if the user is subscribed.
-        error = _("无效频道名 '%s'" % (stream_name,))
+        error = _("无效群组名 '%s'" % (stream_name,))
         try:
             (recipient, sub) = access_stream_common(user_profile, stream, error)
         except JsonableError:
@@ -233,9 +233,9 @@ def list_to_streams(streams_raw: Iterable[Mapping[str, Any]],
     else:
         # autocreate=True path starts here
         if not user_profile.can_create_streams():
-            raise JsonableError(_('用户不能创建频道.'))
+            raise JsonableError(_('用户不能创建群组.'))
         elif not autocreate:
-            raise JsonableError(_("频道 (%s) 不存在.") % ", ".join(
+            raise JsonableError(_("群组 (%s) 不存在.") % ", ".join(
                 stream_dict["name"] for stream_dict in missing_stream_dicts))
 
         # We already filtered out existing streams, so dup_streams
@@ -253,4 +253,4 @@ def access_default_stream_group_by_id(realm: Realm, group_id: int) -> DefaultStr
     try:
         return DefaultStreamGroup.objects.get(realm=realm, id=group_id)
     except DefaultStreamGroup.DoesNotExist:
-        raise JsonableError(_("缺省频道组 id '%s' 不存在." % (group_id,)))
+        raise JsonableError(_("缺省群组 id '%s' 不存在." % (group_id,)))
