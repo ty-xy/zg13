@@ -279,19 +279,56 @@ var contact = (function(){
                     getNoDepartmentList()
                     //邀请成员点击
                     $(".invite_members").on("click",function(){
-                        var invite_members_md = templates.render("invite_members_md")
-                        $(".app").append(invite_members_md)
-                        //阻止时间冒泡
-                        $(".invite_members_box").on("click",function(e){
-                            e.stopPropagation();
-                        })
-                        //点击x关闭
-                        $(".invite_members_close").on("click",function(){
-                            $(".invite_members_md").hide()
-                        })
-                        //点击模版关闭
-                        $(".invite_members_md").on("click",function(){
-                            $(".invite_members_md").hide()
+                        $.ajax({
+                            type:"GET",
+                            url:"api/v1/zg/invite/qrcode",
+                            success:function(res){
+                                // console.log(res)
+                                $(".invite_members_md").remove()
+                                var invite_members_md = templates.render("invite_members_md")
+                                $(".app").append(invite_members_md)
+
+                                $(".invite_members_url_input").val("xxxxx")
+
+                                //点击复制链接
+                                var copynum = 0;
+                                $(".invite_members_url_btn").on("click",function(){
+                                    var btn = $(this)[0]
+                                    var clipboard = new ClipboardJS(btn);
+                                    clipboard.on('success', function(e) {
+
+                                        copynum++;
+                                        if(copynum >= 1){
+                                            clipboard.destroy();
+                                            clipboard = new ClipboardJS(btn);
+                                        };
+                                    });
+                                    clipboard.on('error', function(e) {
+
+                                    });
+                                })
+                                
+                                //阻止时间冒泡
+                                $(".invite_members_box").on("click",function(e){
+                                    e.stopPropagation();
+                                })
+                                //点击x关闭
+                                $(".invite_members_close").on("click",function(){
+                                    $(".invite_members_md").hide()
+                                })
+                                //点击模版关闭
+                                $(".invite_members_md").on("click",function(){
+                                    $(".invite_members_md").hide()
+                                })
+                                var qrcode = new QRCode(document.getElementById("qrcode"), {
+                                    width: 200,
+                                    height: 200,
+                                    colorDark : "#000000",
+                                    colorLight : "#ffffff",
+                                    correctLevel : QRCode.CorrectLevel.H
+                                });
+                                qrcode.makeCode(res.url);
+                            }
                         })
                     })
                     //团队设置点击
