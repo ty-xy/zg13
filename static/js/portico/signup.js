@@ -26,11 +26,11 @@ $(function () {
         return this.optional(element) || (length == 11 && mobile.test(value));
     }, "手机号码格式错误");
 
-    $('#registration, #password_reset').validate({
-        rules: {
-            password:      'password_strength',
-            new_password1: 'password_strength',
-        },
+    $('#registration, #password_reset,#send_confirm').validate({
+        // rules: {
+        //     password:      'password_strength',
+        //     new_password1: 'password_strength',
+        // },
         errorElement: "p",
         errorPlacement: function (error, element) {
             // NB: this is called at most once, when the error element
