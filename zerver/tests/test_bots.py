@@ -328,7 +328,7 @@ class BotTest(ZulipTestCase, UploadSerializeMixin):
             'default_sending_stream': 'Denmark',
         }
         result = self.client_post("/json/bots", bot_info)
-        self.assert_json_error(result, "无效频道名 'Denmark'")
+        self.assert_json_error(result, "无效群组名 'Denmark'")
 
     def test_add_bot_with_default_events_register_stream(self) -> None:
         bot_email = 'hambot-bot@zulip.testserver'
