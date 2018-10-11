@@ -161,7 +161,7 @@ $(function () {
         }else{
             return
         }
-        var sms = $(this).parent().prev().prev().children().last().val();
+        var sms = $(".phone_number").val()
         var type = "register"
         var obj = {
             sms:sms,

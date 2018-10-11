@@ -863,7 +863,7 @@ var contact = (function(){
                    //日志助手阻止冒泡
                    $(".log_assistant_box").on("click",function(e){
                        e.stopPropagation();
-                       e.preventDefault();
+                    //    e.preventDefault();
                    })
                    $(".log_assistant_screening").on("click",function(e){
                        e.preventDefault();
@@ -1107,9 +1107,9 @@ var contact = (function(){
                                    $(this).css("color","#333333").siblings().css("color","#999999")
                                })
                                //附件图片显示原图
-                               $(".thumbnail").on("click",function(){
+                            //    $(".thumbnail").on("click",function(){
 
-                               })
+                            //    })
                                }
                            })
                    })
