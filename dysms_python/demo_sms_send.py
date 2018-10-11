@@ -62,6 +62,7 @@ def send_sms(phone_numbers, template_code, template_param=None):
     smsResponse = acs_client.do_action_with_exception(smsRequest)
 
     # TODO 业务处理
+    print(smsResponse.decode('utf-8'))
 
     return smsResponse
 

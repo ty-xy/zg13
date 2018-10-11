@@ -527,7 +527,6 @@ INSTALLED_APPS = [
     'zerver',
     'social_django',
     # 'django_apscheduler',
-
 ]
 
 if USING_PGROONGA:

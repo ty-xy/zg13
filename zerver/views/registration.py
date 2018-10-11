@@ -402,7 +402,7 @@ def create_realm(request: HttpRequest, creation_key: Optional[Text] = None) -> H
 def confirmation_key(request: HttpRequest) -> HttpResponse:
     return json_success(request.session.get('confirmation_key'))
 
-
+# @csrf_exempt
 def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite] = None) -> HttpResponse:
     realm = get_realm(get_subdomain(request))
     if realm is None:
@@ -428,6 +428,7 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
             return JsonResponse({"errno": 6, "message": "该账户已注册"})
 
         print(phone, password, smscode)
+        print(cache.get(phone + '_' + 'register'))
         # print(cache.get(phone + '_' + 'register'))
         if not all([phone, password, smscode]):
             return JsonResponse({"errno": 1, "message": "缺少必要参数"})
@@ -497,7 +498,6 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
                                             urllib.parse.quote_plus(email))
 
         name_validated = False
-        full_name = None
 
         if request.POST.get('from_confirmation'):
             try:
@@ -573,7 +573,9 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
                 setup_realm_internal_bots(realm)
             assert (realm is not None)
 
+
             full_name = request.POST.get('fullname')
+
             short_name = email_to_username(email)
             default_stream_group_names = request.POST.getlist(
                 'default_stream_group')
