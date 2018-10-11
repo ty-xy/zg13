@@ -106,7 +106,8 @@ def add_leave(request, user_profile):
             event['theme'] = user_profile.full_name + '的' + types + '申请需要您知晓'
             send_event(event, observer_list)
 
-    except Exception:
+    except Exception as e:
+        print (e)
         return JsonResponse({'errno': 2, 'message': '发送申请失败'})
 
     return JsonResponse({'errno': 0, 'message': '申请成功'})

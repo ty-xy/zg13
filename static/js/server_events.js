@@ -308,7 +308,7 @@ var server_events = (function () {
                                 var stream = data_message.type
                                 var _href= narrow.by_stream_subject_uris(name,data_message.subject)
                                 arr.unshift(server_events.set_local_news('',stream_id,name,avatar,time,mes,_href,stream,short_name,time_stamp))
-                                var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:stream_id,time:time,_href:_href,stream:stream})
+                                var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,stream_id:stream_id,time:time,_href:_href,stream:stream})
                                 $(".persistent_data").prepend(notice_box)
                             }
                             localStorage.setItem("arr",JSON.stringify(arr))
@@ -328,7 +328,6 @@ var server_events = (function () {
                                         arr.unshift(sarr[0])
                                         localStorage.setItem("arr",JSON.stringify(arr))
                                         server_events.sortBytime()
-                                        
                                     }
                                 }
                                 
@@ -359,10 +358,10 @@ var server_events = (function () {
                                         var sarr = arr.splice(j,1)
                                         arr.unshift(sarr[0])
                                         var count = unread.num_unread_for_stream(stream_id);
-                                        console.log(count)
+                                        // console.log(count)
                                         var lis = $(".only_tip[stream_id="+stream_id+"]").parent()
                                         stream_list.update_count_in_dom(lis, count);
-                                        console.log(1)
+                                        // console.log(1)
                                         localStorage.setItem("arr",JSON.stringify(arr))
                                     }else{
                                         $(".notice_bottom[name="+stream_id+"]").html(mes)
@@ -376,7 +375,7 @@ var server_events = (function () {
                                         var sarr = arr.splice(j,1)
                                         arr.unshift(sarr[0])
                                         var count = unread.num_unread_for_stream(stream_id);
-                                        console.log("hahhah")
+                                        // console.log("hahhah")
                                         var lis = $(".only_tip[stream_id="+stream_id+"]").parent()
                                         stream_list.update_count_in_dom(lis, count);
                                         localStorage.setItem("arr",JSON.stringify(arr))
