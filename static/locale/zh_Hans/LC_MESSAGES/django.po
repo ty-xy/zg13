@@ -1968,7 +1968,7 @@ msgstr ""
 msgid ""
 "Your account is too new to send invites for this organization. Ask an "
 "organization admin, or a more experienced user."
-msgstr ""
+msgstr "您刚加入组织稍后才可以邀请别人。请管理员或老用户来邀请别人。"
 
 #: zerver/lib/actions.py:4200
 msgid "Some emails did not validate, so we didn't send any invitations."
