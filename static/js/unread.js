@@ -438,6 +438,8 @@ exports.get_counts = function () {
     res.private_message_count = pm_res.total_count;
     res.home_unread_messages += pm_res.total_count;
     // console.log(pm_res,topic_res)
+    // console.log(MessageListView.get_message(519))
+    // console.log(message_list.all.get(2045))
     // console.log(res,people.get_person_from_user_id(22),)
     // console.log(res.stream_count.items(),stream_data.get_sub_by_id(16))
     return res;
