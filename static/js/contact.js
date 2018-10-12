@@ -426,7 +426,7 @@ var contact = (function(){
                                 //  chooseFile.choosePeople(xy);
                             })
                             //删除子管理员
-                            $(".organization_chart_box").on("click",".child_administrator_del",function(){
+                            $(".organization_chart_box").off("click",".child_administrator_del").on("click",".child_administrator_del",function(){
                                 var id_list = []
                                 id_list.push($(this).attr("user_id"))
                                 var obj = {
@@ -669,7 +669,7 @@ var contact = (function(){
                                             $(".organization_chart_group_delete_box").hide();
                                         })
                                         //确认删除
-                                        $(".organization_chart_group_delete_ensure").on("click",function(){
+                                        $("organization_chart_group_delete_ensure").on("click",function(){
                                             var department_id = $(".branch_name").attr("department_id")
                                             var obj = {
                                                 department_id:department_id
