@@ -1,4 +1,3 @@
-
 import datetime
 import ujson
 import zlib
@@ -40,7 +39,9 @@ from zerver.models import (
     Subscription,
     UserProfile,
     UserMessage,
-    Reaction
+    Reaction,
+    Attachment
+
 )
 
 from typing import Any, Dict, List, Optional, Set, Tuple, Text, Union
@@ -67,13 +68,13 @@ UnreadMessagesResult = TypedDict('UnreadMessagesResult', {
 
 MAX_UNREAD_MESSAGES = 5000
 
+
 def messages_for_ids(message_ids: List[int],
                      user_message_flags: Dict[int, List[str]],
                      search_fields: Dict[int, Dict[str, Text]],
                      apply_markdown: bool,
                      client_gravatar: bool,
                      allow_edit_history: bool) -> List[Dict[str, Any]]:
-
     cache_transformer = MessageDict.build_dict_from_raw_db_row
     id_fetcher = lambda row: row['id']
 
@@ -102,6 +103,7 @@ def messages_for_ids(message_ids: List[int],
 
     return message_list
 
+
 def sew_messages_and_reactions(messages: List[Dict[str, Any]],
                                reactions: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     """Given a iterable of messages and reactions stitch reactions
@@ -124,12 +126,15 @@ def sew_messages_and_reactions(messages: List[Dict[str, Any]],
 def extract_message_dict(message_bytes: bytes) -> Dict[str, Any]:
     return ujson.loads(zlib.decompress(message_bytes).decode("utf-8"))
 
+
 def stringify_message_dict(message_dict: Dict[str, Any]) -> bytes:
     return zlib.compress(ujson.dumps(message_dict).encode())
 
-@cache_with_key(to_dict_cache_key, timeout=3600*24)
+
+@cache_with_key(to_dict_cache_key, timeout=3600 * 24)
 def message_to_dict_json(message: Message) -> bytes:
     return MessageDict.to_dict_uncached(message)
+
 
 class MessageDict:
     @staticmethod
@@ -158,6 +163,7 @@ class MessageDict:
         MessageDict.bulk_hydrate_sender_info(objs)
 
         for obj in objs:
+            # print(obj, obj['content'], '--------' * 10)
             MessageDict.hydrate_recipient_info(obj)
             MessageDict.finalize_payload(obj, apply_markdown, client_gravatar)
 
@@ -165,10 +171,28 @@ class MessageDict:
     def finalize_payload(obj: Dict[str, Any],
                          apply_markdown: bool,
                          client_gravatar: bool) -> None:
+
+        # =======zg
+        if apply_markdown:
+            obj['app_content'] = obj['content']
+            if len(obj['content'].split('](')) >1:
+                obj['app_content'] = obj['content'].split('](')[1][:-1]
+                print(obj['app_content'])
+            if len(obj['rendered_content'].split('user_uploads/')) > 1:
+                path_id = obj['content'].split('user_uploads/')[1]
+                if path_id[-1] == ')':
+                    path_id = obj['content'].split('user_uploads/')[1][: -1]
+                attachment = Attachment.objects.filter(path_id=path_id)
+                if attachment:
+                    obj['size'] = attachment[0].size
+                else:
+                    obj['size'] = 1
+        # =======zg
         MessageDict.set_sender_avatar(obj, client_gravatar)
         if apply_markdown:
             obj['content_type'] = 'text/html'
             obj['content'] = obj['rendered_content']
+
         else:
             obj['content_type'] = 'text/x-markdown'
 
@@ -190,22 +214,22 @@ class MessageDict:
     @staticmethod
     def to_dict_uncached_helper(message: Message) -> Dict[str, Any]:
         return MessageDict.build_message_dict(
-            message = message,
-            message_id = message.id,
-            last_edit_time = message.last_edit_time,
-            edit_history = message.edit_history,
-            content = message.content,
-            subject = message.subject,
-            pub_date = message.pub_date,
-            rendered_content = message.rendered_content,
-            rendered_content_version = message.rendered_content_version,
-            sender_id = message.sender.id,
-            sender_realm_id = message.sender.realm_id,
-            sending_client_name = message.sending_client.name,
-            recipient_id = message.recipient.id,
-            recipient_type = message.recipient.type,
-            recipient_type_id = message.recipient.type_id,
-            reactions = Reaction.get_raw_db_rows([message.id])
+            message=message,
+            message_id=message.id,
+            last_edit_time=message.last_edit_time,
+            edit_history=message.edit_history,
+            content=message.content,
+            subject=message.subject,
+            pub_date=message.pub_date,
+            rendered_content=message.rendered_content,
+            rendered_content_version=message.rendered_content_version,
+            sender_id=message.sender.id,
+            sender_realm_id=message.sender.realm_id,
+            sending_client_name=message.sending_client.name,
+            recipient_id=message.recipient.id,
+            recipient_type=message.recipient.type,
+            recipient_type_id=message.recipient.type_id,
+            reactions=Reaction.get_raw_db_rows([message.id])
         )
 
     @staticmethod
@@ -244,54 +268,54 @@ class MessageDict:
         all the relevant fields populated
         '''
         return MessageDict.build_message_dict(
-            message = None,
-            message_id = row['id'],
-            last_edit_time = row['last_edit_time'],
-            edit_history = row['edit_history'],
-            content = row['content'],
-            subject = row['subject'],
-            pub_date = row['pub_date'],
-            rendered_content = row['rendered_content'],
-            rendered_content_version = row['rendered_content_version'],
-            sender_id = row['sender_id'],
-            sender_realm_id = row['sender__realm_id'],
-            sending_client_name = row['sending_client__name'],
-            recipient_id = row['recipient_id'],
-            recipient_type = row['recipient__type'],
-            recipient_type_id = row['recipient__type_id'],
+            message=None,
+            message_id=row['id'],
+            last_edit_time=row['last_edit_time'],
+            edit_history=row['edit_history'],
+            content=row['content'],
+            subject=row['subject'],
+            pub_date=row['pub_date'],
+            rendered_content=row['rendered_content'],
+            rendered_content_version=row['rendered_content_version'],
+            sender_id=row['sender_id'],
+            sender_realm_id=row['sender__realm_id'],
+            sending_client_name=row['sending_client__name'],
+            recipient_id=row['recipient_id'],
+            recipient_type=row['recipient__type'],
+            recipient_type_id=row['recipient__type_id'],
             reactions=row['reactions']
         )
 
     @staticmethod
     def build_message_dict(
-            message: Optional[Message],
-            message_id: int,
-            last_edit_time: Optional[datetime.datetime],
-            edit_history: Optional[Text],
-            content: Text,
-            subject: Text,
-            pub_date: datetime.datetime,
-            rendered_content: Optional[Text],
-            rendered_content_version: Optional[int],
-            sender_id: int,
-            sender_realm_id: int,
-            sending_client_name: Text,
-            recipient_id: int,
-            recipient_type: int,
-            recipient_type_id: int,
-            reactions: List[Dict[str, Any]]
+        message: Optional[Message],
+        message_id: int,
+        last_edit_time: Optional[datetime.datetime],
+        edit_history: Optional[Text],
+        content: Text,
+        subject: Text,
+        pub_date: datetime.datetime,
+        rendered_content: Optional[Text],
+        rendered_content_version: Optional[int],
+        sender_id: int,
+        sender_realm_id: int,
+        sending_client_name: Text,
+        recipient_id: int,
+        recipient_type: int,
+        recipient_type_id: int,
+        reactions: List[Dict[str, Any]]
     ) -> Dict[str, Any]:
 
         obj = dict(
-            id                = message_id,
-            sender_id         = sender_id,
-            content           = content,
-            recipient_type_id = recipient_type_id,
-            recipient_type    = recipient_type,
-            recipient_id      = recipient_id,
-            subject           = subject,
-            timestamp         = datetime_to_timestamp(pub_date),
-            client            = sending_client_name)
+            id=message_id,
+            sender_id=sender_id,
+            content=content,
+            recipient_type_id=recipient_type_id,
+            recipient_type=recipient_type,
+            recipient_id=recipient_id,
+            subject=subject,
+            timestamp=datetime_to_timestamp(pub_date),
+            client=sending_client_name)
 
         obj['sender_realm_id'] = sender_realm_id
 
@@ -446,6 +470,7 @@ class MessageDict:
             client_gravatar=client_gravatar,
         )
 
+
 class ReactionDict:
     @staticmethod
     def build_dict_from_raw_db_row(row: Dict[str, Any]) -> Dict[str, Any]:
@@ -506,13 +531,14 @@ def access_message(user_profile: UserProfile, message_id: int) -> Tuple[Message,
             pass
     return (message, user_message)
 
+
 def render_markdown(message: Message,
                     content: Text,
-                    realm: Optional[Realm]=None,
-                    realm_alert_words: Optional[RealmAlertWords]=None,
-                    user_ids: Optional[Set[int]]=None,
-                    mention_data: Optional[bugdown.MentionData]=None,
-                    email_gateway: Optional[bool]=False) -> Text:
+                    realm: Optional[Realm] = None,
+                    realm_alert_words: Optional[RealmAlertWords] = None,
+                    user_ids: Optional[Set[int]] = None,
+                    mention_data: Optional[bugdown.MentionData] = None,
+                    email_gateway: Optional[bool] = False) -> Text:
     """Return HTML for given markdown. Bugdown may add properties to the
     message object such as `mentions_user_ids`, `mentions_user_group_ids`, and
     `mentions_wildcard`.  These are only on this Django object and are not
@@ -563,6 +589,7 @@ def render_markdown(message: Message,
 
     return rendered_content
 
+
 def huddle_users(recipient_id: int) -> str:
     display_recipient = get_display_recipient_by_id(recipient_id,
                                                     Recipient.HUDDLE,
@@ -574,6 +601,7 @@ def huddle_users(recipient_id: int) -> str:
     user_ids = [obj['id'] for obj in display_recipient]  # type: List[int]
     user_ids = sorted(user_ids)
     return ','.join(str(uid) for uid in user_ids)
+
 
 def aggregate_message_dict(input_dict: Dict[int, Dict[str, Any]],
                            lookup_fields: List[str],
@@ -637,6 +665,7 @@ def aggregate_message_dict(input_dict: Dict[int, Dict[str, Any]],
 
     return [lookup_dict[k] for k in sorted_keys]
 
+
 def get_inactive_recipient_ids(user_profile: UserProfile) -> List[int]:
     rows = get_stream_subscriptions_for_user(user_profile).filter(
         active=False,
@@ -647,6 +676,7 @@ def get_inactive_recipient_ids(user_profile: UserProfile) -> List[int]:
         row['recipient_id']
         for row in rows]
     return inactive_recipient_ids
+
 
 def get_muted_stream_ids(user_profile: UserProfile) -> List[int]:
     rows = get_stream_subscriptions_for_user(user_profile).filter(
@@ -660,8 +690,8 @@ def get_muted_stream_ids(user_profile: UserProfile) -> List[int]:
         for row in rows]
     return muted_stream_ids
 
-def get_raw_unread_data(user_profile: UserProfile) -> RawUnreadMessagesResult:
 
+def get_raw_unread_data(user_profile: UserProfile) -> RawUnreadMessagesResult:
     excluded_recipient_ids = get_inactive_recipient_ids(user_profile)
 
     user_msgs = UserMessage.objects.filter(
@@ -755,8 +785,8 @@ def get_raw_unread_data(user_profile: UserProfile) -> RawUnreadMessagesResult:
         mentions=mentions,
     )
 
-def aggregate_unread_data(raw_data: RawUnreadMessagesResult) -> UnreadMessagesResult:
 
+def aggregate_unread_data(raw_data: RawUnreadMessagesResult) -> UnreadMessagesResult:
     pm_dict = raw_data['pm_dict']
     stream_dict = raw_data['stream_dict']
     unmuted_stream_msgs = raw_data['unmuted_stream_msgs']
@@ -798,6 +828,7 @@ def aggregate_unread_data(raw_data: RawUnreadMessagesResult) -> UnreadMessagesRe
         count=count)  # type: UnreadMessagesResult
 
     return result
+
 
 def apply_unread_message_event(user_profile: UserProfile,
                                state: Dict[str, Any],
@@ -855,11 +886,13 @@ def apply_unread_message_event(user_profile: UserProfile,
     if 'mentioned' in flags:
         state['mentions'].add(message_id)
 
+
 def estimate_recent_messages(realm: Realm, hours: int) -> int:
     stat = COUNT_STATS['messages_sent:is_bot:hour']
     d = timezone_now() - datetime.timedelta(hours=hours)
     return RealmCount.objects.filter(property=stat.property, end_time__gt=d,
                                      realm=realm).aggregate(Sum('value'))['value__sum'] or 0
+
 
 def get_first_visible_message_id(realm: Realm) -> int:
     val = cache_get(realm_first_visible_message_id_cache_key(realm))
@@ -867,15 +900,17 @@ def get_first_visible_message_id(realm: Realm) -> int:
         return val[0]
     return 0
 
+
 def maybe_update_first_visible_message_id(realm: Realm, lookback_hours: int) -> None:
     cache_empty = cache_get(realm_first_visible_message_id_cache_key(realm)) is None
     recent_messages_count = estimate_recent_messages(realm, lookback_hours)
     if realm.message_visibility_limit is not None and (recent_messages_count > 0 or cache_empty):
         update_first_visible_message_id(realm)
 
+
 def update_first_visible_message_id(realm: Realm) -> None:
     try:
-        first_visible_message_id = Message.objects.filter(sender__realm=realm).values('id').\
+        first_visible_message_id = Message.objects.filter(sender__realm=realm).values('id'). \
             order_by('-id')[realm.message_visibility_limit - 1]["id"]
     except IndexError:
         first_visible_message_id = 0
