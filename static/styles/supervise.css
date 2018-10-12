@@ -792,12 +792,12 @@
 .organization_chart_ctn_master_tel>p{
     margin: 5px 20px 0 51px;
 }
-.organization_chart_ctn_master_tel>input{
+.organization_chart_ctn_master_tel>input:nth-of-type(1){
     float: left;
     width: 175px;
     height: 26px;
 }
-.organization_chart_ctn_master_tel>div{
+.organization_chart_ctn_master_tel>input:nth-of-type(2){
     float: left;
     background: #4584FF;
     border-radius: 4px;
@@ -821,6 +821,18 @@
     background: #FFFFFF;
     border: 1px solid #DDDDDD;
     border-radius: 4px;
+}
+.error_select{
+    font-size: 14px!important;
+    color: red!important;
+    margin-left: 120px!important;
+    display: none;
+    position: absolute;
+    top: 30px;
+}
+.organization_chart_ctn_master_change{
+    position: relative;
+    height: 60px;
 }
 .organization_chart_ctn_master_change>p{
     margin: 5px 20px 0 51px;

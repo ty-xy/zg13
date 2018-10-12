@@ -382,9 +382,92 @@ var contact = (function(){
                         })
                         //点击更换管理员
                         $(".organization_chart_box").on("click",".organization_chart_master_btn",function(){
-                            $(".organization_chart_change_box").children().remove();
-                            var organization_chart_ctn_master=templates.render("organization_chart_ctn_master")
-                            $(".organization_chart_change_box").append(organization_chart_ctn_master)
+                            var type = "change_admin"
+                            $.ajax({
+                                url:"json/zg/user",
+                                type:"GET",
+                                success:function(res){
+                                    var user_id = res.user_id
+                                    var user_name = res.user_me
+                                    $(".organization_chart_change_box").children().remove();
+                                    var organization_chart_ctn_master=templates.render("organization_chart_ctn_master",{user_id:user_id,user_name:user_name})
+                                    $(".organization_chart_change_box").append(organization_chart_ctn_master)
+                                    //获取验证码
+                                    $(".organization_chart_box").on("click",".change_admin",function(){
+                                        var sms = $(".change_amdin_sms").val()
+                                        var countdown=60;
+                                        function sendmsg(){
+                                            if(countdown==0){
+                                                $(".change_admin").attr("disabled",false);
+                                                $(".change_admin").val("获取验证码");
+                                                countdown=60;
+                                                return false;
+                                            }
+                                            else{
+                                                $(".change_admin").attr("disabled",true);
+                                                $(".change_admin").val(countdown+"s");
+                                                countdown--;
+                                            }
+                                            setTimeout(function(){
+                                                sendmsg();
+                                            },1000);
+                                        }
+                                        sendmsg()
+                                        var obj = {
+                                            sms:sms,
+                                            type:type
+                                        }
+                                        $.ajax({
+                                            type:"GET",
+                                            contentType:"application/json",
+                                            url:"/api/v1/zg/register/sms",
+                                            data:obj,
+                                            success:function(){
+                                                console.log("123")
+                                            }  
+                                        })
+                                    })
+                                    $(".change_admin_select").on("click",function(){
+                                            var user_id;
+                                            var select_list = []
+                                            chooseFile.choosePeople(xy)
+                                            function xy (content){
+                                                for(var key in content){
+                                                    select_list.push(content[key])
+                                                }
+                                                if(select_list.length>1){
+                                                    $(".error_select").fadeIn().delay(1500).fadeOut()
+                                                }else{
+                                                    $(".change_admin_select").val(select_list[0].fullname)
+                                                    user_id = select_list[0].id
+                                                    $(".change_admin_select").attr("user_id",user_id)
+                                                }
+                                            }
+                                        })
+                                    //点击提交
+                                    $(".organization_chart_ctn_master_save").on("click",function(){
+                                        var sms = $(".sms_code").val()
+                                        var user_id = $(".change_admin_select").attr("user_id")
+                                        var obj = {
+                                            sms_code:sms,
+                                            type:type,
+                                            user_id:user_id
+                                        }
+                                        $.ajax({
+                                            type:"PUT",
+                                            contentType:"application/json",
+                                            url:"json/zg/admin/updata/",
+                                            data:JSON.stringify(obj),
+                                            success:function(res){
+                                                console.log("-------------______---success")
+                                                if(res.errno == 0){
+                                                    server_events.operating_hints("更换主管理员成功!")
+                                                }
+                                            }  
+                                        })
+                                    })
+                                }
+                            })
                             //样式切换变化
                             $(this).addClass("color_li").siblings().removeClass("color_li")
                             $(this).children().first().addClass("color_icon").parent().siblings().children().removeClass("color_icon")
@@ -426,7 +509,7 @@ var contact = (function(){
                                 //  chooseFile.choosePeople(xy);
                             })
                             //删除子管理员
-                            $(".organization_chart_box").on("click",".child_administrator_del",function(){
+                            $(".organization_chart_box").off("click",".child_administrator_del").on("click",".child_administrator_del",function(){
                                 var id_list = []
                                 id_list.push($(this).attr("user_id"))
                                 var obj = {
@@ -669,7 +752,7 @@ var contact = (function(){
                                             $(".organization_chart_group_delete_box").hide();
                                         })
                                         //确认删除
-                                        $(".organization_chart_group_delete_ensure").on("click",function(){
+                                        $("organization_chart_group_delete_ensure").on("click",function(){
                                             var department_id = $(".branch_name").attr("department_id")
                                             var obj = {
                                                 department_id:department_id
