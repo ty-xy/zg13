@@ -137,6 +137,29 @@ $(function () {
         clearTimeout(timer);
         timer = setTimeout(check_subdomain_avilable, 250, $('#id_team_subdomain').val());
     });
+    //检测是否已注册
+    $(".phone_number").on("blur",function(){
+        var phone = $(this).val()
+        var obj = {
+            phone:phone
+        }
+        if(phone){
+            $.ajax({
+                type:"GET",
+                url:"/api/v1/zg/verification/user",
+                contentType:"application/json",
+                data:obj,
+                success:function(res){
+                    console.log(res)
+                    if(res.errno == 1){
+                        $("#phone_repeat").show()
+                    }else{
+                        $("#phone_repeat").hide()
+                    }
+                }
+            })
+        }
+    })
     //获取验证码
     $("#send_confirm").on("click",".get_verification",function(){
         var countdown=60;
