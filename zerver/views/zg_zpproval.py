@@ -70,8 +70,11 @@ def add_leave(request, user_profile):
                                      count=count, cause=cause)
         if img_url:
             for img in img_url:
-                print(img)
-                attachment = Attachment.objects.filter(path_id=img)
+                path_id = img.split('user_uploads/')[1]
+                if path_id[-1] == ')':
+                    path_id = img.split('user_uploads/')[1][: -1]
+                attachment = Attachment.objects.filter(path_id=path_id)
+                print(attachment)
                 ZgCorrectzAccessory.objects.create(correctz_type='leave', table_id=aaa.id, attachment=attachment[0])
 
         types = ''
@@ -135,7 +138,10 @@ def reimburse_add(request, user_profile):
         for img in image_url:
             print(img)
             print(img.split('/')[-1])
-            attachment = Attachment.objects.filter(file_name=img.split('/')[-1])
+            path_id = img.split('user_uploads/')[1]
+            if path_id[-1] == ')':
+                path_id = img.split('user_uploads/')[1][: -1]
+            attachment = Attachment.objects.filter(path_id=path_id)
             ZgCorrectzAccessory.objects.create(correctz_type='reimburse', table_id=a.id, attachment=attachment[0])
 
     event = {'zg_type': 'JobsNotice',
@@ -474,7 +480,7 @@ def approval_details(request, user_profile):
         data['end_time'] = reimburse.end_time
         data['count'] = reimburse.count
         data['cause'] = reimburse.cause
-        accessorys = ZgCorrectzAccessory.objects.filter(correctz_type='reimburse', table_id=ids)
+        accessorys = ZgCorrectzAccessory.objects.filter(correctz_type='leave', table_id=ids)
         print(accessorys,ids)
     else:
 

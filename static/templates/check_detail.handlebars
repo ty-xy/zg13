@@ -71,11 +71,11 @@
              {{/unless}}
         </div>
     </div>
-    {{#if img_url}}
+    {{#if image_url}}
         <div>
            <span>添加图片:</span>
-           {{!-- <img src={{img_url}} class="img-border" /> --}}
-           {{#each  img_url}}
+           {{!-- <img src={{image_url}} class="img-border" /> --}}
+           {{#each  image_url}}
                 <img src={{this}} class="img-border"/>
            {{/each}}
         </div>
@@ -172,7 +172,7 @@
             <button class="button-detail-common reminder">已撤销</button>
         {{/compare}}
         {{!-- {{#compare  button_status '==' 5}}
-            <button class="button-detail-common reminder">再次提交</button> 
+            <button class="button-detail-common reminder">再次提交</button>
         {{/compare}} --}}
     </div>
 </div>
