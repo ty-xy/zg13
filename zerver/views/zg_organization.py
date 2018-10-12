@@ -320,4 +320,4 @@ def invite_qrcode(request):
     image_stream = buf.getvalue()
     qr_code = HttpResponse(image_stream, content_type="image/png")
 
-    return qr_code
+    return JsonResponse({'url':'http://' + request.META['HTTP_HOST'] + '/register/'})
