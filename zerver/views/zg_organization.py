@@ -37,6 +37,8 @@ def not_department_user(request, user_profile):
     user_list = UserProfile.objects.filter(zg_department_status=False, realm=user_profile.realm.id)
     if user_list:
         for user in user_list:
+            if user.full_name[-3:] == 'Bot':
+                continue
             user_dict = {}
             avatars = avatar.absolute_avatar_url(user)
             name = user.full_name
@@ -61,11 +63,9 @@ def organization_information(request, user_profile):
 def put_organization_information(request, user_profile):
     if not user_profile.is_realm_admin:
         return JsonResponse({'errno': 1, 'message': '无权限'})
-
     req = req_tools(request)
     names = req.get('name')
     descriptions = req.get('description')
-
     if names:
         user_profile.realm.name = names
         user_profile.realm.save()
@@ -96,12 +96,16 @@ def put_admin(request, user_profile):
     user_objs = UserProfile.objects.filter(id=user_id)
     if user_objs:
         user_objs[0].is_realm_admin = True
+        user_objs[0].save()
         return JsonResponse({'errno': 0, 'message': '成功'})
 
 
 # 查看子管理员
 def child_admin(request, user_profile):
+    if user_profile.is_realm_admin == 'f' and user_profile.zg_permission != 1:
+        return JsonResponse({'errno': 1, 'message': '无权限'})
     child_admin_objs = UserProfile.objects.filter(zg_permission=1, realm=user_profile.realm.id)
+
     user_list = []
     for child_admin_obj in child_admin_objs:
         user_dict = dict()
@@ -117,7 +121,11 @@ def up_child_admin(request, user_profile):
     req = req_tools(request)
     types = req.get('type')
     ids = req.get('id_list')
-    print(types, ids)
+    print(user_profile.is_realm_admin)
+
+    if user_profile.is_realm_admin == 'f':
+        return JsonResponse({'errno': 1, 'message': '无权限'})
+
     if not all([types, ids]):
         return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
 
@@ -127,7 +135,7 @@ def up_child_admin(request, user_profile):
             user_obj.update(zg_permission=1)
 
         elif types == 'del':
-            print(user_obj[0].zg_permission)
+            user_obj.update(zg_permission=0)
     return JsonResponse({'errno': 0, 'message': '成功'})
 
 
@@ -137,6 +145,9 @@ def add_department(request, user_profile):
     name = req.get('name')
     if not name:
         return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
+
+    if user_profile.is_realm_admin == 'f' and user_profile.zg_permission == 0:
+        return JsonResponse({'errno': 1, 'message': '无权限'})
 
     department = ZgDepartment.objects.filter(name=name)
     if department:
@@ -148,13 +159,16 @@ def add_department(request, user_profile):
     return JsonResponse({'errno': 0, 'message': '创建部门成功'})
 
 
-# 批量移动
+# 批量移动删除
 def user_mobile_batch(request, user_profile):
     req = req_tools(request)
     user_list = req.get('user_list')
     types = req.get('type')
     department_id = req.get('department_id')
     new_department_id_list = req.get('new_department_id_list')
+
+    if user_profile.is_realm_admin == 'f' and user_profile.zg_permission == 0:
+        return JsonResponse({'errno': 1, 'message': '无权限'})
 
     if not all([user_list, types, department_id]):
         return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
@@ -183,6 +197,12 @@ def user_mobile_batch(request, user_profile):
     elif types == 'del':
         for user_id in user_list:
             user_objs = UserProfile.objects.filter(id=user_id)
+            if user_objs[0].is_realm_admin or user_profile.zg_permission:
+                return JsonResponse({'errno': 3, 'message': '%s为管理员，请先移除管理员后再进行删除操作' % user_objs[0].full_name})
+
+            if not department_objs:
+                user_objs.delete()
+                return JsonResponse({'errno': 0, 'message': '删除成功'})
             department_objs.user.remove(user_objs[0])
             if user_objs[0].zgdepartment_set.all():
                 user_objs[0].zg_department_status = False
@@ -240,7 +260,7 @@ def department_up(request, user_profile):
     department_id = req.get('department_id')
     department_name = req.get('department_name')
 
-    if user_profile.is_realm_admin == 'f' and user_profile.zg_permission != 1:
+    if user_profile.is_realm_admin == 'f' and user_profile.zg_permission == 0:
         return JsonResponse({'errno': 1, 'message': '无权限'})
 
     aa = ZgDepartment.objects.filter(id=department_id)
@@ -298,6 +318,6 @@ def invite_qrcode(request):
     buf = BytesIO()
     img.save(buf)
     image_stream = buf.getvalue()
-    a = HttpResponse(image_stream, content_type="image/png")
+    qr_code = HttpResponse(image_stream, content_type="image/png")
 
-    return a
+    return qr_code

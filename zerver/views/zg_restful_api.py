@@ -1,4 +1,5 @@
-from zerver.models import Message, UserMessage, ZgCollection, Stream, Attachment, ZgCloudDisk, Realm, UserProfile
+from zerver.models import Message, UserMessage, ZgCollection, Stream, Attachment, ZgCloudDisk, Realm, UserProfile, \
+    active_user_ids
 from django.http import JsonResponse
 import json
 from datetime import datetime, timezone, timedelta
@@ -10,6 +11,7 @@ from django.core.cache import cache
 import random
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.hashers import make_password
+from zerver.tornado.event_queue import send_event
 
 
 #
@@ -205,9 +207,9 @@ def user_clouddisk(request, user_profile):
         clouddisk_dict = dict()
 
         if cloud_disk_obj.size / 1024 / 1024 > 1:
-            clouddisk_dict['size'] = str(cloud_disk_obj.size / 1024 / 1024) + 'M'
+            clouddisk_dict['size'] = str(round(cloud_disk_obj.size / 1024 / 1024, 2)) + 'M'
         elif cloud_disk_obj.size / 1024 > 1:
-            clouddisk_dict['size'] = str(cloud_disk_obj.size / 1024) + 'KB'
+            clouddisk_dict['size'] = str(round(cloud_disk_obj.size / 1024, 2)) + 'KB'
         else:
             clouddisk_dict['size'] = cloud_disk_obj.size
         clouddisk_dict['name'] = cloud_disk_obj.file_name
@@ -256,10 +258,18 @@ def file_del(request, user_profile):
 def update_user_full_name(request, user_profile):
     req = req_tools(request)
     full_name = req.get('full_name')
+
     if not full_name:
         return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
+
+    payload = dict(email=user_profile.email,
+                   user_id=user_profile.id,
+                   full_name=full_name)
+    send_event(dict(type='realm_user', op='update', person=payload),
+               active_user_ids(user_profile.realm_id))
     user_profile.full_name = full_name
     user_profile.save()
+
     return JsonResponse({'errno': 0, 'message': '成功'})
 
 
