@@ -283,12 +283,11 @@ var contact = (function(){
                             type:"GET",
                             url:"api/v1/zg/invite/qrcode",
                             success:function(res){
-                                // console.log(res)
                                 $(".invite_members_md").remove()
                                 var invite_members_md = templates.render("invite_members_md")
                                 $(".app").append(invite_members_md)
 
-                                $(".invite_members_url_input").val("xxxxx")
+                                $(".invite_members_url_input").val(res.url)
 
                                 //点击复制链接
                                 var copynum = 0;
