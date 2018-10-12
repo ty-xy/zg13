@@ -84,8 +84,16 @@ exports.parse_narrow = function (hash) {
             $(".persistent_data").show()
             $(".persistent_data").children().remove();
             var notice_box = templates.render("notice_box",{arr:arr})
-            server_events.sortBytime()
             $(".persistent_data").prepend(notice_box)
+            // for(var i=0;i<arr.length;i++){
+            //     if(arr[i].stream_id !== ""){
+            //         // console.log(arr[i].stream_id)
+            //         var count = unread.num_unread_for_stream(arr[i].stream_id);
+            //         stream_list.update_count_in_dom($(".persistent_data"), count);
+            //     }
+            // }
+            server_events.sortBytime()
+           
         }
         //添加默认空白
         $(".move_ctn").append(templates.render("right_blank_page"))
