@@ -178,7 +178,7 @@ exports.unread_pm_counter = (function () {
         if (!bucket) {
             return 0;
         }
-        // console.log(bucket)
+        // console.log(bucketer)
         return bucket.count();
     };
 
@@ -250,7 +250,7 @@ exports.unread_topic_counter = (function () {
         res.stream_count = num_dict();  // hash by stream_id -> count
         res.topic_count = num_dict(); // hash of hashes (stream_id, then topic -> count)
         bucketer.each(function (per_stream_bucketer, stream_id) {
-
+            //  console.log(opts)
             // We track unread counts for streams that may be currently
             // unsubscribed.  Since users may re-subscribe, we don't
             // completely throw away the data.  But we do ignore it here,
@@ -263,6 +263,7 @@ exports.unread_topic_counter = (function () {
             res.topic_count.set(stream_id, str_dict());
             var stream_count = 0;
             per_stream_bucketer.each(function (msgs, topic) {
+                // console.log(msgs)
                 var topic_count = msgs.count();
                 res.topic_count.get(stream_id).set(topic, topic_count);
                 if (!muting.is_topic_muted(sub.name, topic)) {
@@ -436,7 +437,11 @@ exports.get_counts = function () {
     res.pm_count = pm_res.pm_dict;
     res.private_message_count = pm_res.total_count;
     res.home_unread_messages += pm_res.total_count;
-    // console.log(res)
+    // console.log(pm_res,topic_res)
+    // console.log(MessageListView.get_message(519))
+    // console.log(message_list.all.get(2045))
+    // console.log(res,people.get_person_from_user_id(22),)
+    // console.log(res.stream_count.items(),stream_data.get_sub_by_id(16))
     return res;
 };
 
@@ -453,6 +458,7 @@ exports.topic_has_any_unread = function (stream_id, topic) {
 };
 
 exports.num_unread_for_person = function (user_ids_string) {
+    // console.log(user_ids_string)
     return exports.unread_pm_counter.num_unread(user_ids_string);
 };
 
