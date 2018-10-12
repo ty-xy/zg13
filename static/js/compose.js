@@ -107,6 +107,7 @@ function update_fade() {
     }
 
     var msg_type = compose_state.get_message_type();
+    console.log(msg_type)
     compose_fade.set_focused_recipient(msg_type);
     compose_fade.update_faded_messages();
 }
@@ -161,8 +162,8 @@ function create_message_object() {
         }
         message.subject = subject;
     }
-    return message; 
-}  
+    return message;
+}
 // Export for testing
 exports.create_message_object = create_message_object;
 
@@ -240,7 +241,7 @@ exports.send_message = function send_message(request) {
     var locally_echoed;
 
     local_id = echo.try_deliver_locally(request);
-  
+
     if (local_id) {
         // We are rendering this message locally with an id
         // like 92l99.01 that corresponds to a reasonable
@@ -431,7 +432,7 @@ exports.finish = function () {
         return false;
     }
     var message_content = compose_state.message_content();
-    // console.log(message_content)
+    console.log(message_content)
     if (is_deferred_delivery(message_content)) {
         exports.schedule_message();
     } else {
@@ -557,7 +558,7 @@ exports.validation_error = function (error_type, stream_name) {
 
     switch (error_type) {
     case "does-not-exist":
-        response = i18n.t("<p>这个频道 <b>__stream_name__</b> 不存在.</p><p>管理你的订阅 <a href='#streams/all'>在你的订阅页面e</a>.</p>", context);
+        response = i18n.t("<p>这个群组 <b>__stream_name__</b> 不存在.</p><p>管理你的订阅 <a href='#streams/all'>在你的订阅页面e</a>.</p>", context);
         compose_error(response, $('#stream'));
         return false;
     case "error":
@@ -582,6 +583,17 @@ exports.validate_stream_message_address_info = function (stream_name) {
 
 function validate_stream_message() {
     var stream_name = compose_state.stream_name();
+    var url =window.location.hash
+    var hash = url.split("/")
+    var subject = hash_util.decodeHashComponent(hash[4])
+    var stream = hash[2].split("-")
+     stream = hash_util.decodeHashComponent(stream[1])
+    if(stream_name === ""&&hash[1]==="stream"){
+        stream_name = stream
+        $("#subject").val(subject)
+        $("#stream").val(stream)
+    }
+    // console.log(stream_name,compose_state.subject())
     if (stream_name === "") {
         compose_error(i18n.t("Please specify a stream"), $("#stream"));
         return false;

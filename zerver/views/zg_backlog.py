@@ -502,7 +502,7 @@ def log_assistant(request, user_profile):
     return JsonResponse({'errno': 0, 'message': "成功", 'count': a})
 
 
-# 获取频道人员信息
+# 获取群组人员信息
 def stream_recipient_data(request, user_profile):
     streams_list = Stream.objects.all()
     streams_user_list = get_user_ids_for_streams(streams_list)

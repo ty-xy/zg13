@@ -1450,6 +1450,23 @@ ul{
     margin-left: 9px;
     color: #fff;
 }
+.uploading_file{
+    position: relative;
+    height: 30px;
+    float: left;
+    width: 100px; 
+}
+.uploading-imgA{
+    width: 100px;
+    height: 26px;
+    text-align: center;
+    line-height: 25px;
+    border: 1px solid #ddd;
+    float: left;
+    margin-top: 0px;
+    margin-left: 20px;
+    display: none;
+}
 .log_assistant_box{
 
 }

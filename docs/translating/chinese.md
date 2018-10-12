@@ -18,13 +18,13 @@ Zulip的文风比较口语化，考虑到大多数中国用户的习惯，翻译
 
 "Message" can be literally translated as "消息" and "信息", both
 OK. Here "消息" is chosen for translation. For example, "Stream
-Message" is translated as "频道消息", while "Private Message" is
+Message" is translated as "群组消息", while "Private Message" is
 translated as "私信". The domestic WeiBo, WeChat also keep in line
 with the habit. "Starred Message" is similar to "Star Mail (星标邮件)"
 feature in QQ Mail, so it is translated into "星标消息".
 
 Message可直译为“消息”、“信息”等，两者皆可，这里统一选用“消息”。例如，
-“Stream Message”译作“频道消息”；但“Private Message”又译为“私信"，与国
+“Stream Message”译作“群组消息”；但“Private Message”又译为“私信"，与国
 内微博、微信的使用习惯保持一致。“Starred Message”类似于QQ邮箱中的“星标
 邮件”功能，这里也借鉴翻译为“星标消息”。
 
@@ -48,16 +48,16 @@ Realm直译为“领域”、“王国”，取直译显然不合适。Zulip中�
 （Google+的习惯）。最近发现，“Realm”译为“团队”似乎更合适。尝试在
 Transifex中将“社区”替换为“团队”后，发现不少地方比以前通顺了许多。
 
-* Stream - **频道**
+* Stream - **群组**
 
 There were several other optional translations, e.g. "群组(Group)", "
-主题(Subject)", and "栏目(Column)". The "频道(Channel)" is in use now,
+主题(Subject)", and "栏目(Column)". The "群组(Channel)" is in use now,
 which is inspired by the chat "Channel" in the game Ingress. Since
 "Stream" can be "Created/Deleted" or "Subscribed/Unsubscribed",
-"Stream" can also initiate a "Topic" discussion, the meanings of "频道
+"Stream" can also initiate a "Topic" discussion, the meanings of "群组
 (Channel) are closer to "Stream" than others. Another translation is "
 讨论组", which is a term of QQ, in which it is a temporary chat
-group. However, "讨论组" has one more Chinese character than "频道
+group. However, "讨论组" has one more Chinese character than "群组
 (Channel)".
 
 曾经使用的翻译有“群组”、“主题”、“版块”，还有“栏目”。现在选择的“频道”灵
@@ -69,16 +69,16 @@ group. However, "讨论组" has one more Chinese character than "频道
 
 * Topic - **话题**
 
-* Invite-Only/Public Stream - **私有/公开频道**
+* Invite-Only/Public Stream - **私有/公开群组**
 
 "Invite-Only Stream" requires users must be invited explicitly to
 subscribe, which assures a high privacy. Other users cannot perceive
 the presence of such streams. Since literal translation is hard to
-read, it is translated sense to sense as "私有频道(Private Stream)"。
+read, it is translated sense to sense as "私有群组(Private Stream)"。
 
 “Invite-Only Stream”是需要频道内部用户邀请才能订阅的频道；“Invite-Only
 Stream”具有非常好的私密性，用户在没有订阅时是不能感知这类频道的存在的。
-直译读起来有点拗口，因此选择译为“私有频道”。
+直译读起来有点拗口，因此选择译为“私有群组”。
 
 * Bot - **机器人**
 

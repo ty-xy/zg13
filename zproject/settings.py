@@ -1190,7 +1190,8 @@ JS_SPECS = {
             'js/attendance.js',
             'js/contact.js',
             'js/message_body.js',
-            'js/clipboard.min.js'
+            'js/clipboard.min.js',
+            'js/qrcode.js'
 
         ],
         'output_filename': 'min/app.js'

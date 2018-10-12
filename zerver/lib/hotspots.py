@@ -21,9 +21,9 @@ ALL_HOTSPOTS = {
     # },
 
    'intro_streams': {
-        'title': '掌握频道',
-        'description': '信息会发送到频道中，如果你订阅了该频道，你就能看见'
-        '. 点击下面的频道试试.',
+        'title': '掌握群组',
+        'description': '信息会发送到群组中，如果你订阅了该群组，你就能看见'
+        '. 点击下面的群组试试.',
     },
 
     # 'intro_topics': {

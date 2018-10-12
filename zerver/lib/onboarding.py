@@ -78,17 +78,17 @@ def send_initial_realm_messages(realm: Realm) -> None:
     welcome_messages = [
         {'stream': Realm.DEFAULT_NOTIFICATION_STREAM_NAME,
          'topic': "欢迎",
-         'content': "这是频道 `%s` 话题 `欢迎` 的消息. 我们使用这个频道 "
+         'content': "这是群组 `%s` 话题 `欢迎` 的消息. 我们使用这个群组 "
          "来放置系统生成的通知." % (Realm.DEFAULT_NOTIFICATION_STREAM_NAME,)},
         {'stream': Realm.INITIAL_PRIVATE_STREAM_NAME,
-         'topic': "私有频道",
-         'content': "这是私有频道. 只有管理员和您邀请的人才能看见本频道的存在."},
+         'topic': "私有群组",
+         'content': "这是私有群组. 只有管理员和您邀请的人才能看见本群组的存在."},
         {'stream': "会客厅",
          'topic': "welcome",
          'content': "Welcome to #**会客厅**."},
         {'stream': "新成员",
          'topic': "报到",
-         'content': "#**新成员** 频道，为新员工报到而设置.\n\n如果您不是这里的第一个人而读到本消息 "
+         'content': "#**新成员** 群组，为新员工报到而设置.\n\n如果您不是这里的第一个人而读到本消息 "
          "请在用您的名字作为话题名来介绍自己! "
          "键入 `c` 或在屏幕下方点击 `新话题` 来开始新话题."},
         {'stream': "e建联",
@@ -104,7 +104,7 @@ def send_initial_realm_messages(realm: Realm) -> None:
     ]  # type: List[Dict[str, Text]]
     messages = [internal_prep_stream_message(
         realm, welcome_bot,
-        message['频道'], message['话题'], message['内容']) for message in welcome_messages]
+        message['群组'], message['话题'], message['内容']) for message in welcome_messages]
     message_ids = do_send_messages(messages)
 
     # We find the one of our just-sent messages with turtle.png in it,

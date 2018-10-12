@@ -30,13 +30,13 @@
 阅读剩余聊天: {{ realm_uri }}.{% endif %}
 
 
-{% if new_users and new_streams.plain %}** 群更新 **{% elif new_users %}** New users **{% elif new_streams.plain %}** 新频道 **{% endif %}
+{% if new_users and new_streams.plain %}** 群更新 **{% elif new_users %}** New users **{% elif new_streams.plain %}** 新群组 **{% endif %}
 
-{% if new_streams.plain %}{% if new_stream_count and new_stream_count > 1 %} 新频道是 {% else %}新频道{% endif %}:
+{% if new_streams.plain %}{% if new_stream_count and new_stream_count > 1 %} 新群组是 {% else %}新群组{% endif %}:
 
     {{ new_streams.plain|display_list(4) }}.
 
-访问您的频道去订阅: {{ realm_uri }}/#streams.{% endif %}
+访问您的群组去订阅: {{ realm_uri }}/#streams.{% endif %}
 
 {% if new_users %}{% if new_streams.plain or unread_pms or hot_conversations %}最后, 请{% else %}请{% endif %} 欢迎 {{ new_users|display_list(4) }} 加入e建联!{% endif %}
 

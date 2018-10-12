@@ -382,7 +382,7 @@ v1_api_and_json_patterns = [
     url(r'^zg/table/$', rest_dispatch,
         {'POST': 'zerver.views.zg_backlog.table_view'}),
 
-    # 频道信息表
+    # 群组信息表
     url(r'^zg/stream/recipient/data$', rest_dispatch,
         {'GET': 'zerver.views.zg_backlog.stream_recipient_data'}),
     # 日志助手
@@ -588,7 +588,7 @@ v1_api_and_json_patterns = [
     # 收藏列表
     url(r'^zg/collection/list$', rest_dispatch,
         {'GET': 'zerver.views.zg_restful_api.zg_collection_list'}),
-    # 频道权限认证
+    # 群组权限认证
     url(r'^zg/stream/permissions$', rest_dispatch,
         {'GET': 'zerver.views.zg_restful_api.zg_stream_permissions'}),
 

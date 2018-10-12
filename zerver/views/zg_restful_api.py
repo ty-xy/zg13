@@ -165,7 +165,7 @@ def zg_collection_list(request, user_profile):
     return JsonResponse({'errno': 0, 'message': '成功', 'collection_list': collection_list})
 
 
-# 频道权限认证
+# 群组权限认证
 def zg_stream_permissions(request, user_profile):
     stream_id = request.GET.get('stream_id')
     try:

@@ -148,7 +148,7 @@ exports.options = function (config) {
             compose_ui.insert_syntax_and_focus(pasted_image_uri, textarea);
         } else {
             // This is a dropped file, so make the filename a link to the image
-            var filename_uri = "[" + new_name + "](" + uri + ")";
+            var filename_uri = "[" + filename + "](" + uri + ")";
             compose_ui.insert_syntax_and_focus(filename_uri, textarea);
         }
         compose_ui.autosize_textarea();

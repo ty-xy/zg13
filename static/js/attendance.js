@@ -510,9 +510,7 @@ var attendance = (function () {
                                         }
                                     }
                                 })
-                                
-                                
-                                
+
                             })      
                             // 点击考勤组的样式
                             $(".attendance_box").on('click',".attendance_mangement",function(){
@@ -684,6 +682,7 @@ var attendance = (function () {
                                 $(".attendance_ctn").empty()
                                 var html = templates.render("attendance_team");
                                 $(".attendance_ctn").html(html)
+                                $(".attendance_ctn").height($(window).height()-120)
                                 // $(".attendance_ctn .button-common").val("17:00")
                                 $(".attendance_ctn .button-common").datetimepicker({
                                     language:"zh-CN",  
@@ -708,7 +707,6 @@ var attendance = (function () {
                             $(".move_ctn").append(html);
                             $(".attendance_mangement").hide();
                             $(".attendance_ctn").children().remove();
-                            
                             // console.log("hello world")
                             checkCalendarMy();
                             //关闭考勤

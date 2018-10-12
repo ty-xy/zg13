@@ -383,14 +383,14 @@ def add_subscriptions_backend(
         if notifications_stream is not None:
             if len(created_streams) > 1:
                 stream_strs = ", ".join('#**%s**' % s.name for s in created_streams)
-                stream_msg = "下列频道: %s" % (stream_strs,)
+                stream_msg = "下列群组: %s" % (stream_strs,)
             else:
-                stream_msg = "新频道 #**%s**." % created_streams[0].name
+                stream_msg = "新群组 #**%s**." % created_streams[0].name
             msg = ("%s 刚刚创建 %s" % (user_profile.full_name, stream_msg))
 
             sender = get_system_bot(settings.NOTIFICATION_BOT)
             stream_name = notifications_stream.name
-            topic = '频道'
+            topic = '群组'
 
             notifications.append(
                 internal_prep_stream_message(
