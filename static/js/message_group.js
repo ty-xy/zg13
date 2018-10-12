@@ -345,6 +345,8 @@ var message_group = (function () {
                         $(".address_book").removeClass("left_blue_height")
                         i= 0
                         window.location.hash = narrow.by_stream_subject_uris(name,subject)
+                        $(".only_tip[stream_id="+stream_id+"]").next().removeClass("backgr")
+                        $(".only_tip[stream_id="+stream_id+"]").addClass("backgr")
                         if($(".topic-list").children().length===0){
                             $(".compos-left-title span").hide()
                         }else{
@@ -487,7 +489,7 @@ var message_group = (function () {
                                 $(".group_setting").html(html)
                                 var colorpicker = $(".group_setting").find(".colorpicker")
                                 var color = stream_data.get_color(title);
-                                console.log(color)
+                                // console.log(color)
                                 $(".up-chat").off("#div2").on("click","#div2",function(e){
                                     var that  =  $(this).parent()
                                     $(this).parent().attr("class",(that.attr("class")=="close1")?"open1":"close1")

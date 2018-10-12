@@ -575,6 +575,8 @@ function pick_empty_narrow_banner() {
             $(".persistent_data").children().remove();
             var arr = JSON.parse(localStorage.getItem("arr"))
             var notice_box = templates.render("notice_box",{arr:arr})
+         
+       
             $(".persistent_data").append(notice_box)
             $(".persistent_data").on("click",".only_tip",function(e){
                 e.stopPropagation()
