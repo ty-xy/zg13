@@ -296,7 +296,16 @@ function set_stream_unread_count(stream_id, count) {
     }
     exports.update_count_in_dom(unread_count_elem, count);
 }
-
+function set_stream_unread_counts(stream_id, count) {
+    var unread_count_elem = $(".only_tip[stream_id="+stream_id+"]").parent()
+    if (!unread_count_elem) {
+        // This can happen for legitimate reasons, but we warn
+        // just in case.
+        blueslip.warn('stream id no longer in sidebar: ' + stream_id);
+        return;
+    }
+    exports.update_count_in_dom(unread_count_elem, count);
+}
 exports.update_streams_sidebar = function () {
     exports.build_stream_list();
 
@@ -330,7 +339,19 @@ exports.update_dom_with_unread_counts = function (counts) {
         });
     });
 };
+exports.update_dom_with_unreads_counts = function (counts) {
+    // counts.stream_count maps streams to counts
+    counts.stream_count.each(function (count, stream_id) {
+        set_stream_unread_counts(stream_id, count);
+    });
 
+    // counts.topic_count maps streams to hashes of topics to counts
+    // counts.topic_count.each(function (subject_hash, stream_id) {
+    //     subject_hash.each(function (count, subject) {
+    //         topic_list.set_count(stream_id, subject, count);
+    //     });
+    // });
+};
 exports.rename_stream = function (sub) {
     // The sub object is expected to already have the updated name
     build_stream_sidebar_row(sub);
