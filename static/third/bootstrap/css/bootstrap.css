@@ -1466,7 +1466,7 @@ textarea.span1,
 input[disabled],
 select[disabled],
 textarea[disabled],
-input[readonly],
+/* input[readonly], */
 select[readonly],
 textarea[readonly] {
   cursor: not-allowed;
