@@ -107,7 +107,7 @@ function update_fade() {
     }
 
     var msg_type = compose_state.get_message_type();
-    console.log(msg_type)
+    // console.log(msg_type)
     compose_fade.set_focused_recipient(msg_type);
     compose_fade.update_faded_messages();
 }
@@ -402,7 +402,7 @@ function scrollToEnd(){//滚动到底部
     $(".tab-content").scrollTop(h+x+$("#zfilt").scrollTop());
     // var scrollHeight = $("#zfilt").prop("scrollHeight")
     // $("#zfilt").scrollTop(scrollHeight+h+x)
-    console.log()
+    // console.log()
     // message_viewport.scrollTop(message_viewport.scrollTop() + 100);
     // console.log(message_viewport,message_viewport.scrollTop(),message_viewport.at_top(),message_viewport.at_bottom())
 }
@@ -432,7 +432,7 @@ exports.finish = function () {
         return false;
     }
     var message_content = compose_state.message_content();
-    console.log(message_content)
+    // console.log(message_content)
     if (is_deferred_delivery(message_content)) {
         exports.schedule_message();
     } else {
@@ -585,7 +585,7 @@ function validate_stream_message() {
     var stream_name = compose_state.stream_name();
     var url =window.location.hash
     var hash = url.split("/")
-    console.log(hash)
+    // console.log(hash)
     var subject = hash_util.decodeHashComponent(hash[4])
     var stream = hash[2].split("-")
      stream = hash_util.decodeHashComponent(stream[1])
