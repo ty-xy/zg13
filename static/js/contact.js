@@ -8,6 +8,7 @@ var contact = (function(){
         $(".private_button").on("click",function(){
             $(".organization_team").hide()
             $(".keep_exist").show()
+            $(".work_order").show()
             //清空右侧添加内容
             $(".move_ctn").children().remove();
             $(".group_icon").hide()

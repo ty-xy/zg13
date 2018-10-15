@@ -1396,7 +1396,7 @@
     line-height: 21px;
 }
 .work_order{
-    display: none;
+    /* display: none; */
 }
 .operating_hints_box{
     background: #FFFFFF;
