@@ -827,7 +827,7 @@ var contact = (function(){
                                     for(var i=0;i<arr.length;i++){
                                         user_list.push(Number(arr[i].getAttribute("user_id")))
                                     }
-                                    chooseFile.chooseTeam(xy);
+                                    
                                     function xy (content){
                                         for(var key in content){
                                             department_list.push(content[key].id)
@@ -850,7 +850,7 @@ var contact = (function(){
                                             }
                                         })
                                     }
-                                    
+                                    chooseFile.chooseTeam(xy);
                                 }
                             })
                         })
