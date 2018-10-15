@@ -331,7 +331,8 @@ var attendance = (function () {
                         if(res.super_user==true){
                             if(res.errno == 11){
                                 var html = templates.render("attendance_box");
-                                $(".move_ctn").append(html);   
+                                $(".move_ctn").append(html);
+                                $(".attendance_ctn").height($(window).height()-120)
                                 $(".attendance_statistics").remove();
                                 $(".attendance_mangement").addClass("high_light").removeClass("attendance_mangement");
                                     $(".attendance_ctn").empty();

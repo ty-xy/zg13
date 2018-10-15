@@ -585,6 +585,7 @@ function validate_stream_message() {
     var stream_name = compose_state.stream_name();
     var url =window.location.hash
     var hash = url.split("/")
+    console.log(hash)
     var subject = hash_util.decodeHashComponent(hash[4])
     var stream = hash[2].split("-")
      stream = hash_util.decodeHashComponent(stream[1])
