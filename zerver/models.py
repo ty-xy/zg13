@@ -1648,8 +1648,14 @@ def get_user_including_cross_realm(email: Text, realm: Optional[Realm] = None) -
 
 @cache_with_key(bot_profile_cache_key, timeout=3600 * 24 * 7)
 def get_system_bot(email: Text) -> UserProfile:
+    print(email)
     print('--------' * 10, '测试错误[', '--------' * 10)
-    print(UserProfile.objects.select_related().get(email__iexact=email.strip()))
+    try:
+        UserProfile.objects.select_related().get(email__iexact=email.strip())
+    except Exception as e:
+        print('出现错误：%s' % e)
+        a = UserProfile.objects.filter(email=email)
+        return a[0]
     print('--------' * 10, '测试错误]', '--------' * 10)
     return UserProfile.objects.select_related().get(email__iexact=email.strip())
 
@@ -2365,3 +2371,4 @@ class ZgCollection(models.Model):
 class ZgCloudDisk(models.Model):
     user = models.ForeignKey(UserProfile, null=True, on_delete=models.SET_NULL)
     attachment = models.ForeignKey(Attachment, null=True, on_delete=models.SET_NULL)
+    # types = models.CharField(max_length=30,null=True)
