@@ -644,7 +644,7 @@ a.message-control-button {
     display:none;
 }
 .group_icon:hover{
-    background: #F1F6FD;
+    background: #F9FBFF;
 }
 .organization_team{
     height:50px;
@@ -655,7 +655,7 @@ a.message-control-button {
     display:none;
 }
 .organization_team:hover{
-    background: #F1F6FD
+    background: #F9FBFF
 }
 .icon_qunzu{
     display: inline-block;
@@ -1008,7 +1008,7 @@ a.message-control-button {
      margin-bottom: 0;
     }
     .backgr{
-       background: #F1F6FD;
+       background: #F1F6FD!important;
     }
     #zfilt {
         -ms-overflow-style:none;
