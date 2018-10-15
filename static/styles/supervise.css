@@ -552,6 +552,7 @@
     text-align: center;
     background: #4584FF;
     border-radius: 4px;
+    cursor: pointer;
 }
 .invite_members_qrtitle{
     font-size: 16px;
@@ -663,7 +664,7 @@
     font-size: 15px;
     color: #333333;
     letter-spacing: 0.18px;
-    margin: 5px 21px 0px 20px;
+    margin: 5px 21px 0px 52px;
     float: left;
 }
 .organization_chart_ctn_basic_case>textarea{
@@ -1396,7 +1397,7 @@
     line-height: 21px;
 }
 .work_order{
-    display: none;
+    /* display: none; */
 }
 .operating_hints_box{
     background: #FFFFFF;

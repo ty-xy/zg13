@@ -53,7 +53,7 @@ function update_unread_count(unread_count_elem, count) {
 
 exports.set_count = function (stream_id, topic, count) {
     if (active_widget && active_widget.is_for_stream(stream_id)) {
-        console.log(31231321)
+        // console.log(31231321)
         active_widget.set_count(topic, count);
     }
 };
@@ -180,7 +180,7 @@ exports.widget = function (parent_elem, my_stream_id) {
             active_topic = active_topic.toLowerCase();
         }
         self.active_topic = active_topic;
-        console.log("-----是这-----")
+        // console.log("-----是这-----")
         self.dom = self.build_list();
         parent_elem.append(self.dom);
 
