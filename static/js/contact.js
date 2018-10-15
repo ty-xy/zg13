@@ -35,6 +35,8 @@ var contact = (function(){
                     //点击联系人弹出右边页面
                     $(".notice_ctn_box").on("click",".user_list_box",function(){
                         $(this).addClass("backgr").siblings().removeClass("backgr")
+                        $(".group_icon").removeClass("backgr")
+                        $(".organization_team").removeClass("backgr")
                         $("#zfilt").children().remove();
                         $(".move_ctn").children().remove();
                         $(".move_ctn").show()
@@ -228,6 +230,7 @@ var contact = (function(){
             $(".notice_ctn_box").append(collection_tip_box)
             $(".collection_tip").on("click",function(){
                 $('.move_ctn').children().remove()
+                $("#zfilt").hide()
                 $.ajax({
                     type:"GET",
                     url:"json/zg/collection/list",

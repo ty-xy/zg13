@@ -2512,6 +2512,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     padding: 3em 1em;
     display: none;
     text-align: center;
+    padding-left: 0;
 }
 
 .notification {
@@ -2758,7 +2759,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
 
 #home {
     /* margin-top: 20px; */
-    margin-left: 10px;
+    /* margin-left: 10px; */
     margin-right: 10px;
     /* height:calc(100% - 90px);
     overflow: auto */

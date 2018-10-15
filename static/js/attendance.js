@@ -117,14 +117,11 @@ var attendance = (function () {
                                     var m = Number(sign_in_time.substring(8,10));
                                 }
                                 var n = m + month_week - 2;
-                                console.log(res)
                                 var calendar_detail = templates.render("calendar_detail",{
                                     attendance_name:attendance_name,
                                     jobs_time:jobs_time,location:location,rest_time:rest_time,sign_in_explain:sign_in_explain,
                                     sign_in_time:sign_in_time,sign_off_explain:sign_off_explain,sign_off_time:sign_off_time
                                 });
-                                console.log("--------------")
-                                console.log(calendar_detail)
                                 $(".calendar_list_box").first().after(calendar_detail);
                                 $(".calendar_list_box").first().children().children().children().eq(n).children().first().addClass("gray_date")
                             }
@@ -146,7 +143,7 @@ var attendance = (function () {
                     }
                 })
             }
-          
+            
             //查看自己考勤日历
             function checkCalendarMy(user_id,select_year){  
                 var user_id;
@@ -358,6 +355,30 @@ var attendance = (function () {
                                     //关闭考勤
                                     $(".attendance_close").on("click",function(){
                                         $(".attendance_md").hide();
+                                    })
+                                    $(".attendance_ctn").on('click',".new_attendance",function(){
+                                        // var lis  =  $(".attendance_ctn").children()
+                                        $(".attendance_ctn").empty()
+                                        var html = templates.render("attendance_team");
+                                        $(".attendance_ctn").html(html)
+                                        $(".attendance_ctn").height($(window).height()-120)
+                                        // $(".attendance_ctn .button-common").val("17:00")
+                                        $(".attendance_ctn .button-common").datetimepicker({
+                                            language:"zh-CN",  
+                                            weekStart: 1,
+                                            todayBtn:  0,
+                                            autoclose: 1,
+                                            todayHighlight: 1,
+                                            startView: 1,
+                                            minView: 0,
+                                            showHours : true,
+                                            // minuteStep:1,z
+                                            maxView: 1,
+                                            forceParse: 0,
+                                            format:'hh:ii:00',
+                                            })
+                                        commonf()
+                                        commit()
                                     })
                                     return;
                             }
