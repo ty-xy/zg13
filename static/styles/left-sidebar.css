@@ -874,6 +874,7 @@ li.show-more-private-messages a {
 }
 .invited_users_box{
     margin: 20px;
+    display: none;
 }
 .users_icon{
     margin-left: 11px;
