@@ -297,7 +297,7 @@ function set_stream_unread_count(stream_id, count) {
     exports.update_count_in_dom(unread_count_elem, count);
 }
 function set_stream_unread_counts(stream_id, count) {
-    var unread_count_elem = $(".only_tip[stream_id="+stream_id+"]").parent()
+    var unread_count_elem = $(".only_tip[stream_id="+stream_id+"]")
     if (!unread_count_elem) {
         // This can happen for legitimate reasons, but we warn
         // just in case.
