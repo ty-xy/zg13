@@ -198,8 +198,6 @@ var server_events = (function () {
             tmp.dom = lis.eq(i);
           
             tmp.date = Number(lis.eq(i).children().attr("time_stamp"));
-            console.log(tmp.date)
-            console.log(tmp)
             ux.push(tmp);
         }
        
