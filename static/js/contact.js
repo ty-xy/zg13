@@ -155,7 +155,7 @@ var contact = (function(){
             $(".notice_ctn_box").append(templates.render("add_new_task"))
             $(".notice_ctn_box").append("<div class='management_titleB'>\
             <div class='morn_managementtext'>已完成任务</div>\
-            <i class='iconfont icon-xialaxuanze right_san'></i></div>")
+            <i class='iconfont icon-shouqi right_san'></i></div>")
             $(".notice_ctn_box").append("<ul class='completed_box'></ul>")
             $(".notice_ctn_box").append("<div class='management_block'></div>")
             //新增任务
@@ -761,7 +761,7 @@ var contact = (function(){
                                                     $(".organization_chart_group_delete_box").hide();
                                                 })
                                                 //确认删除
-                                                $("organization_chart_group_delete_ensure").on("click",function(){
+                                                $(".organization_chart_group_delete_ensure").on("click",function(){
                                                     var department_id = $(".branch_name").attr("department_id")
                                                     var obj = {
                                                         department_id:department_id
@@ -821,6 +821,12 @@ var contact = (function(){
                                                     if(res.errno == 0){
                                                         server_events.operating_hints("批量删除成功!")
                                                         updataList()
+                                                    }
+                                                    if(res.errno == 3){
+                                                        $(".new_group_ctn").append(templates.render("delete_member_tip"))
+                                                        $(".delete_member_tip").html(res.message)
+                                                        $(".branch_ctn").hide()
+                                                        $(".delete_member_tip").fadeOut(4000)
                                                     }
                                                 }
                                             })
