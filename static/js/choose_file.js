@@ -377,7 +377,7 @@ var chooseFile = (function () {
                     var object = {}
                     var search_arr = []
                     if(tatal_arr.length===0&&search_value!==""){
-                        data.forEach((v,i)=>{
+                        data.forEach(function(v,i){
                             if(v.name.indexOf(search_value)!==-1){
                                 search_arr.push(v.name)
                             }

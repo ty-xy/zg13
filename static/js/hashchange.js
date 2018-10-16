@@ -177,6 +177,8 @@ exports.parse_narrow = function (hash) {
                 var stream = hash[2].split("-")
                  stream = hash_util.decodeHashComponent(stream[1])
                  $(".home-title span").html(stream)
+                 $(".compose-content").show()
+                 $(".message_comp").show()
                 $("#stream").val(stream)
                 $("#subject").val(subject)
             }else{
