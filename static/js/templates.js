@@ -428,7 +428,9 @@ Handlebars.registerHelper("cut_list",function(list){
 })
 //只截取时间点
 Handlebars.registerHelper("cut_time",function(str){
-    return str.substring(11,19)
+    if(str != undefined){
+        return str.substring(11,19)
+    }
 })
 //显示名字
 Handlebars.registerHelper("short_names",function(str){

@@ -25,6 +25,10 @@ $(function () {
         var mobile = /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/
         return this.optional(element) || (length == 11 && mobile.test(value));
     }, "手机号码格式错误");
+    $.validator.addMethod("zipCode", function(value, element) {
+        var tel = /^[0-9]{4}$/;
+        return this.optional(element) || (tel.test(value));
+    }, "验证码格式错误(四位有效数字)");
 
     $('#registration, #password_reset,#send_confirm,#reset_password').validate({
         // rules: {

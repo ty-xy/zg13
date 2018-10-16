@@ -646,7 +646,7 @@ form#add_new_subscription {
     height: calc(100% - 45px);
     width: 100%;
     background: #FFFFFF;
-    box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30);
+    /* box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30); */
     border-radius: 1px;
 }
 
