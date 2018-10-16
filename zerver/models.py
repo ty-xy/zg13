@@ -1648,8 +1648,6 @@ def get_user_including_cross_realm(email: Text, realm: Optional[Realm] = None) -
 
 
 from zerver.lib.create_user import create_user
-
-
 # from zerver.lib import actions
 @cache_with_key(bot_profile_cache_key, timeout=3600 * 24 * 7)
 def get_system_bot(email: Text) -> UserProfile:

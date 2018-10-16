@@ -218,7 +218,7 @@ var message_group = (function () {
         })
         $(".group_icon").on("click",function(e){
             // people.get_person_from_user_id(26)
-            $(this).addClass("bachgr").next().next().children().removeClass("backgr")
+            $(this).addClass("backgr").next().next().children().removeClass("backgr")
             $(this).next().removeClass("backgr")
             $(".move_ctn").children().remove();
             $("#empty_narrow_all_mentioned").hide()

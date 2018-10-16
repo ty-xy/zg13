@@ -774,7 +774,7 @@ li.show-more-private-messages a {
     margin: 0;
 }
 .user_list_box:hover{
-    background: #F1F6FD;
+    background: #F9FBFF;
 }
 .user_detail_box{
     text-align: center;
@@ -861,7 +861,7 @@ li.show-more-private-messages a {
     height: 54px;
 }
 .manage_groups_list:hover{
-    background: #F1F6FD;
+    background: #F9FBFF;
     cursor: pointer;
 }
 .invited_users{
