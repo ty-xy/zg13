@@ -111,11 +111,13 @@ var chooseFile = (function () {
         //选择发送人
         exports.choosePeople = function(func,object){
             $(".modal-log").show()
+           
             channel.get({
                 url:"json/zg/stream/recipient/data",
                 success:function(data){
                     var obj = object
                     var o1 = {}
+                    var tatal_arr =[]
                     var datakeylist = data.streams_dict
                     commonTotal(data)
                     if(obj!={}){
@@ -128,6 +130,62 @@ var chooseFile = (function () {
                     _.each(data.streams_dict, function (val, key) {
                         people_dict.set(key, val);
                     });
+                    $(".choose-nav-left").on("input",".search-icon",function(e){
+                        var that = $(this)
+                        var search_value = that.val()
+                        var object = {}
+                        // tatal_arr = []
+                        // console.log(that,search_value,tatal_arr)
+                        if(tatal_arr.length===0&&search_value!==""){
+                           channel.get({
+                               url:"json/zg/stream/recipient/data",
+                               success:function(data){
+                                   var datakeylist = data.streams_dict
+                                   var arr = [];
+                                   for(var i in datakeylist){ 
+                                      arr=arr.concat(datakeylist[i]);
+                                   }
+                                   var objs= {};
+                                   // console.log(arr)
+                                   arr= arr.reduce(function(item,next){
+                                       objs[next.id] ? +'' : objs[next.id] = next && item.push(next);
+                                       return item;
+                                   },[])
+                                   // console.log(arr)
+                                   var search_arr =[]
+                                   arr.forEach(function(val,index){
+                                       var value_lowerCase = val.fullname.toLowerCase()
+                                       if(value_lowerCase.indexOf(search_value)!==-1){
+                                           search_arr.push(value_lowerCase)
+                                       }
+                                       tatal_arr.push(value_lowerCase)
+                                   })
+                                   total = arr.reduce(function(prev, cur){prev[cur.fullname.toLowerCase()] = cur; return prev;}, {});
+                                   var li = $(templates.render('search_li',{search_arr:search_arr}));
+                                   $(".modal-ul-choose").html(li)
+                                   $(".modal-ul-choose").show()
+                                   showName()
+                                   search_arr =[]             
+                                   search_box(total,obj,object)
+                               }
+                           })
+                        }else{
+                           if(search_value!==""){
+                               var search_arr =[]
+                               tatal_arr.forEach(function(val,index){
+                                   if(val.indexOf(search_value)!==-1){
+                                       search_arr.push(val)
+                                   }
+                               })
+                               var li = templates.render("search_li",{search_arr:search_arr})
+                               $(".modal-ul-choose").html(li)
+                               $(".modal-ul-choose").show()
+                               showName()
+                               search_arr =[]
+                               search_box(total,obj,object)
+                           }
+                        }
+                     })
                   $(".choose-nav-left").on("click",".choose-check",function(e){
                        var checkbox = $(this).find("input")
                        var input_key = $(this).attr("inputid")
@@ -303,7 +361,6 @@ var chooseFile = (function () {
         exports.chooseTeam = function(func){
            $(".modal-log").show()
            var tatal_arr = []
-  
            channel.get({
                url:"json/zg/department/list",
               success:function(data){
@@ -320,7 +377,7 @@ var chooseFile = (function () {
                     var object = {}
                     var search_arr = []
                     if(tatal_arr.length===0&&search_value!==""){
-                        data.forEach((v,i)=>{
+                        data.forEach(function(v,i){
                             if(v.name.indexOf(search_value)!==-1){
                                 search_arr.push(v.name)
                             }
