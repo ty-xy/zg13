@@ -42,6 +42,20 @@ var chooseFile = (function () {
                 length()
             }
         }
+        function showName (){
+            if($(".modal-ul-choose").is(':visible')){
+                // console.log(111)
+                $(".modal-ul-choose").click(function(e){
+                    $(".modal-ul-choose").hide();
+                    $(".search-icon").val("")
+                    // e.stopPropagation();//阻止冒泡
+                });
+                $("body").click(function(){
+                    $(".modal-ul-choose").hide();
+                    $(".search-icon").val("")
+                })
+             }     
+          }
         function search_box (total,obj,object){
             $(".search-people-name").on("click",function(e){
                 var value  = $(this).text() 
@@ -288,14 +302,46 @@ var chooseFile = (function () {
         //选择部门
         exports.chooseTeam = function(func){
            $(".modal-log").show()
+           var tatal_arr = []
+  
            channel.get({
                url:"json/zg/department/list",
               success:function(data){
                   var obj = {}
                   var data= data.department_lists
                   var  datalist= data.reduce(function(prev, cur){prev[cur.id] = cur; return prev;}, {});
+                  var  dataIndex = data.reduce(function(prev, cur){prev[cur.name] = cur; return prev;}, {});
                   var li = $(templates.render("choose_channel",{data:datalist}));
                   $(".modal-log-content").html(li)
+                  //搜索
+                  $(".choose-nav-left").on("input",".search-icon",function(e){
+                    var that = $(this)
+                    var search_value = that.val()
+                    var object = {}
+                    var search_arr = []
+                    if(tatal_arr.length===0&&search_value!==""){
+                        data.forEach((v,i)=>{
+                            if(v.name.indexOf(search_value)!==-1){
+                                search_arr.push(v.name)
+                            }
+                        })
+                        var li = $(templates.render('search_li',{search_arr:search_arr}));
+                        $(".modal-ul-choose").html(li)
+                        $(".modal-ul-choose").show()
+                        showName()
+                        search_arr =[]             
+                        $(".search-people-name").on("click",function(e){
+                            var value  = $(this).text() 
+                            var content =  dataIndex[value]
+                            object[content.id] = content 
+                            obj=$.extend(obj,object)
+                            var render = $(templates.render("choose_personal",{data:obj}))
+                            $(".box-right-list").html(render)
+                            length()
+                        })
+
+                    }
+                })
                   //点击左边右边显示
                   $(".choose-nav-left").on("click",".choose-check",function(e){
                     var id = $(this).attr("inputid")
@@ -407,20 +453,7 @@ var chooseFile = (function () {
                       }
                   })
                   //搜索
-                  function showName (){
-                    if($(".modal-ul-choose").is(':visible')){
-                        // console.log(111)
-                        $(".modal-ul-choose").click(function(e){
-                            $(".modal-ul-choose").hide();
-                            $(".search-icon").val("")
-                            // e.stopPropagation();//阻止冒泡
-                        });
-                        $("body").click(function(){
-                            $(".modal-ul-choose").hide();
-                            $(".search-icon").val("")
-                        })
-                     }     
-                  }
+                 
             
                   
                   $(".choose-nav-left").on("input",".search-icon",function(e){
