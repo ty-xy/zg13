@@ -16,7 +16,7 @@ $(function () {
 function send_message_socket(request, success, error) {
     request.socket_user_agent = navigator.userAgent;
     socket.send(request, success, function (type, resp) {
-        var err_msg = "Error sending message";
+        var err_msg = "发送失败原因";
         if (type === 'response') {
             err_msg += ": " + resp.msg;
         }

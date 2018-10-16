@@ -228,7 +228,7 @@
 /* 考勤日历样式 */
 .calendar_head{
     margin-top: 20px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #dddddd;
 }
 .calendar_state{
     margin: 0;
@@ -326,6 +326,8 @@
     float: left;
     margin-right: 20px;
     margin-bottom: 20px;
+    border: 1px solid rgba(221,221,221,0.50);
+    border-radius: 4px 4px 0 0;
 }
 .calendar_person{
     padding: 10px 20px;
@@ -333,7 +335,7 @@
 
 .calendar_top{
     height: 50px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #f2f2f2;
 }
 .calendar_avatar_box{
     float: left;
