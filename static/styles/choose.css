@@ -425,10 +425,11 @@ a.message-control-button {
     cursor: pointer;
 }
 .toast-alert,.toast-alert-button,.toast-alert-buttons{
-    height:34px;
+    height:50px;
     min-width:184px;
-    max-width:350px;
+    max-width:360px;
     color:#fff;
+    text-align: center;
     background: rgba(0,107,169,0.30);
     border-radius: 6px;
     position: absolute;
@@ -436,7 +437,7 @@ a.message-control-button {
     left:0;
     right:0;
     margin:auto;
-    line-height:34px;
+    line-height:50px;
     display:none;
    
 }

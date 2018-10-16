@@ -1376,7 +1376,10 @@ ul{
 .loading-img{
     height:800px;
     width:937px;
-    line-height:800px
+    line-height:799px;
+    text-align: center;
+    vertical-align:center;
+    overflow: hidden;
     /* position: absolute;
     left:0;
     right:0;
