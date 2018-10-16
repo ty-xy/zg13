@@ -136,7 +136,7 @@ def zg_collection(request, user_profile):
 
 # 收藏列表
 def zg_collection_list(request, user_profile):
-    collection_objs = ZgCollection.objects.filter(user=user_profile).order_by()
+    collection_objs = ZgCollection.objects.filter(user=user_profile).order_by('-id')
     collection_list = list()
     for collection_obj in collection_objs:
         collection_dict = {}
