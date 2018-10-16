@@ -264,13 +264,13 @@ var server_events = (function () {
             }
             var type;
             var data_message;
-            $.ajax({
-                url:"json/zg/user",
-                type:"GET",
-                success:function(res){
-                    var user_list = res.user_list
-                    var user_me = res.user_me
-                    var user_id = res.user_id
+            // $.ajax({
+            //     url:"json/zg/user",
+            //     type:"GET",
+            //     success:function(res){
+                    var user_list = JSON.parse(localStorage.getItem("user_list"))
+                    var user_me = localStorage.getItem("myFullName")
+                    // var user_id = res.user_id
                     for(var i = 0;i<data.events.length;i++){
                         type = data.events[0].type
                         data_message = data.events[0].message
@@ -407,7 +407,8 @@ var server_events = (function () {
                             }
                         }
                     }
-                }})
+            //     }
+            // })
                 exports.suspect_offline = false;
                 try {
                     get_events_xhr = undefined;

@@ -27,6 +27,8 @@ var contact = (function(){
                 type:"GET",
                 success:function(res){
                     initStyle()
+                    localStorage.setItem("myFullName",res.user_me)
+                    localStorage.setItem("user_list",JSON.stringify(res.user_list))
                     $(".notice_ctn_box").children().remove();
                     var user_list = res.user_list;
                     var user_list_our = templates.render("user_list_our",{user_list:user_list})
@@ -35,6 +37,8 @@ var contact = (function(){
                     //点击联系人弹出右边页面
                     $(".notice_ctn_box").on("click",".user_list_box",function(){
                         $(this).addClass("backgr").siblings().removeClass("backgr")
+                        $(".group_icon").removeClass("backgr")
+                        $(".organization_team").removeClass("backgr")
                         $("#zfilt").children().remove();
                         $(".move_ctn").children().remove();
                         $(".move_ctn").show()
@@ -151,7 +155,7 @@ var contact = (function(){
             $(".notice_ctn_box").append(templates.render("add_new_task"))
             $(".notice_ctn_box").append("<div class='management_titleB'>\
             <div class='morn_managementtext'>已完成任务</div>\
-            <i class='iconfont icon-xialaxuanze right_san'></i></div>")
+            <i class='iconfont icon-shouqi right_san'></i></div>")
             $(".notice_ctn_box").append("<ul class='completed_box'></ul>")
             $(".notice_ctn_box").append("<div class='management_block'></div>")
             //新增任务
@@ -228,6 +232,7 @@ var contact = (function(){
             $(".notice_ctn_box").append(collection_tip_box)
             $(".collection_tip").on("click",function(){
                 $('.move_ctn').children().remove()
+                $("#zfilt").hide()
                 $.ajax({
                     type:"GET",
                     url:"json/zg/collection/list",
@@ -737,7 +742,8 @@ var contact = (function(){
                                         $(".new_group_name").attr("department_id",$(".branch_name").attr("department_id"))
                                     })
                                     //删除部门
-                                    $(".organization_chart_box").on("click",".branch_delete_group",function(){
+                                    $(".organization_chart_box").off("click",".branch_delete_group").on("click",".branch_delete_group",function(){
+                                        console.log("123")
                                         if($(".new_group_box li").length>1){
                                             $(".new_group_ctn").append(templates.render("delete_member_tip"))
                                             $(".branch_ctn").hide()
@@ -755,7 +761,7 @@ var contact = (function(){
                                                     $(".organization_chart_group_delete_box").hide();
                                                 })
                                                 //确认删除
-                                                $("organization_chart_group_delete_ensure").on("click",function(){
+                                                $(".organization_chart_group_delete_ensure").on("click",function(){
                                                     var department_id = $(".branch_name").attr("department_id")
                                                     var obj = {
                                                         department_id:department_id
@@ -815,6 +821,12 @@ var contact = (function(){
                                                     if(res.errno == 0){
                                                         server_events.operating_hints("批量删除成功!")
                                                         updataList()
+                                                    }
+                                                    if(res.errno == 3){
+                                                        $(".new_group_ctn").append(templates.render("delete_member_tip"))
+                                                        $(".delete_member_tip").html(res.message)
+                                                        $(".branch_ctn").hide()
+                                                        $(".delete_member_tip").fadeOut(4000)
                                                     }
                                                 }
                                             })
