@@ -35,6 +35,7 @@ from zerver.lib.validator import check_int, check_float, \
     check_short_string, check_long_string
 from zerver.lib.name_restrictions import is_disposable_domain
 from zerver.lib.types import Validator
+# from zerver.lib.actions import do_create_user
 
 from django.utils.encoding import force_text
 
@@ -1646,18 +1647,31 @@ def get_user_including_cross_realm(email: Text, realm: Optional[Realm] = None) -
     return get_user(email, realm)
 
 
+from zerver.lib.create_user import create_user
+
+
+# from zerver.lib import actions
 @cache_with_key(bot_profile_cache_key, timeout=3600 * 24 * 7)
 def get_system_bot(email: Text) -> UserProfile:
     print(email)
     print('--------' * 10, '测试错误[', '--------' * 10)
+    # try:
+    #     UserProfile.objects.select_related().get(email__iexact=email.strip())
+    # except Exception as e:
+    #     print('出现错误：%s' % e)
+
+    # print('--------' * 10, '测试错误]', '--------' * 10)
+    # return UserProfile.objects.select_related().get(email__iexact=email.strip())
     try:
-        UserProfile.objects.select_related().get(email__iexact=email.strip())
-    except Exception as e:
-        print('出现错误：%s' % e)
-        a = UserProfile.objects.filter(email=email)
-        return a[0]
-    print('--------' * 10, '测试错误]', '--------' * 10)
-    return UserProfile.objects.select_related().get(email__iexact=email.strip())
+        user_obj = UserProfile.objects.get(id=1)
+    except Exception:
+        realm = Realm.objects.filter(id=1)
+        user_obj = create_user(email='bot@zg18.com', password='123321',
+                               realm=realm[0], full_name='机器人', short_name='机器人',
+                               is_realm_admin=False, bot_type=4, bot_owner=None,
+                               tos_version='Asia/Shanghai'
+                               )
+    return user_obj
 
 
 @cache_with_key(realm_user_dicts_cache_key, timeout=3600 * 24 * 7)

@@ -86,34 +86,44 @@ def accounts_register(request: HttpRequest) -> HttpResponse:
     try:
         validators.validate_email(email)
     except ValidationError:
+        print('---' * 20, '组织注册1')
         return render(request, "zerver/invalid_email.html", context={"invalid_email": True})
 
     if realm_creation:
         # For creating a new realm, there is no existing realm or domain
         realm = None
+        print('---' * 20, '组织注册2')
     else:
         realm = get_realm(get_subdomain(request))
+        print('---' * 20, '组织注册3')
+
         if realm is None or realm != prereg_user.realm:
+            print('---' * 20, '组织注册4')
             return render_confirmation_key_error(
                 request, ConfirmationKeyException(ConfirmationKeyException.DOES_NOT_EXIST))
-
+        print('---' * 20, '组织注册5')
         try:
             email_allowed_for_realm(email, realm)
         except DomainNotAllowedForRealmError:
+            print('---' * 20, '组织注册6')
             return render(request, "zerver/invalid_email.html",
                           context={"realm_name": realm.name, "closed_domain": True})
         except DisposableEmailError:
+            print('---' * 20, '组织注册7')
             return render(request, "zerver/invalid_email.html",
                           context={"realm_name": realm.name, "disposable_emails_not_allowed": True})
 
         if realm.deactivated:
             # The user is trying to register for a deactivated realm. Advise them to
             # contact support.
+            print('---' * 20, '组织注册8')
             return redirect_to_deactivation_notice()
 
         try:
+            print('---' * 20, '组织注册9')
             validate_email_for_realm(realm, email)
         except ValidationError:  # nocoverage # We need to add a test for this.
+            print('---' * 20, '组织注册10')
             return HttpResponseRedirect(reverse('django.contrib.auth.views.login') + '?email=' +
                                         urllib.parse.quote_plus(email))
 
@@ -121,11 +131,14 @@ def accounts_register(request: HttpRequest) -> HttpResponse:
     full_name = None
 
     if request.POST.get('from_confirmation'):
+        print('---' * 20, '组织注册11')
         try:
             del request.session['authenticated_full_name']
         except KeyError:
+            print('---' * 20, '组织注册12')
             pass
         if realm is not None and realm.is_zephyr_mirror_realm:
+            print('---' * 20, '组织注册13')
             # For MIT users, we can get an authoritative name from Hesiod.
             # Technically we should check that this is actually an MIT
             # realm, but we can cross that bridge if we ever get a non-MIT
@@ -137,6 +150,7 @@ def accounts_register(request: HttpRequest) -> HttpResponse:
                 realm_creation=realm_creation)
             name_validated = True
         elif settings.POPULATE_PROFILE_VIA_LDAP:
+            print('---' * 20, '组织注册14')
             for backend in get_backends():
                 if isinstance(backend, LDAPBackend):
                     ldap_attrs = _LDAPUser(
@@ -160,15 +174,19 @@ def accounts_register(request: HttpRequest) -> HttpResponse:
                         # Let the user fill out a name and/or try another backend
                         form = RegistrationForm(realm_creation=realm_creation)
         elif 'full_name' in request.POST:
+            print('---' * 20, '组织注册15')
             form = RegistrationForm(
                 initial={'full_name': request.POST.get('full_name')},
                 realm_creation=realm_creation
             )
         else:
+            print('---' * 20, '组织注册16')
             form = RegistrationForm(realm_creation=realm_creation)
     else:
+        print('---' * 20, '组织注册17')
         postdata = request.POST.copy()
         if name_changes_disabled(realm):
+            print('---' * 20, '组织注册18')
             # If we populate profile information via LDAP and we have a
             # verified name from you on file, use that. Otherwise, fall
             # back to the full name in the request.
@@ -180,16 +198,21 @@ def accounts_register(request: HttpRequest) -> HttpResponse:
                 pass
         form = RegistrationForm(postdata, realm_creation=realm_creation)
         if not (password_auth_enabled(realm) and password_required):
+            print('---' * 20, '组织注册19')
             form['password'].field.required = False
 
     if form.is_valid():
+        print('---' * 20, '组织注册20')
         if password_auth_enabled(realm):
+            print('---' * 21, '组织注册21')
             password = form.cleaned_data['password']
         else:
             # SSO users don't need no passwords
+            print('---' * 20, '组织注册22')
             password = None
 
         if realm_creation:
+            print('---' * 20, '组织注册23')
             string_id = form.cleaned_data['realm_subdomain']
             realm_name = form.cleaned_data['realm_name']
             realm = do_create_realm(string_id, realm_name)
@@ -204,17 +227,23 @@ def accounts_register(request: HttpRequest) -> HttpResponse:
         default_stream_groups = lookup_default_stream_groups(
             default_stream_group_names, realm)
 
+        if default_stream_groups:
+            print('---' * 20, '组织注册24',default_stream_groups)
+
         timezone = ""
         if 'timezone' in request.POST and request.POST['timezone'] in get_all_timezones():
+            print('---' * 20, '组织注册24')
             timezone = request.POST['timezone']
 
         if not realm_creation:
+            print('---' * 20, '组织注册25')
             try:
                 existing_user_profile = get_user(
                     email, realm)  # type: Optional[UserProfile]
             except UserProfile.DoesNotExist:
                 existing_user_profile = None
         else:
+            print('---' * 20, '组织注册26')
             existing_user_profile = None
 
         return_data = {}  # type: Dict[str, bool]
@@ -231,12 +260,14 @@ def accounts_register(request: HttpRequest) -> HttpResponse:
             # But if the realm is using LDAPAuthBackend, we need to verify
             # their LDAP password (which will, as a side effect, create
             # the user account) here using authenticate.
+            print('---' * 20, '组织注册27')
             auth_result = authenticate(request,
                                        username=email,
                                        password=password,
                                        realm=realm,
                                        return_data=return_data)
             if auth_result is None:
+                print('---' * 20, '组织注册28')
                 # TODO: This probably isn't going to give a
                 # user-friendly error message, but it doesn't
                 # particularly matter, because the registration form
@@ -247,6 +278,7 @@ def accounts_register(request: HttpRequest) -> HttpResponse:
             # Since we'll have created a user, we now just log them in.
             return login_and_go_to_home(request, auth_result)
         elif existing_user_profile is not None and existing_user_profile.is_mirror_dummy:
+            print('---' * 20, '组织注册29')
             user_profile = existing_user_profile
             do_activate_user(user_profile)
             do_change_password(user_profile, password)
@@ -255,6 +287,7 @@ def accounts_register(request: HttpRequest) -> HttpResponse:
             # TODO: When we clean up the `do_activate_user` code path,
             # make it respect invited_as_admin / is_realm_admin.
         else:
+            print('---' * 20, '组织注册30')
             user_profile = do_create_user(email, password, realm, full_name, short_name,
                                           prereg_user=prereg_user, is_realm_admin=is_realm_admin,
                                           tos_version=settings.TOS_VERSION,
@@ -264,6 +297,7 @@ def accounts_register(request: HttpRequest) -> HttpResponse:
                                           default_stream_groups=default_stream_groups)
 
         if realm_creation:
+            print('---' * 20, '组织注册31')
             bulk_add_subscriptions(
                 [realm.signup_notifications_stream], [user_profile])
             send_initial_realm_messages(realm)
@@ -280,12 +314,14 @@ def accounts_register(request: HttpRequest) -> HttpResponse:
                                    return_data=return_data,
                                    use_dummy_backend=True)
         if return_data.get('invalid_subdomain'):
+            print('---' * 20, '组织注册32')
             # By construction, this should never happen.
             logging.error("Subdomain mismatch in registration %s: %s" % (
                 realm.subdomain, user_profile.email,))
             return redirect('/')
+        print('---' * 20, '组织注册33')
         return login_and_go_to_home(request, auth_result)
-
+    print('---' * 20, '组织注册34')
     return render(
         request,
         'zerver/register.html',
@@ -327,18 +363,15 @@ def prepare_activation_url(email: str, request: HttpRequest,
     prereg_user = create_preregistration_user(email, request, realm_creation)
 
     if streams is not None:
-        print('--' * 20, '组织5')
         prereg_user.streams.set(streams)
 
     confirmation_type = Confirmation.USER_REGISTRATION
     if realm_creation:
-        print('--' * 20, '组织6')
         confirmation_type = Confirmation.REALM_CREATION
 
     activation_url = create_confirmation_link(
         prereg_user, request.get_host(), confirmation_type)
     if settings.DEVELOPMENT and realm_creation:
-        print('--' * 20, '组织7')
         request.session['confirmation_key'] = {
             'confirmation_key': activation_url.split('/')[-1]}
     return activation_url
@@ -359,14 +392,11 @@ def redirect_to_email_login_url(email: str) -> HttpResponseRedirect:
 def create_realm(request: HttpRequest, creation_key: Optional[Text] = None) -> HttpResponse:
     try:
         key_record = validate_key(creation_key)
-
     except RealmCreationKey.Invalid:
-        print('--' * 20, '组织1')
         return render(request, "zerver/realm_creation_failed.html",
                       context={'message': _('创建团队的链接过期或无效.')})
 
     if not settings.OPEN_REALM_CREATION:
-        print('--' * 20, '组织2')
         if key_record is None:
             return render(request, "zerver/realm_creation_failed.html",
                           context={'message': _('已禁止创建新团队.')})
@@ -374,15 +404,12 @@ def create_realm(request: HttpRequest, creation_key: Optional[Text] = None) -> H
     # When settings.OPEN_REALM_CREATION is enabled, anyone can create a new realm,
     # subject to a few restrictions on their email address.
     if request.method == 'POST':
-        print('--' * 20, '组织3')
         form = RealmCreationForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data['email']
-            print('--' * 20, '组织4')
             activation_url = prepare_activation_url(
                 email, request, realm_creation=True)
             if key_record is not None and key_record.presume_email_valid:
-                print('--' * 20, '组织10')
                 # The user has a token created from the server command line;
                 # skip confirming the email is theirs, taking their word for it.
                 # This is essential on first install if the admin hasn't stopped
@@ -391,20 +418,16 @@ def create_realm(request: HttpRequest, creation_key: Optional[Text] = None) -> H
                 return HttpResponseRedirect(activation_url)
 
             try:
-                print('--' * 20, '组织11')
                 send_confirm_registration_email(email, activation_url)
             except smtplib.SMTPException as e:
-                print('--' * 20, '组织12')
                 logging.error('Error in create_realm: %s' % (str(e),))
                 return HttpResponseRedirect("/config-error/smtp")
 
             if key_record is not None:
-                print('--' * 20, '组织13')
                 key_record.delete()
             return HttpResponseRedirect(reverse('send_confirm', kwargs={'email': email}))
     else:
         form = RealmCreationForm()
-    print('--' * 20, '组织14')
     return render(request,
                   'zerver/create_realm.html',
                   context={'form': form, 'current_url': request.get_full_path},
@@ -414,6 +437,7 @@ def create_realm(request: HttpRequest, creation_key: Optional[Text] = None) -> H
 # This is used only by the casper test in 00-realm-creation.js.
 def confirmation_key(request: HttpRequest) -> HttpResponse:
     return json_success(request.session.get('confirmation_key'))
+
 
 # @csrf_exempt
 def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite] = None) -> HttpResponse:
@@ -425,14 +449,12 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
 
     from_multiuse_invite = False
     streams_to_subscribe = None
-    print('--'*20,'注册1')
     if multiuse_object:
         realm = multiuse_object.realm
         streams_to_subscribe = multiuse_object.streams.all()
         from_multiuse_invite = True
 
     if request.method == 'POST':
-        print('--' * 20, '注册2')
         phone = request.POST.get('phone')
         password = request.POST.get('password')
         smscode = request.POST.get('smscode')
@@ -454,10 +476,8 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
         login_status = True
         try:
             send_confirm_registration_email(email, activation_url)
-            print('--' * 20, '注册3')
         except smtplib.SMTPException as e:
             logging.error('Error in accounts_home: %s' % (str(e),))
-            print('--' * 20, '注册4')
             return HttpResponseRedirect("/config-error/smtp")
 
         # zg--------------
@@ -465,18 +485,15 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
         confirmation = Confirmation.objects.filter(
             confirmation_key=key).first()
         get_object_from_key(key, confirmation.type)
-        print('--' * 20, '注册5')
 
         request.full_name = email
         request.password = password
-        print('--' * 20, '注册6')
         confirmation = Confirmation.objects.get(confirmation_key=key)
         prereg_user = confirmation.content_object
         email = prereg_user.email
         realm_creation = prereg_user.realm_creation
         password_required = prereg_user.password_required
         is_realm_admin = prereg_user.invited_as_admin or realm_creation
-        print('--' * 20, '注册7')
         try:
             validators.validate_email(email)
         except ValidationError:
@@ -516,13 +533,12 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
                                             urllib.parse.quote_plus(email))
 
         name_validated = False
+        full_name = None
 
         if request.POST.get('from_confirmation'):
-            print('--' * 20, '注册12')
             try:
                 del request.session['authenticated_full_name']
             except KeyError:
-                print('--' * 20, '注册13')
                 pass
             if realm is not None and realm.is_zephyr_mirror_realm:
                 # For MIT users, we can get an authoritative name from Hesiod.
@@ -570,14 +586,12 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
             else:
                 form = RegistrationForm(realm_creation=realm_creation)
         else:
-            print('--' * 20, '注册17')
             postdata = request.POST.copy()
             if name_changes_disabled(realm):
                 # If we populate profile information via LDAP and we have a
                 # verified name from you on file, use that. Otherwise, fall
                 # back to the full name in the request.
                 try:
-                    print('--' * 20, '注册18')
                     postdata.update(
                         {'full_name': request.session['authenticated_full_name']})
                     name_validated = True
@@ -591,15 +605,12 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
         if login_status == True:
 
             if realm_creation:
-                print('--' * 20, '注册19')
                 string_id = form.cleaned_data['realm_subdomain']
                 realm_name = form.cleaned_data['realm_name']
                 realm = do_create_realm(string_id, realm_name)
                 setup_initial_streams(realm)
                 setup_realm_internal_bots(realm)
             assert (realm is not None)
-            print('--' * 20, '注册20')
-
 
             full_name = request.POST.get('fullname')
 
@@ -614,7 +625,6 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
                 timezone = request.POST['timezone']
 
             if not realm_creation:
-                print('--' * 20, '注册21')
                 try:
                     existing_user_profile = get_user(
                         email, realm)  # type: Optional[UserProfile]
@@ -622,7 +632,6 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
                     existing_user_profile = None
             else:
                 existing_user_profile = None
-                print('--' * 20, '注册22')
 
             return_data = {}  # type: Dict[str, bool]
             if ldap_auth_enabled(realm):
@@ -643,7 +652,6 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
                                            password=password,
                                            realm=realm,
                                            return_data=return_data)
-                print('--' * 20, '注册23')
                 if auth_result is None:
                     # TODO: This probably isn't going to give a
                     # user-friendly error message, but it doesn't
@@ -664,7 +672,17 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
                 # TODO: When we clean up the `do_activate_user` code path,
                 # make it respect invited_as_admin / is_realm_admin.
             else:
-                print('--' * 20, '注册24')
+                print(email)
+                print(password)
+                print(realm)
+                print(full_name)
+                print(short_name)
+                print(prereg_user)
+                print(is_realm_admin)
+                print(settings.TOS_VERSION)
+                print(timezone)
+                print({"IP": request.META['REMOTE_ADDR']})
+                print(default_stream_groups)
                 user_profile = do_create_user(email, password, realm, full_name, short_name,
                                               prereg_user=prereg_user, is_realm_admin=is_realm_admin,
                                               tos_version=settings.TOS_VERSION,
@@ -674,7 +692,6 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
                                               default_stream_groups=default_stream_groups)
 
             if realm_creation:
-                print('--' * 20, '注册25')
                 bulk_add_subscriptions(
                     [realm.signup_notifications_stream], [user_profile])
                 send_initial_realm_messages(realm)
@@ -691,14 +708,12 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
                                        return_data=return_data,
                                        use_dummy_backend=True)
             if return_data.get('invalid_subdomain'):
-                print('--' * 20, '注册21')
                 # By construction, this should never happen.
                 logging.error("Subdomain mismatch in registration %s: %s" % (
                     realm.subdomain, user_profile.email,))
                 return redirect('/')
 
             return login_and_go_to_home(request, auth_result)
-        print('--' * 22, '注册11')
 
         return render(
             request,
@@ -725,9 +740,7 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
 
 
     else:
-        print('--' * 20, '注册23')
         form = HomepageForm(realm=realm)
-    print('--' * 20, '注册24')
     return render(request,
                   'zerver/accounts_home.html',
                   context={'form': form, 'current_url': request.get_full_path,
@@ -838,6 +851,7 @@ def app_accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseIn
                                             urllib.parse.quote_plus(email))
 
         name_validated = False
+        full_name = None
 
         if request.POST.get('from_confirmation'):
             try:
@@ -1056,7 +1070,7 @@ def app_accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseIn
 #         streams_to_subscribe = multiuse_object.streams.all()
 #         from_multiuse_invite = True
 
-    # if request.method == 'POST':
+# if request.method == 'POST':
 #         form = HomepageForm(request.POST, realm=realm, from_multiuse_invite=from_multiuse_invite)
 #         if form.is_valid():
 #             email = form.cleaned_data['email']
