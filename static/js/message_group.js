@@ -638,7 +638,7 @@ var message_group = (function () {
                         channel.del({
                             url: '/json/streams/' + stream_id,
                             error: function (xhr) {
-                                ui_report.error(i18n.t("Failed"), xhr, alert_element);
+                                ui_report.error(i18n.t("Failed"), xhr, $('#organization-status'));
                             },
                             success: function (data) {
                                 if(data.result==="success"){
@@ -650,6 +650,7 @@ var message_group = (function () {
                                         }
                                     }
                                     localStorage.setItem("arr",JSON.stringify(arr))
+
                                     $(window).attr("location","#narrow/is/starred")
                                 }
                             },
