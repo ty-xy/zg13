@@ -71,8 +71,10 @@ def create_confirmation_link(obj: ContentType, host: str,
                              confirmation_type: int,
                              url_args: Optional[Dict[str, str]]=None) -> str:
     key = generate_key()
+    print('--' * 20, '组织8')
     Confirmation.objects.create(content_object=obj, date_sent=timezone_now(), confirmation_key=key,
                                 realm=obj.realm, type=confirmation_type)
+    print('--' * 20, '组织9')
     return confirmation_url(key, host, confirmation_type, url_args)
 
 def confirmation_url(confirmation_key: str, host: str,

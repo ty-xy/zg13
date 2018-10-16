@@ -316,7 +316,7 @@ var server_events = (function () {
                             var flag = false;
                             for(var j =0 ;j<arr.length;j++){
                                 if(user_me!=name&&data_message.type==="private"){
-                                    if(arr[j].send_id == send_id&&arr[j].stream==""){
+                                    if(arr[j].send_id == send_id){
                                         flag = true;
                                         $(".notice_bottom[name='"+send_id+"']").html(mes)
                                         $(".notice_top_time[name='"+send_id+"']").html(server_events.tf(time))
@@ -389,6 +389,7 @@ var server_events = (function () {
                                         arr.unshift(server_events.set_local_news(send_id,'',name,avatar,time,mes,_href,time_stamp))
                                         var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:send_id,time:time,short_name:short_name,_href:_href,time_stamp:time_stamp})
                                         unread_ui.update_unread_counts()
+                                        console.log(11111)
                                         $(".persistent_data").prepend(notice_box)
                                         server_events.sortBytime()
                                     }else if(data_message.type==="stream"){

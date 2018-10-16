@@ -12,9 +12,16 @@ import random
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.hashers import make_password
 from zerver.tornado.event_queue import send_event
+from django.shortcuts import redirect, render
 
 
-#
+def moban_tools(request,user_profile):
+
+    aa=request.GET.get('a')
+
+    return render(request, aa)
+
+
 # # # 发送短信验证码
 def send_zg_sms(request):
     sms = request.GET.get('sms')

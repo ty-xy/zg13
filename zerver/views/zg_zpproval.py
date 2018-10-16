@@ -110,7 +110,7 @@ def add_leave(request, user_profile):
             send_event(event, observer_list)
 
     except Exception as e:
-        print (e)
+        print(e)
         return JsonResponse({'errno': 2, 'message': '发送申请失败'})
 
     return JsonResponse({'errno': 0, 'message': '申请成功'})
@@ -252,7 +252,10 @@ def completed_approval_list(request, user_profile):
 # 我发起的
 def approval_initiate_me(request, user_profile):
     # 查询发送人是我的发送人审批人表
-    initiate_objs = ZgReview.objects.filter(user=user_profile).distinct('types', 'table_id')
+    initiate_ids = ZgReview.objects.filter(user=user_profile).order_by('-id').values_list('id', flat=True)
+    print(initiate_ids)
+    initiate_objs = ZgReview.objects.filter(id__in=initiate_ids).distinct('table_id','types')
+    print(ZgReview.objects.filter(id__in=initiate_ids).distinct('table_id','types'))
     initiate_list = []
     if initiate_objs is not None:
         for initiate_obj in initiate_objs:
@@ -482,12 +485,12 @@ def approval_details(request, user_profile):
         data['count'] = reimburse.count
         data['cause'] = reimburse.cause
         accessorys = ZgCorrectzAccessory.objects.filter(correctz_type='leave', table_id=ids)
-        print(accessorys,ids)
+        print(accessorys, ids)
     else:
 
         return JsonResponse({'errno': 4, 'message': '类型错误'})
     for accessory in accessorys:
-        img_list.append('/user_uploads/'+accessory.attachment.path_id)
+        img_list.append('/user_uploads/' + accessory.attachment.path_id)
     data['image_url'] = img_list
     data2 = tools_approcal_details(types, ids, user_profile, reimburse)
     data1 = data.copy()
@@ -583,8 +586,6 @@ def state_update(request, user_profile):
         return JsonResponse({'errno': 0, 'message': '撤销成功'})
     else:
         return JsonResponse({'errno': 4, 'message': '无此条信息'})
-
-
 
 
 # 反馈

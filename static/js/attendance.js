@@ -2,47 +2,7 @@ var attendance = (function () {
     var exports = {};
   
     $("body").ready(function () {
-        function confirm(){
-            //点击确定
-            $(".choose-right-list").on('click','.button-confirm',function(e){
-                var arrlist =[]
-                var peopleList = []
-                $('#create_log_de .generate_log_member_box').children().not($(".add_log_people")).each(function(){
-                    var index = Number($(this).attr('data_id'))
-                    peopleList.push(index)
-                })
-                var idlist = []
-                var namelist =[]
-                $(".box-right-list").children().each(function () { 
-                    var id = Number($(this).attr("key-data"));
-                 //    var avatar = $(this).attr("avatarurl")
-                    var name = $(this).children().find('.name-list').text()
-                    var peppleList = {
-                        id:id,
-                     //    avatar:avatar,
-                        name:name,
-                     //    namel:name.slice(0,4)+"...."
-                    }
-                    if(peopleList.indexOf(peppleList.id)===-1){
-                        arrlist.push(peppleList)
-                        idlist.push(peppleList.id)
-                        namelist.push(peppleList.name)
-                    }
-                })
-                namelist=namelist.join(",")
-                $(".button-common-people").html(namelist)
-                $(".button-common-people").attr("data_id",idlist)
-             //    var li = $(templates.render('send_people',{
-             //       peoplelist:arrlist
-             //   }));
-               
-               $('.box-right-list').remove()
-               $(".modal-log").hide()
-               //清除里面所有的元素，模态框消失。
-               $(".modal-log-content").empty()
-        
-            })
-        }
+     
         function xy(content){
                 var idlist = []
                 var namelist =[]
@@ -328,7 +288,8 @@ var attendance = (function () {
                         if(res.super_user==true){
                             if(res.errno == 11){
                                 var html = templates.render("attendance_box");
-                                $(".move_ctn").append(html);   
+                                $(".move_ctn").append(html);
+                                $(".attendance_ctn").height($(window).height()-120)
                                 $(".attendance_statistics").remove();
                                 $(".attendance_mangement").addClass("high_light").removeClass("attendance_mangement");
                                     $(".attendance_ctn").empty();
@@ -356,7 +317,93 @@ var attendance = (function () {
                                     $(".attendance_close").on("click",function(){
                                         $(".attendance_md").hide();
                                     })
+                                    // 修改
+                                    $(".attendance_ctn").on("click",".button-fix",function(){
+                                        var index =$(this).attr("data_id")
+                                        // console.log(index)
+                                        $("#button-time").datetimepicker({
+                                            language:"zh-CN",  
+                                            weekStart: 1,
+                                            todayBtn:  0,
+                                            autoclose: 1,
+                                            todayHighlight: 1,
+                                            startView: 1,
+                                            minView: 0,
+                                            showHours : true,
+                                            // minuteStep:1,
+                                            maxView: 1,
+                                            forceParse: 0,
+                                            format:'hh:ii:00',
+                                            })
+                                        var datalist =[]
+                                        $.ajax({
+                                            type:"GET",
+                                            url:"json/zg/attendances",
+                                            contentType:"application/json",
+                                            data:{attendances_id:index},
+                                            success:function(data){
+                                                datalist[0]=data
+                                                console.log(data)
+                                                var html = $(templates.render('attendance_update',{
+                                                      datalist:datalist
+                                                    }));
+                                                     $(".attendance_ctn").html(html)
+                                                     var idIndex = []
+                                                      data.member_list.forEach(function(val){
+                                                           idIndex.push(val.id)
+                                                      })
+                                                      var datalists= data.member_list.reduce(function(prev, cur)
+                                                      {  
+                                                         cur.fullname=cur.name;
+                                                         cur.did = "1",
+                                                         cur.avatarurl="12"
+                                                         prev[cur.id] = cur; 
+                                                         return prev;
+                                                      }, {});
+                                                      $(".button-common-people").attr("data_obj",JSON.stringify(datalists))
+                                                    //   $(".attendance_ctn .button-time").val("09:00")
+                                                      $(".attendance_ctn .button-time").datetimepicker({
+                                                        language:"zh-CN",  
+                                                        weekStart: 1,
+                                                        todayBtn:  0,
+                                                        autoclose: 1,
+                                                        todayHighlight: 1,
+                                                        startView: 1,
+                                                        minView: 0,
+                                                        showHours : true,
+                                                        // minuteStep:1,
+                                                        maxView: 1,
+                                                        forceParse: 0,
+                                                        format:'hh:ii:00',
+                                                        })
+                                                     $(".button-job").val(data.jobs_time)
+                                                     $(".button-rest").val(data.rest_time)
+                                                     $(".kaoqin-era").attr("location",data.longitude+","+data.latitude)
+                                                     $(".button-common-people").attr("data_id",idIndex)
+                                                     commonf()
+                                                      //接入地点
+                                                     update(index)
+                                            }
+                                        })
+                                   })
+                                   // 删除
+                                   $(".attendance_ctn").on("click",".button-delete",function(){
+                                    var attendances_id= $(this).attr("data_id")
+                                    var that = $(this)
+                                       channel.del({
+                                             url:"json/zg/attendances/del/",
+                                             data:JSON.stringify({attendances_id:attendances_id}),
+                                             success:function(data){
+                                                if(data.errno == 0){
+                                                    alert(data.message,'rgba(0,107,169,0.30)')
+                                                    that.parent().parent().remove()
+                                                }
+                                             }
+                                       })
+                                   })
+                                    // 新真
                                     $(".attendance_ctn").on('click',".new_attendance",function(){
+                                        console.log(111113)
                                         // var lis  =  $(".attendance_ctn").children()
                                         $(".attendance_ctn").empty()
                                         var html = templates.render("attendance_team");
@@ -565,6 +612,7 @@ var attendance = (function () {
                                        })
                                        $(".attendance_ctn").on("click",".button-fix",function(){
                                             var index =$(this).attr("data_id")
+                                            // console.log(index)
                                             $("#button-time").datetimepicker({
                                                 language:"zh-CN",  
                                                 weekStart: 1,
@@ -699,6 +747,7 @@ var attendance = (function () {
                                  //-------------切换回考勤统计-----------------
                             })
                             $(".attendance_ctn").on('click',".new_attendance",function(){
+                                console.log(111113)
                                 // var lis  =  $(".attendance_ctn").children()
                                 $(".attendance_ctn").empty()
                                 var html = templates.render("attendance_team");
@@ -911,7 +960,7 @@ var attendance = (function () {
                                            $(".attendance_ctn").html(html)
                                            $(".attendance_ctn").on('click',".back_attendance",function(){
                                             $(".attendance_ctn").empty()
-                                               $(".attendance_ctn").html(html)
+                                            $(".attendance_ctn").html(html)
                                           })
                                         }
                                     })
@@ -935,10 +984,24 @@ var attendance = (function () {
                         contentType:"application/json",
                         success:function(data){
                             // console.log(data)
-                            if(data.errno==0){
+                            if(data.errno==3){
                                 $(".button-submit-update").css("background-color","#14A4FA")
                                 $(".button-submit-update").attr("disabled", false);
-                                $(".attendance_md").hide();
+                                // $(".attendance_md").hide();
+                                channel.get({
+                                    url:"json/zg/attendances/management",
+                                    success:function(data){
+                                       var data_list = data.attendances_list
+                                       var html = $(templates.render('attendance_management',{
+                                        data_list:data_list
+                                        }));
+                                       $(".attendance_ctn").html(html)
+                                       $(".attendance_ctn").on('click',".back_attendance",function(){
+                                        $(".attendance_ctn").empty()
+                                        $(".attendance_ctn").html(html)
+                                      })
+                                    }
+                                })
                             }
                         }
                     })
