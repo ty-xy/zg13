@@ -708,6 +708,9 @@ var contact = (function(){
                                                             }
                                                         })
                                                     }
+                                                    if(res.errno == 2){
+                                                        server_events.operating_hints("该部门已存在!")
+                                                    }
                                                 }
                                             })
                                         })

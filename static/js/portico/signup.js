@@ -248,8 +248,7 @@ $(function () {
             }  
         })
     })
-
-// $(document).ready(function() {
+    // $(document).ready(function() {
 //     // alert("-___--___")
 //     console.log($("#reset_password"))
 //     $("#reset_password").ajaxForm(function(data){
