@@ -15,13 +15,6 @@ from zerver.tornado.event_queue import send_event
 from django.shortcuts import redirect, render
 
 
-def moban_tools(request,user_profile):
-
-    aa=request.GET.get('a')
-
-    return render(request, aa)
-
-
 # # # 发送短信验证码
 def send_zg_sms(request):
     sms = request.GET.get('sms')
@@ -136,7 +129,7 @@ def zg_collection(request, user_profile):
 
 # 收藏列表
 def zg_collection_list(request, user_profile):
-    collection_objs = ZgCollection.objects.filter(user=user_profile).order_by('-id')
+    collection_objs = ZgCollection.objects.filter(user=user_profile).order_by()
     collection_list = list()
     for collection_obj in collection_objs:
         collection_dict = {}

@@ -638,6 +638,7 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
                 # TODO: When we clean up the `do_activate_user` code path,
                 # make it respect invited_as_admin / is_realm_admin.
             else:
+                print('.==='*30,'注册1')
                 user_profile = do_create_user(email, password, realm, full_name, short_name,
                                               prereg_user=prereg_user, is_realm_admin=is_realm_admin,
                                               tos_version=settings.TOS_VERSION,
@@ -647,9 +648,9 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
                                               default_stream_groups=default_stream_groups)
 
             if realm_creation:
-                print('.-'*30,'注册后1')
                 bulk_add_subscriptions(
                     [realm.signup_notifications_stream], [user_profile])
+                print('注册后1')
                 # send_initial_realm_messages(realm)
 
                 # Because for realm creation, registration happens on the
@@ -659,19 +660,21 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
 
             # This dummy_backend check below confirms the user is
             # authenticating to the correct subdomain.
-            print('.-' * 30, '注册后2')
             auth_result = authenticate(username=user_profile.email,
                                        realm=realm,
                                        return_data=return_data,
                                        use_dummy_backend=True)
             if return_data.get('invalid_subdomain'):
-                print('.-' * 30, '注册后3')
+                print('注册后2')
+
                 # By construction, this should never happen.
                 logging.error("Subdomain mismatch in registration %s: %s" % (
                     realm.subdomain, user_profile.email,))
                 return redirect('/')
-            print('.-' * 30, '注册后4')
+            print('注册后3')
+
             return login_and_go_to_home(request, auth_result)
+
         return render(
             request,
             'zerver/register.html',
@@ -694,6 +697,7 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
                      'MAX_REALM_SUBDOMAIN_LENGTH': str(Realm.MAX_REALM_SUBDOMAIN_LENGTH)
                      }
         )
+
 
     else:
         form = HomepageForm(realm=realm)
@@ -767,8 +771,8 @@ def app_accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseIn
 
         confirmation = Confirmation.objects.get(confirmation_key=key)
         prereg_user = confirmation.content_object
-        email = prereg_user.emailq
-        realm_creatio = prereg_user.realm_creation
+        email = prereg_user.email
+        realm_creation = prereg_user.realm_creation
         password_required = prereg_user.password_required
         is_realm_admin = prereg_user.invited_as_admin or realm_creation
 

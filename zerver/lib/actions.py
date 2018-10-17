@@ -461,6 +461,7 @@ def notify_created_user(user_profile: UserProfile) -> None:
                              avatar_url=avatar_url(user_profile),
                              timezone=user_profile.timezone,
                              is_bot=user_profile.is_bot))
+
     send_event(event, active_user_ids(user_profile.realm_id))
 
 
@@ -518,6 +519,7 @@ def do_create_user(email: Text, password: Optional[Text], realm: Realm, full_nam
                    prereg_user: Optional[PreregistrationUser] = None,
                    newsletter_data: Optional[Dict[str, str]] = None,
                    default_stream_groups: List[DefaultStreamGroup] = []) -> UserProfile:
+    print('.===' * 30, '注册2')
     user_profile = create_user(email=email, password=password, realm=realm,
                                full_name=full_name, short_name=short_name,
                                is_realm_admin=is_realm_admin,
@@ -526,20 +528,25 @@ def do_create_user(email: Text, password: Optional[Text], realm: Realm, full_nam
                                default_sending_stream=default_sending_stream,
                                default_events_register_stream=default_events_register_stream,
                                default_all_public_streams=default_all_public_streams)
-
+    print('.===' * 30, '注册3')
     event_time = user_profile.date_joined
     RealmAuditLog.objects.create(realm=user_profile.realm, modified_user=user_profile,
                                  event_type='user_created', event_time=event_time)
+    print('.===' * 30, '注册4')
     do_increment_logging_stat(user_profile.realm, COUNT_STATS['active_users_log:is_bot:day'],
                               user_profile.is_bot, event_time)
 
     notify_created_user(user_profile)
     if bot_type:
         notify_created_bot(user_profile)
-    else:
-        process_new_human_user(user_profile, prereg_user=prereg_user,
-                               newsletter_data=newsletter_data,
-                               default_stream_groups=default_stream_groups)
+        print('.===' * 30, '注册5')
+
+    # else:
+    #
+    #     process_new_human_user(user_profile, prereg_user=prereg_user,
+    #                            newsletter_data=newsletter_data,
+    #                            default_stream_groups=default_stream_groups)
+        print('.===' * 30, '注册6')
     return user_profile
 
 
