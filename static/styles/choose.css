@@ -439,12 +439,13 @@ a.message-control-button {
     margin:auto;
     line-height:50px;
     display:none;
-   
+
 }
 .toast-alert-button{
     bottom:0;
     top:0;
     text-align:center;
+    /* display:block */
 }
 .toast-alerts-button{
     top:100px;

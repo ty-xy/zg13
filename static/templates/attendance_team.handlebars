@@ -1,19 +1,29 @@
     <div class="new_attendance_title new_title_detail">
+        <span class="first-icon"><i class="iconfont icon-xiayiji"></i></span>
         <p>新增考勤组</p>
-        <button class="back_attendance">返回</button>
+        {{!-- <button class="back_attendance">返回</button> --}}
     </div>
     <i class="team-line team-line-detail"></i>
     <div class="attendance-new-detail">
         <ul>
             <li class="kaoqin-common kaoqin-name">
+              <span style="color:red" class="require-content">*</span>
                <h2>考勤组名称</h2>
                <input type="text" placeholder="输入考勤组名称…" class="title-input">
            </li>
              <li class="kaoqin-common">
                 <h2>成员设置</h2>
                 <div class="title-common">
-                    <span class="kaoqin-door">考勤组参与人员:</span>
-                    <button class="button-common-people">设置参加人员</button>
+                    <span class="kaoqin-door">考勤组参与部门:</span>
+                    <button class="button-common-team">设置参加部门</button>
+                </div>
+                <div class="title-common">
+                    <span class="kaoqin-door">其他参与人员:</span>
+                    <button class="button-common-people">设置参与人员</button>
+                </div>
+                <div class="title-common">
+                    <span class="kaoqin-door">无需考勤人:</span>
+                    <button class="button-common-none">设置无需参加人员</button>
                 </div>
            </li>
              <li class="kaoqin-common">
@@ -21,9 +31,10 @@
                 <div class="title-common">
                     <span class="kaoqin-place">考勤时间</span>
                     <input  class="button-common button-input button-job" type="text" placeholder="09:00" />
+                    <i class="connect-lines"></i>
                     <input class="button-common button-input button-rest" type="text" placeholder="17:00" />
                 </div>
-                  <div class="title-common">
+                <div class="title-common">
                     <span class="kaoqin-place">考勤日期</span>
                     <button class="button-common-date">设置考勤日期</button>
                 </div>
@@ -48,4 +59,7 @@
         <div class="new-button-bottom">
             <button class="button-submit button-submit-common">提交</button>
         </div>
+        <div class="toast-alert-button">
+             提交成功
+         </div>
     </div>
