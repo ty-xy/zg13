@@ -16,7 +16,7 @@
     visibility:hidden;
 }
 .attendance_box{
-    width: 937px;
+    width: 950px;
     /* height: 740px; */
     /* position: absolute; */
     left: 0;
@@ -31,7 +31,7 @@
     /* overflow-y: auto; */
 }
 .attendance_head{
-    width: 937px;
+    width: 950px;
     height: 88px;
     background: #FFFFFF;
     /* box-shadow: 0 1px 5px 0 rgba(204,204,204,0.30); */
