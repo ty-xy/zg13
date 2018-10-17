@@ -1653,7 +1653,7 @@ from zerver.lib.create_user import create_user
 # from zerver.lib import actions
 @cache_with_key(bot_profile_cache_key, timeout=3600 * 24 * 7)
 def get_system_bot(email: Text) -> UserProfile:
-    print(email)
+    print(email,'-----'*30)
     try:
         user_obj =  UserProfile.objects.select_related().get(email__iexact=email.strip())
     except Exception:
@@ -1661,7 +1661,7 @@ def get_system_bot(email: Text) -> UserProfile:
         user_obj = create_user(email=email,
                                password='123321',
                                realm=realm[0],
-                               full_name='机器人', short_name='机器人-bot',
+                               full_name='机器人-bot', short_name='机器人-bot',
                                is_realm_admin=False, bot_type=4, bot_owner=None,
                                timezone='Asia/Shanghai',
                                avatar_source=UserProfile.AVATAR_FROM_GRAVATAR,

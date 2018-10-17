@@ -52,7 +52,7 @@
     "Allowed domains": "允许的域名",
     "Already subscribed to __stream__": "订阅群组\"__stream__\"成功",
     "An API key can be used to programmatically access a Zulip account. Anyone with access to your API key has the ability to read your messages, send messages on your behalf, and otherwise impersonate you on Zulip, so you should guard your API key as carefully as you guard your password. <br /> We recommend creating bots and using the bots' accounts and API keys to access the Zulip API, unless the task requires access to your account.": "API Key用于编程开发访问你的e建联账户，任何人使用你的Key都可以：读取你的信息，使用你的身份发送信息，所以请不要公开API Key，像保护你的银行卡密码一样保护好它<br />我们建议创建机器人账户权限的API Key来访问e建联 API，除非某些特定任务需要访问你的账户。",
-    "An unknown error occurred.": "发生了一个未知错误。",
+    "An unknown error occurred.": "上传文件太大了。",
     "Announce stream": "公布群组信息",
     "Anyone in this organization can add bots": "本组织任何人可以添加机器人",
     "Anyone in this organization can add custom emoji.": "在这个组织中任何人都可以添加自定义表情符号。",
