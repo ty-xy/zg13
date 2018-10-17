@@ -27,8 +27,6 @@ var contact = (function(){
                 type:"GET",
                 success:function(res){
                     initStyle()
-                    localStorage.setItem("myFullName",res.user_me)
-                    localStorage.setItem("user_list",JSON.stringify(res.user_list))
                     $(".notice_ctn_box").children().remove();
                     var user_list = res.user_list;
                     var user_list_our = templates.render("user_list_our",{user_list:user_list})

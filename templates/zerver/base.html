@@ -74,5 +74,15 @@
                         });  //关键字查询查询
                     }
         </script>
+        <script>
+            $.ajax({
+                url:"json/zg/user",
+                type:"GET",
+                success:function(res){
+                    localStorage.setItem("myFullName",res.user_me)
+                    localStorage.setItem("user_list",JSON.stringify(res.user_list))
+                }
+            })
+        </script>
     </body>
 </html>

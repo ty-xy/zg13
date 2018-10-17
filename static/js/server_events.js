@@ -202,7 +202,7 @@ var server_events = (function () {
         }
        
         ux.sort(function(a,b){
-        return b.date - a.date;
+        return a.date - a.date;
         });
         
         //移除原先顺序错乱的li内容
