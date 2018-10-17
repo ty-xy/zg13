@@ -16,8 +16,10 @@ var message_group = (function () {
             console.log(url_index)
             if (url_index=== "#narrow/stream"){
                 var hash = url.split("/")
+                console.log(hash)
                 var subject = hash_util.decodeHashComponent(hash[4])
                 var stream = hash[2].split("-")
+                console.log(stream)
                 var stream_id = stream[0]
                  stream = hash_util.decodeHashComponent(stream[1])
                 stream_id = Number(stream_id)
@@ -431,7 +433,9 @@ var message_group = (function () {
             var title = $(this).siblings().html()
             var titlef= title.slice(0,1)
             var text= $(".home-title span").html()
+            
             var get_sub_by_name =stream_data.get_sub_by_name(title)
+            console.log(get_sub_by_name,title,hash_util.decodeHashComponent(title))
             // var avatar = people.stream_url_for_eamil(emial[0])
             var avatars = []
             var emial =get_email_of_subscribers(get_sub_by_name.subscribers)
@@ -638,7 +642,7 @@ var message_group = (function () {
                         channel.del({
                             url: '/json/streams/' + stream_id,
                             error: function (xhr) {
-                                ui_report.error(i18n.t("Failed"), xhr, alert_element);
+                                ui_report.error(i18n.t("Failed"), xhr, $('#organization-status'));
                             },
                             success: function (data) {
                                 if(data.result==="success"){
@@ -650,6 +654,7 @@ var message_group = (function () {
                                         }
                                     }
                                     localStorage.setItem("arr",JSON.stringify(arr))
+
                                     $(window).attr("location","#narrow/is/starred")
                                 }
                             },
