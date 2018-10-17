@@ -209,7 +209,6 @@ def accounts_register(request: HttpRequest) -> HttpResponse:
 
         timezone = ""
         if 'timezone' in request.POST and request.POST['timezone'] in get_all_timezones():
-            print('---' * 20, '组织注册24')
             timezone = request.POST['timezone']
 
         if not realm_creation:
@@ -648,6 +647,7 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
                                               default_stream_groups=default_stream_groups)
 
             if realm_creation:
+                print('.-'*30,'注册后1')
                 bulk_add_subscriptions(
                     [realm.signup_notifications_stream], [user_profile])
                 # send_initial_realm_messages(realm)
@@ -659,18 +659,20 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
 
             # This dummy_backend check below confirms the user is
             # authenticating to the correct subdomain.
+            print('.-' * 30, '注册后2')
             auth_result = authenticate(username=user_profile.email,
                                        realm=realm,
                                        return_data=return_data,
                                        use_dummy_backend=True)
             if return_data.get('invalid_subdomain'):
+                print('.-' * 30, '注册后3')
                 # By construction, this should never happen.
                 logging.error("Subdomain mismatch in registration %s: %s" % (
                     realm.subdomain, user_profile.email,))
                 return redirect('/')
-
+            print('.-' * 30, '注册后4')
             return login_and_go_to_home(request, auth_result)
-
+            print('.-' * 30, '注册后5')
         return render(
             request,
             'zerver/register.html',
@@ -693,7 +695,6 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
                      'MAX_REALM_SUBDOMAIN_LENGTH': str(Realm.MAX_REALM_SUBDOMAIN_LENGTH)
                      }
         )
-
 
     else:
         form = HomepageForm(realm=realm)
@@ -767,8 +768,8 @@ def app_accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseIn
 
         confirmation = Confirmation.objects.get(confirmation_key=key)
         prereg_user = confirmation.content_object
-        email = prereg_user.email
-        realm_creation = prereg_user.realm_creation
+        email = prereg_user.emailq
+        realm_creatio = prereg_user.realm_creation
         password_required = prereg_user.password_required
         is_realm_admin = prereg_user.invited_as_admin or realm_creation
 

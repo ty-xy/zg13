@@ -57,7 +57,7 @@ def principal_to_user_profile(agent: UserProfile, principal: Text) -> UserProfil
         # principal to maybe give a better error message
         raise PrincipalError(principal)
 
-@require_realm_admin
+
 def deactivate_stream_backend(request: HttpRequest,
                               user_profile: UserProfile,
                               stream_id: int) -> HttpResponse:
@@ -153,6 +153,7 @@ def update_stream_backend(
     stream = access_stream_for_delete_or_update(user_profile, stream_id)
     if description is not None:
         do_change_stream_description(stream, description)
+
     if new_name is not None:
         new_name = new_name.strip()
         if stream.name == new_name:
