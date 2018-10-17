@@ -421,11 +421,11 @@ exports.load_messages = function (opts) {
                                         // raw_droppable: ['text/uri-list', 'text/plain'],
                                         // drop: drop,
                                         // progressUpdated: progressUpdated,
-                                        // error: uploadError,
+                                        error: uploadError,
                                         uploadFinished: uploadFinished,
                                         drop:drop,
                                         progressUpdated: progressUpdated,
-                                        uploadError:uploadError
+                                        // uploadError:uploadError
                                         //    afterAll:function(contents){
 
                                         //    }

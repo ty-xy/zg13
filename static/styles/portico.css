@@ -16,7 +16,10 @@ body {
 .normal {
     font-weight: normal;
 }
-
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset!important;
+  }
+  
 .why-page h3.normal {
     font-size: 1.2em;
     margin-top: 20px;

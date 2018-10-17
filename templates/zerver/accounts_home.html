@@ -9,7 +9,6 @@ $(function () {
     common.autofocus('#email');
 });
 </script>
-
 <div class="app register-page split-view flex full-page new-style">
     <div class="inline-block">
         <!-- <div class="lead">
@@ -73,11 +72,11 @@ $(function () {
                                         <input id="full_name" class="full_name required"  name="fullname" placeholder="请输入昵称" type="text" required/>
                                     </div>
                                     <div class="verification_box">
-                                        <input class="verification zipCode" maxlength="4" name="smscode" autocomplete="off" placeholder="请输入验证码" required/>
+                                        <input class="verification zipCode" maxlength="4" name="smscode" autocomplete="new-password" placeholder="请输入验证码" required/>
                                         <input type="button" class="get_verification" value="获取验证码"/>
                                     </div>
                                     <div class="registered_password_box">
-                                        <input type="password" maxlength="20" name="password" id="registered_password" autocomplete="off" class="registered_password" placeholder="请设置密码" required/>
+                                        <input type="password" maxlength="20" name="password" id="registered_password" autocomplete="new-password" class="registered_password" placeholder="请设置密码" required style="padding-left:0"/>
                                         <i class="iconfont icon-yanjingguan eyeclose r_eyeicon"></i>
                                     </div>
 
@@ -87,7 +86,7 @@ $(function () {
                                 <a href="/login/" class="login_style">登录</a>
                                 <button class="full-width" type="submit" name="">提交</button>
                             </form>
-
+                            
                             <!-- {% if any_oauth_backend_enabled %}
                             <div class="or"><span>{{ _('OR') }}</span></div>
                             {% endif %} -->

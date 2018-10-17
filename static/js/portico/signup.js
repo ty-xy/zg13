@@ -154,7 +154,6 @@ $(function () {
                 contentType:"application/json",
                 data:obj,
                 success:function(res){
-                    console.log(res)
                     if(res.errno == 1){
                         $("#phone_repeat").show()
                     }else{
@@ -248,14 +247,19 @@ $(function () {
             }  
         })
     })
-
-// $(document).ready(function() {
+    // $(document).ready(function() {
 //     // alert("-___--___")
 //     console.log($("#reset_password"))
 //     $("#reset_password").ajaxForm(function(data){
 //           alert("返回的值是" + data);
 //           console.log(data)
 //     });		    
+// });
+// $(document).ready(function() {
+//     console.log($('#send_confirm'))
+//     $('#send_confirm').ajaxForm({
+//         target: '#output'
+//     });
 // });
     //登陆页小眼睛
     $("#login_form").on("click",".eyeclose",function(){
