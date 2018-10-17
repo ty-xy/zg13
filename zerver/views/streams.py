@@ -57,7 +57,7 @@ def principal_to_user_profile(agent: UserProfile, principal: Text) -> UserProfil
         # principal to maybe give a better error message
         raise PrincipalError(principal)
 
-
+# @require_realm_admin
 def deactivate_stream_backend(request: HttpRequest,
                               user_profile: UserProfile,
                               stream_id: int) -> HttpResponse:

@@ -672,7 +672,6 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
                 return redirect('/')
             print('.-' * 30, '注册后4')
             return login_and_go_to_home(request, auth_result)
-            print('.-' * 30, '注册后5')
         return render(
             request,
             'zerver/register.html',
