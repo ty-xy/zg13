@@ -709,6 +709,16 @@ def get_messages_backend(request: HttpRequest, user_profile: UserProfile,
                          client_gravatar: bool = REQ(validator=check_bool, default=False),
                          apply_markdown: bool = REQ(validator=check_bool, default=True)) -> HttpResponse:
     include_history = ok_to_include_history(narrow, user_profile)
+    #
+    # print(request,'requesty','---'*20)
+    # print(anchor, 'anchor', '---' * 20)
+    # print(num_before, 'num_before', '---' * 20)
+    # print(num_after, 'num_after', '---' * 20)
+    # print(narrow, 'narrow', '---' * 20)
+    # print(use_first_unread_anchor, 'use_first_unread_anchor', '---' * 20)
+    # print(client_gravatar, 'client_gravatar', '---' * 20)
+    # print(apply_markdown, 'apply_markdown', '---' * 20)
+    # print(include_history, 'include_history', '---' * 20)
 
     if include_history:
         # The initial query in this case doesn't use `zerver_usermessage`,

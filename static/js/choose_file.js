@@ -42,6 +42,20 @@ var chooseFile = (function () {
                 length()
             }
         }
+        function showName (){
+            if($(".modal-ul-choose").is(':visible')){
+                // console.log(111)
+                $(".modal-ul-choose").click(function(e){
+                    $(".modal-ul-choose").hide();
+                    $(".search-icon").val("")
+                    // e.stopPropagation();//阻止冒泡
+                });
+                $("body").click(function(){
+                    $(".modal-ul-choose").hide();
+                    $(".search-icon").val("")
+                })
+             }     
+          }
         function search_box (total,obj,object){
             $(".search-people-name").on("click",function(e){
                 var value  = $(this).text() 
@@ -97,11 +111,13 @@ var chooseFile = (function () {
         //选择发送人
         exports.choosePeople = function(func,object){
             $(".modal-log").show()
+           
             channel.get({
                 url:"json/zg/stream/recipient/data",
                 success:function(data){
                     var obj = object
                     var o1 = {}
+                    var tatal_arr =[]
                     var datakeylist = data.streams_dict
                     commonTotal(data)
                     if(obj!={}){
@@ -114,6 +130,62 @@ var chooseFile = (function () {
                     _.each(data.streams_dict, function (val, key) {
                         people_dict.set(key, val);
                     });
+                    $(".choose-nav-left").on("input",".search-icon",function(e){
+                        var that = $(this)
+                        var search_value = that.val()
+                        var object = {}
+                        // tatal_arr = []
+                        // console.log(that,search_value,tatal_arr)
+                        if(tatal_arr.length===0&&search_value!==""){
+                           channel.get({
+                               url:"json/zg/stream/recipient/data",
+                               success:function(data){
+                                   var datakeylist = data.streams_dict
+                                   var arr = [];
+                                   for(var i in datakeylist){ 
+                                      arr=arr.concat(datakeylist[i]);
+                                   }
+                                   var objs= {};
+                                   // console.log(arr)
+                                   arr= arr.reduce(function(item,next){
+                                       objs[next.id] ? +'' : objs[next.id] = next && item.push(next);
+                                       return item;
+                                   },[])
+                                   // console.log(arr)
+                                   var search_arr =[]
+                                   arr.forEach(function(val,index){
+                                       var value_lowerCase = val.fullname.toLowerCase()
+                                       if(value_lowerCase.indexOf(search_value)!==-1){
+                                           search_arr.push(value_lowerCase)
+                                       }
+                                       tatal_arr.push(value_lowerCase)
+                                   })
+                                   total = arr.reduce(function(prev, cur){prev[cur.fullname.toLowerCase()] = cur; return prev;}, {});
+                                   var li = $(templates.render('search_li',{search_arr:search_arr}));
+                                   $(".modal-ul-choose").html(li)
+                                   $(".modal-ul-choose").show()
+                                   showName()
+                                   search_arr =[]             
+                                   search_box(total,obj,object)
+                               }
+                           })
+                        }else{
+                           if(search_value!==""){
+                               var search_arr =[]
+                               tatal_arr.forEach(function(val,index){
+                                   if(val.indexOf(search_value)!==-1){
+                                       search_arr.push(val)
+                                   }
+                               })
+                               var li = templates.render("search_li",{search_arr:search_arr})
+                               $(".modal-ul-choose").html(li)
+                               $(".modal-ul-choose").show()
+                               showName()
+                               search_arr =[]
+                               search_box(total,obj,object)
+                           }
+                        }
+                     })
                   $(".choose-nav-left").on("click",".choose-check",function(e){
                        var checkbox = $(this).find("input")
                        var input_key = $(this).attr("inputid")
@@ -288,14 +360,45 @@ var chooseFile = (function () {
         //选择部门
         exports.chooseTeam = function(func){
            $(".modal-log").show()
+           var tatal_arr = []
            channel.get({
                url:"json/zg/department/list",
               success:function(data){
                   var obj = {}
                   var data= data.department_lists
                   var  datalist= data.reduce(function(prev, cur){prev[cur.id] = cur; return prev;}, {});
+                  var  dataIndex = data.reduce(function(prev, cur){prev[cur.name] = cur; return prev;}, {});
                   var li = $(templates.render("choose_channel",{data:datalist}));
                   $(".modal-log-content").html(li)
+                  //搜索
+                  $(".choose-nav-left").on("input",".search-icon",function(e){
+                    var that = $(this)
+                    var search_value = that.val()
+                    var object = {}
+                    var search_arr = []
+                    if(tatal_arr.length===0&&search_value!==""){
+                        data.forEach(function(v,i){
+                            if(v.name.indexOf(search_value)!==-1){
+                                search_arr.push(v.name)
+                            }
+                        })
+                        var li = $(templates.render('search_li',{search_arr:search_arr}));
+                        $(".modal-ul-choose").html(li)
+                        $(".modal-ul-choose").show()
+                        showName()
+                        search_arr =[]             
+                        $(".search-people-name").on("click",function(e){
+                            var value  = $(this).text() 
+                            var content =  dataIndex[value]
+                            object[content.id] = content 
+                            obj=$.extend(obj,object)
+                            var render = $(templates.render("choose_personal",{data:obj}))
+                            $(".box-right-list").html(render)
+                            length()
+                        })
+
+                    }
+                })
                   //点击左边右边显示
                   $(".choose-nav-left").on("click",".choose-check",function(e){
                     var id = $(this).attr("inputid")
@@ -407,20 +510,7 @@ var chooseFile = (function () {
                       }
                   })
                   //搜索
-                  function showName (){
-                    if($(".modal-ul-choose").is(':visible')){
-                        // console.log(111)
-                        $(".modal-ul-choose").click(function(e){
-                            $(".modal-ul-choose").hide();
-                            $(".search-icon").val("")
-                            // e.stopPropagation();//阻止冒泡
-                        });
-                        $("body").click(function(){
-                            $(".modal-ul-choose").hide();
-                            $(".search-icon").val("")
-                        })
-                     }     
-                  }
+                 
             
                   
                   $(".choose-nav-left").on("input",".search-icon",function(e){

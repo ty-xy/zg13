@@ -313,7 +313,7 @@ var management = (function () {
                         success:function(data){
                             if(data.errno===0){
                                 that.css("background-color","#14A4FA")
-                               alert('提交成功','rgba(0,107,169,0.30)')
+                               alert('日志提交成功','rgba(0,0,0,0.50)')
                                that.attr("disabled",false)
                               $(".create_generate_log").delay(1000).hide(0)
                             } else if(data.errno===1){

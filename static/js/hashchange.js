@@ -174,9 +174,13 @@ exports.parse_narrow = function (hash) {
                 $(".compose-title").show()
                 var hash = url.split("/")
                 var subject = hash_util.decodeHashComponent(hash[4])
-                var stream = hash[2].split("-")
-                 stream = hash_util.decodeHashComponent(stream[1])
+                var stream = hash_util.decodeHashComponent(hash[2])
+                stream = stream_data.slug_to_name(stream);
+                //  stream = hash_util.decodeHashComponent(stream[1])
+                 console.log(stream)
                  $(".home-title span").html(stream)
+                 $(".compose-content").show()
+                 $(".message_comp").show()
                 $("#stream").val(stream)
                 $("#subject").val(subject)
             }else{

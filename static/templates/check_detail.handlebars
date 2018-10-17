@@ -78,7 +78,9 @@
            {{!-- <img src={{image_url}} class="img-border" /> --}}
 
            {{#each  image_url}}
-                <img src={{this}} class="img-border"/>
+                <a href = {{this}} target="_blank">
+                   <img src={{this}} class="img-border"/>
+                </a>
            {{/each}}
         </div>
     {{/if}}
