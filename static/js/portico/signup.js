@@ -60,14 +60,14 @@ $(function () {
 
     $("#send_confirm").validate({
         errorElement: "div",
-        rules:{
-            fullname:{
-                required: true,
-                regUserName: true,
-                minlength: 4,
-                maxlength: 10
-            }
-        },
+        // rules:{
+        //     fullname:{
+        //         required: true,
+        //         regUserName: true,
+        //         minlength: 4,
+        //         maxlength: 10
+        //     }
+        // },
         errorPlacement: function (error) {
             // console.log(error,1)
             $('.email-frontend-error').empty();
@@ -77,6 +77,11 @@ $(function () {
         success: function () {
             $('#errors').empty();
         },
+        // submitHandler:function(form){
+        //     alert("提交事件!");   
+        //     // form.submit();
+        //     $(form).ajaxSubmit();  
+        // }  
     });
     $("#full_name").validate({
         rules:{
