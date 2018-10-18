@@ -424,7 +424,7 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
         phone = request.POST.get('phone')
         password = request.POST.get('password')
         smscode = request.POST.get('smscode')
-        users = UserProfile.objects.filter(email=phone+'@zulip.com')
+        users = UserProfile.objects.filter(email=phone+'@zg18.com')
         if users:
             return JsonResponse({"errno": 6, "message": "该账户已注册"})
 
