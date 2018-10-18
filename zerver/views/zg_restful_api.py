@@ -1,5 +1,5 @@
 from zerver.models import Message, UserMessage, ZgCollection, Stream, Attachment, ZgCloudDisk, Realm, UserProfile, \
-    active_user_ids
+    active_user_ids, Recipient
 from django.http import JsonResponse
 import json
 from datetime import datetime, timezone, timedelta
@@ -84,9 +84,12 @@ def del_subject(request, user_profile):
     req = req.decode()
     req = json.loads(req)
     subject = req.get('subject')
-    if not subject:
+    stream_id = req.get('stream_id')
+    realm_id = req.get('realm_id',1)
+    if not all([subject, stream_id]):
         return JsonResponse({'errno': 2, 'message': '缺少必要参数'})
-    Message.objects.filter(subject=subject).delete()
+    recipient = Recipient.objects.filter(type=realm_id, type_id=stream_id)
+    Message.objects.filter(subject=subject, recipient=recipient.id).delete()
     return JsonResponse({'errno': 0, 'message': '删除成功'})
 
 

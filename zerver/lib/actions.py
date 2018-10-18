@@ -541,12 +541,15 @@ def do_create_user(email: Text, password: Optional[Text], realm: Realm, full_nam
         notify_created_bot(user_profile)
         print('.===' * 30, '注册5')
 
+    # zg=====
     # else:
     #
     #     process_new_human_user(user_profile, prereg_user=prereg_user,
     #                            newsletter_data=newsletter_data,
     #                            default_stream_groups=default_stream_groups)
+
         print('.===' * 30, '注册6')
+
     return user_profile
 
 
