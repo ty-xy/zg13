@@ -290,16 +290,17 @@ def verification_user(request):
 
 
 # web验证注册手机验证码是否正确
+@csrf_exempt
 def sms_verification(request):
-    sms_code = request.POST.get('sms_code')
-    phone = request.POST.get('phone')
+    if request.method== 'GET':
+        sms_code = request.GET.get('sms_code')
+        phone = request.GET.get('phone')
+        if not all([sms_code, phone]):
+            return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
 
-    if not all([sms_code, phone]):
-        return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
-
-    if sms_code == cache.get(phone+'_register'):
-        return JsonResponse({'errno': 0, 'message': '成功'})
-    return JsonResponse({'errno': 2, 'message': '验证码错误'})
+        if sms_code == cache.get(phone+'_register'):
+            return JsonResponse({'errno': 0, 'message': '成功'})
+        return JsonResponse({'errno': 2, 'message': '验证码错误'})
 
 
 

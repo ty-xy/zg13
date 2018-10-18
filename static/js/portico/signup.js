@@ -168,6 +168,31 @@ $(function () {
             })
         }
     })
+     //检测验证码
+     $(".verification").on("blur",function(){
+        var sms_code = $(this).val()
+        var phone = $(".phone_number").val()
+        console.log(phone)
+        var obj = {
+            phone:phone,
+            sms_code:sms_code
+        }
+        if(phone&&sms_code){
+            $.ajax({
+                type:"GET",
+                url:"/api/v1/zg/sms/verification",
+                contentType:"application/json",
+                data:obj,
+                success:function(res){
+                    if(res.errno == 2){
+                        $("#smscode_repeat").show()
+                    }else{
+                        $("#smscode_repeat").hide()
+                    }
+                }
+            })
+        }
+    })
     //获取验证码
     $("#send_confirm").on("click",".get_verification",function(){
         var countdown=60;

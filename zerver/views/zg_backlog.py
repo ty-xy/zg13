@@ -8,7 +8,7 @@ from datetime import timezone, timedelta
 from zerver.views.zg_tools import zg_send_tools
 
 import re, math
-
+from django.views.decorators.csrf import csrf_exempt
 from zerver.lib.actions import get_user_ids_for_streams
 from zerver.tornado.event_queue import send_event
 
@@ -118,7 +118,7 @@ def reply_comment(request, user_profile):
 
 # 获取初始化日志信息
 def zg_initialize_log(request, user_profile):
-
+    
     statement_state = StatementState.objects.filter(staff=user_profile.id, state='f')
     if not statement_state:
         return JsonResponse({'errno': 1, 'message': "未读消息为空"})
