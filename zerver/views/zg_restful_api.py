@@ -1,5 +1,5 @@
 from zerver.models import Message, UserMessage, ZgCollection, Stream, Attachment, ZgCloudDisk, Realm, UserProfile, \
-    active_user_ids
+    active_user_ids, Recipient
 from django.http import JsonResponse
 import json
 from datetime import datetime, timezone, timedelta
@@ -13,13 +13,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.hashers import make_password
 from zerver.tornado.event_queue import send_event
 from django.shortcuts import redirect, render
-
-
-def moban_tools(request,user_profile):
-
-    aa=request.GET.get('a')
-
-    return render(request, aa)
 
 
 # # # 发送短信验证码
@@ -91,9 +84,12 @@ def del_subject(request, user_profile):
     req = req.decode()
     req = json.loads(req)
     subject = req.get('subject')
-    if not subject:
+    stream_id = req.get('stream_id')
+    realm_id = req.get('realm_id', 1)
+    if not all([subject, stream_id]):
         return JsonResponse({'errno': 2, 'message': '缺少必要参数'})
-    Message.objects.filter(subject=subject).delete()
+    recipient = Recipient.objects.filter(type=realm_id, type_id=stream_id)
+    Message.objects.filter(subject=subject, recipient=recipient.id).delete()
     return JsonResponse({'errno': 0, 'message': '删除成功'})
 
 
@@ -136,7 +132,7 @@ def zg_collection(request, user_profile):
 
 # 收藏列表
 def zg_collection_list(request, user_profile):
-    collection_objs = ZgCollection.objects.filter(user=user_profile).order_by('-id')
+    collection_objs = ZgCollection.objects.filter(user=user_profile).order_by()
     collection_list = list()
     for collection_obj in collection_objs:
         collection_dict = {}
@@ -291,3 +287,20 @@ def verification_user(request):
             return JsonResponse({'errno': 0, 'message': '成功'})
 
         return JsonResponse({'errno': 1, 'message': '该用户已注册'})
+
+
+# web验证注册手机验证码是否正确
+def sms_verification(request):
+    sms_code = request.POST.get('sms_code')
+    phone = request.POST.get('phone')
+
+    if not all([sms_code, phone]):
+        return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
+
+    if sms_code == cache.get(phone+'_register'):
+        return JsonResponse({'errno': 0, 'message': '成功'})
+    return JsonResponse({'errno': 2, 'message': '验证码错误'})
+
+
+
+

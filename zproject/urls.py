@@ -361,23 +361,18 @@ v1_api_and_json_patterns = [
     # 待办事项get请求
     url(r'^zg/backlog/gets$', rest_dispatch,
         {'GET': 'zerver.views.zg_backlog.backlogs_view_g'}),
-
     # 一键生成
     url(r'^zg/creator/table$', rest_dispatch,
         {'GET': 'zerver.views.zg_backlog.generate_table'}),
-
     # 已完成待办事项
     url(r'^zg/backlog/accomplis$', rest_dispatch,
         {'GET': 'zerver.views.zg_backlog.accomplis_backlogs_view'}),
-
     # 待办事项详情
     url(r'^zg/backlog/details$', rest_dispatch,
         {'GET': 'zerver.views.zg_backlog.backlogs_details'}),
-
     # 修改待办事项附件
     url(r'^zg/accessory/$', rest_dispatch,
         {'POST': 'zerver.views.zg_backlog.accessory_up'}),
-
     # 发送周报
     url(r'^zg/table/$', rest_dispatch,
         {'POST': 'zerver.views.zg_backlog.table_view'}),
@@ -394,7 +389,6 @@ v1_api_and_json_patterns = [
     # web收到
     url(r'^zg/my/receive/web$', rest_dispatch,
         {'GET': 'zerver.views.zg_backlog.web_my_receive'}),
-
     # 我发送的
     url(r'^zg/my/send$', rest_dispatch,
         {'GET': 'zerver.views.zg_backlog.my_send'}),
@@ -413,10 +407,13 @@ v1_api_and_json_patterns = [
 
     url(r'^zg/statement/review$', rest_dispatch,
         {'GET': 'zerver.views.zg_backlog.statement_review'}),
-
     # 回复评论
     url(r'^zg/reply/comment/$', rest_dispatch,
         {'POST': 'zerver.views.zg_backlog.reply_comment'}),
+    # 初始待办事项报表
+    url(r'^zg/initialize/log$', rest_dispatch,
+        {'GET': 'zerver.views.zg_backlog.zg_initialize_log'}),
+
     # ------考勤信息----
 
     # web个人月历
@@ -490,43 +487,33 @@ v1_api_and_json_patterns = [
     # 添加出差请假审核
     url(r'^zg/approval/leave/$', rest_dispatch,
         {'POST': 'zerver.views.zg_zpproval.add_leave'}),
-
     # 添加报销申请
     url(r'^zg/approval/reimburse/$', rest_dispatch,
         {'POST': 'zerver.views.zg_zpproval.reimburse_add'}),
-
     # 审批详情
     url(r'^zg/approval$', rest_dispatch,
         {'GET': 'zerver.views.zg_zpproval.approval_details'}),
-
     # 待审批列表
     url(r'^zg/approval/list/expectation$', rest_dispatch,
         {'GET': 'zerver.views.zg_zpproval.expectation_approval_list'}),
-
     # 我发起的
     url(r'^zg/approval/initiate/me$', rest_dispatch,
         {'GET': 'zerver.views.zg_zpproval.approval_initiate_me'}),
-
     # 抄送我的
     url(r'^zg/approval/inform$', rest_dispatch,
         {'GET': 'zerver.views.zg_zpproval.inform_approval'}),
-
     # 已完成审批列表
     url(r'^zg/approval/list/completed$', rest_dispatch,
         {'GET': 'zerver.views.zg_zpproval.completed_approval_list'}),
-
     # 状态更新
     url(r'^zg/approval/table/state_update/$', rest_dispatch,
         {'PUT': 'zerver.views.zg_zpproval.state_update'}),
-
     # 反馈
     url(r'^zg/approval/table/feedback/$', rest_dispatch,
         {'POST': 'zerver.views.zg_zpproval.table_feedback'}),
-
     # 测试发送消息
     url(r'^zg/message/text$', rest_dispatch,
         {'GET': 'zerver.views.zg_zpproval.view_leave'}),
-
     # 催办
     url(r'^zg/approval/urge$', rest_dispatch,
         {'GET': 'zerver.views.zg_zpproval.zg_urgent'}),
@@ -571,7 +558,6 @@ v1_api_and_json_patterns = [
     # 部门人员
     url(r'^zg/department/user/list$', rest_dispatch,
         {'GET': 'zerver.views.zg_organization.department_user_list'}),
-
     # 权限认证
     url(r'^zg/user/permissions$', rest_dispatch,
         {'GET': 'zerver.views.zg_organization.zg_user_permissions'}),
@@ -581,7 +567,6 @@ v1_api_and_json_patterns = [
     # 更新full_name
     url(r'^zg/update/user/name$', rest_dispatch,
         {'PUT': 'zerver.views.zg_restful_api.update_user_full_name'}),
-
     # 收藏
     url(r'^zg/collection/$', rest_dispatch,
         {'PUT': 'zerver.views.zg_restful_api.zg_collection'}),
@@ -591,26 +576,18 @@ v1_api_and_json_patterns = [
     # 群组权限认证
     url(r'^zg/stream/permissions$', rest_dispatch,
         {'GET': 'zerver.views.zg_restful_api.zg_stream_permissions'}),
-
     # 添加云盘
     url(r'^zg/clouddisk/add/$', rest_dispatch,
         {'POST': 'zerver.views.zg_restful_api.zg_abb_clouddisk'}),
-
     # 查看云盘列表
     url(r'^zg/clouddisk/user$', rest_dispatch,
         {'GET': 'zerver.views.zg_restful_api.user_clouddisk'}),
-
     # 文件详情
     url(r'^zg/file/details$', rest_dispatch,
         {'GET': 'zerver.views.zg_restful_api.file_details'}),
-
     # 删除文件
     url(r'^zg/file/del/', rest_dispatch,
         {'DELETE': 'zerver.views.zg_restful_api.file_del'}),
-
-    url(r'^moban_tools', rest_dispatch,
-        {'GET': 'zerver.views.zg_restful_api.moban_tools'}),
-
 
 ]
 
@@ -621,7 +598,7 @@ v1_api_and_json_patterns = [
 # endpoint for use by code), you should add it here.
 # import zerver.views.streams
 
-from zerver.views.zg_restful_api import send_zg_sms,verification_user,new_password
+from zerver.views.zg_restful_api import send_zg_sms, verification_user, new_password, sms_verification
 from zerver.views.zg_organization import invite_qrcode
 
 i18n_urls = [
@@ -640,6 +617,8 @@ i18n_urls = [
     url(r'^api/v1/zg/new/password/$', new_password),
     # 邀请成员二维码
     url(r'^api/v1/zg/invite/qrcode$', invite_qrcode),
+    # 手机验证码验证
+    url(r'^api/v1/zg/sms/verification$', sms_verification),
 
     url(r'^devindex/$', zerver.views.auth.dex_page, name='zerver.views.auth.dex_page'),
     url(r'^product_features/$', zerver.views.home.product_features),
