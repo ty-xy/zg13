@@ -110,7 +110,7 @@ $(function () {
             $("#login_form").find('.loader').css('display', 'inline-block');
             $("#login_form").find("button .text").hide();
             var x = $("#id_username").val()
-            y = x + '@zg18.com'
+            y = x + '@zulip.com'
             $("#id_username").val(y)
             form.submit();
         },

@@ -424,7 +424,7 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
         phone = request.POST.get('phone')
         password = request.POST.get('password')
         smscode = request.POST.get('smscode')
-        users = UserProfile.objects.filter(email=phone+'@zg18.com')
+        users = UserProfile.objects.filter(email=phone+'@zulip.com')
         if users:
             return JsonResponse({"errno": 6, "message": "该账户已注册"})
 
@@ -434,17 +434,20 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
         if smscode != cache.get(phone + '_' + 'register'):
             return JsonResponse({"errno": 2, "message": "验证码错误"})
 
-        email = phone + '@zg18.com'
+        email = phone + '@zulip.com'
 
         activation_url = prepare_activation_url(
             email, request, streams=streams_to_subscribe)
 
         login_status = True
+
+
         try:
             send_confirm_registration_email(email, activation_url)
         except smtplib.SMTPException as e:
             logging.error('Error in accounts_home: %s' % (str(e),))
             return HttpResponseRedirect("/config-error/smtp")
+
 
         # zg--------------
         key = activation_url.split('/')[-1]
