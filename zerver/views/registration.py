@@ -209,7 +209,6 @@ def accounts_register(request: HttpRequest) -> HttpResponse:
 
         timezone = ""
         if 'timezone' in request.POST and request.POST['timezone'] in get_all_timezones():
-            print('---' * 20, '组织注册24')
             timezone = request.POST['timezone']
 
         if not realm_creation:
@@ -435,7 +434,7 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
         if smscode != cache.get(phone + '_' + 'register'):
             return JsonResponse({"errno": 2, "message": "验证码错误"})
 
-        email = phone + '@zulip.com'
+        email = phone + '@zg18.com'
 
         activation_url = prepare_activation_url(
             email, request, streams=streams_to_subscribe)
@@ -639,6 +638,7 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
                 # TODO: When we clean up the `do_activate_user` code path,
                 # make it respect invited_as_admin / is_realm_admin.
             else:
+                print('.==='*30,'注册1')
                 user_profile = do_create_user(email, password, realm, full_name, short_name,
                                               prereg_user=prereg_user, is_realm_admin=is_realm_admin,
                                               tos_version=settings.TOS_VERSION,
@@ -650,6 +650,7 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
             if realm_creation:
                 bulk_add_subscriptions(
                     [realm.signup_notifications_stream], [user_profile])
+                print('注册后1')
                 # send_initial_realm_messages(realm)
 
                 # Because for realm creation, registration happens on the
@@ -664,10 +665,13 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
                                        return_data=return_data,
                                        use_dummy_backend=True)
             if return_data.get('invalid_subdomain'):
+                print('注册后2')
+
                 # By construction, this should never happen.
                 logging.error("Subdomain mismatch in registration %s: %s" % (
                     realm.subdomain, user_profile.email,))
                 return redirect('/')
+            print('注册后3')
 
             return login_and_go_to_home(request, auth_result)
 
@@ -707,7 +711,7 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
 @csrf_exempt
 def app_accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite] = None) -> HttpResponse:
     phone = request.POST.get('phone')
-    users = UserProfile.objects.filter(email=phone + '@zulip.com')
+    users = UserProfile.objects.filter(email=phone + '@zg18.com')
     # print(users, '-----------------')
     if users:
         return JsonResponse({"errno": 6, "message": "该账户已注册"})
@@ -741,7 +745,7 @@ def app_accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseIn
         if smscode != cache.get(phone + '_' + 'register'):
             return JsonResponse({"errno": 2, "message": "验证码错误"})
 
-        email = phone + '@zulip.com'
+        email = phone + '@zg18.com'
 
         activation_url = prepare_activation_url(
             email, request, streams=streams_to_subscribe)

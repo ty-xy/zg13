@@ -608,10 +608,6 @@ v1_api_and_json_patterns = [
     url(r'^zg/file/del/', rest_dispatch,
         {'DELETE': 'zerver.views.zg_restful_api.file_del'}),
 
-    url(r'^moban_tools', rest_dispatch,
-        {'GET': 'zerver.views.zg_restful_api.moban_tools'}),
-
-
 ]
 
 # These views serve pages (HTML). As such, their internationalization

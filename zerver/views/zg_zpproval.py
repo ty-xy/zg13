@@ -93,7 +93,6 @@ def add_leave(request, user_profile):
                              'id': aaa.id
                              }}
         event = zg_send_tools(event)
-
         # 添加审批人
         if approver_list:
             for approver in approver_list:

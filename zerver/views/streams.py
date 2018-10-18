@@ -153,6 +153,7 @@ def update_stream_backend(
     stream = access_stream_for_delete_or_update(user_profile, stream_id)
     if description is not None:
         do_change_stream_description(stream, description)
+
     if new_name is not None:
         new_name = new_name.strip()
         if stream.name == new_name:
