@@ -459,7 +459,6 @@ var chooseFile = (function () {
         exports.chooseTeamMember = function(func){
             // var obj = {}
             $(".modal-log").show()
-           
             channel.get({
                 url:"json/zg/department/list",
                 success:function(data){

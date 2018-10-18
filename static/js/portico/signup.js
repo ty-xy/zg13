@@ -110,7 +110,7 @@ $(function () {
             $("#login_form").find('.loader').css('display', 'inline-block');
             $("#login_form").find("button .text").hide();
             var x = $("#id_username").val()
-            y = x + '@zulip.com'
+            y = x + '@zg18.com'
             $("#id_username").val(y)
             form.submit();
         },
@@ -201,7 +201,7 @@ $(function () {
             data:obj,
             success:function(){
                 console.log("-------------______---success")
-            }  
+            }
         })
     })
 
@@ -244,7 +244,7 @@ $(function () {
             data:obj,
             success:function(){
                 console.log("123")
-            }  
+            }
         })
     })
     // $(document).ready(function() {
@@ -253,7 +253,7 @@ $(function () {
 //     $("#reset_password").ajaxForm(function(data){
 //           alert("返回的值是" + data);
 //           console.log(data)
-//     });		    
+//     });
 // });
 // $(document).ready(function() {
 //     console.log($('#send_confirm'))
