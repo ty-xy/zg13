@@ -47,7 +47,7 @@ def new_password(request):
 
         if not cache.get(phone + '_new_password'):
             return JsonResponse({'errno': 2, 'message': '验证码错误'})
-        users = UserProfile.objects.filter(email=phone + '@zg18.com')
+        users = UserProfile.objects.filter(email=phone + '@zulip.com')
         if users:
             users[0].set_password(new_password)
             users[0].save()
@@ -282,7 +282,7 @@ def verification_user(request):
     if request.method == 'GET':
         phone = request.GET.get('phone')
 
-        user = UserProfile.objects.filter(email=phone + '@zg18.com')
+        user = UserProfile.objects.filter(email=phone + '@zulip.com')
         if not user:
             return JsonResponse({'errno': 0, 'message': '成功'})
 

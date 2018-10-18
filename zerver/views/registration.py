@@ -424,7 +424,7 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
         phone = request.POST.get('phone')
         password = request.POST.get('password')
         smscode = request.POST.get('smscode')
-        users = UserProfile.objects.filter(email=phone)
+        users = UserProfile.objects.filter(email=phone+'@zulip.com')
         if users:
             return JsonResponse({"errno": 6, "message": "该账户已注册"})
 
@@ -711,7 +711,7 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
 @csrf_exempt
 def app_accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite] = None) -> HttpResponse:
     phone = request.POST.get('phone')
-    users = UserProfile.objects.filter(email=phone + '@zg18.com')
+    users = UserProfile.objects.filter(email=phone + '@zulip.com')
     # print(users, '-----------------')
     if users:
         return JsonResponse({"errno": 6, "message": "该账户已注册"})
@@ -745,7 +745,7 @@ def app_accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseIn
         if smscode != cache.get(phone + '_' + 'register'):
             return JsonResponse({"errno": 2, "message": "验证码错误"})
 
-        email = phone + '@zg18.com'
+        email = phone + '@zulip.com'
 
         activation_url = prepare_activation_url(
             email, request, streams=streams_to_subscribe)
