@@ -85,7 +85,7 @@ def del_subject(request, user_profile):
     req = json.loads(req)
     subject = req.get('subject')
     stream_id = req.get('stream_id')
-    realm_id = req.get('realm_id',1)
+    realm_id = req.get('realm_id', 1)
     if not all([subject, stream_id]):
         return JsonResponse({'errno': 2, 'message': '缺少必要参数'})
     recipient = Recipient.objects.filter(type=realm_id, type_id=stream_id)
@@ -287,3 +287,20 @@ def verification_user(request):
             return JsonResponse({'errno': 0, 'message': '成功'})
 
         return JsonResponse({'errno': 1, 'message': '该用户已注册'})
+
+
+# web验证注册手机验证码是否正确
+def sms_verification(request):
+    sms_code = request.POST.get('sms_code')
+    phone = request.POST.get('phone')
+
+    if not all([sms_code, phone]):
+        return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
+
+    if sms_code == cache.get(phone+'_register'):
+        return JsonResponse({'errno': 0, 'message': '成功'})
+    return JsonResponse({'errno': 2, 'message': '验证码错误'})
+
+
+
+
