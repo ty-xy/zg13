@@ -59,6 +59,7 @@ var contact = (function(){
                             $("#compose").show();
                             $(".group_icon").hide();
                             $(".persistent_data").show()
+                            $(".work_order").show()
                             $(".tab-content").css("height","calc(100% - 232px)")
                             // console.log(message_fetch.getLastMessage())
                             //上方显示聊天对面信息

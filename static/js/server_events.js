@@ -242,7 +242,7 @@ var server_events = (function () {
         data:     get_events_params,
         idempotent: true,
         timeout:  page_params.poll_timeout,
-        success: function (data) {  
+        success: function (data) { 
             // console.log(data)         
             for(var i = 0;i<data.events.length;i++){
                 type = data.events[0].zg_type
@@ -262,8 +262,8 @@ var server_events = (function () {
                 $(".work_order .notice_top_time").html(server_events.tf(push_one.time))
                 server_events.showNotify(push_one.user_name,push_one.theme)
             }
-            var type;
-            var data_message;
+            var  type;
+            var  data_message;
             // $.ajax({
             //     url:"json/zg/user",
             //     type:"GET",
@@ -273,9 +273,11 @@ var server_events = (function () {
                     // var user_id = res.user_id
                     for(var i = 0;i<data.events.length;i++){
                         type = data.events[0].type
-                        data_message = data.events[0].message
+                        if(type == "message"){
+                            data_message = data.events[0].message
+                        }
                     }
-                    if(type == "message"){
+                    if(type == "message" && data_message!=undefined){
                         var send_id = data_message.sender_id
                         var name = data_message.sender_full_name
                         var mes = server_events.deleteTag(data_message.content)
@@ -283,12 +285,12 @@ var server_events = (function () {
                         var time = data_message.timestamp
                         var stream_id = data_message.stream_id
                         var short_name = data_message.sender_short_name
-                        var _href = data_message.pm_with_url
+                        // var _href = data_message.pm_with_url
+                        var _href = "#narrow/pm-with/"+send_id+"-"+short_name
                         var sub;
                         var recipient = data_message.display_recipient[0].id;
                         var r_name = data_message.display_recipient[0].full_name;
                         var stream_name;
-                        // console.log(data_message)
                         if(stream_id){
                           sub  = stream_data.get_sub_by_id(stream_id)
                         }
