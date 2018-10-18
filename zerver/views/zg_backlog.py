@@ -116,6 +116,19 @@ def reply_comment(request, user_profile):
     return JsonResponse({'errno': 0, 'message': "评论成功", 'reply_id': reply_id})
 
 
+# 获取初始化日志信息
+def zg_initialize_log(request, user_profile):
+
+    statement_state = StatementState.objects.filter(staff=user_profile.id, state='f')
+    if not statement_state:
+        return JsonResponse({'errno': 1, 'message': "未读消息为空"})
+    data = dict()
+    user = statement_state[-1].statement_id.user.full_name
+    data['inform'] = user + '的日志'
+    data['count'] = statement_state.count()
+    return JsonResponse({'errno': 0, 'message': "成功", 'data': data})
+
+
 # 已读未读
 def state_view(request, user_profile):
     table_id = request.GET.get('table_id')
@@ -168,7 +181,7 @@ def look_table(request, user_profile):
 
         statement = Statement.objects.get(id=table_id)
         a = StatementState.objects.filter(statement_id=statement.id, staff=user_profile.id)
-        if a :
+        if a:
             a[0].state = True
             a[0].save()
 

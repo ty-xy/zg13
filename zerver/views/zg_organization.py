@@ -46,6 +46,8 @@ def not_department_user(request, user_profile):
             user_dict['fullname'] = name
             user_dict['id'] = user.id
             user_dict['pm_url'] = '#narrow/pm-with/' + str(user.id) + '-' + user.short_name
+            user_dict['phone_number'] = user.short_name
+
 
             not_department_list.append(user_dict)
     return JsonResponse({'errno': 0, 'message': '成功', 'not_department_list': not_department_list})
@@ -170,7 +172,7 @@ def user_mobile_batch(request, user_profile):
     if user_profile.is_realm_admin == 'f' and user_profile.zg_permission == 0:
         return JsonResponse({'errno': 1, 'message': '无权限'})
 
-    if not all([user_list, types, department_id]):
+    if not all([user_list, types]):
         return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
     if department_id == '0':
         department_objs = 0
@@ -286,6 +288,7 @@ def department_user_list(request, user_profile):
             user_dict['fullname'] = i.full_name
             user_dict['avatarurl'] = avatar.absolute_avatar_url(i)
             user_dict['id'] = i.id
+            user_dict['phone_number'] = i.short_name
             user_list.append(user_dict)
 
     return JsonResponse({'errno': 0, 'message': '成功', 'user_list': user_list})
