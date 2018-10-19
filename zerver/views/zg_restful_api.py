@@ -1,5 +1,5 @@
 from zerver.models import Message, UserMessage, ZgCollection, Stream, Attachment, ZgCloudDisk, Realm, UserProfile, \
-    active_user_ids, Recipient
+    active_user_ids, Recipient, StatementState, ZgReview
 from django.http import JsonResponse
 import json
 from datetime import datetime, timezone, timedelta
@@ -13,6 +13,47 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.hashers import make_password
 from zerver.tornado.event_queue import send_event
 from django.shortcuts import redirect, render
+
+
+# 获取初始化日志,通知信息
+def zg_initialize_log(request, user_profile):
+    statement_state = StatementState.objects.filter(staff=user_profile.id, state='f')
+    # 待审批
+    review_objs = ZgReview.objects.filter(status='审批中', send_user_id=user_profile.id, duties='approval',
+                                          is_know=False).order_by('-id')
+    # 抄送我的
+    inform_objs = ZgReview.objects.filter(send_user_id=user_profile.id, duties='inform', is_know=False).order_by('-id')
+    data = dict()
+    type_dict = {'reimburse': '的报销申请', 'leave': '的请假申请', 'evection': '的出差申请'}
+    if not statement_state:
+        data['log_inform'] = None
+        data['log_count'] = None
+
+    else:
+        user = statement_state[-1].statement_id.user.full_name
+        data['log_inform'] = user + '的日志'
+        data['log_count'] = statement_state.count()
+
+    if not all([review_objs, inform_objs]):
+        data['review_inform'] = None
+        data['review_count'] = None
+    else:
+        data['review_count'] = inform_objs.count() + review_objs.count()
+        if review_objs:
+            review_obj_send = review_objs[0].send_time
+        else:
+            review_obj_send = None
+        if inform_objs:
+            inform_obj_send = inform_objs[0].send_time
+        else:
+            inform_obj_send = None
+
+        if review_obj_send >= inform_obj_send:
+            data['review_inform'] = review_objs[0].user.full_name + '的' + type_dict[review_objs[0].types]+'需要您审批'
+        else:
+            data['review_inform'] = inform_objs[0].user.full_name + '的' + type_dict[review_objs[0].types]+'需要您知晓'
+
+    return JsonResponse({'errno': 0, 'message': "成功", 'data': data})
 
 
 # # # 发送短信验证码
@@ -297,10 +338,6 @@ def sms_verification(request):
     if not all([sms_code, phone]):
         return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
 
-    if sms_code == cache.get(phone+'_register'):
+    if sms_code == cache.get(phone + '_register'):
         return JsonResponse({'errno': 0, 'message': '成功'})
     return JsonResponse({'errno': 2, 'message': '验证码错误'})
-
-
-
-
