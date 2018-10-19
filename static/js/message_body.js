@@ -7,6 +7,7 @@ var message_body = (function(){
             var arr1 = []
             var arr2= []
             var pms = page_params.unread_msgs.pms
+            var key = unread.get_counts().stream_count.keys()
             // console.log(unread.get_counts().pm_count.keys(),unread.get_counts().pm_count)
       
             pms.forEach(function(v,i){
@@ -31,6 +32,9 @@ var message_body = (function(){
                         $(".persistent_data").prepend(notice_box)
                         unread_ui.update_unread_counts()
                         server_events.sortBytime()
+                        if(key.length==0){
+                            localStorage.setItem("arr",JSON.stringify(arr))
+                        }
                     }
                 })
             });

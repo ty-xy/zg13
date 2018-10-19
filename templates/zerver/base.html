@@ -74,5 +74,38 @@
                         });  //关键字查询查询
                     }
         </script>
+        <script>
+            $.ajax({
+                url:"json/zg/user",
+                type:"GET",
+                success:function(res){
+                    localStorage.setItem("myFullName",res.user_me)
+                    localStorage.setItem("user_list",JSON.stringify(res.user_list))
+                }
+            })
+            $.ajax({
+                type:"GET",
+                url:"json/zg/initialize/log",
+                contentType:"application/json",
+                success:function(res){
+                    if(res.errno == 0){
+                        if(res.data.log_count!=null){
+                            $(".log_assistant_count").html(res.data.log_count)
+                            $(".log_assistant_count").parent().show()   
+                            $(".last_log").html(res.data.log_inform)
+                            // var n = Number($(".all_count_num").html())+res.data.count
+                            // setTimeout(function(){
+                            //     $(".all_count_num").html(n) 
+                            // },1000)
+                        }
+                        if(res.data.review_count!=null){
+                            $(".work_order_count").html(res.data.review_count)
+                            $(".work_order_count").parent().show()   
+                            $(".last_work").html(res.data.review_inform)
+                        }
+                    }
+                }
+            })
+        </script>
     </body>
 </html>

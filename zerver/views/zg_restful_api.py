@@ -30,8 +30,9 @@ def zg_initialize_log(request, user_profile):
         data['log_count'] = None
 
     else:
-        user = statement_state[-1].statement_id.user.full_name
-        data['log_inform'] = user + '的日志'
+        user_id = statement_state.order_by('-id')[0].statement_id.user
+        user=UserProfile.objects.get(email=user_id)
+        data['log_inform'] = user.full_name + '的日志'
         data['log_count'] = statement_state.count()
 
     if not all([review_objs, inform_objs]):
@@ -331,13 +332,18 @@ def verification_user(request):
 
 
 # web验证注册手机验证码是否正确
+@csrf_exempt
 def sms_verification(request):
-    sms_code = request.POST.get('sms_code')
-    phone = request.POST.get('phone')
+    if request.method== 'GET':
+        sms_code = request.GET.get('sms_code')
+        phone = request.GET.get('phone')
+        if not all([sms_code, phone]):
+            return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
 
-    if not all([sms_code, phone]):
-        return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
+        if sms_code == cache.get(phone+'_register'):
+            return JsonResponse({'errno': 0, 'message': '成功'})
+        return JsonResponse({'errno': 2, 'message': '验证码错误'})
 
-    if sms_code == cache.get(phone + '_register'):
-        return JsonResponse({'errno': 0, 'message': '成功'})
-    return JsonResponse({'errno': 2, 'message': '验证码错误'})
+
+
+

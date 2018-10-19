@@ -1,5 +1,5 @@
 from zerver.models import Backlog, BacklogAccessory, UpdateBacklog, Statement, StatementBacklog, StatementAccessory, \
-    StatementState, UserProfile, Stream, ZgStatementComment, ZgReplyComment
+    StatementState, UserProfile, Stream, ZgStatementComment, ZgReplyComment,UserProfile
 from django.http import JsonResponse
 import datetime, time, json, calendar
 from zerver.lib import avatar
@@ -8,7 +8,7 @@ from datetime import timezone, timedelta
 from zerver.views.zg_tools import zg_send_tools
 
 import re, math
-
+from django.views.decorators.csrf import csrf_exempt
 from zerver.lib.actions import get_user_ids_for_streams
 from zerver.tornado.event_queue import send_event
 
@@ -114,6 +114,7 @@ def reply_comment(request, user_profile):
     except Exception:
         return JsonResponse({'errno': 1, 'message': "添加回复失败"})
     return JsonResponse({'errno': 0, 'message': "评论成功", 'reply_id': reply_id})
+
 
 
 
