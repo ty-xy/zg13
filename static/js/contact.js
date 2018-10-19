@@ -27,8 +27,6 @@ var contact = (function(){
                 type:"GET",
                 success:function(res){
                     initStyle()
-                    localStorage.setItem("myFullName",res.user_me)
-                    localStorage.setItem("user_list",JSON.stringify(res.user_list))
                     $(".notice_ctn_box").children().remove();
                     var user_list = res.user_list;
                     var user_list_our = templates.render("user_list_our",{user_list:user_list})
@@ -61,6 +59,7 @@ var contact = (function(){
                             $("#compose").show();
                             $(".group_icon").hide();
                             $(".persistent_data").show()
+                            $(".work_order").show()
                             $(".tab-content").css("height","calc(100% - 232px)")
                             // console.log(message_fetch.getLastMessage())
                             //上方显示聊天对面信息
@@ -994,6 +993,10 @@ var contact = (function(){
                     }
                 })
             })
+            //点击之后取消工作通知未读显示
+            $(".work_order_count").html("")
+            $(".work_order_count").parent().hide()
+            $(".last_work").html("暂无新的工作通知")
         })  
         //日志助手显示
         $("body").on("click",'.log_assistant_btn',function(e){
@@ -1302,8 +1305,13 @@ var contact = (function(){
                                }
                            })
                    })
-                       }
-                   })
+
+                   //点击之后取消未读显示
+                   $(".log_assistant_count").html("")
+                   $(".log_assistant_count").parent().hide()
+                   $(".last_log").html("还没有新的日志")
+                    }
+                })
            //筛选
            $(".log_assistant_screening").on("click",function(e){
                $(".log_screening").show();

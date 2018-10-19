@@ -1661,7 +1661,7 @@ def get_system_bot(email: Text) -> UserProfile:
         user_obj = create_user(email=email,
                                password='123321',
                                realm=realm[0],
-                               full_name='机器人-bot', short_name='机器人-bot',
+                               full_name='机器人-Bot', short_name='机器人-Bot',
                                is_realm_admin=False, bot_type=4, bot_owner=None,
                                timezone='Asia/Shanghai',
                                avatar_source=UserProfile.AVATAR_FROM_GRAVATAR,
@@ -2359,6 +2359,9 @@ class ZgReview(models.Model):
     status = models.CharField(max_length=15, default='审批中')
     # 职责：（审批：approval  抄送：inform）
     duties = models.CharField(max_length=30, default='approval')
+    # 已读未读
+    is_know = models.BooleanField(default=False)
+
     send_time = models.DateTimeField()
 
 

@@ -1,5 +1,5 @@
 from zerver.models import Backlog, BacklogAccessory, UpdateBacklog, Statement, StatementBacklog, StatementAccessory, \
-    StatementState, UserProfile, Stream, ZgStatementComment, ZgReplyComment
+    StatementState, UserProfile, Stream, ZgStatementComment, ZgReplyComment,UserProfile
 from django.http import JsonResponse
 import datetime, time, json, calendar
 from zerver.lib import avatar
@@ -8,7 +8,7 @@ from datetime import timezone, timedelta
 from zerver.views.zg_tools import zg_send_tools
 
 import re, math
-
+from django.views.decorators.csrf import csrf_exempt
 from zerver.lib.actions import get_user_ids_for_streams
 from zerver.tornado.event_queue import send_event
 
@@ -116,6 +116,8 @@ def reply_comment(request, user_profile):
     return JsonResponse({'errno': 0, 'message': "评论成功", 'reply_id': reply_id})
 
 
+
+
 # 已读未读
 def state_view(request, user_profile):
     table_id = request.GET.get('table_id')
@@ -168,7 +170,7 @@ def look_table(request, user_profile):
 
         statement = Statement.objects.get(id=table_id)
         a = StatementState.objects.filter(statement_id=statement.id, staff=user_profile.id)
-        if a :
+        if a:
             a[0].state = True
             a[0].save()
 

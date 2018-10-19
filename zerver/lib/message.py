@@ -177,7 +177,6 @@ class MessageDict:
             obj['app_content'] = obj['content']
             if len(obj['content'].split('](')) >1:
                 obj['app_content'] = obj['content'].split('](')[1][:-1]
-                print(obj['app_content'])
             if len(obj['rendered_content'].split('user_uploads/')) > 1:
                 path_id = obj['content'].split('user_uploads/')[1]
                 if path_id[-1] == ')':

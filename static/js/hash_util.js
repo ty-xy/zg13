@@ -35,7 +35,9 @@ exports.encode_stream_name = function (operand) {
 };
 
 exports.decodeHashComponent = function (str) {
-    return decodeURIComponent(str.replace(/\./g, '%'));
+    if(str != undefined){
+        return decodeURIComponent(str.replace(/\./g, '%'));
+    }
 };
 
 exports.decode_operand = function (operator, operand) {

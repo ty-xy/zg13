@@ -114,13 +114,14 @@ html {
     border: none;
     border-bottom: 1px solid #ddd;
     margin-bottom: 10px;
-    font-size: 16px;
+    font-size: 18px;
     color: #000;
     letter-spacing: 1.33px;
     padding-bottom: 10px;
     outline: none;
     width: 328px;
     padding: 0;
+    padding-bottom: 10px;
 }
 #registered_password,#resset_password{
     border: none;
@@ -149,6 +150,9 @@ html {
     margin-top: 30px;
     position: relative;height: 57px;
 
+}
+.verification{
+    outline: none;
 }
 .full_name_box{
     margin-top:10px;

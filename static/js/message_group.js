@@ -18,7 +18,7 @@ var message_group = (function () {
                 // var subject = hash_util.decodeHashComponent(hash[4])
                 var stream = hash[2].split("-")
                 var stream_id = stream[0]
-                 stream = hash_util.decodeHashComponent(stream[1])
+                stream = hash_util.decodeHashComponent(stream[1])
                 stream_id = Number(stream_id)
                 $(".home-title span").html(stream) 
                 $(".home-title").show()

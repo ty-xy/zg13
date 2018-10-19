@@ -60,14 +60,14 @@ $(function () {
 
     $("#send_confirm").validate({
         errorElement: "div",
-        rules:{
-            fullname:{
-                required: true,
-                regUserName: true,
-                minlength: 4,
-                maxlength: 10
-            }
-        },
+        // rules:{
+        //     fullname:{
+        //         required: true,
+        //         regUserName: true,
+        //         minlength: 4,
+        //         maxlength: 10
+        //     }
+        // },
         errorPlacement: function (error) {
             // console.log(error,1)
             $('.email-frontend-error').empty();
@@ -77,6 +77,11 @@ $(function () {
         success: function () {
             $('#errors').empty();
         },
+        // submitHandler:function(form){
+        //     alert("提交事件!");   
+        //     // form.submit();
+        //     $(form).ajaxSubmit();  
+        // }  
     });
     $("#full_name").validate({
         rules:{
@@ -163,6 +168,31 @@ $(function () {
             })
         }
     })
+     //检测验证码
+     $(".verification").on("blur",function(){
+        var sms_code = $(this).val()
+        var phone = $(".phone_number").val()
+        console.log(phone)
+        var obj = {
+            phone:phone,
+            sms_code:sms_code
+        }
+        if(phone&&sms_code){
+            $.ajax({
+                type:"GET",
+                url:"/api/v1/zg/sms/verification",
+                contentType:"application/json",
+                data:obj,
+                success:function(res){
+                    if(res.errno == 2){
+                        $("#smscode_repeat").show()
+                    }else{
+                        $("#smscode_repeat").hide()
+                    }
+                }
+            })
+        }
+    })
     //获取验证码
     $("#send_confirm").on("click",".get_verification",function(){
         var countdown=60;
@@ -201,7 +231,7 @@ $(function () {
             data:obj,
             success:function(){
                 console.log("-------------______---success")
-            }  
+            }
         })
     })
 
@@ -244,7 +274,7 @@ $(function () {
             data:obj,
             success:function(){
                 console.log("123")
-            }  
+            }
         })
     })
     // $(document).ready(function() {
@@ -253,7 +283,7 @@ $(function () {
 //     $("#reset_password").ajaxForm(function(data){
 //           alert("返回的值是" + data);
 //           console.log(data)
-//     });		    
+//     });
 // });
 // $(document).ready(function() {
 //     console.log($('#send_confirm'))
