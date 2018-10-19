@@ -71,6 +71,32 @@ function compare_by_huddle(huddle) {
     };
 }
 
+function fetch_datas(last){
+    channel.get({
+        url:  '/json/messages',
+        data: {
+            anchor: 2256,
+            num_before: 50,
+            num_after: 50,
+            narrow:JSON.stringify([last])
+        },
+        idempotent: true,
+        success:function(data){
+              var arr_list=[]
+              var map = {}
+           if(data.messages.length>0){
+            data.messages.forEach(function(value,index){
+                    if(value.type==="stream"){
+                        //  console.log(value.stream_id,value.subject)
+                    }else if(value.type="private"){
+                        //  console.log(value.sender_id)
+                    }
+                })
+           }
+        }
+    })
+} 
+
 function get_stream_suggestions(last, operators) {
     if (!(last.operator === 'stream' || last.operator === 'search'
         || last.operator === '')) {
@@ -231,7 +257,7 @@ function get_person_suggestions(all_persons, last, operators, autocomplete_opera
         var search_string = Filter.unparse(terms);
         return {description: description, search_string: search_string};
     });
-    console.log(objs)
+    
     return objs;
 }
 
@@ -537,6 +563,8 @@ exports.get_suggestions = function (query) {
         last = operators.slice(-1)[0];
         // console.log(last)
     }
+    console.log(last)
+    fetch_datas(last)
     // var muting_enabled = narrow_state.muting_enabled();
     // var msg_list_opts = {
     //     collapse_messages: ! narrow_state.get_current_filter().is_search(),

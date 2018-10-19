@@ -62,6 +62,7 @@ exports.activate = function (raw_operators, opts) {
     // console.log(raw_operators)
     var start_time = new Date();
     var was_narrowed_already = narrow_state.active();
+    // console.log(was_narrowed_already)
     // most users aren't going to send a bunch of a out-of-narrow messages
     // and expect to visit a list of narrows, so let's get these out of the way.
     notifications.clear_compose_notifications();
@@ -116,6 +117,7 @@ exports.activate = function (raw_operators, opts) {
         change_hash: true,
         trigger: 'unknown',
     });
+    // console.log(opts)
     // These two narrowing operators specify what message should be
     // selected and should be the center of the narrow.
     if (filter.has_operator("near")) {
@@ -139,7 +141,7 @@ exports.activate = function (raw_operators, opts) {
 
     var then_select_id = opts.then_select_id;
     var then_select_offset;
-
+    // console.log(then_select_id,opts.use_initial_narrow_pointer)
     if (!was_narrowed_already) {
         unread.messages_read_in_narrow = false;
     }
@@ -153,6 +155,7 @@ exports.activate = function (raw_operators, opts) {
     narrow_state.set_current_filter(filter);
     var muting_enabled = narrow_state.muting_enabled();
     // Save how far from the pointer the top of the message list was.
+    // console.log(current_msg_list.selected_id(),current_msg_list)
     if (current_msg_list.selected_id() !== -1) {
         if (current_msg_list.selected_row().length === 0) {
             blueslip.debug("narrow.activate missing selected row", {
@@ -185,7 +188,7 @@ exports.activate = function (raw_operators, opts) {
         msg_list_opts
     );
     msg_list.start_time = start_time;
-    console.log(msg_list_opts,narrow_state.get_current_filter().is_search(),msg_list)
+    // console.log(msg_list_opts,narrow_state.get_current_filter().is_search(),msg_list)
     // Show the new set of messages.  It is important to set current_msg_list to
     // the view right as it's being shown, because we rely on current_msg_list
     // being shown for deciding when to condense messages.
@@ -290,7 +293,7 @@ exports.stream_topic = function () {
     // specifically care about, according (mostly) to the
     // currently selected message.
     var msg = current_msg_list.selected_message();
-    console.log(msg)
+    // console.log(msg)
     if (msg) {
         return {
              stream: msg.stream || undefined,
@@ -596,7 +599,7 @@ function pick_empty_narrow_banner() {
                 $(".home-title button").hide();
                 
                 $(".home-title span").html($(this).children().last().children().children().first().text());
-                console.log(111111,11113)
+                // console.log(111111,11113)
             })
             //推送消息删除
             $(".persistent_data").on("mouseover",".only_tip",function(){
