@@ -15,21 +15,12 @@ var message_group = (function () {
             var url_index = url.substr(0,url.indexOf("/",i+1))
             if (url_index=== "#narrow/stream"){
                 var hash = url.split("/")
-                var subject = hash_util.decodeHashComponent(hash[4])
+                // var subject = hash_util.decodeHashComponent(hash[4])
                 var stream = hash[2].split("-")
                 var stream_id = stream[0]
                  stream = hash_util.decodeHashComponent(stream[1])
                 stream_id = Number(stream_id)
                 $(".home-title span").html(stream) 
-                // if(url.indexOf("/",index+1) != -1){
-                //     var j = url.slice(index+4,url.indexOf("/",index+1))
-                //     j= hash_util.decodeHashComponent(j)
-                //     console.log(j)
-                //     $(".home-title span").html(j)
-                // }else{
-                //     var title = hash_util.decodeHashComponent(url.substr(index+4))
-                //     $(".home-title span").html(title)             
-                // }
                 $(".home-title").show()
                 $(".home-title button").show();
                 $(".compose-title").show()
@@ -258,7 +249,7 @@ var message_group = (function () {
                     data: data,
                     idempotent: true,
                     success:function(data){
-                        // console.log(data)
+                        console.log(data)
                         var arr = JSON.parse(localStorage.getItem("arr"))
                         var subject
                         if(data.messages.length==0){
