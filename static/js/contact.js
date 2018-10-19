@@ -1301,8 +1301,12 @@ var contact = (function(){
                                }
                            })
                    })
-                       }
-                   })
+                   //点击之后取消未读显示
+                   $(".log_assistant_count").html("")
+                   $(".log_assistant_count").parent().hide()
+                   $(".last_log").html("还没有新的日志")
+                    }
+                })
            //筛选
            $(".log_assistant_screening").on("click",function(e){
                $(".log_screening").show();

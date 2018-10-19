@@ -1,5 +1,5 @@
 from zerver.models import Backlog, BacklogAccessory, UpdateBacklog, Statement, StatementBacklog, StatementAccessory, \
-    StatementState, UserProfile, Stream, ZgStatementComment, ZgReplyComment
+    StatementState, UserProfile, Stream, ZgStatementComment, ZgReplyComment,UserProfile
 from django.http import JsonResponse
 import datetime, time, json, calendar
 from zerver.lib import avatar
@@ -123,8 +123,9 @@ def zg_initialize_log(request, user_profile):
     if not statement_state:
         return JsonResponse({'errno': 1, 'message': "未读消息为空"})
     data = dict()
-    user = statement_state[-1].statement_id.user.full_name
-    data['inform'] = user + '的日志'
+    user_id = statement_state.order_by('-id')[0].statement_id.user
+    user=UserProfile.objects.get(email=user_id)
+    data['inform'] = user.full_name + '的日志'
     data['count'] = statement_state.count()
     return JsonResponse({'errno': 0, 'message': "成功", 'data': data})
 

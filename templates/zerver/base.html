@@ -83,6 +83,25 @@
                     localStorage.setItem("user_list",JSON.stringify(res.user_list))
                 }
             })
+            $.ajax({
+                type:"GET",
+                url:"json/zg/initialize/log",
+                contentType:"application/json",
+                success:function(res){
+                    console.log(res)
+                    if(res.errno == 0){
+                        if(res.data.count!=0){
+                            $(".log_assistant_count").html(res.data.count)
+                            $(".log_assistant_count").parent().show()   
+                            $(".last_log").html(res.data.inform)
+                            // var n = Number($(".all_count_num").html())+res.data.count
+                            // setTimeout(function(){
+                            //     $(".all_count_num").html(n) 
+                            // },1000)
+                        }
+                    }
+                }
+            })
         </script>
     </body>
 </html>
