@@ -88,16 +88,20 @@
                 url:"json/zg/initialize/log",
                 contentType:"application/json",
                 success:function(res){
-                    console.log(res)
                     if(res.errno == 0){
-                        if(res.data.count!=0){
-                            $(".log_assistant_count").html(res.data.count)
+                        if(res.data.log_count!=null){
+                            $(".log_assistant_count").html(res.data.log_count)
                             $(".log_assistant_count").parent().show()   
-                            $(".last_log").html(res.data.inform)
+                            $(".last_log").html(res.data.log_inform)
                             // var n = Number($(".all_count_num").html())+res.data.count
                             // setTimeout(function(){
                             //     $(".all_count_num").html(n) 
                             // },1000)
+                        }
+                        if(res.data.review_count!=null){
+                            $(".work_order_count").html(res.data.review_count)
+                            $(".work_order_count").parent().show()   
+                            $(".last_work").html(res.data.review_inform)
                         }
                     }
                 }

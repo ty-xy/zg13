@@ -410,9 +410,6 @@ v1_api_and_json_patterns = [
     # 回复评论
     url(r'^zg/reply/comment/$', rest_dispatch,
         {'POST': 'zerver.views.zg_backlog.reply_comment'}),
-    # 初始待办事项报表
-    url(r'^zg/initialize/log$', rest_dispatch,
-        {'GET': 'zerver.views.zg_backlog.zg_initialize_log'}),
 
     # ------考勤信息----
 
@@ -588,6 +585,9 @@ v1_api_and_json_patterns = [
     # 删除文件
     url(r'^zg/file/del/', rest_dispatch,
         {'DELETE': 'zerver.views.zg_restful_api.file_del'}),
+    # 初始待办事项报表
+    url(r'^zg/initialize/log$', rest_dispatch,
+        {'GET': 'zerver.views.zg_restful_api.zg_initialize_log'}),
 
 ]
 

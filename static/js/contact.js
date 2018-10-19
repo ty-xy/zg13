@@ -993,6 +993,10 @@ var contact = (function(){
                     }
                 })
             })
+            //点击之后取消工作通知未读显示
+            $(".work_order_count").html("")
+            $(".work_order_count").parent().hide()
+            $(".last_work").html("暂无新的工作通知")
         })  
         //日志助手显示
         $("body").on("click",'.log_assistant_btn',function(e){
@@ -1301,6 +1305,7 @@ var contact = (function(){
                                }
                            })
                    })
+
                    //点击之后取消未读显示
                    $(".log_assistant_count").html("")
                    $(".log_assistant_count").parent().hide()
