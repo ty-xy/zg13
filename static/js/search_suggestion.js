@@ -71,6 +71,32 @@ function compare_by_huddle(huddle) {
     };
 }
 
+function fetch_datas(last){
+    channel.get({
+        url:  '/json/messages',
+        data: {
+            anchor: 2256,
+            num_before: 50,
+            num_after: 50,
+            narrow:JSON.stringify([last])
+        },
+        idempotent: true,
+        success:function(data){
+              var arr_list=[]
+              var map = {}
+           if(data.messages.length>0){
+            data.messages.forEach(function(value,index){
+                    if(value.type==="stream"){
+                        //  console.log(value.stream_id,value.subject)
+                    }else if(value.type="private"){
+                        //  console.log(value.sender_id)
+                    }
+                })
+           }
+        }
+    })
+} 
+
 function get_stream_suggestions(last, operators) {
     if (!(last.operator === 'stream' || last.operator === 'search'
         || last.operator === '')) {
@@ -96,7 +122,7 @@ function get_stream_suggestions(last, operators) {
     streams = typeahead_helper.sorter(query, streams);
 
     var objs = _.map(streams, function (stream) {
-        var prefix = 'stream';
+        var prefix = '群组';
         var highlighted_stream = typeahead_helper.highlight_with_escaping(query, stream);
         var description = prefix + ' ' + highlighted_stream;
         var term = {
@@ -106,7 +132,6 @@ function get_stream_suggestions(last, operators) {
         var search_string = Filter.unparse([term]);
         return {description: description, search_string: search_string};
     });
-
     return objs;
 }
 
@@ -121,7 +146,7 @@ function get_group_suggestions(all_persons, last, operators) {
     if (match_criteria(operators, invalid)) {
         return [];
     }
-
+    
     var operand = last.operand;
     var negated = last.negated;
 
@@ -186,7 +211,7 @@ function get_person_suggestions(all_persons, last, operators, autocomplete_opera
     }
 
     var query = last.operand;
-
+    // console.log(all_persons,last)
     // Only accept queries who match the specified operator, or no operator (search)
     if (!(last.operator === 'search' || last.operator === autocomplete_operator)) {
         return [];
@@ -214,9 +239,8 @@ function get_person_suggestions(all_persons, last, operators, autocomplete_opera
     });
 
     persons.sort(typeahead_helper.compare_by_pms);
-
     var prefix = Filter.operator_to_prefix(autocomplete_operator, last.negated);
-
+    // console.log(prefix,autocomplete_operator,last.negated)
     var objs = _.map(persons, function (person) {
         var name = highlight_person(query, person);
         var description = prefix + ' ' + name;
@@ -233,7 +257,7 @@ function get_person_suggestions(all_persons, last, operators, autocomplete_opera
         var search_string = Filter.unparse(terms);
         return {description: description, search_string: search_string};
     });
-
+    
     return objs;
 }
 
@@ -429,19 +453,19 @@ function get_special_filter_suggestions(last, operators) {
 
     // Only show home if there's an empty bar
     if (operators.length === 0 && last_string === '') {
-        suggestions.unshift({search_string: '', description: 'All messages'});
+        suggestions.unshift({search_string: '', description: '所有信息'});
     }
     return suggestions;
 }
 
 function get_sent_by_me_suggestions(last, operators) {
     var last_string = Filter.unparse([last]).toLowerCase();
-    var sender_query = 'sender:' + people.my_current_email();
-    var from_query = 'from:' + people.my_current_email();
-    var description = 'sent by me';
+    var sender_query = '发送人:' + people.my_current_email();
+    var from_query = '发送自:' + people.my_current_email();
+    var description = '我发送的';
     var invalid = [
-        {operator: 'sender'},
-        {operator: 'from'},
+        {operator: '发送人'},
+        {operator: '发送自'},
     ];
 
     if (match_criteria(operators, invalid)) {
@@ -510,6 +534,7 @@ function get_operator_suggestions(last) {
 }
 
 function attach_suggestions(result, base, suggestions) {
+    // console.log(suggestions)
     _.each(suggestions, function (suggestion) {
         if (base.description.length > 0) {
             suggestion.search_string = base.search_string + " " + suggestion.search_string;
@@ -532,15 +557,32 @@ exports.get_suggestions = function (query) {
 
     // Add an entry for narrow by operators.
     var operators = Filter.parse(query);
+    // console.log(operators)
     var last = {operator: '', operand: '', negated: false};
     if (operators.length > 0) {
         last = operators.slice(-1)[0];
+        // console.log(last)
     }
-
+    console.log(last)
+    fetch_datas(last)
+    // var muting_enabled = narrow_state.muting_enabled();
+    // var msg_list_opts = {
+    //     collapse_messages: ! narrow_state.get_current_filter().is_search(),
+    //     muting_enabled: muting_enabled,
+    // };
+    // var msg_list = new message_list.MessageList( 
+    //     'zfilt',
+    //     narrow_state.get_current_filter(),
+    //     msg_list_opts
+    // );
+    // console.log(msg_list_opts)
+    // console.log(msg_list,narrow_state.get_current_filter().is_search())
     // Display the default first
     if (last.operator !== '') {
+        // console.log(last)
         suggestion = get_default_suggestion(operators);
         result = [suggestion];
+        // console.log(result)
     }
 
     var base_operators = [];
@@ -548,10 +590,11 @@ exports.get_suggestions = function (query) {
         base_operators = operators.slice(0, -1);
     }
     base = get_default_suggestion(base_operators);
-
+    
     // Get all individual suggestions, and then attach_suggestions
     // mutates the list 'result' to add a properly-formatted suggestion
     suggestions = get_special_filter_suggestions(last, base_operators);
+    
     attach_suggestions(result, base, suggestions);
 
     suggestions = get_sent_by_me_suggestions(last, base_operators);
@@ -599,6 +642,7 @@ exports.get_suggestions = function (query) {
     var lookup_table = {};
     var unique_suggestions = [];
     _.each(result, function (obj) {
+        // console.log(result)
         if (!lookup_table[obj.search_string]) {
             lookup_table[obj.search_string] = obj;
             unique_suggestions.push(obj);

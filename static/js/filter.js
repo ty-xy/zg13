@@ -448,34 +448,34 @@ Filter.operator_to_prefix = function (operator, negated) {
     var verb;
 
     if (operator === 'search') {
-        return negated ? 'exclude' : 'search for';
+        return negated ? '不包括' : '搜索';
     }
 
-    verb = negated ? 'exclude ' : '';
+    verb = negated ? '不包括 ' : '';
 
     switch (operator) {
     case 'stream':
-        return verb + 'stream';
+        return verb + '群组';
 
     case 'near':
         return verb + 'messages around';
 
     case 'has':
-        return verb + 'messages with one or more';
+        return verb + '消息中有一个或者多个';
 
     case 'id':
-        return verb + 'message ID';
+        return verb + '消息id';
 
     case 'subject':
     case 'topic':
-        return verb + 'topic';
+        return verb + '话题';
 
     case 'from':
     case 'sender':
-        return verb + 'sent by';
+        return verb + '发送自';
 
     case 'pm-with':
-        return verb + 'private messages with';
+        return verb + '私信';
 
     case 'in':
         return verb + 'messages in';
@@ -485,7 +485,7 @@ Filter.operator_to_prefix = function (operator, negated) {
         return verb + 'messages that are';
 
     case 'group-pm-with':
-        return verb + 'group private messages including';
+        return verb + '私信群组中包括';
     }
     return '';
 };

@@ -9,7 +9,7 @@ var message_body = (function(){
             var pms = page_params.unread_msgs.pms
             var key = unread.get_counts().stream_count.keys()
             // console.log(unread.get_counts().pm_count.keys(),unread.get_counts().pm_count)
-      
+            var key = unread.get_counts().stream_count.keys()
             pms.forEach(function(v,i){
                 var person = people.get_person_from_user_id(v.sender_id);
                 var send_id= v.sender_id
@@ -30,6 +30,9 @@ var message_body = (function(){
                         arr.unshift(server_events.set_local_news(send_id,'',name,avatar,time,mes,_href,'',short_name,time_stamp))
                         var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:send_id,time:time,short_name:short_name,_href:_href,time_stamp:time_stamp})
                         $(".persistent_data").prepend(notice_box)
+                        if(key.length==0){
+                            localStorage.setItem("arr",JSON.stringify(arr))
+                        }
                         unread_ui.update_unread_counts()
                         server_events.sortBytime()
                         if(key.length==0){
@@ -39,7 +42,6 @@ var message_body = (function(){
                 })
             });
             
-            var key = unread.get_counts().stream_count.keys()
             key.forEach(function(y){
                       var sub = stream_data.get_sub_by_id(y)
                       var avatar = sub.color
@@ -79,9 +81,57 @@ var message_body = (function(){
                })
             
          }
-        setTimeout(function(){
+         function narrow_or_search_for_term(search_string) {
+            var search_query_box = $("#global_search");
+            // console.log(search_query_box,search_string)
+            ui_util.change_tab_to('#home');
             
-        },1000)
+            var operators = Filter.parse(search_string);
+            if(operators[0].operator==="stream"&&operators.length==1){
+                    var narrow_titles = operators[0].operand
+                    var stream_id = stream_data.get_stream_id(narrow_titles)
+                    channel.get({
+                        url:'/json/users/me/' + stream_id + '/topics',
+                        data:{},
+                        success:function(data){
+                            var value  = data.topics[0].name
+                            exports.narrow_title = value
+                            operators[1] ={negated: false, operator: "topic", operand: value}
+                            narrow.activate(operators, {trigger: 'search'});
+                            search_query_box.blur();
+                            return search_query_box.val();
+                        }
+                    })
+            }else{
+                narrow.activate(operators, {trigger: 'search'});
+                search_query_box.blur();
+                return search_query_box.val();
+            }
+            // console.log(operators,search_string)
+           
+         }
+         $("#global_search").typeahead({
+            source: function (query) {
+                var suggestions = search_suggestion.get_suggestions(query);
+                search_object = suggestions.lookup_table;
+                return suggestions.strings;
+            },
+            fixed: true,
+            items: 12,
+            helpOnEmptyStrings: true,
+            naturalSearch: true,
+            highlighter: function (item) {
+                var obj = search_object[item];
+                return obj.description;
+            },
+            matcher: function () {
+                return true;
+            },
+            updater: narrow_or_search_for_term,
+            sorter: function (items) {
+                return items;
+            },
+         })
     })
     return exports;
 }())

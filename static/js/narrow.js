@@ -59,8 +59,10 @@ function report_unnarrow_time() {
 
 exports.narrow_title = "主页";
 exports.activate = function (raw_operators, opts) {
+    // console.log(raw_operators)
     var start_time = new Date();
     var was_narrowed_already = narrow_state.active();
+    // console.log(was_narrowed_already)
     // most users aren't going to send a bunch of a out-of-narrow messages
     // and expect to visit a list of narrows, so let's get these out of the way.
     notifications.clear_compose_notifications();
@@ -72,11 +74,13 @@ exports.activate = function (raw_operators, opts) {
     // Take the most detailed part of the narrow to use as the title.
     // If the operator is something other than "stream", "topic", or
     // "is", we shouldn't update the narrow title
+    // console.log(operators)
     if (filter.has_operator("stream")) {
         if (filter.has_operator("topic")) {
             exports.narrow_title = filter.operands("topic")[0];
         } else {
             exports.narrow_title = filter.operands("stream")[0];
+          
         }
     } else if (filter.has_operator("is")) {
         switch(filter.operands("is")[0]){
@@ -113,6 +117,7 @@ exports.activate = function (raw_operators, opts) {
         change_hash: true,
         trigger: 'unknown',
     });
+    // console.log(opts)
     // These two narrowing operators specify what message should be
     // selected and should be the center of the narrow.
     if (filter.has_operator("near")) {
@@ -136,7 +141,7 @@ exports.activate = function (raw_operators, opts) {
 
     var then_select_id = opts.then_select_id;
     var then_select_offset;
-
+    // console.log(then_select_id,opts.use_initial_narrow_pointer)
     if (!was_narrowed_already) {
         unread.messages_read_in_narrow = false;
     }
@@ -150,6 +155,7 @@ exports.activate = function (raw_operators, opts) {
     narrow_state.set_current_filter(filter);
     var muting_enabled = narrow_state.muting_enabled();
     // Save how far from the pointer the top of the message list was.
+    // console.log(current_msg_list.selected_id(),current_msg_list)
     if (current_msg_list.selected_id() !== -1) {
         if (current_msg_list.selected_row().length === 0) {
             blueslip.debug("narrow.activate missing selected row", {
@@ -182,7 +188,7 @@ exports.activate = function (raw_operators, opts) {
         msg_list_opts
     );
     msg_list.start_time = start_time;
-
+    // console.log(msg_list_opts,narrow_state.get_current_filter().is_search(),msg_list)
     // Show the new set of messages.  It is important to set current_msg_list to
     // the view right as it's being shown, because we rely on current_msg_list
     // being shown for deciding when to condense messages.
@@ -193,7 +199,7 @@ exports.activate = function (raw_operators, opts) {
     ui_util.change_tab_to('#home');
     message_list.narrowed = msg_list;
     current_msg_list = message_list.narrowed;
-
+    // console.log(current_msg_list)
     function maybe_select_closest() {
         if (! message_list.narrowed.empty()) {
             if (opts.select_first_unread) {
@@ -256,6 +262,7 @@ exports.activate = function (raw_operators, opts) {
     // Disabled when the URL fragment was the source
     // of this narrow.
     if (opts.change_hash) {
+        // console.log("22222")
         hashchange.save_narrow(operators);
     }
 
@@ -286,7 +293,7 @@ exports.stream_topic = function () {
     // specifically care about, according (mostly) to the
     // currently selected message.
     var msg = current_msg_list.selected_message();
-    
+    // console.log(msg)
     if (msg) {
         return {
              stream: msg.stream || undefined,
@@ -592,7 +599,7 @@ function pick_empty_narrow_banner() {
                 $(".home-title button").hide();
                 
                 $(".home-title span").html($(this).children().last().children().children().first().text());
-                console.log(111111,11113)
+                // console.log(111111,11113)
             })
             //推送消息删除
             $(".persistent_data").on("mouseover",".only_tip",function(){
