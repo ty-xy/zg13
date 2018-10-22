@@ -30,12 +30,13 @@ function set_hash(hash) {
 }
 
 exports.changehash = function (newhash) {
-    // console.log(newhash)
+  
     if (changing_hash) {
         return;
     }
-   
+//    console.log($.Event('zuliphashchange.zulip'))
     $(document).trigger($.Event('zuliphashchange.zulip'));
+    window.location.href= newhash
     set_hash(newhash);
     favicon.reset();
 };
@@ -45,7 +46,7 @@ exports.changehash = function (newhash) {
 // of the narrow URL
 exports.operators_to_hash = function (operators) {
     var hash = '#';
-    // console.log(operators)
+   
     if (operators !== undefined) {
         hash = '#narrow';
         _.each(operators, function (elem) {
@@ -58,15 +59,20 @@ exports.operators_to_hash = function (operators) {
                   + '/' + hash_util.encode_operand(operator, operand);
         });
     }
-  
-    return hash;
+   
+   
+        return hash;
+    
+   
 };
 
 exports.save_narrow = function (operators) {
+    // console.log(operators,changing_hash)
     if (changing_hash) {
         return;
     }
     var new_hash = exports.operators_to_hash(operators);
+    // console.log(1,new_hash)
     exports.changehash(new_hash);
 };
 var arr;
