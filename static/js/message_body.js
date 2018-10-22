@@ -127,34 +127,53 @@ var message_body = (function(){
                           var short_name = value.email.slice(0,indexs)
                           var send_id = value.user_id
                           var name = value.full_name
-                          var time_stamp = new Date().getTime()
-                          var time = server_events.tf(time_stamp)
                           var _href = "#narrow/pm-with/"+send_id+"-"+short_name
-                          person_list.push({avatar:avatar,name:name,href:_href,private:send_id})
-                        //   if(arrlist == null){
-                        //     var arrlist = []
-                        //     arrlist.unshift(server_events.set_local_news(send_id,'',name,avatar,time,"",_href,"",short_name,time_stamp))
-                        //     var notice_box = templates.render("notice_box",{name:name,mes:"",avatar:avatar,send_id:send_id,time:time,short_name:short_name,_href:_href,time_stamp:time_stamp})
-                        //     $(".persistent_data").prepend(notice_box)
-                        //     var arr = arrlist
-                        //     localStorage.setItem("arr",JSON.stringify(arr))
-                        //   }else{
-                        //     var data_index = arrlist.filter(function(item){
-                        //         return  item.send_id ===send_id
-                        //      })
-                        //      if(!data_index){
-                        //         arrlist.unshift(server_events.set_local_news(send_id,'',name,avatar,time,"",_href,"",short_name,time_stamp))
-                        //      }
-                        //      var notice_box = templates.render("notice_box",{name:name,mes:"",avatar:avatar,send_id:send_id,time:time,short_name:short_name,_href:_href,time_stamp:time_stamp})
-                        //      $(".persistent_data").prepend(notice_box)
-                        //      var arr = arrlist
-                        //      localStorage.setItem("arr",JSON.stringify(arr))
-                        //   }
+                          person_list.push({avatar:avatar,name:name,href:_href,private:send_id,short_name:short_name})
                     })
-                    
-                    
                     var lis = templates.render("choose_search_people",{arr:person_list})
                     $(".all-choose-person").html(lis)
+                    var time_stamp = new Date().getTime()
+                    var time = server_events.tf(time_stamp)
+                    $(".all-choose-person").off("click","a").on("click","a",function(e){
+                        var arrlist = JSON.parse(localStorage.getItem("arr"))
+                        var id  = $(this).attr("data_id")
+                        var data_index = person_list.filter(function(item){
+                             if(item.private ==id){
+                                 console.log(1111)
+                                 return item
+                             }
+                        })
+                       
+                        var name = data_index[0].name
+                        var _href = data_index[0].href
+                        var short_name = data_index[0].short_name
+                        var avatar = data_index[0].avatar
+                        var send_id = id 
+                        if(arrlist == null){
+                           
+                            var arrlist = []
+                            arrlist.unshift(server_events.set_local_news(send_id,'',name,avatar,time,"",_href,"",short_name,time_stamp))
+                            var notice_box = templates.render("notice_box",{name:name,mes:"",avatar:avatar,send_id:id,time:time,short_name:short_name,_href:_href,time_stamp:time_stamp})
+                            $(".persistent_data").prepend(notice_box)
+                            var arr = arrlist
+                            localStorage.setItem("arr",JSON.stringify(arr))
+                          }else{
+                            
+                            var data_index = arrlist.filter(function(item){
+                                return  item.send_id == send_id
+                             })
+                            
+                             if(data_index.length==0){
+                                arrlist.unshift(server_events.set_local_news(send_id,'',name,avatar,time,"",_href,"",short_name,time_stamp))
+                             }
+                            
+                             var notice_box = templates.render("notice_box",{name:name,mes:"",avatar:avatar,send_id:send_id,time:time,short_name:short_name,_href:_href,time_stamp:time_stamp})
+                             $(".persistent_data").prepend(notice_box)
+                           
+                             var arr = arrlist
+                             localStorage.setItem("arr",JSON.stringify(arr))
+                       } 
+                    })
                 }else{
                     $(".show-person").hide()
                 }
