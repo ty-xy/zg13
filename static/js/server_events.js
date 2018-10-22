@@ -249,6 +249,15 @@ var server_events = (function () {
                 push_one = data.events[0]
             }
             if(type == 'DailyReport'){
+                var now_count = Number($(".log_assistant_count").text())
+                if(now_count){
+                    $(".log_assistant_count").text(now_count+1)
+                    $(".last_log").text(push_one.theme)
+                }else{
+                    $(".log_assistant_count").parent().show()
+                    $(".log_assistant_count").text(1)
+                    $(".last_log").text(push_one.theme)
+                }
                 $(".work_order").show()
                 localStorage.setItem("pushData",JSON.stringify(push_data))
                 $(".keep_exist .notice_bottom").html(push_one.theme)
