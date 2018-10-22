@@ -4,13 +4,16 @@ var attendance = (function () {
     $("body").ready(function () {
      
         function xy(content){
+                
                 var idlist = []
                 var namelist =[]
                   _.each(content,function(value,index){
                     idlist.push(index)
                     namelist.push(value.fullname) 
                   })
+                  
                 namelist=namelist.join(",")
+                console.log(content,namelist)
                 $(".button-common-people").html(namelist)
                 $(".button-common-people").attr("data_obj",JSON.stringify(content))
                 $(".button-common-people").attr("data_id",idlist)
@@ -862,7 +865,6 @@ var attendance = (function () {
            function commonContent(){
             // settime()
             var name = $(".title-input").val()
-            console.log(name)
             if(name==""){
                 alert('请填写考勤组的名字','rgba(169,12,0,0.30)')
                 return 
@@ -951,7 +953,7 @@ var attendance = (function () {
                             data:JSON.stringify(data_list),
                             contentType:"application/json",
                             success:function(data){
-                                // console.log(data)
+                                console.log(data)
                                 if(data.errno==0){
                                     $(".button-submit").css("background-color","#14A4FA")
                                     $(".button-submit").attr("disabled", false);
@@ -964,12 +966,12 @@ var attendance = (function () {
                                             data_list:data_list
                                             }));
                                            var htmls= templates.render("kaoqin_back");
-                                           $(".attendance_box").html(htmls)
-                                           $(".attendance_mangement").addClass("high_light").siblings().removeClass("high_light")
-                                           $(".attendance_ctn").html(html)
-                                           $(".attendance_ctn").on('click',".back_attendance",function(){
-                                            $(".attendance_ctn").empty()
-                                            $(".attendance_ctn").html(html)
+                                             $(".attendance_box").html(htmls)
+                                             $(".attendance_mangement").addClass("high_light").siblings().removeClass("high_light")
+                                             $(".attendance_ctn").html(html)
+                                             $(".attendance_ctn").on('click',".back_attendance",function(){
+                                             $(".attendance_ctn").empty()
+                                             $(".attendance_ctn").html(html)
                                           })
                                         }
                                     })
@@ -1004,6 +1006,9 @@ var attendance = (function () {
                                        var html = $(templates.render('attendance_management',{
                                         data_list:data_list
                                         }));
+                                        var htmls= templates.render("kaoqin_back");
+                                        $(".attendance_box").html(htmls)
+                                        $(".attendance_mangement").addClass("high_light").siblings().removeClass("high_light")
                                        $(".attendance_ctn").html(html)
                                        $(".attendance_ctn").on('click',".first-icon",function(){
                                             $(".attendance_ctn").empty()
