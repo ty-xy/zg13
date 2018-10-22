@@ -67,7 +67,11 @@ var contact = (function(){
                             $(".persistent_data").show();
                             var _time = new Date()
                             var time_stamp = new Date().getTime()
-                            var time = _time.getHours() +':'+_time.getMinutes()
+                            var seccond = _time.getMinutes();
+                            if(_time.getMinutes()<10){
+                                seccond = '0' + seccond
+                            }
+                            var time = _time.getHours() +':'+ seccond
                             var arr = JSON.parse(localStorage.getItem("arr"))
                    
                             if(arr == null){
@@ -128,7 +132,6 @@ var contact = (function(){
                             },10)
                             $(".home-title button").hide();
                             $(".home-title span").html(user_name);
-                            console.log(1,"username",user_name)
                             //做个切换到消息板块的假象试试
                             $(".notice_ctn_box").children().remove();
                             $(".news_icon").addClass("left_blue_height");
