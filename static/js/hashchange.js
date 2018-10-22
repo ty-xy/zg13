@@ -115,6 +115,10 @@ exports.parse_narrow = function (hash) {
         $("#main_div").show()
         $(".group_setting_icon").hide()
         $(".compose-title").hide()
+        setTimeout(function(){
+            var h = $("#zfilt")[0].scrollHeight
+            $("#zfilt").scrollTop(h); 
+        },100)
         arr = JSON.parse(localStorage.getItem("arr"))
         if(arr != null){
             $(".persistent_data").children().remove();
@@ -190,6 +194,10 @@ exports.parse_narrow = function (hash) {
                 //  $(".tab-content").scrollTop(h+x+$("#zfilt").offset().top);
                 $("#stream").val(stream)
                 $("#subject").val(subject)
+                setTimeout(function(){
+                    var h = $("#zfilt")[0].scrollHeight
+                    $("#zfilt").scrollTop(h); 
+                },100)
             }else{
                 $(".home-title").hide()
                 $(".compose-title").hide()
