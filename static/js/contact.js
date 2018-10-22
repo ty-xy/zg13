@@ -72,8 +72,11 @@ var contact = (function(){
                                 seccond = '0' + seccond
                             }
                             var time = _time.getHours() +':'+ seccond
-                            var arr = JSON.parse(localStorage.getItem("arr"))
-                   
+                            var arr = JSON.parse(localStorage.getItem("arr"))   
+                            setTimeout(function(){
+                                var h = $("#zfilt")[0].scrollHeight
+                                $("#zfilt").scrollTop(h); 
+                            },100)
                             if(arr == null){
                                 arr = []
                                 $(".persistent_data").prepend(templates.render("notice_box",{name:user_name,avatar:avatar,_href:_href,time:time,send_id:user_id,short_name:short_name,time_stamp:time_stamp}))
