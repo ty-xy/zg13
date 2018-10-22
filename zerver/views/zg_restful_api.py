@@ -21,8 +21,10 @@ def zg_initialize_log(request, user_profile):
     # 待审批
     review_objs = ZgReview.objects.filter(status='审批中', send_user_id=user_profile.id, duties='approval',
                                           is_know=False).order_by('-id')
+    print(review_objs)
     # 抄送我的
     inform_objs = ZgReview.objects.filter(send_user_id=user_profile.id, duties='inform', is_know=False).order_by('-id')
+    print(inform_objs)
     data = dict()
     type_dict = {'reimburse': '的报销申请', 'leave': '的请假申请', 'evection': '的出差申请'}
     if not statement_state:
@@ -130,6 +132,7 @@ def del_subject(request, user_profile):
     realm_id = req.get('realm_id', 1)
     if not all([subject, stream_id]):
         return JsonResponse({'errno': 2, 'message': '缺少必要参数'})
+    print(realm_id,stream_id)
     recipient = Recipient.objects.filter(type=realm_id, type_id=stream_id)
     Message.objects.filter(subject=subject, recipient=recipient[0].id).delete()
     return JsonResponse({'errno': 0, 'message': '删除成功'})

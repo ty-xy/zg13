@@ -660,6 +660,8 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     # zg-------------
     # 考勤组
     atendance = models.ForeignKey(ZgDepartmentAttendance, null=True)
+    # extra额外  不参与人员drop_out   正常 normal
+    atendance_type=models.CharField(max_length=8,null=True)
     # 权限
     zg_permission = models.IntegerField(null=True)
     # 状态
@@ -897,6 +899,9 @@ class ZgDepartment(models.Model):
     realm = models.ForeignKey(Realm)
     user = models.ManyToManyField(UserProfile)
 
+# class UserDepartment(models.Model):
+#     user = models.ForeignKey(UserProfile)
+#     department = models.ForeignKey(ZgDepartment)
 
 # 外勤表
 class ZgOutsideWork(models.Model):
