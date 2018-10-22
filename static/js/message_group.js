@@ -60,7 +60,7 @@ var message_group = (function () {
              })
              return vux
         }
-       
+        
         changeUrl()
         window.addEventListener('hashchange', function () {
                 changeUrl()
@@ -336,6 +336,15 @@ var message_group = (function () {
                         window.location.hash = narrow.by_stream_subject_uris(name,subject)
                         $(".only_tip[stream_id="+stream_id+"]").next().removeClass("backgr")
                         $(".only_tip[stream_id="+stream_id+"]").addClass("backgr")
+                        i = 800
+                        // function scrollToEnd(){//滚动到底部
+                            var x = $("#zfilt").height()
+                          
+                        //    $('#zfilt').scrollIntoView()
+                            i += 800
+                            var h = 8000 + i;
+                           
+                        // }
                         if($(".topic-list").children().length===0){
                             $(".compos-left-title span").hide()
                         }else{
@@ -344,6 +353,9 @@ var message_group = (function () {
                         $("#compose").show()
                         $("#compose-container").show()
                         $(".compose-content").show()
+                        $(".tab-content").scrollTop(h+x+$("#zfilt").offset().top);
+                        $("#zfilt").scrollTop($("#zfilt").offset().top)
+                        console.log($(".tab-content").scrollTop(),$("#zfilt").scrollTop())
                     }
                 })
             })
@@ -570,10 +582,10 @@ var message_group = (function () {
                                     channel.del({
                                         url: 'json/zg/subject/',
                                         idempotent: true,
-                                        data:JSON.stringify({subject:del_subject}),
+                                        data:JSON.stringify({subject:del_subject,stream_id:get_sub_by_name.stream_id}),
                                         success:function(data){
                                             topic_list.zoom_in()
-                                            // that.remove()
+                                            that.remove()
                                             // var history = topic_data.topic_history()
                                             // history.maybe_remove(del_subject)
                                             // console.log(topic_data.get_recent_names(get_sub_by_name.stream_id))

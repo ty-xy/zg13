@@ -131,7 +131,7 @@ def del_subject(request, user_profile):
     if not all([subject, stream_id]):
         return JsonResponse({'errno': 2, 'message': '缺少必要参数'})
     recipient = Recipient.objects.filter(type=realm_id, type_id=stream_id)
-    Message.objects.filter(subject=subject, recipient=recipient.id).delete()
+    Message.objects.filter(subject=subject, recipient=recipient[0].id).delete()
     return JsonResponse({'errno': 0, 'message': '删除成功'})
 
 
