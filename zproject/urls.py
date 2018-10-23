@@ -588,6 +588,9 @@ v1_api_and_json_patterns = [
     # 初始待办事项报表
     url(r'^zg/initialize/log$', rest_dispatch,
         {'GET': 'zerver.views.zg_restful_api.zg_initialize_log'}),
+    # 审批通知列表
+    url(r'^zg/approval/notice$', rest_dispatch,
+        {'GET': 'zerver.views.zg_restful_api.approval_notice'}),
 
 ]
 

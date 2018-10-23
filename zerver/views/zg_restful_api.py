@@ -1,5 +1,5 @@
 from zerver.models import Message, UserMessage, ZgCollection, Stream, Attachment, ZgCloudDisk, Realm, UserProfile, \
-    active_user_ids, Recipient, StatementState, ZgReview
+    active_user_ids, Recipient, StatementState, ZgReview,ZgWorkNotice
 from django.http import JsonResponse
 import json
 from datetime import datetime, timezone, timedelta
@@ -13,7 +13,30 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.hashers import make_password
 from zerver.tornado.event_queue import send_event
 from django.shortcuts import redirect, render
+from zerver.views.zg_tools import req_tools
 
+
+# 审批通知列表
+def approval_notice(request,user_profile):
+    notice_type = request.GET.get('notice_type')
+    work_notice_list = list()
+    if not notice_type:
+        work_notices=ZgWorkNotice.objects.filter(user=user_profile).order_by('-id')
+    else:
+        work_notices = ZgWorkNotice.objects.filter(user=user_profile,notice_type=notice_type).order_by('-id')
+    for work_notice in work_notices:
+        work_notice_dict = dict()
+        work_notice_dict['notice_type']=work_notice.notice_type
+        work_notice_dict['stair']=work_notice.stair
+        work_notice_dict['second'] = work_notice.second
+        work_notice_dict['third'] = work_notice.third
+        work_notice_dict['send_time'] = work_notice.send_time
+        work_notice_dict['table_type'] = work_notice.table_type
+        work_notice_dict['table_id'] = work_notice.table_id
+        work_notice_dict['table_state'] = work_notice.table_state
+        work_notice_list.append(work_notice_dict)
+
+    return JsonResponse({'errno':0,'message':'成功','work_notice_list':work_notice_list})
 
 # 获取初始化日志,通知信息
 def zg_initialize_log(request, user_profile):
@@ -21,8 +44,10 @@ def zg_initialize_log(request, user_profile):
     # 待审批
     review_objs = ZgReview.objects.filter(status='审批中', send_user_id=user_profile.id, duties='approval',
                                           is_know=False).order_by('-id')
+    print(review_objs)
     # 抄送我的
     inform_objs = ZgReview.objects.filter(send_user_id=user_profile.id, duties='inform', is_know=False).order_by('-id')
+    print(inform_objs)
     data = dict()
     type_dict = {'reimburse': '的报销申请', 'leave': '的请假申请', 'evection': '的出差申请'}
     if not statement_state:
@@ -130,8 +155,9 @@ def del_subject(request, user_profile):
     realm_id = req.get('realm_id', 1)
     if not all([subject, stream_id]):
         return JsonResponse({'errno': 2, 'message': '缺少必要参数'})
+    print(realm_id,stream_id)
     recipient = Recipient.objects.filter(type=realm_id, type_id=stream_id)
-    Message.objects.filter(subject=subject, recipient=recipient.id).delete()
+    Message.objects.filter(subject=subject, recipient=recipient[0].id).delete()
     return JsonResponse({'errno': 0, 'message': '删除成功'})
 
 
