@@ -383,6 +383,7 @@ def add_attendances(request, user_profile):
          ]):
         return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
     date_dict = {'1': 'mon', '2': 'tue', '3': 'wed', '4': 'thu', '5': 'fri', '6': 'sat', '7': 'sun'}
+    ids = ''
 
     try:
         attendances_obj = ZgDepartmentAttendance.objects.create(attendance_name=attendances_name,
@@ -398,15 +399,17 @@ def add_attendances(request, user_profile):
             user_obj.atendance = attendances_obj
             user_obj.atendance_type = 'extra'
             user_obj.save()
-
         for department in department_list:
+            ids += str(department)
             department_obj = ZgDepartment.objects.filter(id=department)
             department_obj[0].user.all().update(atendance_type='normal', atendance=attendances_obj)
+
         for i in not_join:
             user = UserProfile.objects.get(id=i)
             user.atendance_type = 'drop_out'
             user.save()
-
+        attendances_obj.department = ids
+        attendances_obj.save()
     except Exception as e:
         print(e)
         return JsonResponse({'errno': 2, 'message': '储存考勤组信息失败'})
@@ -449,7 +452,7 @@ def update_attendances(request, user_profile):
         attendances_obj.attendance_name = attendances_name
         attendances_obj.save()
     if department_dict:
-        for key,value in department_dict.items():
+        for key, value in department_dict.items():
             department = ZgDepartment.objects.get(id=key)
             if value:
                 department.user.all().update(atendance_type='normal', atendance=attendances_obj)
@@ -525,23 +528,38 @@ def get_attendances(request, user_profile):
     attendances_obj = ZgDepartmentAttendance.objects.filter(id=attendances_id)
     attendances_obj = attendances_obj[0]
     name = attendances_obj.attendance_name
+
     # 成员=>list
     # 部门列表
-    department_dict=list()
+    department_list = list()
     # 其他参与人员
-    else_member_dict=list()
+    else_member_list = list()
     # 不参与考勤成员
-    not_join=list()
+    not_join_list = list()
+
+    for department in attendances_obj.department:
+        department_dict = dict()
+        departments = ZgDepartment.objects.filter(id=department)
+        department_dict['department_name'] = departments[0].name
+        department_dict['department_id'] = departments[0].id
+        department_list.append(department_dict)
 
     user_obj_list = UserProfile.objects.filter(atendance=attendances_id)
-    departments = user_obj_list.filter(atendance_type='normal')
-    else_members= user_obj_list.filter(atendance_type='extra')
+    else_members = user_obj_list.filter(atendance_type='extra')
     not_joins = user_obj_list.filter(atendance_type='drop_out')
-    # for user_obj in user_obj_list:
-    #     user_dict = dict()
-    #     user_dict['id'] = user_obj.id
-    #     user_dict['name'] = user_obj.full_name
-    #     member_list.append(user_dict)
+
+    for user_obj in else_members:
+        else_members_dict = dict()
+        else_members_dict['user_id'] = user_obj.id
+        else_members_dict['user_name'] = user_obj.full_name
+        else_member_list.append(else_members_dict)
+
+    for not_join in not_joins:
+        not_join_dict = dict()
+        not_join_dict['user_id'] = not_join.id
+        not_join_dict['user_name'] = not_join.full_name
+        not_join_list.append(not_join_list)
+
     # 上下班时间
     jobs_time = attendances_obj.jobs_time
     rest_time = attendances_obj.rest_time
@@ -560,6 +578,7 @@ def get_attendances(request, user_profile):
 
     return JsonResponse(
         {'errno': 0, 'message': '获取成功', 'name': name, 'jobs_time': jobs_time,
+         'else_member_list':else_member_list,'department_list':department_list,'not_join_list':not_join_list,
          'rest_time': rest_time, 'attendance_time_list': attendance_time_list, 'longitude': longitude,
          'latitude': latitude, 'location': site,
          'range': range})

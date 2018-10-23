@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from zerver.decorator import zulip_login_required
-from zerver.models import ZgLeave, ZgReview, ZgReimburse, UserProfile, Feedback, ZgCorrectzAccessory, Attachment
+from zerver.models import ZgLeave, ZgReview, ZgReimburse, UserProfile, Feedback, ZgCorrectzAccessory, Attachment, \
+    ZgWorkNotice
 import json
 from datetime import datetime, timezone, timedelta
 from zerver.lib import avatar
@@ -95,17 +96,27 @@ def add_leave(request, user_profile):
         event = zg_send_tools(event)
         # 添加审批人
         if approver_list:
+            event['theme'] = user_profile.full_name + '的' + types + '申请需要您的审批'
             for approver in approver_list:
                 ZgReview.objects.create(types=approval_type, user=user_profile, send_user_id=approver, table_id=aaa.id,
                                         send_time=nuw_time())
-            event['theme'] = user_profile.full_name + '的' + types + '申请需要您的审批'
+                user = UserProfile.objects.get(id=approver)
+                ZgWorkNotice.objects.create(user=user,notice_type='审批', stair=event['theme'], second=cause,
+                                            third=start_time + '～' + end_time, send_time=nuw_time(),
+                                            table_type=approval_type, table_id=aaa.id)
             send_event(event, approver_list)
 
         if observer_list:
+            event['theme'] = user_profile.full_name + '的' + types + '申请需要您知晓'
             for observer in observer_list:
                 ZgReview.objects.create(types=approval_type, user=user_profile, send_user_id=observer, duties='inform',
                                         table_id=aaa.id, send_time=nuw_time())
-            event['theme'] = user_profile.full_name + '的' + types + '申请需要您知晓'
+
+                user = UserProfile.objects.get(id=observer)
+                ZgWorkNotice.objects.create(user=user, notice_type='审批', stair=event['theme'], second=cause,
+                                            third=start_time + '～' + end_time, send_time=nuw_time(),
+                                            table_type=approval_type, table_id=aaa.id)
+
             send_event(event, observer_list)
 
     except Exception as e:
@@ -157,18 +168,33 @@ def reimburse_add(request, user_profile):
 
     event = zg_send_tools(event)
     if approver_list:
+        event['theme'] = user_profile.full_name + '的' + '报销' + '申请需要您的审批'
         for approver in approver_list:
             ZgReview.objects.create(types='reimburse', user=user_profile, send_user_id=approver, table_id=a.id,
                                     send_time=nuw_time())
-            event['theme'] = user_profile.full_name + '的' + '报销' + '申请需要您的审批'
-            send_event(event, approver_list)
+
+            user = UserProfile.objects.get(id=approver)
+            ZgWorkNotice.objects.create(user=user, notice_type='审批', stair=event['theme'], second=amount,
+                                        third=category, send_time=nuw_time(),
+                                        table_type='reimburse', table_id=a.id)
+
+        send_event(event, approver_list)
     if observer_list:
+        event['theme'] = user_profile.full_name + '的' + '报销' + '申请需要您的知晓'
         for observer in observer_list:
             ZgReview.objects.create(types='reimburse', user=user_profile, send_user_id=observer, duties='inform',
                                     table_id=a.id, send_time=nuw_time())
+            user = UserProfile.objects.get(id=observer)
+            ZgWorkNotice.objects.create(user=user, notice_type='审批', stair=event['theme'], second=amount,
+                                        third=category, send_time=nuw_time(),
+                                        table_type='reimburse', table_id=a.id)
 
-            event['theme'] = user_profile.full_name + '的' + '报销' + '申请需要您的知晓'
-            send_event(event, approver_list)
+
+        send_event(event, approver_list)
+    #
+    # ZgWorkNotice.objects.create(notice_type='审批', headline=event['theme'], subtitle=category,
+    #                             time_quantum=start_time + '～' + end_time, send_time=nuw_time(),
+    #                             table_type=approval_type, table_id=aaa.id)
 
     return JsonResponse({'errno': 0, 'message': '申请成功'})
 
@@ -253,8 +279,8 @@ def approval_initiate_me(request, user_profile):
     # 查询发送人是我的发送人审批人表
     initiate_ids = ZgReview.objects.filter(user=user_profile).order_by('-id').values_list('id', flat=True)
     print(initiate_ids)
-    initiate_objs = ZgReview.objects.filter(id__in=initiate_ids).distinct('table_id','types')
-    print(ZgReview.objects.filter(id__in=initiate_ids).distinct('table_id','types'))
+    initiate_objs = ZgReview.objects.filter(id__in=initiate_ids).distinct('table_id', 'types')
+    print(ZgReview.objects.filter(id__in=initiate_ids).distinct('table_id', 'types'))
     initiate_list = []
     if initiate_objs is not None:
         for initiate_obj in initiate_objs:
@@ -630,3 +656,5 @@ def zg_urgent(request, user_profile):
         send_event(event, ['23'])
         return JsonResponse({'errno': 0, 'message': '催办成功,'})
     return JsonResponse({'errno': 1, 'message': '催办失败,'})
+
+def 
