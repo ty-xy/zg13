@@ -442,6 +442,12 @@ var attendance = (function () {
                             $("body").ready(function(){
                                 $(".attendance_groups").children().first().addClass("gray_bg");
                             })
+                            var n = new Date()
+                            var Y = n.getFullYear()
+                            var M = n.getMonth()+1
+                            var D = n.getDate()
+                            var d = Y + '-' + M +"-"+D
+                            $("#calendar_screen_select_y").val(d)
                             //搜索全部成员
                             var p = $(".attendance_bottom_ctn").children();
                             $(".attendance_bottom_search_person").bind('input propertychange',function(){
