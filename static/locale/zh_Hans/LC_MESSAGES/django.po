@@ -563,7 +563,7 @@ msgid ""
 "            here for you right now. I'm sure someone will eventually send\n"
 "            you one.\n"
 "            "
-msgstr ""
+msgstr "看，关于它的事情是，你现在还没有收到消息，我相信会有人发送给你一个"
 
 #: templates/zerver/home.html:24
 msgid ""

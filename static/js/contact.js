@@ -969,14 +969,19 @@ var contact = (function(){
             e.preventDefault();
             $(this).addClass("backgr").parent().prev().children().first().removeClass("backgr");
             window.location.href = "#narrow/is/starred"
-            setTimeout(function(){
-                $(".move_ctn").children().remove();
-                var pushData = JSON.parse(localStorage.getItem("pushData"))
-                var work_order_head = templates.render("work_order_head")
-                $(".move_ctn").append(work_order_head)
-                var work_order_body = templates.render("work_order_body",{pushData:pushData})
-                $(".work_order_box").append(work_order_body)
-            },10)
+            $.ajax({
+                type:"GET",
+                url:"json/zg/approval/notice",
+                contentType:"application/json",
+                success:function(res){
+                    $(".move_ctn").children().remove()
+                    var newData = res.work_notice_list
+                    var work_order_head = templates.render("work_order_head")
+                    $(".move_ctn").append(work_order_head)
+                    var work_order_body = templates.render("work_order_body",{newData:newData})
+                    $(".work_order_box").append(work_order_body)
+                }
+            })
             // 点击跳到详情页面
             $(".move_ctn").off("click",".work_order_ctn").on("click",".work_order_ctn",function(e){
                 var id  = $(this).attr("data_id")
