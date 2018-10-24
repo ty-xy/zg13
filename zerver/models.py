@@ -613,7 +613,7 @@ class ZgDepartmentAttendance(models.Model):
 
     default_distance = models.IntegerField(default=300, verbose_name="默认距离")
     attendance_time = models.CharField(max_length=15, default='12345')
-
+    department = models.CharField(max_length=128,null=True)
 
 class UserProfile(AbstractBaseUser, PermissionsMixin):
     DEFAULT_BOT = 1
@@ -898,10 +898,10 @@ class ZgDepartment(models.Model):
     name = models.CharField(max_length=30)
     realm = models.ForeignKey(Realm)
     user = models.ManyToManyField(UserProfile)
-
+#
 # class UserDepartment(models.Model):
-#     user = models.ForeignKey(UserProfile)
-#     department = models.ForeignKey(ZgDepartment)
+#     user_profile = models.ForeignKey(UserProfile,on_delete=models.CASCADE)
+#     departm = models.ForeignKey(ZgDepartment,on_delete=models.CASCADE)
 
 # 外勤表
 class ZgOutsideWork(models.Model):
@@ -2392,3 +2392,24 @@ class ZgCloudDisk(models.Model):
     user = models.ForeignKey(UserProfile, null=True, on_delete=models.SET_NULL)
     attachment = models.ForeignKey(Attachment, null=True, on_delete=models.SET_NULL)
     # types = models.CharField(max_length=30,null=True)
+
+
+# 工作通知
+class ZgWorkNotice(models.Model):
+    user = models.ForeignKey(UserProfile)
+    # 通知类型
+    notice_type = models.CharField(max_length=16)
+    # 一级
+    stair = models.CharField(max_length=150)
+    # 二级
+    second = models.CharField(max_length=150)
+    # 三级
+    third = models.CharField(max_length=150)
+    # 发送时间
+    send_time = models.CharField(max_length=64)
+    # 报表类型
+    table_type = models.CharField(max_length=16)
+    # 报表id
+    table_id = models.CharField(max_length=16)
+    # 报表状态
+    table_state = models.CharField(max_length=16,null=True)
