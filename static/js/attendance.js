@@ -4,18 +4,48 @@ var attendance = (function () {
     $("body").ready(function () {
      
         function xy(content){
+                
                 var idlist = []
                 var namelist =[]
                   _.each(content,function(value,index){
                     idlist.push(index)
                     namelist.push(value.fullname) 
                   })
+                  
                 namelist=namelist.join(",")
+                console.log(content,namelist)
                 $(".button-common-people").html(namelist)
                 $(".button-common-people").attr("data_obj",JSON.stringify(content))
                 $(".button-common-people").attr("data_id",idlist)
         }
-      
+        function ty(content){
+            var idlist = []
+                var namelist =[]
+                  _.each(content,function(value,index){
+                    idlist.push(index)
+                    namelist.push(value.name) 
+                  })
+                  
+                namelist=namelist.join(",")
+                console.log(content,namelist)
+                $(".button-common-team").html(namelist)
+                $(".button-common-team").attr("data_obj",JSON.stringify(content))
+                $(".button-common-team").attr("data_id",idlist)
+        }
+        function none_xy(content){
+                var idlist = []
+                var namelist =[]
+                  _.each(content,function(value,index){
+                    idlist.push(index)
+                    namelist.push(value.fullname) 
+                  }) 
+                  
+                namelist=namelist.join(",")
+                console.log(content,namelist)
+                $(".button-common-none").html(namelist)
+                $(".button-common-none").attr("data_obj",JSON.stringify(content))
+                $(".button-common-none").attr("data_id",idlist)
+        }
         exports.attendance = function(){
             //查看考勤日历
             function checkCalendar(user_id,select_year){  
@@ -751,8 +781,8 @@ var attendance = (function () {
                                  //-------------切换回考勤统计-----------------
                             })
                             //新增加考情组
-                            $(".attendance_ctn").on('click',".new_attendance",function(){
-                                console.log(111113)
+                            $(".attendance_box").on('click',".new_attendance",function(){
+                                console.log(1111134)
                                 // var lis  =  $(".attendance_ctn").children()
                                 $(".attendance_ctn").empty()
                                 var html = templates.render("attendance_team");
@@ -835,6 +865,14 @@ var attendance = (function () {
                     // }
                     chooseFile.chooseTeamMember(xy)
                 })
+                 // 接入部门
+                 $(".button-common-team").on("click",function(){
+                     chooseFile.chooseTeam(ty)
+                 })
+                 //接入无需参加考勤的人员
+                 $(".button-common-none").on("click",function(){
+                    chooseFile.chooseTeamMember(none_xy)
+                 })
                 //接入时间
                 $(".button-common-date").on('click',function(){
                     $(".kaoqin-date-choose").show()
@@ -862,20 +900,23 @@ var attendance = (function () {
            function commonContent(){
             // settime()
             var name = $(".title-input").val()
-            console.log(name)
-            if(name==""){
-                alert('请填写考勤组的名字','rgba(169,12,0,0.30)')
-                return 
-            }
-            var member_list = $(".button-common-people").attr("data_id")
-            // console.log(member_list)
-            if(member_list == undefined){
-                alert('请选择考勤人员','rgba(169,12,0,0.30)')
+                if(name==""){
+                    alert('请填写考勤组的名字','rgba(169,12,0,0.30)')
+                    return 
+                }
+            var department_list  = $(".button-common-team").attr("data_id")
+            if(department_list == undefined){
+                alert('请选择考情部门','rgba(169,12,0,0.30)')
                 return 
             }else{
-                member_list=member_list.split(",")
+                department_list=department_list.split(",")
                 // console.log(member_list)
             }
+            var else_member_list = $(".button-common-people").attr("data_id")
+            else_member_list = else_member_list.split(",")
+            var not_join = $(".button-common-none").attr("data_id")
+                not_join = not_join.split(",")
+            // console.log(member_list)
             var jobs_time = $(".button-job").val()
             if(jobs_time==""){
                jobs_time = "09:00:00"
@@ -926,7 +967,8 @@ var attendance = (function () {
             // console.log(date,datelist)
             data_list  ={
                  name:name,
-                 member_list:member_list,
+                 department_list:department_list,
+                 else_member_list:else_member_list,
                  jobs_time:jobs_time,
                  rest_time:rest_time,
                  date: datelist.join(""),
@@ -934,6 +976,7 @@ var attendance = (function () {
                  latitude:latitude,
                  location:location,
                  range:range,
+                 not_join:not_join
             }
             // console.log(data_list)
             return  data_list
@@ -951,7 +994,7 @@ var attendance = (function () {
                             data:JSON.stringify(data_list),
                             contentType:"application/json",
                             success:function(data){
-                                // console.log(data)
+                                console.log(data)
                                 if(data.errno==0){
                                     $(".button-submit").css("background-color","#14A4FA")
                                     $(".button-submit").attr("disabled", false);
@@ -964,12 +1007,12 @@ var attendance = (function () {
                                             data_list:data_list
                                             }));
                                            var htmls= templates.render("kaoqin_back");
-                                           $(".attendance_box").html(htmls)
-                                           $(".attendance_mangement").addClass("high_light").siblings().removeClass("high_light")
-                                           $(".attendance_ctn").html(html)
-                                           $(".attendance_ctn").on('click',".back_attendance",function(){
-                                            $(".attendance_ctn").empty()
-                                            $(".attendance_ctn").html(html)
+                                             $(".attendance_box").html(htmls)
+                                             $(".attendance_mangement").addClass("high_light").siblings().removeClass("high_light")
+                                             $(".attendance_ctn").html(html)
+                                             $(".attendance_ctn").on('click',".back_attendance",function(){
+                                             $(".attendance_ctn").empty()
+                                             $(".attendance_ctn").html(html)
                                           })
                                         }
                                     })
@@ -1004,6 +1047,9 @@ var attendance = (function () {
                                        var html = $(templates.render('attendance_management',{
                                         data_list:data_list
                                         }));
+                                        var htmls= templates.render("kaoqin_back");
+                                        $(".attendance_box").html(htmls)
+                                        $(".attendance_mangement").addClass("high_light").siblings().removeClass("high_light")
                                        $(".attendance_ctn").html(html)
                                        $(".attendance_ctn").on('click',".first-icon",function(){
                                             $(".attendance_ctn").empty()

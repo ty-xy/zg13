@@ -2124,10 +2124,10 @@ div.floating_recipient {
 }
 
 #bottom_whitespace {
-    display: block;
+    /* display: block; */
     height: 464px!important;
     background: #fff;
-    /* width: 899px; */
+    width: 899px;
     display: none;
 }
 
@@ -3436,7 +3436,7 @@ input::-webkit-input-placeholder{
     color: #A0ACBF;
 }
 .new_task_date{
-    margin-left: 40px!important;
+    margin-left: 20px!important;
     /* margin-top: 5px!important; */
     border-radius: 4px!important;
     height: 30px!important;

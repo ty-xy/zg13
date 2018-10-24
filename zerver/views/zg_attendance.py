@@ -558,7 +558,7 @@ def get_attendances(request, user_profile):
         not_join_dict = dict()
         not_join_dict['user_id'] = not_join.id
         not_join_dict['user_name'] = not_join.full_name
-        not_join_list.append(not_join_list)
+        not_join_list.append(not_join_dict)
 
     # 上下班时间
     jobs_time = attendances_obj.jobs_time
@@ -573,14 +573,19 @@ def get_attendances(request, user_profile):
     latitude = attendances_obj.latitude
     # 地点site
     site = attendances_obj.site
-    # 范围default_distance
 
-    return JsonResponse(
-        {'errno': 0, 'message': '获取成功', 'name': name, 'jobs_time': jobs_time,
-         'else_member_list':else_member_list,'department_list':department_list,'not_join_list':not_join_list,
-         'rest_time': rest_time, 'attendance_time_list': attendance_time_list, 'longitude': longitude,
-         'latitude': latitude, 'location': site,
-         'range': attendances_obj.default_distance})
+    return JsonResponse({
+                         'errno': 0, 'message': '获取成功',
+                         'name': name, 'jobs_time': jobs_time,
+                         'else_member_list': else_member_list,
+                         'department_list': department_list,
+                         'not_join_list': not_join_list,
+                         'rest_time': rest_time,
+                         'attendance_time_list': attendance_time_list,
+                         'longitude': longitude,
+                         'latitude': latitude,
+                         'location': site,
+                         'range': attendances_obj.default_distance})
 
 
 # 考勤组列表
