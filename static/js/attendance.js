@@ -781,8 +781,8 @@ var attendance = (function () {
                                  //-------------切换回考勤统计-----------------
                             })
                             //新增加考情组
-                            $(".attendance_ctn").on('click',".new_attendance",function(){
-                                console.log(111113)
+                            $(".attendance_box").on('click',".new_attendance",function(){
+                                console.log(1111134)
                                 // var lis  =  $(".attendance_ctn").children()
                                 $(".attendance_ctn").empty()
                                 var html = templates.render("attendance_team");
