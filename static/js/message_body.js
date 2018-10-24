@@ -143,14 +143,12 @@ var message_body = (function(){
                                  return item
                              }
                         })
-                       
                         var name = data_index[0].name
                         var _href = data_index[0].href
                         var short_name = data_index[0].short_name
                         var avatar = data_index[0].avatar
                         var send_id = id 
                         if(arrlist == null){
-                           
                             var arrlist = []
                             arrlist.unshift(server_events.set_local_news(send_id,'',name,avatar,time,"",_href,"",short_name,time_stamp))
                             var notice_box = templates.render("notice_box",{name:name,mes:"",avatar:avatar,send_id:id,time:time,short_name:short_name,_href:_href,time_stamp:time_stamp})
@@ -158,7 +156,6 @@ var message_body = (function(){
                             var arr = arrlist
                             localStorage.setItem("arr",JSON.stringify(arr))
                           }else{
-                            
                             var data_index = arrlist.filter(function(item){
                                 return  item.send_id == send_id
                              })
@@ -190,10 +187,49 @@ var message_body = (function(){
                              data:{},
                              success:function(data){
                                  var topic =  data.topics[0].name
-                                 var _href= narrow.by_stream_subject_uris(name,topic)
-                                 group_list.push({avatar:color,name:value,href:_href,stream:stream_id})
+                                 var _href= narrow.by_stream_subject_uris(value,topic)
+                                 group_list.push({avatar:color,name:value,href:_href,stream:stream_id,short_name:value})
                                  var li = templates.render("choose_search_people",{arr:group_list})
                                  $(".all-choose-group").html(li)
+                                 var time_stamp = new Date().getTime()
+                                 var time = server_events.tf(time_stamp)
+                                 $(".all-choose-group").off("click","a").on("click","a",function(e){
+                                     var arrlist = JSON.parse(localStorage.getItem("arr"))
+                                     var id  = $(this).attr("data_id")
+                                     var data_index = group_list.filter(function(item){
+                                          if(item.stream ==id){
+                                              return item
+                                          }
+                                     })
+                                     var name = data_index[0].name
+                                     var _href = data_index[0].href
+                                     var short_name = data_index[0].short_name
+                                     var avatar = data_index[0].avatar
+                                     var stream_id = id 
+                                     if(arrlist == null){
+                                         var arrlist = []
+                                         arrlist.unshift(server_events.set_local_news("",stream_id,name,avatar,time,"",_href,"stream",short_name,time_stamp))
+                                         var notice_box = templates.render("notice_box",{name:name,mes:"",avatar:avatar,stream_id:id,time:time,stream:"stream",short_name:short_name,_href:_href,time_stamp:time_stamp})
+                                         $(".persistent_data").prepend(notice_box)
+                                         var arr = arrlist
+                                         console.log(1)
+                                         localStorage.setItem("arr",JSON.stringify(arr))
+                                       }else{
+                                         var data_index = arrlist.filter(function(item){
+                                             return  item.stream_id == stream_id
+                                          })
+                                          console.log(2)
+                                          if(data_index.length==0){
+                                             arrlist.unshift(server_events.set_local_news("",stream_id,name,avatar,time,"",_href,"stream",short_name,time_stamp))
+                                          }
+                                         
+                                          var notice_box = templates.render("notice_box",{name:name,mes:"",avatar:avatar,stream_id:stream_id,time:time,stream:"stream",short_name:short_name,_href:_href,time_stamp:time_stamp})
+                                          $(".persistent_data").prepend(notice_box)
+                                        
+                                          var arr = arrlist
+                                          localStorage.setItem("arr",JSON.stringify(arr))
+                                     } 
+                                 })
                              }
                          })
                     })
@@ -261,57 +297,7 @@ var message_body = (function(){
                  })
             }
          })
-        //  function narrow_or_search_for_term(search_string) {
-        //     var search_query_box = $("#global_search");
-        //     // console.log(search_query_box,search_string)
-        //     ui_util.change_tab_to('#home');
-            
-        //     var operators = Filter.parse(search_string);
-        //     if(operators[0].operator==="stream"&&operators.length==1){
-        //             var narrow_titles = operators[0].operand
-        //             var stream_id = stream_data.get_stream_id(narrow_titles)
-        //             channel.get({
-        //                 url:'/json/users/me/' + stream_id + '/topics',
-        //                 data:{},
-        //                 success:function(data){
-        //                     var value  = data.topics[0].name
-        //                     exports.narrow_title = value
-        //                     operators[1] ={negated: false, operator: "topic", operand: value}
-        //                     narrow.activate(operators, {trigger: 'search'});
-        //                     search_query_box.blur();
-        //                     return search_query_box.val();
-        //                 }
-        //             })
-        //     }else{
-        //         narrow.activate(operators, {trigger: 'search'});
-        //         search_query_box.blur();
-        //         return search_query_box.val();
-        //     }
-        //     // console.log(operators,search_string)
-           
-        //  }
-        //  $("#global_search").typeahead({
-        //     source: function (query) {
-        //         var suggestions = search_suggestion.get_suggestions(query);
-        //         search_object = suggestions.lookup_table;
-        //         return suggestions.strings;
-        //     },
-        //     fixed: true,
-        //     items: 12,
-        //     helpOnEmptyStrings: true,
-        //     naturalSearch: true,
-        //     highlighter: function (item) {
-        //         var obj = search_object[item];
-        //         return obj.description;
-        //     },
-        //     matcher: function () {
-        //         return true;
-        //     },
-        //     updater: narrow_or_search_for_term,
-        //     sorter: function (items) {
-        //         return items;
-        //     },
-        //  })
+    
     })
     return exports;
 }())
