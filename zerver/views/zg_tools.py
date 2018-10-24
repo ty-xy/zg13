@@ -1,6 +1,7 @@
 from math import radians, cos, sin, asin, sqrt
 from zerver.lib import avatar
-from zerver.models import UserProfile, ZgDepartmentAttendance, ZgAttendance
+from zerver.models import UserProfile, ZgDepartmentAttendance, ZgAttendance, ZgPurchase, JobsPlease, ProjectProgress, \
+    ZgLeave, ZgReview, ZgReimburse, ZgWorkNotice,Attachment,ZgCorrectzAccessory
 from django.http import JsonResponse
 import json
 import time
@@ -8,8 +9,18 @@ import time
 # from django_apscheduler.jobstores import DjangoJobStore, register_events
 from datetime import datetime, timezone, timedelta
 # from django_apscheduler.jobstores import register_job
-import re
+from zerver.tornado.event_queue import send_event
 
+import re
+def zg_send_tools(zg_dict):
+    event = {'type': 'update_message_flags',
+             'operation': 'add',
+             'flag': 'starred',
+             'messages': [1],
+             'all': False}
+    for k, v in zg_dict.items():
+        event[k] = v
+    return event
 
 def nuw_time():
     stockpile_time = datetime.utcnow()
@@ -17,6 +28,61 @@ def nuw_time():
     tzutc_8 = timezone(timedelta(hours=8))
     stockpile_time = stockpile_time.astimezone(tzutc_8)
     return stockpile_time
+
+
+def send_approver_observer(user_profile, obj_id,
+                           approval_type, approver_list
+                           , observer_list,img_url, event,
+                           third, cause):
+    '''
+    发送审批人和抄送人的函数，需要传入：用户，创建的报表id，报表类型，审批列表
+    抄送人列表，event，二级标题，三级标题
+    '''
+    type_dict = {'evection': '出差', 'leave': '请假','purchase':'采购'}
+    types = type_dict[approval_type]
+
+
+
+    try:
+        if img_url:
+            for img in img_url:
+                path_id = img.split('user_uploads/')[1]
+                if path_id[-1] == ')':
+                    path_id = img.split('user_uploads/')[1][: -1]
+                attachment = Attachment.objects.filter(path_id=path_id)
+                print(attachment)
+                ZgCorrectzAccessory.objects.create(correctz_type='leave', table_id=obj_id, attachment=attachment[0])
+
+        if approver_list:
+            event['theme'] = user_profile.full_name + '的' + types + '申请需要您的审批'
+            for approver in approver_list:
+                ZgReview.objects.create(types=approval_type, user=user_profile, send_user_id=approver, table_id=obj_id,
+                                        send_time=nuw_time())
+                user = UserProfile.objects.get(id=approver)
+
+                ZgWorkNotice.objects.create(user=user, notice_type='审批', stair=event['theme'], second=cause,
+                                            third=third,
+                                            send_time=nuw_time(),
+                                            table_type=approval_type,
+                                            table_id=obj_id)
+                send_event(event, approver_list)
+        if observer_list:
+            event['theme'] = user_profile.full_name + '的' + types + '申请需要您知晓'
+            for observer in observer_list:
+                ZgReview.objects.create(types=approval_type, user=user_profile, send_user_id=observer, duties='inform',
+                                        table_id=obj_id, send_time=nuw_time())
+
+                user = UserProfile.objects.get(id=observer)
+                ZgWorkNotice.objects.create(user=user, notice_type='审批', stair=event['theme'], second=cause,
+                                            third=third, send_time=nuw_time(),
+                                            table_type=approval_type,
+                                            table_id=obj_id)
+
+            send_event(event, observer_list)
+
+    except Exception as e:
+        print(e)
+        return JsonResponse({'errno': 2, 'message': '发送申请失败'})
 
 
 def haversine(lon1, lat1, lon2, lat2):  # 经度1，纬度1，经度2，纬度2 （十进制度数）
@@ -47,21 +113,15 @@ def zg_user_info(ids):
 
 def req_tools(request):
     req = request.body
+    if not req:
+        return JsonResponse({'errno': 1, 'message': '缺少参数'})
     req = req.decode()
     req = json.loads(req)
     return req
 
 
-def zg_send_tools(zg_dict):
-    event = {'type': 'update_message_flags',
-             'operation': 'add',
-             'flag': 'starred',
-             'messages': [1],
-             'all': False}
-    for k, v in zg_dict.items():
-        event[k] = v
-    print('sdasdsadsadasdadas')
-    return event
+
+
 
 def judge_pc_or_mobile(ua):
     """
@@ -103,8 +163,6 @@ def judge_pc_or_mobile(ua):
         is_mobile = True
 
     return is_mobile
-
-
 
 #
 # try:
