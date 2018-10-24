@@ -514,6 +514,14 @@ v1_api_and_json_patterns = [
     # 催办
     url(r'^zg/approval/urge$', rest_dispatch,
         {'GET': 'zerver.views.zg_zpproval.zg_urgent'}),
+    # 添加采购
+    url(r'^zg/purchase/$', rest_dispatch,
+        {'GET': 'zerver.views.zg_zpproval.zg_purchase'}),
+    # 添加工作请示
+    url(r'^zg/jobs/please/$', rest_dispatch,
+        {'GET': 'zerver.views.zg_zpproval.jobs_please'}),
+    url(r'^zg/project/progress$', rest_dispatch,
+        {'GET': 'zerver.views.zg_zpproval.project_progress'}),
 
     # --------组织结构
     # 通讯哭部门列表

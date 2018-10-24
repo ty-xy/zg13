@@ -574,14 +574,13 @@ def get_attendances(request, user_profile):
     # 地点site
     site = attendances_obj.site
     # 范围default_distance
-    range = attendances_obj.default_distance
 
     return JsonResponse(
         {'errno': 0, 'message': '获取成功', 'name': name, 'jobs_time': jobs_time,
          'else_member_list':else_member_list,'department_list':department_list,'not_join_list':not_join_list,
          'rest_time': rest_time, 'attendance_time_list': attendance_time_list, 'longitude': longitude,
          'latitude': latitude, 'location': site,
-         'range': range})
+         'range': attendances_obj.default_distance})
 
 
 # 考勤组列表
