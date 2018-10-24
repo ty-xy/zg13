@@ -1,0 +1,15 @@
+{{#each arr}}
+    <a href={{href}} {{#if private}}data_id={{private}}{{else}}data_id={{stream}}{{/if}}>
+        {{#if private}}
+            <li>
+                <img class= "search_avatar" src = {{avatar}} />
+                <div>{{name}}</div>  
+            </li>
+            {{else}}
+            <li>
+                 <span  class = "img-group-search" style="background:{{avatar}}">{{nfirst name}}</span>
+                <div>{{name}}</div>  
+            </li>
+        {{/if}}
+    </a>
+{{/each}}

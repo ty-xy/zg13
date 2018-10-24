@@ -1,0 +1,81 @@
+<div class="ask-for-leave-title">
+  <span class="first-icon"><i class="iconfont icon-xiayiji "></i></span>
+  <span>物品领用/采购</span>
+</div>
+<div class="container container-control">
+    <br>
+        <form class="form-horizontal" role="form" id="form-test">
+                <div class="form-group form-group-common ">
+                   <span style="color:red" class="require-content ">*</span>
+                    <label for="username" class="col-sm-1 control-label control-labels">物品用途:
+                    </label>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control form-people" id="username" name="username" placeholder="请输入...">
+                    </div>
+                </div>
+           
+            <div class="form-group form-group-common">
+                <span style="color:red" class="require-content">*</span>
+                    <label for="email" class="col-sm-1 control-label control-labels">物品名称:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control form-people" id="email" name="text" placeholder="请输入...">
+                    </div>
+            </div>
+            <div class="form-group form-group-common">
+                <span style="color:red" class="require-content require-moment">*</span>
+                    <label for="email" class="col-sm-1 control-label control-labels">数量:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control form-people" id="email" name="text" placeholder="请输入...">
+                </div>
+            </div>
+            <div class="form-group form-group-common">
+                    <label for="email" class="col-sm-1 control-label control-labels">金额:</label>
+                    <div class="col-sm-10">
+                    <input type="text" class="form-control form-people" id="email" name="text" placeholder="请输入...">
+            </div>
+            </div>
+             <div class="form-group form-group-common">
+                  <label for="text" class="col-sm-1 control-label control-labels">具体详情</label>
+                    <div class="col-sm-10">
+                    <textarea type="text" class="form-control  form-people  form-reason " id="text"  placeholder="填写请示的具体内容…"></textarea>
+                </div>
+             </div>
+             <div class="form-group form-group-common form-group-img">
+               <div class="control-labels control-img add-imgs-control img-commons-control">添加图片:</div>
+               <div class="img-border img-commons-control" id="img-border ">
+                    <i class="iconfont icon-tianjia3 add-img-people" ></i>
+                    <a id="attach_file"/>
+                     {{!-- <a id="attach_file">上传附件</a> --}}
+                    <input type="file" id="file_inputs" class="test-image-file"/>
+               </div>
+           </div>
+           <div class="form-group form-group-common">
+               <span style="color:red" class="require-content">*</span>
+                <div class="control-labels control-img check-people">审批人:</div>
+                <ul class="generate_log_member_box shenpi-person shenpi-persons ">
+                    <li class="add_log_people">
+                        <div class="generate_log_member_addlogos">
+                           <i class="iconfont icon-tianjia3 add-img-people icon-position"></i>
+                        </div>
+                        <p class="generate_log_member_adds">选择成员</p>
+                    </li>
+                </ul>
+           </div>
+            <div class="form-group form-group-common">
+                <div class="control-labels control-img check-people">抄送人:</div>
+                <ul class="generate_log_member_box shenpi-person send-check-people">
+                    <li class="add_log_peoples">
+                        <div class="generate_log_member_addlogos">
+                           <i class="iconfont icon-tianjia3 add-img-people icon-position"></i>
+                        </div>
+                        <p class="generate_log_member_adds">选择成员</p>
+                    </li>
+                </ul>
+           </div>
+            <div class="form-group form-group-common">
+                <div class="col-sm-offset-4 col-sm-10 ">
+                    <button type="submit" class="btn btn-primary btn-submit" id="btn-test">提交</button>
+                </div>
+            </div>
+        </form>
+</div>

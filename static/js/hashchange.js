@@ -187,10 +187,11 @@ exports.parse_narrow = function (hash) {
                 var stream = hash_util.decodeHashComponent(hash[2])
                 stream = stream_data.slug_to_name(stream);
                 //  stream = hash_util.decodeHashComponent(stream[1])
-                 console.log(stream)
+                 
                  $(".home-title span").html(stream)
                  $(".compose-content").show()
                  $(".message_comp").show()
+                //  $(".tab-content").scrollTop(h+x+$("#zfilt").offset().top);
                 $("#stream").val(stream)
                 $("#subject").val(subject)
                 setTimeout(function(){

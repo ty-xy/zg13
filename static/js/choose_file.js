@@ -36,6 +36,7 @@ var chooseFile = (function () {
                     o1[val.id] = val 
                 })
                 obj = $.extend(obj,o1)
+                console.log(obj)
                 o1={}
                 var html =$(templates.render("choose_person",{datalist:obj}))
                 $(".box-right-list").html(html)
@@ -100,11 +101,38 @@ var chooseFile = (function () {
                           })
                       }
                 })
-                        //点击选择人员
+                //点击选择人员
                 $(".choose-nav-left").on("click",".back-choose",function(e){
                     $(".choose-nav-left").children().remove()
                     $(".choose-nav-left").html(lid)
                 }) 
+                //点击下级下面的成员
+                 //右边和左边对应
+                 $(".choose-nav-left").off(".choose-list-box").on("click",".choose-list-box",function(e){
+                  //    var inputs= $(this).find("input")
+                     var that = $(this)
+                     if($(this).is(":checked")){
+                          var datalist = {}
+                          var datalists = {}
+                          datalist.avatarurl =  that.closest(".input-box-list").attr("avatar")
+                          datalist.id= that.attr("data-key")
+                          datalist.fullname=that.closest("label").text()
+                          datalist.did = $(".select-choose").find("span").text()
+                          datalists[that.attr("data-key")] = datalist
+                          // console.log(obj)
+                          obj = $.extend(obj,datalists)
+                          var html = templates.render("choose_person",{datalist:obj})
+                          $(".box-right-list").html(html)
+                          var length = $(".box-right-list").children().length
+                          var text = "选中"+"("+length+")"
+                          $(".already-choose").html(text)
+                      //    that.prop("checked",false)
+                      //    $(".checkbox-inputs").prop("checked",false)
+                      }else{
+                          // that.prop("checked",true)
+                           $(".checkbox-inputs").prop("checked",false)
+                     }
+                 })
             }
            
         }
@@ -669,6 +697,7 @@ var chooseFile = (function () {
                 })
                   cancel()
                   $(".button-sure").on("click",function(e){
+                    console.log(obj)
                     func(obj)
                     $(".modal-log").hide()
                     $(".modal-log-content").empty()
