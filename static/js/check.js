@@ -602,6 +602,82 @@ var check = (function () {
                 })
             })
         })
+        //采购
+        $(".move_ctn").off(".purchase-buy").on("click",".purchase-buy",function(e){
+            $(".move_ctn").children().remove();
+            var li = templates.render("goods-for-buy")
+            $(".move_ctn").html(li)
+            height()
+            $('#newplan_datetimepicker2').datetimepicker({  
+                language:"zh-CN",  
+                todayHighlight: true,  
+                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                weekStart:1  
+            }); 
+            $('#newplan_datetimepicker1').datetimepicker({  
+                language:"zh-CN",  
+                todayHighlight: true,  
+                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                weekStart:1  
+            });
+            $(".add_log_people").on("click",function(e){
+                chooseFile.choosePeople(common_choose,object={})
+            })
+            $(".add_log_peoples").on("click",function(e){
+                chooseFile.choosePeople(xy,object={})
+            })
+            uploadFile()
+            $("#btn-test").on("click",function(e){
+                 e.preventDefault()
+                 var data = commonContent('leave')
+                 channel.post({
+                     url:"/json/zg/approval/leave/",
+                     data:JSON.stringify(data),
+                     contentType:"application/json",
+                     success:function(data){
+                         if(data.errno===0){
+                            moveContent()
+                         }
+                     }
+                 })
+            })
+            backIcon()
+        })
+        //工作请示
+        $(".move_ctn").off(".job-request-event").on("click",".job-request-event",function(e){
+            $(".move_ctn").children().remove();
+            var li = templates.render("requset-for-job")
+            $(".move_ctn").html(li)
+            height()
+            $('#newplan_datetimepicker1').datetimepicker({  
+                language:"zh-CN",  
+                todayHighlight: true,  
+                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                weekStart:1  
+            }); 
+            $(".add_log_people").on("click",function(e){
+                chooseFile.choosePeople(common_choose,object={})
+            })
+            $(".add_log_peoples").on("click",function(e){
+                chooseFile.choosePeople(xy,object={})
+            })
+            uploadFile()
+            // $("#btn-test").on("click",function(e){
+            //      e.preventDefault()
+            //      var data = commonContent('leave')
+            //      channel.post({
+            //          url:"/json/zg/approval/leave/",
+            //          data:JSON.stringify(data),
+            //          contentType:"application/json",
+            //          success:function(data){
+            //              if(data.errno===0){
+            //                 moveContent()
+            //              }
+            //          }
+            //      })
+            // })
+            backIcon()
+        })
         $('.move_ctn').off(".progress-percent").on("click",".progress-percent",function(e){
             $(".move_ctn").children().remove();
             var li = templates.render("project_progress")
