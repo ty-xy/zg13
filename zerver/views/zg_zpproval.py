@@ -1,13 +1,14 @@
 from django.http import JsonResponse
 from zerver.decorator import zulip_login_required
 from zerver.models import ZgLeave, ZgReview, ZgReimburse, UserProfile, Feedback, ZgCorrectzAccessory, Attachment, \
-    ZgWorkNotice
+    ZgWorkNotice, ZgPurchase, JobsPlease, ProjectProgress
 import json
 from datetime import datetime, timezone, timedelta
 from zerver.lib import avatar
 from django.db.models import Q
 from zerver.tornado.event_queue import send_event
-from zerver.views.zg_tools import zg_send_tools
+from zerver.views.zg_tools import zg_send_tools, send_approver_observer
+from zerver.views.zg_tools import req_tools
 
 
 def nuw_time():
@@ -29,6 +30,114 @@ def view_leave(request, user_profile):
     bb.append(aa)
     send_event(event, bb)
     return JsonResponse({'errno': 1})
+
+
+# 采购
+def zg_purchase(request, user_profile):
+    req = req_tools(request)
+    reason = req.get('reason')
+    # 预计采购日期
+    purchase_date = req.get('purchase_date')
+    # 物品名称
+    goods_name = req.get('goods_name')
+    # 物品规格
+    specification = req.get('specification')
+    # 单价
+    unit_price = req.get('unit_price')
+    # 数量
+    count = req.get('count')
+    # 总价
+    total_prices = req.get('total_prices')
+
+    img_url = req.get('img_url')
+    approver_list = req.get('approver_list')
+    observer_list = req.get('observer_list')
+
+    if not all([reason, purchase_date, goods_name, unit_price, count, total_prices, approver_list]):
+        return JsonResponse({'errno': 1, 'message': '缺少参数'})
+    # try:
+    print(nuw_time)
+    purchase = ZgPurchase.objects.create(user=user_profile,
+                                         reason=reason,
+                                         puchase_date=purchase_date,
+                                         goods_name=goods_name,
+                                         specification=specification,
+                                         unit_price=unit_price,
+                                         count=count,
+                                         total_prices=total_prices,
+                                         send_time=nuw_time())
+    event = dict()
+
+    send_approver_observer(user_profile, purchase.id, 'purchase', approver_list, observer_list,
+                           img_url, event,
+                           reason, total_prices)
+    # except Exception as e:
+    #     print(e)
+    #     return JsonResponse({'errno': 2, 'message': '发送申请失败'})
+    return JsonResponse({'errno': 0, 'message': '申请成功'})
+
+
+# 工作请示
+def jobs_please(request, user_profile):
+    req = req_tools(request)
+    reason = req.get('reason')
+    urgency_degree = req.get('urgency_degree')
+    jobs_date = req.get('jobs_date')
+    content = req.get('content')
+
+    img_url = req.get('img_url')
+    approver_list = req.get('approver_list')
+    observer_list = req.get('observer_list')
+    if not all([reason, urgency_degree, approver_list]):
+        return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
+    try:
+        jobs_please = JobsPlease.objects.create(user=user_profile, reason=reason, urgency_degree=urgency_degree,
+                                                jobs_date=jobs_date,
+                                                content=content, send_time=nuw_time())
+        event = dict()
+        send_approver_observer(user_profile, jobs_please.id, 'jobs_please', approver_list, observer_list, img_url,
+                               event,
+                               reason, urgency_degree)
+    except Exception as e:
+        print(e)
+        return JsonResponse({'errno': 2, 'message': '发送申请失败'})
+    return JsonResponse({'errno': 0, 'message': '申请成功'})
+
+
+# 工程进度汇报
+def project_progress(request, user_profile):
+    req = req_tools(request)
+    project_name = req.get('project_name')
+    happening = req.get('happening')
+    quality = req.get('quality')
+    issue = req.get('issue')
+    scheme = req.get('scheme')
+    worker_improve = req.get('worker_improve')
+    coordinate_department = req.get('coordinate_department')
+    complete_time = req.get('complete_time')
+    remark = req.get('remark')
+
+    img_url = req.get('img_url')
+    observer_list = req.get('observer_list')
+
+    if not all([project_name, happening, quality, complete_time, observer_list]):
+        return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
+    try:
+        project_progress = ProjectProgress.objects.create(user=user_profile, project_name=project_name,
+                                                          happening=happening,
+                                                          quality=quality,
+                                                          issue=issue, scheme=scheme, worker_improve=worker_improve,
+                                                          coordinate_department=coordinate_department,
+                                                          complete_time=complete_time,
+                                                          remark=remark)
+        event = dict()
+        approver_list = []
+        send_approver_observer(user_profile, project_progress.id, 'project_progress', approver_list, observer_list,
+                               img_url,event, project_name, happening)
+    except Exception as e:
+        print(e)
+        return JsonResponse({'errno': 2, 'message': '发送申请失败'})
+    return JsonResponse({'errno': 0, 'message': '申请成功'})
 
 
 # 添加请假出差
@@ -101,7 +210,7 @@ def add_leave(request, user_profile):
                 ZgReview.objects.create(types=approval_type, user=user_profile, send_user_id=approver, table_id=aaa.id,
                                         send_time=nuw_time())
                 user = UserProfile.objects.get(id=approver)
-                ZgWorkNotice.objects.create(user=user,notice_type='审批', stair=event['theme'], second=cause,
+                ZgWorkNotice.objects.create(user=user, notice_type='审批', stair=event['theme'], second=cause,
                                             third=start_time + '～' + end_time, send_time=nuw_time(),
                                             table_type=approval_type, table_id=aaa.id)
             send_event(event, approver_list)
@@ -188,7 +297,6 @@ def reimburse_add(request, user_profile):
             ZgWorkNotice.objects.create(user=user, notice_type='审批', stair=event['theme'], second=amount,
                                         third=category, send_time=nuw_time(),
                                         table_type='reimburse', table_id=a.id)
-
 
         send_event(event, approver_list)
     #
@@ -656,4 +764,3 @@ def zg_urgent(request, user_profile):
         send_event(event, ['23'])
         return JsonResponse({'errno': 0, 'message': '催办成功,'})
     return JsonResponse({'errno': 1, 'message': '催办失败,'})
-
