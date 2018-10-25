@@ -36,11 +36,17 @@ def view_leave(request, user_profile):
 def zg_purchase(request, user_profile):
     req = req_tools(request)
     reason = req.get('reason')
+    # 预计采购日期
     purchase_date = req.get('purchase_date')
+    # 物品名称
     goods_name = req.get('goods_name')
+    # 物品规格
     specification = req.get('specification')
+    # 单价
     unit_price = req.get('unit_price')
+    # 数量
     count = req.get('count')
+    # 总价
     total_prices = req.get('total_prices')
 
     img_url = req.get('img_url')
@@ -49,17 +55,25 @@ def zg_purchase(request, user_profile):
 
     if not all([reason, purchase_date, goods_name, unit_price, count, total_prices, approver_list]):
         return JsonResponse({'errno': 1, 'message': '缺少参数'})
-    try:
-        purchase = ZgPurchase.objects.create(user=user_profile, reason=reason, puchase_date=purchase_date,
-                                             goods_name=goods_name,
-                                             specification=specification, unit_price=unit_price, count=count,
-                                             total_prices=total_prices, send_time=nuw_time())
-        event = dict()
-        send_approver_observer(user_profile, purchase.id, 'purchase', approver_list, observer_list, img_url, event,
-                               reason, total_prices)
-    except Exception as e:
-        print(e)
-        JsonResponse({'errno': 2, 'message': '发送申请失败'})
+    # try:
+    print(nuw_time)
+    purchase = ZgPurchase.objects.create(user=user_profile,
+                                         reason=reason,
+                                         puchase_date=purchase_date,
+                                         goods_name=goods_name,
+                                         specification=specification,
+                                         unit_price=unit_price,
+                                         count=count,
+                                         total_prices=total_prices,
+                                         send_time=nuw_time())
+    event = dict()
+
+    send_approver_observer(user_profile, purchase.id, 'purchase', approver_list, observer_list,
+                           img_url, event,
+                           reason, total_prices)
+    # except Exception as e:
+    #     print(e)
+    #     return JsonResponse({'errno': 2, 'message': '发送申请失败'})
     return JsonResponse({'errno': 0, 'message': '申请成功'})
 
 
@@ -81,11 +95,12 @@ def jobs_please(request, user_profile):
                                                 jobs_date=jobs_date,
                                                 content=content, send_time=nuw_time())
         event = dict()
-        send_approver_observer(user_profile, jobs_please.id, 'purchase', approver_list, observer_list, img_url, event,
+        send_approver_observer(user_profile, jobs_please.id, 'jobs_please', approver_list, observer_list, img_url,
+                               event,
                                reason, urgency_degree)
     except Exception as e:
         print(e)
-        JsonResponse({'errno': 2, 'message': '发送申请失败'})
+        return JsonResponse({'errno': 2, 'message': '发送申请失败'})
     return JsonResponse({'errno': 0, 'message': '申请成功'})
 
 
@@ -103,8 +118,26 @@ def project_progress(request, user_profile):
     remark = req.get('remark')
 
     img_url = req.get('img_url')
-    approver_list = req.get('approver_list')
     observer_list = req.get('observer_list')
+
+    if not all([project_name, happening, quality, complete_time, observer_list]):
+        return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
+    try:
+        project_progress = ProjectProgress.objects.create(user=user_profile, project_name=project_name,
+                                                          happening=happening,
+                                                          quality=quality,
+                                                          issue=issue, scheme=scheme, worker_improve=worker_improve,
+                                                          coordinate_department=coordinate_department,
+                                                          complete_time=complete_time,
+                                                          remark=remark)
+        event = dict()
+        approver_list = []
+        send_approver_observer(user_profile, project_progress.id, 'project_progress', approver_list, observer_list,
+                               img_url,event, project_name, happening)
+    except Exception as e:
+        print(e)
+        return JsonResponse({'errno': 2, 'message': '发送申请失败'})
+    return JsonResponse({'errno': 0, 'message': '申请成功'})
 
 
 # 添加请假出差
