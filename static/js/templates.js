@@ -62,10 +62,15 @@ Handlebars.registerHelper('types', function (str) {
         return "请假"
      }else if(str==="evection"){
         return "出差"
+     }else if(str==="jobs_please"){
+        return  "工作请示"
+     }else if (str==="project_progress"){
+         return "工程进度"
+     }else if(str==="purchase"){
+         return "采购申请"
      }else{
-        return "报销"
+         return "报销"
      }
-
 });
 // Handlebars.registerHelper('del_string', function (str) {
 //     var imgurl = str.substring(1,str.length-1);

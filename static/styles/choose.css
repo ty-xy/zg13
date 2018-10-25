@@ -1174,7 +1174,11 @@ a.message-control-button {
         color: #999999;
     }
     #form-test .control-labels{
-        width:96px !important;
+        width:126px !important;
+        margin-right:30px;
+    }
+    #form-test .control-labells{
+        width:126px !important;
         margin-right:30px;
     }
     .form-group-common{
@@ -1185,6 +1189,9 @@ a.message-control-button {
         width:778px;
         height:36px !important;
         box-sizing: border-box
+    }
+    .from-peoples{
+        width:328px;
     }
     .new-leave-date{
         width:300px !important;
@@ -1221,6 +1228,10 @@ a.message-control-button {
         text-align:right;
         line-height:48px;
     }
+    .control-imgs{
+        text-align:center;
+        line-height:48px;
+    }
     .btn-submit{
         background: #4584FF;
         border-radius: 4px;
@@ -1248,6 +1259,9 @@ a.message-control-button {
     .shenpi-person{
         margin-left:30px;
        
+    }
+    .shenpi-content{
+        margin-left:45px;
     }
     .shenpi-person>li{
         height:65px;
@@ -1544,9 +1558,16 @@ a.message-control-button {
    .require-moment{
        left:55px;
    }
+   .require-moments{
+    left:85px;
+}
    .check-people{
        margin-left:12px;
        text-align:center;
+   }
+   .check-peoples{
+      margin-left:26px;
+      text-align:center;
    }
    .feadback-send-sure{
        background: #4584FF;
