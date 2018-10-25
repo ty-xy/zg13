@@ -1,0 +1,118 @@
+<div class="ask-for-leave-title">
+  <span class="first-icon" data-class="{{dataClass}}">
+      <i class="iconfont icon-xiayiji "></i>
+      </span>
+   <span>{{head_name}}</span>
+</div>
+<div class="check-detail-flex">
+    <div class="common-flex top_header_flex">
+        <img src={{head_avatar}}  class="avatar-imgs-shenpi"/>
+        <div class="application_people">
+            <p>{{head_name}}</p>
+            <p>{{head_status}}</p>
+            {{!-- {{#compare head_status '==' "审批中"}}
+               <p style="color:#FFA200">{{head_status}}</p>
+               {{else}}
+                 {{#compare head_status '==' "审批通过"}}
+                    <p style="color:#39D1A9">{{head_status}}</p>
+                    {{else}}
+                      {{#compare head_status '==' "审批未通过"}}
+                        <p style="color:#F74144">{{head_status}}</p>
+                       {{else}}
+                        <p>{{head_status}}</p>
+                        {{/compare}}
+                    {{/compare}}
+            {{/compare}} --}}
+        </div>
+    </div>
+    <hr class="line-height-hr"/>
+    <div>
+       
+        <div class="common-flex check-detail-total">
+            <p>
+                <span>审批类型:</span>
+                <span>{{types approval_type}}</span>
+            </p>
+            <P>
+                <span>申请理由:</span>
+                <span>{{reason}}</span>
+            </P>
+            {{#if urgency_degree}}
+                <p>
+                    <span>紧急程度:</span>
+                    <span>{{urgency_degree}}</span>
+                </p>
+            {{else}}
+                <p>
+                    <span>物品名称:</span>
+                    <span>{{goods_name}}</span>
+                </p>
+            {{/if}}
+        </div>
+        <div class="common-flex check-detail-total">
+            {{#if content}}
+                <p>
+                    <span>具体内容:</span>
+                    <span>{{content}}</span>
+                </p>
+            {{/if}} 
+            {{#if jobs_date}}
+                <p>
+                    <span>日期:</span>
+                    <span>{{jobs_date}}</span>
+                </p>
+            {{/if}}
+            {{#if unit_price}}
+                <p>
+                    <span>审批单价:</span>
+                    <span>{{unit_price}}</span>
+                </p>
+                <p>
+                    <span>审批数量:</span>
+                    <span>{{count}}</span>
+                </p>
+                <p>
+                    <span>审批总价:</span>
+                    <span>{{total_prices}}</span>
+                </p>
+           {{/if}}
+        </div>
+      
+    </div>
+   
+     <hr class="line-height-hr"/>
+    <div>
+       <p>
+           <span>已读3人</span>
+           <span>未读3人</span>
+       </p>
+       <ul class="common-flex  common-margin">
+         {{#each inform_list}}
+           <li class="chaosong-people">
+               <img src ={{user_avatar}} class="avatar-imgs-shenpi-detail">
+               <p>{{user_name}}</p>
+           </li>
+         {{/each}}
+       </ul>
+    </div>
+    {{#if shown}}
+    <div class="feed_back-content">
+        <span>反馈:</span>
+        <ul>
+            {{#each feedback_list}}
+            <li class="common-flex feedback-content-back">
+                 <div class="common-flex">
+                    <img src={{user_avatar}} class="avatar-imgs-shenpi"/>
+                    <div class="application_people feed-back-people">
+                        <p>{{user_name}}</p>
+                        <p>{{content}}</p>
+                    </div>
+                 </div>
+                 <div class="show-content-color">{{substrYear times}}</div>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+    {{/if}}
+   
+</div>
