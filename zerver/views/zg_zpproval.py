@@ -460,6 +460,9 @@ def inform_approval(request, user_profile):
 def tools_approcal_details(types, ids, user_profile, table_obj):
     data = {}
 
+    review_objs = ZgReview.objects.filter(send_user_id=user_profile.id, types=types, table_id=ids)
+    if review_objs:
+        review_objs.update(is_know=True)
     data['head_avatar'] = avatar.absolute_avatar_url(table_obj.user)
 
     if table_obj.status == '已撤销':
@@ -495,7 +498,7 @@ def tools_approcal_details(types, ids, user_profile, table_obj):
     approver_statu = True
     if data['button_status'] == 5:
         approver_statu = False
-    data['head_name'] = table_obj.user.full_name+zpproval[types]
+    data['head_name'] = table_obj.user.full_name + zpproval[types]
     data['head_avatar'] = avatar.absolute_avatar_url(table_obj.user)
     approver_list = []
     approver_list.append(
@@ -572,6 +575,7 @@ def approval_details(request, user_profile):
         data['amount'] = reimburse.amount
         data['category'] = reimburse.category
         data['detail'] = reimburse.detail
+        data['approval_type'] = 'reimburse'
         accessorys = ZgCorrectzAccessory.objects.filter(correctz_type='reimburse', table_id=ids)
 
     elif types == 'leave' or types == 'evection':
@@ -592,6 +596,7 @@ def approval_details(request, user_profile):
             return JsonResponse({'errno': 3, 'message': '无效数据'})
         reimburse = reimburse[0]
         data['reason'] = reimburse.reason
+        data['approval_type'] = 'jobs_please'
         data['urgency_degree'] = reimburse.urgency_degree
         data['jobs_date'] = reimburse.jobs_date
         data['content'] = reimburse.content
@@ -601,6 +606,7 @@ def approval_details(request, user_profile):
         if not reimburse:
             return JsonResponse({'errno': 3, 'message': '无效数据'})
         reimburse = reimburse[0]
+        data['approval_type'] = 'purchase'
         data['reason'] = reimburse.reason
         data['puchase_date'] = reimburse.puchase_date
         data['goods_name'] = reimburse.goods_name
@@ -614,6 +620,12 @@ def approval_details(request, user_profile):
         if not reimburse:
             return JsonResponse({'errno': 3, 'message': '无效数据'})
         reimburse = reimburse[0]
+        review_obj = ZgReview.objects.filter(types=types, table_id=ids, send_user_id=user_profile.id)
+        review_obj[0].is_know = True
+        review_obj[0].status = '审批通过'
+        review_obj[0].save()
+
+        data['approval_type'] = 'project_progress'
         data['project_name'] = reimburse.project_name
         data['happening'] = reimburse.happening
         data['quality'] = reimburse.quality
@@ -623,14 +635,47 @@ def approval_details(request, user_profile):
         data['coordinate_department'] = reimburse.coordinate_department
         data['complete_time'] = reimburse.complete_time
         data['remark'] = reimburse.remark
+        data['head_name'] = reimburse.user.full_name + zpproval[types]
+        data['head_avatar'] = avatar.absolute_avatar_url(reimburse.user)
         accessorys = ZgCorrectzAccessory.objects.filter(correctz_type='project_progress', table_id=ids)
+        for accessory in accessorys:
+            img_list.append('/user_uploads/' + accessory.attachment.path_id)
+        data['image_url'] = img_list
+        reads = ZgReview.objects.filter(is_know=True, types=project_progress, table_id=ids)
+        unreads = ZgReview.objects.filter(is_know=False, types=project_progress, table_id=ids)
+        data['read_count'] = reads.count()
+        data['unread_count'] = unreads.count()
+        data['read_list'] = list()
+        data['unread_list'] = list()
+        for read in reads:
+            feedback_dict = {}
+            user = UserProfile.objects.get(id=read.send_user_id)
+            feedback_dict['user_avatar'] = avatar.absolute_avatar_url(user.user)
+            feedback_dict['user_name'] = user.user.full_name
+            data['read_list'].append(feedback_dict)
+        for unread in unreads:
+            feedback_dict = {}
+            user = UserProfile.objects.get(id=unread.send_user_id)
+            feedback_dict['user_avatar'] = avatar.absolute_avatar_url(user.user)
+            feedback_dict['user_name'] = user.user.full_name
+            data['unread_list'].append(feedback_dict)
 
+        feedback_objs = Feedback.objects.filter(types='project_progress', table_id=ids)
+        feedback_list = []
+        if feedback_objs:
+            for feedback_obj in feedback_objs:
+                feedback_dict = {}
+                feedback_dict['user_avatar'] = avatar.absolute_avatar_url(feedback_obj.user)
+                feedback_dict['user_name'] = feedback_obj.user.full_name
+                feedback_dict['times'] = feedback_obj.feedback_time
+                feedback_dict['content'] = feedback_obj.content
+                feedback_list.append(feedback_dict)
+        data['feedback_list'] = feedback_list
+        JsonResponse({'errno': 0, 'message': '成功', 'data': data})
     else:
-
         return JsonResponse({'errno': 4, 'message': '类型错误'})
     for accessory in accessorys:
         img_list.append('/user_uploads/' + accessory.attachment.path_id)
-
     data['image_url'] = img_list
     data2 = tools_approcal_details(types, ids, user_profile, reimburse)
     data1 = data.copy()
@@ -679,7 +724,7 @@ def state_update(request, user_profile):
             review_objs = review_objs.filter(send_user_id=user_profile.id)
             if types == 'leave' or types == 'evection':
                 leave = ZgLeave.objects.filter(id=ids)
-                leave.update(status=states)
+                # leave.update(status=states)
             elif types == 'reimburse':
                 reimburse = ZgReimburse.objects.filter(id=ids)
                 reimburse.update(status=states)
