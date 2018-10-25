@@ -51,8 +51,8 @@
                 </div>
             </div> 
             <div class="form-group form-group-common">
-                 <span style="color:red" class="require-content require-moment">*</span>
-                 <label for="newplan_datetimepicker1" class="col-sm-1 control-label control-labels">日期:</label>
+                 <span style="color:red" class="require-content ">*</span>
+                 <label for="newplan_datetimepicker1" class="col-sm-1 control-label control-labels">竣工时间预计:</label>
                  <div class="input-append date" id="newplan_datetimepicker1" data-date="" data-date-format="yyyy-mm-dd">  
                     <input class="new_task_date create_taskdate form-people new-leave-date start_times" size="16" type="text" value="" readonly placeholder="请选择日期...">  
                     <span class="add-on select_date_icon select-icons">
@@ -66,17 +66,20 @@
                     <textarea type="text" class="form-control  form-people  form-reason " id="remarks"  placeholder="请输入…"></textarea>
                 </div>
             </div> 
-           <div class="form-group form-group-common form-group-img">
-               <div class="control-labels control-img">添加图片:</div>
-               <div class="img-border">
-                   <i class="iconfont icon-tianjia3 add-img-people"></i>
+             <div class="form-group form-group-common form-group-img">
+               <div class="control-labels control-img add-imgs-control img-commons-control">添加图片:</div>
+               <div class="img-border img-commons-control" id="img-border ">
+                    <i class="iconfont icon-tianjia3 add-img-people" ></i>
+                    <a id="attach_file"/>
+                     {{!-- <a id="attach_file">上传附件</a> --}}
+                    <input type="file" id="file_inputs" class="test-image-file"/>
                </div>
            </div>
-            <div class="form-group form-group-common">
-                 <span style="color:red" class="require-content require-moment">*</span>
-                <div class="control-labels control-imgs">发送至:</div>
-                <ul class="generate_log_member_box shenpi-person send-check-people">
-                    <li class="add_log_peoples">
+             <div class="form-group form-group-common">
+               <span style="color:red" class="require-content require-moment ">*</span>
+                <div class="control-labels control-img check-peoples">发送至:</div>
+                <ul class="generate_log_member_box shenpi-person shenpi-persons shenpi-content">
+                    <li class="add_log_people">
                         <div class="generate_log_member_addlogos">
                            <i class="iconfont icon-tianjia3 add-img-people icon-position"></i>
                         </div>

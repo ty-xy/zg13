@@ -246,8 +246,8 @@ var check = (function () {
                unit_price:unit_price,
                count:count,
                total_prices:total_prices,
-               approver_list:approver_list,
-               observer_list:observer_list,
+               approver_list:send_list,
+               observer_list:resend_list,
                img_url:img_url,
                specification:specification
           }
@@ -783,6 +783,10 @@ var check = (function () {
                 minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
                 weekStart:1  
             });
+            uploadFile()
+            $(".add_log_people").on("click",function(e){
+                chooseFile.choosePeople(common_choose,object={})
+            })
             $("#btn-test").on("click",function(e){
                 e.preventDefault()
                 var project_name  = $("#username").val()
@@ -828,7 +832,7 @@ var check = (function () {
                     happening:happening,
                     quality:quality,
                     complete_time:complete_time,
-                    observer_list:observer_list,
+                    observer_list:send_list,
                     img_url:img_url,
                     issue:issue,
                     scheme:scheme,
@@ -837,7 +841,7 @@ var check = (function () {
                     remark:remark
                 }
                 channel.post({
-                    url:"/json/zg/jobs/please/",
+                    url:"/json/zg/project/progress/",
                     data:JSON.stringify(data),
                     contentType:"application/json",
                     success:function(data){

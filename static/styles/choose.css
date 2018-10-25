@@ -1260,6 +1260,9 @@ a.message-control-button {
         margin-left:30px;
        
     }
+    .shenpi-content{
+        margin-left:45px;
+    }
     .shenpi-person>li{
         height:65px;
 
@@ -1561,6 +1564,10 @@ a.message-control-button {
    .check-people{
        margin-left:12px;
        text-align:center;
+   }
+   .check-peoples{
+      margin-left:26px;
+      text-align:center;
    }
    .feadback-send-sure{
        background: #4584FF;
