@@ -1335,7 +1335,8 @@ a.message-control-button {
        text-align: center;
    }
    .common-flex{
-       display: flex
+       display: flex;
+       /* min-width: 960px; */
    }
    .check-detail-flex{
       margin-left:30px;
@@ -1349,6 +1350,9 @@ a.message-control-button {
    
    .line-height-hr{
        margin:5px;
+   }
+   .check-detail-total{
+      min-width: 960px;
    }
    .check-detail-total>p{
       margin-right:120px;

@@ -669,16 +669,15 @@ var attendance = (function () {
                                                 data:{attendances_id:index},
                                                 success:function(data){
                                                     datalist[0]=data
-                                                    console.log(data)
                                                     var html = $(templates.render('attendance_update',{
                                                           datalist:datalist
                                                         }));
                                                          $(".attendance_box").html(html)
                                                          var idIndex = []
-                                                          data.member_list.forEach(function(val){
+                                                          data.else_member_list.forEach(function(val){
                                                                idIndex.push(val.id)
                                                           })
-                                                          var datalists= data.member_list.reduce(function(prev, cur)
+                                                          var datalists= data.else_member_list.reduce(function(prev, cur)
                                                           {  
                                                              cur.fullname=cur.name;
                                                              cur.did = "1",
@@ -913,9 +912,16 @@ var attendance = (function () {
                 // console.log(member_list)
             }
             var else_member_list = $(".button-common-people").attr("data_id")
-            else_member_list = else_member_list.split(",")
+            console.log(else_member_list)
+            if(else_member_list !== undefined){
+                
+                else_member_list = else_member_list.split(",")
+            }
             var not_join = $(".button-common-none").attr("data_id")
+            if(not_join !==undefined){
                 not_join = not_join.split(",")
+            }
+               
             // console.log(member_list)
             var jobs_time = $(".button-job").val()
             if(jobs_time==""){
