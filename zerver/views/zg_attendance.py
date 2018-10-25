@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from zerver.models import ZgAttendance, ZgOutsideWork, ZgDepartmentAttendance, UserProfile, Attachment, ZgDepartment
+from zerver.models import ZgAttendance, ZgOutsideWork, ZgDepartmentAttendance,ZgWorkNotice, UserProfile, Attachment, ZgDepartment
 from zerver.views.zg_tools import haversine
 from django.db.models import Q
 import calendar
@@ -709,8 +709,6 @@ def repair_examine(request, user_profile):
             attendances[0].sign_off_time = repair_time
             attendances[0].sign_off_explain = '补卡'
             attendances[0].save()
-            print(2)
-
         theme = user_profile.full_name + '通过了您的补卡申请'
 
     elif opinion == 'no':
@@ -726,10 +724,11 @@ def repair_examine(request, user_profile):
             'time': nuw_time(),
             'avatar_url': avatar.absolute_avatar_url(user_profile),
             'user_name': user_profile.full_name,
-            'content': {'repair_id': repair_id
-                        }
-
-            }
+            'content': {'repair_id': repair_id}}
+    # ZgWorkNotice.objects.create(user=user_profile, notice_type='审批', stair=event['theme'], second=cause,
+    #                             third=third, send_time=nuw_time(),
+    #                             table_type=approval_type,
+    #                             table_id=obj_id)
     send_event(zg_send_tools(even), user_list)
 
     return JsonResponse({'errno': 0, 'message': '成功'})

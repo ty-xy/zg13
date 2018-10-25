@@ -41,7 +41,8 @@ def send_approver_observer(user_profile, obj_id,
     发送审批人和抄送人的函数，需要传入：用户，创建的报表id，报表类型，审批列表
     抄送人列表，event，二级标题，三级标题
     '''
-    type_dict = {'evection': '出差', 'leave': '请假', 'purchase': '采购', 'jobs_please': '工作请示', 'project_progress': '工程进度汇报'}
+    type_dict = {'evection': '出差申请', 'leave': '请假申请', 'purchase': '采购申请', 'jobs_please': '工作请示',
+                 'project_progress': '工程进度汇报'}
     types = type_dict[approval_type]
 
     # try:
@@ -57,7 +58,7 @@ def send_approver_observer(user_profile, obj_id,
             ZgCorrectzAccessory.objects.create(correctz_type='leave', table_id=obj_id, attachment=attachment[0])
 
     if approver_list:
-        event['theme'] = user_profile.full_name + '的' + types + '申请需要您的审批'
+        event['theme'] = user_profile.full_name + '的' + types + '需要您的审批'
         for approver in approver_list:
             ZgReview.objects.create(types=approval_type, user=user_profile, send_user_id=approver, table_id=obj_id,
                                     send_time=nuw_time())
@@ -70,7 +71,7 @@ def send_approver_observer(user_profile, obj_id,
                                         table_id=obj_id)
             # send_event(event, approver_list)
     if observer_list:
-        event['theme'] = user_profile.full_name + '的' + types + '申请需要您知晓'
+        event['theme'] = user_profile.full_name + '的' + types + '需要您知晓'
         for observer in observer_list:
             ZgReview.objects.create(types=approval_type, user=user_profile, send_user_id=observer, duties='inform',
                                     table_id=obj_id, send_time=nuw_time())
@@ -102,6 +103,17 @@ def haversine(lon1, lat1, lon2, lat2):  # 经度1，纬度1，经度2，纬度2 
     c = 2 * asin(sqrt(a))
     r = 6371  # 地球平均半径，单位为公里
     return c * r * 1000
+
+
+def zg_user_data(user_list):
+    user_data_list = []
+    for user_id in user_list:
+        feedback_dict = {}
+        user = UserProfile.objects.get(id=user_id)
+        feedback_dict['user_avatar'] = avatar.absolute_avatar_url(user.user)
+        feedback_dict['user_name'] = user.user.full_name
+        user_data_list.append(feedback_dict)
+    return user_data_list
 
 
 def zg_user_info(ids):
