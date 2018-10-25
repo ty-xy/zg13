@@ -720,26 +720,133 @@ var check = (function () {
                 chooseFile.choosePeople(xy,object={})
             })
             uploadFile()
-            // $("#btn-test").on("click",function(e){
-            //      e.preventDefault()
-            //      var data = commonContent('leave')
-            //      channel.post({
-            //          url:"/json/zg/approval/leave/",
-            //          data:JSON.stringify(data),
-            //          contentType:"application/json",
-            //          success:function(data){
-            //              if(data.errno===0){
-            //                 moveContent()
-            //              }
-            //          }
-            //      })
-            // })
+            $("#btn-test").on("click",function(e){
+                 e.preventDefault()
+                 var reason = $("#username").val()
+                 if(reason==""){
+                     alert()
+                     return 
+                 }
+                 var urgency_degree = $("#email").val()
+                 if(urgency_degree==""){
+                    alert()
+                    return
+                 }
+                 var send_list =[]
+                 $(".shenpi-persons").children().not($(".add_log_people")).each(function(){
+                   var ids= Number($(this).attr('data_id'))
+                   send_list.push(ids)
+                 })
+                 if(send_list.length===0){
+                     alert()
+                     return
+                 }
+                 var resend_list =[]
+                 $(".send-check-people").children().not($(".add_log_peoples")).each(function(){
+                     var ids= Number($(this).attr('data_id'))
+                     resend_list.push(ids)
+                 })
+                 var img_url = []
+                 $(".form-group-img").children().not($(".img-commons-control")).each(function(){
+                     img_url.push($(this).attr("data-url"))
+                 })
+                 var content = $("#text").val()
+                 var data = {
+                     reason:reason,
+                     urgency_degree:urgency_degree,
+                     approver_list:send_list,
+                     img_url:img_url,
+                     observer_list:resend_list,
+                     content:content
+                 }
+                 channel.post({
+                     url:"/json/zg/jobs/please/",
+                     data:JSON.stringify(data),
+                     contentType:"application/json",
+                     success:function(data){
+                         if(data.errno===0){
+                            moveContent()
+                         }
+                     }
+                 })
+            })
             backIcon()
         })
+        //工程进度汇报
         $('.move_ctn').off(".progress-percent").on("click",".progress-percent",function(e){
             $(".move_ctn").children().remove();
             var li = templates.render("project_progress")
             $(".move_ctn").html(li)
+            $('#newplan_datetimepicker1').datetimepicker({  
+                language:"zh-CN",  
+                todayHighlight: true,  
+                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                weekStart:1  
+            });
+            $("#btn-test").on("click",function(e){
+                e.preventDefault()
+                var project_name  = $("#username").val()
+                if(project_name ==""){
+                    alert()
+                    return 
+                }
+                var happening = $("#construct").val()
+                if(happening==""){
+                   alert()
+                   return
+                }
+                var quality  = $("#emails").val()
+                if(quality==""){
+                    alert()
+                    return
+                }
+                var complete_time =$(".start_times").val()
+                if(complete_time===""){
+                    alert()
+                    return
+                }
+                var send_list =[]
+                $(".shenpi-persons").children().not($(".add_log_people")).each(function(){
+                  var ids= Number($(this).attr('data_id'))
+                  send_list.push(ids)
+                })
+                if(send_list.length===0){
+                    alert()
+                    return
+                }
+                var img_url = []
+                $(".form-group-img").children().not($(".img-commons-control")).each(function(){
+                    img_url.push($(this).attr("data-url"))
+                })
+                var issue = $("#quality_problem").val()
+                var scheme = $("#solve_problem").val()
+                var worker_improve = $("#quality_improvement").val()
+                var coordinate_department = $("#coordinate").val()
+                var remark = $("#remarks").val()
+                var data = {
+                    project_name:project_name,
+                    happening:happening,
+                    quality:quality,
+                    complete_time:complete_time,
+                    observer_list:observer_list,
+                    img_url:img_url,
+                    issue:issue,
+                    scheme:scheme,
+                    worker_improve:worker_improve,
+                    coordinate_department:coordinate_department,
+                    remark:remark
+                }
+                channel.post({
+                    url:"/json/zg/jobs/please/",
+                    data:JSON.stringify(data),
+                    contentType:"application/json",
+                    success:function(data){
+                        if(data.errno===0){
+                           moveContent()
+                        }
+                    }
+                })
+           })
             height()
             backIcon()
         })

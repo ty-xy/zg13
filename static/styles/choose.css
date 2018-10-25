@@ -1174,7 +1174,7 @@ a.message-control-button {
         color: #999999;
     }
     #form-test .control-labels{
-        width:96px !important;
+        width:126px !important;
         margin-right:30px;
     }
     #form-test .control-labells{
@@ -1226,6 +1226,10 @@ a.message-control-button {
     }
     .control-img{
         text-align:right;
+        line-height:48px;
+    }
+    .control-imgs{
+        text-align:center;
         line-height:48px;
     }
     .btn-submit{

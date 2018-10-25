@@ -6,21 +6,24 @@
     <br>
         <form class="form-horizontal" role="form" id="form-test">
             <div class="form-group form-group-common ">
+                <span style="color:red" class="require-content require-moment">*</span>
                 <label for="username" class="col-sm-1 control-label control-labels">项目名称:</label>
                 <div class="col-md-12">
                     <input type="text" class="form-control form-people" id="username" name="username" placeholder="请输入...">
                 </div>
             </div>
             <div class="form-group form-group-common">
+                <span style="color:red" class="require-content ">*</span>
                 <label for="construct" class="col-sm-1 control-label control-labels ">工地施工情况:</label>
                 <div class="col-sm-10">
                     <textarea type="text" class="form-control  form-people  form-reason " id="construct"  placeholder="请输入…"></textarea>
                 </div>
             </div> 
             <div class="form-group form-group-common">
-                <label for="email" class="col-sm-1 control-label control-labels">质量检测情况:</label>
+                <span style="color:red" class="require-content ">*</span>
+                <label for="emails" class="col-sm-1 control-label control-labels">质量检测情况:</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control form-people" id="email" name="email" placeholder="请输入...">
+                    <input type="text" class="form-control form-people" id="emails" placeholder="请输入...">
                 </div>
             </div>
              <div class="form-group form-group-common">
@@ -30,7 +33,7 @@
                 </div>
             </div> 
              <div class="form-group form-group-common">
-                <label for="quality_problem" class="col-sm-1 control-label control-labels ">问题解决方案:</label>
+                <label for="solve_problem" class="col-sm-1 control-label control-labels ">问题解决方案:</label>
                 <div class="col-sm-10">
                     <textarea type="text" class="form-control  form-people  form-reason " id="quality_problem"  placeholder="请输入…"></textarea>
                 </div>
@@ -44,17 +47,21 @@
              <div class="form-group form-group-common">
                 <label for="coordinate" class="col-sm-1 control-label control-labels ">需要协调部门:</label>
                 <div class="col-sm-10">
-                    <textarea type="text" class="form-control  form-people  form-reason " id="coordinate"  placeholder="请输入请假事由…"></textarea>
+                    <input type="text" class="form-control  form-people " id="coordinate"  placeholder="请输入需要协调的部门..."></textarea>
                 </div>
             </div> 
             <div class="form-group form-group-common">
-                <label for="completion_time" class="col-sm-1 control-label control-labels ">竣工时间预计:</label>
-                <div class="col-sm-10">
-                    <textarea type="text" class="form-control  form-people  form-reason " id="completion_time"  placeholder="请输入请假事由…"></textarea>
-                </div>
-            </div> 
+                 <span style="color:red" class="require-content require-moment">*</span>
+                 <label for="newplan_datetimepicker1" class="col-sm-1 control-label control-labels">日期:</label>
+                 <div class="input-append date" id="newplan_datetimepicker1" data-date="" data-date-format="yyyy-mm-dd">  
+                    <input class="new_task_date create_taskdate form-people new-leave-date start_times" size="16" type="text" value="" readonly placeholder="请选择日期...">  
+                    <span class="add-on select_date_icon select-icons">
+                        <i data-date-icon="icon-calendar" class="icon-calendar iconfont icon-riqi icon-riqis"></i>
+                    </span>  
+                  </div> 
+            </div>
              <div class="form-group form-group-common">
-                <label for="remarks" class="col-sm-1 control-label control-labels ">要求工人改进:</label>
+                <label for="remarks" class="col-sm-1 control-label control-labels ">备注:</label>
                 <div class="col-sm-10">
                     <textarea type="text" class="form-control  form-people  form-reason " id="remarks"  placeholder="请输入…"></textarea>
                 </div>
@@ -65,19 +72,9 @@
                    <i class="iconfont icon-tianjia3 add-img-people"></i>
                </div>
            </div>
-           <div class="form-group form-group-common">
-                <div class="control-labels control-img">审批人:</div>
-                <ul class="generate_log_member_box shenpi-person check-people">
-                    <li class="add_log_people">
-                        <div class="generate_log_member_addlogos">
-                           <i class="iconfont icon-tianjia3 add-img-people icon-position"></i>
-                        </div>
-                        <p class="generate_log_member_adds">选择成员</p>
-                    </li>
-                </ul>
-           </div>
             <div class="form-group form-group-common">
-                <div class="control-labels control-img">抄送人:</div>
+                 <span style="color:red" class="require-content require-moment">*</span>
+                <div class="control-labels control-imgs">发送至:</div>
                 <ul class="generate_log_member_box shenpi-person send-check-people">
                     <li class="add_log_peoples">
                         <div class="generate_log_member_addlogos">
