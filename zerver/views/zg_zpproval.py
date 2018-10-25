@@ -691,8 +691,6 @@ def state_update(request, user_profile):
     ids = req.get('id')
     states = req.get('state')
 
-    print(types, '------' * 30)
-
     if states == '同意':
         states = '审批通过'
     elif states == '不同意':
@@ -706,10 +704,11 @@ def state_update(request, user_profile):
         return JsonResponse({'errno': 6, 'message': '缺少参数'})
     if types == 'leave' or types == 'evection':
         table_objs = ZgLeave.objects.filter(user=user_profile, id=ids)
-    elif types == 'reimburse':
-        table_objs = ZgReimburse.objects.filter(user=user_profile, id=ids)
     else:
-        return JsonResponse({'errno': 5, 'message': '暂无此类审批'})
+        try:
+            table_objs = zpproval_obj[types].objects.filter(user=user_profile, id=ids)
+        except Exception:
+            return JsonResponse({'errno': 2, 'message': '无此条信息'})
 
     if states == '审批通过' or states == '审批未通过':
 
@@ -721,9 +720,9 @@ def state_update(request, user_profile):
             review_objs = review_objs.filter(send_user_id=user_profile.id)
             if types == 'leave' or types == 'evection':
                 leave = ZgLeave.objects.filter(id=ids)
-                # leave.update(status=states)
-            elif types == 'reimburse':
-                reimburse = ZgReimburse.objects.filter(id=ids)
+                leave.update(status=states)
+            else:
+                reimburse = zpproval_obj[types].objects.filter(id=ids)
                 reimburse.update(status=states)
 
         else:
@@ -732,18 +731,11 @@ def state_update(request, user_profile):
                 leave = ZgLeave.objects.filter(id=ids)
                 leave.update(status=states)
             elif types == 'reimburse':
-                reimburse = ZgReimburse.objects.filter(id=ids)
+                reimburse = zpproval_obj[types].objects.filter(id=ids)
                 reimburse.update(status=states)
 
         review_objs.update(status=states)
         return JsonResponse({'errno': 0, 'message': '审批成功'})
-        #
-        # review_obj = ZgReview.objects.filter(Q(status='审批未通过') | Q(status='审批中') | Q(status='已撤销'), types=types,
-        #                                      table_id=ids)
-
-    # ==================================请假
-    #         if not review_obj:
-    #             ZgAttendance.objects.filter()
 
     elif states == '发起申请':
         if not table_objs:
@@ -797,7 +789,8 @@ def zg_urgent(request, user_profile):
     send_list = []
 
     if review:
-        table_type = {'leave': '请假', 'evection': '出差', 'reimburse': '报销'}
+        table_type = {'evection': '出差申请', 'leave': '请假申请', 'purchase': '采购申请', 'jobs_please': '工作请示',
+                 'project_progress': '工程进度汇报'}
         send_list.append(review[0].send_user_id)
 
         event = {'zg_type': 'Urgent',
