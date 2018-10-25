@@ -107,6 +107,7 @@ var message_body = (function(){
             if(data.length>0){
                 $(".search-top-icon").show()
                 var arr = []
+                var arrlis = []
                 var arrs = []
                 var person_list = []
                 var group_list = []
@@ -118,7 +119,6 @@ var message_body = (function(){
                 streams = _.filter(streams, function (stream) {
                     return stream_matches_query(stream, data);
                 });
-                var arrlist = JSON.parse(localStorage.getItem("arr"))
                 if(persons.length>0){
                     $(".show-person").show()
                     persons.forEach(function(value,index){
@@ -139,7 +139,6 @@ var message_body = (function(){
                         var id  = $(this).attr("data_id")
                         var data_index = person_list.filter(function(item){
                              if(item.private ==id){
-                                 console.log(1111)
                                  return item
                              }
                         })
@@ -246,9 +245,11 @@ var message_body = (function(){
                     },
                     idempotent: true,
                     success:function(data){
-                       if(data.messages.length>0){
+                        console.log(data)
+                    if(data.messages.length>0){
                         data.messages.forEach(function(value,index){
                                 if(value.type==="stream"){
+                                    
                                     $(".group-chat").show()
                                     var name = value.display_recipient
                                     var subject = value.match_subject
@@ -258,6 +259,9 @@ var message_body = (function(){
                                         name:value.display_recipient,
                                         avatar:value.avatar_url,
                                         href:narrow.by_stream_subject_uris(name,subject),
+                                        stream_id:value.stream_id,
+                                        content:value.content,
+                                        short_name:value.display_recipient
                                     }
                                     arrs.push(data)
                                    
@@ -265,20 +269,97 @@ var message_body = (function(){
                                     var pm_with_url = people.pm_with_url(value)
                                     var person = value.display_recipient[0]
                                     var avatar = people.stream_url_for_eamil(person.email)
-                                    var name = person.short_name
+                                    var name = person.full_name
                                     var data = {
                                         name:name,
                                         avatar:avatar,
                                         match_content:value.match_content,
-                                        href:pm_with_url
+                                        href:pm_with_url,
+                                        recipient_id:value.recipient_id,
+                                        content:value.content,
+                                        short_name:person.short_name
                                     }
                                     $(".person-chat").show()
-                                    arr.push(data)
+                                    arrlis.push(data)
                                 }
-                                var lis = templates.render("choose_search",{arr:arrs})
-                                $(".all-messge-shows").html(lis)
-                                var li = templates.render("choose_search",{arr:arr})
-                                $(".all-messge-show").html(li)
+                            })
+                            var lis = templates.render("choose_search",{arr:arrs})
+                            $(".all-messge-shows").html(lis)
+                            $(".all-messge-shows").on("click","a",function(e){
+                                var arrlist = JSON.parse(localStorage.getItem("arr"))
+                                var id  = $(this).attr("data_id")
+                                var data_index = arrs.filter(function(item){
+                                     if(item.stream_id ==id){
+                                         return item
+                                     }
+                                })
+                                var name = data_index[0].name
+                                var _href = data_index[0].href
+                                var short_name = data_index[0].short_name
+                                var avatar = data_index[0].avatar
+                                var send_id = id 
+                                var mes = data_index[0].content
+                                var time_stamp = new Date().getTime()
+                                var time = server_events.tf(time_stamp)
+                                if(arrlist == null){
+                                    var arrlist = []
+                                    arrlist.unshift(server_events.set_local_news(send_id,'',name,avatar,time,mes,_href,"",short_name,time_stamp))
+                                    var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:id,time:time,short_name:short_name,_href:_href,time_stamp:time_stamp})
+                                    $(".persistent_data").prepend(notice_box)
+                                    var arr = arrlist
+                                    localStorage.setItem("arr",JSON.stringify(arr))
+                                  }else{
+                                    var data_index = arrlist.filter(function(item){
+                                        return  item.send_id == send_id
+                                     })
+                                    
+                                     if(data_index.length==0){
+                                        arrlist.unshift(server_events.set_local_news(send_id,'',name,avatar,time,mes,_href,"",short_name,time_stamp))
+                                     }
+                                     var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:send_id,time:time,short_name:short_name,_href:_href,time_stamp:time_stamp})
+                                     $(".persistent_data").prepend(notice_box)
+                                     var arr = arrlist
+                                     localStorage.setItem("arr",JSON.stringify(arr))
+                               } 
+                            })
+                            var li = templates.render("choose_search",{arr:arrlis})
+                            $(".all-messge-show").html(li)
+                            $(".all-messge-show").on("click","a",function(e){
+                                var arrlist = JSON.parse(localStorage.getItem("arr"))
+                                var id  = $(this).attr("data_id")
+                                var data_index = arrlis.filter(function(item){
+                                     if(item.recipient_id ==id){
+                                         return item
+                                     }
+                                })
+                                var name = data_index[0].name
+                                var _href = data_index[0].href
+                                var short_name = data_index[0].short_name
+                                var avatar = data_index[0].avatar
+                                var send_id = id 
+                                var mes = data_index[0].content
+                                var time_stamp = new Date().getTime()
+                                var time = server_events.tf(time_stamp)
+                                if(arrlist == null){
+                                    var arrlist = []
+                                    arrlist.unshift(server_events.set_local_news(send_id,'',name,avatar,time,mes,_href,"",short_name,time_stamp))
+                                    var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:id,time:time,short_name:short_name,_href:_href,time_stamp:time_stamp})
+                                    $(".persistent_data").prepend(notice_box)
+                                    var arr = arrlist
+                                    localStorage.setItem("arr",JSON.stringify(arr))
+                                  }else{
+                                    var data_index = arrlist.filter(function(item){
+                                        return  item.send_id == send_id
+                                     })
+                                    
+                                     if(data_index.length==0){
+                                        arrlist.unshift(server_events.set_local_news(send_id,'',name,avatar,time,mes,_href,"",short_name,time_stamp))
+                                     }
+                                     var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:send_id,time:time,short_name:short_name,_href:_href,time_stamp:time_stamp})
+                                     $(".persistent_data").prepend(notice_box)
+                                     var arr = arrlist
+                                     localStorage.setItem("arr",JSON.stringify(arr))
+                               } 
                             })
                        }else{
                           $(".group-chat").hide()

@@ -1,47 +1,64 @@
 <div class="ask-for-leave-title">
   <span class="first-icon"><i class="iconfont icon-xiayiji "></i></span>
-  <span>物品领用/采购</span>
+  <span>采购申请</span>
 </div>
 <div class="container container-control">
     <br>
         <form class="form-horizontal" role="form" id="form-test">
                 <div class="form-group form-group-common ">
-                   <span style="color:red" class="require-content ">*</span>
-                    <label for="username" class="col-sm-1 control-label control-labels">物品用途:
+                   <span style="color:red" class="require-content require-moment">*</span>
+                    <label for="usernames" class="col-sm-1 control-label control-labells">申请事由:
                     </label>
                     <div class="col-md-12">
-                        <input type="text" class="form-control form-people" id="username" name="username" placeholder="请输入...">
+                        <input type="text" class="form-control form-people " id="usernames"  placeholder="请输入...">
                     </div>
                 </div>
-           
+                <div class="form-group form-group-common">
+                    <span style="color:red" class="require-content ">*</span>
+                    <label for="newplan_datetimepicker1" class="col-sm-1 control-label control-labells">预计采购日期:</label>
+                    <div class="input-append date" id="newplan_datetimepicker1" data-date="" data-date-format="yyyy-mm-dd">  
+                        <input class="new_task_date create_taskdate form-people  new-leave-date start_times" size="16" type="text" value="" readonly placeholder="请选择日期...">  
+                        <span class="add-on select_date_icon select-icons">
+                            <i data-date-icon="icon-calendar" class="icon-calendar iconfont icon-riqi icon-riqis"></i>
+                        </span>  
+                    </div> 
+            </div>
             <div class="form-group form-group-common">
-                <span style="color:red" class="require-content">*</span>
-                    <label for="email" class="col-sm-1 control-label control-labels">物品名称:</label>
+                <span style="color:red" class="require-content require-moments">*</span>
+                    <label for="names" class="col-sm-1 control-label control-labells">名称:</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control form-people" id="email" name="text" placeholder="请输入...">
+                        <input type="text" class="form-control form-people from-peoples" id="names" name="text" placeholder="请输入...">
                     </div>
             </div>
             <div class="form-group form-group-common">
-                <span style="color:red" class="require-content require-moment">*</span>
-                    <label for="email" class="col-sm-1 control-label control-labels">数量:</label>
+                    <label for="email" class="col-sm-1 control-label control-labells">规格:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control form-people from-peoples" id="email" name="text" placeholder="请输入...">
+                    </div>
+            </div>
+            <div class="form-group form-group-common">
+                <span style="color:red" class="require-content require-moments">*</span>
+                    <label for="unit_price" class="col-sm-1 control-label control-labells">单价:</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control form-people" id="email" name="text" placeholder="请输入...">
+                    <input type="text" class="form-control form-people from-peoples" id="unit_price" name="text" placeholder="请输入...">
                 </div>
             </div>
             <div class="form-group form-group-common">
-                    <label for="email" class="col-sm-1 control-label control-labels">金额:</label>
-                    <div class="col-sm-10">
-                    <input type="text" class="form-control form-people" id="email" name="text" placeholder="请输入...">
-            </div>
-            </div>
-             <div class="form-group form-group-common">
-                  <label for="text" class="col-sm-1 control-label control-labels">具体详情</label>
-                    <div class="col-sm-10">
-                    <textarea type="text" class="form-control  form-people  form-reason " id="text"  placeholder="填写请示的具体内容…"></textarea>
+                <span style="color:red" class="require-content require-moments">*</span>
+                    <label for="count" class="col-sm-1 control-label control-labells">数量:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control form-people from-peoples" id="count" name="text" placeholder="请输入...">
                 </div>
-             </div>
+            </div>
+            <div class="form-group form-group-common">
+                    <span style="color:red" class="require-content require-moments">*</span>
+                    <label for="total_prices" class="col-sm-1 control-label control-labells">总价:</label>
+                    <div class="col-sm-10">
+                    <input type="text" class="form-control form-people from-peoples" id="total_prices" name="text" placeholder="请输入...">
+            </div>
+            </div>
              <div class="form-group form-group-common form-group-img">
-               <div class="control-labels control-img add-imgs-control img-commons-control">添加图片:</div>
+               <div class="control-labells control-img add-imgs-control img-commons-control">添加图片:</div>
                <div class="img-border img-commons-control" id="img-border ">
                     <i class="iconfont icon-tianjia3 add-img-people" ></i>
                     <a id="attach_file"/>
@@ -51,7 +68,7 @@
            </div>
            <div class="form-group form-group-common">
                <span style="color:red" class="require-content">*</span>
-                <div class="control-labels control-img check-people">审批人:</div>
+                <div class="control-labells control-img check-people">审批人:</div>
                 <ul class="generate_log_member_box shenpi-person shenpi-persons ">
                     <li class="add_log_people">
                         <div class="generate_log_member_addlogos">
@@ -62,7 +79,7 @@
                 </ul>
            </div>
             <div class="form-group form-group-common">
-                <div class="control-labels control-img check-people">抄送人:</div>
+                <div class="control-labells control-img check-people">抄送人:</div>
                 <ul class="generate_log_member_box shenpi-person send-check-people">
                     <li class="add_log_peoples">
                         <div class="generate_log_member_addlogos">

@@ -26,6 +26,36 @@
     </div>
     <hr class="line-height-hr"/>
     <div>
+        {{#if reason}}
+        <div class="common-flex check-detail-total">
+            <p>
+                <span>审批类型:</span>
+                <span>{{types approval_type}}</span>
+            </p>
+            <P>
+                <span>申请理由:</span>
+                <span>{{reason}}</span>
+            </P>
+            <p>
+                <span>紧急程度:</span>
+                <span>{{urgency_degree}}</span>
+            </p>
+        </div>
+        <div class="common-flex check-detail-total">
+            {{#if content}}
+                <p>
+                    <span>具体内容:</span>
+                    <span>{{content}}</span>
+                </p>
+            {{/if}} 
+            {{#if jobs_date}}
+                   <p>
+                    <span>日期:</span>
+                    <span>{{jobs_date}}</span>
+                </p>
+            {{/if}}
+        </div>
+        {{else}}
         <div class="common-flex check-detail-total">
                <p>
                 <span>审批类型:</span>
@@ -70,6 +100,7 @@
                   {{/if}}
              {{/unless}}
         </div>
+        {{/if}}
     </div>
     {{#if image_url}}
         <div>
