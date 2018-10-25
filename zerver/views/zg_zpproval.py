@@ -621,10 +621,7 @@ def approval_details(request, user_profile):
             return JsonResponse({'errno': 3, 'message': '无效数据'})
         reimburse = reimburse[0]
         review_obj = ZgReview.objects.filter(types=types, table_id=ids, send_user_id=user_profile.id)
-        review_obj[0].is_know = True
-        review_obj[0].status = '审批通过'
-        review_obj[0].save()
-
+        review_obj.update(is_know=True, status='审批通过')
         data['approval_type'] = 'project_progress'
         data['project_name'] = reimburse.project_name
         data['happening'] = reimburse.happening
