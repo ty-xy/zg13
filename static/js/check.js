@@ -96,9 +96,13 @@ var check = (function () {
                         data.shown=true
                     }
                     $(".move_ctn").children().remove();
-                    
-                    var li = templates.render("check_detail",data)
-                    $(".move_ctn").html(li)
+                    if(data.project_name !==undefined){
+                        var li = templates.render("project_progress_degree",data)
+                        $(".move_ctn").html(li)
+                    }else{
+                        var li = templates.render("check_detail",data)
+                        $(".move_ctn").html(li)
+                    }
                     func()
                     $(".check-detail-flex").height($(window).height()-190)
                     if(data.button_status!==5){
@@ -107,7 +111,7 @@ var check = (function () {
                 }
             })
     }
-     function feedBack (types,id,func) {
+    function feedBack (types,id,func) {
         $("body").on("click",".feedBack",function(e){
             var rendered = templates.render("feed_back_content",{revolke_tips:true})
             $(".modal-logs").html(rendered)
@@ -893,8 +897,13 @@ var check = (function () {
                                         // console.log(data)
                                         // console.log("返回待我审批1")
                                         $(".move_ctn").children().remove();
-                                        var li = templates.render("check_detail",data)
-                                        $(".move_ctn").html(li)
+                                        if(data.project_name !==undefined){
+                                            var li = templates.render("project_progress_degree",data)
+                                            $(".move_ctn").html(li)
+                                        }else{
+                                            var li = templates.render("check_detail",data)
+                                            $(".move_ctn").html(li)
+                                        }
                                         $(".check-detail-flex").height($(window).height()-190)
                                         exports.backIcons2()
                                         exports.ready_check_func(types,id)
@@ -1065,8 +1074,13 @@ var check = (function () {
                                             data.shown=true
                                         }
                                         $(".move_ctn").children().remove();
-                                        var li = templates.render("check_detail",data)
-                                        $(".move_ctn").html(li)
+                                        if(data.project_name !==undefined){
+                                            var li = templates.render("project_progress_degree",data)
+                                            $(".move_ctn").html(li)
+                                        }else{
+                                            var li = templates.render("check_detail",data)
+                                            $(".move_ctn").html(li)
+                                        }
                                         $(".check-detail-flex").height($(window).height()-190)
                                         backIcons1()
                                         // backIcons(lis)

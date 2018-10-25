@@ -1355,8 +1355,9 @@ a.message-control-button {
       min-width: 960px;
    }
    .check-detail-total>p{
-      margin-right:120px;
+      /* margin-right:120px; */
       margin-top:10px;
+     width:33%;
    }
    .avatar-imgs-shenpi-detail{
        height:48px;
