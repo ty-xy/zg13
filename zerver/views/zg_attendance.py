@@ -394,20 +394,21 @@ def add_attendances(request, user_profile):
                                                                 latitude=attendances_latitude,
                                                                 site=attendances_location,
                                                                 default_distance=attendances_range)
-        for user_id in attendances_member_list:
-            user_obj = UserProfile.objects.get(id=user_id)
-            user_obj.atendance = attendances_obj
-            user_obj.atendance_type = 'extra'
-            user_obj.save()
+        if attendances_member_list:
+            for user_id in attendances_member_list:
+                user_obj = UserProfile.objects.get(id=user_id)
+                user_obj.atendance = attendances_obj
+                user_obj.atendance_type = 'extra'
+                user_obj.save()
         for department in department_list:
             ids += str(department)
             department_obj = ZgDepartment.objects.filter(id=department)
             department_obj[0].user.all().update(atendance_type='normal', atendance=attendances_obj)
-
-        for i in not_join:
-            user = UserProfile.objects.get(id=i)
-            user.atendance_type = 'drop_out'
-            user.save()
+        if not_join:
+            for i in not_join:
+                user = UserProfile.objects.get(id=i)
+                user.atendance_type = 'drop_out'
+                user.save()
         attendances_obj.department = ids
         attendances_obj.save()
     except Exception as e:

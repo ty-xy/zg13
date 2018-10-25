@@ -10,81 +10,81 @@
         <div class="application_people">
             <p>{{head_name}}</p>
             <p>{{head_status}}</p>
-            {{!-- {{#compare head_status '==' "审批中"}}
-               <p style="color:#FFA200">{{head_status}}</p>
-               {{else}}
-                 {{#compare head_status '==' "审批通过"}}
-                    <p style="color:#39D1A9">{{head_status}}</p>
-                    {{else}}
-                      {{#compare head_status '==' "审批未通过"}}
-                        <p style="color:#F74144">{{head_status}}</p>
-                       {{else}}
-                        <p>{{head_status}}</p>
-                        {{/compare}}
-                    {{/compare}}
-            {{/compare}} --}}
         </div>
     </div>
     <hr class="line-height-hr"/>
     <div>
-       
         <div class="common-flex check-detail-total">
             <p>
                 <span>审批类型:</span>
                 <span>{{types approval_type}}</span>
             </p>
             <P>
-                <span>申请理由:</span>
-                <span>{{reason}}</span>
+                <span>项目名称:</span>
+                <span>{{project_name}}</span>
             </P>
-            {{#if urgency_degree}}
-                <p>
-                    <span>紧急程度:</span>
-                    <span>{{urgency_degree}}</span>
-                </p>
-            {{else}}
-                <p>
-                    <span>物品名称:</span>
-                    <span>{{goods_name}}</span>
-                </p>
-            {{/if}}
+            <p>
+                <span>施工情况:</span>
+                <span>{{happening}}</span>
+            </p>
         </div>
         <div class="common-flex check-detail-total">
-            {{#if content}}
                 <p>
-                    <span>具体内容:</span>
-                    <span>{{content}}</span>
+                    <span>竣工时间预测:</span>
+                    <span>{{complete_time}}</span>
                 </p>
-            {{/if}} 
-            {{#if jobs_date}}
+                {{#if issue}}
                 <p>
-                    <span>日期:</span>
-                    <span>{{jobs_date}}</span>
+                    <span>存在问题:</span>
+                    <span>{{issue}}</span>
                 </p>
-            {{/if}}
-            {{#if unit_price}}
+                {{/if}}
+                {{#if scheme}}
                 <p>
-                    <span>审批单价:</span>
-                    <span>{{unit_price}}</span>
+                    <span>解决方案:</span>
+                    <span>{{scheme}}</span>
                 </p>
-                <p>
-                    <span>审批数量:</span>
-                    <span>{{count}}</span>
-                </p>
-                <p>
-                    <span>审批总价:</span>
-                    <span>{{total_prices}}</span>
-                </p>
-           {{/if}}
+                {{/if}}
         </div>
-      
+         <div class="common-flex check-detail-total">
+               {{#if worker_improve}}
+                <p>
+                    <span>工人改进:</span>
+                    <span>{{worker_improve}}</span>
+                </p>
+                {{/if}}
+                {{#if coordinate_department}}
+                <p>
+                    <span>协调部门:</span>
+                    <span>{{coordinate_department}}</span>
+                </p>
+                {{/if}}
+                {{#if remark}}
+                <p>
+                    <span>备注:</span>
+                    <span>{{remark}}</span>
+                </p>
+                {{/if}}
+        </div>
     </div>
-   
+    {{#if image_url}}
+            <div>
+            <span>添加图片:</span>
+
+            {{!-- <img src={{image_url}} class="img-border" /> --}}
+
+            {{#each  image_url}}
+                    <a href = {{this}} target="_blank">
+                    <img src={{this}} class="img-border"/>
+                    </a>
+            {{/each}}
+            </div>
+        {{/if}}
      <hr class="line-height-hr"/>
     <div>
        <p>
-           <span>已读3人</span>
-           <span>未读3人</span>
+           <span>已读{{read_count}}人</span>
+           <span>未读{{unread_count}}人</span>
        </p>
        <ul class="common-flex  common-margin">
          {{#each inform_list}}
@@ -114,5 +114,8 @@
         </ul>
     </div>
     {{/if}}
-   
+   <div class="common-flex button-show">
+     <button class="button-detail-common feedBack">反馈</button>
+   </div>
 </div>
+ 
