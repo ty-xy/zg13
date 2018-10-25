@@ -19,25 +19,25 @@
             <ul class="box-left-list box-left-button">
                 {{#if show}}
                 {{#each data}}
-                 <li class="input-box-list box-start-list" input-key={{@key}}>
+                 <li class="input-box-list box-start-list" input-key="{{@key}}">
                     <div class="box-list-left">
-                        <label><input type="checkbox"  inputid={{@key}} class="choose-check"/>{{@key}}</label>
+                        <label><input type="checkbox"  inputid="{{@key}}" class="choose-check"/>{{@key}}</label>
                     </div>
                         {{#compare num "=="0}}
-                        <button class="button-right next-right" style="color:#ccc" button-key={{@key}}>下级</button>
+                        <button class="button-right next-right" style="color:#ccc" button-key="{{@key}}">下级</button>
                         {{/compare}}
                         {{#compare num "!=="0}}
-                        <button class="button-right next-right" button-key={{@key}}>下级</button>
+                        <button class="button-right next-right" button-key="{{@key}}">下级</button>
                         {{/compare}}
                  </li>
                  {{/each}}
                  {{else}}
                   {{#each data}}
-                    <li class="input-box-list box-start-list" input-key={{@key}}>
+                    <li class="input-box-list box-start-list" input-key="{{@key}}" >
                         <div class="box-list-left">
-                            <label><input type="checkbox"  inputid={{@key}} class="choose-check"/>{{@key}}</label>
+                            <label><input type="checkbox"  inputid="{{@key}}" class="choose-check"/>{{@key}}</label>
                         </div>
-                        <button class="button-right next-right" button-key={{@key}}>下级</button>
+                        <button class="button-right next-right" button-key="{{@key}}">下级</button>
                    </li>
                    {{/each}}
                  {{/if}}

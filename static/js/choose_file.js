@@ -5,6 +5,7 @@ var chooseFile = (function () {
     $("body").ready(function (){
        //选择群组
         function commonTotal (data){
+            console.log(data)
             var rendered = $(templates.render('choose',{data:data.streams_dict}));
             $(".modal-log-content").html(rendered)
         }

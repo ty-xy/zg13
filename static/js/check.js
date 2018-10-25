@@ -188,7 +188,71 @@ var check = (function () {
             })
         })
     }
-
+    function commonapply(){
+          var content = $.trim($("#usernames").val())
+          if(content==""){
+            alert()
+            return
+          }
+          var purchase_date = $(".start_times").val()
+          if(purchase_date==""){
+                alert()
+                return
+          }
+          var goods_name = $("#names").val()
+          if(goods_name==""){
+                alert()
+                return
+          } 
+          var  unit_price  = $("#unit_price").val()
+          if(unit_price==""){
+                alert()
+                return
+          }
+          var count = $("#count").val()
+          if(count==""){
+                alert()
+                return
+          }
+          var total_prices = $("#total_prices").val()
+          if(total_prices == ""){
+                alert()
+                return
+          }
+          var send_list =[]
+          $(".shenpi-persons").children().not($(".add_log_people")).each(function(){
+            var ids= Number($(this).attr('data_id'))
+            send_list.push(ids)
+          })
+          if(send_list.length===0){
+              alert()
+              return
+          }
+          var resend_list =[]
+          $(".send-check-people").children().not($(".add_log_peoples")).each(function(){
+            var ids= Number($(this).attr('data_id'))
+              resend_list.push(ids)
+          })
+          var img_url = []
+          $(".form-group-img").children().not($(".img-commons-control")).each(function(){
+              img_url.push($(this).attr("data-url"))
+              console.log(img_url)
+          })
+          var specification = $("#email").val()
+          var data = {
+               reason:content,
+               purchase_date:purchase_date,
+               goods_name:goods_name,
+               unit_price:unit_price,
+               count:count,
+               total_prices:total_prices,
+               approver_list:approver_list,
+               observer_list:observer_list,
+               img_url:img_url,
+               specification:specification
+          }
+          return data
+    }
     //我发送的请求的一个函数
     function send_check(content){
         channel.get({
@@ -602,18 +666,12 @@ var check = (function () {
                 })
             })
         })
-        //采购
+        //采购申请
         $(".move_ctn").off(".purchase-buy").on("click",".purchase-buy",function(e){
             $(".move_ctn").children().remove();
             var li = templates.render("goods-for-buy")
             $(".move_ctn").html(li)
             height()
-            $('#newplan_datetimepicker2').datetimepicker({  
-                language:"zh-CN",  
-                todayHighlight: true,  
-                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
-                weekStart:1  
-            }); 
             $('#newplan_datetimepicker1').datetimepicker({  
                 language:"zh-CN",  
                 todayHighlight: true,  
@@ -629,9 +687,9 @@ var check = (function () {
             uploadFile()
             $("#btn-test").on("click",function(e){
                  e.preventDefault()
-                 var data = commonContent('leave')
+                 var data = commonapply()
                  channel.post({
-                     url:"/json/zg/approval/leave/",
+                     url:"/json/zg/purchase/",
                      data:JSON.stringify(data),
                      contentType:"application/json",
                      success:function(data){
