@@ -2357,7 +2357,7 @@ class ZgPurchase(models.Model):
     # 物品规格
     specification = models.CharField(max_length=64, null=True)
     # 单价
-    unit_price = models.PositiveIntegerField
+    unit_price = models.PositiveIntegerField(null=True)
     # 数量
     count = models.PositiveIntegerField()
     # 总价
@@ -2422,13 +2422,14 @@ class ZgReview(models.Model):
     # 用户
     send_user_id = models.CharField(max_length=10)
     # 审批类型：请假(leave)，外出(evection)，报销(reimburse)
-
+    #         工作请示(jobs_please), 采购：(purchase)
+    #         工程进度汇报(project_progress)
     types = models.CharField(max_length=30)
 
     table_id = models.PositiveIntegerField()
     # 状态：已撤销，审批通过，审批未通过，发起申请，审批中
     status = models.CharField(max_length=15, default='审批中')
-    # 职责：（审批：approval  抄送：inform 采购：purchase）
+    # 职责：（审批：approval  抄送：inform ）
     duties = models.CharField(max_length=30, default='approval')
     # 已读未读
     is_know = models.BooleanField(default=False)
