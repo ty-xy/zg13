@@ -96,7 +96,7 @@ var check = (function () {
                         data.shown=true
                     }
                     $(".move_ctn").children().remove();
-                    if(data.project_name !==undefined){
+                    if(typeof data.project_name !==undefined){
                         var li = templates.render("project_progress_degree",data)
                         $(".move_ctn").html(li)
                     }else{
@@ -292,7 +292,7 @@ var check = (function () {
                                     data.shown=true
                                 }
                                 // del_msg(data)
-                                if(data.project_name !==undefined){
+                                if(typeof data.project_name !==undefined){
                                     var li = templates.render("project_progress_degree",data)
                                     $(".move_ctn").html(li)
                                 }else{
@@ -897,7 +897,7 @@ var check = (function () {
                                         // console.log(data)
                                         // console.log("返回待我审批1")
                                         $(".move_ctn").children().remove();
-                                        if(data.project_name !==undefined){
+                                        if(typeof data.project_name !==undefined){
                                             var li = templates.render("project_progress_degree",data)
                                             $(".move_ctn").html(li)
                                         }else{
@@ -1074,7 +1074,7 @@ var check = (function () {
                                             data.shown=true
                                         }
                                         $(".move_ctn").children().remove();
-                                        if(data.project_name !==undefined){
+                                        if(typeof data.project_name !==undefined){
                                             var li = templates.render("project_progress_degree",data)
                                             $(".move_ctn").html(li)
                                         }else{

@@ -482,7 +482,7 @@ def update_attendances(request, user_profile):
             department = ZgDepartment.objects.get(id=value)
             UserProfile.objects.filter(atendance_type='normal', )
             department.user.all().update(atendance_type='normal', atendance=attendances_obj)
-        attendances_obj.department=ids
+        attendances_obj.department=ids[:-1]
         attendances_obj.save()
 
     if not_join:
