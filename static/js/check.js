@@ -148,7 +148,7 @@ var check = (function () {
             })    
         })
     }
-    exports.ready_check_func=function(types,id){
+    exports.ready_check_func=function(types,id,func){
         $(".move_ctn ").off("click",".no_agree").on("click",".no_agree",function(e){
             datalist = {
                 types:types,
@@ -191,6 +191,7 @@ var check = (function () {
                 }
             })
         })
+        feedBack(types,id,func)
     }
     function commonapply(){
           var content = $.trim($("#usernames").val())
@@ -843,7 +844,7 @@ var check = (function () {
                     happening:happening,
                     quality:quality,
                     complete_time:complete_time,
-                    approver_list:send_list,
+                    observer_list:send_list,
                     img_url:img_url,
                     issue:issue,
                     scheme:scheme,
