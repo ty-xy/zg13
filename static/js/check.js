@@ -96,9 +96,13 @@ var check = (function () {
                         data.shown=true
                     }
                     $(".move_ctn").children().remove();
-                    
-                    var li = templates.render("check_detail",data)
-                    $(".move_ctn").html(li)
+                    if(data.project_name !==undefined){
+                        var li = templates.render("project_progress_degree",data)
+                        $(".move_ctn").html(li)
+                    }else{
+                        var li = templates.render("check_detail",data)
+                        $(".move_ctn").html(li)
+                    }
                     func()
                     $(".check-detail-flex").height($(window).height()-190)
                     if(data.button_status!==5){
@@ -107,7 +111,7 @@ var check = (function () {
                 }
             })
     }
-     function feedBack (types,id,func) {
+    function feedBack (types,id,func) {
         $("body").on("click",".feedBack",function(e){
             var rendered = templates.render("feed_back_content",{revolke_tips:true})
             $(".modal-logs").html(rendered)
@@ -281,7 +285,6 @@ var check = (function () {
                             url:"/json/zg/approval",
                             data:datater,
                             success:function(datalist){
-                                console.log(datalist)
                                 var data =datalist.data
                                 if(data.feedback_list.length===0){
                                     data.shown=false
@@ -289,8 +292,14 @@ var check = (function () {
                                     data.shown=true
                                 }
                                 // del_msg(data)
-                                var li = templates.render("check_detail",data)
-                                $(".move_ctn").html(li)
+                                if(data.project_name !==undefined){
+                                    var li = templates.render("project_progress_degree",data)
+                                    $(".move_ctn").html(li)
+                                }else{
+                                    var li = templates.render("check_detail",data)
+                                    $(".move_ctn").html(li)
+                                }
+                            
                                
                                 backIcons3()
                                 $(".reminder").on("click",function(e){ $(".check-detail-flex").height($(window).height()-190)
@@ -751,13 +760,15 @@ var check = (function () {
                      img_url.push($(this).attr("data-url"))
                  })
                  var content = $("#text").val()
+                 var jobs_date = $(".start_times").val()
                  var data = {
                      reason:reason,
                      urgency_degree:urgency_degree,
                      approver_list:send_list,
                      img_url:img_url,
                      observer_list:resend_list,
-                     content:content
+                     content:content,
+                     jobs_date:jobs_date
                  }
                  channel.post({
                      url:"/json/zg/jobs/please/",
@@ -886,8 +897,13 @@ var check = (function () {
                                         // console.log(data)
                                         // console.log("返回待我审批1")
                                         $(".move_ctn").children().remove();
-                                        var li = templates.render("check_detail",data)
-                                        $(".move_ctn").html(li)
+                                        if(data.project_name !==undefined){
+                                            var li = templates.render("project_progress_degree",data)
+                                            $(".move_ctn").html(li)
+                                        }else{
+                                            var li = templates.render("check_detail",data)
+                                            $(".move_ctn").html(li)
+                                        }
                                         $(".check-detail-flex").height($(window).height()-190)
                                         exports.backIcons2()
                                         exports.ready_check_func(types,id)
@@ -1058,8 +1074,13 @@ var check = (function () {
                                             data.shown=true
                                         }
                                         $(".move_ctn").children().remove();
-                                        var li = templates.render("check_detail",data)
-                                        $(".move_ctn").html(li)
+                                        if(data.project_name !==undefined){
+                                            var li = templates.render("project_progress_degree",data)
+                                            $(".move_ctn").html(li)
+                                        }else{
+                                            var li = templates.render("check_detail",data)
+                                            $(".move_ctn").html(li)
+                                        }
                                         $(".check-detail-flex").height($(window).height()-190)
                                         backIcons1()
                                         // backIcons(lis)

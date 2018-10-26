@@ -36,10 +36,17 @@
                 <span>申请理由:</span>
                 <span>{{reason}}</span>
             </P>
-            <p>
-                <span>紧急程度:</span>
-                <span>{{urgency_degree}}</span>
-            </p>
+            {{#if urgency_degree}}
+                <p>
+                    <span>紧急程度:</span>
+                    <span>{{urgency_degree}}</span>
+                </p>
+            {{else}}
+                <p>
+                    <span>物品名称:</span>
+                    <span>{{goods_name}}</span>
+                </p>
+            {{/if}}
         </div>
         <div class="common-flex check-detail-total">
             {{#if content}}
@@ -49,59 +56,79 @@
                 </p>
             {{/if}} 
             {{#if jobs_date}}
-                   <p>
+                <p>
                     <span>日期:</span>
                     <span>{{jobs_date}}</span>
                 </p>
             {{/if}}
+            {{#if unit_price}}
+                <p>
+                    <span>审批单价:</span>
+                    <span>{{unit_price}}</span>
+                </p>
+                <p>
+                    <span>审批数量:</span>
+                    <span>{{count}}</span>
+                </p>
+                <p>
+                    <span>审批总价:</span>
+                    <span>{{total_prices}}</span>
+                </p>
+           {{/if}}
         </div>
         {{else}}
-        <div class="common-flex check-detail-total">
-               <p>
-                <span>审批类型:</span>
-                <span>{{types approval_type}}</span>
-                </p>
+            <div class="common-flex check-detail-total">
+                <p>
+                    <span>审批类型:</span>
+                    <span>{{types approval_type}}</span>
+                    </p>
+                    {{#unless amount}}
+                        <p>
+                        <span>开始时间:</span>
+                        <span>{{start_time}}</span>
+                        </p>
+                        <p>
+                        <span>结束日期:</span>
+                        <span>{{end_time}}</span>
+                        </p>
+                        {{else}}
+                        <p>
+                        <span>报销类别:</span>
+                        <span>{{category}}</span>
+                        </p>
+                        <p>
+                        <span>报销金额:</span>
+                        <span>{{amount}}</span>
+                        </p>
+                    {{/unless}}
+            </div>
+            <div class="common-flex check-detail-total">
                 {{#unless amount}}
                     <p>
-                    <span>开始时间:</span>
-                    <span>{{start_time}}</span>
+                        <span>请假天数:</span>
+                        <span class="total-day">{{count}}天</span>
                     </p>
                     <p>
-                    <span>结束日期:</span>
-                    <span>{{end_time}}</span>
+                        <span>请假事由:</span>
+                        <span>{{cause}}</span>
                     </p>
                     {{else}}
+                    {{#if detail}}
                     <p>
-                    <span>报销类别:</span>
-                    <span>{{category}}</span>
+                        <span>费用明细:</span>
+                        <span>{{count}}天</span>
                     </p>
-                    <p>
-                    <span>报销金额:</span>
-                    <span>{{amount}}</span>
-                    </p>
-                 {{/unless}}
-        </div>
-        <div class="common-flex check-detail-total">
-              {{#unless amount}}
-                <p>
-                    <span>请假天数:</span>
-                    <span class="total-day">{{count}}天</span>
-                </p>
-                <p>
-                    <span>请假事由:</span>
-                    <span>{{cause}}</span>
-                </p>
-                {{else}}
-                   {{#if detail}}
-                  <p>
-                    <span>费用明细:</span>
-                    <span>{{count}}天</span>
-                 </p>
-                  {{/if}}
-             {{/unless}}
-        </div>
+                    {{/if}}
+                {{/unless}}
+            </div>
         {{/if}}
     </div>
+    {{#if specification}}
+        <p>
+            <span>产品规格:</span>
+            <span>{{specification}}</span>
+        </p>
+    {{/if}}
     {{#if image_url}}
         <div>
            <span>添加图片:</span>

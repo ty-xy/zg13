@@ -1,0 +1,121 @@
+<div class="ask-for-leave-title">
+  <span class="first-icon" data-class="{{dataClass}}">
+      <i class="iconfont icon-xiayiji "></i>
+      </span>
+   <span>{{head_name}}</span>
+</div>
+<div class="check-detail-flex">
+    <div class="common-flex top_header_flex">
+        <img src={{head_avatar}}  class="avatar-imgs-shenpi"/>
+        <div class="application_people">
+            <p>{{head_name}}</p>
+            <p>{{head_status}}</p>
+        </div>
+    </div>
+    <hr class="line-height-hr"/>
+    <div>
+        <div class="common-flex check-detail-total">
+            <p>
+                <span>审批类型:</span>
+                <span>{{types approval_type}}</span>
+            </p>
+            <P>
+                <span>项目名称:</span>
+                <span>{{project_name}}</span>
+            </P>
+            <p>
+                <span>施工情况:</span>
+                <span>{{happening}}</span>
+            </p>
+        </div>
+        <div class="common-flex check-detail-total">
+                <p>
+                    <span>竣工时间预测:</span>
+                    <span>{{complete_time}}</span>
+                </p>
+                {{#if issue}}
+                <p>
+                    <span>存在问题:</span>
+                    <span>{{issue}}</span>
+                </p>
+                {{/if}}
+                {{#if scheme}}
+                <p>
+                    <span>解决方案:</span>
+                    <span>{{scheme}}</span>
+                </p>
+                {{/if}}
+        </div>
+         <div class="common-flex check-detail-total">
+               {{#if worker_improve}}
+                <p>
+                    <span>工人改进:</span>
+                    <span>{{worker_improve}}</span>
+                </p>
+                {{/if}}
+                {{#if coordinate_department}}
+                <p>
+                    <span>协调部门:</span>
+                    <span>{{coordinate_department}}</span>
+                </p>
+                {{/if}}
+                {{#if remark}}
+                <p>
+                    <span>备注:</span>
+                    <span>{{remark}}</span>
+                </p>
+                {{/if}}
+        </div>
+    </div>
+    {{#if image_url}}
+            <div>
+            <span>添加图片:</span>
+
+            {{!-- <img src={{image_url}} class="img-border" /> --}}
+
+            {{#each  image_url}}
+                    <a href = {{this}} target="_blank">
+                    <img src={{this}} class="img-border"/>
+                    </a>
+            {{/each}}
+            </div>
+        {{/if}}
+     <hr class="line-height-hr"/>
+    <div>
+       <p>
+           <span>已读{{read_count}}人</span>
+           <span>未读{{unread_count}}人</span>
+       </p>
+       <ul class="common-flex  common-margin">
+         {{#each inform_list}}
+           <li class="chaosong-people">
+               <img src ={{user_avatar}} class="avatar-imgs-shenpi-detail">
+               <p>{{user_name}}</p>
+           </li>
+         {{/each}}
+       </ul>
+    </div>
+    {{#if shown}}
+    <div class="feed_back-content">
+        <span>反馈:</span>
+        <ul>
+            {{#each feedback_list}}
+            <li class="common-flex feedback-content-back">
+                 <div class="common-flex">
+                    <img src={{user_avatar}} class="avatar-imgs-shenpi"/>
+                    <div class="application_people feed-back-people">
+                        <p>{{user_name}}</p>
+                        <p>{{content}}</p>
+                    </div>
+                 </div>
+                 <div class="show-content-color">{{substrYear times}}</div>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+    {{/if}}
+   <div class="common-flex button-show">
+     <button class="button-detail-common feedBack">反馈</button>
+   </div>
+</div>
+ 
