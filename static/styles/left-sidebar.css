@@ -277,8 +277,10 @@ li.active-sub-filter {
 }
 
 .topic-unread-count {
-    right: 30px;
-    top: 3px;
+    /* right: 30px;
+    top: 3px; */
+    right: -3px;
+    top: -1px;
     background-color: red;
 }
 .topic-unread-count>.value{

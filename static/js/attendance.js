@@ -912,14 +912,16 @@ var attendance = (function () {
                 // console.log(member_list)
             }
             var else_member_list = $(".button-common-people").attr("data_id")
-            console.log(else_member_list)
             if(else_member_list !== undefined){
-                
                 else_member_list = else_member_list.split(",")
+            }else{
+                else_member_list = []
             }
             var not_join = $(".button-common-none").attr("data_id")
             if(not_join !==undefined){
                 not_join = not_join.split(",")
+            }else{
+                not_join = []
             }
                
             // console.log(member_list)
