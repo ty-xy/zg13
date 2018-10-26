@@ -395,23 +395,15 @@ def add_attendances(request, user_profile):
                                                                 latitude=attendances_latitude,
                                                                 site=attendances_location,
                                                                 default_distance=attendances_range)
-<<<<<<< HEAD
-        for user_id in attendances_member_list:
-            user_obj = UserProfile.objects.get(id=user_id)
-            user_obj.atendance = attendances_obj
-            user_obj.atendance_type = 'extra'
-            user_obj.save()
 
-=======
         if attendances_member_list:
             for user_id in attendances_member_list:
                 user_obj = UserProfile.objects.get(id=user_id)
                 user_obj.atendance = attendances_obj
                 user_obj.atendance_type = 'extra'
                 user_obj.save()
->>>>>>> 0f5b1a2678eec90ac7ae00c313f11149cf71a087
         for department in department_list:
-            ids += str(department)
+            ids += str(department) + '|'
             department_obj = ZgDepartment.objects.filter(id=department)
             department_obj[0].user.all().update(atendance_type='normal', atendance=attendances_obj)
         if not_join:
@@ -463,27 +455,42 @@ def update_attendances(request, user_profile):
         attendances_obj.attendance_name = attendances_name
         attendances_obj.save()
 
+
+
     if else_member_list:
         user = UserProfile.objects.filter(atendance=attendances_obj, atendance_type='extra')
         user.update(atendance=None, atendance_type=None)
-        for key in else_member_list:
-            user_obj = UserProfile.objects.get(id=key)
+        print(else_member_list)
+        for a in else_member_list:
+            print(a)
+            user_obj = UserProfile.objects.get(id=a)
             user_obj.atendance = attendances_obj
             user_obj.atendance_type = 'extra'
             user_obj.save()
 
     if department_list:
-        for key, value in department_list:
-            department = ZgDepartment.objects.get(id=key)
-            if value:
-                department.user.all().update(atendance_type='normal', atendance=attendances_obj)
-            else:
-                department.user.all().update(atendance_type=None, atendance=None)
+        ids=''
+        print(department_list)
+        department_s = attendances_obj.department.split('|')
+        print(department_s)
+        for i in department_s:
+            print(i)
+            department = ZgDepartment.objects.get(id=i)
+            department.user.all().update(atendance_type=None, atendance=None)
+        for value in department_list:
+            ids+=value+'|'
+            department = ZgDepartment.objects.get(id=value)
+            UserProfile.objects.filter(atendance_type='normal', )
+            department.user.all().update(atendance_type='normal', atendance=attendances_obj)
+        attendances_obj.department=ids
+        attendances_obj.save()
 
     if not_join:
+        print(not_join)
         user = UserProfile.objects.filter(atendance=attendances_obj, atendance_type='drop_out')
         user.update(atendance=None, atendance_type=None)
         for key in not_join:
+            print(key)
             user_obj = UserProfile.objects.get(id=key)
             user_obj.atendance = attendances_obj
             user_obj.atendance_type = 'drop_out'
@@ -575,8 +582,10 @@ def get_attendances(request, user_profile):
     else_member_list = list()
     # 不参与考勤成员
     not_join_list = list()
+    print(attendances_obj.department.split('|'))
 
-    for department in attendances_obj.department:
+    for department in attendances_obj.department.split('|'):
+        print(department)
         department_dict = dict()
         departments = ZgDepartment.objects.filter(id=department)
         department_dict['department_name'] = departments[0].name
