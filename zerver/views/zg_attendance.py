@@ -411,7 +411,7 @@ def add_attendances(request, user_profile):
                 user = UserProfile.objects.get(id=i)
                 user.atendance_type = 'drop_out'
                 user.save()
-        attendances_obj.department = ids
+        attendances_obj.department = ids[:-1]
         attendances_obj.save()
     except Exception as e:
         print(e)
