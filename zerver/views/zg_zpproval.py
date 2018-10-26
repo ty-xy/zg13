@@ -76,15 +76,16 @@ def zg_purchase(request, user_profile):
                                          total_prices=total_prices,
                                          send_time=nuw_time())
 
-    event = {'zg_type': 'JobsNotice',
-             'time': nuw_time(),
-             'avatar_url': avatar.absolute_avatar_url(user_profile),
-             'user_name': user_profile.full_name,
-             'content': {'type': 'purchase',
-                         'reason': cause,
-                         'time_length': start_time + '   ～   ' + end_time,
-                         'id': aaa.id
-                         }}
+    # event = {'zg_type': 'JobsNotice',
+    #          'time': nuw_time(),
+    #          'avatar_url': avatar.absolute_avatar_url(user_profile),
+    #          'user_name': user_profile.full_name,
+    #          'content': {'type': 'purchase',
+    #                      'reason': cause,
+    #                      'time_length': start_time + '   ～   ' + end_time,
+    #                      'id': aaa.id
+    #                      }}
+    event = {}
 
     send_approver_observer(user_profile, purchase.id, 'purchase', approver_list, observer_list,
                            img_url, event,
