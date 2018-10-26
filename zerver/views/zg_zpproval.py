@@ -324,7 +324,6 @@ def expectation_approval_list(request, user_profile):
     if review_objs:
         for review_obj in review_objs:
             aa = {}
-
             name = zpproval[review_obj.types]
             aa['name'] = review_obj.user.full_name + name
             aa['user_avatar'] = avatar.absolute_avatar_url(review_obj.user)
@@ -332,6 +331,8 @@ def expectation_approval_list(request, user_profile):
             aa['id'] = review_obj.table_id
             aa['status'] = review_obj.status
             aa['send_time'] = review_obj.send_time
+            if review_obj.types == project_progress:
+                aa['status'] = '未读'
             iaitiate_list.append(aa)
 
     return JsonResponse({'errno': 0, 'message': '成功', 'iaitiate_list': iaitiate_list})
@@ -352,20 +353,22 @@ def completed_approval_list(request, user_profile):
             aa['type'] = review_obj.types
             aa['id'] = review_obj.table_id
             aa['send_time'] = review_obj.send_time
-            if review_obj.types == 'reimburse':
-                reimburse = ZgReimburse.objects.filter(id=review_obj.table_id)
 
-            elif review_obj.types == 'leave' or review_obj.types == 'evection':
+
+            if review_obj.types == 'leave' or review_obj.types == 'evection':
                 reimburse = ZgLeave.objects.filter(id=review_obj.table_id, approval_type=review_obj.types)
 
             else:
-                reimburse = None
+                reimburse = zpproval_obj[review_obj.types].objects.filter(id=review_obj.table_id)
 
             bb = ZgReview.objects.filter(table_id=aa['id'], types=aa['type'], status='审批未通过', duties='approval').count()
             cc = ZgReview.objects.filter(table_id=aa['id'], types=aa['type'], status='审批中', duties='approval').count()
 
             if reimburse[0].status == '已撤销':
                 aa['status'] = '已撤销'
+            elif review_obj.types=='project_progress':
+                aa['status'] ='已读'
+
             else:
                 if bb > 0:
                     aa['status'] = '审批未通过'
@@ -415,6 +418,9 @@ def approval_initiate_me(request, user_profile):
                 else:
                     aa['status'] = '审批通过'
 
+            if initiate_obj.types == 'project_progress':
+                aa['status'] = initiate_obj.is_know
+
             aa['send_time'] = initiate_obj.send_time
 
             initiate_list.append(aa)
@@ -440,6 +446,7 @@ def inform_approval(request, user_profile):
 
             else:
                 reimburse = zpproval_obj[inform.types].objects.filter(id=inform.table_id)
+
             bb = ZgReview.objects.filter(table_id=aa['id'], types=aa['type'], status='审批未通过', duties='approval').count()
             cc = ZgReview.objects.filter(table_id=aa['id'], types=aa['type'], status='审批中', duties='approval').count()
 
@@ -451,6 +458,7 @@ def inform_approval(request, user_profile):
                 aa['status'] = '审批中'
             else:
                 aa['status'] = '审批通过'
+
             aa['send_time'] = inform.send_time
             inform_list.append(aa)
 
