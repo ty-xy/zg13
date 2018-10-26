@@ -243,7 +243,7 @@ var server_events = (function () {
         idempotent: true,
         timeout:  page_params.poll_timeout,
         success: function (data) { 
-            // console.log(data)         
+            console.log(data)         
             for(var i = 0;i<data.events.length;i++){
                 type = data.events[0].zg_type
                 push_one = data.events[0]
@@ -321,6 +321,8 @@ var server_events = (function () {
                                 arr.unshift(server_events.set_local_news('',stream_id,name,avatar,time,mes,_href,stream,short_name,time_stamp))
                                 var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,stream_id:stream_id,time:time,_href:_href,stream:stream})
                                 $(".persistent_data").prepend(notice_box)
+                               
+                                $(".notice_ctn[stream_id="+stream_id+"]").addClass("backgr").parent().siblings().children().removeClass("backgr")
                             }
                             localStorage.setItem("arr",JSON.stringify(arr))
                         }else{
