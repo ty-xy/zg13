@@ -1,5 +1,6 @@
 from django.http import JsonResponse
-from zerver.models import ZgAttendance, ZgOutsideWork, ZgDepartmentAttendance,ZgWorkNotice, UserProfile, Attachment, ZgDepartment
+from zerver.models import ZgAttendance, ZgOutsideWork, ZgDepartmentAttendance, ZgWorkNotice, UserProfile, Attachment, \
+    ZgDepartment
 from zerver.views.zg_tools import haversine
 from django.db.models import Q
 import calendar
@@ -399,6 +400,7 @@ def add_attendances(request, user_profile):
             user_obj.atendance = attendances_obj
             user_obj.atendance_type = 'extra'
             user_obj.save()
+
         for department in department_list:
             ids += str(department)
             department_obj = ZgDepartment.objects.filter(id=department)
@@ -425,9 +427,9 @@ def update_attendances(request, user_profile):
     attendances_name = req.get('name')
     # 成员=>list
     # 部门列表
-    department_dict = req.get('department_dict')
+    department_list = req.get('department_list')
     # 其他参与人员
-    else_member_dict = req.get('else_member_dict')
+    else_member_list = req.get('else_member_list')
     # 不参与考勤成员
     not_join = req.get('not_join')
     # 上下班时间
@@ -451,36 +453,64 @@ def update_attendances(request, user_profile):
     if attendances_name:
         attendances_obj.attendance_name = attendances_name
         attendances_obj.save()
-    if department_dict:
-        for key, value in department_dict.items():
+
+    if else_member_list:
+        user = UserProfile.objects.filter(atendance=attendances_obj, atendance_type='extra')
+        user.update(atendance=None, atendance_type=None)
+        for key in else_member_list:
+            user_obj = UserProfile.objects.get(id=key)
+            user_obj.atendance = attendances_obj
+            user_obj.atendance_type = 'extra'
+            user_obj.save()
+
+    if department_list:
+        for key, value in department_list:
             department = ZgDepartment.objects.get(id=key)
             if value:
                 department.user.all().update(atendance_type='normal', atendance=attendances_obj)
             else:
                 department.user.all().update(atendance_type=None, atendance=None)
-    if else_member_dict:
-        for key, value in else_member_dict.items():
-            try:
-                user_obj = UserProfile.objects.get(id=int(key))
-                if value:
-                    user_obj.atendance = attendances_obj
-                    user_obj.atendance_type = 'extra'
-                    user_obj.save()
-                else:
-                    user_obj.atendance = None
-                    user_obj.atendance_type = None
-                    user_obj.save()
-            except Exception as e:
-                print(e)
-                return JsonResponse({'errno': 2, 'message': '用户id错误'})
+
     if not_join:
-        for key, value in not_join.items():
-            user_obj = UserProfile.objects.get(id=int(key))
-            if value:
-                user_obj.atendance = attendances_obj
-                user_obj.atendance_type = 'drop_out'
-            else:
-                user_obj.atendance_type = 'normal'
+        user = UserProfile.objects.filter(atendance=attendances_obj, atendance_type='drop_out')
+        user.update(atendance=None, atendance_type=None)
+        for key in not_join:
+            user_obj = UserProfile.objects.get(id=key)
+            user_obj.atendance = attendances_obj
+            user_obj.atendance_type = 'drop_out'
+            user_obj.save()
+    # 备用
+    # if department_dict:
+    #     for key, value in department_dict.items():
+    #         department = ZgDepartment.objects.get(id=key)
+    #         if value:
+    #             department.user.all().update(atendance_type='normal', atendance=attendances_obj)
+    #         else:
+    #             department.user.all().update(atendance_type=None, atendance=None)
+    # if else_member_dict:
+    #     for key, value in else_member_dict.items():
+    #         try:
+    #             user_obj = UserProfile.objects.get(id=int(key))
+    #             if value:
+    #                 user_obj.atendance = attendances_obj
+    #                 user_obj.atendance_type = 'extra'
+    #                 user_obj.save()
+    #             else:
+    #                 user_obj.atendance = None
+    #                 user_obj.atendance_type = None
+    #                 user_obj.save()
+    #         except Exception as e:
+    #             print(e)
+    #             return JsonResponse({'errno': 2, 'message': '用户id错误'})
+    # if not_join:
+    #     for key, value in not_join.items():
+    #         user_obj = UserProfile.objects.get(id=int(key))
+    #         if value:
+    #             user_obj.atendance = attendances_obj
+    #             user_obj.atendance_type = 'drop_out'
+    #         else:
+    #             user_obj.atendance_type = 'normal'
+
     if attendances_jobs_time:
         attendances_obj.jobs_time = attendances_jobs_time
     if attendances_rest_time:
@@ -575,17 +605,17 @@ def get_attendances(request, user_profile):
     site = attendances_obj.site
 
     return JsonResponse({
-                         'errno': 0, 'message': '获取成功',
-                         'name': name, 'jobs_time': jobs_time,
-                         'else_member_list': else_member_list,
-                         'department_list': department_list,
-                         'not_join_list': not_join_list,
-                         'rest_time': rest_time,
-                         'attendance_time_list': attendance_time_list,
-                         'longitude': longitude,
-                         'latitude': latitude,
-                         'location': site,
-                         'range': attendances_obj.default_distance})
+        'errno': 0, 'message': '获取成功',
+        'name': name, 'jobs_time': jobs_time,
+        'else_member_list': else_member_list,
+        'department_list': department_list,
+        'not_join_list': not_join_list,
+        'rest_time': rest_time,
+        'attendance_time_list': attendance_time_list,
+        'longitude': longitude,
+        'latitude': latitude,
+        'location': site,
+        'range': attendances_obj.default_distance})
 
 
 # 考勤组列表

@@ -14,6 +14,7 @@ from django.contrib.auth.hashers import make_password
 from zerver.tornado.event_queue import send_event
 from django.shortcuts import redirect, render
 from zerver.views.zg_tools import req_tools
+import time
 
 
 # 审批通知列表
@@ -31,6 +32,11 @@ def approval_notice(request, user_profile):
         work_notice_dict['second'] = work_notice.second
         work_notice_dict['third'] = work_notice.third
         work_notice_dict['send_time'] = work_notice.send_time
+        aa = work_notice.send_time.split('.')[0]
+        print(aa)
+        timeArray = time.strptime(aa, "%Y-%m-%d %H:%M:%S")
+        timeStamp = int(time.mktime(timeArray))
+        work_notice_dict['timestamp'] = timeStamp
         work_notice_dict['table_type'] = work_notice.table_type
         work_notice_dict['table_id'] = work_notice.table_id
         work_notice_dict['table_state'] = work_notice.table_state
