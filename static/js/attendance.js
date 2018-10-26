@@ -13,7 +13,7 @@ var attendance = (function () {
                   })
                   
                 namelist=namelist.join(",")
-                console.log(content,namelist)
+                console.log(content,namelist,idlist)
                 $(".button-common-people").html(namelist)
                 $(".button-common-people").attr("data_obj",JSON.stringify(content))
                 $(".button-common-people").attr("data_id",idlist)
@@ -316,21 +316,20 @@ var attendance = (function () {
                         return 
                     }
                 var department_list  = $(".button-common-team").attr("data_id")
-                if(department_list == undefined){
+                if(department_list){
+                    department_list=department_list.split(",")
+                }else{
                     alert('请选择考情部门','rgba(169,12,0,0.30)')
                     return 
-                }else{
-                    department_list=department_list.split(",")
-                    // console.log(member_list)
                 }
                 var else_member_list = $(".button-common-people").attr("data_id")
-                if(else_member_list !== undefined){
+                if(else_member_list){
                     else_member_list = else_member_list.split(",")
                 }else{
                     else_member_list = []
                 }
                 var not_join = $(".button-common-none").attr("data_id")
-                if(not_join !==undefined){
+                if(not_join){
                     not_join = not_join.split(",")
                 }else{
                     not_join = []
@@ -772,7 +771,6 @@ var attendance = (function () {
                                                     var html = $(templates.render('attendance_update',{
                                                           datalist:datalist
                                                         }));
-                                                        console.log(data)
                                                          $(".attendance_box").html(html)
                                                          $(".attendance-new-detail").height($(window).height()-90)
                                                          var idteam  = []
