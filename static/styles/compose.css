@@ -630,11 +630,15 @@ a#undo_markdown_preview {
 }
 .create-topic{
     border:none;
+    -webkit-appearance:none;
     font-family: PingFangSC-Regular;
     font-size: 15px;
     color: #4584FF;
     letter-spacing: 0.22px;
     cursor: pointer;
+}
+button{
+    -webkit-appearance:none !important;
 }
 .topic-list{
     display:flex;
