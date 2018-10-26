@@ -542,7 +542,7 @@ def update_attendances(request, user_profile):
     if attendances_range:
         attendances_obj.default_distance = attendances_range
     attendances_obj.save()
-    return JsonResponse({'errno': 3, 'message': '修改成功'})
+    return JsonResponse({'errno': 0, 'message': '修改成功'})
 
 
 # 删除考勤组
@@ -650,9 +650,10 @@ def attendances_management(request, user_profile):
         attendances_dict['attendances_name'] = attendances_obj.attendance_name
         attendances_dict['attendances_id'] = attendances_obj.id
         # 成员
-        attendances_dict['attendances_member_list'] = []
-        for i in UserProfile.objects.filter(atendance=attendances_obj):
-            attendances_dict['attendances_member_list'].append(i.full_name)
+        attendances_dict['department_list'] = []
+        for i in attendances_obj.department.split('|'):
+            department=ZgDepartment.objects.get(id=i)
+            attendances_dict['department_list'].append(department.name)
 
         # 上班时间
         attendances_dict['attendance_time_list'] = []

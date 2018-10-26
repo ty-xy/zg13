@@ -70,7 +70,8 @@ def send_approver_observer(user_profile, obj_id,
                                         send_time=nuw_time(),
                                         table_type=approval_type,
                                         table_id=obj_id)
-            # send_event(event, approver_list)
+        event = zg_send_tools(event)
+        send_event(event, approver_list)
     if observer_list:
         event['theme'] = user_profile.full_name + '的' + types + '需要您知晓'
         for observer in observer_list:
@@ -82,8 +83,8 @@ def send_approver_observer(user_profile, obj_id,
                                         third=third, send_time=nuw_time(),
                                         table_type=approval_type,
                                         table_id=obj_id)
-
-        # send_event(event, observer_list)
+        event = zg_send_tools(event)
+        send_event(event, observer_list)
 
     # except Exception as e:
     #     raise e
