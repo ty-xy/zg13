@@ -808,6 +808,9 @@ a.message-control-button {
     align-items: center;
     margin-bottom:20px;
 }
+.choose-color-setting>span{
+    margin-right:10px
+}
 .icon-shouqi{
     font-size:10px;
     color: #ddd;
@@ -989,6 +992,8 @@ a.message-control-button {
     .icon-prevs{
         display:none ;
        cursor: pointer;
+       margin-top: -0.5px;
+
     }
    .next-icons{
         position: absolute;
