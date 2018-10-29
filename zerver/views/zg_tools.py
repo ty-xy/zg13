@@ -37,10 +37,11 @@ def send_approver_observer(user_profile, obj_id,
                            approval_type, approver_list,
                            observer_list, img_url, event,
                            third, cause):
-    '''
+    """
     发送审批人和抄送人的函数，需要传入：用户，创建的报表id，报表类型，审批列表
     抄送人列表，event，二级标题，三级标题
-    '''
+    """
+
     type_dict = {'evection': '出差申请', 'leave': '请假申请', 'purchase': '采购申请', 'jobs_please': '工作请示',
                  'project_progress': '工程进度汇报'}
     types = type_dict[approval_type]

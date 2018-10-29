@@ -75,7 +75,17 @@ def zg_purchase(request, user_profile):
                                          count=count,
                                          total_prices=total_prices,
                                          send_time=nuw_time())
-    event = dict()
+
+    # event = {'zg_type': 'JobsNotice',
+    #          'time': nuw_time(),
+    #          'avatar_url': avatar.absolute_avatar_url(user_profile),
+    #          'user_name': user_profile.full_name,
+    #          'content': {'type': 'purchase',
+    #                      'reason': cause,
+    #                      'time_length': start_time + '   ～   ' + end_time,
+    #                      'id': aaa.id
+    #                      }}
+    event = {}
 
     send_approver_observer(user_profile, purchase.id, 'purchase', approver_list, observer_list,
                            img_url, event,
@@ -105,8 +115,7 @@ def jobs_please(request, user_profile):
                                                 content=content, send_time=nuw_time())
         event = dict()
         send_approver_observer(user_profile, jobs_please.id, 'jobs_please', approver_list, observer_list, img_url,
-                               event,
-                               reason, urgency_degree)
+                               event, reason, urgency_degree)
     except Exception as e:
         print(e)
         return JsonResponse({'errno': 2, 'message': '发送申请失败'})
@@ -127,9 +136,9 @@ def project_progress(request, user_profile):
     remark = req.get('remark')
 
     img_url = req.get('img_url')
-    observer_list = req.get('observer_list')
+    approver_list = req.get('observer_list')
 
-    if not all([project_name, happening, quality, complete_time, observer_list]):
+    if not all([project_name, happening, quality, complete_time, approver_list]):
         return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
     try:
         project_progress = ProjectProgress.objects.create(user=user_profile, project_name=project_name,
@@ -141,7 +150,7 @@ def project_progress(request, user_profile):
                                                           remark=remark, send_time=nuw_time())
 
         event = dict()
-        approver_list = []
+        observer_list = []
         send_approver_observer(user_profile, project_progress.id, 'project_progress', approver_list, observer_list,
                                img_url, event, project_name, happening)
     except Exception as e:
@@ -354,7 +363,6 @@ def completed_approval_list(request, user_profile):
             aa['id'] = review_obj.table_id
             aa['send_time'] = review_obj.send_time
 
-
             if review_obj.types == 'leave' or review_obj.types == 'evection':
                 reimburse = ZgLeave.objects.filter(id=review_obj.table_id, approval_type=review_obj.types)
 
@@ -366,8 +374,8 @@ def completed_approval_list(request, user_profile):
 
             if reimburse[0].status == '已撤销':
                 aa['status'] = '已撤销'
-            elif review_obj.types=='project_progress':
-                aa['status'] ='已读'
+            elif review_obj.types == 'project_progress':
+                aa['status'] = '已读'
 
             else:
                 if bb > 0:
@@ -798,7 +806,7 @@ def zg_urgent(request, user_profile):
 
     if review:
         table_type = {'evection': '出差申请', 'leave': '请假申请', 'purchase': '采购申请', 'jobs_please': '工作请示',
-                 'project_progress': '工程进度汇报'}
+                      'project_progress': '工程进度汇报'}
         send_list.append(review[0].send_user_id)
 
         event = {'zg_type': 'Urgent',
