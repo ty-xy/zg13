@@ -277,8 +277,10 @@ li.active-sub-filter {
 }
 
 .topic-unread-count {
-    right: 30px;
-    top: 3px;
+    /* right: 30px;
+    top: 3px; */
+    right: -3px;
+    top: -1px;
     background-color: red;
 }
 .topic-unread-count>.value{
@@ -1186,4 +1188,50 @@ li.show-more-private-messages a {
 }
 .shallow_blue{
     background: #F9FBFF;
+}
+.search-top-icon{
+    width: 318px;
+    border: 1px solid #ddd;
+    position: absolute;
+    left: 20px;
+    top: 62px;
+    min-height: 200px;
+    background: #f4f5f7;
+    box-shadow: 0 4px 5px #999;
+    z-index:20000;
+    display:none;
+    padding:10px;
+}
+.search_avatar{
+    height:30px;
+    width:30px;
+    border-radius:50%
+}
+.all-messge-show>li>a,.all-messge-shows>li>a{
+    margin-top:5px;
+    display: flex
+}
+.img-group-search{
+    display: inline-block;
+    height:30px;
+    width:30px;
+    text-align: center;
+    line-height: 30px;
+    border-radius:50%
+}
+.all-choose-group>a>li,.all-choose-person>a>li{
+    display: flex;
+    justify-content: flex-start;
+    line-height: 30px;
+    margin-top:10px
+}
+.group-chat,.person-chat,.show-group,.show-person{
+    display: none 
+}
+
+.all-choose-group>a>li>div,.all-choose-person>a>li>div{
+    margin-left:5px
+}
+.all-messge-show>li>a>div,.all-messge-shows>li>a>div{
+    margin-left:5px;
 }

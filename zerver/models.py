@@ -613,7 +613,8 @@ class ZgDepartmentAttendance(models.Model):
 
     default_distance = models.IntegerField(default=300, verbose_name="默认距离")
     attendance_time = models.CharField(max_length=15, default='12345')
-    department = models.CharField(max_length=128,null=True)
+    department = models.CharField(max_length=128, null=True)
+
 
 class UserProfile(AbstractBaseUser, PermissionsMixin):
     DEFAULT_BOT = 1
@@ -661,7 +662,7 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     # 考勤组
     atendance = models.ForeignKey(ZgDepartmentAttendance, null=True)
     # extra额外  不参与人员drop_out   正常 normal
-    atendance_type=models.CharField(max_length=8,null=True)
+    atendance_type = models.CharField(max_length=8, null=True)
     # 权限
     zg_permission = models.IntegerField(null=True)
     # 状态
@@ -898,6 +899,8 @@ class ZgDepartment(models.Model):
     name = models.CharField(max_length=30)
     realm = models.ForeignKey(Realm)
     user = models.ManyToManyField(UserProfile)
+
+
 #
 # class UserDepartment(models.Model):
 #     user_profile = models.ForeignKey(UserProfile,on_delete=models.CASCADE)
@@ -1658,9 +1661,9 @@ from zerver.lib.create_user import create_user
 # from zerver.lib import actions
 @cache_with_key(bot_profile_cache_key, timeout=3600 * 24 * 7)
 def get_system_bot(email: Text) -> UserProfile:
-    print(email,'-----'*30)
+    print(email, '-----' * 30)
     try:
-        user_obj =  UserProfile.objects.select_related().get(email__iexact=email.strip())
+        user_obj = UserProfile.objects.select_related().get(email__iexact=email.strip())
     except Exception:
         realm = Realm.objects.all()
         user_obj = create_user(email=email,
@@ -1676,6 +1679,7 @@ def get_system_bot(email: Text) -> UserProfile:
                                default_all_public_streams=None,
                                )
     return user_obj
+
 
 @cache_with_key(realm_user_dicts_cache_key, timeout=3600 * 24 * 7)
 def get_realm_user_dicts(realm_id: int) -> List[Dict[str, Any]]:
@@ -2341,7 +2345,68 @@ class ZgReimburse(models.Model):
     send_time = models.DateTimeField()
 
 
-#
+# 采购
+class ZgPurchase(models.Model):
+    user = models.ForeignKey(UserProfile)
+    # 采购是由
+    reason = models.CharField(max_length=256)
+    # 预计采购日期
+    puchase_date = models.DateField()
+    # 物品名称
+    goods_name = models.CharField(max_length=64)
+    # 物品规格
+    specification = models.CharField(max_length=64, null=True)
+    # 单价
+    unit_price = models.PositiveIntegerField(null=True)
+    # 数量
+    count = models.PositiveIntegerField()
+    # 总价
+    total_prices = models.IntegerField()
+
+    status = models.CharField(max_length=25, default='发起申请')
+    send_time = models.DateTimeField()
+
+# 工作请示
+class JobsPlease(models.Model):
+    user = models.ForeignKey(UserProfile)
+    # 采购事由
+    reason = models.CharField(max_length=256)
+    # 紧急程度
+    urgency_degree = models.CharField(max_length=18)
+    # 日期
+    jobs_date = models.DateField(null=True)
+    # 具体内容
+    content = models.CharField(max_length=256, null=True)
+
+    status = models.CharField(max_length=25, default='发起申请')
+    send_time = models.DateTimeField()
+
+
+# 工程进度汇报
+class ProjectProgress(models.Model):
+    user = models.ForeignKey(UserProfile)
+
+    project_name = models.CharField(max_length=64)
+    # 施工情况
+    happening = models.CharField(max_length=512)
+    # 质量监测情况
+    quality = models.CharField(max_length=18)
+    # 存在问题
+    issue = models.CharField(max_length=512,null=True)
+    # 解决方案
+    scheme = models.CharField(max_length=512, null=True)
+    # 工人改进
+    worker_improve = models.CharField(max_length=512, null=True)
+    # 协调部门
+    coordinate_department = models.CharField(max_length=128, null=True)
+    # 竣工时间预测
+    complete_time = models.DateField()
+    # 备注
+    remark = models.CharField(max_length=512, null=True)
+
+    status = models.CharField(max_length=25, default='发起申请')
+    send_time = models.DateTimeField()
+
 # 审批报表附件
 class ZgCorrectzAccessory(models.Model):
     table_id = models.PositiveIntegerField()
@@ -2357,12 +2422,14 @@ class ZgReview(models.Model):
     # 用户
     send_user_id = models.CharField(max_length=10)
     # 审批类型：请假(leave)，外出(evection)，报销(reimburse)
+    #         工作请示(jobs_please), 采购：(purchase)
+    #         工程进度汇报(project_progress)
     types = models.CharField(max_length=30)
 
     table_id = models.PositiveIntegerField()
     # 状态：已撤销，审批通过，审批未通过，发起申请，审批中
     status = models.CharField(max_length=15, default='审批中')
-    # 职责：（审批：approval  抄送：inform）
+    # 职责：（审批：approval  抄送：inform ）
     duties = models.CharField(max_length=30, default='approval')
     # 已读未读
     is_know = models.BooleanField(default=False)
@@ -2412,4 +2479,4 @@ class ZgWorkNotice(models.Model):
     # 报表id
     table_id = models.CharField(max_length=16)
     # 报表状态
-    table_state = models.CharField(max_length=16,null=True)
+    table_state = models.CharField(max_length=16, null=True)

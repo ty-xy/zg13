@@ -1,0 +1,11 @@
+{{#each arr}}
+<li>
+   <a href={{href}} {{#if stream_id}}data_id={{stream_id}}{{else}}data_id={{recipient_id}}{{/if}}>
+        <img class="search_avatar" src={{avatar}}/>
+        <div>
+            <div>{{name}}</div>
+            <div>{{{match_content}}}</div> 
+        </div>
+   </a>
+</li>
+{{/each}}

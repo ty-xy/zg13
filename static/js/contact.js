@@ -1005,7 +1005,7 @@ var contact = (function(){
                         $(".move_ctn").html(li)
                         $(".check-detail-flex").height($(window).height()-244)
                         check.backIcons2()
-                        check.ready_check_func(types,id)
+                        check.ready_check_func(types,id,check.backIcons2)
                     }
                 })
             })

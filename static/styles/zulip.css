@@ -2124,10 +2124,10 @@ div.floating_recipient {
 }
 
 #bottom_whitespace {
-    display: block;
+    /* display: block; */
     height: 464px!important;
     background: #fff;
-    /* width: 899px; */
+    width: 899px;
     display: none;
 }
 

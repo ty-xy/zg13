@@ -123,7 +123,7 @@ function ajaxSubscribeForCreation(stream_name, description, principals, invite_o
             $("#stream").val(stream_name)
             $("#subject").val("大厅")
             window.location.hash = narrow.by_stream_subject_uris(stream_name,"大厅")
-        
+            
         },
         error: function (xhr) {
             var msg = JSON.parse(xhr.responseText).msg;

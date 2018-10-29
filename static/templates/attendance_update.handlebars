@@ -13,11 +13,35 @@
              <li class="kaoqin-common">
                 <h2>成员设置</h2>
                 <div class="title-common">
-                    <span class="kaoqin-door">考勤组参与人员:</span>
-                    <button class="button-common-people">
-                        {{#each member_list}}
-                           {{name}}
+                    <span class="kaoqin-door">参与考勤部门:</span>
+                    <button class="button-common-team">
+                        {{#each department_list}}
+                           {{department_name}}
                         {{/each}}
+                    </button>
+                </div>
+                <div class="title-common">
+                    <span class="kaoqin-door">其他参与人员:</span>
+                    <button class="button-common-people">
+                        {{#compare else_member_list "==" [] }}
+                               请选择其他参与人员
+                        {{else}}
+                            {{#each else_member_list}}
+                               {{user_name}}
+                            {{/each}}
+                        {{/compare}}
+                    </button>
+                </div>
+                <div class="title-common">
+                    <span class="kaoqin-door">无需参与人员:</span>
+                    <button class="button-common-none">
+                     {{#compare else_member_list "==" [] }}
+                               请选择其他参与人员
+                        {{else}}
+                                {{#each not_join_list}}
+                                {{user_name}}
+                                {{/each}}
+                        {{/compare}}
                     </button>
                 </div>
            </li>
@@ -55,5 +79,8 @@
         <div class="new-button-bottom">
             <button class="button-submit-update">提交</button>
         </div>
+         <div class="toast-alert-button">
+             提交成功
+         </div>
     </div>
     {{/each}}

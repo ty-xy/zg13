@@ -96,9 +96,13 @@ var check = (function () {
                         data.shown=true
                     }
                     $(".move_ctn").children().remove();
-                    
-                    var li = templates.render("check_detail",data)
-                    $(".move_ctn").html(li)
+                    if(data.project_name !==undefined){
+                        var li = templates.render("project_progress_degree",data)
+                        $(".move_ctn").html(li)
+                    }else{
+                        var li = templates.render("check_detail",data)
+                        $(".move_ctn").html(li)
+                    }
                     func()
                     $(".check-detail-flex").height($(window).height()-190)
                     if(data.button_status!==5){
@@ -107,7 +111,7 @@ var check = (function () {
                 }
             })
     }
-     function feedBack (types,id,func) {
+    function feedBack (types,id,func) {
         $("body").on("click",".feedBack",function(e){
             var rendered = templates.render("feed_back_content",{revolke_tips:true})
             $(".modal-logs").html(rendered)
@@ -144,7 +148,7 @@ var check = (function () {
             })    
         })
     }
-    exports.ready_check_func=function(types,id){
+    exports.ready_check_func=function(types,id,func){
         $(".move_ctn ").off("click",".no_agree").on("click",".no_agree",function(e){
             datalist = {
                 types:types,
@@ -187,8 +191,73 @@ var check = (function () {
                 }
             })
         })
+        feedBack(types,id,func)
     }
-
+    function commonapply(){
+          var content = $.trim($("#usernames").val())
+          if(content==""){
+            alert()
+            return
+          }
+          var purchase_date = $(".start_times").val()
+          if(purchase_date==""){
+                alert()
+                return
+          }
+          var goods_name = $("#names").val()
+          if(goods_name==""){
+                alert()
+                return
+          } 
+          var  unit_price  = $("#unit_price").val()
+          if(unit_price==""){
+                alert()
+                return
+          }
+          var count = $("#count").val()
+          if(count==""){
+                alert()
+                return
+          }
+          var total_prices = $("#total_prices").val()
+          if(total_prices == ""){
+                alert()
+                return
+          }
+          var send_list =[]
+          $(".shenpi-persons").children().not($(".add_log_people")).each(function(){
+            var ids= Number($(this).attr('data_id'))
+            send_list.push(ids)
+          })
+          if(send_list.length===0){
+              alert()
+              return
+          }
+          var resend_list =[]
+          $(".send-check-people").children().not($(".add_log_peoples")).each(function(){
+            var ids= Number($(this).attr('data_id'))
+              resend_list.push(ids)
+          })
+          var img_url = []
+          $(".form-group-img").children().not($(".img-commons-control")).each(function(){
+              img_url.push($(this).attr("data-url"))
+              console.log(img_url)
+          })
+          var specification = $("#email").val()
+          var data = {
+               reason:content,
+               purchase_date:purchase_date,
+               goods_name:goods_name,
+               unit_price:unit_price,
+               count:count,
+               total_prices:total_prices,
+               approver_list:send_list,
+               observer_list:resend_list,
+               img_url:img_url,
+               specification:specification
+          }
+          return data
+    }
     //我发送的请求的一个函数
     function send_check(content){
         channel.get({
@@ -217,7 +286,6 @@ var check = (function () {
                             url:"/json/zg/approval",
                             data:datater,
                             success:function(datalist){
-                                console.log(datalist)
                                 var data =datalist.data
                                 if(data.feedback_list.length===0){
                                     data.shown=false
@@ -225,8 +293,14 @@ var check = (function () {
                                     data.shown=true
                                 }
                                 // del_msg(data)
-                                var li = templates.render("check_detail",data)
-                                $(".move_ctn").html(li)
+                                if( data.project_name !==undefined){
+                                    var li = templates.render("project_progress_degree",data)
+                                    $(".move_ctn").html(li)
+                                }else{
+                                    var li = templates.render("check_detail",data)
+                                    $(".move_ctn").html(li)
+                                }
+                            
                                
                                 backIcons3()
                                 $(".reminder").on("click",function(e){ $(".check-detail-flex").height($(window).height()-190)
@@ -602,10 +676,193 @@ var check = (function () {
                 })
             })
         })
+        //采购申请
+        $(".move_ctn").off(".purchase-buy").on("click",".purchase-buy",function(e){
+            $(".move_ctn").children().remove();
+            var li = templates.render("goods-for-buy")
+            $(".move_ctn").html(li)
+            height()
+            $('#newplan_datetimepicker1').datetimepicker({  
+                language:"zh-CN",  
+                todayHighlight: true,  
+                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                weekStart:1  
+            });
+            $(".add_log_people").on("click",function(e){
+                chooseFile.choosePeople(common_choose,object={})
+            })
+            $(".add_log_peoples").on("click",function(e){
+                chooseFile.choosePeople(xy,object={})
+            })
+            uploadFile()
+            $("#btn-test").on("click",function(e){
+                 e.preventDefault()
+                 var data = commonapply()
+                 channel.post({
+                     url:"/json/zg/purchase/",
+                     data:JSON.stringify(data),
+                     contentType:"application/json",
+                     success:function(data){
+                         if(data.errno===0){
+                            moveContent()
+                         }
+                     }
+                 })
+            })
+            backIcon()
+        })
+        //工作请示
+        $(".move_ctn").off(".job-request-event").on("click",".job-request-event",function(e){
+            $(".move_ctn").children().remove();
+            var li = templates.render("requset-for-job")
+            $(".move_ctn").html(li)
+            height()
+            $('#newplan_datetimepicker1').datetimepicker({  
+                language:"zh-CN",  
+                todayHighlight: true,  
+                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                weekStart:1  
+            }); 
+            $(".add_log_people").on("click",function(e){
+                chooseFile.choosePeople(common_choose,object={})
+            })
+            $(".add_log_peoples").on("click",function(e){
+                chooseFile.choosePeople(xy,object={})
+            })
+            uploadFile()
+            $("#btn-test").on("click",function(e){
+                 e.preventDefault()
+                 var reason = $("#username").val()
+                 if(reason==""){
+                     alert()
+                     return 
+                 }
+                 var urgency_degree = $("#email").val()
+                 if(urgency_degree==""){
+                    alert()
+                    return
+                 }
+                 var send_list =[]
+                 $(".shenpi-persons").children().not($(".add_log_people")).each(function(){
+                   var ids= Number($(this).attr('data_id'))
+                   send_list.push(ids)
+                 })
+                 if(send_list.length===0){
+                     alert()
+                     return
+                 }
+                 var resend_list =[]
+                 $(".send-check-people").children().not($(".add_log_peoples")).each(function(){
+                     var ids= Number($(this).attr('data_id'))
+                     resend_list.push(ids)
+                 })
+                 var img_url = []
+                 $(".form-group-img").children().not($(".img-commons-control")).each(function(){
+                     img_url.push($(this).attr("data-url"))
+                 })
+                 var content = $("#text").val()
+                 var jobs_date = $(".start_times").val()
+                 var data = {
+                     reason:reason,
+                     urgency_degree:urgency_degree,
+                     approver_list:send_list,
+                     img_url:img_url,
+                     observer_list:resend_list,
+                     content:content,
+                     jobs_date:jobs_date
+                 }
+                 channel.post({
+                     url:"/json/zg/jobs/please/",
+                     data:JSON.stringify(data),
+                     contentType:"application/json",
+                     success:function(data){
+                         if(data.errno===0){
+                            moveContent()
+                         }
+                     }
+                 })
+            })
+            backIcon()
+        })
+        //工程进度汇报
         $('.move_ctn').off(".progress-percent").on("click",".progress-percent",function(e){
             $(".move_ctn").children().remove();
             var li = templates.render("project_progress")
             $(".move_ctn").html(li)
+            $('#newplan_datetimepicker1').datetimepicker({  
+                language:"zh-CN",  
+                todayHighlight: true,  
+                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                weekStart:1  
+            });
+            uploadFile()
+            $(".add_log_people").on("click",function(e){
+                chooseFile.choosePeople(common_choose,object={})
+            })
+            $("#btn-test").on("click",function(e){
+                e.preventDefault()
+                var project_name  = $("#username").val()
+                if(project_name ==""){
+                    alert()
+                    return 
+                }
+                var happening = $("#construct").val()
+                if(happening==""){
+                   alert()
+                   return
+                }
+                var quality  = $("#emails").val()
+                if(quality==""){
+                    alert()
+                    return
+                }
+                var complete_time =$(".start_times").val()
+                if(complete_time===""){
+                    alert()
+                    return
+                }
+                var send_list =[]
+                $(".shenpi-persons").children().not($(".add_log_people")).each(function(){
+                  var ids= Number($(this).attr('data_id'))
+                  send_list.push(ids)
+                })
+                if(send_list.length===0){
+                    alert()
+                    return
+                }
+                var img_url = []
+                $(".form-group-img").children().not($(".img-commons-control")).each(function(){
+                    img_url.push($(this).attr("data-url"))
+                })
+                var issue = $("#quality_problem").val()
+                var scheme = $("#solve_problem").val()
+                var worker_improve = $("#quality_improvement").val()
+                var coordinate_department = $("#coordinate").val()
+                var remark = $("#remarks").val()
+                var data = {
+                    project_name:project_name,
+                    happening:happening,
+                    quality:quality,
+                    complete_time:complete_time,
+                    observer_list:send_list,
+                    img_url:img_url,
+                    issue:issue,
+                    scheme:scheme,
+                    worker_improve:worker_improve,
+                    coordinate_department:coordinate_department,
+                    remark:remark
+                }
+                channel.post({
+                    url:"/json/zg/project/progress/",
+                    data:JSON.stringify(data),
+                    contentType:"application/json",
+                    success:function(data){
+                        if(data.errno===0){
+                           moveContent()
+                        }
+                    }
+                })
+           })
             height()
             backIcon()
         })
@@ -641,8 +898,13 @@ var check = (function () {
                                         // console.log(data)
                                         // console.log("返回待我审批1")
                                         $(".move_ctn").children().remove();
-                                        var li = templates.render("check_detail",data)
-                                        $(".move_ctn").html(li)
+                                        if(data.project_name !==undefined){
+                                            var li = templates.render("project_progress_degree",data)
+                                            $(".move_ctn").html(li)
+                                        }else{
+                                            var li = templates.render("check_detail",data)
+                                            $(".move_ctn").html(li)
+                                        }
                                         $(".check-detail-flex").height($(window).height()-190)
                                         exports.backIcons2()
                                         exports.ready_check_func(types,id)
@@ -813,8 +1075,13 @@ var check = (function () {
                                             data.shown=true
                                         }
                                         $(".move_ctn").children().remove();
-                                        var li = templates.render("check_detail",data)
-                                        $(".move_ctn").html(li)
+                                        if(data.project_name !==undefined){
+                                            var li = templates.render("project_progress_degree",data)
+                                            $(".move_ctn").html(li)
+                                        }else{
+                                            var li = templates.render("check_detail",data)
+                                            $(".move_ctn").html(li)
+                                        }
                                         $(".check-detail-flex").height($(window).height()-190)
                                         backIcons1()
                                         // backIcons(lis)

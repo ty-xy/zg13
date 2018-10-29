@@ -1,13 +1,14 @@
 from django.http import JsonResponse
 from zerver.decorator import zulip_login_required
 from zerver.models import ZgLeave, ZgReview, ZgReimburse, UserProfile, Feedback, ZgCorrectzAccessory, Attachment, \
-    ZgWorkNotice
+    ZgWorkNotice, ZgPurchase, JobsPlease, ProjectProgress
 import json
 from datetime import datetime, timezone, timedelta
 from zerver.lib import avatar
 from django.db.models import Q
 from zerver.tornado.event_queue import send_event
-from zerver.views.zg_tools import zg_send_tools
+from zerver.views.zg_tools import zg_send_tools, send_approver_observer
+from zerver.views.zg_tools import req_tools
 
 
 def nuw_time():
@@ -16,6 +17,15 @@ def nuw_time():
     tzutc_8 = timezone(timedelta(hours=8))
     stockpile_time = stockpile_time.astimezone(tzutc_8)
     return stockpile_time
+
+
+zpproval = {'leave': '的请假申请', 'evection': '的出差申请', 'reimburse': '的报销申请',
+            'jobs_please': '的工作请示', 'purchase': '的采购申请',
+            'project_progress': '的工程进度汇报', }
+
+zpproval_obj = {'leave': ZgLeave, 'evection': ZgLeave, 'reimburse': ZgReimburse,
+                'jobs_please': JobsPlease, 'purchase': ZgPurchase,
+                'project_progress': ProjectProgress, }
 
 
 # 请假出差表
@@ -29,6 +39,135 @@ def view_leave(request, user_profile):
     bb.append(aa)
     send_event(event, bb)
     return JsonResponse({'errno': 1})
+
+
+# 采购
+def zg_purchase(request, user_profile):
+    req = req_tools(request)
+    reason = req.get('reason')
+    # 预计采购日期
+    purchase_date = req.get('purchase_date')
+    # 物品名称
+    goods_name = req.get('goods_name')
+    # 物品规格
+    specification = req.get('specification')
+    # 单价
+    unit_price = req.get('unit_price')
+    # 数量
+    count = req.get('count')
+    # 总价
+    total_prices = req.get('total_prices')
+
+    img_url = req.get('img_url')
+    approver_list = req.get('approver_list')
+    observer_list = req.get('observer_list')
+
+    if not all([reason, purchase_date, goods_name, unit_price, count, total_prices, approver_list]):
+        return JsonResponse({'errno': 1, 'message': '缺少参数'})
+    # try:
+    print(nuw_time)
+    purchase = ZgPurchase.objects.create(user=user_profile,
+                                         reason=reason,
+                                         puchase_date=purchase_date,
+                                         goods_name=goods_name,
+                                         specification=specification,
+                                         unit_price=unit_price,
+                                         count=count,
+                                         total_prices=total_prices,
+                                         send_time=nuw_time())
+
+    event = {'zg_type': 'JobsNotice',
+             'time': nuw_time(),
+             'avatar_url': avatar.absolute_avatar_url(user_profile),
+             'user_name': user_profile.full_name,
+             'content': {'type': 'purchase',
+                         'second': reason,
+                         'third': total_prices,
+                         'id': purchase.id}}
+    send_approver_observer(user_profile, purchase.id, 'purchase', approver_list, observer_list,
+                           img_url, event,
+                           reason, total_prices)
+    # except Exception as e:
+    #     print(e)
+    #     return JsonResponse({'errno': 2, 'message': '发送申请失败'})
+    return JsonResponse({'errno': 0, 'message': '申请成功'})
+
+
+# 工作请示
+def jobs_please(request, user_profile):
+    req = req_tools(request)
+    reason = req.get('reason')
+    urgency_degree = req.get('urgency_degree')
+    jobs_date = req.get('jobs_date')
+    content = req.get('content')
+
+    img_url = req.get('img_url')
+    approver_list = req.get('approver_list')
+    observer_list = req.get('observer_list')
+    if not all([reason, urgency_degree, approver_list]):
+        return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
+    try:
+        jobs_please = JobsPlease.objects.create(user=user_profile, reason=reason, urgency_degree=urgency_degree,
+                                                jobs_date=jobs_date,
+                                                content=content, send_time=nuw_time())
+        event = {'zg_type': 'JobsNotice',
+                 'time': nuw_time(),
+                 'avatar_url': avatar.absolute_avatar_url(user_profile),
+                 'user_name': user_profile.full_name,
+                 'content': {'type': 'jobs_please',
+                             'second': reason,
+                             'third': urgency_degree,
+                             'id': jobs_please.id}}
+        send_approver_observer(user_profile, jobs_please.id, 'jobs_please', approver_list, observer_list, img_url,
+                               event, reason, urgency_degree)
+    except Exception as e:
+        print(e)
+        return JsonResponse({'errno': 2, 'message': '发送申请失败'})
+    return JsonResponse({'errno': 0, 'message': '申请成功'})
+
+
+# 工程进度汇报
+def project_progress_d(request, user_profile):
+    req = req_tools(request)
+    project_name = req.get('project_name')
+    happening = req.get('happening')
+    quality = req.get('quality')
+    issue = req.get('issue')
+    scheme = req.get('scheme')
+    worker_improve = req.get('worker_improve')
+    coordinate_department = req.get('coordinate_department')
+    complete_time = req.get('complete_time')
+    remark = req.get('remark')
+
+    img_url = req.get('img_url')
+    approver_list = req.get('observer_list')
+
+    if not all([project_name, happening, quality, complete_time, approver_list]):
+        return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
+    try:
+        project_progress = ProjectProgress.objects.create(user=user_profile, project_name=project_name,
+                                                          happening=happening,
+                                                          quality=quality,
+                                                          issue=issue, scheme=scheme, worker_improve=worker_improve,
+                                                          coordinate_department=coordinate_department,
+                                                          complete_time=complete_time,
+                                                          remark=remark, send_time=nuw_time())
+
+        event = {'zg_type': 'JobsNotice',
+                 'time': nuw_time(),
+                 'avatar_url': avatar.absolute_avatar_url(user_profile),
+                 'user_name': user_profile.full_name,
+                 'content': {'type': 'project_progress',
+                             'second': project_name,
+                             'third': happening,
+                             'id': project_progress.id}}
+        observer_list = []
+        send_approver_observer(user_profile, project_progress.id, 'project_progress', approver_list, observer_list,
+                               img_url, event, project_name, happening)
+    except Exception as e:
+        print(e)
+        return JsonResponse({'errno': 2, 'message': '发送申请失败'})
+    return JsonResponse({'errno': 0, 'message': '申请成功'})
 
 
 # 添加请假出差
@@ -101,7 +240,7 @@ def add_leave(request, user_profile):
                 ZgReview.objects.create(types=approval_type, user=user_profile, send_user_id=approver, table_id=aaa.id,
                                         send_time=nuw_time())
                 user = UserProfile.objects.get(id=approver)
-                ZgWorkNotice.objects.create(user=user,notice_type='审批', stair=event['theme'], second=cause,
+                ZgWorkNotice.objects.create(user=user, notice_type='审批', stair=event['theme'], second=cause,
                                             third=start_time + '～' + end_time, send_time=nuw_time(),
                                             table_type=approval_type, table_id=aaa.id)
             send_event(event, approver_list)
@@ -189,7 +328,6 @@ def reimburse_add(request, user_profile):
                                         third=category, send_time=nuw_time(),
                                         table_type='reimburse', table_id=a.id)
 
-
         send_event(event, approver_list)
     #
     # ZgWorkNotice.objects.create(notice_type='审批', headline=event['theme'], subtitle=category,
@@ -206,20 +344,15 @@ def expectation_approval_list(request, user_profile):
     if review_objs:
         for review_obj in review_objs:
             aa = {}
-            if review_obj.types == 'reimburse':
-                name = '的报销申请'
-            elif review_obj.types == 'leave':
-                name = '的请假申请'
-            elif review_obj.types == 'evection':
-                name = '的出差申请'
-            else:
-                name = ''
+            name = zpproval[review_obj.types]
             aa['name'] = review_obj.user.full_name + name
             aa['user_avatar'] = avatar.absolute_avatar_url(review_obj.user)
             aa['type'] = review_obj.types
             aa['id'] = review_obj.table_id
             aa['status'] = review_obj.status
             aa['send_time'] = review_obj.send_time
+            if review_obj.types == 'project_progress':
+                aa['status'] = '未读'
             iaitiate_list.append(aa)
 
     return JsonResponse({'errno': 0, 'message': '成功', 'iaitiate_list': iaitiate_list})
@@ -234,33 +367,27 @@ def completed_approval_list(request, user_profile):
     if review_objs:
         for review_obj in review_objs:
             aa = {}
-            if review_obj.types == 'reimburse':
-                name = '的报销申请'
-            elif review_obj.types == 'leave':
-                name = '的请假申请'
-            elif review_obj.types == 'evection':
-                name = '的出差申请'
-            else:
-                name = ''
+            name = zpproval[review_obj.types]
             aa['name'] = review_obj.user.full_name + name
             aa['user_avatar'] = avatar.absolute_avatar_url(review_obj.user)
             aa['type'] = review_obj.types
             aa['id'] = review_obj.table_id
             aa['send_time'] = review_obj.send_time
-            if review_obj.types == 'reimburse':
-                reimburse = ZgReimburse.objects.filter(id=review_obj.table_id)
 
-            elif review_obj.types == 'leave' or review_obj.types == 'evection':
+            if review_obj.types == 'leave' or review_obj.types == 'evection':
                 reimburse = ZgLeave.objects.filter(id=review_obj.table_id, approval_type=review_obj.types)
 
             else:
-                reimburse = None
+                reimburse = zpproval_obj[review_obj.types].objects.filter(id=review_obj.table_id)
 
             bb = ZgReview.objects.filter(table_id=aa['id'], types=aa['type'], status='审批未通过', duties='approval').count()
             cc = ZgReview.objects.filter(table_id=aa['id'], types=aa['type'], status='审批中', duties='approval').count()
 
             if reimburse[0].status == '已撤销':
                 aa['status'] = '已撤销'
+            elif review_obj.types == 'project_progress':
+                aa['status'] = '已读'
+
             else:
                 if bb > 0:
                     aa['status'] = '审批未通过'
@@ -285,27 +412,17 @@ def approval_initiate_me(request, user_profile):
     if initiate_objs is not None:
         for initiate_obj in initiate_objs:
             aa = {}
-            if initiate_obj.types == 'reimburse':
-                name = '的报销申请'
-            elif initiate_obj.types == 'leave':
-                name = '的请假申请'
-            elif initiate_obj.types == 'evection':
-                name = '的出差申请'
-            else:
-                name = ''
+            name = zpproval[initiate_obj.types]
             aa['name'] = user_profile.full_name + name
             aa['user_avatar'] = avatar.absolute_avatar_url(user_profile)
             aa['type'] = initiate_obj.types
             aa['id'] = initiate_obj.table_id
 
-            if initiate_obj.types == 'reimburse':
-                reimburse = ZgReimburse.objects.filter(id=initiate_obj.table_id)
-
-            elif initiate_obj.types == 'leave' or initiate_obj.types == 'evection':
+            if initiate_obj.types == 'leave' or initiate_obj.types == 'evection':
                 reimburse = ZgLeave.objects.filter(id=initiate_obj.table_id, approval_type=initiate_obj.types)
 
             else:
-                reimburse = None
+                reimburse = zpproval_obj[initiate_obj.types].objects.filter(id=initiate_obj.table_id)
 
             bb = ZgReview.objects.filter(table_id=aa['id'], types=aa['type'], status='审批未通过', duties='approval').count()
             cc = ZgReview.objects.filter(table_id=aa['id'], types=aa['type'], status='审批中', duties='approval').count()
@@ -319,6 +436,9 @@ def approval_initiate_me(request, user_profile):
                     aa['status'] = '审批中'
                 else:
                     aa['status'] = '审批通过'
+
+            if initiate_obj.types == 'project_progress':
+                aa['status'] = initiate_obj.is_know
 
             aa['send_time'] = initiate_obj.send_time
 
@@ -334,28 +454,17 @@ def inform_approval(request, user_profile):
     if inform_objs:
         for inform in inform_objs:
             aa = {}
-            if inform.types == 'reimburse':
-                name = '的报销申请'
-            elif inform.types == 'leave':
-                name = '的请假申请'
-            elif inform.types == 'evection':
-                name = '的出差申请'
-            else:
-                name = ''
-
+            name = zpproval[inform.types]
             aa['name'] = inform.user.full_name + name
             aa['user_avatar'] = avatar.absolute_avatar_url(inform.user)
             aa['type'] = inform.types
             aa['id'] = inform.table_id
 
-            if inform.types == 'reimburse':
-                reimburse = ZgReimburse.objects.filter(id=inform.table_id)
-
-            elif inform.types == 'leave' or inform.types == 'evection':
+            if inform.types == 'leave' or inform.types == 'evection':
                 reimburse = ZgLeave.objects.filter(id=inform.table_id, approval_type=inform.types)
 
             else:
-                reimburse = None
+                reimburse = zpproval_obj[inform.types].objects.filter(id=inform.table_id)
 
             bb = ZgReview.objects.filter(table_id=aa['id'], types=aa['type'], status='审批未通过', duties='approval').count()
             cc = ZgReview.objects.filter(table_id=aa['id'], types=aa['type'], status='审批中', duties='approval').count()
@@ -368,6 +477,7 @@ def inform_approval(request, user_profile):
                 aa['status'] = '审批中'
             else:
                 aa['status'] = '审批通过'
+
             aa['send_time'] = inform.send_time
             inform_list.append(aa)
 
@@ -377,6 +487,9 @@ def inform_approval(request, user_profile):
 def tools_approcal_details(types, ids, user_profile, table_obj):
     data = {}
 
+    review_objs = ZgReview.objects.filter(send_user_id=user_profile.id, types=types, table_id=ids)
+    if review_objs:
+        review_objs.update(is_know=True)
     data['head_avatar'] = avatar.absolute_avatar_url(table_obj.user)
 
     if table_obj.status == '已撤销':
@@ -412,16 +525,9 @@ def tools_approcal_details(types, ids, user_profile, table_obj):
     approver_statu = True
     if data['button_status'] == 5:
         approver_statu = False
-
+    data['head_name'] = table_obj.user.full_name + zpproval[types]
     data['head_avatar'] = avatar.absolute_avatar_url(table_obj.user)
-    if types == 'leave':
-        data['head_name'] = table_obj.user.full_name + '的请假申请'
-    elif types == 'evection':
-        data['head_name'] = table_obj.user.full_name + '的出差申请'
-    elif types == 'reimburse':
-        data['head_name'] = table_obj.user.full_name + '的报销申请'
     approver_list = []
-
     approver_list.append(
         {'user_avatar': data['head_avatar'], 'user_name': data['head_name'], 'times': table_obj.send_time,
          'status': '发起申请'})
@@ -496,8 +602,8 @@ def approval_details(request, user_profile):
         data['amount'] = reimburse.amount
         data['category'] = reimburse.category
         data['detail'] = reimburse.detail
+        data['approval_type'] = 'reimburse'
         accessorys = ZgCorrectzAccessory.objects.filter(correctz_type='reimburse', table_id=ids)
-        print(accessorys)
 
     elif types == 'leave' or types == 'evection':
         reimburse = ZgLeave.objects.filter(id=ids, approval_type=types)
@@ -510,9 +616,87 @@ def approval_details(request, user_profile):
         data['count'] = reimburse.count
         data['cause'] = reimburse.cause
         accessorys = ZgCorrectzAccessory.objects.filter(correctz_type='leave', table_id=ids)
-        print(accessorys, ids)
-    else:
 
+    elif types == 'jobs_please':
+        reimburse = JobsPlease.objects.filter(id=ids)
+        if not reimburse:
+            return JsonResponse({'errno': 3, 'message': '无效数据'})
+        reimburse = reimburse[0]
+        data['reason'] = reimburse.reason
+        data['approval_type'] = 'jobs_please'
+        data['urgency_degree'] = reimburse.urgency_degree
+        data['jobs_date'] = reimburse.jobs_date
+        data['content'] = reimburse.content
+        accessorys = ZgCorrectzAccessory.objects.filter(correctz_type='jobs_please', table_id=ids)
+    elif types == 'purchase':
+        reimburse = ZgPurchase.objects.filter(id=ids)
+        if not reimburse:
+            return JsonResponse({'errno': 3, 'message': '无效数据'})
+        reimburse = reimburse[0]
+        data['approval_type'] = 'purchase'
+        data['reason'] = reimburse.reason
+        data['puchase_date'] = reimburse.puchase_date
+        data['goods_name'] = reimburse.goods_name
+        data['specification'] = reimburse.specification
+        data['unit_price'] = reimburse.unit_price
+        data['count'] = reimburse.count
+        data['total_prices'] = reimburse.total_prices
+        accessorys = ZgCorrectzAccessory.objects.filter(correctz_type='purchase', table_id=ids)
+    elif types == 'project_progress':
+        reimburse = ProjectProgress.objects.filter(id=ids)
+        if not reimburse:
+            return JsonResponse({'errno': 3, 'message': '无效数据'})
+        reimburse = reimburse[0]
+        review_obj = ZgReview.objects.filter(types=types, table_id=ids, send_user_id=user_profile.id)
+        review_obj.update(is_know=True, status='审批通过')
+        data['approval_type'] = 'project_progress'
+        data['project_name'] = reimburse.project_name
+        data['happening'] = reimburse.happening
+        data['quality'] = reimburse.quality
+        data['issue'] = reimburse.issue
+        data['scheme'] = reimburse.scheme
+        data['worker_improve'] = reimburse.worker_improve
+        data['coordinate_department'] = reimburse.coordinate_department
+        data['complete_time'] = reimburse.complete_time
+        data['remark'] = reimburse.remark
+        data['head_name'] = reimburse.user.full_name + zpproval[types]
+        data['head_avatar'] = avatar.absolute_avatar_url(reimburse.user)
+        accessorys = ZgCorrectzAccessory.objects.filter(correctz_type='project_progress', table_id=ids)
+        for accessory in accessorys:
+            img_list.append('/user_uploads/' + accessory.attachment.path_id)
+        data['image_url'] = img_list
+        reads = ZgReview.objects.filter(is_know=True, types='project_progress', table_id=ids)
+        unreads = ZgReview.objects.filter(is_know=False, types='project_progress', table_id=ids)
+        data['read_count'] = reads.count()
+        data['unread_count'] = unreads.count()
+        data['read_list'] = list()
+        data['unread_list'] = list()
+        for read in reads:
+            feedback_dict = {}
+            user = UserProfile.objects.get(id=read.send_user_id)
+            feedback_dict['user_avatar'] = avatar.absolute_avatar_url(user.user)
+            feedback_dict['user_name'] = user.user.full_name
+            data['read_list'].append(feedback_dict)
+        for unread in unreads:
+            feedback_dict = {}
+            user = UserProfile.objects.get(id=unread.send_user_id)
+            feedback_dict['user_avatar'] = avatar.absolute_avatar_url(user.user)
+            feedback_dict['user_name'] = user.user.full_name
+            data['unread_list'].append(feedback_dict)
+
+        feedback_objs = Feedback.objects.filter(types='project_progress', table_id=ids)
+        feedback_list = []
+        if feedback_objs:
+            for feedback_obj in feedback_objs:
+                feedback_dict = {}
+                feedback_dict['user_avatar'] = avatar.absolute_avatar_url(feedback_obj.user)
+                feedback_dict['user_name'] = feedback_obj.user.full_name
+                feedback_dict['times'] = feedback_obj.feedback_time
+                feedback_dict['content'] = feedback_obj.content
+                feedback_list.append(feedback_dict)
+        data['feedback_list'] = feedback_list
+        JsonResponse({'errno': 0, 'message': '成功', 'data': data})
+    else:
         return JsonResponse({'errno': 4, 'message': '类型错误'})
     for accessory in accessorys:
         img_list.append('/user_uploads/' + accessory.attachment.path_id)
@@ -534,8 +718,6 @@ def state_update(request, user_profile):
     ids = req.get('id')
     states = req.get('state')
 
-    print(types, '------' * 30)
-
     if states == '同意':
         states = '审批通过'
     elif states == '不同意':
@@ -549,10 +731,11 @@ def state_update(request, user_profile):
         return JsonResponse({'errno': 6, 'message': '缺少参数'})
     if types == 'leave' or types == 'evection':
         table_objs = ZgLeave.objects.filter(user=user_profile, id=ids)
-    elif types == 'reimburse':
-        table_objs = ZgReimburse.objects.filter(user=user_profile, id=ids)
     else:
-        return JsonResponse({'errno': 5, 'message': '暂无此类审批'})
+        try:
+            table_objs = zpproval_obj[types].objects.filter(user=user_profile, id=ids)
+        except Exception:
+            return JsonResponse({'errno': 2, 'message': '无此条信息'})
 
     if states == '审批通过' or states == '审批未通过':
 
@@ -565,8 +748,8 @@ def state_update(request, user_profile):
             if types == 'leave' or types == 'evection':
                 leave = ZgLeave.objects.filter(id=ids)
                 leave.update(status=states)
-            elif types == 'reimburse':
-                reimburse = ZgReimburse.objects.filter(id=ids)
+            else:
+                reimburse = zpproval_obj[types].objects.filter(id=ids)
                 reimburse.update(status=states)
 
         else:
@@ -575,18 +758,11 @@ def state_update(request, user_profile):
                 leave = ZgLeave.objects.filter(id=ids)
                 leave.update(status=states)
             elif types == 'reimburse':
-                reimburse = ZgReimburse.objects.filter(id=ids)
+                reimburse = zpproval_obj[types].objects.filter(id=ids)
                 reimburse.update(status=states)
 
         review_objs.update(status=states)
         return JsonResponse({'errno': 0, 'message': '审批成功'})
-        #
-        # review_obj = ZgReview.objects.filter(Q(status='审批未通过') | Q(status='审批中') | Q(status='已撤销'), types=types,
-        #                                      table_id=ids)
-
-    # ==================================请假
-    #         if not review_obj:
-    #             ZgAttendance.objects.filter()
 
     elif states == '发起申请':
         if not table_objs:
@@ -640,7 +816,8 @@ def zg_urgent(request, user_profile):
     send_list = []
 
     if review:
-        table_type = {'leave': '请假', 'evection': '出差', 'reimburse': '报销'}
+        table_type = {'evection': '出差申请', 'leave': '请假申请', 'purchase': '采购申请', 'jobs_please': '工作请示',
+                      'project_progress': '工程进度汇报'}
         send_list.append(review[0].send_user_id)
 
         event = {'zg_type': 'Urgent',
@@ -656,4 +833,3 @@ def zg_urgent(request, user_profile):
         send_event(event, ['23'])
         return JsonResponse({'errno': 0, 'message': '催办成功,'})
     return JsonResponse({'errno': 1, 'message': '催办失败,'})
-

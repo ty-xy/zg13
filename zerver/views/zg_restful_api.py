@@ -1,5 +1,5 @@
 from zerver.models import Message, UserMessage, ZgCollection, Stream, Attachment, ZgCloudDisk, Realm, UserProfile, \
-    active_user_ids, Recipient, StatementState, ZgReview,ZgWorkNotice
+    active_user_ids, Recipient, StatementState, ZgReview, ZgWorkNotice, get_stream_recipient
 from django.http import JsonResponse
 import json
 from datetime import datetime, timezone, timedelta
@@ -13,30 +13,37 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.hashers import make_password
 from zerver.tornado.event_queue import send_event
 from django.shortcuts import redirect, render
-from zerver.views.zg_tools import req_tools
+from zerver.views.zg_tools import req_tools, zg_send_tools
+import time
 
 
 # 审批通知列表
-def approval_notice(request,user_profile):
+def approval_notice(request, user_profile):
     notice_type = request.GET.get('notice_type')
     work_notice_list = list()
     if not notice_type:
-        work_notices=ZgWorkNotice.objects.filter(user=user_profile).order_by('-id')
+        work_notices = ZgWorkNotice.objects.filter(user=user_profile).order_by('-id')
     else:
-        work_notices = ZgWorkNotice.objects.filter(user=user_profile,notice_type=notice_type).order_by('-id')
+        work_notices = ZgWorkNotice.objects.filter(user=user_profile, notice_type=notice_type).order_by('-id')
     for work_notice in work_notices:
         work_notice_dict = dict()
-        work_notice_dict['notice_type']=work_notice.notice_type
-        work_notice_dict['stair']=work_notice.stair
+        work_notice_dict['notice_type'] = work_notice.notice_type
+        work_notice_dict['stair'] = work_notice.stair
         work_notice_dict['second'] = work_notice.second
         work_notice_dict['third'] = work_notice.third
         work_notice_dict['send_time'] = work_notice.send_time
+        aa = work_notice.send_time.split('.')[0]
+        print(aa)
+        timeArray = time.strptime(aa, "%Y-%m-%d %H:%M:%S")
+        timeStamp = int(time.mktime(timeArray))
+        work_notice_dict['timestamp'] = timeStamp
         work_notice_dict['table_type'] = work_notice.table_type
         work_notice_dict['table_id'] = work_notice.table_id
         work_notice_dict['table_state'] = work_notice.table_state
         work_notice_list.append(work_notice_dict)
 
-    return JsonResponse({'errno':0,'message':'成功','work_notice_list':work_notice_list})
+    return JsonResponse({'errno': 0, 'message': '成功', 'work_notice_list': work_notice_list})
+
 
 # 获取初始化日志,通知信息
 def zg_initialize_log(request, user_profile):
@@ -44,21 +51,22 @@ def zg_initialize_log(request, user_profile):
     # 待审批
     review_objs = ZgReview.objects.filter(status='审批中', send_user_id=user_profile.id, duties='approval',
                                           is_know=False).order_by('-id')
-    print(review_objs)
     # 抄送我的
     inform_objs = ZgReview.objects.filter(send_user_id=user_profile.id, duties='inform', is_know=False).order_by('-id')
-    print(inform_objs)
     data = dict()
-    type_dict = {'reimburse': '的报销申请', 'leave': '的请假申请', 'evection': '的出差申请'}
+    type_dict = {'leave': '的请假申请', 'evection': '的出差申请', 'reimburse': '的报销申请',
+                 'jobs_please': '的工作请示', 'purchase': '的采购申请',
+                 'project_progress': '的工程进度汇报', }
     if not statement_state:
         data['log_inform'] = None
         data['log_count'] = None
 
     else:
         user_id = statement_state.order_by('-id')[0].statement_id.user
-        user=UserProfile.objects.get(email=user_id)
+        user = UserProfile.objects.get(email=user_id)
         data['log_inform'] = user.full_name + '的日志'
         data['log_count'] = statement_state.count()
+        data['log_time'] = statement_state.order_by('-id')[0].receive_time
 
     if not all([review_objs, inform_objs]):
         data['review_inform'] = None
@@ -75,9 +83,11 @@ def zg_initialize_log(request, user_profile):
             inform_obj_send = None
 
         if review_obj_send >= inform_obj_send:
-            data['review_inform'] = review_objs[0].user.full_name + '的' + type_dict[review_objs[0].types]+'需要您审批'
+            data['review_inform'] = review_objs[0].user.full_name + '的' + type_dict[review_objs[0].types] + '需要您审批'
+            data['review_time'] = review_obj_send
         else:
-            data['review_inform'] = inform_objs[0].user.full_name + '的' + type_dict[review_objs[0].types]+'需要您知晓'
+            data['review_inform'] = inform_objs[0].user.full_name + '的' + type_dict[review_objs[0].types] + '需要您知晓'
+            data['review_time'] = inform_obj_send
 
     return JsonResponse({'errno': 0, 'message': "成功", 'data': data})
 
@@ -152,12 +162,18 @@ def del_subject(request, user_profile):
     req = json.loads(req)
     subject = req.get('subject')
     stream_id = req.get('stream_id')
-    realm_id = req.get('realm_id', 1)
     if not all([subject, stream_id]):
         return JsonResponse({'errno': 2, 'message': '缺少必要参数'})
-    print(realm_id,stream_id)
-    recipient = Recipient.objects.filter(type=realm_id, type_id=stream_id)
-    Message.objects.filter(subject=subject, recipient=recipient[0].id).delete()
+    recipient = get_stream_recipient(stream_id)
+    Message.objects.filter(subject=subject, recipient=recipient).delete()
+    event = {'zg_type': 'del_subject',
+             'subject': subject,
+             'stream_id': stream_id
+             }
+    event = zg_send_tools(event)
+    user_list = UserProfile.objects.values_list('id',flat=True)
+    send_event(event,user_list)
+
     return JsonResponse({'errno': 0, 'message': '删除成功'})
 
 
@@ -360,16 +376,12 @@ def verification_user(request):
 # web验证注册手机验证码是否正确
 @csrf_exempt
 def sms_verification(request):
-    if request.method== 'GET':
+    if request.method == 'GET':
         sms_code = request.GET.get('sms_code')
         phone = request.GET.get('phone')
         if not all([sms_code, phone]):
             return JsonResponse({'errno': 1, 'message': '缺少必要参数'})
 
-        if sms_code == cache.get(phone+'_register'):
+        if sms_code == cache.get(phone + '_register'):
             return JsonResponse({'errno': 0, 'message': '成功'})
         return JsonResponse({'errno': 2, 'message': '验证码错误'})
-
-
-
-

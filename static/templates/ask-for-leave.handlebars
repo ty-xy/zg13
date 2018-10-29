@@ -19,7 +19,7 @@
                 {{!-- {{#if show}}
                 <label for="username" class="col-sm-1 control-label control-labels">申请人:</label>
                 {{else}} --}}
-                   <span style="color:red" class="require-content">*</span>
+                   <span style="color:red" class="require-content require-moment">*</span>
                     <label for="username" class="col-sm-1 control-label control-labels">报销金额:</label>
                     {{!-- {{else}}
                     <label for="username" class="col-sm-1 control-label control-labels">请假人:</label>
@@ -31,7 +31,7 @@
               {{/if}}
             {{#unless showdate}}
             <div class="form-group form-group-common">
-                 <span style="color:red" class="require-content">*</span>
+                 <span style="color:red" class="require-content require-moment">*</span>
                  <label for="newplan_datetimepicker1" class="col-sm-1 control-label control-labels">开始日期:</label>
                  <div class="input-append date" id="newplan_datetimepicker1" data-date="" data-date-format="yyyy-mm-dd">  
                             <input class="new_task_date create_taskdate form-people new-leave-date start_times" size="16" type="text" value="" readonly placeholder="请选择日期...">  
@@ -41,7 +41,7 @@
                   </div> 
             </div>
             <div class="form-group  form-group-common">
-                <span style="color:red" class="require-content">*</span>
+                <span style="color:red" class="require-content require-moment">*</span>
                 <label for="newplan_datetimepicker2" class="col-sm-1 control-label control-labels">结束日期:</label>
                   <div class="input-append date" id="newplan_datetimepicker2" data-date="" data-date-format="yyyy-mm-dd">  
                             <input class="new_task_date create_taskdate form-people new-leave-date end_times" size="16" type="text" value="" readonly placeholder="请选择日期...">  
@@ -52,7 +52,7 @@
             </div>
             {{/unless}}
             <div class="form-group form-group-common">
-                <span style="color:red" class="require-content">*</span>
+                <span style="color:red" class="require-content require-moment">*</span>
                 {{#if show}}
                 <label for="email" class="col-sm-1 control-label control-labels">出差天数:</label>
                 {{else}}
@@ -73,7 +73,7 @@
                 {{/if}}
             </div>
              <div class="form-group form-group-common">
-                 <span style="color:red" class="require-content">*</span>
+                 <span style="color:red" class="require-content require-moment">*</span>
                  {{#if show}}
                 <label for="text" class="col-sm-1 control-label control-labels ">出差事由:</label>
                 {{else}}

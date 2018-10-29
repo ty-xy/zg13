@@ -630,11 +630,15 @@ a#undo_markdown_preview {
 }
 .create-topic{
     border:none;
+    -webkit-appearance:none;
     font-family: PingFangSC-Regular;
     font-size: 15px;
     color: #4584FF;
     letter-spacing: 0.22px;
     cursor: pointer;
+}
+button{
+    -webkit-appearance:none !important;
 }
 .topic-list{
     display:flex;
@@ -653,11 +657,11 @@ li.topic-list-item,.topic-item-list{
     width:124px;
     box-sizing: border-box;
     /* background: #4584FF; */
-    border: 1px solid #4584FF;
+    border: 1px solid #ddd;
     border-radius: 100px;
     margin-right:10px;
     text-align: center;
-    line-height:34px;
+    line-height:32px;
     cursor: pointer;
 }
 
@@ -739,4 +743,5 @@ li.topic-list-item,.topic-item-list{
 }
 .backcolor{
     background-color: #4584FF !important;
+    border: #4584FF !important;
 }

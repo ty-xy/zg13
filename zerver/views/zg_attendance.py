@@ -1,5 +1,6 @@
 from django.http import JsonResponse
-from zerver.models import ZgAttendance, ZgOutsideWork, ZgDepartmentAttendance, UserProfile, Attachment, ZgDepartment
+from zerver.models import ZgAttendance, ZgOutsideWork, ZgDepartmentAttendance, ZgWorkNotice, UserProfile, Attachment, \
+    ZgDepartment
 from zerver.views.zg_tools import haversine
 from django.db.models import Q
 import calendar
@@ -394,21 +395,23 @@ def add_attendances(request, user_profile):
                                                                 latitude=attendances_latitude,
                                                                 site=attendances_location,
                                                                 default_distance=attendances_range)
-        for user_id in attendances_member_list:
-            user_obj = UserProfile.objects.get(id=user_id)
-            user_obj.atendance = attendances_obj
-            user_obj.atendance_type = 'extra'
-            user_obj.save()
+
+        if attendances_member_list:
+            for user_id in attendances_member_list:
+                user_obj = UserProfile.objects.get(id=user_id)
+                user_obj.atendance = attendances_obj
+                user_obj.atendance_type = 'extra'
+                user_obj.save()
         for department in department_list:
-            ids += str(department)
+            ids += str(department) + '|'
             department_obj = ZgDepartment.objects.filter(id=department)
             department_obj[0].user.all().update(atendance_type='normal', atendance=attendances_obj)
-
-        for i in not_join:
-            user = UserProfile.objects.get(id=i)
-            user.atendance_type = 'drop_out'
-            user.save()
-        attendances_obj.department = ids
+        if not_join:
+            for i in not_join:
+                user = UserProfile.objects.get(id=i)
+                user.atendance_type = 'drop_out'
+                user.save()
+        attendances_obj.department = ids[:-1]
         attendances_obj.save()
     except Exception as e:
         print(e)
@@ -425,9 +428,9 @@ def update_attendances(request, user_profile):
     attendances_name = req.get('name')
     # 成员=>list
     # 部门列表
-    department_dict = req.get('department_dict')
+    department_list = req.get('department_list')
     # 其他参与人员
-    else_member_dict = req.get('else_member_dict')
+    else_member_list = req.get('else_member_list')
     # 不参与考勤成员
     not_join = req.get('not_join')
     # 上下班时间
@@ -451,36 +454,79 @@ def update_attendances(request, user_profile):
     if attendances_name:
         attendances_obj.attendance_name = attendances_name
         attendances_obj.save()
-    if department_dict:
-        for key, value in department_dict.items():
-            department = ZgDepartment.objects.get(id=key)
-            if value:
-                department.user.all().update(atendance_type='normal', atendance=attendances_obj)
-            else:
-                department.user.all().update(atendance_type=None, atendance=None)
-    if else_member_dict:
-        for key, value in else_member_dict.items():
-            try:
-                user_obj = UserProfile.objects.get(id=int(key))
-                if value:
-                    user_obj.atendance = attendances_obj
-                    user_obj.atendance_type = 'extra'
-                    user_obj.save()
-                else:
-                    user_obj.atendance = None
-                    user_obj.atendance_type = None
-                    user_obj.save()
-            except Exception as e:
-                print(e)
-                return JsonResponse({'errno': 2, 'message': '用户id错误'})
+
+
+
+    if else_member_list:
+        user = UserProfile.objects.filter(atendance=attendances_obj, atendance_type='extra')
+        user.update(atendance=None, atendance_type=None)
+        print(else_member_list)
+        for a in else_member_list:
+            print(a)
+            user_obj = UserProfile.objects.get(id=a)
+            user_obj.atendance = attendances_obj
+            user_obj.atendance_type = 'extra'
+            user_obj.save()
+
+    if department_list:
+        ids=''
+        print(department_list)
+        department_s = attendances_obj.department.split('|')
+        print(department_s)
+        for i in department_s:
+            print(i)
+            department = ZgDepartment.objects.get(id=i)
+            department.user.all().update(atendance_type=None, atendance=None)
+        for value in department_list:
+            ids+=value+'|'
+            department = ZgDepartment.objects.get(id=value)
+            UserProfile.objects.filter(atendance_type='normal', )
+            department.user.all().update(atendance_type='normal', atendance=attendances_obj)
+        attendances_obj.department=ids[:-1]
+        attendances_obj.save()
+
     if not_join:
-        for key, value in not_join.items():
-            user_obj = UserProfile.objects.get(id=int(key))
-            if value:
-                user_obj.atendance = attendances_obj
-                user_obj.atendance_type = 'drop_out'
-            else:
-                user_obj.atendance_type = 'normal'
+        print(not_join)
+        user = UserProfile.objects.filter(atendance=attendances_obj, atendance_type='drop_out')
+        user.update(atendance=None, atendance_type=None)
+        for key in not_join:
+            print(key)
+            user_obj = UserProfile.objects.get(id=key)
+            user_obj.atendance = attendances_obj
+            user_obj.atendance_type = 'drop_out'
+            user_obj.save()
+    # 备用
+    # if department_dict:
+    #     for key, value in department_dict.items():
+    #         department = ZgDepartment.objects.get(id=key)
+    #         if value:
+    #             department.user.all().update(atendance_type='normal', atendance=attendances_obj)
+    #         else:
+    #             department.user.all().update(atendance_type=None, atendance=None)
+    # if else_member_dict:
+    #     for key, value in else_member_dict.items():
+    #         try:
+    #             user_obj = UserProfile.objects.get(id=int(key))
+    #             if value:
+    #                 user_obj.atendance = attendances_obj
+    #                 user_obj.atendance_type = 'extra'
+    #                 user_obj.save()
+    #             else:
+    #                 user_obj.atendance = None
+    #                 user_obj.atendance_type = None
+    #                 user_obj.save()
+    #         except Exception as e:
+    #             print(e)
+    #             return JsonResponse({'errno': 2, 'message': '用户id错误'})
+    # if not_join:
+    #     for key, value in not_join.items():
+    #         user_obj = UserProfile.objects.get(id=int(key))
+    #         if value:
+    #             user_obj.atendance = attendances_obj
+    #             user_obj.atendance_type = 'drop_out'
+    #         else:
+    #             user_obj.atendance_type = 'normal'
+
     if attendances_jobs_time:
         attendances_obj.jobs_time = attendances_jobs_time
     if attendances_rest_time:
@@ -496,7 +542,7 @@ def update_attendances(request, user_profile):
     if attendances_range:
         attendances_obj.default_distance = attendances_range
     attendances_obj.save()
-    return JsonResponse({'errno': 3, 'message': '修改成功'})
+    return JsonResponse({'errno': 0, 'message': '修改成功'})
 
 
 # 删除考勤组
@@ -536,8 +582,10 @@ def get_attendances(request, user_profile):
     else_member_list = list()
     # 不参与考勤成员
     not_join_list = list()
+    print(attendances_obj.department.split('|'))
 
-    for department in attendances_obj.department:
+    for department in attendances_obj.department.split('|'):
+        print(department)
         department_dict = dict()
         departments = ZgDepartment.objects.filter(id=department)
         department_dict['department_name'] = departments[0].name
@@ -558,7 +606,7 @@ def get_attendances(request, user_profile):
         not_join_dict = dict()
         not_join_dict['user_id'] = not_join.id
         not_join_dict['user_name'] = not_join.full_name
-        not_join_list.append(not_join_list)
+        not_join_list.append(not_join_dict)
 
     # 上下班时间
     jobs_time = attendances_obj.jobs_time
@@ -573,15 +621,19 @@ def get_attendances(request, user_profile):
     latitude = attendances_obj.latitude
     # 地点site
     site = attendances_obj.site
-    # 范围default_distance
-    range = attendances_obj.default_distance
 
-    return JsonResponse(
-        {'errno': 0, 'message': '获取成功', 'name': name, 'jobs_time': jobs_time,
-         'else_member_list':else_member_list,'department_list':department_list,'not_join_list':not_join_list,
-         'rest_time': rest_time, 'attendance_time_list': attendance_time_list, 'longitude': longitude,
-         'latitude': latitude, 'location': site,
-         'range': range})
+    return JsonResponse({
+        'errno': 0, 'message': '获取成功',
+        'name': name, 'jobs_time': jobs_time,
+        'else_member_list': else_member_list,
+        'department_list': department_list,
+        'not_join_list': not_join_list,
+        'rest_time': rest_time,
+        'attendance_time_list': attendance_time_list,
+        'longitude': longitude,
+        'latitude': latitude,
+        'location': site,
+        'range': attendances_obj.default_distance})
 
 
 # 考勤组列表
@@ -598,9 +650,10 @@ def attendances_management(request, user_profile):
         attendances_dict['attendances_name'] = attendances_obj.attendance_name
         attendances_dict['attendances_id'] = attendances_obj.id
         # 成员
-        attendances_dict['attendances_member_list'] = []
-        for i in UserProfile.objects.filter(atendance=attendances_obj):
-            attendances_dict['attendances_member_list'].append(i.full_name)
+        attendances_dict['department_list'] = []
+        for i in attendances_obj.department.split('|'):
+            department=ZgDepartment.objects.get(id=i)
+            attendances_dict['department_list'].append(department.name)
 
         # 上班时间
         attendances_dict['attendance_time_list'] = []
@@ -705,8 +758,6 @@ def repair_examine(request, user_profile):
             attendances[0].sign_off_time = repair_time
             attendances[0].sign_off_explain = '补卡'
             attendances[0].save()
-            print(2)
-
         theme = user_profile.full_name + '通过了您的补卡申请'
 
     elif opinion == 'no':
@@ -722,10 +773,11 @@ def repair_examine(request, user_profile):
             'time': nuw_time(),
             'avatar_url': avatar.absolute_avatar_url(user_profile),
             'user_name': user_profile.full_name,
-            'content': {'repair_id': repair_id
-                        }
-
-            }
+            'content': {'repair_id': repair_id}}
+    # ZgWorkNotice.objects.create(user=user_profile, notice_type='审批', stair=event['theme'], second=cause,
+    #                             third=third, send_time=nuw_time(),
+    #                             table_type=approval_type,
+    #                             table_id=obj_id)
     send_event(zg_send_tools(even), user_list)
 
     return JsonResponse({'errno': 0, 'message': '成功'})

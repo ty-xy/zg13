@@ -808,6 +808,9 @@ a.message-control-button {
     align-items: center;
     margin-bottom:20px;
 }
+.choose-color-setting>span{
+    margin-right:10px
+}
 .icon-shouqi{
     font-size:10px;
     color: #ddd;
@@ -989,6 +992,8 @@ a.message-control-button {
     .icon-prevs{
         display:none ;
        cursor: pointer;
+       margin-top: -0.5px;
+
     }
    .next-icons{
         position: absolute;
@@ -1074,16 +1079,23 @@ a.message-control-button {
     }
     .send-check{
         display:flex;
-        margin-left:21px
+        margin-left:21px;
+        flex-wrap: wrap
     }
     .send-check>li{
         /* opacity: 0.5; */
         border: 1px solid #DDDDDD;
-        width: 200px;
-        height:246px;
+        width: 160px;
+        height:197px;
         margin-right:10px;
         cursor: pointer;
         position: relative;
+        /* width:18.5%; */
+        margin-bottom:10px;
+        box-sizing:border-box
+    }
+    .send-check>li:nth-child(5){
+        margin-right:0
     }
     .shenpi{
         background: #48D2A0;
@@ -1115,7 +1127,7 @@ a.message-control-button {
         /* margin-bottom:60px; */
         position: absolute;
         width:100%;
-        bottom:70px;
+        bottom:40px;
         text-align:center;
     }
     .ask_for_leave>div>p{
@@ -1143,6 +1155,12 @@ a.message-control-button {
     .progress-percent>div>p{
        margin-top:18px
     }
+    .purchase-buy>div>p{
+        margin-top:13px
+    }
+    .job-request-event>div>p{
+        margin-top:19px
+    }
     .ask-for-leave-title{
         height:88.5px;
         border-bottom:1px solid #ddd;
@@ -1161,7 +1179,11 @@ a.message-control-button {
         color: #999999;
     }
     #form-test .control-labels{
-        width:96px !important;
+        width:126px !important;
+        margin-right:30px;
+    }
+    #form-test .control-labells{
+        width:126px !important;
         margin-right:30px;
     }
     .form-group-common{
@@ -1172,6 +1194,9 @@ a.message-control-button {
         width:778px;
         height:36px !important;
         box-sizing: border-box
+    }
+    .from-peoples{
+        width:328px;
     }
     .new-leave-date{
         width:300px !important;
@@ -1208,6 +1233,10 @@ a.message-control-button {
         text-align:right;
         line-height:48px;
     }
+    .control-imgs{
+        text-align:center;
+        line-height:48px;
+    }
     .btn-submit{
         background: #4584FF;
         border-radius: 4px;
@@ -1235,6 +1264,9 @@ a.message-control-button {
     .shenpi-person{
         margin-left:30px;
        
+    }
+    .shenpi-content{
+        margin-left:45px;
     }
     .shenpi-person>li{
         height:65px;
@@ -1308,7 +1340,8 @@ a.message-control-button {
        text-align: center;
    }
    .common-flex{
-       display: flex
+       display: flex;
+       /* min-width: 960px; */
    }
    .check-detail-flex{
       margin-left:30px;
@@ -1323,9 +1356,13 @@ a.message-control-button {
    .line-height-hr{
        margin:5px;
    }
+   .check-detail-total{
+      min-width: 960px;
+   }
    .check-detail-total>p{
-      margin-right:120px;
+      /* margin-right:120px; */
       margin-top:10px;
+     width:33%;
    }
    .avatar-imgs-shenpi-detail{
        height:48px;
@@ -1528,9 +1565,19 @@ a.message-control-button {
        top:8px;
        left:24px;
    }
+   .require-moment{
+       left:55px;
+   }
+   .require-moments{
+    left:85px;
+}
    .check-people{
        margin-left:12px;
        text-align:center;
+   }
+   .check-peoples{
+      margin-left:26px;
+      text-align:center;
    }
    .feadback-send-sure{
        background: #4584FF;
