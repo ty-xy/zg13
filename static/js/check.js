@@ -96,7 +96,7 @@ var check = (function () {
                         data.shown=true
                     }
                     $(".move_ctn").children().remove();
-                    if(typeof data.project_name !==undefined){
+                    if(data.project_name !==undefined){
                         var li = templates.render("project_progress_degree",data)
                         $(".move_ctn").html(li)
                     }else{
@@ -148,7 +148,7 @@ var check = (function () {
             })    
         })
     }
-    exports.ready_check_func=function(types,id){
+    exports.ready_check_func=function(types,id,func){
         $(".move_ctn ").off("click",".no_agree").on("click",".no_agree",function(e){
             datalist = {
                 types:types,
@@ -191,6 +191,7 @@ var check = (function () {
                 }
             })
         })
+        feedBack(types,id,func)
     }
     function commonapply(){
           var content = $.trim($("#usernames").val())
@@ -292,7 +293,7 @@ var check = (function () {
                                     data.shown=true
                                 }
                                 // del_msg(data)
-                                if(typeof data.project_name !==undefined){
+                                if( data.project_name !==undefined){
                                     var li = templates.render("project_progress_degree",data)
                                     $(".move_ctn").html(li)
                                 }else{
@@ -897,7 +898,7 @@ var check = (function () {
                                         // console.log(data)
                                         // console.log("返回待我审批1")
                                         $(".move_ctn").children().remove();
-                                        if(typeof data.project_name !==undefined){
+                                        if(data.project_name !==undefined){
                                             var li = templates.render("project_progress_degree",data)
                                             $(".move_ctn").html(li)
                                         }else{
@@ -1074,7 +1075,7 @@ var check = (function () {
                                             data.shown=true
                                         }
                                         $(".move_ctn").children().remove();
-                                        if(typeof data.project_name !==undefined){
+                                        if(data.project_name !==undefined){
                                             var li = templates.render("project_progress_degree",data)
                                             $(".move_ctn").html(li)
                                         }else{

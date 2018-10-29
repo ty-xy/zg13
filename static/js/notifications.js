@@ -166,7 +166,7 @@ exports.redraw_title = function () {
 
             current_favicon = previous_favicon = '/static/images/favicon/favicon-'+n+'.png';
         } else {
-            current_favicon = previous_favicon = '/static/favicon.ico?v=2';
+            current_favicon = previous_favicon = '/static/favicons.ico?v=2';
         }
         favicon.set(current_favicon);
     }

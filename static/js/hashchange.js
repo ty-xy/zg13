@@ -185,9 +185,10 @@ exports.parse_narrow = function (hash) {
                 var hash = url.split("/")
                 var subject = hash_util.decodeHashComponent(hash[4])
                 var stream = hash_util.decodeHashComponent(hash[2])
-                stream = stream_data.slug_to_name(stream);
+                 stream = stream_data.slug_to_name(stream);
+                 var stream_id = stream_data.get_stream_id(stream)
                 //  stream = hash_util.decodeHashComponent(stream[1])
-                 
+                $(".notice_ctn[stream_id="+stream_id+"]").addClass("backgr").parent().siblings().children().removeClass("backgr")
                  $(".home-title span").html(stream)
                  $(".compose-content").show()
                  $(".message_comp").show()
