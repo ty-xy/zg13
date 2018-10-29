@@ -269,6 +269,24 @@ var contact = (function(){
                 })
             })
         })
+        function back(){
+            $(".first-icon").on("click",function(e){
+                window.location.href = "#narrow/is/starred"
+                $.ajax({
+                    type:"GET",
+                    url:"json/zg/approval/notice",
+                    contentType:"application/json",
+                    success:function(res){
+                        $(".move_ctn").children().remove()
+                        var newData = res.work_notice_list
+                        var work_order_head = templates.render("work_order_head")
+                        $(".move_ctn").append(work_order_head)
+                        var work_order_body = templates.render("work_order_body",{newData:newData})
+                        $(".work_order_box").append(work_order_body)
+                    }
+                })
+            })
+        }
         //团队组织方法
         $(".organization_team").on("click",function(){
             $(this).addClass("backgr").next().children().removeClass("backgr")
@@ -995,12 +1013,18 @@ var contact = (function(){
                     data:data,
                     success:function(datalist){
                         var data =datalist.data
+                        if(data.feedback_list.length===0){
+                            data.shown=false
+                        }else{
+                            data.shown=true
+                        }
                         $(".move_ctn").children().remove();
                         var li = templates.render("check_detail",data)
                         $(".move_ctn").html(li)
                         $(".check-detail-flex").height($(window).height()-244)
-                        check.backIcons2()
-                        check.ready_check_func(types,id,check.backIcons2)
+                        // check.backIcons2()
+                        back()
+                        check.ready_check_func(types,id,back)
                     }
                 })
             })
