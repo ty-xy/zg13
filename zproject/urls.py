@@ -522,7 +522,7 @@ v1_api_and_json_patterns = [
         {'POST': 'zerver.views.zg_zpproval.jobs_please'}),
     # 工程汇报
     url(r'^zg/project/progress/$', rest_dispatch,
-        {'POST': 'zerver.views.zg_zpproval.project_progress'}),
+        {'POST': 'zerver.views.zg_zpproval.project_progress_d'}),
 
     # --------组织结构
     # 通讯哭部门列表

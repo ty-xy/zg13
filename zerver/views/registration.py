@@ -448,7 +448,6 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
             logging.error('Error in accounts_home: %s' % (str(e),))
             return HttpResponseRedirect("/config-error/smtp")
 
-
         # zg--------------
         key = activation_url.split('/')[-1]
         confirmation = Confirmation.objects.filter(
@@ -474,18 +473,15 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
         else:
             realm = get_realm(get_subdomain(request))
             if realm is None or realm != prereg_user.realm:
-                print('--' * 20, '注册8')
                 return render_confirmation_key_error(
                     request, ConfirmationKeyException(ConfirmationKeyException.DOES_NOT_EXIST))
 
             try:
                 email_allowed_for_realm(email, realm)
             except DomainNotAllowedForRealmError:
-                print('--' * 20, '注册9')
                 return render(request, "zerver/invalid_email.html",
                               context={"realm_name": realm.name, "closed_domain": True})
             except DisposableEmailError:
-                print('--' * 20, '注册10')
                 return render(request, "zerver/invalid_email.html",
                               context={"realm_name": realm.name, "disposable_emails_not_allowed": True})
 
@@ -641,7 +637,6 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
                 # TODO: When we clean up the `do_activate_user` code path,
                 # make it respect invited_as_admin / is_realm_admin.
             else:
-                print('.==='*30,'注册1')
                 user_profile = do_create_user(email, password, realm, full_name, short_name,
                                               prereg_user=prereg_user, is_realm_admin=is_realm_admin,
                                               tos_version=settings.TOS_VERSION,
@@ -653,7 +648,6 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
             if realm_creation:
                 bulk_add_subscriptions(
                     [realm.signup_notifications_stream], [user_profile])
-                print('注册后1')
                 # send_initial_realm_messages(realm)
 
                 # Because for realm creation, registration happens on the
@@ -668,13 +662,11 @@ def accounts_home(request: HttpRequest, multiuse_object: Optional[MultiuseInvite
                                        return_data=return_data,
                                        use_dummy_backend=True)
             if return_data.get('invalid_subdomain'):
-                print('注册后2')
 
                 # By construction, this should never happen.
                 logging.error("Subdomain mismatch in registration %s: %s" % (
                     realm.subdomain, user_profile.email,))
                 return redirect('/')
-            print('注册后3')
 
             return login_and_go_to_home(request, auth_result)
 

@@ -76,17 +76,14 @@ def zg_purchase(request, user_profile):
                                          total_prices=total_prices,
                                          send_time=nuw_time())
 
-    # event = {'zg_type': 'JobsNotice',
-    #          'time': nuw_time(),
-    #          'avatar_url': avatar.absolute_avatar_url(user_profile),
-    #          'user_name': user_profile.full_name,
-    #          'content': {'type': 'purchase',
-    #                      'reason': cause,
-    #                      'time_length': start_time + '   ～   ' + end_time,
-    #                      'id': aaa.id
-    #                      }}
-    event = {}
-
+    event = {'zg_type': 'JobsNotice',
+             'time': nuw_time(),
+             'avatar_url': avatar.absolute_avatar_url(user_profile),
+             'user_name': user_profile.full_name,
+             'content': {'type': 'purchase',
+                         'second': reason,
+                         'third': total_prices,
+                         'id': purchase.id}}
     send_approver_observer(user_profile, purchase.id, 'purchase', approver_list, observer_list,
                            img_url, event,
                            reason, total_prices)
@@ -113,7 +110,14 @@ def jobs_please(request, user_profile):
         jobs_please = JobsPlease.objects.create(user=user_profile, reason=reason, urgency_degree=urgency_degree,
                                                 jobs_date=jobs_date,
                                                 content=content, send_time=nuw_time())
-        event = dict()
+        event = {'zg_type': 'JobsNotice',
+                 'time': nuw_time(),
+                 'avatar_url': avatar.absolute_avatar_url(user_profile),
+                 'user_name': user_profile.full_name,
+                 'content': {'type': 'jobs_please',
+                             'second': reason,
+                             'third': urgency_degree,
+                             'id': jobs_please.id}}
         send_approver_observer(user_profile, jobs_please.id, 'jobs_please', approver_list, observer_list, img_url,
                                event, reason, urgency_degree)
     except Exception as e:
@@ -123,7 +127,7 @@ def jobs_please(request, user_profile):
 
 
 # 工程进度汇报
-def project_progress(request, user_profile):
+def project_progress_d(request, user_profile):
     req = req_tools(request)
     project_name = req.get('project_name')
     happening = req.get('happening')
@@ -149,7 +153,14 @@ def project_progress(request, user_profile):
                                                           complete_time=complete_time,
                                                           remark=remark, send_time=nuw_time())
 
-        event = dict()
+        event = {'zg_type': 'JobsNotice',
+                 'time': nuw_time(),
+                 'avatar_url': avatar.absolute_avatar_url(user_profile),
+                 'user_name': user_profile.full_name,
+                 'content': {'type': 'project_progress',
+                             'second': project_name,
+                             'third': happening,
+                             'id': project_progress.id}}
         observer_list = []
         send_approver_observer(user_profile, project_progress.id, 'project_progress', approver_list, observer_list,
                                img_url, event, project_name, happening)
@@ -340,7 +351,7 @@ def expectation_approval_list(request, user_profile):
             aa['id'] = review_obj.table_id
             aa['status'] = review_obj.status
             aa['send_time'] = review_obj.send_time
-            if review_obj.types == project_progress:
+            if review_obj.types == 'project_progress':
                 aa['status'] = '未读'
             iaitiate_list.append(aa)
 
@@ -654,8 +665,8 @@ def approval_details(request, user_profile):
         for accessory in accessorys:
             img_list.append('/user_uploads/' + accessory.attachment.path_id)
         data['image_url'] = img_list
-        reads = ZgReview.objects.filter(is_know=True, types=project_progress, table_id=ids)
-        unreads = ZgReview.objects.filter(is_know=False, types=project_progress, table_id=ids)
+        reads = ZgReview.objects.filter(is_know=True, types='project_progress', table_id=ids)
+        unreads = ZgReview.objects.filter(is_know=False, types='project_progress', table_id=ids)
         data['read_count'] = reads.count()
         data['unread_count'] = unreads.count()
         data['read_list'] = list()

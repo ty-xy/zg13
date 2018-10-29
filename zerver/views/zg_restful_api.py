@@ -1,5 +1,5 @@
 from zerver.models import Message, UserMessage, ZgCollection, Stream, Attachment, ZgCloudDisk, Realm, UserProfile, \
-    active_user_ids, Recipient, StatementState, ZgReview, ZgWorkNotice
+    active_user_ids, Recipient, StatementState, ZgReview, ZgWorkNotice, get_stream_recipient
 from django.http import JsonResponse
 import json
 from datetime import datetime, timezone, timedelta
@@ -13,7 +13,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.hashers import make_password
 from zerver.tornado.event_queue import send_event
 from django.shortcuts import redirect, render
-from zerver.views.zg_tools import req_tools
+from zerver.views.zg_tools import req_tools, zg_send_tools
 import time
 
 
@@ -162,12 +162,18 @@ def del_subject(request, user_profile):
     req = json.loads(req)
     subject = req.get('subject')
     stream_id = req.get('stream_id')
-    realm_id = req.get('realm_id', 1)
     if not all([subject, stream_id]):
         return JsonResponse({'errno': 2, 'message': '缺少必要参数'})
-    print(realm_id, stream_id)
-    recipient = Recipient.objects.filter(type=realm_id, type_id=stream_id)
-    Message.objects.filter(subject=subject, recipient=recipient[0].id).delete()
+    recipient = get_stream_recipient(stream_id)
+    Message.objects.filter(subject=subject, recipient=recipient).delete()
+    event = {'zg_type': 'del_subject',
+             'subject': subject,
+             'stream_id': stream_id
+             }
+    event = zg_send_tools(event)
+    user_list = UserProfile.objects.values_list('id',flat=True)
+    send_event(event,user_list)
+
     return JsonResponse({'errno': 0, 'message': '删除成功'})
 
 
