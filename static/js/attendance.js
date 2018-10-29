@@ -491,7 +491,8 @@ var attendance = (function () {
                                 minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
                                 weekStart:1,
                                 format:"yyyy-mm-dd",
-                                autoclose:"true"
+                                autoclose:"true",
+                                defaultDate : new Date() 
                             })
                             //点击切换考勤组
                             $(".attendance_groups").on("click",".attendance_groups_list",function(){
@@ -570,7 +571,8 @@ var attendance = (function () {
                                                 minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
                                                 weekStart:1,
                                                 format:"yyyy-mm-dd",
-                                                autoclose:"true"
+                                                autoclose:"true",
+                                                defaultDate : new Date() 
                                             })
                                             //查看考勤日历
                                             $(".attendance_bottom_ctn").on("click",".attendance_bottom_calendar",function(){
@@ -751,7 +753,8 @@ var attendance = (function () {
                                         minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
                                         weekStart:1,
                                         format:"yyyy-mm-dd",
-                                        autoclose:"true"
+                                        autoclose:"true",
+                                        defaultDate : new Date() 
                                     })
                                  })
                                  //-------------切换回考勤统计-----------------
