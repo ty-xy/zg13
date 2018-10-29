@@ -584,7 +584,7 @@ var message_group = (function () {
                                         idempotent: true,
                                         data:JSON.stringify({subject:del_subject,stream_id:get_sub_by_name.stream_id}),
                                         success:function(data){
-                                            topic_list.zoom_in()
+                                            // topic_list.zoom_in()
                                             that.remove()
                                             // var history = topic_data.topic_history()
                                             // history.maybe_remove(del_subject)
@@ -645,7 +645,7 @@ var message_group = (function () {
                             },
                             success: function (data) {
                                 if(data.result==="success"){
-                                    $(".group_setting").hide();
+                                    $(".group_setting").hide();                             
                                     arr = JSON.parse(localStorage.getItem("arr"))
                                     for(var i=0;i<arr.length;i++){
                                         if(arr[i].stream_id == stream_id){

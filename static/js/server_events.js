@@ -270,6 +270,13 @@ var server_events = (function () {
                 $(".work_order .notice_bottom").html(push_one.theme)
                 $(".work_order .notice_top_time").html(server_events.tf(push_one.time))
                 server_events.showNotify(push_one.user_name,push_one.theme)
+            }else if(type=="del_subject"){
+                // console.log(push_none)
+                // var stream_id = push_none.stream_id
+                // var stream_name = stream_data.get_sub_by_id(stream_id)
+                server_events.showNotify(push_one.subject,"删除话题"+push_one.subject)
+                var stream_id = data.events[0].stream_id
+                topic_list.zoom_in()
             }
             var  type;
             var  data_message;

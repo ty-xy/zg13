@@ -93,7 +93,7 @@ exports.topic_history = function () {
                 historical: true,
             });
         });
-      
+        console.log(topics)
         topics.del(names[0])
        
     };
