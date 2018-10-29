@@ -586,10 +586,6 @@ var message_group = (function () {
                                         success:function(data){
                                             // topic_list.zoom_in()
                                             that.remove()
-                                            // var history = topic_data.topic_history()
-                                            // history.maybe_remove(del_subject)
-                                            // console.log(topic_data.get_recent_names(get_sub_by_name.stream_id))
-                                            // $(".topic-list").find("[data-topic-name="+del_subject+"]").remove()
                                         }
                                     })
                                 })
@@ -646,15 +642,15 @@ var message_group = (function () {
                             success: function (data) {
                                 if(data.result==="success"){
                                     $(".group_setting").hide();                             
-                                    arr = JSON.parse(localStorage.getItem("arr"))
-                                    for(var i=0;i<arr.length;i++){
-                                        if(arr[i].stream_id == stream_id){
-                                            arr.remove(i)
-                                        }
-                                    }
-                                    localStorage.setItem("arr",JSON.stringify(arr))
+                                    // arr = JSON.parse(localStorage.getItem("arr"))
+                                    // for(var i=0;i<arr.length;i++){
+                                    //     if(arr[i].stream_id == stream_id){
+                                    //         arr.remove(i)
+                                    //     }
+                                    // }
+                                    // localStorage.setItem("arr",JSON.stringify(arr))
 
-                                    $(window).attr("location","#narrow/is/starred")
+                                    // $(window).attr("location","#narrow/is/starred")
                                 }
                             },
                         });
