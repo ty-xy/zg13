@@ -44,6 +44,19 @@ exports.changehash = function (newhash) {
 // Encodes an operator list into the
 // corresponding hash: the # component
 // of the narrow URL
+validate_stream_message_address_infos = function (stream_name) {
+    if (stream_data.is_subscribed(stream_name)) {
+        return true;
+    }
+    var autosubscribe = page_params.narrow_stream !== undefined;
+    var error_type = compose.check_undfe(stream_name, autosubscribe);
+    if(error_type==="does-not-exist"){
+        $("#empty_narrow_message").html("改群组已经解散。。。。。")
+        setTimeout(function(){
+            $(window).attr("location","#narrow/is/starred")
+        },1000)
+    }
+};
 exports.operators_to_hash = function (operators) {
     var hash = '#';
    
@@ -194,6 +207,7 @@ exports.parse_narrow = function (hash) {
                  $(".message_comp").show()
                 //  $(".tab-content").scrollTop(h+x+$("#zfilt").offset().top);
                 $("#stream").val(stream)
+                validate_stream_message_address_infos(stream)
                 $("#subject").val(subject)
                 setTimeout(function(){
                     var h = $("#zfilt")[0].scrollHeight

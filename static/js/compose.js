@@ -501,7 +501,41 @@ function check_unsubscribed_stream_for_send(stream_name, autosubscribe) {
     });
     return result;
 }
+exports.check_undfe=function(stream_name, autosubscribe){
+    var stream_obj = stream_data.get_sub(stream_name);
+    var result;
+    if (!stream_obj) {
+        return "does-not-exist";
+    }
+    if (!autosubscribe) {
+        return "not-subscribed";
+    }
 
+    // In the rare circumstance of the autosubscribe option, we
+    // *Synchronously* try to subscribe to the stream before sending
+    // the message.  This is deprecated and we hope to remove it; see
+    // #4650.
+    channel.post({
+        url: "/json/subscriptions/exists",
+        data: {stream: stream_name, autosubscribe: true},
+        async: false,
+        success: function (data) {
+            if (data.subscribed) {
+                result = "subscribed";
+            } else {
+                result = "not-subscribed";
+            }
+        },
+        error: function (xhr) {
+            if (xhr.status === 404) {
+                result = "does-not-exist";
+            } else {
+                result = "error";
+            }
+        },
+    });
+    return result;
+}
 function validate_stream_message_mentions(stream_name) {
     var stream_count = stream_data.get_subscriber_count(stream_name) || 0;
 
