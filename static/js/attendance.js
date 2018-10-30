@@ -440,7 +440,69 @@ var attendance = (function () {
                                     $(".attendance_close").on("click",function(){
                                         $(".attendance_md").hide();
                                     })
-                                 
+                                        //-------------切换回考勤统计-----------------
+                                $(".attendance_box").off("click",".attendance_statistics").on("click",".attendance_statistics",function(){
+                                    $(this).addClass("high_light").siblings().removeClass("high_light")
+                                    //  $(".attendance_ctn").children().remove();
+                                    //  $(".attendance_ctn").append(original)
+                                    $(".move_ctn").children().remove();
+                                    attendance.attendance()
+                                     //搜索全部成员
+                                     var p = $(".attendance_bottom_ctn").children();
+                                     $(".attendance_bottom_search_person").bind('input propertychange',function(){
+                                         var searchText = $(this).val();
+                                         var $searchLi = "";
+                                         var peopleArr = []
+                                         for(var i =0;i<p.length;i++){
+                                            peopleArr.push(p[i].getElementsByClassName("attendance_bottom_name")[0].innerHTML)
+                                         }
+                                         for(var key in peopleArr){
+                                                for(var i =0;i<p.length;i++){
+                                                    if(peopleArr[key] == searchText){
+                                                        if(p[i].getElementsByClassName("attendance_bottom_name")[0].innerHTML == searchText){
+                                                            $(".attendance_bottom_ctn").html(p[i]).clone()
+                                                        }
+                                                     }
+                                                }
+                                         }
+                                         if(searchText != ""){
+                                             $searchLi = $(".attendance_bottom_ctn").find('p:contains('+ searchText +')').parent();
+                                             $(".attendance_bottom_ctn").html("");
+                                         }
+                                         $(".attendance_bottom_ctn").html($searchLi).clone();
+                                         if ($searchLi.length <= 0) {
+                                             $(".attendance_bottom_ctn").html("<li>没有找到该成员</li>")
+                                         }
+                                         if (searchText == "") {
+                                             $(".attendance_bottom_ctn").children().remove();
+                                             $(".attendance_bottom_ctn").append(p)
+                                         }
+                                     })
+                                     //搜索全部成员
+                                     //点击切换考勤组
+                                     $(".attendance_groups").on("click",".attendance_groups_list",function(){
+                                         var attendances_id = $(this).attr("attendances_id");
+                                         //考勤组样式切换
+                                         $(this).addClass("gray_bg").siblings().removeClass("gray_bg");
+                                         checkOut(attendances_id);
+                                     })
+                                     //查看考勤日历
+                                    $(".attendance_bottom_ctn").on("click",".attendance_bottom_calendar",function(){
+                                        $(".attendance_ctn").children().remove();
+                                        var user_id = $(this).attr("user_id")
+                                        checkCalendar(user_id);
+                                    })
+                                    //初始化按事件筛选
+                                    $(".calendar_screen_select_y").datetimepicker({
+                                        language:"zh-CN",  
+                                        todayHighlight: true,  
+                                        minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                                        weekStart:1,
+                                        format:"yyyy-mm-dd",
+                                        autoclose:"true",
+                                        defaultDate : new Date() 
+                                    })
+                                 })
                                    // 删除
                                    $(".attendance_box").on("click",".button-delete",function(){
                                     var attendances_id= $(this).attr("data_id")
@@ -458,13 +520,11 @@ var attendance = (function () {
                                    })
                                     // 新增加群组
                                     $(".attendance_box").on('click',".new_attendance",function(){
-                                        console.log(111113)
                                         // var lis  =  $(".attendance_ctn").children()
                                         $(".attendance_ctn").empty()
                                         var html = templates.render("attendance_team");
-                                        $(".attendance_ctn").html(html)
-                                        $(".attendance_ctn").height($(window).height()-120)
-                                        // $(".attendance_ctn .button-common").val("17:00")
+                                        $(".attendance_box").html(html)
+                                        $(".attendance-new-detail").height($(window).height()-120)
                                         $(".attendance_ctn .button-common").datetimepicker({
                                             language:"zh-CN",  
                                             weekStart: 1,
@@ -482,10 +542,26 @@ var attendance = (function () {
                                         commonf()
                                         commit()
                                     })
+                                    //返回考勤
+                                    $(".attendance_box").on('click',".first-icon",function(){
+                                        $(".attendance_box").empty()
+                                        var htmls= templates.render("kaoqin_back");
+                                        $(".attendance_box").html(htmls)
+                                        $(".attendance_mangement").addClass("high_light").siblings().removeClass("high_light")
+                                        channel.get({
+                                            url:"json/zg/attendances/management",
+                                            success:function(data){
+                                               var data_list = data.attendances_list
+                                               var html = $(templates.render('attendance_management',{
+                                                data_list:data_list
+                                                }));
+                                                $(".attendance_ctn").html(html)
+                                            }
+                                        })
+                                   })
                                        // 修改
-                                       $(".attendance_box").on("click",".button-fix",function(){
+                                    $(".attendance_box").on("click",".button-fix",function(){
                                         var index =$(this).attr("data_id")
-                                        console.log(index)
                                         $("#button-time").datetimepicker({
                                             language:"zh-CN",  
                                             weekStart: 1,
@@ -516,11 +592,15 @@ var attendance = (function () {
                                                   
                                                      var idteam  = []
                                                      var idIndex = []
+                                                     var elseIndex  = []
                                                       data.else_member_list.forEach(function(val){
                                                            idIndex.push(val.user_id)
                                                       })
                                                       data.department_list.forEach(function(val){
                                                         idteam.push(val.department_id)
+                                                     })
+                                                     data.not_join_list.forEach(function(val){
+                                                        elseIndex.push(val.user_id)
                                                      })
                                                       var datalists= data.else_member_list.reduce(function(prev, cur)
                                                       {  
@@ -551,6 +631,7 @@ var attendance = (function () {
                                                      $(".kaoqin-era").attr("location",data.longitude+","+data.latitude)
                                                      $(".button-common-people").attr("data_id",idIndex)
                                                      $(".button-common-team").attr("data_id",idteam)
+                                                     $(".button-common-none").attr("data_id",elseIndex)
                                                      commonf()
                                                       //接入地点
                                                      update(index)
@@ -783,11 +864,15 @@ var attendance = (function () {
                                                          $(".attendance-new-detail").height($(window).height()-90)
                                                          var idteam  = []
                                                          var idIndex = []
+                                                         var elseIndex  = []
                                                           data.else_member_list.forEach(function(val){
                                                                idIndex.push(val.user_id)
                                                           })
                                                           data.department_list.forEach(function(val){
                                                             idteam.push(val.department_id)
+                                                         })
+                                                         data.not_join_list.forEach(function(val){
+                                                            elseIndex.push(val.user_id)
                                                          })
                                                           var datalists= data.else_member_list.reduce(function(prev, cur)
                                                           {  
@@ -819,6 +904,7 @@ var attendance = (function () {
                                                          $(".kaoqin-era").attr("location",data.longitude+","+data.latitude)
                                                          $(".button-common-people").attr("data_id",idIndex)
                                                          $(".button-common-team").attr("data_id",idteam)
+                                                         $(".button-common-none").attr("data_id",elseIndex)
                                                          commonf()
                                                           //接入地点
                                                          update(index)
@@ -1057,7 +1143,7 @@ var attendance = (function () {
            function update(id){
             $(".button-submit-update").on("click",function(){
                 var data_list = commonContent()
-                console.log(data_list,$(".button-submit-update"), $(".title-input").val())
+                // console.log(data_list,$(".button-submit-update"), $(".title-input").val())
                 if(data_list){
                     $(".button-submit-update").attr("disabled", true);
                     $(".button-submit-update").css("background-color","#ccc")
@@ -1068,7 +1154,7 @@ var attendance = (function () {
                         contentType:"application/json",
                         success:function(data){
                             // console.log(data)
-                            if(data.errno==3){
+                            if(data.errno==0){
                                 $(".button-submit-update").css("background-color","#14A4FA")
                                 $(".button-submit-update").attr("disabled", false);
                                 // $(".attendance_md").hide();
