@@ -45,14 +45,6 @@ var message_group = (function () {
 
                 return (email.indexOf(data) > -1 || full_name.indexOf(data) > -1);
             }
-            // if(x>-1||y>-1){
-            //     var person = people.get_by_email(item.email);
-            //     person.avatar_url=people.stream_url_for_eamil(item.email)
-            //     return {
-            //           full_name:person.full_name,
-            //           avatar_url:person.avatar_url
-            //     }
-            // }
         }
         function  filter (list,data,func) {
              var vux =  list.filter(function (item) {
@@ -91,9 +83,6 @@ var message_group = (function () {
              }
             return emails;
         };
-        // function common_topic(index){
-       
-        // }
         function fill_in_opts_from_current_narrowed_view(msg_type, opts) {
             var default_opts = {
                 message_type:     msg_type,
@@ -180,24 +169,34 @@ var message_group = (function () {
                $("#subject").val(subject)
             }
         })
+        //创建话题
         $(".make-stream-sure").on("click",function(e){
-            opts = fill_in_opts_from_current_narrowed_view('stream', {trigger: 'new topic button'});
-            compose_state.stream_name(opts.stream),
-            compose_state.subject(opts.subject)
-            var data = compose.create_message_object()
-            data.type="stream";
-            data.subject=compose_state.subjects();
-            data.content="欢迎来到 "+data.subject+""
-            compose.send_message(data)
-            $("#subjects").val("")
-            $(".compos-left-title span").show()
-            var index = stream_data.get_stream_id (opts.stream)
-            //   common_topic(index)
-              $("#stream").val(opts.stream)
-              $("#subject").val(data.subject)
-              window.location.href="#narrow/stream/"+index+"-"+opts.stream+"/subject/"+data.subject+""
-            $(".creare-topic-body").hide()
+            var sub = $("#subjects").val()
+            $("#subjects").val(sub.replace(/\s*/g,""))
+            if($("#subjects").val().length>6){
+                $('.err-text-topic').fadeIn({
+                    duration: 1
+                }).delay (1000).fadeOut ({duration: 1000});
+            }else{
+                opts = fill_in_opts_from_current_narrowed_view('stream', {trigger: 'new topic button'});
+                compose_state.stream_name(opts.stream),
+                compose_state.subject(opts.subject)
+                var data = compose.create_message_object()
+                data.type="stream";
+                data.subject=compose_state.subjects();
+                data.content="欢迎来到 "+data.subject+""
+                compose.send_message(data)
+                $("#subjects").val("")
+                $(".compos-left-title span").show()
+                var index = stream_data.get_stream_id(opts.stream)
+                  $("#stream").val(opts.stream)
+                  $("#subject").val(data.subject)
+                  window.location.href="#narrow/stream/"+index+"-"+opts.stream+"/subject/"+data.subject+""
+                $(".creare-topic-body").hide()
+            }
+  
         })
+        //输入监控
         $("#subjects ").on("input",function(e){
             if($(this).val()!== ""){
                 $(".make-stream-sure").removeAttr("disabled")
@@ -275,7 +274,6 @@ var message_group = (function () {
                                      }
                                  }
                                  if(!flag){
-                                     console.log(1111)
                                      $(".persistent_data").show()
                                      $(".persistent_data").prepend(templates.render("notice_box",{name:name,avatar:avatar,_href:_href,time:time,send_id:stream_id,mes:server_events.deleteTag(mes),stream:stream}))
                                      arr.unshift(server_events.set_local_news('',stream_id,name,avatar,time,mes,_href,stream))
@@ -465,7 +463,8 @@ var message_group = (function () {
                         var message = home_msg_list.get(obj.min_id)
                         if(message){
                             userid = message.sender_id
-                            if(userid===peopleId){
+                            var subject = message.subject
+                            if(userid===peopleId&&subject !="大厅"){
                                 names.push(obj.name)
                             }
                         }
@@ -516,18 +515,15 @@ var message_group = (function () {
                                     $(".search-people-border input").attr("placeholder","输入搜索内容")
                                     $(".search-people-border input").on("input",function(e){
                                        var data = filter(emial,$(this).val(),findPeople)
-                                       console.log(data)
                                        if(data.length==0){
                                            $(".group_setting .list-avatar").empty()
                                            var li = "<li style='color:red,width:100%' class='choose-group-people'>没有这个成员<li>"
-                                           console.log($(".list-avatar"))
                                            $(".group_setting .list-avatar").html(li)
                                         }else{
                                             data.forEach(function(value){
                                                 value.name = value.index,
                                                 value.avatarUrl=people.stream_url_for_eamil(value.email)
                                             })
-                                            console.log(data)
                                             var html = templates.render("more_people",{all_person:data})
                                             $(".group_setting .list-avatar").html(html)
                                         }
@@ -584,12 +580,8 @@ var message_group = (function () {
                                         idempotent: true,
                                         data:JSON.stringify({subject:del_subject,stream_id:get_sub_by_name.stream_id}),
                                         success:function(data){
-                                            topic_list.zoom_in()
+                                            // topic_list.zoom_in()
                                             that.remove()
-                                            // var history = topic_data.topic_history()
-                                            // history.maybe_remove(del_subject)
-                                            // console.log(topic_data.get_recent_names(get_sub_by_name.stream_id))
-                                            // $(".topic-list").find("[data-topic-name="+del_subject+"]").remove()
                                         }
                                     })
                                 })
@@ -618,8 +610,16 @@ var message_group = (function () {
                         data: {subscriptions: JSON.stringify([sub.name]) },
                         success: function () {
                             $(".group_setting").hide();
+                            var arr = JSON.parse(localStorage.getItem("arr"))
+                                for(var i=0;i<arr.length;i++){
+                                    if(arr[i].stream_id == stream_id){
+                                        arr.remove(i)
+                                    }
+                                }
+                            localStorage.setItem("arr",JSON.stringify(arr))
+                            $(".only_tip[stream_id ="+stream_id+"]").parent().remove()
                             $(window).attr("location","#narrow/is/starred")
-                        },
+                       },
                         error: function (xhr) {
                             ui_report.error(i18n.t("Error removing subscription"), xhr,
                                             $(".stream_change_property_info"));
@@ -645,16 +645,16 @@ var message_group = (function () {
                             },
                             success: function (data) {
                                 if(data.result==="success"){
-                                    $(".group_setting").hide();
-                                    arr = JSON.parse(localStorage.getItem("arr"))
-                                    for(var i=0;i<arr.length;i++){
-                                        if(arr[i].stream_id == stream_id){
-                                            arr.remove(i)
-                                        }
-                                    }
-                                    localStorage.setItem("arr",JSON.stringify(arr))
+                                    $(".group_setting").hide();                             
+                                    // arr = JSON.parse(localStorage.getItem("arr"))
+                                    // for(var i=0;i<arr.length;i++){
+                                    //     if(arr[i].stream_id == stream_id){
+                                    //         arr.remove(i)
+                                    //     }
+                                    // }
+                                    // localStorage.setItem("arr",JSON.stringify(arr))
 
-                                    $(window).attr("location","#narrow/is/starred")
+                                    // $(window).attr("location","#narrow/is/starred")
                                 }
                             },
                         });
@@ -672,6 +672,12 @@ var message_group = (function () {
                         $(".group_setting").hide();
                     })
                     $(".recipient_row").click(function(e){
+                        $(".group_setting").hide();
+                    })
+                    $(".compose-content").click(function(e){
+                        $(".group_setting").hide();
+                    })
+                    $(".column_two").click(function(e){
                         $(".group_setting").hide();
                     })
              }

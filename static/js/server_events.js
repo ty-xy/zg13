@@ -270,6 +270,27 @@ var server_events = (function () {
                 $(".work_order .notice_bottom").html(push_one.theme)
                 $(".work_order .notice_top_time").html(server_events.tf(push_one.time))
                 server_events.showNotify(push_one.user_name,push_one.theme)
+            }else if(type=="del_subject"){
+                // console.log(push_none)
+                // var stream_id = push_none.stream_id
+                // var stream_name = stream_data.get_sub_by_id(stream_id)
+                server_events.showNotify(push_one.subject,"删除话题"+push_one.subject)
+                // var stream_id = data.events[0].stream_id
+                topic_list.zoom_in()
+            }else if(type=="stream"){
+                if(data.events[0].streams&&data.events[0].streams.length>0&&data.events[0].op=="delete"){
+                    var arr = JSON.parse(localStorage.getItem("arr"))
+                    for(var i=0;i<arr.length;i++){
+                        if(arr[i].stream_id == data.events[0].streams[0].stream_id){
+                            $(".notice_bottom[name="+arr[i].stream_id+"]").html("该群组已经解散....")
+                            arr.remove(i)
+                        }
+                    }
+                    localStorage.setItem("arr",JSON.stringify(arr))
+                    var name = data.events[0].streams[0].name
+                    server_events.showNotify("删除群聊","删除群聊"+name)
+                    $(window).attr("location","#narrow/is/starred")
+                }
             }
             var  type;
             var  data_message;
@@ -411,9 +432,10 @@ var server_events = (function () {
                                         var avatar = sub.color
                                         var name = sub.name
                                         var stream = data_message.type
+                                        console.log(stream_id)
                                         var _href= narrow.by_stream_subject_uris(name,data_message.subject)
                                         arr.unshift(server_events.set_local_news('',stream_id,name,avatar,time,mes,_href,stream))
-                                        var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,send_id:stream_id,time:time,_href:_href,stream:stream,time_stamp:time_stamp})
+                                        var notice_box = templates.render("notice_box",{name:name,mes:mes,avatar:avatar,stream_id:stream_id,time:time,_href:_href,stream:stream,time_stamp:time_stamp})
                                         $(".notice_ctn[stream_id="+stream_id+"]").addClass("backgr").parent().siblings().children().removeClass("backgr")
                                         $(".persistent_data").prepend(notice_box)
                                     }

@@ -375,11 +375,20 @@ var check = (function () {
               alert()
               return
           }
+          var date1 = new Date(start_time)
+           date1 =date1.getTime()
           var end_time = $(".end_times").val()
           if(end_time===""){
              alert()
               return 
           }
+          var date2 = new Date(end_time)
+           date2 = date2.getTime()
+           if(date2-date1<0){
+              alert()
+              $(".type-area").html("结束时间小于开始时间")
+              return 
+           }
           var count = Number($("#email").val())
           if(count===""){
               alert()
@@ -563,7 +572,13 @@ var check = (function () {
                      contentType:"application/json",
                      success:function(data){
                          if(data.errno===0){
-                            moveContent()
+                            $('.toast-alert-buttons').fadeIn({
+                                duration: 1
+                            }).delay (1000).fadeOut ({duration: 1000});
+                            setTimeout(function(){
+                                moveContent()
+                            },1500)
+                           
                          }
                      }
                  })
@@ -605,7 +620,12 @@ var check = (function () {
                      contentType:"application/json",
                      success:function(data){
                          if(data.errno===0){
-                            moveContent()
+                            $('.toast-alert-buttons').fadeIn({
+                                duration: 1
+                            }).delay (1000).fadeOut ({duration: 1000});
+                            setTimeout(function(){
+                                moveContent()
+                            },1500)
                          }
                      }
                  }) 
@@ -670,7 +690,12 @@ var check = (function () {
                     contentType:"application/json",
                      success:function(data){
                          if(data.errno===0){
-                            moveContent()
+                            $('.toast-alert-buttons').fadeIn({
+                                duration: 1
+                            }).delay (1000).fadeOut ({duration: 1000});
+                            setTimeout(function(){
+                                moveContent()
+                            },1500)
                          }
                      }
                 })
@@ -704,7 +729,12 @@ var check = (function () {
                      contentType:"application/json",
                      success:function(data){
                          if(data.errno===0){
-                            moveContent()
+                            $('.toast-alert-buttons').fadeIn({
+                                duration: 1
+                            }).delay (1000).fadeOut ({duration: 1000});
+                            setTimeout(function(){
+                                moveContent()
+                            },1500)
                          }
                      }
                  })
@@ -777,7 +807,12 @@ var check = (function () {
                      contentType:"application/json",
                      success:function(data){
                          if(data.errno===0){
-                            moveContent()
+                            $('.toast-alert-buttons').fadeIn({
+                                duration: 1
+                            }).delay (1000).fadeOut ({duration: 1000});
+                            setTimeout(function(){
+                                moveContent()
+                            },1500)
                          }
                      }
                  })
@@ -858,7 +893,12 @@ var check = (function () {
                     contentType:"application/json",
                     success:function(data){
                         if(data.errno===0){
-                           moveContent()
+                            $('.toast-alert-buttons').fadeIn({
+                                duration: 1
+                            }).delay (1000).fadeOut ({duration: 1000});
+                            setTimeout(function(){
+                                moveContent()
+                            },1500)
                         }
                     }
                 })

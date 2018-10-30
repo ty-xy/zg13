@@ -505,6 +505,7 @@ var chooseFile = (function () {
                   //点击左边右边出现人
                   $(".choose-nav-left").on("click",".choose-check",function(e){
                       var name = $(this).attr("inputid")
+                    //   console.log(name)
                       var id = datalist[name].id
                       var has = person_dict.has(name)
                       if(!has&&id!=="none"){
@@ -513,7 +514,7 @@ var chooseFile = (function () {
                             data:{department_id:id},
                             success:function(data){
                                 if(data.errno==0){
-                                    person_dict.set(name,data.not_department_list)
+                                    person_dict.set(name,data.user_list)
                                     var value = data.user_list
                                     common_content(value,obj,name)
                                 }
@@ -538,9 +539,6 @@ var chooseFile = (function () {
                       }
                   })
                   //搜索
-                 
-            
-                  
                   $(".choose-nav-left").on("input",".search-icon",function(e){
                      var that = $(this)
                      var search_value = that.val()
@@ -608,11 +606,15 @@ var chooseFile = (function () {
                  })
                   //点击下级
                   $(".choose-nav-left").on("click",".next-right",function(e){
+                       
                        var name = $(this).attr('button-key')
                        var has  = person_dict.has(name)
+                       console.log(person_dict)
                        var id = datalist[name].id
+                       console.log(has,id,name)
                        if(has){
                             var choose_list  = person_dict.get(name)
+                            console.log(choose_list)
                             next_common(choose_list,name,obj,lid)
                        }else if(!has&&name=="未分组"){
                             channel.get({
