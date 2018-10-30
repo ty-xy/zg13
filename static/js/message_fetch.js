@@ -645,257 +645,257 @@ exports.load_messages = function (opts) {
                                     
                                 }
                             })
-                            // $.ajax({
-                            //     type:"GET",
-                            //     url:"json/zg/backlog/accomplis",
-                            //     data:{page:1},
-                            //     success:function(rescompleted){
-                            //         if(rescompleted.errno == 0){
-                            //         $(".completed_box").children().remove();
-                            //         var completed_data = rescompleted.accomplis_backlog_list
-                            //         var html_completed = templates.render("completed_li",{completed_data:completed_data})
-                            //             $(".completed_box").append(html_completed);
-                            //             $(".completed_box").on("click",".completed_ctn",function(e){
-                            //                 $(".move_ctn").children().remove();
-                            //                 $(".app").css("overflow-y","hidden");
-                            //                 // $(".taskdetail_list").html($(this).html());
-                            //                 $(".taskdetail_md").remove();
-                            //                 var taskid = Number($(this).attr("taskid"))
-                            //                 backlog_id = taskid;
-                            //                 var backlog_id = backlog_id;
-                            //                 var obj = {
-                            //                     "backlog_id":backlog_id
-                            //                 }
-                            //                 //请求详情
-                            //                 $.ajax({
-                            //                     type:"GET",
-                            //                     url:"json/zg/backlog/details",
-                            //                     contentType:"application/json",
-                            //                     data:obj,
-                            //                     success:function(res){
-                            //                         $(".taskdetail_md").remove();
-                            //                         function timestampToTime(timestamp) {
-                            //                             var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
-                            //                             Y = date.getFullYear() + '-';
-                            //                             M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
-                            //                             D = date.getDate() + ' ';
-                            //                             h = date.getHours() + ':';
-                            //                             m = date.getMinutes() + ':';
-                            //                             s = date.getSeconds();
-                            //                             return Y+M+D+h+m+s;
-                            //                         }
-                            //                         var taskdetail_list = res.backlog_dict.task;
-                            //                         var taskdetail_addnote = res.backlog_dict.task_details;
-                            //                         var create_time = timestampToTime(res.backlog_dict.create_time).substring(0,10);
-                            //                         var over_time = timestampToTime(res.backlog_dict.over_time).substring(0,10);
-                            //                         var state = res.backlog_dict.state;
-                            //                         var id = res.backlog_dict.id;
-                            //                         var update_backlog_list = res.update_backlog_list;
-                            //                         var accessory_dict = res.backlog_dict.accessory_list; 
-                            //                         var html = templates.render("taskdetail_md",{
-                            //                             taskdetail_list:taskdetail_list,
-                            //                             taskdetail_addnote:taskdetail_addnote,
-                            //                             create_time:create_time,
-                            //                             over_time:over_time,
-                            //                             state:state,
-                            //                             id:id,
-                            //                             update_backlog_list:update_backlog_list,
-                            //                             accessory_dict:accessory_dict
-                            //                         })
-                            //                         $(".move_ctn").append(html)
-                            //                         $(".taskdetail_md").show();
-                            //                         var obj_backlog_details = {
-                            //                             backlog_id:id,
-                            //                             task_details:"",
-                            //                         }
-                            //                         $("textarea[name='"+id+"']").on("blur",function(e){
-                            //                             obj_backlog_details.task_details = $("textarea[name='"+id+"']").val();
-                            //                             var backlog_details = JSON.stringify(obj_backlog_details)
-                            //                             $.ajax({
-                            //                                 type:"PUT",
-                            //                                 url:"json/zg/backlog/",
-                            //                                 contentType:"application/json",
-                            //                                 data:backlog_details,
-                            //                                 success:function(res){
+                            $.ajax({
+                                type:"GET",
+                                url:"json/zg/backlog/accomplis",
+                                data:{page:1},
+                                success:function(rescompleted){
+                                    if(rescompleted.errno == 0){
+                                    $(".completed_box").children().remove();
+                                    var completed_data = rescompleted.accomplis_backlog_list
+                                    var html_completed = templates.render("completed_li",{completed_data:completed_data})
+                                        $(".completed_box").append(html_completed);
+                                        $(".completed_box").on("click",".completed_ctn",function(e){
+                                            $(".move_ctn").children().remove();
+                                            $(".app").css("overflow-y","hidden");
+                                            // $(".taskdetail_list").html($(this).html());
+                                            $(".taskdetail_md").remove();
+                                            var taskid = Number($(this).attr("taskid"))
+                                            backlog_id = taskid;
+                                            var backlog_id = backlog_id;
+                                            var obj = {
+                                                "backlog_id":backlog_id
+                                            }
+                                            //请求详情
+                                            $.ajax({
+                                                type:"GET",
+                                                url:"json/zg/backlog/details",
+                                                contentType:"application/json",
+                                                data:obj,
+                                                success:function(res){
+                                                    $(".taskdetail_md").remove();
+                                                    function timestampToTime(timestamp) {
+                                                        var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                                                        Y = date.getFullYear() + '-';
+                                                        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+                                                        D = date.getDate() + ' ';
+                                                        h = date.getHours() + ':';
+                                                        m = date.getMinutes() + ':';
+                                                        s = date.getSeconds();
+                                                        return Y+M+D+h+m+s;
+                                                    }
+                                                    var taskdetail_list = res.backlog_dict.task;
+                                                    var taskdetail_addnote = res.backlog_dict.task_details;
+                                                    var create_time = timestampToTime(res.backlog_dict.create_time).substring(0,10);
+                                                    var over_time = timestampToTime(res.backlog_dict.over_time).substring(0,10);
+                                                    var state = res.backlog_dict.state;
+                                                    var id = res.backlog_dict.id;
+                                                    var update_backlog_list = res.update_backlog_list;
+                                                    var accessory_dict = res.backlog_dict.accessory_list; 
+                                                    var html = templates.render("taskdetail_md",{
+                                                        taskdetail_list:taskdetail_list,
+                                                        taskdetail_addnote:taskdetail_addnote,
+                                                        create_time:create_time,
+                                                        over_time:over_time,
+                                                        state:state,
+                                                        id:id,
+                                                        update_backlog_list:update_backlog_list,
+                                                        accessory_dict:accessory_dict
+                                                    })
+                                                    $(".move_ctn").append(html)
+                                                    $(".taskdetail_md").show();
+                                                    var obj_backlog_details = {
+                                                        backlog_id:id,
+                                                        task_details:"",
+                                                    }
+                                                    $("textarea[name='"+id+"']").on("blur",function(e){
+                                                        obj_backlog_details.task_details = $("textarea[name='"+id+"']").val();
+                                                        var backlog_details = JSON.stringify(obj_backlog_details)
+                                                        $.ajax({
+                                                            type:"PUT",
+                                                            url:"json/zg/backlog/",
+                                                            contentType:"application/json",
+                                                            data:backlog_details,
+                                                            success:function(res){
                 
-                            //                                 }
-                            //                             })
-                            //                         })
-                            //                         //下载附件
-                            //                         // $(".taskdetail_download").on("click",function(e){
-                            //                         //     window.open($(this).prev().val())
-                            //                         // })
-                            //                         //删除附件
-                            //                         $(".taskdetail_attachment").on("click",".taskdetail_delete",function(e){
-                            //                             var _this = $(this)
-                            //                             var accessory_id = $(this).parent().parent().val();
-                            //                             var _obj_accessory = {accessory_list:[
-                            //                                 {
-                            //                                     accessory_id:accessory_id,
-                            //                                     type:"del"
-                            //                                 }],backlog_id:backlog_id
-                            //                             }
-                            //                             var obj_accessory = JSON.stringify(_obj_accessory)
-                            //                             $.ajax({
-                            //                                 type:"POST",
-                            //                                 url:"json/zg/accessory/",
-                            //                                 contentType:"application/json",
-                            //                                 data:obj_accessory,
-                            //                                 success:function(res){
-                            //                                     if(res.errno==0){
-                            //                                         _this.parent().parent().remove();
-                            //                                     }
-                            //                                 }
-                            //                             })
-                            //                         })
-                            //                 //点击任务详情模版关闭任务详情
-                            //                 $(".taskdetail_md").on("click",function(e){
-                            //                     e.stopPropagation();
-                            //                     e.preventDefault();
-                            //                     $(".taskdetail_md").hide();
-                            //                     $(".app").css("overflow-y","scroll");
-                            //                 })
+                                                            }
+                                                        })
+                                                    })
+                                                    //下载附件
+                                                    // $(".taskdetail_download").on("click",function(e){
+                                                    //     window.open($(this).prev().val())
+                                                    // })
+                                                    //删除附件
+                                                    $(".taskdetail_attachment").on("click",".taskdetail_delete",function(e){
+                                                        var _this = $(this)
+                                                        var accessory_id = $(this).parent().parent().val();
+                                                        var _obj_accessory = {accessory_list:[
+                                                            {
+                                                                accessory_id:accessory_id,
+                                                                type:"del"
+                                                            }],backlog_id:backlog_id
+                                                        }
+                                                        var obj_accessory = JSON.stringify(_obj_accessory)
+                                                        $.ajax({
+                                                            type:"POST",
+                                                            url:"json/zg/accessory/",
+                                                            contentType:"application/json",
+                                                            data:obj_accessory,
+                                                            success:function(res){
+                                                                if(res.errno==0){
+                                                                    _this.parent().parent().remove();
+                                                                }
+                                                            }
+                                                        })
+                                                    })
+                                            //点击任务详情模版关闭任务详情
+                                            $(".taskdetail_md").on("click",function(e){
+                                                e.stopPropagation();
+                                                e.preventDefault();
+                                                $(".taskdetail_md").hide();
+                                                $(".app").css("overflow-y","scroll");
+                                            })
                                             
-                            //                 //任务详情上的内容点击生效
-                            //                 $(".taskdetail_box").on("click",function(e){
-                            //                     e.stopPropagation();
-                            //                     // e.preventDefault();
-                            //                 })
-                            //                 //任务详情点击关闭
-                            //                 $(".taskdetail_box").on("click",function(e){
-                            //                     console.log("------和我 if 碧波")
-                            //                     // $(".taskdetail_md").hide();
-                            //                     $(".app").css("overflow-y","scroll")
-                            //                     function timestamp(str){
-                            //                         str = str.replace(/-/g,'/');
-                            //                         var date = new Date(str); 
-                            //                         var time = date.getTime();
-                            //                         var n = time/1000;
-                            //                         return n;
-                            //                     }
-                            //                     var create_time = timestamp($("input[title='"+id+"']").val());
-                            //                     var over_time = timestamp($(".new_task_date[name='"+id+"']").val());
-                            //                     var backlog_id = id;
-                            //                     var state = $(".taskdetail_state[name='"+id+"']").val();
-                            //                     var task_details = $("textarea[name='"+id+"']").val();
-                            //                     var task = $(".taskdetail_list").val();
-                            //                     var obj_backlog_data = {
-                            //                         create_time:create_time,
-                            //                         over_time:over_time,
-                            //                         backlog_id:backlog_id,
-                            //                         state:state,
-                            //                         task_details:task_details,
-                            //                         task:task
-                            //                     }
-                            //                     var backlog_data = JSON.stringify(obj_backlog_data);
-                            //                     $.ajax({
-                            //                         type:"PUT",
-                            //                         url:"json/zg/backlog/",
-                            //                         contentType:"application/json",
-                            //                         data:backlog_data,
-                            //                         success:function(res){
-                            //                     //关闭更新数据
-                            //                         updata();
-                            //                     //
-                            //                         }
-                            //                     })
-                            //                 })
-                            //                 //任务详情弹窗内的文件展示 划入事件taskdetail_attachment_box
-                            //                 $(".taskdetail_attachment").on("mousemove",function(e){
-                            //                     $(this).css("border","1px solid #A0ACBF")
-                            //                     $(this).children().last().show();
-                            //                 })
-                            //                 //任务详情弹窗内的文件展示 划出事件
-                            //                 $(".taskdetail_attachment").on("mouseleave",function(e){
-                            //                     $(this).css("border","1px solid #fff")
-                            //                     $(this).children().last().hide();
-                            //                 })
-                            //                 $(".taskdetail_selectionbtn").on("click",function(e){
-                            //                     // $(".taskdetail_selectionbtn").append()
-                            //                 })
-                            //                 $(".taskdetail_tips_confirm").on("click",function(e){
-                            //                     var _obj_backlog_id = {
-                            //                         "backlog_id":backlog_id
-                            //                     }
-                            //                     var obj_backlog_id = JSON.stringify(_obj_backlog_id)
-                            //                     $.ajax({
-                            //                         type:"DELETE",
-                            //                         url:"json/zg/backlog/",
-                            //                         contentType:"application/json",
-                            //                         data:obj_backlog_id,
-                            //                         success:function(r){
+                                            //任务详情上的内容点击生效
+                                            $(".taskdetail_box").on("click",function(e){
+                                                e.stopPropagation();
+                                                // e.preventDefault();
+                                            })
+                                            //任务详情点击关闭
+                                            $(".taskdetail_box").on("click",function(e){
+                                                console.log("------和我 if 碧波")
+                                                // $(".taskdetail_md").hide();
+                                                $(".app").css("overflow-y","scroll")
+                                                function timestamp(str){
+                                                    str = str.replace(/-/g,'/');
+                                                    var date = new Date(str); 
+                                                    var time = date.getTime();
+                                                    var n = time/1000;
+                                                    return n;
+                                                }
+                                                var create_time = timestamp($("input[title='"+id+"']").val());
+                                                var over_time = timestamp($(".new_task_date[name='"+id+"']").val());
+                                                var backlog_id = id;
+                                                var state = $(".taskdetail_state[name='"+id+"']").val();
+                                                var task_details = $("textarea[name='"+id+"']").val();
+                                                var task = $(".taskdetail_list").val();
+                                                var obj_backlog_data = {
+                                                    create_time:create_time,
+                                                    over_time:over_time,
+                                                    backlog_id:backlog_id,
+                                                    state:state,
+                                                    task_details:task_details,
+                                                    task:task
+                                                }
+                                                var backlog_data = JSON.stringify(obj_backlog_data);
+                                                $.ajax({
+                                                    type:"PUT",
+                                                    url:"json/zg/backlog/",
+                                                    contentType:"application/json",
+                                                    data:backlog_data,
+                                                    success:function(res){
+                                                //关闭更新数据
+                                                    updata();
+                                                //
+                                                    }
+                                                })
+                                            })
+                                            //任务详情弹窗内的文件展示 划入事件taskdetail_attachment_box
+                                            $(".taskdetail_attachment").on("mousemove",function(e){
+                                                $(this).css("border","1px solid #A0ACBF")
+                                                $(this).children().last().show();
+                                            })
+                                            //任务详情弹窗内的文件展示 划出事件
+                                            $(".taskdetail_attachment").on("mouseleave",function(e){
+                                                $(this).css("border","1px solid #fff")
+                                                $(this).children().last().hide();
+                                            })
+                                            $(".taskdetail_selectionbtn").on("click",function(e){
+                                                // $(".taskdetail_selectionbtn").append()
+                                            })
+                                            $(".taskdetail_tips_confirm").on("click",function(e){
+                                                var _obj_backlog_id = {
+                                                    "backlog_id":backlog_id
+                                                }
+                                                var obj_backlog_id = JSON.stringify(_obj_backlog_id)
+                                                $.ajax({
+                                                    type:"DELETE",
+                                                    url:"json/zg/backlog/",
+                                                    contentType:"application/json",
+                                                    data:obj_backlog_id,
+                                                    success:function(r){
                         
-                            //                         }
-                            //                     })
-                            //                     $("p[taskid='"+backlog_id+"']").parent().parent().remove();
-                            //                     $(".taskdetail_tips_box").hide();
-                            //                     $(".taskdetail_md").hide();
-                            //                     $(".app").css("overflow-y","scroll");
-                            //                 })
-                            //                 //关闭操作提示
-                            //                 $(".taskdetail_tips_close").on("click",function(e){
-                            //                     $(".taskdetail_tips_box").hide();
-                            //                 })
-                            //                 //点击删除字样弹窗
-                            //                 $(".taskdetail_deleteone").on("click",function(e){
-                            //                     $(".taskdetail_tips_box").show();
-                            //                 })
-                            //                 //点击取消去除提示框
-                            //                 $(".taskdetail_tips_cancel").on("click",function(e){
-                            //                     $(".taskdetail_tips_box").hide();
-                            //                 })
-                            //                 //初始化 任务详情任务开始日历
-                            //                 $('#taskstart_datetimepicker').datetimepicker({  
-                            //                     language:"zh-CN",  
-                            //                     todayHighlight: true,  
-                            //                     minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
-                            //                     weekStart:1  
-                            //                 });  
-                            //                 //初始化 任务详情截止日历
-                            //                 $('#taskstop_datetimepicker').datetimepicker({  
-                            //                     language:"zh-CN",  
-                            //                     todayHighlight: true,  
-                            //                     minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
-                            //                     weekStart:1  
-                            //                 }); 
-                            //                     }
-                            //                 })
-                            //                 //请求详情
-                            //             })
-                            //             $(".completed_box").on("click",".completed_checkbox",function(e){
-                            //                 var inputid = Number($(this).attr("inputid"))
-                            //                 var state = ($(this).attr("state"))
-                            //                 if(!$(this).is(":checked")){
-                            //                     var _this = $(this);
-                            //                     state = ($(this).attr("state"))
-                            //                     state = 2;
-                            //                     var backlog_change = {
-                            //                         state:2,
-                            //                         backlog_id:inputid
-                            //                     }
-                            //                     var obj_backlog_change = JSON.stringify(backlog_change);
-                            //                     $.ajax({
-                            //                         type:"PUT",
-                            //                         url:"json/zg/backlog/",
-                            //                         contentType:"application/json",
-                            //                         data:obj_backlog_change,
-                            //                         success:function(res){
-                            //                             // _this.parent().parent().remove();
-                            //                             // $(".todo_box").prepend(_this.parent().parent());
-                            //                             // location.reload();
-                            //                             // // 临时方案
-                            //                             // // 临时方案
-                            //                             updata();
-                            //                         }
-                            //                     })
-                            //                 }else{
+                                                    }
+                                                })
+                                                $("p[taskid='"+backlog_id+"']").parent().parent().remove();
+                                                $(".taskdetail_tips_box").hide();
+                                                $(".taskdetail_md").hide();
+                                                $(".app").css("overflow-y","scroll");
+                                            })
+                                            //关闭操作提示
+                                            $(".taskdetail_tips_close").on("click",function(e){
+                                                $(".taskdetail_tips_box").hide();
+                                            })
+                                            //点击删除字样弹窗
+                                            $(".taskdetail_deleteone").on("click",function(e){
+                                                $(".taskdetail_tips_box").show();
+                                            })
+                                            //点击取消去除提示框
+                                            $(".taskdetail_tips_cancel").on("click",function(e){
+                                                $(".taskdetail_tips_box").hide();
+                                            })
+                                            //初始化 任务详情任务开始日历
+                                            $('#taskstart_datetimepicker').datetimepicker({  
+                                                language:"zh-CN",  
+                                                todayHighlight: true,  
+                                                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                                                weekStart:1  
+                                            });  
+                                            //初始化 任务详情截止日历
+                                            $('#taskstop_datetimepicker').datetimepicker({  
+                                                language:"zh-CN",  
+                                                todayHighlight: true,  
+                                                minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
+                                                weekStart:1  
+                                            }); 
+                                                }
+                                            })
+                                            //请求详情
+                                        })
+                                        $(".completed_box").on("click",".completed_checkbox",function(e){
+                                            var inputid = Number($(this).attr("inputid"))
+                                            var state = ($(this).attr("state"))
+                                            if(!$(this).is(":checked")){
+                                                var _this = $(this);
+                                                state = ($(this).attr("state"))
+                                                state = 2;
+                                                var backlog_change = {
+                                                    state:2,
+                                                    backlog_id:inputid
+                                                }
+                                                var obj_backlog_change = JSON.stringify(backlog_change);
+                                                $.ajax({
+                                                    type:"PUT",
+                                                    url:"json/zg/backlog/",
+                                                    contentType:"application/json",
+                                                    data:obj_backlog_change,
+                                                    success:function(res){
+                                                        // _this.parent().parent().remove();
+                                                        // $(".todo_box").prepend(_this.parent().parent());
+                                                        // location.reload();
+                                                        // // 临时方案
+                                                        // // 临时方案
+                                                        updata();
+                                                    }
+                                                })
+                                            }else{
                                                 
-                            //                 }
-                            //             })
-                            //         }
+                                            }
+                                        })
+                                    }
                                     
-                            //     }
-                            // })
+                                }
+                            })
                         }
                     },
                     error:function(rej){
