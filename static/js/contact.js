@@ -713,7 +713,8 @@ var contact = (function(){
                                                                 $(".organization_add_group_popover").remove()
                                                                 $(".organization_chart_group_list_box").remove()
                                                                 var department_lists = res.department_lists
-                                                                var organization_chart_group_list = templates.render("organization_chart_group_list",{department_lists:department_lists})
+                                                                var not_department_count = res.not_department_count
+                                                                var organization_chart_group_list = templates.render("organization_chart_group_list",{department_lists:department_lists,not_department_count:not_department_count})
                                                                 $(".organization_chart_body").prepend(organization_chart_group_list)
                                                             }
                                                         })
@@ -985,6 +986,10 @@ var contact = (function(){
                     $(".move_ctn").append(work_order_head)
                     var work_order_body = templates.render("work_order_body",{newData:newData})
                     $(".work_order_box").append(work_order_body)
+                    $(".work_order_ctn_box").css({
+                        "overflow-y":"auto",
+                        "height":window.screen.height
+                    })
                 }
             })
             // 点击跳到详情页面

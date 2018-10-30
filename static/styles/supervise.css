@@ -566,6 +566,7 @@
     background: #F4F5F7;
     margin-top: 38px;
     border-radius: 6px;
+    display: none;
 }
 .invite_members_icon{
     line-height: 40px;
