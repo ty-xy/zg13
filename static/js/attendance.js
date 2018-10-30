@@ -562,7 +562,7 @@ var attendance = (function () {
                                        // 修改
                                     $(".attendance_box").on("click",".button-fix",function(){
                                         var index =$(this).attr("data_id")
-                                        $("#button-time").datetimepicker({
+                                        $(".attendance_box .button-time").datetimepicker({
                                             language:"zh-CN",  
                                             weekStart: 1,
                                             todayBtn:  0,
@@ -612,7 +612,7 @@ var attendance = (function () {
                                                       }, {});
                                                       $(".button-common-people").attr("data_obj",JSON.stringify(datalists))
                                                     //   $(".attendance_ctn .button-time").val("09:00")
-                                                      $(".attendance_ctn .button-time").datetimepicker({
+                                                      $(".attendance_box .button-time").datetimepicker({
                                                         language:"zh-CN",  
                                                         weekStart: 1,
                                                         todayBtn:  0,
@@ -835,7 +835,7 @@ var attendance = (function () {
                                        $(".attendance_box").on("click",".button-fix",function(){
                                             var index =$(this).attr("data_id")
                                             console.log(index)
-                                            $("#button-time").datetimepicker({
+                                            $(".attendance_box .button-time").datetimepicker({
                                                 language:"zh-CN",  
                                                 weekStart: 1,
                                                 todayBtn:  0,
@@ -885,7 +885,7 @@ var attendance = (function () {
                                                         
                                                           $(".button-common-people").attr("data_obj",JSON.stringify(datalists))
                                                           $("button-commoe-people").attr("data_id",idIndex)
-                                                          $(".attendance_ctn .button-time").datetimepicker({
+                                                          $(".attendance_box .button-time").datetimepicker({
                                                             language:"zh-CN",  
                                                             weekStart: 1,
                                                             todayBtn:  0,

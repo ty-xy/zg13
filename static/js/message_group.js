@@ -669,6 +669,9 @@ var message_group = (function () {
                     $(".compose-content").click(function(e){
                         $(".group_setting").hide();
                     })
+                    $(".column_two").click(function(e){
+                        $(".group_setting").hide();
+                    })
              }
         })
     })
