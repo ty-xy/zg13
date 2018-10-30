@@ -610,8 +610,16 @@ var message_group = (function () {
                         data: {subscriptions: JSON.stringify([sub.name]) },
                         success: function () {
                             $(".group_setting").hide();
+                            var arr = JSON.parse(localStorage.getItem("arr"))
+                                for(var i=0;i<arr.length;i++){
+                                    if(arr[i].stream_id == stream_id){
+                                        arr.remove(i)
+                                    }
+                                }
+                            localStorage.setItem("arr",JSON.stringify(arr))
+                            $(".only_tip[stream_id ="+stream_id+"]").parent().remove()
                             $(window).attr("location","#narrow/is/starred")
-                        },
+                       },
                         error: function (xhr) {
                             ui_report.error(i18n.t("Error removing subscription"), xhr,
                                             $(".stream_change_property_info"));

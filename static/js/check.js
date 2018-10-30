@@ -572,7 +572,13 @@ var check = (function () {
                      contentType:"application/json",
                      success:function(data){
                          if(data.errno===0){
-                            moveContent()
+                            $('.toast-alert-buttons').fadeIn({
+                                duration: 1
+                            }).delay (1000).fadeOut ({duration: 1000});
+                            setTimeout(function(){
+                                moveContent()
+                            },1500)
+                           
                          }
                      }
                  })
@@ -614,7 +620,12 @@ var check = (function () {
                      contentType:"application/json",
                      success:function(data){
                          if(data.errno===0){
-                            moveContent()
+                            $('.toast-alert-buttons').fadeIn({
+                                duration: 1
+                            }).delay (1000).fadeOut ({duration: 1000});
+                            setTimeout(function(){
+                                moveContent()
+                            },1500)
                          }
                      }
                  }) 
@@ -679,7 +690,12 @@ var check = (function () {
                     contentType:"application/json",
                      success:function(data){
                          if(data.errno===0){
-                            moveContent()
+                            $('.toast-alert-buttons').fadeIn({
+                                duration: 1
+                            }).delay (1000).fadeOut ({duration: 1000});
+                            setTimeout(function(){
+                                moveContent()
+                            },1500)
                          }
                      }
                 })
@@ -713,7 +729,12 @@ var check = (function () {
                      contentType:"application/json",
                      success:function(data){
                          if(data.errno===0){
-                            moveContent()
+                            $('.toast-alert-buttons').fadeIn({
+                                duration: 1
+                            }).delay (1000).fadeOut ({duration: 1000});
+                            setTimeout(function(){
+                                moveContent()
+                            },1500)
                          }
                      }
                  })
@@ -786,7 +807,12 @@ var check = (function () {
                      contentType:"application/json",
                      success:function(data){
                          if(data.errno===0){
-                            moveContent()
+                            $('.toast-alert-buttons').fadeIn({
+                                duration: 1
+                            }).delay (1000).fadeOut ({duration: 1000});
+                            setTimeout(function(){
+                                moveContent()
+                            },1500)
                          }
                      }
                  })
@@ -867,7 +893,12 @@ var check = (function () {
                     contentType:"application/json",
                     success:function(data){
                         if(data.errno===0){
-                           moveContent()
+                            $('.toast-alert-buttons').fadeIn({
+                                duration: 1
+                            }).delay (1000).fadeOut ({duration: 1000});
+                            setTimeout(function(){
+                                moveContent()
+                            },1500)
                         }
                     }
                 })
