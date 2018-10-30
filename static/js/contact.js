@@ -588,7 +588,12 @@ var contact = (function(){
                                                 sendmsg();
                                             },1000);
                                         }
-                                        sendmsg()
+                                        
+                                        if($(".disband_phone").val()){
+                                            sendmsg()
+                                        }else{
+                                            return
+                                        }
                                     })
                                     //样式切换变化
                                     $(this).addClass("color_li").siblings().removeClass("color_li")

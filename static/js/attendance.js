@@ -571,6 +571,12 @@ var attendance = (function () {
                             $("body").ready(function(){
                                 $(".attendance_groups").children().first().addClass("gray_bg");
                             })
+                            var n = new Date()
+                            var Y = n.getFullYear()
+                            var M = n.getMonth()+1
+                            var D = n.getDate()
+                            var d = Y + '-' + M +"-"+D
+                            $("#calendar_screen_select_y").val(d)
                             //搜索全部成员
                             var p = $(".attendance_bottom_ctn").children();
                             $(".attendance_bottom_search_person").bind('input propertychange',function(){
@@ -614,7 +620,8 @@ var attendance = (function () {
                                 minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
                                 weekStart:1,
                                 format:"yyyy-mm-dd",
-                                autoclose:"true"
+                                autoclose:"true",
+                                defaultDate : new Date() 
                             })
                             //点击切换考勤组
                             $(".attendance_groups").on("click",".attendance_groups_list",function(){
@@ -693,7 +700,8 @@ var attendance = (function () {
                                                 minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
                                                 weekStart:1,
                                                 format:"yyyy-mm-dd",
-                                                autoclose:"true"
+                                                autoclose:"true",
+                                                defaultDate : new Date() 
                                             })
                                             //查看考勤日历
                                             $(".attendance_bottom_ctn").on("click",".attendance_bottom_calendar",function(){
@@ -880,7 +888,8 @@ var attendance = (function () {
                                         minView:2,//最精准的时间选择为日期0-分 1-时 2-日 3-月  
                                         weekStart:1,
                                         format:"yyyy-mm-dd",
-                                        autoclose:"true"
+                                        autoclose:"true",
+                                        defaultDate : new Date() 
                                     })
                                  })
                                  //-------------切换回考勤统计-----------------

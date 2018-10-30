@@ -3427,7 +3427,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
     width: 320px;
     min-width: 200px;
     height: 30px!important;
-    text-indent: 20px;
+    text-indent: 10px;
     font-size: 14px;
     color: #A0ACBF;
     letter-spacing: 0.17px;
