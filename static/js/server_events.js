@@ -277,19 +277,21 @@ var server_events = (function () {
                 server_events.showNotify(push_one.subject,"删除话题"+push_one.subject)
                 // var stream_id = data.events[0].stream_id
                 topic_list.zoom_in()
-            }else if(data.events&&data.events[0].op&&data.events[0].op=="delete"){
-                var arr = JSON.parse(localStorage.getItem("arr"))
-                for(var i=0;i<arr.length;i++){
-                    if(arr[i].stream_id == data.events[0].streams[0].stream_id){
-                        $(".notice_bottom[name="+arr[i].stream_id+"]").html("该群组已经解散....")
-                        arr.remove(i)
+            }else if(data.events&&data.events[0].type=="stream"){
+                if(data.events[0].streams&&data.events[0].streams.length>0&&data.events[0].op=="delete"){
+                    var arr = JSON.parse(localStorage.getItem("arr"))
+                    for(var i=0;i<arr.length;i++){
+                        if(arr[i].stream_id == data.events[0].streams[0].stream_id){
+                            $(".notice_bottom[name="+arr[i].stream_id+"]").html("该群组已经解散....")
+                            arr.remove(i)
+                        }
                     }
+                    
+                    localStorage.setItem("arr",JSON.stringify(arr))
+                    var name = data.events[0].streams[0].name
+                    server_events.showNotify("删除群聊","删除群聊"+name)
+                    $(window).attr("location","#narrow/is/starred")
                 }
-                
-                localStorage.setItem("arr",JSON.stringify(arr))
-                var name = data.events[0].streams[0].name
-                server_events.showNotify("删除群聊","删除群聊"+name)
-                $(window).attr("location","#narrow/is/starred")
             }
             var  type;
             var  data_message;

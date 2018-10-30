@@ -670,6 +670,9 @@ var message_group = (function () {
                     $(".recipient_row").click(function(e){
                         $(".group_setting").hide();
                     })
+                    $(".compose-content").click(function(e){
+                        $(".group_setting").hide();
+                    })
              }
         })
     })
