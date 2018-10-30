@@ -45,14 +45,6 @@ var message_group = (function () {
 
                 return (email.indexOf(data) > -1 || full_name.indexOf(data) > -1);
             }
-            // if(x>-1||y>-1){
-            //     var person = people.get_by_email(item.email);
-            //     person.avatar_url=people.stream_url_for_eamil(item.email)
-            //     return {
-            //           full_name:person.full_name,
-            //           avatar_url:person.avatar_url
-            //     }
-            // }
         }
         function  filter (list,data,func) {
              var vux =  list.filter(function (item) {
@@ -91,9 +83,6 @@ var message_group = (function () {
              }
             return emails;
         };
-        // function common_topic(index){
-       
-        // }
         function fill_in_opts_from_current_narrowed_view(msg_type, opts) {
             var default_opts = {
                 message_type:     msg_type,
@@ -180,24 +169,35 @@ var message_group = (function () {
                $("#subject").val(subject)
             }
         })
+        //创建话题
         $(".make-stream-sure").on("click",function(e){
-            opts = fill_in_opts_from_current_narrowed_view('stream', {trigger: 'new topic button'});
-            compose_state.stream_name(opts.stream),
-            compose_state.subject(opts.subject)
-            var data = compose.create_message_object()
-            data.type="stream";
-            data.subject=compose_state.subjects();
-            data.content="欢迎来到 "+data.subject+""
-            compose.send_message(data)
-            $("#subjects").val("")
-            $(".compos-left-title span").show()
-            var index = stream_data.get_stream_id (opts.stream)
-            //   common_topic(index)
-              $("#stream").val(opts.stream)
-              $("#subject").val(data.subject)
-              window.location.href="#narrow/stream/"+index+"-"+opts.stream+"/subject/"+data.subject+""
-            $(".creare-topic-body").hide()
+            var sub = $("#subjects").val()
+            $("#subjects").val(sub.replace(/\s*/g,""))
+            if($("#subjects").val().length>6){
+                $('.err-text-topic').fadeIn({
+                    duration: 1
+                }).delay (1000).fadeOut ({duration: 1000});
+            }else{
+                opts = fill_in_opts_from_current_narrowed_view('stream', {trigger: 'new topic button'});
+                compose_state.stream_name(opts.stream),
+                compose_state.subject(opts.subject)
+                var data = compose.create_message_object()
+                data.type="stream";
+                data.subject=compose_state.subjects();
+                data.content="欢迎来到 "+data.subject+""
+                compose.send_message(data)
+                $("#subjects").val("")
+                $(".compos-left-title span").show()
+                var index = stream_data.get_stream_id(opts.stream)
+                //   common_topic(index)
+                  $("#stream").val(opts.stream)
+                  $("#subject").val(data.subject)
+                  window.location.href="#narrow/stream/"+index+"-"+opts.stream+"/subject/"+data.subject+""
+                $(".creare-topic-body").hide()
+            }
+  
         })
+        //输入监控
         $("#subjects ").on("input",function(e){
             if($(this).val()!== ""){
                 $(".make-stream-sure").removeAttr("disabled")

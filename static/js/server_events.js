@@ -286,7 +286,6 @@ var server_events = (function () {
                             arr.remove(i)
                         }
                     }
-                    
                     localStorage.setItem("arr",JSON.stringify(arr))
                     var name = data.events[0].streams[0].name
                     server_events.showNotify("删除群聊","删除群聊"+name)

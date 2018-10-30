@@ -673,6 +673,11 @@ li.topic-list-item,.topic-item-list{
 .creare-topic-body{
     position: relative;
 }
+.err-text-topic{
+    color:red;
+    display: none
+
+}
 .creare-topic-body{
     position: absolute;
     background: #F1F6FD;
@@ -695,6 +700,9 @@ li.topic-list-item,.topic-item-list{
     letter-spacing: 0.18px;
     margin-bottom:16px;
 }
+.creare-topic-body>div:nth-child(2){
+    height:60px
+}
 .creare-topic-body>div:nth-child(2)>span{
     font-family: PingFangSC-Regular;
     display:inline-block;
@@ -713,9 +721,10 @@ li.topic-list-item,.topic-item-list{
     box-sizing: border-box
 }
 .creare-topic-body>div:nth-child(3){
-   margin-top:30px;
+   /* margin-top:30px; */
    padding:0 4px;
    display: flex;
+   margin-top:15px;
    justify-content: space-between
 }
 .creare-topic-body>div:nth-child(3)>button{
