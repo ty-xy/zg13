@@ -277,7 +277,7 @@ var server_events = (function () {
                 server_events.showNotify(push_one.subject,"删除话题"+push_one.subject)
                 // var stream_id = data.events[0].stream_id
                 topic_list.zoom_in()
-            }else if(data.events&&data.events[0].type=="stream"){
+            }else if(type=="stream"){
                 if(data.events[0].streams&&data.events[0].streams.length>0&&data.events[0].op=="delete"){
                     var arr = JSON.parse(localStorage.getItem("arr"))
                     for(var i=0;i<arr.length;i++){
