@@ -538,9 +538,6 @@ var chooseFile = (function () {
                       }
                   })
                   //搜索
-                 
-            
-                  
                   $(".choose-nav-left").on("input",".search-icon",function(e){
                      var that = $(this)
                      var search_value = that.val()
