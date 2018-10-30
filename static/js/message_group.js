@@ -189,7 +189,6 @@ var message_group = (function () {
                 $("#subjects").val("")
                 $(".compos-left-title span").show()
                 var index = stream_data.get_stream_id(opts.stream)
-                //   common_topic(index)
                   $("#stream").val(opts.stream)
                   $("#subject").val(data.subject)
                   window.location.href="#narrow/stream/"+index+"-"+opts.stream+"/subject/"+data.subject+""
@@ -275,7 +274,6 @@ var message_group = (function () {
                                      }
                                  }
                                  if(!flag){
-                                     console.log(1111)
                                      $(".persistent_data").show()
                                      $(".persistent_data").prepend(templates.render("notice_box",{name:name,avatar:avatar,_href:_href,time:time,send_id:stream_id,mes:server_events.deleteTag(mes),stream:stream}))
                                      arr.unshift(server_events.set_local_news('',stream_id,name,avatar,time,mes,_href,stream))
@@ -465,7 +463,8 @@ var message_group = (function () {
                         var message = home_msg_list.get(obj.min_id)
                         if(message){
                             userid = message.sender_id
-                            if(userid===peopleId){
+                            var subject = message.subject
+                            if(userid===peopleId&&subject !="大厅"){
                                 names.push(obj.name)
                             }
                         }
@@ -516,18 +515,15 @@ var message_group = (function () {
                                     $(".search-people-border input").attr("placeholder","输入搜索内容")
                                     $(".search-people-border input").on("input",function(e){
                                        var data = filter(emial,$(this).val(),findPeople)
-                                       console.log(data)
                                        if(data.length==0){
                                            $(".group_setting .list-avatar").empty()
                                            var li = "<li style='color:red,width:100%' class='choose-group-people'>没有这个成员<li>"
-                                           console.log($(".list-avatar"))
                                            $(".group_setting .list-avatar").html(li)
                                         }else{
                                             data.forEach(function(value){
                                                 value.name = value.index,
                                                 value.avatarUrl=people.stream_url_for_eamil(value.email)
                                             })
-                                            console.log(data)
                                             var html = templates.render("more_people",{all_person:data})
                                             $(".group_setting .list-avatar").html(html)
                                         }
